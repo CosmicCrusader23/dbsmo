@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+dist
+coverage
+generated
+storage
+.env
+.env.local
+.env.*.local
+*.log
+*.tsbuildinfo
+.DS_Store
+*.zip
+!examples/*.zip

@@ -1,0 +1,96 @@
+# Admin Guide
+
+## Getting Started
+
+1. **Sign in** using your school Google account (`@g.dbs.edu.hk`), or use the developer bypass in local mode.
+2. After sign-in you land on the **Training Dashboard** with a Teacher View badge.
+
+## Uploading a Problem Set
+
+1. Click **ZIP Import** in the sidebar or use the **Upload ZIP** button on the dashboard.
+2. Drag-and-drop or click to select a `.zip` file (max 50 MB).
+3. The system performs a **dry-run** validation and shows a preview:
+   - Set title, slug, problem count.
+   - List of included files (`answers.csv`, `manifest.yml`, PDFs).
+   - Any warnings or errors.
+4. If the preview looks correct, click **Import draft** to create the set as a draft.
+
+### ZIP Structure
+
+```
+mo-set-001.zip
+  manifest.yml
+  problems.pdf
+  solution.pdf
+  answers.csv
+```
+
+See [import-format.md](./import-format.md) for the full specification.
+
+## Publishing a Set
+
+1. Go to **Manage Sets** in the sidebar.
+2. Click **View** on the set you want to publish.
+3. In the set detail page, change the **Status** dropdown from `Draft` to `Published`.
+4. Click **Save changes**.
+5. The set is now visible to students.
+
+## Managing Students
+
+1. Click **Students** in the sidebar to see all registered students.
+2. The table shows name, email, group, sets completed, average score, and last active date.
+3. Click a student name to see their **detail page** with:
+   - Attempt history and scores.
+   - Topic accuracy breakdown.
+   - Per-set performance.
+
+## Viewing Analytics
+
+1. Click **Analytics** in the sidebar.
+2. The overview page shows:
+   - Total responses, overall accuracy, topics tracked, problem sets.
+   - **Topic accuracy heatmap** with color-coded cards.
+   - **Hardest questions** ranked by lowest accuracy.
+3. Click **Export CSV** to download attempt or student data.
+
+### Per-Set Analytics
+
+1. In **Manage Sets**, click the analytics icon next to a set.
+2. View per-question accuracy bars, score distribution buckets, and recent attempts.
+
+## Handling Feedback
+
+1. Click **Feedback** in the sidebar to open the admin feedback queue.
+2. Reports are listed with reporter, set, question number, type, message, status, and date.
+3. For each report you can:
+   - **Review**: Mark as "Reviewing" to indicate you're looking into it.
+   - **Resolve**: Mark as "Resolved" when the issue is fixed.
+   - **Reject**: Mark as "Rejected" if the report is invalid.
+
+### Feedback Types
+
+| Type               | Meaning                                   |
+| ------------------ | ----------------------------------------- |
+| `wrong_answer_key` | The correct answer in the system is wrong |
+| `wrong_solution`   | The provided solution file has an error   |
+| `typo`             | Typo in the problem statement             |
+| `unclear`          | The problem wording is confusing          |
+| `other`            | Anything else                             |
+
+## Updating Answer Keys
+
+1. Go to **Manage Sets** → select a set → **Edit**.
+2. Modify the answer key values in the answer key panel.
+3. Click **Save changes**.
+4. If students have already attempted the set, consider triggering a regrade.
+
+## Exporting Data
+
+- **Attempts CSV**: `GET /api/admin/export?type=attempts` — downloads all attempt data.
+- **Students CSV**: `GET /api/admin/export?type=students` — downloads student summary data.
+
+Use the **Export CSV** button on the Analytics page for quick access.
+
+## Dark Mode
+
+Click the theme toggle button (☀️/🌙) in the top-right topbar area to switch between light and dark mode. The preference is saved in your browser.

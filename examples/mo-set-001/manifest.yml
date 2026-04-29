@@ -1,0 +1,15 @@
+slug: mo-set-001
+title: MO Set 001 - Algebra Basics
+description: Introductory answer-only algebra practice.
+order: 1
+status: draft
+allowedGroups:
+  - MO
+topicTags:
+  - algebra
+  - equations
+difficulty: 2
+problemFile: problems.pdf
+solutionFile: solution.pdf
+videoUrl: https://example.com/video
+answersFile: answers.csv

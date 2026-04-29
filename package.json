@@ -1,0 +1,57 @@
+{
+  "name": "dbsmo-training-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "db:seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seed.ts"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "latest",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "latest",
+    "@types/katex": "^0.16.8",
+    "csv-parse": "^6.2.1",
+    "dotenv": "^17.4.2",
+    "js-yaml": "latest",
+    "jszip": "^3.10.1",
+    "katex": "^0.16.45",
+    "lucide-react": "latest",
+    "next": "latest",
+    "next-auth": "latest",
+    "pg": "^8.20.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@types/js-yaml": "latest",
+    "@types/node": "latest",
+    "@types/pg": "^8.20.0",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "prettier": "latest",
+    "prisma": "latest",
+    "ts-node": "^10.9.2",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

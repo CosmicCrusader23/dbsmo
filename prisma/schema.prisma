@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  STUDENT
+  ADMIN
+}
+
+enum ProblemSetStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AnswerType {
+  EXACT
+  INTEGER
+  DECIMAL
+  FRACTION
+  SET
+  MULTIPLE
+}
+
+enum FeedbackType {
+  WRONG_ANSWER_KEY
+  WRONG_SOLUTION
+  TYPO
+  UNCLEAR
+  OTHER
+}
+
+enum FeedbackStatus {
+  OPEN
+  REVIEWING
+  RESOLVED
+  REJECTED
+}
+
+model User {
+  id                 String           @id @default(cuid())
+  email              String           @unique
+  name               String?
+  emailVerified      DateTime?
+  image              String?
+  displayName        String?
+  avatarUrl          String?
+  role               UserRole         @default(STUDENT)
+  group              String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  lastLoginAt        DateTime?
+  attempts           Attempt[]
+  feedbackReports    FeedbackReport[]
+  uploadedFiles      ImportedFile[]
+  createdProblemSets ProblemSet[]     @relation("ProblemSetCreator")
+  accounts           Account[]
+  sessions           Session[]
+}
+
+model ProblemSet {
+  id             String           @id @default(cuid())
+  slug           String           @unique
+  title          String
+  description    String           @default("")
+  order          Int
+  status         ProblemSetStatus @default(DRAFT)
+  visibleFrom    DateTime?
+  visibleTo      DateTime?
+  allowedGroups  String[]
+  topicTags      String[]
+  difficulty     Int              @default(1)
+  videoUrl       String?
+  problemFileId  String?
+  solutionFileId String?
+  createdById    String
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  attempts       Attempt[]
+  feedback       FeedbackReport[]
+  problems       Problem[]
+  createdBy      User             @relation("ProblemSetCreator", fields: [createdById], references: [id])
+  problemFile    ImportedFile?    @relation("ProblemFile", fields: [problemFileId], references: [id])
+  solutionFile   ImportedFile?    @relation("SolutionFile", fields: [solutionFileId], references: [id])
+}
+
+model Problem {
+  id              String           @id @default(cuid())
+  problemSetId    String
+  number          Int
+  statement       String           @default("")
+  answerKey       String
+  answerType      AnswerType
+  acceptedAnswers String[]
+  caseSensitive   Boolean          @default(false)
+  explanationNote String?
+  topicTags       String[]
+  points          Int              @default(1)
+  problemSet      ProblemSet       @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+  responses       Response[]
+  feedbackReports FeedbackReport[]
+
+  @@unique([problemSetId, number])
+}
+
+model Attempt {
+  id              String     @id @default(cuid())
+  userId          String
+  problemSetId    String
+  attemptNumber   Int
+  score           Int
+  maxScore        Int
+  submittedAt     DateTime   @default(now())
+  durationSeconds Int?
+  gradedAt        DateTime   @default(now())
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemSet      ProblemSet @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+  responses       Response[]
+
+  @@unique([userId, problemSetId, attemptNumber])
+}
+
+model Response {
+  id               String  @id @default(cuid())
+  attemptId        String
+  problemId        String
+  rawAnswer        String
+  normalizedAnswer String
+  isCorrect        Boolean
+  pointsAwarded    Int
+  graderNote       String?
+  attempt          Attempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  problem          Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([attemptId, problemId])
+}
+
+model FeedbackReport {
+  id           String         @id @default(cuid())
+  userId       String
+  problemSetId String
+  problemId    String?
+  type         FeedbackType
+  message      String
+  status       FeedbackStatus @default(OPEN)
+  adminNote    String?
+  createdAt    DateTime       @default(now())
+  resolvedAt   DateTime?
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemSet   ProblemSet     @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+  problem      Problem?       @relation(fields: [problemId], references: [id], onDelete: SetNull)
+}
+
+model ImportedFile {
+  id              String       @id @default(cuid())
+  storageKey      String       @unique
+  originalName    String
+  mimeType        String
+  sizeBytes       Int
+  checksum        String
+  uploadedById    String
+  createdAt       DateTime     @default(now())
+  uploadedBy      User         @relation(fields: [uploadedById], references: [id])
+  problemFileFor  ProblemSet[] @relation("ProblemFile")
+  solutionFileFor ProblemSet[] @relation("SolutionFile")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

@@ -1,0 +1,45 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { prisma } from "@/lib/db";
+import { authOptions } from "@/lib/auth";
+import { FeedbackStatus, Prisma } from "@prisma/client";
+
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id || session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = (await req.json()) as { status?: unknown; adminNote?: unknown };
+    const { status, adminNote } = body;
+
+    if (
+      typeof status !== "string" ||
+      !Object.values(FeedbackStatus).includes(status as FeedbackStatus)
+    ) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    const nextStatus = status as FeedbackStatus;
+    const updateData: Prisma.FeedbackReportUpdateInput = { status: nextStatus };
+    if (adminNote !== undefined)
+      updateData.adminNote = adminNote === null ? null : String(adminNote);
+    if (nextStatus === "RESOLVED" || nextStatus === "REJECTED") {
+      updateData.resolvedAt = new Date();
+    } else {
+      updateData.resolvedAt = null;
+    }
+
+    const report = await prisma.feedbackReport.update({
+      where: { id },
+      data: updateData,
+    });
+
+    return NextResponse.json({ ok: true, report });
+  } catch (error) {
+    console.error("Failed to update feedback report:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
