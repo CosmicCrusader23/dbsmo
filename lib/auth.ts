@@ -16,8 +16,8 @@ declare module "next-auth" {
   }
 }
 
-export const SCHOOL_EMAIL_DOMAIN = "g.dbs.edu.hk";
-export const SCHOOL_EMAIL_SUFFIX = `@${SCHOOL_EMAIL_DOMAIN}`;
+export const ALLOWED_EMAIL_DOMAINS = ["@g.dbs.edu.hk", "@dbs.edu.hk"];
+export const SCHOOL_EMAIL_SUFFIX = ALLOWED_EMAIL_DOMAINS[0]; // fallback for dev bypass
 export const devBypassEnabled = process.env.NODE_ENV !== "production";
 export const googleAuthEnabled = Boolean(
   process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET,
@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
       }
 
       const email = user.email?.toLowerCase();
-      if (!email || !email.endsWith(SCHOOL_EMAIL_SUFFIX)) {
+      if (!email || !ALLOWED_EMAIL_DOMAINS.some(domain => email.endsWith(domain))) {
         return false;
       }
 

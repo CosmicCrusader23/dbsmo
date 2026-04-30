@@ -17,6 +17,7 @@ import {
   normalizeProblemTag,
   normalizeTagList,
 } from "@/lib/problem-tags";
+import { DeleteSetButton } from "../delete-set-button";
 
 type ProblemData = {
   id: string;
@@ -526,6 +527,12 @@ export function SetEditForm({ set }: { set: SetData }) {
           {isRegrading ? <Loader2 size={18} className="spin-icon" /> : <RotateCcw size={18} />}
           {isRegrading ? "Regrading..." : "Regrade attempts"}
         </button>
+        <DeleteSetButton
+          setId={set.id}
+          title={set.title}
+          status={set.status}
+          redirectTo="/admin/sets"
+        />
         <button className="primary-action" type="button" disabled={isSaving} onClick={onSave}>
           {isSaving ? <Loader2 size={18} className="spin-icon" /> : <Save size={18} />}
           {isSaving ? "Saving…" : "Save changes"}

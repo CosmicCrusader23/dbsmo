@@ -58,6 +58,7 @@ model User {
   feedbackReports     FeedbackReport[]
   uploadedFiles       ImportedFile[]
   createdProblemSets  ProblemSet[]     @relation("ProblemSetCreator")
+  problemSetBookmarks ProblemSetBookmark[]
   accounts            Account[]
   sessions            Session[]
   sentFriendships     Friendship[]     @relation("FriendshipRequester")
@@ -97,9 +98,22 @@ model ProblemSet {
   attempts       Attempt[]
   feedback       FeedbackReport[]
   problems       Problem[]
+  bookmarks      ProblemSetBookmark[]
   createdBy      User             @relation("ProblemSetCreator", fields: [createdById], references: [id])
   problemFile    ImportedFile?    @relation("ProblemFile", fields: [problemFileId], references: [id])
   solutionFile   ImportedFile?    @relation("SolutionFile", fields: [solutionFileId], references: [id])
+}
+
+model ProblemSetBookmark {
+  id           String     @id @default(cuid())
+  userId       String
+  problemSetId String
+  createdAt    DateTime   @default(now())
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problemSet   ProblemSet @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemSetId])
+  @@index([problemSetId])
 }
 
 model Problem {

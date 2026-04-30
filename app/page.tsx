@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { Music2, ShieldCheck, Sparkles } from "lucide-react";
+import { Music2 } from "lucide-react";
 import { AuthButton } from "./auth-button";
 import { authOptions, googleAuthEnabled } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
@@ -52,14 +52,6 @@ export default async function LandingPage() {
               session={session}
             />
 
-            <div className="landing-footnote">
-              <ShieldCheck size={16} />
-              <span>Only DBS school accounts are allowed in the real deployment.</span>
-            </div>
-            <div className="landing-footnote">
-              <Sparkles size={16} />
-              <span>Developer bypass stays local and is meant only for testing.</span>
-            </div>
           </aside>
         </div>
 

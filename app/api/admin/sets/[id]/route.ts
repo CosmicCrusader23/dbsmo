@@ -199,3 +199,44 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   return NextResponse.json(updated);
 }
+
+export async function DELETE(_request: Request, context: RouteContext) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  }
+  if (session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+  }
+
+  const { id } = await context.params;
+
+  const existing = await prisma.problemSet.findUnique({
+    where: { id },
+    select: { id: true, title: true, status: true },
+  });
+
+  if (!existing) {
+    return NextResponse.json({ error: "Not found." }, { status: 404 });
+  }
+
+  if (existing.status !== "DRAFT" && existing.status !== "PUBLISHED") {
+    return NextResponse.json(
+      { error: "Only draft or published sets can be deleted." },
+      { status: 409 },
+    );
+  }
+
+  await prisma.problemSet.delete({
+    where: { id },
+  });
+
+  return NextResponse.json({
+    ok: true,
+    deleted: {
+      id: existing.id,
+      title: existing.title,
+      status: existing.status,
+    },
+  });
+}

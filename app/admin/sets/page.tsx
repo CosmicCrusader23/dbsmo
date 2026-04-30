@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, ExternalLink, FileJson, Plus } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { statusLabel, statusColor } from "@/lib/visibility";
+import { DeleteSetButton } from "./delete-set-button";
 
 export const dynamic = "force-dynamic";
 
@@ -96,10 +97,17 @@ export default async function AdminSetsPage() {
                       <td>{"★".repeat(set.difficulty)}</td>
                       <td>{set.createdAt.toLocaleDateString()}</td>
                       <td>
-                        <Link className="secondary-action compact" href={`/admin/sets/${set.id}`}>
-                          <ExternalLink size={14} />
-                          View
-                        </Link>
+                        <div className="row-actions">
+                          <Link className="secondary-action compact" href={`/admin/sets/${set.id}`}>
+                            <ExternalLink size={14} />
+                            View
+                          </Link>
+                          <DeleteSetButton
+                            setId={set.id}
+                            title={set.title}
+                            status={set.status}
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))}

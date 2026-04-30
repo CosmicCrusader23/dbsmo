@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { AnswerGrid } from "./answer-grid";
+import { BookmarkButton } from "./bookmark-button";
 import { LatexStatement } from "./latex-statement";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -44,6 +45,10 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
         problems: { orderBy: { number: "asc" } },
         problemFile: true,
         solutionFile: true,
+        bookmarks: {
+          where: { userId: session.user.id },
+          select: { id: true },
+        },
       },
     }),
   ]);
@@ -82,7 +87,13 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">{problemSet.slug}</p>
-            <h1>{problemSet.title}</h1>
+            <h1 className="problem-title-row">
+              <span>{problemSet.title}</span>
+              <BookmarkButton
+                initialBookmarked={problemSet.bookmarks.length > 0}
+                problemSetId={problemSet.id}
+              />
+            </h1>
           </div>
           <div className="topbar-actions">
             <ThemeToggle />

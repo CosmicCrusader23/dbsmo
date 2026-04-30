@@ -27,6 +27,7 @@ type SetRow = {
   bestScore: number;
   attempts: number;
   solvedCount: number;
+  isBookmarked: boolean;
 };
 
 const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
@@ -35,6 +36,7 @@ type ProblemSetsSearchParams = Promise<{
   category?: string;
   q?: string;
   sort?: string;
+  view?: string;
 }>;
 
 export default async function ProblemSetsPage({
@@ -50,6 +52,7 @@ export default async function ProblemSetsPage({
   const params = (await searchParams) ?? {};
   const sortMode =
     params.sort === "solved" ? "solved" : params.sort === "name" ? "name" : "default";
+  const activeView = params.view === "bookmarked" ? "bookmarked" : "recommended";
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
   const activeCategory =
@@ -61,12 +64,17 @@ export default async function ProblemSetsPage({
     category?: string | null;
     q?: string;
     sort?: "default" | "solved" | "name";
+    view?: "recommended" | "bookmarked";
   }) {
     const nextSort = next.sort ?? sortMode;
+    const nextView = next.view ?? activeView;
     const nextCategory = next.category === undefined ? activeCategory : next.category;
     const nextQuery = next.q === undefined ? query : next.q;
     const urlParams = new URLSearchParams();
 
+    if (nextView === "bookmarked") {
+      urlParams.set("view", nextView);
+    }
     if (nextSort !== "default") {
       urlParams.set("sort", nextSort);
     }
@@ -92,6 +100,10 @@ export default async function ProblemSetsPage({
         _count: { select: { problems: true } },
         problems: { select: { topicTags: true } },
         attempts: { select: { userId: true, score: true, maxScore: true } },
+        bookmarks: {
+          where: { userId: session.user.id },
+          select: { id: true },
+        },
       },
     }),
     prisma.attempt.findMany({
@@ -141,6 +153,7 @@ export default async function ProblemSetsPage({
       bestScore: progress.bestScore,
       attempts: progress.attempts,
       solvedCount: solvedUsers.size,
+      isBookmarked: set.bookmarks.length > 0,
     };
   });
 
@@ -156,10 +169,13 @@ export default async function ProblemSetsPage({
     return a.order - b.order || a.title.localeCompare(b.title);
   });
 
+  const viewRows =
+    activeView === "bookmarked" ? orderedRows.filter((set) => set.isBookmarked) : orderedRows;
+
   const groupedRows = new Map<string, SetRow[]>(
     CATEGORY_ORDER.map((category) => [
       category,
-      orderedRows.filter((set) => {
+      viewRows.filter((set) => {
         const matchesSearch =
           !normalizedQuery ||
           [set.title, set.slug, ...set.tags, ...set.categories]
@@ -170,7 +186,7 @@ export default async function ProblemSetsPage({
       }),
     ]),
   );
-  const tableRows = orderedRows.filter((set) => {
+  const tableRows = viewRows.filter((set) => {
     const matchesCategory = !activeCategory || set.categories.includes(activeCategory);
     const matchesSearch =
       !normalizedQuery ||
@@ -204,8 +220,18 @@ export default async function ProblemSetsPage({
       </header>
 
       <nav className="problem-hub-tabs" aria-label="Problem set filters">
-        <span className="problem-hub-tab active">Recommended</span>
-        <span className="problem-hub-tab">Bookmarked</span>
+        <Link
+          className={`problem-hub-tab${activeView === "recommended" ? " active" : ""}`}
+          href={problemSetsHref({ category: null, view: "recommended" })}
+        >
+          Recommended
+        </Link>
+        <Link
+          className={`problem-hub-tab${activeView === "bookmarked" ? " active" : ""}`}
+          href={problemSetsHref({ category: null, view: "bookmarked" })}
+        >
+          Bookmarked
+        </Link>
         <span className="problem-hub-tab">School Hosted</span>
         <span className="problem-hub-tab tag-tab">Tags</span>
       </nav>
@@ -243,6 +269,9 @@ export default async function ProblemSetsPage({
           placeholder="Search tasks by title, slug, or tag"
         />
         {sortMode !== "default" ? <input name="sort" type="hidden" value={sortMode} /> : null}
+        {activeView === "bookmarked" ? (
+          <input name="view" type="hidden" value="bookmarked" />
+        ) : null}
         {activeCategory ? <input name="category" type="hidden" value={activeCategory} /> : null}
         <button className="secondary-action compact" type="submit">
           Search
@@ -281,7 +310,9 @@ export default async function ProblemSetsPage({
         <div className="panel-header">
           <div>
             <p className="eyebrow">{activeCategory ?? "All categories"}</p>
-            <h2>{tableRows.length} available tasks</h2>
+            <h2>
+              {tableRows.length} {activeView === "bookmarked" ? "bookmarked" : "available"} tasks
+            </h2>
           </div>
           {activeCategory ? (
             <Link className="secondary-action compact" href={problemSetsHref({ category: null })}>
@@ -303,7 +334,11 @@ export default async function ProblemSetsPage({
             <tbody>
               {tableRows.length === 0 ? (
                 <tr>
-                  <td colSpan={5}>No tasks match this filter.</td>
+                  <td colSpan={5}>
+                    {activeView === "bookmarked"
+                      ? "No bookmarked tasks match this filter."
+                      : "No tasks match this filter."}
+                  </td>
                 </tr>
               ) : (
                 tableRows.map((set) => (

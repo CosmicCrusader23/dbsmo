@@ -163,7 +163,10 @@ export default async function DashboardPage() {
     latestAttempt && latestAttempt.maxScore > 0
       ? Math.round((latestAttempt.score / latestAttempt.maxScore) * 100)
       : 0;
-  const openReports = visibleSets.reduce((sum, set) => sum + set._count.feedback, 0);
+  const openReports =
+    currentUser.role === "ADMIN"
+      ? visibleSets.reduce((sum, set) => sum + set._count.feedback, 0)
+      : 0;
   const nextSet =
     setRows.find((row) => row.status === "Not started") ??
     setRows
@@ -381,10 +384,12 @@ export default async function DashboardPage() {
               <CheckCircle2 size={18} />
               {averageScore}% avg
             </div>
-            <div className="orbit-card orbit-card-two">
-              <MessageSquareWarning size={18} />
-              {openReports} reports
-            </div>
+            {currentUser.role === "ADMIN" ? (
+              <div className="orbit-card orbit-card-two">
+                <MessageSquareWarning size={18} />
+                {openReports} reports
+              </div>
+            ) : null}
           </div>
         </section>
 
@@ -396,7 +401,9 @@ export default async function DashboardPage() {
           />
           <MetricCard label="Average" value={`${averageScore}%`} accent="purple" />
           <MetricCard label="Latest score" value={`${latestScore}%`} accent="pink" />
-          <MetricCard label="Open reports" value={`${openReports}`} accent="orange" />
+          {currentUser.role === "ADMIN" ? (
+            <MetricCard label="Open reports" value={`${openReports}`} accent="orange" />
+          ) : null}
         </section>
 
         <section className="content-grid">
