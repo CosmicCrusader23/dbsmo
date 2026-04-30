@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { ArrowLeft, ChevronRight, LayoutGrid, Search } from "lucide-react";
 import { authOptions } from "@/lib/auth";
-import { getUserGroups } from "@/lib/auth-server";
 import { prisma } from "@/lib/db";
 import {
   OTHER_PROBLEM_SET_TAG,
@@ -85,7 +84,7 @@ export default async function ProblemSetsPage({
   const [currentUser, allSets, attempts] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, role: true, group: true, email: true },
+      select: { id: true, role: true, email: true },
     }),
     prisma.problemSet.findMany({
       orderBy: [{ order: "asc" }, { createdAt: "asc" }],
@@ -108,7 +107,7 @@ export default async function ProblemSetsPage({
   const visibleSets =
     currentUser.role === "ADMIN"
       ? allSets
-      : allSets.filter((set) => isVisibleToStudent(set, getUserGroups(currentUser)));
+      : allSets.filter((set) => isVisibleToStudent(set));
 
   const attemptMap = new Map<string, { bestScore: number; attempts: number }>();
   for (const attempt of attempts) {

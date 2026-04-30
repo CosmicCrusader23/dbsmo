@@ -8,7 +8,6 @@ describe("dryRunProblemSetJson", () => {
       title: "JSON LaTeX Smoke",
       status: "DRAFT",
       topicTags: ["Algebra"],
-      allowedGroups: ["MO"],
       problems: [
         {
           number: 1,

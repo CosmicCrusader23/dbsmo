@@ -6,6 +6,8 @@ export const STANDARD_PROBLEM_SET_TAGS = [
   "Algebra",
   "Number Theory",
   "Combinatorics",
+  "AIME",
+  "AMC",
 ] as const;
 
 export const OTHER_PROBLEM_SET_TAG = "Others";

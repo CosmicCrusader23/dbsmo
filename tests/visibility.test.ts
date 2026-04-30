@@ -5,7 +5,6 @@ const published = {
   status: "PUBLISHED" as const,
   visibleFrom: null,
   visibleTo: null,
-  allowedGroups: [] as string[],
 };
 
 const draft = { ...published, status: "DRAFT" as const };
@@ -13,54 +12,39 @@ const archived = { ...published, status: "ARCHIVED" as const };
 
 describe("isVisibleToStudent", () => {
   it("returns true for a published set with no restrictions", () => {
-    expect(isVisibleToStudent(published, ["MO"])).toBe(true);
+    expect(isVisibleToStudent(published)).toBe(true);
   });
 
   it("returns false for a draft set", () => {
-    expect(isVisibleToStudent(draft, ["MO"])).toBe(false);
+    expect(isVisibleToStudent(draft)).toBe(false);
   });
 
   it("returns false for an archived set", () => {
-    expect(isVisibleToStudent(archived, ["MO"])).toBe(false);
+    expect(isVisibleToStudent(archived)).toBe(false);
   });
 
   it("returns false if visibleFrom is in the future", () => {
     const future = new Date(Date.now() + 86_400_000);
     const set = { ...published, visibleFrom: future };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(false);
+    expect(isVisibleToStudent(set)).toBe(false);
   });
 
   it("returns true if visibleFrom is in the past", () => {
     const past = new Date(Date.now() - 86_400_000);
     const set = { ...published, visibleFrom: past };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(true);
+    expect(isVisibleToStudent(set)).toBe(true);
   });
 
   it("returns false if visibleTo is in the past", () => {
     const past = new Date(Date.now() - 86_400_000);
     const set = { ...published, visibleTo: past };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(false);
+    expect(isVisibleToStudent(set)).toBe(false);
   });
 
   it("returns true if visibleTo is in the future", () => {
     const future = new Date(Date.now() + 86_400_000);
     const set = { ...published, visibleTo: future };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(true);
-  });
-
-  it("returns true when user group matches allowedGroups", () => {
-    const set = { ...published, allowedGroups: ["MO", "PD"] };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(true);
-  });
-
-  it("returns false when user group does not match allowedGroups", () => {
-    const set = { ...published, allowedGroups: ["PD"] };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(false);
-  });
-
-  it("returns true when allowedGroups is empty (open to all)", () => {
-    const set = { ...published, allowedGroups: [] };
-    expect(isVisibleToStudent(set, ["MO"])).toBe(true);
+    expect(isVisibleToStudent(set)).toBe(true);
   });
 });
 

@@ -9,18 +9,13 @@ type SetForVisibility = {
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   visibleFrom: Date | null;
   visibleTo: Date | null;
-  allowedGroups: string[];
 };
 
 /**
  * Returns `true` if a problem set should be visible to a student
- * with the given group memberships, evaluated at the supplied date.
+ * evaluated at the supplied date.
  */
-export function isVisibleToStudent(
-  set: SetForVisibility,
-  userGroups: string[],
-  now: Date = new Date(),
-): boolean {
+export function isVisibleToStudent(set: SetForVisibility, now: Date = new Date()): boolean {
   if (set.status !== "PUBLISHED") {
     return false;
   }
@@ -31,13 +26,6 @@ export function isVisibleToStudent(
 
   if (set.visibleTo && now > set.visibleTo) {
     return false;
-  }
-
-  if (set.allowedGroups.length > 0) {
-    const allowed = new Set(set.allowedGroups);
-    if (!userGroups.some((group) => allowed.has(group))) {
-      return false;
-    }
   }
 
   return true;

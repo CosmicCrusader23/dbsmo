@@ -52,7 +52,6 @@ export default async function DashboardPage() {
       select: {
         id: true,
         email: true,
-        group: true,
         name: true,
         displayName: true,
         avatarUrl: true,
@@ -101,9 +100,7 @@ export default async function DashboardPage() {
   const visibleSets =
     currentUser.role === "ADMIN"
       ? allSets
-      : allSets.filter((set) =>
-          isVisibleToStudent(set, currentUser.group ? [currentUser.group] : []),
-        );
+      : allSets.filter((set) => isVisibleToStudent(set));
 
   const attemptsBySet = new Map<
     string,

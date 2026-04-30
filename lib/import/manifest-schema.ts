@@ -9,7 +9,7 @@ export const manifestSchema = z.object({
   description: z.string().default(""),
   order: z.number().int().positive(),
   status: z.enum(["draft", "published", "archived"]).default("draft"),
-  allowedGroups: z.array(z.string().min(1)).default(["MO"]),
+  allowedGroups: z.array(z.string().min(1)).default([]),
   topicTags: z.array(z.string().min(1)).default([]),
   difficulty: z.number().int().min(1).max(5).default(1),
   problemFile: z.string().min(1),

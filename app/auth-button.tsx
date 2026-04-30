@@ -63,7 +63,7 @@ export function AuthButton({
         disabled={!canUseGoogle}
         onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
       >
-        {canUseGoogle ? "sign in with school Google" : "Google sign-in unavailable"}
+        Sign in with Google
       </button>
 
       {canUseBypass ? (

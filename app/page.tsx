@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { Music2, ShieldCheck, Sparkles } from "lucide-react";
 import { AuthButton } from "./auth-button";
-import { authOptions, devBypassEnabled, googleAuthEnabled, SCHOOL_EMAIL_SUFFIX } from "@/lib/auth";
+import { authOptions, googleAuthEnabled } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
 
 export const dynamic = "force-dynamic";
@@ -14,12 +14,6 @@ export default async function LandingPage() {
   if (session) {
     redirect("/dashboard");
   }
-
-  const accessMode = googleAuthEnabled
-    ? "school Google SSO"
-    : devBypassEnabled
-      ? "local developer bypass"
-      : "Google SSO not configured";
 
   return (
     <main className="landing-shell">
@@ -41,7 +35,9 @@ export default async function LandingPage() {
           <section className="login-copy">
             <p className="eyebrow">DBS Mathematics Olympiad</p>
             <h1>sign in to proceed.</h1>
-            <p className="login-copy-text">math olympiad sandbox.</p>
+            <p className="login-copy-text">
+              math olympiad sandbox.
+            </p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
@@ -50,17 +46,7 @@ export default async function LandingPage() {
               <h2>DBS Training</h2>
             </div>
 
-            <div className="judge-field">
-              <span>school email</span>
-              <strong>name{SCHOOL_EMAIL_SUFFIX}</strong>
-            </div>
-            <div className="judge-field">
-              <span>access mode</span>
-              <strong>{accessMode}</strong>
-            </div>
-
             <AuthButton
-              canUseBypass={devBypassEnabled}
               canUseGoogle={googleAuthEnabled}
               mode="stacked"
               session={session}
@@ -70,12 +56,10 @@ export default async function LandingPage() {
               <ShieldCheck size={16} />
               <span>Only DBS school accounts are allowed in the real deployment.</span>
             </div>
-            {devBypassEnabled ? (
-              <div className="landing-footnote">
-                <Sparkles size={16} />
-                <span>Developer bypass stays local and is meant only for testing.</span>
-              </div>
-            ) : null}
+            <div className="landing-footnote">
+              <Sparkles size={16} />
+              <span>Developer bypass stays local and is meant only for testing.</span>
+            </div>
           </aside>
         </div>
 

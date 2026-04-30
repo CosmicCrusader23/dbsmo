@@ -37,7 +37,6 @@ type SetData = {
   order: number;
   status: string;
   difficulty: number;
-  allowedGroups: string[];
   topicTags: string[];
   videoUrl: string | null;
   problemFile: { originalName: string; mimeType: string } | null;
@@ -102,7 +101,6 @@ export function SetEditForm({ set }: { set: SetData }) {
   const [status, setStatus] = useState(set.status);
   const [order, setOrder] = useState(set.order);
   const [difficulty, setDifficulty] = useState(set.difficulty);
-  const [allowedGroups, setAllowedGroups] = useState(set.allowedGroups.join(", "));
   const [topicTags, setTopicTags] = useState(set.topicTags.join(", "));
   const [videoUrl, setVideoUrl] = useState(set.videoUrl ?? "");
   const [problemPdf, setProblemPdf] = useState<{ name: string; dataUrl: string } | null>(null);
@@ -190,10 +188,6 @@ export function SetEditForm({ set }: { set: SetData }) {
           status,
           order,
           difficulty,
-          allowedGroups: allowedGroups
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean),
           topicTags: parseTagInput(topicTags),
           videoUrl: videoUrl.trim() || null,
           problemPdf,
@@ -316,16 +310,6 @@ export function SetEditForm({ set }: { set: SetData }) {
             />
           </label>
         </div>
-
-        <label className="form-field">
-          <span className="form-label">Allowed groups</span>
-          <input
-            className="form-input"
-            value={allowedGroups}
-            placeholder="MO, PD"
-            onChange={(e) => setAllowedGroups(e.target.value)}
-          />
-        </label>
 
         <label className="form-field">
           <span className="form-label">Topic tags</span>

@@ -43,7 +43,7 @@ async function main() {
       status: "PUBLISHED",
       difficulty: 2,
       topicTags: ["Algebra"],
-      allowedGroups: ["MO"],
+      allowedGroups: [],
       createdById: admin.id,
       problems: {
         create: [

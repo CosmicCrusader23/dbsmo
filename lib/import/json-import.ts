@@ -42,7 +42,6 @@ const jsonProblemSetSchema = z.object({
   status: z.string().optional().default("DRAFT"),
   visibleFrom: z.string().datetime().nullable().optional(),
   visibleTo: z.string().datetime().nullable().optional(),
-  allowedGroups: z.array(z.string()).optional().default([]),
   topicTags: z.array(z.string()).optional().default([]),
   difficulty: z.coerce.number().int().min(1).max(10).optional().default(1),
   videoUrl: z.string().url().nullable().optional(),
@@ -68,7 +67,6 @@ export type JsonDryRunResult = {
     totalPoints: number;
     difficulty: number;
     topicTags: string[];
-    allowedGroups: string[];
     videoUrl: string | null;
     answerTypeCounts: Record<string, number>;
     solutionCount: number;
@@ -159,7 +157,7 @@ export async function importProblemSetJson(
       status: data.status,
       visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
       visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,
-      allowedGroups: data.allowedGroups,
+      allowedGroups: [],
       topicTags: data.topicTags,
       difficulty: data.difficulty,
       videoUrl: data.videoUrl ?? null,
@@ -222,7 +220,6 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
     title: data.title.trim(),
     description: data.description.trim(),
     status: normalizeStatus(data.status),
-    allowedGroups: normalizeTagList(data.allowedGroups),
     topicTags: normalizeTagList(data.topicTags),
     videoUrl: data.videoUrl?.trim() || null,
     problems: data.problems.map((problem, index) => ({
@@ -295,7 +292,6 @@ function buildPreview(data: ReturnType<typeof normalizeParsedJson>): JsonDryRunR
     totalPoints: data.problems.reduce((sum, problem) => sum + problem.points, 0),
     difficulty: data.difficulty,
     topicTags: data.topicTags,
-    allowedGroups: data.allowedGroups,
     videoUrl: data.videoUrl,
     answerTypeCounts: data.problems.reduce<Record<string, number>>((counts, problem) => {
       counts[problem.answerType] = (counts[problem.answerType] ?? 0) + 1;

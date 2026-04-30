@@ -2,7 +2,6 @@ import { readFile } from "node:fs/promises";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { getUserGroups } from "@/lib/auth-server";
 import { prisma } from "@/lib/db";
 import { getFilePath } from "@/lib/storage";
 import { isVisibleToStudent } from "@/lib/visibility";
@@ -24,7 +23,7 @@ export async function GET(_request: Request, context: RouteContext) {
   const [currentUser, file] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, role: true, group: true },
+      select: { id: true, role: true },
     }),
     prisma.importedFile.findUnique({
       where: { id },
@@ -42,7 +41,7 @@ export async function GET(_request: Request, context: RouteContext) {
   const relatedSets = [...file.problemFileFor, ...file.solutionFileFor];
   const canRead =
     currentUser.role === "ADMIN" ||
-    relatedSets.some((set) => isVisibleToStudent(set, getUserGroups(currentUser)));
+    relatedSets.some((set) => isVisibleToStudent(set));
 
   if (!canRead) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });

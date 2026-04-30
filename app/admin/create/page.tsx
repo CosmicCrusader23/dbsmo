@@ -138,7 +138,6 @@ export default function CreateSetPage() {
   const [difficulty, setDifficulty] = useState(1);
   const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
   const [topicTags, setTopicTags] = useState("");
-  const [allowedGroups, setAllowedGroups] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [problemPdf, setProblemPdf] = useState<{ name: string; dataUrl: string } | null>(null);
 
@@ -239,10 +238,6 @@ export default function CreateSetPage() {
           topicTags: topicTags
             .split(",")
             .map((t) => t.trim())
-            .filter(Boolean),
-          allowedGroups: allowedGroups
-            .split(",")
-            .map((g) => g.trim())
             .filter(Boolean),
           videoUrl: videoUrl.trim() || null,
           problemPdf,
@@ -423,17 +418,6 @@ export default function CreateSetPage() {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="set-groups">Allowed groups (comma-separated)</label>
-            <input
-              id="set-groups"
-              type="text"
-              placeholder="MO, PD"
-              value={allowedGroups}
-              onChange={(e) => setAllowedGroups(e.target.value)}
-            />
           </div>
 
           <div className="form-field form-field-full">

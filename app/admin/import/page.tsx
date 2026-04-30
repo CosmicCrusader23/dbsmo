@@ -39,7 +39,6 @@ export default function ImportPage() {
   "title": "Algebra Basics",
   "status": "DRAFT",
   "topicTags": ["Algebra"],
-  "allowedGroups": ["MO"],
   "problems": [
     {
       "number": 1,

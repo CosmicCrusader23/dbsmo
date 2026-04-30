@@ -5,7 +5,6 @@ import { prisma } from "@/lib/db";
 import { gradeAnswer } from "@/lib/grading";
 import type { AnswerType } from "@/lib/grading";
 import { authOptions } from "@/lib/auth";
-import { getUserGroups } from "@/lib/auth-server";
 import { isVisibleToStudent } from "@/lib/visibility";
 
 export const runtime = "nodejs";
@@ -51,14 +50,14 @@ export async function POST(request: Request) {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { id: true, role: true, group: true },
+    select: { id: true, role: true },
   });
 
   if (!user) {
     return NextResponse.json({ error: "User record not found." }, { status: 401 });
   }
 
-  if (user.role !== "ADMIN" && !isVisibleToStudent(problemSet, getUserGroups(user))) {
+  if (user.role !== "ADMIN" && !isVisibleToStudent(problemSet)) {
     return NextResponse.json(
       { error: "This set is not available to your account." },
       { status: 403 },

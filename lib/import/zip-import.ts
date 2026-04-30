@@ -167,7 +167,7 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
         description: manifest.description,
         order: manifest.order,
         status: STATUS_MAP[preview.status] ?? "DRAFT",
-        allowedGroups: preview.allowedGroups,
+        allowedGroups: [],
         topicTags: preview.topicTags,
         difficulty: preview.difficulty,
         videoUrl: preview.videoUrl,

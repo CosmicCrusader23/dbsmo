@@ -31,7 +31,6 @@ type DryRunResult = {
     totalPoints: number;
     difficulty: number;
     topicTags: string[];
-    allowedGroups: string[];
     videoUrl: string | null;
     answerTypeCounts: Record<string, number>;
     solutionCount: number;
@@ -307,10 +306,6 @@ export function ZipImportPanel() {
                 <div>
                   <dt>Status</dt>
                   <dd>{dryRunResult.preview.status}</dd>
-                </div>
-                <div>
-                  <dt>Groups</dt>
-                  <dd>{dryRunResult.preview.allowedGroups.join(", ")}</dd>
                 </div>
                 <div>
                   <dt>Solutions</dt>

@@ -27,7 +27,6 @@ const patchSchema = z.object({
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
   order: z.number().int().positive().optional(),
   difficulty: z.number().int().min(1).max(5).optional(),
-  allowedGroups: z.array(z.string().min(1)).optional(),
   topicTags: z.array(z.string().min(1)).optional(),
   videoUrl: z.string().url().nullable().optional(),
   problemPdf: z

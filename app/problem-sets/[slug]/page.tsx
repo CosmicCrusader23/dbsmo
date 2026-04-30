@@ -16,7 +16,6 @@ import { AnswerGrid } from "./answer-grid";
 import { LatexStatement } from "./latex-statement";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { getUserGroups } from "@/lib/auth-server";
 import { isVisibleToStudent } from "@/lib/visibility";
 
 export const dynamic = "force-dynamic";
@@ -37,7 +36,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
   const [user, problemSet] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, role: true, group: true },
+      select: { id: true, role: true },
     }),
     prisma.problemSet.findUnique({
       where: { slug },
@@ -53,7 +52,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
     notFound();
   }
 
-  if (user.role !== "ADMIN" && !isVisibleToStudent(problemSet, getUserGroups(user))) {
+  if (user.role !== "ADMIN" && !isVisibleToStudent(problemSet)) {
     notFound();
   }
 
