@@ -92,6 +92,7 @@ export function SetEditForm({ set }: { set: SetData }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [isRegrading, setIsRegrading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [saved, setSaved] = useState(false);
   const [regradeResult, setRegradeResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -170,6 +171,37 @@ export function SetEditForm({ set }: { set: SetData }) {
     };
     reader.onerror = () => setError("Could not read that PDF.");
     reader.readAsDataURL(file);
+  }
+
+  async function onDeleteDraft() {
+    if (status !== "DRAFT") return;
+
+    const confirmed = window.confirm(`Delete draft "${title}"? This cannot be undone.`);
+    if (!confirmed) return;
+
+    setIsDeleting(true);
+    setError(null);
+    setSaved(false);
+    setRegradeResult(null);
+
+    try {
+      const response = await fetch(`/api/admin/sets/${set.id}`, {
+        method: "DELETE",
+      });
+
+      const body = await response.json();
+      if (!response.ok) {
+        setError(body.error ?? "Delete failed.");
+        return;
+      }
+
+      router.push("/admin/sets");
+      router.refresh();
+    } catch {
+      setError("Delete request failed.");
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
   async function onSave() {
@@ -516,6 +548,17 @@ export function SetEditForm({ set }: { set: SetData }) {
           <span className="form-success">
             <CheckCircle2 size={16} /> {regradeResult}
           </span>
+        )}
+        {status === "DRAFT" && (
+          <button
+            className="secondary-action"
+            type="button"
+            disabled={isDeleting}
+            onClick={onDeleteDraft}
+          >
+            {isDeleting ? <Loader2 size={18} className="spin-icon" /> : <Trash2 size={18} />}
+            {isDeleting ? "Deleting..." : "Delete draft"}
+          </button>
         )}
         <button
           className="secondary-action"
