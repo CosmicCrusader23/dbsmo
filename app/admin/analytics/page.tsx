@@ -15,12 +15,17 @@ export default async function AnalyticsOverviewPage() {
     prisma.problemSet.findMany({ select: { id: true, title: true, slug: true } }),
   ]);
 
-  const setMap = new Map(problemSets.map((s) => [s.id, { title: s.title, slug: s.slug }]));
+  const setMap = new Map<string, { title: string; slug: string }>(
+    problemSets.map((s: { id: string; title: string; slug: string }) => [
+      s.id,
+      { title: s.title, slug: s.slug },
+    ]),
+  );
   const topics = computeTopicAccuracy(responses);
   const questions = computeQuestionStats(responses, setMap).slice(0, 10);
 
   const totalResponses = responses.length;
-  const correctCount = responses.filter((r) => r.isCorrect).length;
+  const correctCount = responses.filter((r: { isCorrect: boolean }) => r.isCorrect).length;
   const overallAccuracy =
     totalResponses > 0 ? Math.round((correctCount / totalResponses) * 100) : 0;
 

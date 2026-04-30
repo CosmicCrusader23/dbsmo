@@ -15,8 +15,15 @@ import {
   Sparkles,
   AlertCircle,
   CheckCircle2,
+  FileText,
+  Upload,
 } from "lucide-react";
 import katex from "katex";
+import {
+  STANDARD_PROBLEM_SET_TAGS,
+  normalizeProblemTag,
+  normalizeTagList,
+} from "@/lib/problem-tags";
 
 /* ── Types ─────────────────────────────────────────────── */
 
@@ -94,6 +101,29 @@ function slugify(text: string): string {
     .slice(0, 60);
 }
 
+function tagsFromCsv(csv: string): string[] {
+  return normalizeTagList(
+    csv
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean),
+  );
+}
+
+function toggleTagInCsv(csv: string, tag: string): string {
+  const normalizedTag = normalizeProblemTag(tag);
+  const existing = tagsFromCsv(csv);
+  const next = existing.some((item) => normalizeProblemTag(item) === normalizedTag)
+    ? existing.filter((item) => normalizeProblemTag(item) !== normalizedTag)
+    : [...existing, tag];
+  return next.join(", ");
+}
+
+function hasTag(csv: string, tag: string): boolean {
+  const normalizedTag = normalizeProblemTag(tag);
+  return tagsFromCsv(csv).some((item) => normalizeProblemTag(item) === normalizedTag);
+}
+
 /* ── Main component ───────────────────────────────────── */
 
 export default function CreateSetPage() {
@@ -110,6 +140,7 @@ export default function CreateSetPage() {
   const [topicTags, setTopicTags] = useState("");
   const [allowedGroups, setAllowedGroups] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [problemPdf, setProblemPdf] = useState<{ name: string; dataUrl: string } | null>(null);
 
   // Problems
   const [problems, setProblems] = useState<ProblemEntry[]>([emptyProblem(1)]);
@@ -123,6 +154,36 @@ export default function CreateSetPage() {
 
   function addProblem() {
     setProblems((prev) => [...prev, emptyProblem(prev.length + 1)]);
+  }
+
+  function setProblemCount(count: number) {
+    const safeCount = Math.max(1, Math.min(100, Number.isFinite(count) ? Math.floor(count) : 1));
+    setProblems((prev) =>
+      Array.from({ length: safeCount }, (_, index) => {
+        const existing = prev[index];
+        return existing ? { ...existing, number: index + 1 } : emptyProblem(index + 1);
+      }),
+    );
+  }
+
+  function handlePdfFile(file: File | undefined) {
+    setError(null);
+    if (!file) {
+      setProblemPdf(null);
+      return;
+    }
+    if (file.type !== "application/pdf") {
+      setError("Problem file must be a PDF.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setProblemPdf({ name: file.name, dataUrl: reader.result });
+      }
+    };
+    reader.onerror = () => setError("Could not read that PDF.");
+    reader.readAsDataURL(file);
   }
 
   function removeProblem(id: string) {
@@ -184,6 +245,7 @@ export default function CreateSetPage() {
             .map((g) => g.trim())
             .filter(Boolean),
           videoUrl: videoUrl.trim() || null,
+          problemPdf,
           problems: problems.map((p) => ({
             number: p.number,
             statement: p.statement.trim(),
@@ -349,6 +411,18 @@ export default function CreateSetPage() {
               value={topicTags}
               onChange={(e) => setTopicTags(e.target.value)}
             />
+            <div className="tag-chip-group">
+              {STANDARD_PROBLEM_SET_TAGS.map((tag) => (
+                <button
+                  className={`tag-chip ${hasTag(topicTags, tag) ? "active" : ""}`}
+                  key={tag}
+                  type="button"
+                  onClick={() => setTopicTags((prev) => toggleTagInCsv(prev, tag))}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="form-field">
@@ -392,6 +466,42 @@ export default function CreateSetPage() {
                 />
               </div>
             )}
+          </div>
+
+          <div className="form-field form-field-full pdf-upload-box">
+            <label htmlFor="set-pdf">
+              <FileText size={14} />
+              Problem PDF
+            </label>
+            <div className="pdf-upload-row">
+              <input
+                id="set-pdf"
+                type="file"
+                accept="application/pdf"
+                onChange={(event) => handlePdfFile(event.target.files?.[0])}
+              />
+              <label className="form-field form-field-sm" htmlFor="set-pdf-count">
+                <span className="form-label">Answer boxes</span>
+                <input
+                  id="set-pdf-count"
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={problems.length}
+                  onChange={(event) => setProblemCount(Number(event.target.value))}
+                />
+              </label>
+            </div>
+            <small className="form-hint">
+              Upload a PDF when the statements are already in a file, then set how many answer boxes
+              students need.
+            </small>
+            {problemPdf ? (
+              <div className="pdf-selected">
+                <Upload size={14} />
+                {problemPdf.name}
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
@@ -493,6 +603,20 @@ export default function CreateSetPage() {
                     value={p.topicTags}
                     onChange={(e) => updateProblem(p.id, "topicTags", e.target.value)}
                   />
+                  <div className="tag-chip-group">
+                    {STANDARD_PROBLEM_SET_TAGS.map((tag) => (
+                      <button
+                        className={`tag-chip ${hasTag(p.topicTags, tag) ? "active" : ""}`}
+                        key={`${p.id}-${tag}`}
+                        type="button"
+                        onClick={() =>
+                          updateProblem(p.id, "topicTags", toggleTagInCsv(p.topicTags, tag))
+                        }
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="form-field">

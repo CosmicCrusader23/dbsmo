@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { Users, Trophy } from "lucide-react";
+import { ArrowLeft, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { profilePathFromEmail } from "@/lib/user-profile";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +28,7 @@ export default async function UsersPage() {
   const users = await prisma.user.findMany({
     select: {
       id: true,
+      email: true,
       name: true,
       displayName: true,
       avatarUrl: true,
@@ -70,15 +72,21 @@ export default async function UsersPage() {
             Users
           </h1>
         </div>
-        <Link className="secondary-action" href="/leaderboard">
-          <Trophy size={16} />
-          Leaderboard
-        </Link>
+        <div className="topbar-actions">
+          <Link className="secondary-action" href="/leaderboard">
+            <Trophy size={16} />
+            Leaderboard
+          </Link>
+          <Link className="secondary-action" href="/dashboard">
+            <ArrowLeft size={16} />
+            Dashboard
+          </Link>
+        </div>
       </header>
 
       <div className="users-grid">
         {userRows.map((u) => (
-          <Link key={u.id} href={`/users/${u.id}`} className="user-card-link">
+          <Link key={u.id} href={profilePathFromEmail(u.email)} className="user-card-link">
             <div className="user-card">
               <div className="user-card-avatar">
                 {u.avatarUrl ? (

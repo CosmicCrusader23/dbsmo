@@ -1,9 +1,19 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CheckCircle2, ExternalLink, FileText, PlayCircle } from "lucide-react";
+import "katex/dist/katex.min.css";
+
+import {
+  ArrowLeft,
+  CheckCircle2,
+  ExternalLink,
+  FileText,
+  Maximize2,
+  PlayCircle,
+} from "lucide-react";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { AnswerGrid } from "./answer-grid";
+import { LatexStatement } from "./latex-statement";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { getUserGroups } from "@/lib/auth-server";
@@ -50,6 +60,16 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
   const problemCount = problemSet.problems.length;
   const videoHost = problemSet.videoUrl ? new URL(problemSet.videoUrl).hostname : null;
   const statementProblems = problemSet.problems.filter((problem) => problem.statement.trim());
+  const pdfHref =
+    problemSet.problemFile?.mimeType === "application/pdf"
+      ? `/api/files/${problemSet.problemFile.id}`
+      : null;
+  const previousAttempts = await prisma.attempt.findMany({
+    where: { userId: user.id, problemSetId: problemSet.id, maxScore: { gt: 0 } },
+    select: { attemptNumber: true, score: true, maxScore: true },
+    orderBy: { attemptNumber: "asc" },
+  });
+  const perfectAttempt = previousAttempts.find((attempt) => attempt.score === attempt.maxScore);
 
   return (
     <main className="single-page">
@@ -83,14 +103,26 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
               </div>
               <FileText size={20} />
             </div>
-            {statementProblems.length > 0 ? (
+            {pdfHref ? (
+              <div className="pdf-viewer-block">
+                <iframe className="pdf-frame" src={pdfHref} title={`${problemSet.title} PDF`} />
+                <a
+                  className="secondary-action compact pdf-open-action"
+                  href={pdfHref}
+                  target="_blank"
+                >
+                  <Maximize2 size={16} />
+                  Enlarge PDF
+                </a>
+              </div>
+            ) : statementProblems.length > 0 ? (
               <div className="problem-statement-list">
                 {problemSet.problems.map((problem) => (
                   <section className="problem-statement-card" key={problem.id}>
                     <span className="statement-number">Q{problem.number}</span>
-                    <p className="statement-text">
-                      {problem.statement.trim() || "No statement entered for this problem."}
-                    </p>
+                    <div className="statement-text">
+                      <LatexStatement statement={problem.statement} />
+                    </div>
                   </section>
                 ))}
               </div>
@@ -133,7 +165,11 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
               </div>
               <CheckCircle2 size={20} />
             </div>
-            <AnswerGrid problemSetId={problemSet.id} problemCount={problemCount} />
+            <AnswerGrid
+              lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
+              problemCount={problemCount}
+              problemSetId={problemSet.id}
+            />
           </article>
         </section>
       </div>

@@ -3,8 +3,23 @@ import { getServerSession } from "next-auth/next";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { normalizeTagList } from "@/lib/problem-tags";
+import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
 
 export const runtime = "nodejs";
+
+const answerTypeSchema = z.enum(["EXACT", "INTEGER", "DECIMAL", "FRACTION", "SET", "MULTIPLE"]);
+
+const problemPatchSchema = z.object({
+  id: z.string().min(1).optional(),
+  number: z.number().int().positive().optional(),
+  statement: z.string().optional(),
+  answerKey: z.string().min(1),
+  answerType: answerTypeSchema,
+  topicTags: z.array(z.string().min(1)).optional(),
+  points: z.number().int().positive().optional(),
+  explanationNote: z.string().nullable().optional(),
+});
 
 const patchSchema = z.object({
   title: z.string().min(1).optional(),
@@ -15,6 +30,14 @@ const patchSchema = z.object({
   allowedGroups: z.array(z.string().min(1)).optional(),
   topicTags: z.array(z.string().min(1)).optional(),
   videoUrl: z.string().url().nullable().optional(),
+  problemPdf: z
+    .object({
+      name: z.string().min(1),
+      dataUrl: z.string().min(1),
+    })
+    .nullable()
+    .optional(),
+  problems: z.array(problemPatchSchema).min(1).optional(),
 });
 
 type RouteContext = {
@@ -83,9 +106,96 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
   }
 
-  const updated = await prisma.problemSet.update({
-    where: { id },
-    data: result.data,
+  const { problems, problemPdf, ...setPatch } = result.data;
+  const normalizedPatch = {
+    ...setPatch,
+    topicTags: setPatch.topicTags ? normalizeTagList(setPatch.topicTags) : undefined,
+  };
+
+  let uploadedPdfId: string | null | undefined;
+  if (problemPdf) {
+    try {
+      const uploadedPdf = await storeUploadedPdf({
+        payload: problemPdf as UploadedPdfPayload,
+        prefix: `manual/${id}`,
+        uploadedById: session.user.id,
+      });
+      uploadedPdfId = uploadedPdf.id;
+    } catch (error) {
+      return NextResponse.json(
+        { error: error instanceof Error ? error.message : "Invalid PDF upload." },
+        { status: 400 },
+      );
+    }
+  }
+
+  const updated = await prisma.$transaction(async (tx) => {
+    const updatedSet = await tx.problemSet.update({
+      where: { id },
+      data: {
+        ...normalizedPatch,
+        problemFileId: uploadedPdfId,
+      },
+    });
+
+    if (problems) {
+      const existingProblems = await tx.problem.findMany({
+        where: { problemSetId: id },
+        select: { id: true },
+      });
+      const existingIds = new Set(existingProblems.map((problem) => problem.id));
+      const providedExistingIds = new Set(
+        problems
+          .map((problem) => problem.id)
+          .filter((problemId): problemId is string =>
+            Boolean(problemId && existingIds.has(problemId)),
+          ),
+      );
+
+      const duplicateExistingIds = problems
+        .map((problem) => problem.id)
+        .filter((problemId): problemId is string => Boolean(problemId))
+        .filter((problemId, index, ids) => ids.indexOf(problemId) !== index);
+
+      if (duplicateExistingIds.length > 0) {
+        throw new Error("Problem update payload contains duplicate problem IDs.");
+      }
+
+      await tx.problem.deleteMany({
+        where: {
+          problemSetId: id,
+          id: { notIn: Array.from(providedExistingIds) },
+        },
+      });
+
+      for (const [index, problem] of problems.entries()) {
+        const data = {
+          number: problem.number ?? index + 1,
+          statement: problem.statement?.trim() ?? "",
+          answerKey: problem.answerKey.trim(),
+          answerType: problem.answerType,
+          topicTags: normalizeTagList(problem.topicTags ?? []),
+          points: problem.points ?? 1,
+          explanationNote: problem.explanationNote?.trim() ?? null,
+        };
+
+        if (problem.id && existingIds.has(problem.id)) {
+          await tx.problem.update({
+            where: { id: problem.id },
+            data,
+          });
+        } else {
+          await tx.problem.create({
+            data: {
+              ...data,
+              problemSetId: id,
+            },
+          });
+        }
+      }
+    }
+
+    return updatedSet;
   });
 
   return NextResponse.json(updated);

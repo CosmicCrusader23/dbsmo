@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties, FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CheckCircle2, Loader2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
 
@@ -20,11 +21,12 @@ type SubmitResult = {
 type Props = {
   problemSetId: string;
   problemCount: number;
+  lockedAttemptNumber?: number | null;
 };
 
 const AUTOSAVE_KEY_PREFIX = "mo-draft-";
 
-export function AnswerGrid({ problemSetId, problemCount }: Props) {
+export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = null }: Props) {
   const problemNumbers = Array.from({ length: problemCount }, (_, i) => i + 1);
   const autosaveKey = `${AUTOSAVE_KEY_PREFIX}${problemSetId}`;
 
@@ -124,7 +126,7 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
     startTime.current = Date.now();
   }
 
-  async function onReportSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onReportSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setReportSubmitting(true);
     setReportError(null);
@@ -133,13 +135,18 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
     const formData = new FormData(e.currentTarget);
     const type = formData.get("type") as string;
     const message = formData.get("message") as string;
-    const problemId = formData.get("problemId") as string;
+    const problemNumber = formData.get("problemNumber") as string;
 
     try {
       const response = await fetch("/api/submit/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ problemSetId, problemId: problemId || null, type, message }),
+        body: JSON.stringify({
+          problemSetId,
+          problemNumber: problemNumber ? Number(problemNumber) : null,
+          type,
+          message,
+        }),
       });
 
       if (!response.ok) {
@@ -157,6 +164,10 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
   }
 
   const filledCount = Object.values(answers).filter((v) => v.trim().length > 0).length;
+  const isPerfectResult =
+    submitResult !== null &&
+    submitResult.maxScore > 0 &&
+    submitResult.score === submitResult.maxScore;
 
   const reportDialog = showReportDialog && (
     <div
@@ -181,7 +192,7 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
           >
             <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               Problem Number
-              <select name="problemId" className="form-input">
+              <select name="problemNumber" className="form-input">
                 <option value="">Whole set issue</option>
                 {problemNumbers.map((n) => (
                   <option key={n} value={String(n)}>
@@ -223,14 +234,37 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
     </div>
   );
 
+  if (lockedAttemptNumber) {
+    return (
+      <div className="locked-submit-state">
+        <CheckCircle2 size={24} />
+        <div>
+          <strong>Perfect score already recorded</strong>
+          <p>Attempt #{lockedAttemptNumber} solved this set, so submissions are locked.</p>
+        </div>
+        <button
+          className="secondary-action"
+          type="button"
+          onClick={() => setShowReportDialog(true)}
+        >
+          <MessageSquareWarning size={18} />
+          Report issue
+        </button>
+        {reportDialog}
+      </div>
+    );
+  }
+
   /* ── Score result view ─────────────────────────────── */
   if (submitResult) {
     const resultMap = new Map(submitResult.results.map((r) => [r.number, r]));
+    const scorePercent = Math.max(0, Math.min(100, submitResult.percentage));
+    const scoreRingStyle = { "--score-percent": `${scorePercent}%` } as CSSProperties;
 
     return (
       <>
         <div className="score-result">
-          <div className="score-ring">
+          <div className="score-ring" style={scoreRingStyle}>
             <span>{submitResult.percentage}%</span>
             <small>
               {submitResult.score}/{submitResult.maxScore}
@@ -242,6 +276,9 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
               {submitResult.results.filter((r) => r.isCorrect).length} of{" "}
               {submitResult.results.length} correct
             </p>
+            {isPerfectResult ? (
+              <p className="perfect-lock-note">Perfect score saved. This set is now locked.</p>
+            ) : null}
           </div>
         </div>
 
@@ -274,10 +311,12 @@ export function AnswerGrid({ problemSetId, problemCount }: Props) {
             <MessageSquareWarning size={18} />
             Report issue
           </button>
-          <button className="secondary-action" type="button" onClick={onRetry}>
-            <RotateCcw size={18} />
-            Try again
-          </button>
+          {!isPerfectResult ? (
+            <button className="secondary-action" type="button" onClick={onRetry}>
+              <RotateCcw size={18} />
+              Try again
+            </button>
+          ) : null}
         </div>
         {reportDialog}
       </>

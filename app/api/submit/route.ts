@@ -65,6 +65,28 @@ export async function POST(request: Request) {
     );
   }
 
+  const solvedAttempts = await prisma.attempt.findMany({
+    where: {
+      userId: user.id,
+      problemSetId,
+      maxScore: { gt: 0 },
+    },
+    select: { attemptNumber: true, score: true, maxScore: true },
+    orderBy: { attemptNumber: "asc" },
+  });
+  const perfectAttempt = solvedAttempts.find((attempt) => attempt.score === attempt.maxScore);
+
+  if (perfectAttempt) {
+    return NextResponse.json(
+      {
+        error: "You already solved this set with a perfect score, so it is locked.",
+        locked: true,
+        attemptNumber: perfectAttempt.attemptNumber,
+      },
+      { status: 409 },
+    );
+  }
+
   /* ── Determine attempt number ──────────────────────── */
   const previousAttempts = await prisma.attempt.count({
     where: { userId: user.id, problemSetId },

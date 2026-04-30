@@ -15,6 +15,12 @@ export default async function LandingPage() {
     redirect("/dashboard");
   }
 
+  const accessMode = googleAuthEnabled
+    ? "school Google SSO"
+    : devBypassEnabled
+      ? "local developer bypass"
+      : "Google SSO not configured";
+
   return (
     <main className="landing-shell">
       <div className="login-stage">
@@ -35,9 +41,7 @@ export default async function LandingPage() {
           <section className="login-copy">
             <p className="eyebrow">DBS Mathematics Olympiad</p>
             <h1>sign in to proceed.</h1>
-            <p className="login-copy-text">
-              math olympiad sandbox.
-            </p>
+            <p className="login-copy-text">math olympiad sandbox.</p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
@@ -52,7 +56,7 @@ export default async function LandingPage() {
             </div>
             <div className="judge-field">
               <span>access mode</span>
-              <strong>google sso with local bypass in local dev</strong>
+              <strong>{accessMode}</strong>
             </div>
 
             <AuthButton
@@ -66,10 +70,12 @@ export default async function LandingPage() {
               <ShieldCheck size={16} />
               <span>Only DBS school accounts are allowed in the real deployment.</span>
             </div>
-            <div className="landing-footnote">
-              <Sparkles size={16} />
-              <span>Developer bypass stays local and is meant only for testing.</span>
-            </div>
+            {devBypassEnabled ? (
+              <div className="landing-footnote">
+                <Sparkles size={16} />
+                <span>Developer bypass stays local and is meant only for testing.</span>
+              </div>
+            ) : null}
           </aside>
         </div>
 

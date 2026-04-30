@@ -42,24 +42,38 @@ enum FeedbackStatus {
 }
 
 model User {
-  id                 String           @id @default(cuid())
-  email              String           @unique
-  name               String?
-  emailVerified      DateTime?
-  image              String?
-  displayName        String?
-  avatarUrl          String?
-  role               UserRole         @default(STUDENT)
-  group              String?
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt
-  lastLoginAt        DateTime?
-  attempts           Attempt[]
-  feedbackReports    FeedbackReport[]
-  uploadedFiles      ImportedFile[]
-  createdProblemSets ProblemSet[]     @relation("ProblemSetCreator")
-  accounts           Account[]
-  sessions           Session[]
+  id                  String           @id @default(cuid())
+  email               String           @unique
+  name                String?
+  emailVerified       DateTime?
+  image               String?
+  displayName         String?
+  avatarUrl           String?
+  role                UserRole         @default(STUDENT)
+  group               String?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  lastLoginAt         DateTime?
+  attempts            Attempt[]
+  feedbackReports     FeedbackReport[]
+  uploadedFiles       ImportedFile[]
+  createdProblemSets  ProblemSet[]     @relation("ProblemSetCreator")
+  accounts            Account[]
+  sessions            Session[]
+  sentFriendships     Friendship[]     @relation("FriendshipRequester")
+  receivedFriendships Friendship[]     @relation("FriendshipReceiver")
+}
+
+model Friendship {
+  id          String   @id @default(cuid())
+  requesterId String
+  receiverId  String
+  createdAt   DateTime @default(now())
+  requester   User     @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  receiver    User     @relation("FriendshipReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([requesterId, receiverId])
+  @@index([receiverId])
 }
 
 model ProblemSet {

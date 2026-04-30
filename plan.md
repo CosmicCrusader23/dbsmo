@@ -1,5 +1,42 @@
 # MO Training Platform Plan
 
+## Immediate Request: Sorting + Friends + Score Rings (2026-04-30)
+
+- [ ] Let students/admins order the problem-set list by solve count.
+- [ ] Let users order the leaderboard by solved count or average score.
+- [ ] Add a leaderboard friends view that shows only the current user and favorited friends.
+- [ ] Add a heart/favorite control on user profiles to friend or unfriend that user.
+- [ ] Fix the answer-result circle so it shows the actual percentage correct.
+- [ ] Check other circular progress indicators and make them reflect real progress.
+- [ ] Validate the updated flows with browser harness on localhost.
+- [ ] Re-check this section and mark completed items.
+
+## Immediate Request: UX + Problem-Set Upgrade (2026-04-29)
+
+- [x] Add a profile button that opens `/users/[username]`.
+- [x] Show the user's profile picture between the theme toggle and username in the top-right account area.
+- [x] Add easy "Back to Dashboard" navigation from Feedback, Leaderboard, Users, and profile pages.
+- [x] Prevent further submissions once a user has a perfect-score attempt for a problem set.
+- [x] Fix problem-set rendering so problem statements display LaTeX correctly on the student set page.
+- [x] Add a dedicated `/problem-sets` page that categorizes sets using:
+  - Series
+  - Trigonometry
+  - Geometry
+  - Cogeom
+  - Algebra
+  - Number Theory
+  - Combinatorics
+  - Others
+- [x] Make admin tagging UX support the standard category tags plus custom tags.
+- [x] Ensure custom-tag sets appear under **Others** in the categorized problem-set view.
+- [x] Build/upgrade an admin problem-set editor so admins can edit set metadata and problem content.
+- [x] Let admins promote other users to admin from the user profile page.
+- [x] Let admins upload a PDF instead of manually entering problems, choose the number of answer boxes, and attach it to a problem set.
+- [x] Let students open/enlarge the attached PDF from the problem-set page and verify PDF rendering.
+- [x] Fix hosted/VPS landing-page auth so Google sign-in is visible when configured and local dev-only bypass/dev copy is hidden in production.
+- [x] Run browser-harness validation after implementation.
+- [x] Re-check this section and mark all completed items.
+
 ## Goal
 
 Build a self-paced mathematics olympiad training platform for about 120 team members, with room to later open access to PD students. The platform should replace Google Forms with a proper account system, structured problem sets, automatic answer-only grading, student progress tracking, videos, solution links, feedback reports, and teacher analytics.
@@ -475,7 +512,7 @@ Admins need a way to:
 - [x] Store per-problem and per-set reports.
 - [x] Build admin feedback queue.
 - [x] Add admin resolution workflow.
-- [ ] Add answer-key update and regrade path.
+- [x] Add answer-key update and regrade path.
 
 ### Phase 7: Admin Analytics
 
@@ -505,7 +542,7 @@ Admins need a way to:
   - Display name editable (used in greetings and leaderboard).
   - Profile picture upload with default 'M' avatar.
 - [x] API route for profile update (`/api/settings`).
-- [x] Public user profile page (`/users/[id]`) — shows display name, username, profile picture, solved sets count.
+- [x] Public user profile page (`/users/[username]`) — shows display name, username, profile picture, solved sets count.
 - [x] Public users list (`/users`) — visible to both students and admins.
 - [x] Leaderboard page (`/leaderboard`) — ranked by solved sets / average score, visible to all logged-in users.
 - [x] Add sidebar navigation links for Users, Leaderboard, Settings.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import {
@@ -15,6 +16,7 @@ import {
   Settings,
   Sparkles,
   Trophy,
+  User,
   Users,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
@@ -23,6 +25,7 @@ import { AuthButton } from "@/app/auth-button";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { TypewriterGreeting } from "@/app/typewriter-greeting";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { profilePathFromEmail } from "@/lib/user-profile";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +49,15 @@ export default async function DashboardPage() {
   const [currentUser, allSets, attempts, studentRows] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { id: true, email: true, group: true, name: true, displayName: true, role: true },
+      select: {
+        id: true,
+        email: true,
+        group: true,
+        name: true,
+        displayName: true,
+        avatarUrl: true,
+        role: true,
+      },
     }),
     prisma.problemSet.findMany({
       orderBy: [{ order: "asc" }, { createdAt: "asc" }],
@@ -143,6 +154,7 @@ export default async function DashboardPage() {
   const attemptedRows = setRows.filter((row) => row.status !== "Not started");
   const completedSets = attemptedRows.length;
   const totalSets = visibleSets.length;
+  const completionPercent = totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
   const averageScore =
     attemptedRows.length > 0
       ? Math.round(
@@ -224,6 +236,7 @@ export default async function DashboardPage() {
       : [];
 
   const continueHref = nextSet ? `/problem-sets/${nextSet.slug}` : "/admin/import";
+  const profileHref = profilePathFromEmail(currentUser.email);
 
   return (
     <main className="app-shell">
@@ -245,10 +258,7 @@ export default async function DashboardPage() {
             <Gauge size={18} />
             Dashboard
           </Link>
-          <Link
-            className="nav-item"
-            href={nextSet ? `/problem-sets/${nextSet.slug}` : "/dashboard"}
-          >
+          <Link className="nav-item" href="/problem-sets">
             <ClipboardList size={18} />
             Problem Sets
           </Link>
@@ -284,6 +294,10 @@ export default async function DashboardPage() {
             <Users size={18} />
             Users
           </Link>
+          <Link className="nav-item" href={profileHref}>
+            <User size={18} />
+            My Profile
+          </Link>
           <Link className="nav-item" href="/leaderboard">
             <Trophy size={18} />
             Leaderboard
@@ -307,7 +321,12 @@ export default async function DashboardPage() {
           </div>
           <div className="topbar-actions">
             <ThemeToggle />
-            <AuthButton session={session} />
+            <AuthButton
+              avatarUrl={currentUser.avatarUrl}
+              displayName={currentUser.displayName}
+              profileHref={profileHref}
+              session={session}
+            />
             {currentUser.role === "ADMIN" ? (
               <Link className="icon-button" href="/admin/import" aria-label="Import ZIP">
                 <FileArchive size={18} />
@@ -343,10 +362,7 @@ export default async function DashboardPage() {
                   <FileArchive size={18} />
                 </Link>
               ) : (
-                <Link
-                  className="secondary-action"
-                  href={nextSet ? `/problem-sets/${nextSet.slug}` : "/dashboard"}
-                >
+                <Link className="secondary-action" href="/problem-sets">
                   View sets
                   <ClipboardList size={18} />
                 </Link>
@@ -355,9 +371,12 @@ export default async function DashboardPage() {
           </div>
           <div
             className="progress-orbit"
-            aria-label={`${completedSets} of ${totalSets} sets attempted`}
+            aria-label={`${completedSets} of ${totalSets} sets attempted, ${completionPercent}% complete`}
           >
-            <div className="progress-ring">
+            <div
+              className="progress-ring"
+              style={{ "--progress-percent": `${completionPercent}%` } as CSSProperties}
+            >
               <span>{completedSets}</span>
               <small>/ {totalSets}</small>
             </div>

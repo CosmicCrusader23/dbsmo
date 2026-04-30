@@ -21,7 +21,13 @@ export default async function AdminFeedbackPage() {
     return (
       <main className="single-page">
         <div className="page-frame">
-          <p>Unauthorized - Admin access required</p>
+          <div className="panel" style={{ display: "grid", gap: 12, padding: 24 }}>
+            <p>Unauthorized - Admin access required</p>
+            <Link className="secondary-action" href="/dashboard" style={{ width: "fit-content" }}>
+              <ArrowLeft size={18} />
+              Dashboard
+            </Link>
+          </div>
         </div>
       </main>
     );

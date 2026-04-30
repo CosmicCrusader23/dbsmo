@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
+import { normalizeTagList } from "@/lib/problem-tags";
+import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
 
 export async function POST(req: Request) {
   try {
@@ -25,6 +27,7 @@ export async function POST(req: Request) {
       topicTags,
       allowedGroups,
       videoUrl,
+      problemPdf,
       problems,
     } = body;
 
@@ -64,6 +67,23 @@ export async function POST(req: Request) {
     const validStatuses = Object.values(ProblemSetStatus);
     const finalStatus = validStatuses.includes(status) ? status : "DRAFT";
 
+    let problemFileId: string | null = null;
+    if (problemPdf) {
+      try {
+        const uploadedPdf = await storeUploadedPdf({
+          payload: problemPdf as UploadedPdfPayload,
+          prefix: `manual/${slug}`,
+          uploadedById: session.user.id,
+        });
+        problemFileId = uploadedPdf.id;
+      } catch (error) {
+        return NextResponse.json(
+          { error: error instanceof Error ? error.message : "Invalid PDF upload." },
+          { status: 400 },
+        );
+      }
+    }
+
     const problemSet = await prisma.problemSet.create({
       data: {
         title,
@@ -72,9 +92,10 @@ export async function POST(req: Request) {
         order: order || 0,
         difficulty: difficulty || 1,
         status: finalStatus,
-        topicTags: topicTags || [],
+        topicTags: normalizeTagList(topicTags || []),
         allowedGroups: allowedGroups || [],
         videoUrl: videoUrl || null,
+        problemFileId,
         createdById: session.user.id,
         problems: {
           create: problems.map(
@@ -91,7 +112,7 @@ export async function POST(req: Request) {
               statement: p.statement?.trim() || "",
               answerKey: p.answerKey.trim(),
               answerType: p.answerType,
-              topicTags: p.topicTags || [],
+              topicTags: normalizeTagList(p.topicTags || []),
               points: p.points || 1,
               explanationNote: p.explanationNote || null,
             }),

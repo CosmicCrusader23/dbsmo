@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { Trophy, Users } from "lucide-react";
+import { ArrowLeft, Heart, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { profilePathFromEmail } from "@/lib/user-profile";
 
 export const dynamic = "force-dynamic";
 
@@ -27,22 +28,61 @@ function RankBadge({ rank }: { rank: number }) {
   return <span className="rank-badge rank-num">#{rank}</span>;
 }
 
-export default async function LeaderboardPage() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) redirect("/");
+type LeaderboardSearchParams = Promise<{
+  scope?: string;
+  sort?: string;
+}>;
 
-  const users = await prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      displayName: true,
-      avatarUrl: true,
-      role: true,
-      attempts: {
-        select: { score: true, maxScore: true, problemSetId: true },
+export default async function LeaderboardPage({
+  searchParams,
+}: {
+  searchParams?: LeaderboardSearchParams;
+}) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+
+  const params = (await searchParams) ?? {};
+  const scope = params.scope === "friends" ? "friends" : "all";
+  const sortMode = params.sort === "average" ? "average" : "solved";
+
+  function leaderboardHref(next: { scope?: "all" | "friends"; sort?: "solved" | "average" }) {
+    const query = new URLSearchParams({
+      scope: next.scope ?? scope,
+      sort: next.sort ?? sortMode,
+    });
+    return `/leaderboard?${query.toString()}`;
+  }
+
+  const [users, friendships] = await Promise.all([
+    prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        displayName: true,
+        avatarUrl: true,
+        role: true,
+        attempts: {
+          select: { score: true, maxScore: true, problemSetId: true },
+        },
       },
-    },
-  });
+    }),
+    prisma.friendship
+      ?.findMany({
+        where: {
+          OR: [{ requesterId: session.user.id }, { receiverId: session.user.id }],
+        },
+        select: { requesterId: true, receiverId: true },
+      })
+      .catch(() => []) ?? Promise.resolve([]),
+  ]);
+
+  const friendIds = new Set<string>([session.user.id]);
+  for (const friendship of friendships) {
+    friendIds.add(
+      friendship.requesterId === session.user.id ? friendship.receiverId : friendship.requesterId,
+    );
+  }
 
   const rows = users
     .map((u) => {
@@ -68,6 +108,7 @@ export default async function LeaderboardPage() {
 
       return {
         id: u.id,
+        email: u.email,
         displayLabel: u.displayName || u.name || "Anonymous",
         avatarUrl: u.avatarUrl,
         role: u.role,
@@ -77,7 +118,22 @@ export default async function LeaderboardPage() {
         totalAttempts,
       };
     })
-    .sort((a, b) => b.solvedSets - a.solvedSets || b.avgScore - a.avgScore)
+    .filter((u) => scope === "all" || friendIds.has(u.id))
+    .sort((a, b) => {
+      if (sortMode === "average") {
+        return (
+          b.avgScore - a.avgScore ||
+          b.solvedSets - a.solvedSets ||
+          a.displayLabel.localeCompare(b.displayLabel)
+        );
+      }
+
+      return (
+        b.solvedSets - a.solvedSets ||
+        b.avgScore - a.avgScore ||
+        a.displayLabel.localeCompare(b.displayLabel)
+      );
+    })
     .map((u, i) => ({ ...u, rank: i + 1 }));
 
   return (
@@ -90,11 +146,56 @@ export default async function LeaderboardPage() {
             Leaderboard
           </h1>
         </div>
-        <Link className="secondary-action" href="/users">
-          <Users size={16} />
-          All users
-        </Link>
+        <div className="topbar-actions">
+          <Link className="secondary-action" href="/users">
+            <Users size={16} />
+            All users
+          </Link>
+          <Link className="secondary-action" href="/dashboard">
+            <ArrowLeft size={16} />
+            Dashboard
+          </Link>
+        </div>
       </header>
+
+      <section className="leaderboard-controls" aria-label="Leaderboard controls">
+        <div className="leaderboard-control-group">
+          <span className="leaderboard-control-label">View</span>
+          <div className="segmented-control">
+            <Link
+              className={`segmented-button${scope === "all" ? " active" : ""}`}
+              href={leaderboardHref({ scope: "all" })}
+            >
+              <Users size={14} />
+              All
+            </Link>
+            <Link
+              className={`segmented-button${scope === "friends" ? " active" : ""}`}
+              href={leaderboardHref({ scope: "friends" })}
+            >
+              <Heart size={14} />
+              Friends
+            </Link>
+          </div>
+        </div>
+        <div className="leaderboard-control-group">
+          <span className="leaderboard-control-label">Order by</span>
+          <div className="segmented-control">
+            <Link
+              className={`segmented-button${sortMode === "solved" ? " active" : ""}`}
+              href={leaderboardHref({ sort: "solved" })}
+            >
+              Solved
+            </Link>
+            <Link
+              className={`segmented-button${sortMode === "average" ? " active" : ""}`}
+              href={leaderboardHref({ sort: "average" })}
+            >
+              Average score
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <div className="leaderboard-table-wrap">
         <table className="leaderboard-table">
@@ -109,42 +210,52 @@ export default async function LeaderboardPage() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
-              <tr key={row.id} className={row.rank <= 3 ? `leaderboard-top-${row.rank}` : ""}>
-                <td>
-                  <RankBadge rank={row.rank} />
+            {rows.length === 0 ? (
+              <tr>
+                <td colSpan={6}>
+                  {scope === "friends"
+                    ? "No friends yet. Favorite users from their profile to build this list."
+                    : "No leaderboard entries yet."}
                 </td>
-                <td>
-                  <Link href={`/users/${row.id}`} className="leaderboard-user">
-                    {row.avatarUrl ? (
-                      <img src={row.avatarUrl} alt="" className="leaderboard-avatar" />
-                    ) : (
-                      <DefaultAvatar size={32} />
-                    )}
-                    <span className="leaderboard-name">{row.displayLabel}</span>
-                    <span className="leaderboard-role-tag">{row.role}</span>
-                  </Link>
-                </td>
-                <td>
-                  <strong>{row.solvedSets}</strong>
-                </td>
-                <td>
-                  <span
-                    className={`score-color ${
-                      row.avgScore >= 80
-                        ? "score-high"
-                        : row.avgScore >= 50
-                          ? "score-mid"
-                          : "score-low"
-                    }`}
-                  >
-                    {row.avgScore}%
-                  </span>
-                </td>
-                <td>{row.uniqueSets}</td>
-                <td>{row.totalAttempts}</td>
               </tr>
-            ))}
+            ) : (
+              rows.map((row) => (
+                <tr key={row.id} className={row.rank <= 3 ? `leaderboard-top-${row.rank}` : ""}>
+                  <td>
+                    <RankBadge rank={row.rank} />
+                  </td>
+                  <td>
+                    <Link href={profilePathFromEmail(row.email)} className="leaderboard-user">
+                      {row.avatarUrl ? (
+                        <img src={row.avatarUrl} alt="" className="leaderboard-avatar" />
+                      ) : (
+                        <DefaultAvatar size={32} />
+                      )}
+                      <span className="leaderboard-name">{row.displayLabel}</span>
+                      <span className="leaderboard-role-tag">{row.role}</span>
+                    </Link>
+                  </td>
+                  <td>
+                    <strong>{row.solvedSets}</strong>
+                  </td>
+                  <td>
+                    <span
+                      className={`score-color ${
+                        row.avgScore >= 80
+                          ? "score-high"
+                          : row.avgScore >= 50
+                            ? "score-mid"
+                            : "score-low"
+                      }`}
+                    >
+                      {row.avgScore}%
+                    </span>
+                  </td>
+                  <td>{row.uniqueSets}</td>
+                  <td>{row.totalAttempts}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

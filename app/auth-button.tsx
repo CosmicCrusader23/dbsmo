@@ -1,6 +1,9 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import type { Session } from "next-auth";
+import Link from "next/link";
 import { signIn, signOut } from "next-auth/react";
 
 type AuthButtonProps = {
@@ -8,6 +11,9 @@ type AuthButtonProps = {
   canUseBypass?: boolean;
   canUseGoogle?: boolean;
   mode?: "inline" | "stacked";
+  profileHref?: string;
+  avatarUrl?: string | null;
+  displayName?: string | null;
 };
 
 export function AuthButton({
@@ -15,12 +21,26 @@ export function AuthButton({
   canUseBypass = false,
   canUseGoogle = true,
   mode = "inline",
+  profileHref,
+  avatarUrl,
+  displayName,
 }: AuthButtonProps) {
   if (session) {
+    const label = displayName || session.user?.name || session.user?.email;
+
     return (
       <div className="auth-session">
+        {profileHref ? (
+          <Link className="account-avatar-button" href={profileHref} aria-label="Open profile">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="" className="account-avatar-img" />
+            ) : (
+              <span className="account-avatar-fallback">M</span>
+            )}
+          </Link>
+        ) : null}
         <span className="session-badge">
-          {session.user?.name || session.user?.email} ({session.user?.role})
+          {label} ({session.user?.role})
         </span>
         <button
           className="secondary-action compact"
@@ -43,7 +63,7 @@ export function AuthButton({
         disabled={!canUseGoogle}
         onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
       >
-        {canUseGoogle ? "sign in with school google" : "school google unavailable in local dev"}
+        {canUseGoogle ? "sign in with school Google" : "Google sign-in unavailable"}
       </button>
 
       {canUseBypass ? (
