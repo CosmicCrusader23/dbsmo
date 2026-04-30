@@ -927,6 +927,24 @@ td {
   overflow-y: hidden;
 }
 
+.solution-note {
+  margin-top: 0.85rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(27, 191, 137, 0.22);
+  border-radius: var(--radius-card);
+  background: rgba(27, 191, 137, 0.08);
+}
+
+.solution-note summary {
+  cursor: pointer;
+  color: var(--color-success);
+  font-weight: 900;
+}
+
+.solution-note[open] summary {
+  margin-bottom: 0.55rem;
+}
+
 .video-strip {
   display: flex;
   align-items: center;
@@ -3358,6 +3376,43 @@ html.dark .theme-choice-button.active {
   color: var(--color-text-strong);
 }
 
+.search-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.15rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card-bg);
+  color: var(--color-muted);
+}
+
+.search-panel input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--color-text-strong);
+  font: inherit;
+  font-weight: 800;
+}
+
+.search-panel input::placeholder {
+  color: var(--color-muted);
+  opacity: 0.78;
+}
+
+.search-empty-state {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card-bg);
+  color: var(--color-muted);
+  font-weight: 800;
+}
+
 .users-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -3928,10 +3983,31 @@ html.dark .theme-choice-button.active {
 }
 
 .problem-category-card {
+  display: block;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-card-bg);
+  color: inherit;
   overflow: hidden;
+  text-decoration: none;
+}
+
+.problem-category-filter {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.problem-category-filter:hover {
+  border-color: rgba(47, 185, 232, 0.38);
+  box-shadow: 0 10px 24px rgba(47, 185, 232, 0.1);
+  transform: translateY(-1px);
+}
+
+.problem-category-filter.active {
+  border-color: rgba(240, 93, 155, 0.5);
+  box-shadow: inset 0 0 0 2px rgba(240, 93, 155, 0.08);
 }
 
 .problem-category-head {

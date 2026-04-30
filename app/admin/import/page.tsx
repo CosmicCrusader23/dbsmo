@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, FileArchive } from "lucide-react";
+import { ArrowLeft, FileJson } from "lucide-react";
 import { ZipImportPanel } from "./zip-import-panel";
 
 export default function ImportPage() {
@@ -15,7 +15,7 @@ export default function ImportPage() {
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Admin</p>
-            <h1>ZIP Import</h1>
+            <h1>JSON Import</h1>
           </div>
           <Link className="secondary-action" href="/dashboard">
             <ArrowLeft size={18} />
@@ -29,23 +29,34 @@ export default function ImportPage() {
           <aside className="panel import-spec">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">Manifest</p>
-                <h2>Expected archive</h2>
+                <p className="eyebrow">Schema</p>
+                <h2>Expected JSON</h2>
               </div>
-              <FileArchive size={20} />
+              <FileJson size={20} />
             </div>
-            <pre aria-label="Expected ZIP structure">{`mo-set-001.zip
-  manifest.yml
-  problems.pdf
-  solution.pdf
-  answers.csv
-  assets/
-    diagram-01.png`}</pre>
+            <pre aria-label="Expected JSON structure">{`{
+  "slug": "mo-set-001",
+  "title": "Algebra Basics",
+  "status": "DRAFT",
+  "topicTags": ["Algebra"],
+  "allowedGroups": ["MO"],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find $x$ if $x^2=4$.",
+      "answerType": "INTEGER",
+      "answerKey": "2",
+      "acceptedAnswers": ["-2"],
+      "solution": "$x=\\\\pm2$."
+    }
+  ]
+}`}</pre>
             <div className="check-list">
               <span>Schema validation</span>
-              <span>Answer key preview</span>
+              <span>LaTeX statements</span>
+              <span>Answer type preview</span>
               <span>Draft before publish</span>
-              <span>Rollback on failure</span>
+              <span>Solutions stored as notes</span>
             </div>
           </aside>
         </section>

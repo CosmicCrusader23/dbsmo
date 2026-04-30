@@ -122,6 +122,12 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                     <span className="statement-number">Q{problem.number}</span>
                     <div className="statement-text">
                       <LatexStatement statement={problem.statement} />
+                      {problem.explanationNote ? (
+                        <details className="solution-note">
+                          <summary>Solution</summary>
+                          <LatexStatement statement={problem.explanationNote} />
+                        </details>
+                      ) : null}
                     </div>
                   </section>
                 ))}

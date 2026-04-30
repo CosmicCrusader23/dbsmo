@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, FileArchive, Plus } from "lucide-react";
+import { ArrowLeft, ExternalLink, FileJson, Plus } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { statusLabel, statusColor } from "@/lib/visibility";
 
@@ -30,7 +30,7 @@ export default async function AdminSetsPage() {
           <div className="topbar-actions">
             <Link className="secondary-action" href="/admin/import">
               <Plus size={18} />
-              Import ZIP
+              Import JSON
             </Link>
             <Link className="secondary-action" href="/dashboard">
               <ArrowLeft size={18} />
@@ -41,12 +41,12 @@ export default async function AdminSetsPage() {
 
         {sets.length === 0 ? (
           <section className="panel empty-state">
-            <FileArchive size={42} />
+            <FileJson size={42} />
             <strong>No problem sets yet</strong>
-            <p>Import your first problem set by uploading a ZIP file.</p>
+            <p>Import your first problem set by uploading a JSON file.</p>
             <Link className="primary-action" href="/admin/import">
               <Plus size={18} />
-              Import ZIP
+              Import JSON
             </Link>
           </section>
         ) : (
@@ -59,7 +59,7 @@ export default async function AdminSetsPage() {
                 </h2>
               </div>
               <Link className="secondary-action compact" href="/admin/import">
-                <FileArchive size={16} />
+                <FileJson size={16} />
                 Import
               </Link>
             </div>

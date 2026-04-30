@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { dryRunProblemSetZip } from "@/lib/import/zip-dry-run";
+import { dryRunProblemSetJson } from "@/lib/import/json-import";
 import { authOptions } from "@/lib/auth";
 
 export const runtime = "nodejs";
@@ -21,14 +21,14 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        issues: [{ level: "error", message: "No ZIP file was uploaded." }],
+        issues: [{ level: "error", message: "No JSON file was uploaded." }],
         preview: null,
       },
       { status: 400 },
     );
   }
 
-  const maxMb = parseInt(process.env.MAX_ZIP_UPLOAD_MB || "50", 10);
+  const maxMb = parseInt(process.env.MAX_JSON_UPLOAD_MB || "5", 10);
   if (upload.size > maxMb * 1024 * 1024) {
     return NextResponse.json(
       {
@@ -40,10 +40,10 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await dryRunProblemSetZip({
+  const result = await dryRunProblemSetJson({
     fileName: upload.name,
     sizeBytes: upload.size,
-    buffer: Buffer.from(await upload.arrayBuffer()),
+    text: await upload.text(),
   });
 
   return NextResponse.json(result);

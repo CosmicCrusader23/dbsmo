@@ -1,6 +1,8 @@
 import katex from "katex";
 
-const MATH_SEGMENT_REGEX = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$)/g;
+const MATH_SEGMENT_PATTERN = String.raw`(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$\$[\s\S]+?\$\$|\$[^$\n]+\$)`;
+const HAS_MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN);
+const MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN, "g");
 
 function renderMath(tex: string, displayMode: boolean): string {
   return katex.renderToString(tex, {
@@ -11,15 +13,43 @@ function renderMath(tex: string, displayMode: boolean): string {
   });
 }
 
+function parseMathSegment(part: string): { displayMode: boolean; tex: string } | null {
+  if (part.startsWith("$$") && part.endsWith("$$")) {
+    return { displayMode: true, tex: part.slice(2, -2).trim() };
+  }
+
+  if (part.startsWith("\\[") && part.endsWith("\\]")) {
+    return { displayMode: true, tex: part.slice(2, -2).trim() };
+  }
+
+  if (part.startsWith("\\(") && part.endsWith("\\)")) {
+    return { displayMode: false, tex: part.slice(2, -2).trim() };
+  }
+
+  if (part.startsWith("$") && part.endsWith("$")) {
+    return { displayMode: false, tex: part.slice(1, -1).trim() };
+  }
+
+  return null;
+}
+
+function looksLikeStandaloneMath(value: string) {
+  return (
+    /^\\[a-zA-Z]+/.test(value) ||
+    (/^[\s\d\\^_{}=+\-*/().,|<>:;]+$/.test(value) && /[\\^_{}=+\-*/]/.test(value))
+  );
+}
+
 export function LatexStatement({ statement }: { statement: string }) {
   const value = statement.trim();
   if (!value) {
     return <>No statement entered for this problem.</>;
   }
 
-  const hasDelimitedMath = /(\$\$[\s\S]+?\$\$|\$[^$\n]+\$)/.test(value);
+  const hasDelimitedMath = HAS_MATH_SEGMENT_REGEX.test(value);
+
   if (!hasDelimitedMath) {
-    if (/[\\^_{}]/.test(value)) {
+    if (looksLikeStandaloneMath(value)) {
       return <span dangerouslySetInnerHTML={{ __html: renderMath(value, true) }} />;
     }
     return <>{value}</>;
@@ -29,23 +59,13 @@ export function LatexStatement({ statement }: { statement: string }) {
   return (
     <>
       {parts.map((part, index) => {
-        if (part.startsWith("$$") && part.endsWith("$$")) {
-          const tex = part.slice(2, -2).trim();
+        const math = parseMathSegment(part);
+        if (math) {
           return (
             <span
-              className="statement-math-block"
-              key={`math-block-${index}`}
-              dangerouslySetInnerHTML={{ __html: renderMath(tex, true) }}
-            />
-          );
-        }
-        if (part.startsWith("$") && part.endsWith("$")) {
-          const tex = part.slice(1, -1).trim();
-          return (
-            <span
-              className="statement-math-inline"
-              key={`math-inline-${index}`}
-              dangerouslySetInnerHTML={{ __html: renderMath(tex, false) }}
+              className={math.displayMode ? "statement-math-block" : "statement-math-inline"}
+              key={`math-${index}`}
+              dangerouslySetInnerHTML={{ __html: renderMath(math.tex, math.displayMode) }}
             />
           );
         }

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Trophy, Users } from "lucide-react";
+import { ArrowLeft, Search, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
@@ -21,9 +21,16 @@ function DefaultAvatar({ size = 36 }: { size?: number }) {
   );
 }
 
-export default async function UsersPage() {
+type UsersSearchParams = Promise<{
+  q?: string;
+}>;
+
+export default async function UsersPage({ searchParams }: { searchParams?: UsersSearchParams }) {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/");
+  const params = (await searchParams) ?? {};
+  const query = params.q?.trim() ?? "";
+  const normalizedQuery = query.toLowerCase();
 
   const users = await prisma.user.findMany({
     select: {
@@ -41,26 +48,31 @@ export default async function UsersPage() {
     orderBy: { createdAt: "asc" },
   });
 
-  const userRows = users.map((u) => {
-    const uniqueSets = new Set(u.attempts.map((a) => a.problemSetId)).size;
-    const totalAttempts = u.attempts.length;
-    const avgScore =
-      totalAttempts > 0
-        ? Math.round(
-            u.attempts.reduce(
-              (s, a) => s + (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0),
-              0,
-            ) / totalAttempts,
-          )
-        : 0;
-    return {
-      ...u,
-      displayLabel: u.displayName || u.name || "Anonymous",
-      uniqueSets,
-      totalAttempts,
-      avgScore,
-    };
-  });
+  const userRows = users
+    .map((u) => {
+      const uniqueSets = new Set(u.attempts.map((a) => a.problemSetId)).size;
+      const totalAttempts = u.attempts.length;
+      const avgScore =
+        totalAttempts > 0
+          ? Math.round(
+              u.attempts.reduce(
+                (s, a) => s + (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0),
+                0,
+              ) / totalAttempts,
+            )
+          : 0;
+      return {
+        ...u,
+        displayLabel: u.displayName || u.name || "Anonymous",
+        uniqueSets,
+        totalAttempts,
+        avgScore,
+      };
+    })
+    .filter((u) => {
+      if (!normalizedQuery) return true;
+      return [u.displayLabel, u.email, u.role].join(" ").toLowerCase().includes(normalizedQuery);
+    });
 
   return (
     <main className="users-shell">
@@ -84,28 +96,50 @@ export default async function UsersPage() {
         </div>
       </header>
 
-      <div className="users-grid">
-        {userRows.map((u) => (
-          <Link key={u.id} href={profilePathFromEmail(u.email)} className="user-card-link">
-            <div className="user-card">
-              <div className="user-card-avatar">
-                {u.avatarUrl ? (
-                  <img src={u.avatarUrl} alt="" className="user-card-img" />
-                ) : (
-                  <DefaultAvatar size={48} />
-                )}
-              </div>
-              <div className="user-card-info">
-                <h3>{u.displayLabel}</h3>
-                <span className="user-card-role">{u.role}</span>
-              </div>
-              <div className="user-card-stats">
-                <span>{u.uniqueSets} sets</span>
-                <span>{u.avgScore}% avg</span>
-              </div>
-            </div>
+      <form action="/users" className="search-panel" role="search">
+        <Search size={18} />
+        <input
+          aria-label="Search users"
+          defaultValue={query}
+          name="q"
+          placeholder="Search users by name, email, or role"
+        />
+        <button className="secondary-action compact" type="submit">
+          Search
+        </button>
+        {query ? (
+          <Link className="text-link" href="/users">
+            Clear
           </Link>
-        ))}
+        ) : null}
+      </form>
+
+      <div className="users-grid">
+        {userRows.length === 0 ? (
+          <div className="search-empty-state">No users match this search.</div>
+        ) : (
+          userRows.map((u) => (
+            <Link key={u.id} href={profilePathFromEmail(u.email)} className="user-card-link">
+              <div className="user-card">
+                <div className="user-card-avatar">
+                  {u.avatarUrl ? (
+                    <img src={u.avatarUrl} alt="" className="user-card-img" />
+                  ) : (
+                    <DefaultAvatar size={48} />
+                  )}
+                </div>
+                <div className="user-card-info">
+                  <h3>{u.displayLabel}</h3>
+                  <span className="user-card-role">{u.role}</span>
+                </div>
+                <div className="user-card-stats">
+                  <span>{u.uniqueSets} sets</span>
+                  <span>{u.avgScore}% avg</span>
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
       </div>
     </main>
   );

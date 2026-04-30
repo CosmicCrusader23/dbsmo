@@ -1,15 +1,27 @@
 # MO Training Platform Plan
 
+## Immediate Request: Search + JSON Import + LaTeX Repair (2026-04-30)
+
+- [x] Add search for users.
+- [x] Add search for tasks/problem sets.
+- [x] Make category selection change the bottom task table to that category instead of listing all sets.
+- [x] Keep category cards showing only category counts and category controls.
+- [x] Rewrite the admin ZIP upload flow into a JSON problem-set upload flow.
+- [x] Support JSON fields for LaTeX problem statements, answer type, answer keys, accepted answers, topic tags, explanations, solutions, video URL, and visibility metadata.
+- [x] Fix LaTeX rendering on problem-set pages and verify it in-browser.
+- [x] Validate the updated search, category, JSON upload, and LaTeX flows with browser harness on localhost.
+- [x] Re-check this section and mark completed items.
+
 ## Immediate Request: Sorting + Friends + Score Rings (2026-04-30)
 
-- [ ] Let students/admins order the problem-set list by solve count.
-- [ ] Let users order the leaderboard by solved count or average score.
-- [ ] Add a leaderboard friends view that shows only the current user and favorited friends.
-- [ ] Add a heart/favorite control on user profiles to friend or unfriend that user.
-- [ ] Fix the answer-result circle so it shows the actual percentage correct.
-- [ ] Check other circular progress indicators and make them reflect real progress.
-- [ ] Validate the updated flows with browser harness on localhost.
-- [ ] Re-check this section and mark completed items.
+- [x] Let students/admins order the problem-set list by solve count.
+- [x] Let users order the leaderboard by solved count or average score.
+- [x] Add a leaderboard friends view that shows only the current user and favorited friends.
+- [x] Add a heart/favorite control on user profiles to friend or unfriend that user.
+- [x] Fix the answer-result circle so it shows the actual percentage correct.
+- [x] Check other circular progress indicators and make them reflect real progress.
+- [x] Validate the updated flows with browser harness on localhost.
+- [x] Re-check this section and mark completed items.
 
 ## Immediate Request: UX + Problem-Set Upgrade (2026-04-29)
 

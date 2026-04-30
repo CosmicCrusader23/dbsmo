@@ -5,7 +5,7 @@ import { ChangeEvent, useMemo, useState } from "react";
 import {
   CheckCircle2,
   ExternalLink,
-  FileArchive,
+  FileJson,
   Loader2,
   ShieldCheck,
   UploadCloud,
@@ -32,11 +32,9 @@ type DryRunResult = {
     difficulty: number;
     topicTags: string[];
     allowedGroups: string[];
-    problemFile: string;
-    solutionFile: string | null;
-    answersFile: string;
     videoUrl: string | null;
     answerTypeCounts: Record<string, number>;
+    solutionCount: number;
   };
 };
 
@@ -61,7 +59,6 @@ type ImportResult = {
 
 export function ZipImportPanel() {
   const [file, setFile] = useState<File | null>(null);
-  const [hasZipSignature, setHasZipSignature] = useState<boolean | null>(null);
   const [dryRunResult, setDryRunResult] = useState<DryRunResult | null>(null);
   const [dryRunError, setDryRunError] = useState<string | null>(null);
   const [isDryRunning, setIsDryRunning] = useState(false);
@@ -73,37 +70,31 @@ export function ZipImportPanel() {
   const validation = useMemo<ValidationItem[]>(() => {
     if (!file) {
       return [
-        { label: "ZIP selected", ok: false },
+        { label: "JSON selected", ok: false },
         { label: "Size under configured limit", ok: false },
         { label: "Ready for dry run", ok: false },
       ];
     }
 
-    const isZip =
-      file.name.toLowerCase().endsWith(".zip") ||
-      file.type === "application/zip" ||
-      file.type === "application/x-zip-compressed" ||
-      hasZipSignature === true;
+    const isJson =
+      file.name.toLowerCase().endsWith(".json") ||
+      file.type === "application/json" ||
+      file.type === "text/json";
 
     return [
-      { label: "ZIP selected", ok: isZip },
-      { label: "Size under configured limit", ok: file.size <= 50 * 1024 * 1024 },
-      { label: "Ready for dry run", ok: isZip },
+      { label: "JSON selected", ok: isJson },
+      { label: "Size under configured limit", ok: file.size <= 5 * 1024 * 1024 },
+      { label: "Ready for dry run", ok: isJson },
     ];
-  }, [file, hasZipSignature]);
+  }, [file]);
 
   function onFileChange(event: ChangeEvent<HTMLInputElement>) {
     const nextFile = event.target.files?.[0] ?? null;
     setFile(nextFile);
-    setHasZipSignature(null);
     setDryRunResult(null);
     setDryRunError(null);
     setImportResult(null);
     setImportError(null);
-
-    if (nextFile) {
-      void inspectZipSignature(nextFile).then(setHasZipSignature);
-    }
   }
 
   const ready = validation.every((item) => item.ok);
@@ -172,24 +163,24 @@ export function ZipImportPanel() {
       <div className="panel-header">
         <div>
           <p className="eyebrow">Uploader</p>
-          <h2>Problem-set package</h2>
+          <h2>JSON problem-set upload</h2>
         </div>
-        <FileArchive size={22} />
+        <FileJson size={22} />
       </div>
 
       <label className="dropzone">
         <input
           type="file"
-          accept=".zip,application/zip"
-          data-testid="zip-file-input"
+          accept=".json,application/json"
+          data-testid="json-file-input"
           onChange={onFileChange}
         />
         <UploadCloud size={34} />
-        <strong>{file ? file.name : "Choose ZIP file"}</strong>
+        <strong>{file ? file.name : "Choose JSON file"}</strong>
         <span>
           {file
             ? `${formatBytes(file.size)} selected`
-            : "manifest.yml, answers.csv, PDFs, and assets"}
+            : "LaTeX statements, answer keys, answer types, tags, and solution notes"}
         </span>
       </label>
 
@@ -219,7 +210,7 @@ export function ZipImportPanel() {
           onClick={onImport}
         >
           {isImporting ? <Loader2 size={18} className="spin-icon" /> : null}
-          {isImporting ? "Importing…" : "Import draft"}
+          {isImporting ? "Importing…" : "Import JSON"}
           {!isImporting && <UploadCloud size={18} />}
         </button>
       </div>
@@ -249,10 +240,7 @@ export function ZipImportPanel() {
             </div>
             <div>
               <dt>Files</dt>
-              <dd>
-                {importResult.created.problemFileKey ? "PDF" : "—"}
-                {importResult.created.solutionFileKey ? " + Sol" : ""}
-              </dd>
+              <dd>Inline JSON</dd>
             </div>
           </dl>
           <div className="result-links">
@@ -324,13 +312,15 @@ export function ZipImportPanel() {
                   <dt>Groups</dt>
                   <dd>{dryRunResult.preview.allowedGroups.join(", ")}</dd>
                 </div>
+                <div>
+                  <dt>Solutions</dt>
+                  <dd>{dryRunResult.preview.solutionCount}</dd>
+                </div>
               </dl>
               <div className="preview-files">
-                <span>{dryRunResult.preview.problemFile}</span>
-                {dryRunResult.preview.solutionFile && (
-                  <span>{dryRunResult.preview.solutionFile}</span>
-                )}
-                <span>{dryRunResult.preview.answersFile}</span>
+                <span>{dryRunResult.preview.topicTags.join(", ") || "No tags"}</span>
+                <span>{Object.keys(dryRunResult.preview.answerTypeCounts).join(", ")}</span>
+                <span>{dryRunResult.preview.videoUrl ?? "No video"}</span>
               </div>
             </div>
           )}
@@ -346,18 +336,13 @@ export function ZipImportPanel() {
           ) : dryRunResult ? (
             <div className="issue-row ok">
               <CheckCircle2 size={16} />
-              <span>Dry run passed. Ready to import as draft.</span>
+              <span>Dry run passed. Ready to import from JSON.</span>
             </div>
           ) : null}
         </div>
       )}
     </section>
   );
-}
-
-async function inspectZipSignature(file: File) {
-  const bytes = new Uint8Array(await file.slice(0, 4).arrayBuffer());
-  return bytes[0] === 0x50 && bytes[1] === 0x4b && [0x03, 0x05, 0x07].includes(bytes[2]);
 }
 
 function formatBytes(bytes: number) {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, ChevronRight, LayoutGrid } from "lucide-react";
+import { ArrowLeft, ChevronRight, LayoutGrid, Search } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { getUserGroups } from "@/lib/auth-server";
 import { prisma } from "@/lib/db";
@@ -10,6 +10,7 @@ import {
   STANDARD_PROBLEM_SET_TAGS,
   categorizeProblemSetTags,
   normalizeTagList,
+  normalizeProblemTag,
 } from "@/lib/problem-tags";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
@@ -32,6 +33,8 @@ type SetRow = {
 const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
 
 type ProblemSetsSearchParams = Promise<{
+  category?: string;
+  q?: string;
   sort?: string;
 }>;
 
@@ -48,9 +51,35 @@ export default async function ProblemSetsPage({
   const params = (await searchParams) ?? {};
   const sortMode =
     params.sort === "solved" ? "solved" : params.sort === "name" ? "name" : "default";
+  const query = params.q?.trim() ?? "";
+  const normalizedQuery = query.toLowerCase();
+  const activeCategory =
+    CATEGORY_ORDER.find(
+      (category) => normalizeProblemTag(category) === normalizeProblemTag(params.category ?? ""),
+    ) ?? null;
 
-  function problemSetsHref(nextSort: "default" | "solved" | "name") {
-    return nextSort === "default" ? "/problem-sets" : `/problem-sets?sort=${nextSort}`;
+  function problemSetsHref(next: {
+    category?: string | null;
+    q?: string;
+    sort?: "default" | "solved" | "name";
+  }) {
+    const nextSort = next.sort ?? sortMode;
+    const nextCategory = next.category === undefined ? activeCategory : next.category;
+    const nextQuery = next.q === undefined ? query : next.q;
+    const urlParams = new URLSearchParams();
+
+    if (nextSort !== "default") {
+      urlParams.set("sort", nextSort);
+    }
+    if (nextCategory) {
+      urlParams.set("category", nextCategory);
+    }
+    if (nextQuery.trim()) {
+      urlParams.set("q", nextQuery.trim());
+    }
+
+    const suffix = urlParams.toString();
+    return suffix ? `/problem-sets?${suffix}` : "/problem-sets";
   }
 
   const [currentUser, allSets, attempts] = await Promise.all([
@@ -131,9 +160,27 @@ export default async function ProblemSetsPage({
   const groupedRows = new Map<string, SetRow[]>(
     CATEGORY_ORDER.map((category) => [
       category,
-      orderedRows.filter((set) => set.categories.includes(category)),
+      orderedRows.filter((set) => {
+        const matchesSearch =
+          !normalizedQuery ||
+          [set.title, set.slug, ...set.tags, ...set.categories]
+            .join(" ")
+            .toLowerCase()
+            .includes(normalizedQuery);
+        return matchesSearch && set.categories.includes(category);
+      }),
     ]),
   );
+  const tableRows = orderedRows.filter((set) => {
+    const matchesCategory = !activeCategory || set.categories.includes(activeCategory);
+    const matchesSearch =
+      !normalizedQuery ||
+      [set.title, set.slug, ...set.tags, ...set.categories]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalizedQuery);
+    return matchesCategory && matchesSearch;
+  });
   const profileHref = profilePathFromEmail(currentUser.email);
 
   return (
@@ -169,51 +216,64 @@ export default async function ProblemSetsPage({
         <div className="segmented-control">
           <Link
             className={`segmented-button${sortMode === "default" ? " active" : ""}`}
-            href={problemSetsHref("default")}
+            href={problemSetsHref({ sort: "default" })}
           >
             Default
           </Link>
           <Link
             className={`segmented-button${sortMode === "solved" ? " active" : ""}`}
-            href={problemSetsHref("solved")}
+            href={problemSetsHref({ sort: "solved" })}
           >
             Solve count
           </Link>
           <Link
             className={`segmented-button${sortMode === "name" ? " active" : ""}`}
-            href={problemSetsHref("name")}
+            href={problemSetsHref({ sort: "name" })}
           >
             Name
           </Link>
         </div>
       </section>
 
+      <form action="/problem-sets" className="search-panel task-search-panel" role="search">
+        <Search size={18} />
+        <input
+          aria-label="Search tasks"
+          defaultValue={query}
+          name="q"
+          placeholder="Search tasks by title, slug, or tag"
+        />
+        {sortMode !== "default" ? <input name="sort" type="hidden" value={sortMode} /> : null}
+        {activeCategory ? <input name="category" type="hidden" value={activeCategory} /> : null}
+        <button className="secondary-action compact" type="submit">
+          Search
+        </button>
+        {query || activeCategory ? (
+          <Link className="text-link" href={problemSetsHref({ category: null, q: "" })}>
+            Clear
+          </Link>
+        ) : null}
+      </form>
+
       <section className="problem-category-grid" aria-label="Problem-set categories">
         {CATEGORY_ORDER.map((category) => {
           const rows = groupedRows.get(category) ?? [];
           return (
-            <article className="problem-category-card" key={category}>
+            <Link
+              className={`problem-category-card problem-category-filter${
+                activeCategory === category ? " active" : ""
+              }`}
+              href={problemSetsHref({ category })}
+              key={category}
+            >
               <div className="problem-category-head">
                 <h2>{category}</h2>
                 <span className="problem-category-count">{rows.length}</span>
               </div>
-              {rows.length === 0 ? (
-                <p className="problem-category-empty">No sets in this category.</p>
-              ) : (
-                <div className="problem-category-list">
-                  {rows.map((row) => (
-                    <Link
-                      className="problem-category-item"
-                      href={`/problem-sets/${row.slug}`}
-                      key={row.id}
-                    >
-                      <span>{row.title}</span>
-                      <span className="problem-category-pill">{row.problemCount}</span>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </article>
+              <p className="problem-category-empty">
+                {activeCategory === category ? "Showing below" : "Click to filter tasks"}
+              </p>
+            </Link>
           );
         })}
       </section>
@@ -221,9 +281,14 @@ export default async function ProblemSetsPage({
       <section className="panel table-panel problem-hub-table-panel">
         <div className="panel-header">
           <div>
-            <p className="eyebrow">Recommended</p>
-            <h2>Available sets</h2>
+            <p className="eyebrow">{activeCategory ?? "All categories"}</p>
+            <h2>{tableRows.length} available tasks</h2>
           </div>
+          {activeCategory ? (
+            <Link className="secondary-action compact" href={problemSetsHref({ category: null })}>
+              Show all
+            </Link>
+          ) : null}
         </div>
         <div className="table-wrap">
           <table>
@@ -237,12 +302,12 @@ export default async function ProblemSetsPage({
               </tr>
             </thead>
             <tbody>
-              {orderedRows.length === 0 ? (
+              {tableRows.length === 0 ? (
                 <tr>
-                  <td colSpan={5}>No visible sets yet.</td>
+                  <td colSpan={5}>No tasks match this filter.</td>
                 </tr>
               ) : (
-                orderedRows.map((set) => (
+                tableRows.map((set) => (
                   <tr key={set.id}>
                     <td>{set.order}</td>
                     <td>

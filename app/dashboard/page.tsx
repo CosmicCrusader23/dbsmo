@@ -7,7 +7,7 @@ import {
   BarChart3,
   CheckCircle2,
   ClipboardList,
-  FileArchive,
+  FileJson,
   Gauge,
   ListChecks,
   MessageSquareWarning,
@@ -273,8 +273,8 @@ export default async function DashboardPage() {
                 Create Set
               </Link>
               <Link className="nav-item" href="/admin/import">
-                <FileArchive size={18} />
-                ZIP Import
+                <FileJson size={18} />
+                JSON Import
               </Link>
               <Link className="nav-item" href="/admin/students">
                 <Users size={18} />
@@ -328,8 +328,8 @@ export default async function DashboardPage() {
               session={session}
             />
             {currentUser.role === "ADMIN" ? (
-              <Link className="icon-button" href="/admin/import" aria-label="Import ZIP">
-                <FileArchive size={18} />
+              <Link className="icon-button" href="/admin/import" aria-label="Import JSON">
+                <FileJson size={18} />
               </Link>
             ) : null}
             <Link className="primary-action" href={continueHref}>
@@ -358,8 +358,8 @@ export default async function DashboardPage() {
               </Link>
               {currentUser.role === "ADMIN" ? (
                 <Link className="secondary-action" href="/admin/import">
-                  Upload ZIP
-                  <FileArchive size={18} />
+                  Upload JSON
+                  <FileJson size={18} />
                 </Link>
               ) : (
                 <Link className="secondary-action" href="/problem-sets">
@@ -421,7 +421,7 @@ export default async function DashboardPage() {
                   <strong>No visible sets yet</strong>
                   <small>
                     {currentUser.role === "ADMIN"
-                      ? "Import a ZIP package to create the first draft."
+                      ? "Import a JSON problem set to create the first draft."
                       : "Ask a teacher to publish a set for your group."}
                   </small>
                 </div>
@@ -487,7 +487,7 @@ export default async function DashboardPage() {
             {currentUser.role === "ADMIN" ? (
               <Link className="secondary-action compact" href="/admin/import">
                 Import
-                <FileArchive size={16} />
+                <FileJson size={16} />
               </Link>
             ) : null}
           </div>
