@@ -24,6 +24,7 @@ enum AnswerType {
   FRACTION
   SET
   MULTIPLE
+  EXPRESSION
 }
 
 enum FeedbackType {

@@ -106,15 +106,19 @@ export async function POST(req: Request) {
               topicTags?: string[];
               points?: number;
               explanationNote?: string;
-            }) => ({
-              number: p.number,
-              statement: p.statement?.trim() || "",
-              answerKey: p.answerKey.trim(),
-              answerType: p.answerType,
-              topicTags: normalizeTagList(p.topicTags || []),
-              points: p.points || 1,
-              explanationNote: p.explanationNote || null,
-            }),
+            }) => {
+              const parts = p.answerKey.split(";").map((s) => s.trim()).filter(Boolean);
+              return {
+                number: p.number,
+                statement: p.statement?.trim() || "",
+                answerKey: parts[0] || p.answerKey.trim(),
+                acceptedAnswers: parts.slice(1),
+                answerType: p.answerType,
+                topicTags: normalizeTagList(p.topicTags || []),
+                points: p.points || 1,
+                explanationNote: p.explanationNote || null,
+              };
+            },
           ),
         },
       },

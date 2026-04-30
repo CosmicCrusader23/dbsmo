@@ -27,7 +27,14 @@ import {
 
 /* ── Types ─────────────────────────────────────────────── */
 
-type AnswerType = "INTEGER" | "DECIMAL" | "FRACTION" | "EXACT" | "SET" | "MULTIPLE";
+type AnswerType =
+  | "INTEGER"
+  | "DECIMAL"
+  | "FRACTION"
+  | "EXACT"
+  | "SET"
+  | "MULTIPLE"
+  | "EXPRESSION";
 
 interface ProblemEntry {
   id: string;
@@ -46,7 +53,8 @@ const ANSWER_TYPE_OPTIONS: { value: AnswerType; label: string; hint: string }[] 
   { value: "FRACTION", label: "Fraction", hint: "e.g. 3/7" },
   { value: "EXACT", label: "Exact match", hint: "e.g. triangle" },
   { value: "SET", label: "Set", hint: "e.g. 1,2,5" },
-  { value: "MULTIPLE", label: "Multiple accepted", hint: "e.g. 3/7 or 0.4286" },
+  { value: "MULTIPLE", label: "Multiple accepted", hint: "Use semicolons (e.g. 3/7; 0.4286)" },
+  { value: "EXPRESSION", label: "Expression", hint: "e.g. sqrt(2), 2^0.5, pi/3" },
 ];
 
 function uid() {
@@ -198,6 +206,15 @@ export default function CreateSetPage() {
 
   function togglePreview(id: string) {
     setShowPreview((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  function toggleAllPreviews() {
+    const allOn = problems.length > 0 && problems.every((p) => showPreview[p.id]);
+    const next: Record<string, boolean> = {};
+    for (const p of problems) {
+      next[p.id] = !allOn;
+    }
+    setShowPreview(next);
   }
 
   async function handleSubmit() {
@@ -494,10 +511,16 @@ export default function CreateSetPage() {
       <section className="create-set-problems">
         <div className="create-set-problems-head">
           <h2>Problems ({problems.length})</h2>
-          <button className="secondary-action" onClick={addProblem}>
-            <Plus size={16} />
-            Add problem
-          </button>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <button className="secondary-action" onClick={toggleAllPreviews} type="button">
+              {problems.length > 0 && problems.every((p) => showPreview[p.id]) ? <EyeOff size={16} /> : <Eye size={16} />}
+              Toggle Previews
+            </button>
+            <button className="secondary-action" onClick={addProblem} type="button">
+              <Plus size={16} />
+              Add problem
+            </button>
+          </div>
         </div>
 
         {problems.map((p) => (

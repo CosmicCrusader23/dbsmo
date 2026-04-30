@@ -8,7 +8,15 @@ import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
 
 export const runtime = "nodejs";
 
-const answerTypeSchema = z.enum(["EXACT", "INTEGER", "DECIMAL", "FRACTION", "SET", "MULTIPLE"]);
+const answerTypeSchema = z.enum([
+  "EXACT",
+  "INTEGER",
+  "DECIMAL",
+  "FRACTION",
+  "SET",
+  "MULTIPLE",
+  "EXPRESSION",
+]);
 
 const problemPatchSchema = z.object({
   id: z.string().min(1).optional(),

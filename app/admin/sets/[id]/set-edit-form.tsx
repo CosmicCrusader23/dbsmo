@@ -24,7 +24,7 @@ type ProblemData = {
   number: number;
   statement: string;
   answerKey: string;
-  answerType: "EXACT" | "INTEGER" | "DECIMAL" | "FRACTION" | "SET" | "MULTIPLE";
+  answerType: "EXACT" | "INTEGER" | "DECIMAL" | "FRACTION" | "SET" | "MULTIPLE" | "EXPRESSION";
   topicTags: string[];
   points: number;
   explanationNote: string | null;
@@ -54,6 +54,7 @@ const ANSWER_TYPES: Array<{
   { value: "EXACT", label: "Exact" },
   { value: "SET", label: "Set" },
   { value: "MULTIPLE", label: "Multiple" },
+  { value: "EXPRESSION", label: "Expression" },
 ];
 
 function parseTagInput(value: string): string[] {

@@ -42,11 +42,11 @@ export default function ImportPage() {
   "problems": [
     {
       "number": 1,
-      "statement": "Find $x$ if $x^2=4$.",
-      "answerType": "INTEGER",
-      "answerKey": "2",
-      "acceptedAnswers": ["-2"],
-      "solution": "$x=\\\\pm2$."
+      "statement": "Find $\\\\sqrt{2}$.",
+      "answerType": "EXPRESSION",
+      "answerKey": "sqrt(2)",
+      "acceptedAnswers": ["2^0.5"],
+      "solution": "$\\\\sqrt{2}=2^{1/2}$."
     }
   ]
 }`}</pre>

@@ -34,6 +34,8 @@ const STATUS_MAP: Record<string, ProblemSetStatus> = {
 
 const ANSWER_TYPE_MAP: Record<string, AnswerType> = {
   exact: "EXACT",
+  evaluated: "EXPRESSION",
+  expression: "EXPRESSION",
   integer: "INTEGER",
   decimal: "DECIMAL",
   fraction: "FRACTION",

@@ -7,6 +7,8 @@ export const answerTypeSchema = z.enum([
   "fraction",
   "set",
   "multiple",
+  "expression",
+  "evaluated",
 ]);
 
 export const answerRowSchema = z.object({

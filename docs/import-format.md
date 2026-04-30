@@ -27,10 +27,10 @@ A valid import file contains a single JSON object with the problem set's metadat
     },
     {
       "number": 2,
-      "statement": "What is 3 divided by 7?",
-      "answerType": "fraction",
-      "answerKey": "3/7",
-      "acceptedAnswers": ["3:7", "0.428571"]
+      "statement": "Give the exact value of sqrt(2).",
+      "answerType": "expression",
+      "answerKey": "sqrt(2)",
+      "acceptedAnswers": ["2^0.5"]
     }
   ]
 }
@@ -61,12 +61,21 @@ Inside the `problems` array, each object defines a single question.
 | `number` | Integer | No | Array Index + 1 | The question number. If omitted, it automatically assigns sequential numbers starting from 1. |
 | `statement` | String | No | `""` | The question text (supports LaTeX formatting). |
 | `answerKey` (or `answer`) | String | **Yes** | - | The primary correct answer string. |
-| `answerType` | String | No | `"EXACT"` | How the system grades the answer. Options: `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`. |
+| `answerType` | String | No | `"EXACT"` | How the system grades the answer. Options: `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. |
 | `acceptedAnswers`| Array/String | No | `[]` | Alternative correct answers. Can be an array of strings, or a single string separated by semicolons (`;`). |
 | `caseSensitive` | Boolean | No | `false` | If `true`, the grading enforces exact capitalization matching. |
 | `points` | Integer | No | `1` | How many points this problem is worth. |
 | `topicTags` | Array of Strings | No | `[]` | Specific topics for this individual problem. |
 | `solution` (or `explanationNote`) | String | No | `null` | A walkthrough or explanation shown to students after completion. |
+
+## Answer Evaluation Rules
+
+The grading system performs text normalization (trimming spaces, ignoring case) for normal answer types. The `"EXPRESSION"` answer type additionally evaluates the official `answerKey` and the student's answer as numeric math expressions, then compares the resulting values with a small tolerance.
+
+- **Fractions vs Decimals:** If `answerType` is `"FRACTION"`, `2/4` is automatically simplified and accepted as `1/2`. However, `1/2` is **not** automatically equated to `0.5` unless you use `"EXPRESSION"`.
+- **Expression mode:** Use `"answerType": "expression"` for numeric formulas such as `sqrt(2)`, `2^0.5`, `1/2`, `0.5`, `2pi`, or `sin(pi/2)`. Supported operators are `+`, `-`, `*`, `/`, `^`, parentheses, implicit multiplication, constants `pi` and `e`, and one-argument functions such as `sqrt`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `ln`, `log`, `exp`, `floor`, `ceil`, and `round`.
+- **No variables:** Expression mode is numeric only. Algebraic answers containing variables, such as `x + 1`, are rejected unless they are listed as exact text under another answer type.
+- **Handling variations:** If you want to accept multiple non-equivalent formats or special cases, provide the primary answer in `answerKey` and list alternatives in `acceptedAnswers`.
 
 ## Notes on Validation
 - **Size Limit:** The JSON file cannot exceed 5 MB.

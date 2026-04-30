@@ -37,4 +37,35 @@ describe("gradeAnswer", () => {
 
     expect(result.isCorrect).toBe(true);
   });
+
+  it("evaluates equivalent numeric expressions", () => {
+    const result = gradeAnswer({
+      answerType: "expression",
+      answerKey: "sqrt(2)",
+      rawAnswer: "2^0.5",
+    });
+
+    expect(result.isCorrect).toBe(true);
+    expect(result.normalizedAnswer).toBe("1.4142135623731");
+  });
+
+  it("supports constants, fractions, and implicit multiplication in expressions", () => {
+    const result = gradeAnswer({
+      answerType: "expression",
+      answerKey: "2pi",
+      rawAnswer: "pi + pi",
+    });
+
+    expect(result.isCorrect).toBe(true);
+  });
+
+  it("rejects unsupported expression identifiers", () => {
+    const result = gradeAnswer({
+      answerType: "expression",
+      answerKey: "x + 1",
+      rawAnswer: "2",
+    });
+
+    expect(result.isCorrect).toBe(false);
+  });
 });
