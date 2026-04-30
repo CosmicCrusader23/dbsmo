@@ -35,7 +35,7 @@ npm run prisma:generate
 ```
 
 ## Important Docs
-
-- [Project plan](./plan.md)
-- [ZIP import format](./docs/import-format.md)
+- [JSON import format](./docs/import-format.md)
 - [Grading rules](./docs/grading.md)
+- [Admin Guide](./docs/admin-guide.md)
+- [Student Guide](./docs/student-guide.md)
