@@ -10,6 +10,7 @@ import {
   FileText,
   Maximize2,
   PlayCircle,
+  Settings,
 } from "lucide-react";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { AnswerGrid } from "./answer-grid";
@@ -93,6 +94,16 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 initialBookmarked={problemSet.bookmarks.length > 0}
                 problemSetId={problemSet.id}
               />
+              {user.role === "ADMIN" && (
+                <Link
+                  className="icon-button"
+                  href={`/admin/sets/${problemSet.id}`}
+                  title="Manage set"
+                  style={{ padding: "6px", marginLeft: "4px" }}
+                >
+                  <Settings size={20} />
+                </Link>
+              )}
             </h1>
           </div>
           <div className="topbar-actions">
