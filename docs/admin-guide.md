@@ -5,27 +5,24 @@
 1. **Sign in** using your school Google account (`@g.dbs.edu.hk`), or use the developer bypass in local mode.
 2. After sign-in you land on the **Training Dashboard** with a Teacher View badge.
 
-## Uploading a Problem Set
+## Creating a Problem Set (GUI)
 
-1. Click **ZIP Import** in the sidebar or use the **Upload ZIP** button on the dashboard.
-2. Drag-and-drop or click to select a `.zip` file (max 50 MB).
+1. Click **Create Set** in the sidebar.
+2. Fill out the set title, slug, topic tags, and settings.
+3. Add problems one-by-one, including the LaTeX statement, answer type, and answer key.
+4. You can also preview the LaTeX live.
+5. Click **Save problem set** to finish.
+
+## Uploading a Problem Set (JSON)
+
+1. Click **JSON Import** in the sidebar.
+2. Drag-and-drop or click to select a `.json` file (max 5 MB).
 3. The system performs a **dry-run** validation and shows a preview:
    - Set title, slug, problem count.
-   - List of included files (`answers.csv`, `manifest.yml`, PDFs).
    - Any warnings or errors.
 4. If the preview looks correct, click **Import draft** to create the set as a draft.
 
-### ZIP Structure
-
-```
-mo-set-001.zip
-  manifest.yml
-  problems.pdf
-  solution.pdf
-  answers.csv
-```
-
-See [import-format.md](./import-format.md) for the full specification.
+See [import-format.md](./import-format.md) for the JSON format specification.
 
 ## Publishing a Set
 

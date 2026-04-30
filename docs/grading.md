@@ -10,6 +10,7 @@ The grading engine is deterministic and stores both the raw answer and the norma
 - `fraction`: rational equivalence, so `3/6` equals `1/2`.
 - `set`: unordered values, normalized and sorted.
 - `multiple`: any accepted answer is correct.
+- `expression`: numeric evaluation of mathematical expressions (e.g., `sqrt(2)` equals `2^0.5`).
 
 ## Normalization
 

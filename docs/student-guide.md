@@ -45,6 +45,7 @@ Click **Continue** or **Open current set** to jump straight to the recommended s
 | Fraction | `3/7`      | Will be normalized (e.g., `6/14` = `3/7`) |
 | Set      | `1,2,5`    | Order doesn't matter                      |
 | Exact    | `triangle` | Exact text match                          |
+| Expression| `sqrt(2)` | Formulas evaluated numerically (`2^0.5`, `pi/2`) |
 
 ### After Submission
 
