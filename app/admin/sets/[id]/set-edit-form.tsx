@@ -5,6 +5,9 @@ import { useState } from "react";
 import {
   ArrowLeft,
   CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  Download,
   FileText,
   Hash,
   Loader2,
@@ -119,6 +122,51 @@ export function SetEditForm({ set }: { set: SetData }) {
       explanationNoteInput: problem.explanationNote ?? "",
     })),
   );
+  const [expandedProblems, setExpandedProblems] = useState<Set<string>>(new Set());
+
+  function toggleProblemExpanded(problemId: string) {
+    setExpandedProblems((prev) => {
+      const next = new Set(prev);
+      if (next.has(problemId)) {
+        next.delete(problemId);
+      } else {
+        next.add(problemId);
+      }
+      return next;
+    });
+  }
+
+  function downloadJson() {
+    const exportData = {
+      slug: set.slug,
+      title: title,
+      description: description,
+      order: order,
+      status: status,
+      difficulty: difficulty,
+      topicTags: parseTagInput(topicTags),
+      videoUrl: videoUrl,
+      problems: problems.map((p) => ({
+        number: p.number,
+        statement: p.statement,
+        answerType: p.answerType,
+        answerKey: p.answerKey,
+        points: p.points,
+        topicTags: parseTagInput(p.topicTagsInput),
+        solution: p.explanationNoteInput,
+      })),
+    };
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${set.slug}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 
   function updateProblem(
     problemId: string,
@@ -137,7 +185,9 @@ export function SetEditForm({ set }: { set: SetData }) {
   }
 
   function addProblem() {
-    setProblems((prev) => [...prev, newProblem(prev.length + 1)]);
+    const nextId = `new-${Math.random().toString(36).slice(2, 10)}`;
+    setProblems((prev) => [...prev, { ...newProblem(prev.length + 1), id: nextId }]);
+    setExpandedProblems((prev) => new Set(prev).add(nextId));
   }
 
   function removeProblem(problemId: string) {
@@ -305,6 +355,10 @@ export function SetEditForm({ set }: { set: SetData }) {
           >
             {isRegrading ? <Loader2 size={18} className="spin-icon" /> : <RotateCcw size={18} />}
             {isRegrading ? "Regrading..." : "Regrade"}
+          </button>
+          <button className="secondary-action" type="button" onClick={downloadJson}>
+            <Download size={18} />
+            Export JSON
           </button>
           <DeleteSetButton
             setId={set.id}
@@ -478,30 +532,45 @@ export function SetEditForm({ set }: { set: SetData }) {
       <div className="set-editor-problem-list">
         {problems.map((problem) => (
           <article className="problem-card" key={problem.id}>
-            <div className="problem-card-head">
-              <div className="problem-number">
+            <div 
+              className="problem-card-head" 
+              style={{ cursor: "pointer" }}
+              onClick={() => toggleProblemExpanded(problem.id)}
+            >
+              <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                {expandedProblems.has(problem.id) ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                 <span>Q{problem.number}</span>
+                {!expandedProblems.has(problem.id) && (
+                  <small style={{ fontWeight: "normal", color: "var(--color-text-secondary)", marginLeft: "8px" }}>
+                    {problem.statement.slice(0, 40) || "(No statement)"} • {problem.answerKey || "(No answer)"}
+                  </small>
+                )}
               </div>
               <button
                 className="icon-button-sm icon-button-danger"
                 type="button"
                 disabled={problems.length <= 1}
-                onClick={() => removeProblem(problem.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeProblem(problem.id);
+                }}
                 title="Remove problem"
               >
                 <Trash2 size={14} />
               </button>
             </div>
-            <div className="problem-card-body">
-              <label className="form-field form-field-full">
-                <span className="form-label">Statement (LaTeX supported)</span>
-                <textarea
-                  className="form-input form-textarea"
-                  rows={3}
-                  value={problem.statement}
-                  onChange={(e) => updateProblem(problem.id, "statement", e.target.value)}
-                />
-              </label>
+            
+            {expandedProblems.has(problem.id) && (
+              <div className="problem-card-body">
+                <label className="form-field form-field-full">
+                  <span className="form-label">Statement (LaTeX supported)</span>
+                  <textarea
+                    className="form-input form-textarea"
+                    rows={3}
+                    value={problem.statement}
+                    onChange={(e) => updateProblem(problem.id, "statement", e.target.value)}
+                  />
+                </label>
 
               <div className="problem-answer-row">
                 <label className="form-field">
@@ -592,6 +661,7 @@ export function SetEditForm({ set }: { set: SetData }) {
                 />
               </label>
             </div>
+            )}
           </article>
         ))}
       </div>
