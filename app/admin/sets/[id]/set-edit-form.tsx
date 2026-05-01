@@ -40,7 +40,7 @@ type SetData = {
   slug: string;
   description: string;
   order: number;
-  status: string;
+  status: "DRAFT" | "PUBLISHED" | "ARCHIVED" | string;
   difficulty: number;
   topicTags: string[];
   videoUrl: string | null;
@@ -279,8 +279,8 @@ export function SetEditForm({ set }: { set: SetData }) {
       <header className="topbar standalone">
         <div>
           <p className="eyebrow">
-            <span className={`status-badge ${statusColor({ status: set.status })}`}>
-              {statusLabel({ status: set.status })}
+            <span className={`status-badge ${statusColor({ status: set.status as any, visibleFrom: null, visibleTo: null })}`}>
+              {statusLabel({ status: set.status as any, visibleFrom: null, visibleTo: null })}
             </span>
           </p>
           <h1>{set.title}</h1>
