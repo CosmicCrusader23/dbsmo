@@ -114,3 +114,20 @@ export function escapeCsvField(value: string): string {
 export function toCsvRow(fields: string[]): string {
   return fields.map(escapeCsvField).join(",");
 }
+
+export function computeBestAverageScore(
+  attempts: Array<{ score: number; maxScore: number; problemSetId: string }>,
+): number {
+  if (attempts.length === 0) return 0;
+
+  const bestPerSet = new Map<string, number>();
+  for (const a of attempts) {
+    if (a.maxScore > 0) {
+      const pct = (a.score / a.maxScore) * 100;
+      bestPerSet.set(a.problemSetId, Math.max(bestPerSet.get(a.problemSetId) ?? 0, pct));
+    }
+  }
+
+  const scores = Array.from(bestPerSet.values());
+  return scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+}

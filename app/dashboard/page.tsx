@@ -26,6 +26,7 @@ import { ThemeToggle } from "@/app/theme-toggle";
 import { TypewriterGreeting } from "@/app/typewriter-greeting";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { profilePathFromEmail } from "@/lib/user-profile";
+import { computeBestAverageScore } from "@/lib/analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -204,16 +205,7 @@ export default async function DashboardPage() {
       ? studentRows
           .map((student) => {
             const uniqueSets = new Set(student.attempts.map((attempt) => attempt.problemSetId));
-            const average =
-              student.attempts.length > 0
-                ? Math.round(
-                    student.attempts.reduce(
-                      (sum, attempt) =>
-                        sum + (attempt.maxScore > 0 ? (attempt.score / attempt.maxScore) * 100 : 0),
-                      0,
-                    ) / student.attempts.length,
-                  )
-                : 0;
+            const average = computeBestAverageScore(student.attempts);
             const lastSeen =
               student.attempts.length > 0
                 ? student.attempts.reduce(

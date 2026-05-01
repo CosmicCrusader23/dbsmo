@@ -46,6 +46,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
         problems: { orderBy: { number: "asc" } },
         problemFile: true,
         solutionFile: true,
+        createdBy: { select: { name: true } },
         bookmarks: {
           where: { userId: session.user.id },
           select: { id: true },
@@ -87,7 +88,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
       <div className="page-frame">
         <header className="topbar standalone">
           <div>
-            <p className="eyebrow">{problemSet.slug}</p>
+            <p className="eyebrow">{problemSet.slug} • Uploaded by {problemSet.createdBy?.name || "Admin"}</p>
             <h1 className="problem-title-row">
               <span>{problemSet.title}</span>
               <BookmarkButton

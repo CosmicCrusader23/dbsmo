@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { prisma } from "@/lib/db";
-import { computeTopicAccuracy, accuracyLevel } from "@/lib/analytics";
+import { computeTopicAccuracy, accuracyLevel, computeBestAverageScore } from "@/lib/analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +32,7 @@ export default async function StudentDetailPage({ params }: Props) {
 
   const sets = new Set(student.attempts.map((a) => a.problemSetId));
   const n = student.attempts.length;
-  const avg = n > 0 ? Math.round(student.attempts.reduce((s, a) => s + pct(a), 0) / n) : 0;
+  const avg = computeBestAverageScore(student.attempts);
   const best = n > 0 ? Math.round(Math.max(...student.attempts.map(pct))) : 0;
   const topics = computeTopicAccuracy(student.attempts.flatMap((a) => a.responses));
 

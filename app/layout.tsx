@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "DBS MO Training",
   description: "Mathematics olympiad training platform for answer-only problem sets.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

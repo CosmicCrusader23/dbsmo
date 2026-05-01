@@ -150,12 +150,19 @@ export async function importProblemSetJson(
   }
 
   const warnings = dryRun.issues.filter((issue) => issue.level === "warning");
+  
+  let finalOrder = data.order;
+  if (typeof finalOrder !== "number" || finalOrder <= 0) {
+    const maxOrderResult = await prisma.problemSet.aggregate({ _max: { order: true } });
+    finalOrder = (maxOrderResult._max.order ?? 0) + 1;
+  }
+
   const problemSet = await prisma.problemSet.create({
     data: {
       slug: data.slug,
       title: data.title,
       description: data.description,
-      order: data.order,
+      order: finalOrder,
       status: data.status,
       visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
       visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,

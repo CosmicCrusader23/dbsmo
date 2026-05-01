@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
-import { toCsvRow } from "@/lib/analytics";
+import { toCsvRow, computeBestAverageScore } from "@/lib/analytics";
 import { authOptions } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -42,15 +42,7 @@ async function exportStudents() {
   ]);
   const rows = students.map((s) => {
     const sets = new Set(s.attempts.map((a) => a.problemSetId));
-    const avg =
-      s.attempts.length > 0
-        ? Math.round(
-            s.attempts.reduce(
-              (sum, a) => sum + (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0),
-              0,
-            ) / s.attempts.length,
-          )
-        : 0;
+    const avg = computeBestAverageScore(s.attempts);
     return toCsvRow([
       s.name ?? "",
       s.email,

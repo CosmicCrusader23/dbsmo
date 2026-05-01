@@ -66,6 +66,12 @@ export async function POST(req: Request) {
     const validStatuses = Object.values(ProblemSetStatus);
     const finalStatus = validStatuses.includes(status) ? status : "DRAFT";
 
+    let finalOrder = order;
+    if (typeof order !== "number" || order <= 0) {
+      const maxOrderResult = await prisma.problemSet.aggregate({ _max: { order: true } });
+      finalOrder = (maxOrderResult._max.order ?? 0) + 1;
+    }
+
     let problemFileId: string | null = null;
     if (problemPdf) {
       try {
@@ -88,7 +94,7 @@ export async function POST(req: Request) {
         title,
         slug,
         description: description || "",
-        order: order || 0,
+        order: finalOrder,
         difficulty: difficulty || 1,
         status: finalStatus,
         topicTags: normalizeTagList(topicTags || []),

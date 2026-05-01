@@ -7,6 +7,7 @@ import { ArrowLeft, Heart, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
+import { computeBestAverageScore } from "@/lib/analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -96,15 +97,7 @@ export default async function LeaderboardPage({
         bestPerSet.set(a.problemSetId, Math.max(bestPerSet.get(a.problemSetId) ?? 0, pct));
       }
       const solvedSets = [...bestPerSet.values()].filter((p) => p >= 80).length;
-      const avgScore =
-        totalAttempts > 0
-          ? Math.round(
-              u.attempts.reduce(
-                (s, a) => s + (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0),
-                0,
-              ) / totalAttempts,
-            )
-          : 0;
+      const avgScore = computeBestAverageScore(u.attempts);
 
       return {
         id: u.id,
