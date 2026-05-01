@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Download, ExternalLink, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
+import { computeBestAverageScore } from "@/lib/analytics";
 
 export const dynamic = "force-dynamic";
 
@@ -17,15 +18,7 @@ export default async function AdminStudentsPage() {
 
   const rows = students.map((s) => {
     const uniqueSets = new Set(s.attempts.map((a) => a.problemSetId));
-    const avgScore =
-      s.attempts.length > 0
-        ? Math.round(
-            s.attempts.reduce(
-              (sum, a) => sum + (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0),
-              0,
-            ) / s.attempts.length,
-          )
-        : 0;
+    const avgScore = computeBestAverageScore(s.attempts);
     const lastActive =
       s.attempts.length > 0
         ? s.attempts.reduce(
@@ -90,6 +83,7 @@ export default async function AdminStudentsPage() {
                     <th>Sets</th>
                     <th>Avg score</th>
                     <th>Attempts</th>
+                    <th>Joined</th>
                     <th>Last active</th>
                     <th></th>
                   </tr>
@@ -105,6 +99,7 @@ export default async function AdminStudentsPage() {
                       <td>{row.setsCompleted}</td>
                       <td>{row.avgScore}%</td>
                       <td>{row.attempts.length}</td>
+                      <td>{row.createdAt.toLocaleDateString()}</td>
                       <td>{row.lastActive ? row.lastActive.toLocaleDateString() : "—"}</td>
                       <td>
                         <Link
