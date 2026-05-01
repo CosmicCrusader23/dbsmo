@@ -17,7 +17,6 @@ import {
 import Link from "next/link";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import {
-import {
   STANDARD_PROBLEM_SET_TAGS,
   normalizeProblemTag,
   normalizeTagList,
