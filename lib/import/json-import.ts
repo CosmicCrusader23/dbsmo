@@ -107,6 +107,20 @@ export async function dryRunProblemSetJson(input: JsonDryRunInput): Promise<Json
 
   const normalized = normalizeParsedJson(parsed.data);
   const issues = validateNormalizedJson(normalized);
+
+  const { prisma } = await import("../db");
+  const existing = await prisma.problemSet.findUnique({
+    where: { slug: normalized.slug },
+    select: { id: true },
+  });
+
+  if (existing) {
+    issues.push({
+      level: "error",
+      message: `A problem set with slug "${normalized.slug}" already exists. Delete or rename it first.`,
+    });
+  }
+
   const preview = buildPreview(normalized);
 
   return {

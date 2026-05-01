@@ -9,9 +9,10 @@
 
 1. Click **Create Set** in the sidebar.
 2. Fill out the set title, slug, topic tags, and settings.
+   - **Order ID:** If you leave the `order` as `0` or blank, the system automatically assigns the next available number.
 3. Add problems one-by-one, including the LaTeX statement, answer type, and answer key.
 4. You can also preview the LaTeX live.
-5. Click **Save problem set** to finish.
+5. Click **Save problem set** to finish. The set will show you as the uploader.
 
 ## Uploading a Problem Set (JSON)
 
@@ -27,15 +28,17 @@ See [import-format.md](./import-format.md) for the JSON format specification.
 ## Publishing a Set
 
 1. Go to **Manage Sets** in the sidebar.
+   - **Shortcut:** Admins also see a "Manage Set" gear icon directly on the public problem set page, next to the bookmark button.
 2. Click **View** on the set you want to publish.
 3. In the set detail page, change the **Status** dropdown from `Draft` to `Published`.
 4. Click **Save changes**.
-5. The set is now visible to students.
+5. The set is now visible to students. It will display "Uploaded by [Your Name]".
 
 ## Managing Students
 
 1. Click **Students** in the sidebar to see all registered students.
-2. The table shows name, email, group, sets completed, average score, and last active date.
+2. The table shows name, email, group, sets completed, average score, joining date, and last active date.
+   - **Average Score Logic:** Note that the average score is now calculated as the average of the student's **best performance** per unique problem set, rewarding mastery rather than penalizing retakes.
 3. Click a student name to see their **detail page** with:
    - Attempt history and scores.
    - Topic accuracy breakdown.

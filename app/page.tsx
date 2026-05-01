@@ -33,17 +33,17 @@ export default async function LandingPage() {
 
         <div className="login-layout">
           <section className="login-copy">
-            <p className="eyebrow">DBS Mathematics Olympiad</p>
+            <p className="eyebrow">Diocesan Boys' School Mathematics Olympiad</p>
             <h1>sign in to proceed.</h1>
             <p className="login-copy-text">
-              math olympiad sandbox.
+              math olympiad training platform.
             </p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
             <div className="login-card-head">
               <p className="eyebrow">sign in</p>
-              <h2>DBS Training</h2>
+              <h2>with your school gmail</h2>
             </div>
 
             <AuthButton
@@ -56,7 +56,7 @@ export default async function LandingPage() {
         </div>
 
         <div className="login-note">
-          <Music2 size={16} />
+          <Music2 size={24} />
           <span>made with love with codex and claude code © 2026 Cosmic Crusader</span>
         </div>
       </div>

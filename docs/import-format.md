@@ -43,7 +43,7 @@ A valid import file contains a single JSON object with the problem set's metadat
 | `slug` | String | **Yes** | - | A unique URL-friendly identifier for the set (e.g., `algebra-01`). |
 | `title` | String | **Yes** | - | The display title of the problem set. |
 | `description` | String | No | `""` | A brief explanation or instructions for the problem set. |
-| `order` | Integer | No | `0` | Controls sorting on the main dashboard (lower numbers appear first). |
+| `order` | Integer | No | Next Free ID | Controls sorting (lower numbers first). If omitted or set to `0`, the system automatically assigns the next available integer. |
 | `status` | String | No | `"DRAFT"` | Visibility status: `"DRAFT"`, `"PUBLISHED"`, or `"ARCHIVED"`. |
 | `visibleFrom` | String (ISO Date) | No | `null` | When the set becomes accessible (e.g., `"2024-05-01T10:00:00Z"`). |
 | `visibleTo` | String (ISO Date) | No | `null` | When the set closes and is no longer accessible. |
@@ -73,9 +73,13 @@ Inside the `problems` array, each object defines a single question.
 The grading system performs text normalization (trimming spaces, ignoring case) for normal answer types. The `"EXPRESSION"` answer type additionally evaluates the official `answerKey` and the student's answer as numeric math expressions, then compares the resulting values with a small tolerance.
 
 - **Fractions vs Decimals:** If `answerType` is `"FRACTION"`, `2/4` is automatically simplified and accepted as `1/2`. However, `1/2` is **not** automatically equated to `0.5` unless you use `"EXPRESSION"`.
-- **Expression mode:** Use `"answerType": "expression"` for numeric formulas such as `sqrt(2)`, `2^0.5`, `1/2`, `0.5`, `2pi`, or `sin(pi/2)`. Supported operators are `+`, `-`, `*`, `/`, `^`, parentheses, implicit multiplication, constants `pi` (or `π`) and `e`, and one-argument functions such as `sqrt`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `ln`, `log`, `exp`, `floor`, `ceil`, and `round`. Aliases like `**` for `^`, `×` or `·` for `*`, and `÷` for `/` are automatically handled.
-- **No variables:** Expression mode is numeric only. Algebraic answers containing variables, such as `x + 1`, are rejected unless they are listed as exact text under another answer type.
-- **Handling variations:** If you want to accept multiple non-equivalent formats or special cases, provide the primary answer in `answerKey` and list alternatives in `acceptedAnswers`.
+- **Expression mode:** Use `"answerType": "expression"` for numeric formulas such as `sqrt(2)`, `2^0.5`, `1/2`, `0.5`, `2pi`, or `sin(pi/2)`. 
+  - **Equivalency:** The system automatically recognizes that `0.5`, `1/2`, and `2/4` have the same value. Even complex surds or trigonometric expressions are compared numerically with high precision.
+  - **Implicit Multiplication:** Supports inputs like `2pi` or `3(1+2)`.
+  - **Functions:** Supports `sqrt`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `ln`, `log`, `exp`, `floor`, `ceil`, and `round`.
+  - **No variables:** Expression mode is numeric only. Algebraic answers containing variables like `x + 1` are not supported.
+
+- **Multiple Answers:** If a problem requires multiple distinct answers (e.g., "x = 1 or x = 2"), use `"answerType": "set"`. The system will accept the values in any order (e.g., `1, 2` or `2, 1`). Separators can be commas, semicolons, or spaces.
 
 ## Notes on Validation
 - **Size Limit:** The JSON file cannot exceed 5 MB.

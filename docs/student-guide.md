@@ -11,7 +11,7 @@
 Your dashboard shows:
 
 - **Progress ring**: How many sets you've completed out of the total available.
-- **Metric cards**: Attempted sets, average score, latest score.
+- **Metric cards**: Attempted sets, average score (calculated from your **best score** on each set), latest score.
 - **Problem sets list**: All published sets with your best score for each.
 - **Topic map**: Your accuracy broken down by mathematical topic (algebra, number theory, combinatorics, geometry, etc.).
 
@@ -43,9 +43,9 @@ Click **Continue** or **Open current set** to jump straight to the recommended s
 | Integer  | `42`       | Whole numbers                             |
 | Decimal  | `3.14`     | Decimal numbers                           |
 | Fraction | `3/7`      | Will be normalized (e.g., `6/14` = `3/7`) |
-| Set      | `1,2,5`    | Order doesn't matter                      |
+| Set      | `1,2,5`    | Order doesn't matter (e.g., `2,5,1` is correct) |
 | Exact    | `triangle` | Exact text match                          |
-| Expression| `sqrt(2)` | Formulas evaluated numerically (`2^0.5`, `pi/2`) |
+| Expression| `sqrt(2)` | Mathematical formulas (`2^0.5`, `pi/2`, `0.5`, `1/2`). Equivalent values are automatically recognized! |
 
 ### After Submission
 
@@ -90,6 +90,6 @@ Click the theme toggle button (☀️/🌙) in the top-right area to switch betw
 
 - **Start with lower-numbered sets** — they're generally ordered by difficulty.
 - **Review your topic map** to identify weak areas and focus your practice.
-- **Retry sets** where you scored below 80% to improve mastery.
+- **Retry sets** — retrying doesn't hurt your average score! The system only counts your **best score** per set toward your overall average.
 - **Watch the teaching videos** before attempting — they cover the key concepts.
 - **Report issues promptly** — the admin team fixes answer key errors quickly.

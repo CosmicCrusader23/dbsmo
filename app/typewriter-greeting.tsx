@@ -16,7 +16,7 @@ const GREETINGS = [
   (name: string) => `Good to see you, ${name}.`,
   (name: string) => `A little progress today, ${name}?`,
   (name: string) => `Make me proud, ${name}.`,
-  (name: string) => `Your next solve is waiting, ${name}.`,
+  (name: string) => `Be Culver Kwan, ${name}.`,
   (name: string) => `Time to lock in, ${name}.`,
 ];
 
