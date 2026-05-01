@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
+  ArrowLeft,
   CheckCircle2,
   FileText,
+  Hash,
   Loader2,
   Plus,
   RotateCcw,
@@ -12,6 +14,9 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
+import Link from "next/link";
+import { statusLabel, statusColor } from "@/lib/visibility";
+import {
 import {
   STANDARD_PROBLEM_SET_TAGS,
   normalizeProblemTag,
@@ -41,6 +46,7 @@ type SetData = {
   topicTags: string[];
   videoUrl: string | null;
   problemFile: { originalName: string; mimeType: string } | null;
+  solutionFile: { originalName: string; mimeType: string } | null;
   problems: ProblemData[];
 };
 
@@ -97,6 +103,7 @@ export function SetEditForm({ set }: { set: SetData }) {
   const [saved, setSaved] = useState(false);
   const [regradeResult, setRegradeResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Set<string>>(new Set());
 
   const [title, setTitle] = useState(set.title);
   const [description, setDescription] = useState(set.description);
@@ -177,8 +184,22 @@ export function SetEditForm({ set }: { set: SetData }) {
   async function onSave() {
     setIsSaving(true);
     setError(null);
+    setValidationErrors(new Set());
     setSaved(false);
     setRegradeResult(null);
+
+    const errors = new Set<string>();
+    if (!title.trim()) errors.add("title");
+    problems.forEach((p) => {
+      if (!p.answerKey.trim()) errors.add(`problem-${p.id}-answerKey`);
+    });
+
+    if (errors.size > 0) {
+      setValidationErrors(errors);
+      setError("Validation failed. Please fill in the highlighted fields.");
+      setIsSaving(false);
+      return;
+    }
 
     try {
       const response = await fetch(`/api/admin/sets/${set.id}`, {
@@ -208,7 +229,12 @@ export function SetEditForm({ set }: { set: SetData }) {
 
       if (!response.ok) {
         const body = await response.json();
-        setError(body.error ?? "Save failed.");
+        
+        if (response.status === 422) {
+           setError("Validation failed. Check the form data.");
+        } else {
+           setError(body.error ?? "Save failed.");
+        }
         return;
       }
 
@@ -250,19 +276,80 @@ export function SetEditForm({ set }: { set: SetData }) {
   }
 
   return (
-    <section className="panel import-panel">
-      <div className="panel-header">
+    <div className="page-frame">
+      <header className="topbar standalone">
         <div>
-          <p className="eyebrow">Metadata</p>
-          <h2>Edit set</h2>
+          <p className="eyebrow">
+            <span className={`status-badge ${statusColor({ status: set.status })}`}>
+              {statusLabel({ status: set.status })}
+            </span>
+          </p>
+          <h1>{set.title}</h1>
         </div>
-        <code className="slug-code">{set.slug}</code>
-      </div>
+        <div className="topbar-actions">
+          {error && <span className="form-error">{error}</span>}
+          {saved && (
+            <span className="form-success">
+              <CheckCircle2 size={16} /> Saved
+            </span>
+          )}
+          {regradeResult && (
+            <span className="form-success">
+              <CheckCircle2 size={16} /> {regradeResult}
+            </span>
+          )}
+          <button
+            className="secondary-action"
+            type="button"
+            disabled={isRegrading}
+            onClick={onRegrade}
+          >
+            {isRegrading ? <Loader2 size={18} className="spin-icon" /> : <RotateCcw size={18} />}
+            {isRegrading ? "Regrading..." : "Regrade"}
+          </button>
+          <DeleteSetButton
+            setId={set.id}
+            title={set.title}
+            status={set.status}
+            redirectTo="/admin/sets"
+          />
+          <button className="primary-action" type="button" disabled={isSaving} onClick={onSave}>
+            {isSaving ? <Loader2 size={18} className="spin-icon" /> : <Save size={18} />}
+            {isSaving ? "Saving…" : "Save changes"}
+          </button>
+          <Link className="secondary-action" href="/admin/sets" style={{ marginLeft: "10px" }}>
+            <ArrowLeft size={18} />
+            All sets
+          </Link>
+        </div>
+      </header>
+
+      <section className="import-layout">
+        <section className="panel import-panel">
+          <div className="panel-header">
+            <div>
+              <p className="eyebrow">Metadata</p>
+              <h2>Edit set</h2>
+            </div>
+            <code className="slug-code">{set.slug}</code>
+          </div>
 
       <div className="form-grid">
         <label className="form-field">
           <span className="form-label">Title</span>
-          <input className="form-input" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input
+            className="form-input"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              setValidationErrors((prev) => {
+                const next = new Set(prev);
+                next.delete("title");
+                return next;
+              });
+            }}
+            style={validationErrors.has("title") ? { borderColor: "var(--color-danger, #ef4444)", outline: "1px solid var(--color-danger, #ef4444)" } : {}}
+          />
         </label>
 
         <label className="form-field">
@@ -437,7 +524,15 @@ export function SetEditForm({ set }: { set: SetData }) {
                   <input
                     className="form-input"
                     value={problem.answerKey}
-                    onChange={(e) => updateProblem(problem.id, "answerKey", e.target.value)}
+                    onChange={(e) => {
+                      updateProblem(problem.id, "answerKey", e.target.value);
+                      setValidationErrors((prev) => {
+                        const next = new Set(prev);
+                        next.delete(`problem-${problem.id}-answerKey`);
+                        return next;
+                      });
+                    }}
+                    style={validationErrors.has(`problem-${problem.id}-answerKey`) ? { borderColor: "var(--color-danger, #ef4444)", outline: "1px solid var(--color-danger, #ef4444)" } : {}}
                   />
                 </label>
                 <label className="form-field form-field-sm">
@@ -507,38 +602,56 @@ export function SetEditForm({ set }: { set: SetData }) {
         Add another problem
       </button>
 
-      <div className="import-actions" style={{ paddingBottom: 20 }}>
-        {error && <span className="form-error">{error}</span>}
-        {saved && (
-          <span className="form-success">
-            <CheckCircle2 size={16} /> Saved
-          </span>
-        )}
-        {regradeResult && (
-          <span className="form-success">
-            <CheckCircle2 size={16} /> {regradeResult}
-          </span>
-        )}
-        <button
-          className="secondary-action"
-          type="button"
-          disabled={isRegrading}
-          onClick={onRegrade}
-        >
-          {isRegrading ? <Loader2 size={18} className="spin-icon" /> : <RotateCcw size={18} />}
-          {isRegrading ? "Regrading..." : "Regrade attempts"}
         </button>
-        <DeleteSetButton
-          setId={set.id}
-          title={set.title}
-          status={set.status}
-          redirectTo="/admin/sets"
-        />
-        <button className="primary-action" type="button" disabled={isSaving} onClick={onSave}>
-          {isSaving ? <Loader2 size={18} className="spin-icon" /> : <Save size={18} />}
-          {isSaving ? "Saving…" : "Save changes"}
-        </button>
-      </div>
+      </section>
+
+      <aside className="panel import-spec" style={{ paddingBottom: 20 }}>
+        <div className="panel-header">
+          <div>
+            <p className="eyebrow">Answer key</p>
+            <h2>
+              {problems.length} problem{problems.length !== 1 ? "s" : ""}
+            </h2>
+          </div>
+          <Hash size={20} />
+        </div>
+
+        <div className="set-list">
+          {problems.map((problem) => (
+            <div className="set-row" key={problem.id}>
+              <div className="set-main">
+                <span className="problem-number">{problem.number}</span>
+                <div>
+                  <strong>{problem.answerKey || "(No answer)"}</strong>
+                  <small>
+                    {problem.answerType.toLowerCase()} · {problem.points} pt
+                    {problem.points !== 1 ? "s" : ""}
+                  </small>
+                </div>
+              </div>
+              {parseTagInput(problem.topicTagsInput).length > 0 && (
+                <small className="topic-chips">{parseTagInput(problem.topicTagsInput).join(", ")}</small>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {(set.problemFile || set.solutionFile) && (
+          <div className="preview-files" style={{ padding: "0 20px 0" }}>
+            {set.problemFile && (
+              <span>
+                <FileText size={14} /> {set.problemFile.originalName}
+              </span>
+            )}
+            {set.solutionFile && (
+              <span>
+                <FileText size={14} /> {set.solutionFile.originalName}
+              </span>
+            )}
+          </div>
+        )}
+      </aside>
     </section>
+  </div>
   );
 }
