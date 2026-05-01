@@ -601,7 +601,6 @@ export function SetEditForm({ set }: { set: SetData }) {
         Add another problem
       </button>
 
-        </button>
       </section>
 
       <aside className="panel import-spec" style={{ paddingBottom: 20 }}>
