@@ -419,7 +419,7 @@ export default function CreateSetPage() {
           </div>
 
           <div className="form-field">
-            <label htmlFor="set-topics">Topic tags (comma-separated)</label>
+            <label htmlFor="set-topics">Set tags (comma-separated)</label>
             <input
               id="set-topics"
               type="text"
@@ -427,6 +427,10 @@ export default function CreateSetPage() {
               value={topicTags}
               onChange={(e) => setTopicTags(e.target.value)}
             />
+            <small className="form-hint">
+              These describe the whole set. Practice pools are built from the optional question
+              tags on each problem below.
+            </small>
             <div className="tag-chip-group">
               {STANDARD_PROBLEM_SET_TAGS.map((tag) => (
                 <button
@@ -607,13 +611,17 @@ export default function CreateSetPage() {
 
               <div className="problem-extra-row">
                 <div className="form-field">
-                  <label>Topic tags (comma-separated)</label>
+                  <label>Question tags for Practice (optional)</label>
                   <input
                     type="text"
-                    placeholder="algebra, equations"
+                    placeholder="algebra, linear-equations"
                     value={p.topicTags}
                     onChange={(e) => updateProblem(p.id, "topicTags", e.target.value)}
                   />
+                  <small className="form-hint">
+                    Add tags if this question should feed Practice mode. A tag appears in Practice
+                    after more than 10 published questions use it.
+                  </small>
                   <div className="tag-chip-group">
                     {STANDARD_PROBLEM_SET_TAGS.map((tag) => (
                       <button

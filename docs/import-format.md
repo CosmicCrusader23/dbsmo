@@ -1,10 +1,15 @@
 # JSON Import Format
 
-Admins can upload a JSON file to create a problem set and its associated problems in one go. The import flow performs a dry validation to catch errors before saving anything to the database.
+Admins can upload a JSON file to create a full problem set in one import. The importer validates the file before saving anything.
 
-## JSON Structure Overview
+This format now supports two different kinds of tags:
 
-A valid import file contains a single JSON object with the problem set's metadata and an array of `problems`.
+- Top-level `topicTags`: tags for the whole problem set.
+- Per-problem `topicTags`: optional question tags. These are the tags used by Practice mode.
+
+Practice mode only shows tags that belong to more than 10 published questions.
+
+## Example
 
 ```json
 {
@@ -13,7 +18,7 @@ A valid import file contains a single JSON object with the problem set's metadat
   "description": "Introductory answer-only algebra practice.",
   "order": 1,
   "status": "PUBLISHED",
-  "topicTags": ["algebra", "equations"],
+  "topicTags": ["algebra", "starter"],
   "difficulty": 2,
   "videoUrl": "https://example.com/video",
   "problems": [
@@ -23,65 +28,99 @@ A valid import file contains a single JSON object with the problem set's metadat
       "answerType": "integer",
       "answerKey": "2",
       "points": 1,
-      "topicTags": ["algebra"]
+      "topicTags": ["algebra", "linear-equations"]
     },
     {
       "number": 2,
       "statement": "Give the exact value of sqrt(2).",
       "answerType": "expression",
       "answerKey": "sqrt(2)",
-      "acceptedAnswers": ["2^0.5"]
+      "acceptedAnswers": ["2^0.5"],
+      "topicTags": ["surds"]
+    },
+    {
+      "number": 3,
+      "statement": "State the parity of 17.",
+      "answerType": "exact",
+      "answerKey": "odd"
     }
   ]
 }
 ```
 
-## Problem Set Variables (Top-Level)
+In the example above:
 
-| Variable | Type | Required | Default | Description |
+- the set is tagged with `algebra` and `starter`
+- question 1 contributes to Practice pools for `algebra` and `linear-equations`
+- question 2 contributes to the `surds` Practice pool
+- question 3 has no question tags, so it does not contribute to a Practice tag pool
+
+## Top-Level Fields
+
+| Field | Type | Required | Default | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `slug` | String | **Yes** | - | A unique URL-friendly identifier for the set (e.g., `algebra-01`). |
-| `title` | String | **Yes** | - | The display title of the problem set. |
-| `description` | String | No | `""` | A brief explanation or instructions for the problem set. |
-| `order` | Integer | No | Next Free ID | Controls sorting (lower numbers first). If omitted or set to `0`, the system automatically assigns the next available integer. |
-| `status` | String | No | `"DRAFT"` | Visibility status: `"DRAFT"`, `"PUBLISHED"`, or `"ARCHIVED"`. |
-| `visibleFrom` | String (ISO Date) | No | `null` | When the set becomes accessible (e.g., `"2024-05-01T10:00:00Z"`). |
-| `visibleTo` | String (ISO Date) | No | `null` | When the set closes and is no longer accessible. |
-| `topicTags` | Array of Strings | No | `[]` | Categories applied to the whole set (e.g., `["algebra", "geometry"]`). |
-| `difficulty` | Integer (1-10) | No | `1` | Estimated difficulty rating from 1 to 10. |
-| `videoUrl` | String (URL) | No | `null` | A link to an explanatory video (e.g., YouTube). |
-| `problems` | Array of Objects| **Yes** | - | A list of problem objects (see below). Must have at least 1 problem. |
+| `slug` | string | Yes | - | Unique URL-friendly identifier, e.g. `algebra-01`. |
+| `title` | string | Yes | - | Display name of the set. |
+| `description` | string | No | `""` | Optional set description. |
+| `order` | integer | No | next free order | Controls sort order. If omitted or `0`, the system assigns the next available order. |
+| `status` | string | No | `"DRAFT"` | One of `"DRAFT"`, `"PUBLISHED"`, `"ARCHIVED"`. |
+| `visibleFrom` | ISO datetime string | No | `null` | Set release time. |
+| `visibleTo` | ISO datetime string | No | `null` | Set close time. |
+| `topicTags` | string[] | No | `[]` | Tags for the set as a whole. These do not by themselves place questions into Practice pools. |
+| `difficulty` | integer | No | `1` | Difficulty from 1 to 10. |
+| `videoUrl` | URL string | No | `null` | Optional video link. |
+| `problems` | object[] | Yes | - | At least one problem is required. |
 
-## Problem Variables
+## Problem Fields
 
-Inside the `problems` array, each object defines a single question.
+Each entry in `problems` defines one question.
 
-| Variable | Type | Required | Default | Description |
+| Field | Type | Required | Default | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| `number` | Integer | No | Array Index + 1 | The question number. If omitted, it automatically assigns sequential numbers starting from 1. |
-| `statement` | String | No | `""` | The question text (supports LaTeX formatting). |
-| `answerKey` (or `answer`) | String | **Yes** | - | The primary correct answer string. |
-| `answerType` | String | No | `"EXACT"` | How the system grades the answer. Options: `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. |
-| `acceptedAnswers`| Array/String | No | `[]` | Alternative correct answers. Can be an array of strings, or a single string separated by semicolons (`;`). |
-| `caseSensitive` | Boolean | No | `false` | If `true`, the grading enforces exact capitalization matching. |
-| `points` | Integer | No | `1` | How many points this problem is worth. |
-| `topicTags` | Array of Strings | No | `[]` | Specific topics for this individual problem. |
-| `solution` (or `explanationNote`) | String | No | `null` | A walkthrough or explanation shown to students after completion. |
+| `number` | integer | No | array index + 1 | Question number. |
+| `statement` | string | No | `""` | Problem statement. LaTeX is allowed. |
+| `answerKey` | string | Yes* | - | Primary correct answer. |
+| `answer` | string | Yes* | - | Alias for `answerKey`. |
+| `answerType` | string | No | `"EXACT"` | One of `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. Lowercase values are also accepted by the importer. |
+| `acceptedAnswers` | string[] or string | No | `[]` | Alternative correct answers. A string value may use `;` as a separator. |
+| `caseSensitive` | boolean | No | `false` | Enables case-sensitive grading. |
+| `points` | integer | No | `1` | Points awarded for the problem. |
+| `topicTags` | string[] | No | `[]` | Optional question tags. These are the tags used by Practice mode. |
+| `solution` | string | No | `null` | Optional explanation shown after completion. |
+| `explanationNote` | string | No | `null` | Alias for `solution`. |
+
+\* Each problem must provide either `answerKey` or `answer`.
+
+## Practice Tag Behavior
+
+Per-problem `topicTags` drive Practice mode.
+
+- A question can have zero, one, or many question tags.
+- If a question has no `topicTags`, it will not appear in a Practice tag pool.
+- Practice mode only considers questions from published sets.
+- A tag only appears in the Practice tab when more than 10 published questions use that tag.
 
 ## Answer Evaluation Rules
 
-The grading system performs text normalization (trimming spaces, ignoring case) for normal answer types. The `"EXPRESSION"` answer type additionally evaluates the official `answerKey` and the student's answer as numeric math expressions, then compares the resulting values with a small tolerance.
+- `EXACT`: normalized string match
+- `INTEGER`: integer normalization
+- `DECIMAL`: decimal normalization
+- `FRACTION`: simplified fraction comparison
+- `SET`: order-insensitive set comparison
+- `MULTIPLE`: exact string grading with additional accepted answers
+- `EXPRESSION`: numeric expression evaluation
 
-- **Fractions vs Decimals:** If `answerType` is `"FRACTION"`, `2/4` is automatically simplified and accepted as `1/2`. However, `1/2` is **not** automatically equated to `0.5` unless you use `"EXPRESSION"`.
-- **Expression mode:** Use `"answerType": "expression"` for numeric formulas such as `sqrt(2)`, `2^0.5`, `1/2`, `0.5`, `2pi`, or `sin(pi/2)`. 
-  - **Equivalency:** The system automatically recognizes that `0.5`, `1/2`, and `2/4` have the same value. Even complex surds or trigonometric expressions are compared numerically with high precision.
-  - **Implicit Multiplication:** Supports inputs like `2pi` or `3(1+2)`.
-  - **Functions:** Supports `sqrt`, `abs`, `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `ln`, `log`, `exp`, `floor`, `ceil`, and `round`.
-  - **No variables:** Expression mode is numeric only. Algebraic answers containing variables like `x + 1` are not supported.
+### Notes
 
-- **Multiple Answers:** If a problem requires multiple distinct answers (e.g., "x = 1 or x = 2"), use `"answerType": "set"`. The system will accept the values in any order (e.g., `1, 2` or `2, 1`). Separators can be commas, semicolons, or spaces.
+- Fraction answers like `2/4` are simplified to `1/2`.
+- `FRACTION` does not automatically treat `1/2` and `0.5` as equal. Use `EXPRESSION` if decimal and fractional forms should both pass.
+- `EXPRESSION` supports inputs like `sqrt(2)`, `2^0.5`, `pi/3`, `2pi`, and `3(1+2)`.
+- `EXPRESSION` is numeric only. Symbolic algebra such as `x+1` is not supported.
 
-## Notes on Validation
-- **Size Limit:** The JSON file cannot exceed 5 MB.
-- **Duplicate Numbers:** If two problems have the same `number`, the import will fail.
-- **Answer Checking:** Every problem must have an `answerKey` (or `answer`), otherwise it will be rejected.
+## Validation Rules
+
+- File size limit: 5 MB
+- The uploaded file must be valid JSON.
+- Duplicate problem numbers are rejected.
+- Each problem must include an answer.
+- Invalid answer types are rejected.
