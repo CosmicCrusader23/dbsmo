@@ -1,7 +1,5 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { statusLabel, statusColor } from "@/lib/visibility";
 import { SetEditForm } from "./set-edit-form";
 
 export const dynamic = "force-dynamic";

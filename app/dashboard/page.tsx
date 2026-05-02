@@ -15,6 +15,7 @@ import {
   PlayCircle,
   Settings,
   Sparkles,
+  Target,
   Trophy,
   User,
   Users,
@@ -253,6 +254,10 @@ export default async function DashboardPage() {
           <Link className="nav-item" href="/problem-sets">
             <ClipboardList size={18} />
             Problem Sets
+          </Link>
+          <Link className="nav-item" href="/practice">
+            <Target size={18} />
+            Practice
           </Link>
           {currentUser.role === "ADMIN" ? (
             <>

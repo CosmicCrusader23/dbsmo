@@ -33,7 +33,7 @@ export default async function LandingPage() {
 
         <div className="login-layout">
           <section className="login-copy">
-            <p className="eyebrow">Diocesan Boys' School Mathematics Olympiad</p>
+            <p className="eyebrow">Diocesan Boys&apos; School Mathematics Olympiad</p>
             <h1>sign in to proceed.</h1>
             <p className="login-copy-text">
               math olympiad training platform.

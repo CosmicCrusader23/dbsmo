@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Heart, Trophy, Users } from "lucide-react";
+import { ArrowLeft, Heart, Target, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
@@ -30,6 +30,7 @@ function RankBadge({ rank }: { rank: number }) {
 }
 
 type LeaderboardSearchParams = Promise<{
+  mode?: string;
   scope?: string;
   sort?: string;
 }>;
@@ -43,11 +44,13 @@ export default async function LeaderboardPage({
   if (!session?.user?.id) redirect("/");
 
   const params = (await searchParams) ?? {};
+  const mode = params.mode === "practice" ? "practice" : "standard";
   const scope = params.scope === "friends" ? "friends" : "all";
   const sortMode = params.sort === "average" ? "average" : "solved";
 
-  function leaderboardHref(next: { scope?: "all" | "friends"; sort?: "solved" | "average" }) {
+  function leaderboardHref(next: { mode?: "standard" | "practice"; scope?: "all" | "friends"; sort?: "solved" | "average" }) {
     const query = new URLSearchParams({
+      mode: next.mode ?? mode,
       scope: next.scope ?? scope,
       sort: next.sort ?? sortMode,
     });
@@ -65,6 +68,9 @@ export default async function LeaderboardPage({
         role: true,
         attempts: {
           select: { score: true, maxScore: true, problemSetId: true },
+        },
+        _count: {
+          select: { practiceSolves: true },
         },
       },
     }),
@@ -109,10 +115,15 @@ export default async function LeaderboardPage({
         uniqueSets,
         avgScore,
         totalAttempts,
+        practiceScore: u._count.practiceSolves,
       };
     })
     .filter((u) => scope === "all" || friendIds.has(u.id))
     .sort((a, b) => {
+      if (mode === "practice") {
+        return b.practiceScore - a.practiceScore || a.displayLabel.localeCompare(b.displayLabel);
+      }
+
       if (sortMode === "average") {
         return (
           b.avgScore - a.avgScore ||
@@ -153,6 +164,25 @@ export default async function LeaderboardPage({
 
       <section className="leaderboard-controls" aria-label="Leaderboard controls">
         <div className="leaderboard-control-group">
+          <span className="leaderboard-control-label">Mode</span>
+          <div className="segmented-control">
+            <Link
+              className={`segmented-button${mode === "standard" ? " active" : ""}`}
+              href={leaderboardHref({ mode: "standard" })}
+            >
+              <Trophy size={14} />
+              Standard
+            </Link>
+            <Link
+              className={`segmented-button${mode === "practice" ? " active" : ""}`}
+              href={leaderboardHref({ mode: "practice" })}
+            >
+              <Target size={14} />
+              Practice
+            </Link>
+          </div>
+        </div>
+        <div className="leaderboard-control-group">
           <span className="leaderboard-control-label">View</span>
           <div className="segmented-control">
             <Link
@@ -171,23 +201,25 @@ export default async function LeaderboardPage({
             </Link>
           </div>
         </div>
-        <div className="leaderboard-control-group">
-          <span className="leaderboard-control-label">Order by</span>
-          <div className="segmented-control">
-            <Link
-              className={`segmented-button${sortMode === "solved" ? " active" : ""}`}
-              href={leaderboardHref({ sort: "solved" })}
-            >
-              Solved
-            </Link>
-            <Link
-              className={`segmented-button${sortMode === "average" ? " active" : ""}`}
-              href={leaderboardHref({ sort: "average" })}
-            >
-              Average score
-            </Link>
+        {mode === "standard" && (
+          <div className="leaderboard-control-group">
+            <span className="leaderboard-control-label">Order by</span>
+            <div className="segmented-control">
+              <Link
+                className={`segmented-button${sortMode === "solved" ? " active" : ""}`}
+                href={leaderboardHref({ sort: "solved" })}
+              >
+                Solved
+              </Link>
+              <Link
+                className={`segmented-button${sortMode === "average" ? " active" : ""}`}
+                href={leaderboardHref({ sort: "average" })}
+              >
+                Average score
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       <div className="leaderboard-table-wrap">
@@ -196,10 +228,16 @@ export default async function LeaderboardPage({
             <tr>
               <th>Rank</th>
               <th>User</th>
-              <th>Solved</th>
-              <th>Avg score</th>
-              <th>Sets tried</th>
-              <th>Attempts</th>
+              {mode === "standard" ? (
+                <>
+                  <th>Solved</th>
+                  <th>Avg score</th>
+                  <th>Sets tried</th>
+                  <th>Attempts</th>
+                </>
+              ) : (
+                <th>Practice Score</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -212,40 +250,55 @@ export default async function LeaderboardPage({
                 </td>
               </tr>
             ) : (
-              rows.map((row) => (
-                <tr key={row.id} className={row.rank <= 3 ? `leaderboard-top-${row.rank}` : ""}>
+              rows.map((u) => (
+                <tr key={u.id} className={u.rank <= 3 ? `leaderboard-top-${u.rank}` : ""}>
                   <td>
-                    <RankBadge rank={row.rank} />
+                    <RankBadge rank={u.rank} />
                   </td>
                   <td>
-                    <Link href={profilePathFromEmail(row.email)} className="leaderboard-user">
-                      {row.avatarUrl ? (
-                        <img src={row.avatarUrl} alt="" className="leaderboard-avatar" />
+                    <div className="leaderboard-user">
+                      {u.avatarUrl ? (
+                        <img alt={`${u.displayLabel}'s avatar`} src={u.avatarUrl} />
                       ) : (
-                        <DefaultAvatar size={32} />
+                        <DefaultAvatar />
                       )}
-                      <span className="leaderboard-name">{row.displayLabel}</span>
-                      <span className="leaderboard-role-tag">{row.role}</span>
-                    </Link>
+                      <div className="leaderboard-user-info">
+                        <Link className="user-link" href={profilePathFromEmail(u.email)}>
+                          {u.displayLabel}
+                        </Link>
+                        {u.role === "ADMIN" ? <span className="role-badge">Teacher</span> : null}
+                      </div>
+                    </div>
                   </td>
-                  <td>
-                    <strong>{row.solvedSets}</strong>
-                  </td>
-                  <td>
-                    <span
-                      className={`score-color ${
-                        row.avgScore >= 80
-                          ? "score-high"
-                          : row.avgScore >= 50
-                            ? "score-mid"
-                            : "score-low"
-                      }`}
-                    >
-                      {row.avgScore}%
-                    </span>
-                  </td>
-                  <td>{row.uniqueSets}</td>
-                  <td>{row.totalAttempts}</td>
+                  {mode === "standard" ? (
+                    <>
+                      <td>
+                        <strong>{u.solvedSets}</strong>
+                      </td>
+                      <td>
+                        <span
+                          className={`score-color ${
+                            u.avgScore >= 80
+                              ? "score-high"
+                              : u.avgScore >= 50
+                                ? "score-mid"
+                                : "score-low"
+                          }`}
+                        >
+                          {u.avgScore}%
+                        </span>
+                      </td>
+                      <td>{u.uniqueSets}</td>
+                      <td>{u.totalAttempts}</td>
+                    </>
+                  ) : (
+                    <td>
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <strong style={{ fontSize: "1.1rem" }}>{u.practiceScore}</strong>
+                        <small style={{ color: "var(--color-muted)", fontSize: "0.8rem" }}>correct solves</small>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))
             )}

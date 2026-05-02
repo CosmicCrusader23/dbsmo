@@ -43,7 +43,7 @@ type SetData = {
   slug: string;
   description: string;
   order: number;
-  status: "DRAFT" | "PUBLISHED" | "ARCHIVED" | string;
+  status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   difficulty: number;
   topicTags: string[];
   videoUrl: string | null;
@@ -329,8 +329,14 @@ export function SetEditForm({ set }: { set: SetData }) {
       <header className="topbar standalone">
         <div>
           <p className="eyebrow">
-            <span className={`status-badge ${statusColor({ status: set.status as any, visibleFrom: null, visibleTo: null })}`}>
-              {statusLabel({ status: set.status as any, visibleFrom: null, visibleTo: null })}
+            <span
+              className={`status-badge ${statusColor({
+                status: set.status,
+                visibleFrom: null,
+                visibleTo: null,
+              })}`}
+            >
+              {statusLabel({ status: set.status, visibleFrom: null, visibleTo: null })}
             </span>
           </p>
           <h1>{set.title}</h1>
@@ -418,11 +424,11 @@ export function SetEditForm({ set }: { set: SetData }) {
         <div className="form-row">
           <label className="form-field">
             <span className="form-label">Status</span>
-            <select
-              className="form-input form-select"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
+              <select
+                className="form-input form-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value as SetData["status"])}
+              >
               <option value="DRAFT">Draft</option>
               <option value="PUBLISHED">Published</option>
               <option value="ARCHIVED">Archived</option>
@@ -537,12 +543,14 @@ export function SetEditForm({ set }: { set: SetData }) {
               style={{ cursor: "pointer" }}
               onClick={() => toggleProblemExpanded(problem.id)}
             >
-              <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                {expandedProblems.has(problem.id) ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                <span>Q{problem.number}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                {expandedProblems.has(problem.id) ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                <div className="problem-number">
+                  <span>Q{problem.number}</span>
+                </div>
                 {!expandedProblems.has(problem.id) && (
-                  <small style={{ fontWeight: "normal", color: "var(--color-text-secondary)", marginLeft: "8px" }}>
-                    {problem.statement.slice(0, 40) || "(No statement)"} • {problem.answerKey || "(No answer)"}
+                  <small style={{ fontWeight: "normal", color: "var(--color-muted)", marginLeft: "4px" }}>
+                    {problem.statement.slice(0, 40) || "(No statement)"} • <strong>{problem.answerKey || "(No answer)"}</strong>
                   </small>
                 )}
               </div>

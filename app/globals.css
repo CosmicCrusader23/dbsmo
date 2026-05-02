@@ -3013,14 +3013,7 @@ html.dark .confetti-triangles span {
   border-bottom: 1px solid var(--color-border);
 }
 
-.problem-number {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 900;
-  font-size: 0.95rem;
-  color: var(--color-pink);
-}
+
 
 .grip-icon {
   color: var(--color-muted);

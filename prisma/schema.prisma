@@ -64,6 +64,7 @@ model User {
   sessions            Session[]
   sentFriendships     Friendship[]     @relation("FriendshipRequester")
   receivedFriendships Friendship[]     @relation("FriendshipReceiver")
+  practiceSolves      PracticeSolve[]
 }
 
 model Friendship {
@@ -132,8 +133,22 @@ model Problem {
   problemSet      ProblemSet       @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
   responses       Response[]
   feedbackReports FeedbackReport[]
+  practiceSolves  PracticeSolve[]
 
   @@unique([problemSetId, number])
+}
+
+model PracticeSolve {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem   Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+  @@index([userId])
+  @@index([problemId])
 }
 
 model Attempt {
