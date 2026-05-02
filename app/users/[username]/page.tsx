@@ -290,32 +290,30 @@ export default async function UserProfilePage({
 
       <section className="profile-section">
         <div className="profile-grid-header">
-          <h2>
-            <Grid2x2 size={18} />
-            Progress grids
-          </h2>
-          <div className="segmented-control" aria-label="Profile progress grid mode">
+          <div className="profile-grid-title-row">
+            <h2>
+              <Grid2x2 size={18} />
+              {gridMode === "sets" ? "Set grid" : "Problems grid"}
+            </h2>
             <Link
-              className={`segmented-button${gridMode === "sets" ? " active" : ""}`}
-              href={profileGridHref("sets")}
+              className="secondary-action compact"
+              href={profileGridHref(gridMode === "sets" ? "problems" : "sets")}
             >
-              Sets
-            </Link>
-            <Link
-              className={`segmented-button${gridMode === "problems" ? " active" : ""}`}
-              href={profileGridHref("problems")}
-            >
-              Problems
+              {gridMode === "sets" ? "Show problems" : "Show sets"}
             </Link>
           </div>
           <div className="profile-grid-legend" aria-label="Set status legend">
             <span className="profile-grid-legend-item">
-              <span className="profile-grid-dot profile-grid-dot-solved" />
-              High score
+              <span className="profile-grid-dot profile-grid-dot-attempted" />
+              0%
             </span>
             <span className="profile-grid-legend-item">
-              <span className="profile-grid-dot profile-grid-dot-attempted" />
-              Low score
+              <span className="profile-grid-dot profile-grid-dot-mid" />
+              50%
+            </span>
+            <span className="profile-grid-legend-item">
+              <span className="profile-grid-dot profile-grid-dot-solved" />
+              100%
             </span>
             <span className="profile-grid-legend-item">
               <span className="profile-grid-dot profile-grid-dot-unattempted" />

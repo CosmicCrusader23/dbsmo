@@ -2827,14 +2827,18 @@ html.dark .confetti-triangles span {
 }
 
 .typewriter-cursor {
+  display: inline-block;
+  min-width: 0.35ch;
   font-weight: 300;
   color: var(--color-pink);
   margin-left: 1px;
-  transition: opacity 0.1s;
+  opacity: 1;
+  animation: typewriter-cursor-blink 1s steps(1, end) infinite;
 }
 
-.typewriter-cursor.is-blinking {
-  animation: typewriter-cursor-blink 1s steps(1, end) infinite;
+.typewriter-cursor.is-typing {
+  animation: none;
+  opacity: 1;
 }
 
 @keyframes typewriter-cursor-blink {
@@ -3749,14 +3753,22 @@ html.dark .theme-choice-button.active {
 
 .profile-grid-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .profile-grid-header h2 {
   margin-bottom: 0;
+}
+
+.profile-grid-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .profile-grid-panel {
@@ -3775,6 +3787,7 @@ html.dark .theme-choice-button.active {
   align-items: center;
   gap: 0.85rem;
   flex-wrap: wrap;
+  min-height: 38px;
 }
 
 .profile-grid-legend-item {
@@ -3798,6 +3811,10 @@ html.dark .theme-choice-button.active {
 
 .profile-grid-dot-attempted {
   background: rgba(238, 68, 85, 0.92);
+}
+
+.profile-grid-dot-mid {
+  background: rgba(234, 179, 8, 0.92);
 }
 
 .profile-grid-dot-unattempted {
