@@ -1756,10 +1756,14 @@ body {
 }
 
 .app-shell {
+  display: block;
   background: var(--color-bg);
 }
 
 .workspace {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  min-height: 100vh;
   max-width: none;
   padding: 32px;
 }
@@ -2451,12 +2455,22 @@ html.dark .judge-field span {
 }
 
 @media (max-width: 1050px) {
+  .app-shell {
+    display: grid;
+  }
+
   .sidebar {
     position: relative;
     left: auto;
     width: auto;
     min-height: auto;
     height: auto;
+  }
+
+  .workspace {
+    width: 100%;
+    min-height: auto;
+    margin-left: 0;
   }
 
   .nav-list {
