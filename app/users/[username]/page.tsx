@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Grid2x2, Mail } from "lucide-react";
+import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { usernameFromEmail } from "@/lib/user-profile";
@@ -21,16 +22,37 @@ function DefaultAvatar({ size = 96 }: { size?: number }) {
   );
 }
 
+function progressTileStyle(percent: number | null): CSSProperties {
+  if (percent === null) {
+    return {
+      background: "rgba(125, 137, 164, 0.12)",
+      borderColor: "rgba(125, 137, 164, 0.2)",
+      color: "var(--color-muted)",
+    };
+  }
+
+  const hue = Math.round((Math.max(0, Math.min(100, percent)) / 100) * 120);
+  return {
+    background: `hsla(${hue}, 72%, 48%, 0.18)`,
+    borderColor: `hsla(${hue}, 72%, 48%, 0.34)`,
+    color: `hsl(${hue}, 72%, 58%)`,
+  };
+}
+
 export default async function UserProfilePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ username: string }>;
+  searchParams?: Promise<{ grid?: string }>;
 }) {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/");
 
   const { username } = await params;
+  const gridParams = (await searchParams) ?? {};
   const normalizedUsername = decodeURIComponent(username).trim().toLowerCase();
+  const gridMode = gridParams.grid === "problems" ? "problems" : "sets";
 
   const user = await prisma.user.findFirst({
     where: {
@@ -54,6 +76,20 @@ export default async function UserProfilePage({
           maxScore: true,
           problemSetId: true,
           submittedAt: true,
+          responses: {
+            select: {
+              isCorrect: true,
+              pointsAwarded: true,
+              problem: {
+                select: {
+                  id: true,
+                  number: true,
+                  problemSetId: true,
+                  points: true,
+                },
+              },
+            },
+          },
           problemSet: { select: { title: true, slug: true } },
         },
         orderBy: { submittedAt: "desc" },
@@ -73,6 +109,13 @@ export default async function UserProfilePage({
       status: true,
       visibleFrom: true,
       visibleTo: true,
+      problems: {
+        orderBy: { number: "asc" },
+        select: {
+          id: true,
+          number: true,
+        },
+      },
     },
   });
 
@@ -134,17 +177,41 @@ export default async function UserProfilePage({
     session.user.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
   const setGridRows = visibleSets.map((set) => {
     const progress = setScores.get(set.id);
-    const best = progress ? Math.round(progress.best) : 0;
-    const status = !progress ? "unattempted" : best >= 80 ? "solved" : "attempted";
+    const best = progress ? Math.round(progress.best) : null;
     return {
       id: set.id,
       slug: set.slug,
       title: set.title,
       order: set.order,
       best,
-      status,
     };
   });
+  const problemProgress = new Map<string, number>();
+  for (const attempt of user.attempts) {
+    for (const response of attempt.responses) {
+      const maxPoints = response.problem.points > 0 ? response.problem.points : 1;
+      const pct = response.isCorrect ? 100 : Math.round((response.pointsAwarded / maxPoints) * 100);
+      problemProgress.set(
+        response.problem.id,
+        Math.max(problemProgress.get(response.problem.id) ?? 0, pct),
+      );
+    }
+  }
+  const problemGridRows = visibleSets.flatMap((set) =>
+    set.problems.map((problem) => ({
+      id: problem.id,
+      slug: set.slug,
+      label: `${set.order}-${problem.number}`,
+      title: `${set.title} - Problem ${problem.number}`,
+      best: problemProgress.has(problem.id) ? problemProgress.get(problem.id) ?? 0 : null,
+    })),
+  );
+  function profileGridHref(nextGrid: "sets" | "problems") {
+    if (nextGrid === "sets") {
+      return `/users/${encodeURIComponent(username)}`;
+    }
+    return `/users/${encodeURIComponent(username)}?grid=problems`;
+  }
 
   return (
     <main className="profile-shell">
@@ -225,16 +292,30 @@ export default async function UserProfilePage({
         <div className="profile-grid-header">
           <h2>
             <Grid2x2 size={18} />
-            Set grid
+            Progress grids
           </h2>
+          <div className="segmented-control" aria-label="Profile progress grid mode">
+            <Link
+              className={`segmented-button${gridMode === "sets" ? " active" : ""}`}
+              href={profileGridHref("sets")}
+            >
+              Sets
+            </Link>
+            <Link
+              className={`segmented-button${gridMode === "problems" ? " active" : ""}`}
+              href={profileGridHref("problems")}
+            >
+              Problems
+            </Link>
+          </div>
           <div className="profile-grid-legend" aria-label="Set status legend">
             <span className="profile-grid-legend-item">
               <span className="profile-grid-dot profile-grid-dot-solved" />
-              Solved
+              High score
             </span>
             <span className="profile-grid-legend-item">
               <span className="profile-grid-dot profile-grid-dot-attempted" />
-              Attempted
+              Low score
             </span>
             <span className="profile-grid-legend-item">
               <span className="profile-grid-dot profile-grid-dot-unattempted" />
@@ -242,18 +323,22 @@ export default async function UserProfilePage({
             </span>
           </div>
         </div>
-        <div className="profile-set-grid">
-          {setGridRows.map((set) => (
-            <Link
-              key={set.id}
-              href={`/problem-sets/${set.slug}`}
-              className={`profile-set-tile profile-set-tile-${set.status}`}
-              title={`${set.title}${set.status !== "unattempted" ? ` (${set.best}%)` : ""}`}
-              aria-label={`${set.title}: ${set.status}${set.status !== "unattempted" ? `, ${set.best}%` : ""}`}
-            >
-              {set.order}
-            </Link>
-          ))}
+        <div className="profile-grid-panel">
+          <h3>{gridMode === "sets" ? "Sets" : "Problems"}</h3>
+          <div className="profile-set-grid">
+            {(gridMode === "sets" ? setGridRows : problemGridRows).map((item) => (
+              <Link
+                key={item.id}
+                href={`/problem-sets/${item.slug}`}
+                className="profile-set-tile"
+                style={progressTileStyle(item.best)}
+                title={`${item.title}${item.best !== null ? ` (${item.best}%)` : ""}`}
+                aria-label={`${item.title}${item.best !== null ? `, ${item.best}%` : ", unattempted"}`}
+              >
+                {"label" in item ? item.label : item.order}
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
     </main>

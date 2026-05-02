@@ -2833,6 +2833,21 @@ html.dark .confetti-triangles span {
   transition: opacity 0.1s;
 }
 
+.typewriter-cursor.is-blinking {
+  animation: typewriter-cursor-blink 1s steps(1, end) infinite;
+}
+
+@keyframes typewriter-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 .hero-copy h2 .typewriter-greeting {
   min-height: 1.2em;
 }
@@ -3744,6 +3759,17 @@ html.dark .theme-choice-button.active {
   margin-bottom: 0;
 }
 
+.profile-grid-panel {
+  min-width: 0;
+}
+
+.profile-grid-panel h3 {
+  margin: 0 0 0.75rem;
+  color: var(--color-text-strong);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
 .profile-grid-legend {
   display: flex;
   align-items: center;
@@ -3805,21 +3831,6 @@ html.dark .theme-choice-button.active {
 .profile-set-tile:hover {
   transform: translateY(-1px);
   border-color: rgba(240, 93, 155, 0.22);
-}
-
-.profile-set-tile-solved {
-  background: rgba(27, 191, 137, 0.16);
-  color: var(--color-success);
-}
-
-.profile-set-tile-attempted {
-  background: rgba(238, 68, 85, 0.16);
-  color: var(--color-danger);
-}
-
-.profile-set-tile-unattempted {
-  background: rgba(125, 137, 164, 0.12);
-  color: var(--color-muted);
 }
 
 .profile-solved-grid {

@@ -64,7 +64,10 @@ function GreetingTyper({ name }: { name: string }) {
   return (
     <span className="typewriter-greeting" aria-label={activeGreeting}>
       {activeGreeting.slice(0, charIndex)}
-      <span className="typewriter-cursor" aria-hidden="true">
+      <span
+        className={`typewriter-cursor${!isDeleting && charIndex === activeGreeting.length ? " is-blinking" : ""}`}
+        aria-hidden="true"
+      >
         |
       </span>
     </span>
