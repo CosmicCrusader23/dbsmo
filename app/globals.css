@@ -1765,8 +1765,10 @@ body {
 }
 
 .sidebar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: var(--sidebar-width);
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -2450,7 +2452,11 @@ html.dark .judge-field span {
 
 @media (max-width: 1050px) {
   .sidebar {
+    position: relative;
+    left: auto;
+    width: auto;
     min-height: auto;
+    height: auto;
   }
 
   .nav-list {
