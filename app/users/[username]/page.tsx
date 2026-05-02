@@ -70,6 +70,11 @@ export default async function UserProfilePage({
       role: true,
       group: true,
       createdAt: true,
+      practiceSolves: {
+        select: {
+          problemId: true,
+        },
+      },
       attempts: {
         select: {
           score: true,
@@ -196,6 +201,9 @@ export default async function UserProfilePage({
         Math.max(problemProgress.get(response.problem.id) ?? 0, pct),
       );
     }
+  }
+  for (const solve of user.practiceSolves) {
+    problemProgress.set(solve.problemId, 100);
   }
   const problemGridRows = visibleSets.flatMap((set) =>
     set.problems.map((problem) => ({

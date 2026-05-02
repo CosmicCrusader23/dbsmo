@@ -17,6 +17,11 @@ export async function GET() {
         problemSet: {
           status: "PUBLISHED",
         },
+        practiceSolves: {
+          none: {
+            userId: session.user.id,
+          },
+        },
       },
       select: {
         topicTags: true,

@@ -40,14 +40,40 @@ export default function PracticePage() {
   
   const [practiceScore, setPracticeScore] = useState(0);
 
+  async function refreshPracticeTags() {
+    setLoadingTags(true);
+    try {
+      const res = await fetch("/api/practice/tags");
+      const data = await res.json();
+      if (data.tags) setTags(data.tags);
+      if (typeof data.practiceScore === "number") setPracticeScore(data.practiceScore);
+    } catch {
+      // keep current category list if refresh fails
+    } finally {
+      setLoadingTags(false);
+    }
+  }
+
   useEffect(() => {
+    let cancelled = false;
+
     fetch("/api/practice/tags")
       .then((res) => res.json())
       .then((data) => {
+        if (cancelled) return;
         if (data.tags) setTags(data.tags);
         if (typeof data.practiceScore === "number") setPracticeScore(data.practiceScore);
-        setLoadingTags(false);
+      })
+      .catch(() => {
+        // keep defaults if initial fetch fails
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingTags(false);
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -125,6 +151,7 @@ export default function PracticePage() {
         } else if (data.counted) {
           setPracticeScore((s) => s + 1);
         }
+        void refreshPracticeTags();
       } else {
         setIsCorrect(false);
       }
@@ -220,7 +247,10 @@ export default function PracticePage() {
           <div>
             <div style={{ marginBottom: 20 }}>
               <button 
-                onClick={() => setSelectedTag(null)}
+                onClick={() => {
+                  setSelectedTag(null);
+                  void refreshPracticeTags();
+                }}
                 className="secondary-action compact"
               >
                 ← Back to categories
@@ -250,7 +280,14 @@ export default function PracticePage() {
                   <CheckCircle2 size={48} color="var(--color-success)" />
                   <strong>You&apos;ve completed this category!</strong>
                   <p>{problemMessage}</p>
-                  <button onClick={() => setSelectedTag(null)} className="primary-action" style={{ marginTop: 20 }}>
+                  <button
+                    onClick={() => {
+                      setSelectedTag(null);
+                      void refreshPracticeTags();
+                    }}
+                    className="primary-action"
+                    style={{ marginTop: 20 }}
+                  >
                     Choose another category
                   </button>
                 </div>
