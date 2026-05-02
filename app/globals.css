@@ -3840,6 +3840,7 @@ html.dark .theme-choice-button.active {
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .leaderboard-table th {
@@ -3858,6 +3859,7 @@ html.dark .theme-choice-button.active {
   border-bottom: 1px solid var(--color-border);
   font-size: 0.92rem;
   color: var(--color-text-strong);
+  vertical-align: middle;
 }
 
 .leaderboard-table tr:last-child td {
@@ -3890,26 +3892,42 @@ html.dark .theme-choice-button.active {
   gap: 0.6rem;
   text-decoration: none;
   color: inherit;
+  min-width: 0;
 }
 
-.leaderboard-user:hover .leaderboard-name {
-  color: var(--color-pink);
+.leaderboard-user-info {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
 .leaderboard-avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--color-border);
 }
 
-.leaderboard-name {
+.user-link {
+  display: block;
   font-weight: 700;
+  color: var(--color-text-strong);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transition: color 0.15s;
 }
 
-.leaderboard-role-tag {
+.leaderboard-user:hover .user-link {
+  color: var(--color-pink);
+}
+
+.role-badge {
+  width: fit-content;
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -3917,6 +3935,30 @@ html.dark .theme-choice-button.active {
   border-radius: 4px;
   background: rgba(125, 137, 164, 0.1);
   color: var(--color-muted);
+}
+
+.leaderboard-mobile-meta {
+  display: none;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.leaderboard-score-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.leaderboard-score-cell strong,
+.leaderboard-score-cell .score-color {
+  font-size: 1rem;
+}
+
+.leaderboard-score-cell small {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .score-color {
@@ -3930,6 +3972,61 @@ html.dark .theme-choice-button.active {
 }
 .score-low {
   color: var(--color-danger);
+}
+
+.leaderboard-table th:first-child,
+.leaderboard-table td:first-child {
+  width: 72px;
+}
+
+.leaderboard-shell-standard .leaderboard-table th:nth-child(3),
+.leaderboard-shell-standard .leaderboard-table td:nth-child(3),
+.leaderboard-shell-standard .leaderboard-table th:nth-child(4),
+.leaderboard-shell-standard .leaderboard-table td:nth-child(4),
+.leaderboard-shell-standard .leaderboard-table th:nth-child(5),
+.leaderboard-shell-standard .leaderboard-table td:nth-child(5),
+.leaderboard-shell-standard .leaderboard-table th:nth-child(6),
+.leaderboard-shell-standard .leaderboard-table td:nth-child(6) {
+  width: 96px;
+}
+
+.leaderboard-shell-practice .leaderboard-table th:nth-child(3),
+.leaderboard-shell-practice .leaderboard-table td:nth-child(3) {
+  width: 132px;
+}
+
+@media (max-width: 820px) {
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .leaderboard-shell-standard .leaderboard-table th:nth-child(5),
+  .leaderboard-shell-standard .leaderboard-table td:nth-child(5),
+  .leaderboard-shell-standard .leaderboard-table th:nth-child(6),
+  .leaderboard-shell-standard .leaderboard-table td:nth-child(6) {
+    display: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .leaderboard-shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .leaderboard-shell-standard .leaderboard-table th:nth-child(3),
+  .leaderboard-shell-standard .leaderboard-table td:nth-child(3) {
+    display: none;
+  }
+
+  .leaderboard-mobile-meta {
+    display: block;
+  }
+
+  .leaderboard-score-cell small {
+    display: none;
+  }
 }
 
 /* ── Problem-set hub page ─────────────────────────────── */

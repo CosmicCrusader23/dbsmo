@@ -3,8 +3,8 @@ import "katex/dist/katex.min.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DBS MO Training",
-  description: "Mathematics olympiad training platform for answer-only problem sets.",
+  title: "DBSMO Training Platform",
+  description: "Mathematics olympiad training platform for Diocesans Boys' School.",
   icons: {
     icon: "/logo.png",
   },

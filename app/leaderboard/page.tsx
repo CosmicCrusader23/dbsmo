@@ -141,7 +141,7 @@ export default async function LeaderboardPage({
     .map((u, i) => ({ ...u, rank: i + 1 }));
 
   return (
-    <main className="leaderboard-shell">
+    <main className={`leaderboard-shell leaderboard-shell-${mode}`}>
       <header className="leaderboard-header">
         <div>
           <p className="eyebrow">Rankings</p>
@@ -258,7 +258,11 @@ export default async function LeaderboardPage({
                   <td>
                     <div className="leaderboard-user">
                       {u.avatarUrl ? (
-                        <img alt={`${u.displayLabel}'s avatar`} src={u.avatarUrl} />
+                        <img
+                          alt={`${u.displayLabel}'s avatar`}
+                          className="leaderboard-avatar"
+                          src={u.avatarUrl}
+                        />
                       ) : (
                         <DefaultAvatar />
                       )}
@@ -267,6 +271,11 @@ export default async function LeaderboardPage({
                           {u.displayLabel}
                         </Link>
                         {u.role === "ADMIN" ? <span className="role-badge">Teacher</span> : null}
+                        <small className="leaderboard-mobile-meta">
+                          {mode === "practice"
+                            ? `Score ${u.practiceScore}`
+                            : `Score ${u.avgScore}%`}
+                        </small>
                       </div>
                     </div>
                   </td>
@@ -276,26 +285,29 @@ export default async function LeaderboardPage({
                         <strong>{u.solvedSets}</strong>
                       </td>
                       <td>
-                        <span
-                          className={`score-color ${
-                            u.avgScore >= 80
-                              ? "score-high"
-                              : u.avgScore >= 50
-                                ? "score-mid"
-                                : "score-low"
-                          }`}
-                        >
-                          {u.avgScore}%
-                        </span>
+                        <div className="leaderboard-score-cell">
+                          <span
+                            className={`score-color ${
+                              u.avgScore >= 80
+                                ? "score-high"
+                                : u.avgScore >= 50
+                                  ? "score-mid"
+                                  : "score-low"
+                            }`}
+                          >
+                            {u.avgScore}%
+                          </span>
+                          <small>{u.solvedSets} solved</small>
+                        </div>
                       </td>
                       <td>{u.uniqueSets}</td>
                       <td>{u.totalAttempts}</td>
                     </>
                   ) : (
                     <td>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <strong style={{ fontSize: "1.1rem" }}>{u.practiceScore}</strong>
-                        <small style={{ color: "var(--color-muted)", fontSize: "0.8rem" }}>correct solves</small>
+                      <div className="leaderboard-score-cell">
+                        <strong>{u.practiceScore}</strong>
+                        <small>correct solves</small>
                       </div>
                     </td>
                   )}

@@ -298,6 +298,10 @@ export default function CreateSetPage() {
           <h1>Create Problem Set</h1>
         </div>
         <div className="create-set-header-actions">
+          <Link className="secondary-action" href="/dashboard">
+            <ArrowLeft size={16} />
+            Dashboard
+          </Link>
           <Link className="secondary-action" href="/admin/sets">
             <ArrowLeft size={16} />
             Back to sets

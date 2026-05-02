@@ -48,10 +48,16 @@ export default async function StudentDetailPage({ params }: Props) {
             <p className="eyebrow">Student</p>
             <h1>{student.name ?? student.email}</h1>
           </div>
-          <Link className="secondary-action" href="/admin/students">
-            <ArrowLeft size={18} />
-            All students
-          </Link>
+          <div className="topbar-actions">
+            <Link className="secondary-action" href="/dashboard">
+              <ArrowLeft size={18} />
+              Dashboard
+            </Link>
+            <Link className="secondary-action" href="/admin/students">
+              <ArrowLeft size={18} />
+              All students
+            </Link>
+          </div>
         </header>
         <section className="metric-grid" aria-label="Student metrics">
           <article className="metric-card accent-cyan">

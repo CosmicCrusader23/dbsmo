@@ -1,7 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight, CheckCircle2, Crosshair, Loader2, Target, Trophy, XCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Crosshair,
+  Loader2,
+  Target,
+  Trophy,
+  XCircle,
+} from "lucide-react";
 import "katex/dist/katex.min.css";
 import renderMathInElement from "katex/dist/contrib/auto-render";
 
@@ -133,12 +143,25 @@ export default function PracticePage() {
             <p className="eyebrow">Training</p>
             <h1>Practice Mode</h1>
           </div>
-          {practiceScore > 0 && (
-            <div className="secondary-action" style={{ cursor: "default", border: "1px solid var(--color-success)", color: "var(--color-success)" }}>
-              <Trophy size={18} />
-              Practice Score: {practiceScore}
-            </div>
-          )}
+          <div className="topbar-actions">
+            {practiceScore > 0 && (
+              <div
+                className="secondary-action"
+                style={{
+                  cursor: "default",
+                  border: "1px solid var(--color-success)",
+                  color: "var(--color-success)",
+                }}
+              >
+                <Trophy size={18} />
+                Practice Score: {practiceScore}
+              </div>
+            )}
+            <Link className="secondary-action" href="/dashboard">
+              <ArrowLeft size={18} />
+              Dashboard
+            </Link>
+          </div>
         </header>
 
         {!selectedTag ? (

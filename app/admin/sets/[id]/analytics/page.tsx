@@ -60,9 +60,16 @@ export default async function SetAnalyticsPage({ params }: Props) {
             <p className="eyebrow">Analytics</p>
             <h1>{set.title}</h1>
           </div>
-          <Link className="secondary-action" href={`/admin/sets/${id}`}>
-            <ArrowLeft size={18} /> Back to set
-          </Link>
+          <div className="topbar-actions">
+            <Link className="secondary-action" href="/dashboard">
+              <ArrowLeft size={18} />
+              Dashboard
+            </Link>
+            <Link className="secondary-action" href={`/admin/sets/${id}`}>
+              <ArrowLeft size={18} />
+              Back to set
+            </Link>
+          </div>
         </header>
         <section className="metric-grid" aria-label="Set analytics">
           <article className="metric-card accent-cyan">

@@ -376,6 +376,10 @@ export function SetEditForm({ set }: { set: SetData }) {
             {isSaving ? <Loader2 size={18} className="spin-icon" /> : <Save size={18} />}
             {isSaving ? "Saving…" : "Save changes"}
           </button>
+          <Link className="secondary-action" href="/dashboard">
+            <ArrowLeft size={18} />
+            Dashboard
+          </Link>
           <Link className="secondary-action" href="/admin/sets" style={{ marginLeft: "10px" }}>
             <ArrowLeft size={18} />
             All sets
