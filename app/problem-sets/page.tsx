@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, ChevronRight, LayoutGrid, Search } from "lucide-react";
+import { ArrowLeft, LayoutGrid, Search } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import {
@@ -328,13 +328,12 @@ export default async function ProblemSetsPage({
                 <th>Name</th>
                 <th>Categories</th>
                 <th># Solved</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {tableRows.length === 0 ? (
                 <tr>
-                  <td colSpan={5}>
+                  <td colSpan={4}>
                     {activeView === "bookmarked"
                       ? "No bookmarked tasks match this filter."
                       : "No tasks match this filter."}
@@ -342,17 +341,25 @@ export default async function ProblemSetsPage({
                 </tr>
               ) : (
                 tableRows.map((set) => (
-                  <tr key={set.id}>
-                    <td>{set.order}</td>
+                  <tr key={set.id} className="problem-set-row">
                     <td>
-                      <strong>{set.title}</strong>
+                      <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
+                        {set.order}
+                      </Link>
                     </td>
-                    <td>{set.categories.join(" · ")}</td>
-                    <td>{set.solvedCount}</td>
                     <td>
-                      <Link className="text-link" href={`/problem-sets/${set.slug}`}>
-                        Open
-                        <ChevronRight size={14} />
+                      <Link className="problem-set-row-link problem-set-title-link" href={`/problem-sets/${set.slug}`}>
+                        <strong>{set.title}</strong>
+                      </Link>
+                    </td>
+                    <td>
+                      <Link className="problem-set-row-link problem-set-categories-link" href={`/problem-sets/${set.slug}`}>
+                        {set.categories.join(" · ")}
+                      </Link>
+                    </td>
+                    <td>
+                      <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
+                        {set.solvedCount}
                       </Link>
                     </td>
                   </tr>

@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
-import { ArrowLeft, Calendar, CheckCircle2, Mail, Award } from "lucide-react";
+import { ArrowLeft, Calendar, Grid2x2, Mail } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { usernameFromEmail } from "@/lib/user-profile";
+import { isVisibleToStudent } from "@/lib/visibility";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
 
@@ -62,6 +63,19 @@ export default async function UserProfilePage({
 
   if (!user) notFound();
 
+  const allSets = await prisma.problemSet.findMany({
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      order: true,
+      status: true,
+      visibleFrom: true,
+      visibleTo: true,
+    },
+  });
+
   const isOwnProfile = user.id === session.user.id;
   const [friendRequesterId, friendReceiverId] = [session.user.id, user.id].sort() as [
     string,
@@ -116,6 +130,21 @@ export default async function UserProfilePage({
     }
   }
   const solvedSets = [...setScores.values()].filter((s) => s.best >= 80);
+  const visibleSets =
+    session.user.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
+  const setGridRows = visibleSets.map((set) => {
+    const progress = setScores.get(set.id);
+    const best = progress ? Math.round(progress.best) : 0;
+    const status = !progress ? "unattempted" : best >= 80 ? "solved" : "attempted";
+    return {
+      id: set.id,
+      slug: set.slug,
+      title: set.title,
+      order: set.order,
+      best,
+      status,
+    };
+  });
 
   return (
     <main className="profile-shell">
@@ -192,23 +221,41 @@ export default async function UserProfilePage({
         </div>
       </div>
 
-      {solvedSets.length > 0 && (
-        <section className="profile-section">
+      <section className="profile-section">
+        <div className="profile-grid-header">
           <h2>
-            <CheckCircle2 size={18} />
-            Solved sets
+            <Grid2x2 size={18} />
+            Set grid
           </h2>
-          <div className="profile-solved-grid">
-            {solvedSets.map((s) => (
-              <Link key={s.slug} href={`/problem-sets/${s.slug}`} className="profile-solved-chip">
-                <Award size={14} />
-                {s.title}
-                <span className="profile-solved-pct">{Math.round(s.best)}%</span>
-              </Link>
-            ))}
+          <div className="profile-grid-legend" aria-label="Set status legend">
+            <span className="profile-grid-legend-item">
+              <span className="profile-grid-dot profile-grid-dot-solved" />
+              Solved
+            </span>
+            <span className="profile-grid-legend-item">
+              <span className="profile-grid-dot profile-grid-dot-attempted" />
+              Attempted
+            </span>
+            <span className="profile-grid-legend-item">
+              <span className="profile-grid-dot profile-grid-dot-unattempted" />
+              Unattempted
+            </span>
           </div>
-        </section>
-      )}
+        </div>
+        <div className="profile-set-grid">
+          {setGridRows.map((set) => (
+            <Link
+              key={set.id}
+              href={`/problem-sets/${set.slug}`}
+              className={`profile-set-tile profile-set-tile-${set.status}`}
+              title={`${set.title}${set.status !== "unattempted" ? ` (${set.best}%)` : ""}`}
+              aria-label={`${set.title}: ${set.status}${set.status !== "unattempted" ? `, ${set.best}%` : ""}`}
+            >
+              {set.order}
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

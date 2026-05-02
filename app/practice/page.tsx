@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Crosshair,
   Loader2,
+  SkipForward,
   Target,
   Trophy,
   XCircle,
@@ -96,6 +97,11 @@ export default function PracticePage() {
   function handleTagSelect(tag: string) {
     setSelectedTag(tag);
     loadNextProblem(tag);
+  }
+
+  function skipProblem() {
+    if (!selectedTag || loadingProblem || isSubmitting) return;
+    loadNextProblem(selectedTag);
   }
 
   async function submitAnswer(e: React.FormEvent) {
@@ -254,7 +260,7 @@ export default function PracticePage() {
                     {problem.statement}
                   </div>
                   
-                  <form onSubmit={submitAnswer} style={{ display: "flex", gap: 15, alignItems: "center" }}>
+                  <form onSubmit={submitAnswer} style={{ display: "flex", gap: 15, alignItems: "center", flexWrap: "wrap" }}>
                     <input
                       type="text"
                       className="form-input"
@@ -266,14 +272,25 @@ export default function PracticePage() {
                       autoFocus
                     />
                     {isCorrect !== true ? (
-                      <button 
-                        type="submit" 
-                        className="primary-action" 
-                        disabled={!answer.trim() || isSubmitting}
-                      >
-                        {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <Crosshair size={18} />}
-                        Submit
-                      </button>
+                      <>
+                        <button 
+                          type="submit" 
+                          className="primary-action" 
+                          disabled={!answer.trim() || isSubmitting}
+                        >
+                          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <Crosshair size={18} />}
+                          Submit
+                        </button>
+                        <button
+                          type="button"
+                          className="secondary-action"
+                          onClick={skipProblem}
+                          disabled={loadingProblem || isSubmitting}
+                        >
+                          <SkipForward size={18} />
+                          Skip
+                        </button>
+                      </>
                     ) : (
                       <button
                         type="button"
