@@ -58,6 +58,12 @@ type JsonZipEntry = {
   file: File;
 };
 
+function isIgnoredZipEntry(path: string) {
+  const normalizedPath = path.replace(/\\/g, "/");
+  const fileName = normalizedPath.split("/").pop() ?? normalizedPath;
+  return normalizedPath.startsWith("__MACOSX/") || fileName.startsWith("._");
+}
+
 export function JsonZipImportPanel() {
   const [zipFile, setZipFile] = useState<File | null>(null);
   const [entries, setEntries] = useState<JsonZipEntry[]>([]);
@@ -116,7 +122,9 @@ export function JsonZipImportPanel() {
     setIsReadingZip(true);
     try {
       const zip = await JSZip.loadAsync(await nextZip.arrayBuffer());
-      const files = Object.values(zip.files).filter((entry) => !entry.dir);
+      const files = Object.values(zip.files).filter(
+        (entry) => !entry.dir && !isIgnoredZipEntry(entry.name),
+      );
       const invalidFiles = files.filter((entry) => !entry.name.toLowerCase().endsWith(".json"));
 
       if (invalidFiles.length > 0) {
