@@ -177,6 +177,7 @@ export default async function DashboardPage() {
     setRows.find((row) => row.status === "Attempted") ??
     setRows[0] ??
     null;
+  const dashboardSetRows = setRows.slice(0, 3);
 
   const topicMap = new Map<string, { correct: number; total: number }>();
   for (const attempt of attempts) {
@@ -427,7 +428,7 @@ export default async function DashboardPage() {
                   </small>
                 </div>
               ) : (
-                setRows.map((set) => (
+                dashboardSetRows.map((set) => (
                   <Link className="set-row" href={`/problem-sets/${set.slug}`} key={set.slug}>
                     <div className="set-main">
                       <span className={`status-dot status-${statusClass(set.status)}`} />
@@ -441,6 +442,13 @@ export default async function DashboardPage() {
                 ))
               )}
             </div>
+            {setRows.length > dashboardSetRows.length ? (
+              <div className="panel-footer-link">
+                <Link className="text-link" href="/problem-sets">
+                  View all {setRows.length} sets
+                </Link>
+              </div>
+            ) : null}
           </article>
 
           <article className="panel">

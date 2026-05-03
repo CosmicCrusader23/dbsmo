@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Check, Eye, X } from "lucide-react";
+import { Check, Eye, Trash2, X } from "lucide-react";
 
 type Props = {
   reportId: string;
@@ -17,10 +17,22 @@ export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
   async function updateStatus(status: string) {
     setLoading(true);
     try {
-      await fetch("/api/admin/feedback", {
+      await fetch(`/api/admin/feedback/${reportId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reportId, status }),
+        body: JSON.stringify({ status }),
+      });
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteReport() {
+    setLoading(true);
+    try {
+      await fetch(`/api/admin/feedback/${reportId}`, {
+        method: "DELETE",
       });
       router.refresh();
     } finally {
@@ -30,9 +42,14 @@ export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
 
   if (currentStatus === "RESOLVED" || currentStatus === "REJECTED") {
     return (
-      <span style={{ fontSize: "0.78rem", color: "var(--color-muted)" }}>
-        {adminNote || "Done"}
-      </span>
+      <div className="resolve-actions">
+        <span style={{ fontSize: "0.78rem", color: "var(--color-muted)" }}>
+          {adminNote || "Done"}
+        </span>
+        <button className="btn-sm btn-danger" disabled={loading} onClick={deleteReport}>
+          <Trash2 size={12} /> Delete
+        </button>
+      </div>
     );
   }
 

@@ -1,17 +1,37 @@
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, FileJson, Plus } from "lucide-react";
+import { ArrowLeft, ExternalLink, FileJson, Plus, Search } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { DeleteSetButton } from "./delete-set-button";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminSetsPage() {
+type AdminSetsSearchParams = Promise<{
+  q?: string;
+}>;
+
+export default async function AdminSetsPage({
+  searchParams,
+}: {
+  searchParams?: AdminSetsSearchParams;
+}) {
+  const params = (await searchParams) ?? {};
+  const query = params.q?.trim() ?? "";
+  const normalizedQuery = query.toLowerCase();
+
   const sets = await prisma.problemSet.findMany({
     orderBy: { order: "asc" },
     include: {
       _count: { select: { problems: true } },
     },
+  });
+
+  const visibleSets = sets.filter((set) => {
+    if (!normalizedQuery) return true;
+    return [set.title, set.slug, String(set.order), ...set.topicTags, set.status]
+      .join(" ")
+      .toLowerCase()
+      .includes(normalizedQuery);
   });
 
   return (
@@ -40,15 +60,39 @@ export default async function AdminSetsPage() {
           </div>
         </header>
 
-        {sets.length === 0 ? (
+        <form action="/admin/sets" className="search-panel" role="search">
+          <Search size={18} />
+          <input
+            aria-label="Search sets"
+            defaultValue={query}
+            name="q"
+            placeholder="Search sets by title, slug, order, tag, or status"
+          />
+          <button className="secondary-action compact" type="submit">
+            Search
+          </button>
+          {query ? (
+            <Link className="text-link" href="/admin/sets">
+              Clear
+            </Link>
+          ) : null}
+        </form>
+
+        {visibleSets.length === 0 ? (
           <section className="panel empty-state">
             <FileJson size={42} />
-            <strong>No problem sets yet</strong>
-            <p>Import your first problem set by uploading a JSON file.</p>
-            <Link className="primary-action" href="/admin/import">
-              <Plus size={18} />
-              Import JSON
-            </Link>
+            <strong>{query ? "No problem sets match this search" : "No problem sets yet"}</strong>
+            <p>
+              {query
+                ? "Try a different title, slug, tag, order, or status."
+                : "Import your first problem set by uploading a JSON file."}
+            </p>
+            {!query ? (
+              <Link className="primary-action" href="/admin/import">
+                <Plus size={18} />
+                Import JSON
+              </Link>
+            ) : null}
           </section>
         ) : (
           <section className="panel table-panel">
@@ -56,7 +100,7 @@ export default async function AdminSetsPage() {
               <div>
                 <p className="eyebrow">All sets</p>
                 <h2>
-                  {sets.length} problem set{sets.length !== 1 ? "s" : ""}
+                  {visibleSets.length} problem set{visibleSets.length !== 1 ? "s" : ""}
                 </h2>
               </div>
               <Link className="secondary-action compact" href="/admin/import">
@@ -79,7 +123,7 @@ export default async function AdminSetsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {sets.map((set) => (
+                  {visibleSets.map((set) => (
                     <tr key={set.id}>
                       <td>{set.order}</td>
                       <td>

@@ -24,6 +24,13 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Role must be ADMIN or STUDENT." }, { status: 422 });
   }
 
+  if (id === session.user.id && role === "STUDENT") {
+    return NextResponse.json(
+      { error: "You cannot demote your own admin account." },
+      { status: 422 },
+    );
+  }
+
   const user = await prisma.user.update({
     where: { id },
     data: { role: role as UserRole },

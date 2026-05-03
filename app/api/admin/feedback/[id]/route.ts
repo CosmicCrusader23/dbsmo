@@ -43,3 +43,38 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
+export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id || session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const report = await prisma.feedbackReport.findUnique({
+      where: { id },
+      select: { status: true },
+    });
+
+    if (!report) {
+      return NextResponse.json({ error: "Report not found" }, { status: 404 });
+    }
+
+    if (report.status !== "RESOLVED" && report.status !== "REJECTED") {
+      return NextResponse.json(
+        { error: "Only resolved or rejected reports can be deleted." },
+        { status: 422 },
+      );
+    }
+
+    await prisma.feedbackReport.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Failed to delete feedback report:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

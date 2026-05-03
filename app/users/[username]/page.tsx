@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar, Grid2x2, Mail } from "lucide-react";
 import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { computeBestAverageScore } from "@/lib/analytics";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { FriendButton } from "./friend-button";
@@ -214,6 +215,60 @@ export default async function UserProfilePage({
       best: problemProgress.has(problem.id) ? problemProgress.get(problem.id) ?? 0 : null,
     })),
   );
+
+  const leaderboardUsers = await prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      displayName: true,
+      attempts: {
+        select: { score: true, maxScore: true, problemSetId: true },
+      },
+      _count: {
+        select: { practiceSolves: true },
+      },
+    },
+  });
+
+  const standardRows = leaderboardUsers
+    .map((entry) => {
+      const bestPerSet = new Map<string, number>();
+      for (const attempt of entry.attempts) {
+        const pct = attempt.maxScore > 0 ? (attempt.score / attempt.maxScore) * 100 : 0;
+        bestPerSet.set(attempt.problemSetId, Math.max(bestPerSet.get(attempt.problemSetId) ?? 0, pct));
+      }
+
+      return {
+        id: entry.id,
+        displayLabel: entry.displayName || entry.name || "Anonymous",
+        solvedSets: [...bestPerSet.values()].filter((pct) => pct >= 80).length,
+        avgScore: computeBestAverageScore(entry.attempts),
+      };
+    })
+    .sort(
+      (a, b) =>
+        b.solvedSets - a.solvedSets ||
+        b.avgScore - a.avgScore ||
+        a.displayLabel.localeCompare(b.displayLabel),
+    )
+    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+
+  const practiceRows = leaderboardUsers
+    .map((entry) => ({
+      id: entry.id,
+      displayLabel: entry.displayName || entry.name || "Anonymous",
+      practiceScore: entry._count.practiceSolves,
+    }))
+    .sort(
+      (a, b) =>
+        b.practiceScore - a.practiceScore || a.displayLabel.localeCompare(b.displayLabel),
+    )
+    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+
+  const standardRank = standardRows.find((entry) => entry.id === user.id)?.rank ?? null;
+  const practiceRank = practiceRows.find((entry) => entry.id === user.id)?.rank ?? null;
+
   function profileGridHref(nextGrid: "sets" | "problems") {
     if (nextGrid === "sets") {
       return `/users/${encodeURIComponent(username)}`;
@@ -267,8 +322,8 @@ export default async function UserProfilePage({
             <Calendar size={14} />
             Joined {user.createdAt.toLocaleDateString("en-US", { year: "numeric", month: "long" })}
           </p>
-          {session.user.role === "ADMIN" && user.role !== "ADMIN" ? (
-            <PromoteUserButton userId={user.id} />
+          {session.user.role === "ADMIN" && !isOwnProfile ? (
+            <PromoteUserButton userId={user.id} currentRole={user.role} />
           ) : null}
         </div>
       </section>
@@ -294,6 +349,18 @@ export default async function UserProfilePage({
           <span className="profile-stat-value">{totalAttempts}</span>
           <span className="profile-stat-label">Attempts</span>
         </div>
+        {isOwnProfile ? (
+          <div className="profile-stat">
+            <span className="profile-stat-value">{standardRank ? `#${standardRank}` : "—"}</span>
+            <span className="profile-stat-label">Standard rank</span>
+          </div>
+        ) : null}
+        {isOwnProfile ? (
+          <div className="profile-stat">
+            <span className="profile-stat-value">{practiceRank ? `#${practiceRank}` : "—"}</span>
+            <span className="profile-stat-label">Practice rank</span>
+          </div>
+        ) : null}
       </div>
 
       <section className="profile-section">

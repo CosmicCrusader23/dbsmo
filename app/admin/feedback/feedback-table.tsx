@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { CheckCircle2, RotateCcw, Trash2, XCircle } from "lucide-react";
 
 type Report = {
   id: string;
@@ -29,6 +29,20 @@ export function FeedbackTable({ initialReports }: { initialReports: Report[] }) 
       });
       if (res.ok) {
         setReports((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+      }
+    } finally {
+      setUpdating(null);
+    }
+  }
+
+  async function handleDelete(id: string) {
+    setUpdating(id);
+    try {
+      const res = await fetch(`/api/admin/feedback/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setReports((prev) => prev.filter((report) => report.id !== id));
       }
     } finally {
       setUpdating(null);
@@ -103,14 +117,24 @@ export function FeedbackTable({ initialReports }: { initialReports: Report[] }) 
                     </button>
                   )}
                   {report.status !== "OPEN" && report.status !== "REVIEWING" && (
-                    <button
-                      className="icon-button"
-                      title="Reopen"
-                      disabled={updating === report.id}
-                      onClick={() => handleUpdateStatus(report.id, "OPEN")}
-                    >
-                      <RotateCcw size={16} />
-                    </button>
+                    <>
+                      <button
+                        className="icon-button"
+                        title="Reopen"
+                        disabled={updating === report.id}
+                        onClick={() => handleUpdateStatus(report.id, "OPEN")}
+                      >
+                        <RotateCcw size={16} />
+                      </button>
+                      <button
+                        className="icon-button"
+                        title="Delete"
+                        disabled={updating === report.id}
+                        onClick={() => handleDelete(report.id)}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </>
                   )}
                 </div>
               </td>

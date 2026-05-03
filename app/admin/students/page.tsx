@@ -1,11 +1,23 @@
 import Link from "next/link";
-import { ArrowLeft, Download, ExternalLink, Users } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink, Search, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { computeBestAverageScore } from "@/lib/analytics";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminStudentsPage() {
+type AdminStudentsSearchParams = Promise<{
+  q?: string;
+}>;
+
+export default async function AdminStudentsPage({
+  searchParams,
+}: {
+  searchParams?: AdminStudentsSearchParams;
+}) {
+  const params = (await searchParams) ?? {};
+  const query = params.q?.trim() ?? "";
+  const normalizedQuery = query.toLowerCase();
+
   const students = await prisma.user.findMany({
     where: { role: "STUDENT" },
     include: {
@@ -16,19 +28,24 @@ export default async function AdminStudentsPage() {
     orderBy: { name: "asc" },
   });
 
-  const rows = students.map((s) => {
-    const uniqueSets = new Set(s.attempts.map((a) => a.problemSetId));
-    const avgScore = computeBestAverageScore(s.attempts);
-    const lastActive =
-      s.attempts.length > 0
-        ? s.attempts.reduce(
-            (latest, a) => (a.submittedAt > latest ? a.submittedAt : latest),
-            s.attempts[0].submittedAt,
-          )
-        : s.lastLoginAt;
+  const rows = students
+    .map((s) => {
+      const uniqueSets = new Set(s.attempts.map((a) => a.problemSetId));
+      const avgScore = computeBestAverageScore(s.attempts);
+      const lastActive =
+        s.attempts.length > 0
+          ? s.attempts.reduce(
+              (latest, a) => (a.submittedAt > latest ? a.submittedAt : latest),
+              s.attempts[0].submittedAt,
+            )
+          : s.lastLoginAt;
 
-    return { ...s, setsCompleted: uniqueSets.size, avgScore, lastActive };
-  });
+      return { ...s, setsCompleted: uniqueSets.size, avgScore, lastActive };
+    })
+    .filter((row) => {
+      if (!normalizedQuery) return true;
+      return [row.name ?? "", row.email, row.group ?? ""].join(" ").toLowerCase().includes(normalizedQuery);
+    });
 
   return (
     <main className="single-page">
@@ -56,11 +73,33 @@ export default async function AdminStudentsPage() {
           </div>
         </header>
 
+        <form action="/admin/students" className="search-panel" role="search">
+          <Search size={18} />
+          <input
+            aria-label="Search students"
+            defaultValue={query}
+            name="q"
+            placeholder="Search students by name, email, or group"
+          />
+          <button className="secondary-action compact" type="submit">
+            Search
+          </button>
+          {query ? (
+            <Link className="text-link" href="/admin/students">
+              Clear
+            </Link>
+          ) : null}
+        </form>
+
         {rows.length === 0 ? (
           <section className="panel empty-state">
             <Users size={42} />
-            <strong>No students yet</strong>
-            <p>Students will appear here after they log in and submit attempts.</p>
+            <strong>{query ? "No students match this search" : "No students yet"}</strong>
+            <p>
+              {query
+                ? "Try a different student name, email, or group."
+                : "Students will appear here after they log in and submit attempts."}
+            </p>
           </section>
         ) : (
           <section className="panel table-panel">

@@ -17,6 +17,7 @@ declare module "next-auth" {
 }
 
 export const ALLOWED_EMAIL_DOMAINS = ["@g.dbs.edu.hk", "@dbs.edu.hk"];
+export const ALLOWED_EMAILS = ["edwinchansjps@gmail.com"];
 export const SCHOOL_EMAIL_SUFFIX = ALLOWED_EMAIL_DOMAINS[0]; // fallback for dev bypass
 export const devBypassEnabled = process.env.NODE_ENV !== "production";
 export const googleAuthEnabled = Boolean(
@@ -84,7 +85,11 @@ export const authOptions: NextAuthOptions = {
       }
 
       const email = user.email?.toLowerCase();
-      if (!email || !ALLOWED_EMAIL_DOMAINS.some(domain => email.endsWith(domain))) {
+      if (
+        !email ||
+        (!ALLOWED_EMAILS.includes(email) &&
+          !ALLOWED_EMAIL_DOMAINS.some((domain) => email.endsWith(domain)))
+      ) {
         return false;
       }
 

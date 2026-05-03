@@ -505,6 +505,10 @@ table {
   padding: 20px;
 }
 
+.panel-footer-link {
+  padding: 0 20px 20px;
+}
+
 .set-row {
   display: flex;
   align-items: center;
@@ -2798,6 +2802,7 @@ html.dark .confetti-triangles span {
   display: flex;
   gap: 6px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .btn-sm {
