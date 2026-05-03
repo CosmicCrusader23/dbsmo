@@ -37,6 +37,7 @@ type StudentSetRow = {
   topics: string[];
   status: "Solved" | "Attempted" | "Not started" | "Review";
   bestScore: number;
+  sortPriority: number;
 };
 
 const ACCENTS = ["cyan", "purple", "pink", "orange"] as const;
@@ -147,6 +148,7 @@ export default async function DashboardPage() {
       topics: set.topicTags.length > 0 ? set.topicTags : ["General"],
       status,
       bestScore,
+      sortPriority: setAttempts.length > 0 ? 0 : 1,
     };
   });
 
@@ -177,7 +179,15 @@ export default async function DashboardPage() {
     setRows.find((row) => row.status === "Attempted") ??
     setRows[0] ??
     null;
-  const dashboardSetRows = setRows.slice(0, 3);
+  const dashboardSetRows = [...setRows]
+    .sort((a, b) => {
+      return (
+        a.sortPriority - b.sortPriority ||
+        b.bestScore - a.bestScore ||
+        a.title.localeCompare(b.title)
+      );
+    })
+    .slice(0, 3);
 
   const topicMap = new Map<string, { correct: number; total: number }>();
   for (const attempt of attempts) {
@@ -437,7 +447,11 @@ export default async function DashboardPage() {
                         <small>{set.topics.join(" / ")}</small>
                       </div>
                     </div>
-                    <div className="score-pill">{set.bestScore}%</div>
+                    <div
+                      className={`score-pill${set.bestScore === 100 ? " score-pill-complete" : ""}`}
+                    >
+                      {set.bestScore}%
+                    </div>
                   </Link>
                 ))
               )}

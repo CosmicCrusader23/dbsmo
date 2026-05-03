@@ -327,13 +327,14 @@ export default async function ProblemSetsPage({
                 <th>ID</th>
                 <th>Name</th>
                 <th>Categories</th>
+                <th>Your best</th>
                 <th># Solved</th>
               </tr>
             </thead>
             <tbody>
               {tableRows.length === 0 ? (
                 <tr>
-                  <td colSpan={4}>
+                  <td colSpan={5}>
                     {activeView === "bookmarked"
                       ? "No bookmarked tasks match this filter."
                       : "No tasks match this filter."}
@@ -355,6 +356,17 @@ export default async function ProblemSetsPage({
                     <td>
                       <Link className="problem-set-row-link problem-set-categories-link" href={`/problem-sets/${set.slug}`}>
                         {set.categories.join(" · ")}
+                      </Link>
+                    </td>
+                    <td>
+                      <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
+                        <span
+                          className={`score-pill${
+                            set.bestScore === 100 ? " score-pill-complete" : ""
+                          }`}
+                        >
+                          {set.attempts > 0 ? `${set.bestScore}%` : "—"}
+                        </span>
                       </Link>
                     </td>
                     <td>

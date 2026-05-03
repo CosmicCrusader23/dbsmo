@@ -349,18 +349,14 @@ export default async function UserProfilePage({
           <span className="profile-stat-value">{totalAttempts}</span>
           <span className="profile-stat-label">Attempts</span>
         </div>
-        {isOwnProfile ? (
-          <div className="profile-stat">
-            <span className="profile-stat-value">{standardRank ? `#${standardRank}` : "—"}</span>
-            <span className="profile-stat-label">Standard rank</span>
-          </div>
-        ) : null}
-        {isOwnProfile ? (
-          <div className="profile-stat">
-            <span className="profile-stat-value">{practiceRank ? `#${practiceRank}` : "—"}</span>
-            <span className="profile-stat-label">Practice rank</span>
-          </div>
-        ) : null}
+        <div className="profile-stat">
+          <span className="profile-stat-value">{standardRank ? `#${standardRank}` : "—"}</span>
+          <span className="profile-stat-label">Standard rank</span>
+        </div>
+        <div className="profile-stat">
+          <span className="profile-stat-value">{practiceRank ? `#${practiceRank}` : "—"}</span>
+          <span className="profile-stat-label">Practice rank</span>
+        </div>
       </div>
 
       <section className="profile-section">

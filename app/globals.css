@@ -578,6 +578,12 @@ table {
   font-weight: 900;
 }
 
+.score-pill-complete {
+  background: rgba(27, 191, 137, 0.18);
+  border: 1px solid rgba(27, 191, 137, 0.34);
+  color: hsl(155, 72%, 58%);
+}
+
 .topic-bar {
   display: grid;
   gap: 8px;
