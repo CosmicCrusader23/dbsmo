@@ -8,6 +8,7 @@ export const STANDARD_PROBLEM_SET_TAGS = [
   "Combinatorics",
   "AIME",
   "AMC",
+  "AJHSME",
 ] as const;
 
 export const OTHER_PROBLEM_SET_TAG = "Others";

@@ -650,6 +650,11 @@ td {
   padding-bottom: 20px;
 }
 
+.import-stack {
+  display: grid;
+  gap: 18px;
+}
+
 .dropzone {
   display: grid;
   min-height: 230px;
@@ -799,6 +804,50 @@ td {
 .issue-list {
   display: grid;
   gap: 8px;
+}
+
+.zip-json-list {
+  display: grid;
+  gap: 16px;
+  margin: 20px;
+}
+
+.zip-json-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card-bg);
+}
+
+.zip-json-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+}
+
+.zip-json-meta {
+  min-width: 0;
+}
+
+.zip-json-meta strong,
+.zip-json-meta small {
+  display: block;
+}
+
+.zip-json-meta strong {
+  color: var(--color-text-strong);
+  font-size: 0.95rem;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zip-json-meta small {
+  margin-top: 0.2rem;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .issue-row {

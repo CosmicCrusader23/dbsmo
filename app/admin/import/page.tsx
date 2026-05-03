@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, FileJson } from "lucide-react";
+import { JsonZipImportPanel } from "./json-zip-import-panel";
 import { ZipImportPanel } from "./zip-import-panel";
 
 export default function ImportPage() {
@@ -24,7 +25,10 @@ export default function ImportPage() {
         </header>
 
         <section className="import-layout">
-          <ZipImportPanel />
+          <div className="import-stack">
+            <ZipImportPanel />
+            <JsonZipImportPanel />
+          </div>
 
           <aside className="panel import-spec">
             <div className="panel-header">
