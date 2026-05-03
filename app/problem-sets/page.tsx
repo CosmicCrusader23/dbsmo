@@ -34,6 +34,7 @@ const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
 
 type ProblemSetsSearchParams = Promise<{
   category?: string;
+  hideSolved?: string;
   q?: string;
   sort?: string;
   view?: string;
@@ -53,6 +54,7 @@ export default async function ProblemSetsPage({
   const sortMode =
     params.sort === "solved" ? "solved" : params.sort === "name" ? "name" : "default";
   const activeView = params.view === "bookmarked" ? "bookmarked" : "recommended";
+  const hideSolved = params.hideSolved === "1";
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
   const activeCategory =
@@ -62,6 +64,7 @@ export default async function ProblemSetsPage({
 
   function problemSetsHref(next: {
     category?: string | null;
+    hideSolved?: boolean;
     q?: string;
     sort?: "default" | "solved" | "name";
     view?: "recommended" | "bookmarked";
@@ -69,6 +72,7 @@ export default async function ProblemSetsPage({
     const nextSort = next.sort ?? sortMode;
     const nextView = next.view ?? activeView;
     const nextCategory = next.category === undefined ? activeCategory : next.category;
+    const nextHideSolved = next.hideSolved ?? hideSolved;
     const nextQuery = next.q === undefined ? query : next.q;
     const urlParams = new URLSearchParams();
 
@@ -80,6 +84,9 @@ export default async function ProblemSetsPage({
     }
     if (nextCategory) {
       urlParams.set("category", nextCategory);
+    }
+    if (nextHideSolved) {
+      urlParams.set("hideSolved", "1");
     }
     if (nextQuery.trim()) {
       urlParams.set("q", nextQuery.trim());
@@ -171,11 +178,12 @@ export default async function ProblemSetsPage({
 
   const viewRows =
     activeView === "bookmarked" ? orderedRows.filter((set) => set.isBookmarked) : orderedRows;
+  const filteredRows = hideSolved ? viewRows.filter((set) => set.bestScore < 100) : viewRows;
 
   const groupedRows = new Map<string, SetRow[]>(
     CATEGORY_ORDER.map((category) => [
       category,
-      viewRows.filter((set) => {
+      filteredRows.filter((set) => {
         const matchesSearch =
           !normalizedQuery ||
           [set.title, set.slug, ...set.tags, ...set.categories]
@@ -186,7 +194,7 @@ export default async function ProblemSetsPage({
       }),
     ]),
   );
-  const tableRows = viewRows.filter((set) => {
+  const tableRows = filteredRows.filter((set) => {
     const matchesCategory = !activeCategory || set.categories.includes(activeCategory);
     const matchesSearch =
       !normalizedQuery ||
@@ -258,6 +266,21 @@ export default async function ProblemSetsPage({
             Name
           </Link>
         </div>
+        <span className="leaderboard-control-label">Solved</span>
+        <div className="segmented-control">
+          <Link
+            className={`segmented-button${!hideSolved ? " active" : ""}`}
+            href={problemSetsHref({ hideSolved: false })}
+          >
+            Show all
+          </Link>
+          <Link
+            className={`segmented-button${hideSolved ? " active" : ""}`}
+            href={problemSetsHref({ hideSolved: true })}
+          >
+            Hide solved
+          </Link>
+        </div>
       </section>
 
       <form action="/problem-sets" className="search-panel task-search-panel" role="search">
@@ -272,12 +295,16 @@ export default async function ProblemSetsPage({
         {activeView === "bookmarked" ? (
           <input name="view" type="hidden" value="bookmarked" />
         ) : null}
+        {hideSolved ? <input name="hideSolved" type="hidden" value="1" /> : null}
         {activeCategory ? <input name="category" type="hidden" value={activeCategory} /> : null}
         <button className="secondary-action compact" type="submit">
           Search
         </button>
-        {query || activeCategory ? (
-          <Link className="text-link" href={problemSetsHref({ category: null, q: "" })}>
+        {query || activeCategory || hideSolved ? (
+          <Link
+            className="text-link"
+            href={problemSetsHref({ category: null, q: "", hideSolved: false })}
+          >
             Clear
           </Link>
         ) : null}

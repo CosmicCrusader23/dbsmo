@@ -4441,14 +4441,19 @@ html.dark .theme-choice-button.active {
   white-space: normal;
 }
 
+.problem-hub-table-panel td {
+  padding: 0;
+}
+
 .problem-set-row-link {
   display: block;
-  margin: -14px -12px;
   padding: 14px 12px;
+  min-height: 100%;
   border: 1px solid transparent;
   border-radius: 12px;
   color: inherit;
   text-decoration: none;
+  box-sizing: border-box;
   transition:
     background-color 160ms ease,
     border-color 160ms ease,
