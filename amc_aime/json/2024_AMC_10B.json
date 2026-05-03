@@ -1,0 +1,248 @@
+{
+  "slug": "2024-amc-10b",
+  "title": "2024 AMC 10B",
+  "description": "Converted from 2024_AMC_10B_questions.txt and 2024_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "In a long line of people arranged left to right, the 1015th person from the left is also the 1010th person from the right. How many people are in line? <math>\\textbf{(A) } 2021 \\qquad\\textbf{(B) } 2022 \\qquad\\textbf{(C) } 2023 \\qquad\\textbf{(D) } 2024 \\qquad\\textbf{(E) } 2025</math>",
+      "answerType": "integer",
+      "answerKey": "2022",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "What is <imath>10! - 7! \\cdot 6!</imath>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "For how many integer values of <imath>x</imath> is <imath>|2x| \\leq 6 \\pi</imath> <imath>\\textbf{(A) } 16 \\qquad\\textbf{(B) } 17 \\qquad\\textbf{(C) } 19 \\qquad\\textbf{(D) } 20 \\qquad\\textbf{(E) } 21</imath>",
+      "answerType": "integer",
+      "answerKey": "21",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Balls numbered 1, 2, 3, ... are deposited in 5 bins, labeled A, B, C, D, and E, using the following procedure. Ball 1 is deposited in bin A, and balls 2 and 3 are deposited in bin B. The next 3 balls are deposited in bin C, the next 4 in bin D, and so on, cycling back to bin A after balls are deposited in bin E. (For example, balls numbered 22, 23, ..., 28 are deposited in bin B at step 7 of this process.) In which bin is ball 2024 deposited? <math>\\textbf{(A) } A \\qquad\\textbf{(B) } B \\qquad\\textbf{(C) } C \\qquad\\textbf{(D) } D \\qquad\\textbf{(E) } E</math>",
+      "answerType": "exact",
+      "answerKey": "D. D",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "In the following expression, Melanie changed some of the plus signs to minus signs: <cmath>1+3+5+7+...+97+99</cmath> When the new expression was evaluated, it was negative. What is the least number of plus signs that Melanie could have changed to minus signs? <math>\\textbf{(A) } 14 \\qquad\\textbf{(B) } 15 \\qquad\\textbf{(C) } 16 \\qquad\\textbf{(D) } 17 \\qquad\\textbf{(E) } 18</math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "A rectangle has integer length sides and an area of 2024. What is the least possible perimeter of the rectangle? <math>\\textbf{(A) } 160 \\qquad\\textbf{(B) } 180 \\qquad\\textbf{(C) } 222 \\qquad\\textbf{(D) } 228 \\qquad\\textbf{(E) } 390</math>",
+      "answerType": "integer",
+      "answerKey": "180",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "What is the remainder when <math>7^{2024}+7^{2025}+7^{2026}</math> is divided by <math>19</math>? <math>\\textbf{(A) } 0 \\qquad\\textbf{(B) } 1 \\qquad\\textbf{(C) } 7 \\qquad\\textbf{(D) } 11 \\qquad\\textbf{(E) } 18</math>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Let <imath>N</imath> be the product of all the positive integer divisors of <imath>42</imath>. What is the units digit of <imath>N</imath>? <imath>\\textbf{(A) } 0\\qquad\\textbf{(B) } 2\\qquad\\textbf{(C) } 4\\qquad\\textbf{(D) } 6\\qquad\\textbf{(E) } 8</imath>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Real numbers <imath>a, b, </imath> and <imath>c</imath> have arithmetic mean <imath>0</imath>. The arithmetic mean of <imath>a^2, b^2, </imath> and <imath>c^2</imath> is <imath>10</imath>. What is the arithmetic mean of <imath>ab, ac, </imath> and <imath>bc</imath>? <imath>\\textbf{(A) } -5 \\qquad\\textbf{(B) } -\\dfrac{10}{3} \\qquad\\textbf{(C) } -\\dfrac{10}{9} \\qquad\\textbf{(D) } 0 \\qquad\\textbf{(E) } \\dfrac{10}{9}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ -5",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Quadrilateral <imath>ABCD</imath> is a parallelogram, and <imath>E</imath> is the midpoint of the side <imath>\\overline{AD}</imath>. Let <imath>F</imath> be the intersection of lines <imath>EB</imath> and <imath>AC</imath>. What is the ratio of the area of quadrilateral <imath>CDEF</imath> to the area of <imath>\\triangle CFB</imath>? <imath>\\textbf{(A) } 5:4 \\qquad\\textbf{(B) } 4:3 \\qquad\\textbf{(C) } 3:2 \\qquad\\textbf{(D) } 5:3 \\qquad\\textbf{(E) } 2:1</imath>",
+      "answerType": "exact",
+      "answerKey": "5:4",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "In the figure below <math>WXYZ</math> is a rectangle with <math>WX=4</math> and <math>WZ=8</math>. Point <math>M</math> lies <math>\\overline{XY}</math>, point <math>A</math> lies on <math>\\overline{YZ}</math>, and <math>\\angle WMA</math> is a right angle. The areas of <math>\\triangle WXM</math> and <math>\\triangle WAZ</math> are equal. What is the area of <math>\\triangle WMA</math>? <asy> pair X = (0, 0); pair W = (0, 4); pair Y = (8, 0); pair Z = (8, 4); label(\"$X$\", X, dir(180)); label(\"$W$\", W, dir(180)); label(\"$Y$\", Y, dir(0)); label(\"$Z$\", Z, dir(0)); draw(W--X--Y--Z--cycle); dot(X); dot(Y); dot(W); dot(Z); pair M = (2, 0); pair A = (8, 3); label(\"$A$\", A, dir(0)); dot(M); dot(A); draw(W--M--A--cycle); markscalefactor = 0.05; draw(rightanglemark(W, M, A)); label(\"$M$\", M, dir(-90)); </asy> Note: On certain tests that took place in China, the problem asked for the area of <math>\\triangle MAY</math>. <math> \\textbf{(A) }13 \\qquad \\textbf{(B) }14 \\qquad \\textbf{(C) }15 \\qquad \\textbf{(D) }16 \\qquad \\textbf{(E) }17 \\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A group of <math>100</math> students from different countries meet at a mathematics competition. Each student speaks the same number of languages, and, for every pair of students <math>A</math> and <math>B</math>, student <math>A</math> speaks some language that student <math>B</math> does not speak, and student <math>B</math> speaks some language that student <math>A</math> does not speak. What is the least possible total number of languages spoken by all the students? <math>\\textbf{(A) } 9 \\qquad\\textbf{(B) } 10 \\qquad\\textbf{(C) } 12 \\qquad\\textbf{(D) } 51 \\qquad\\textbf{(E) } 100</math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Positive integers <math>x</math> and <math>y</math> satisfy the equation <math>\\sqrt{x} + \\sqrt{y} = \\sqrt{1183}</math>. What is the minimum possible value of <math>x+y</math>? <math>\\textbf{(A) } 585 \\qquad\\textbf{(B) } 595 \\qquad\\textbf{(C) } 623 \\qquad\\textbf{(D) } 700 \\qquad\\textbf{(E) } 791</math>",
+      "answerType": "integer",
+      "answerKey": "595",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "A dartboard is the region <math>B</math> in the coordinate plane consisting of points <math>(x, y)</math> such that <math>|x| + |y| \\le 8</math>. A target <math>T</math> is the region where <math>(x^2 + y^2 - 25)^2 \\le 49</math>. A dart is thrown and lands at a random point in B. The probability that the dart lands in <math>T</math> can be expressed as <math>\\frac{m}{n} \\cdot \\pi</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. What is <math>m + n</math>? <math> \\textbf{(A) }39 \\qquad \\textbf{(B) }71 \\qquad \\textbf{(C) }73 \\qquad \\textbf{(D) }75 \\qquad \\textbf{(E) }135 \\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 71",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "A list of <math>9</math> real numbers consists of <math>1</math>, <math>2.2</math>, <math>3.2</math>, <math>5.2</math>, <math>6.2</math>, and <math>7</math>, as well as <math>x</math>, <math>y</math> , and <math>z</math> with <math>x</math> <math>\\le</math> <math>y</math> <math>\\le</math> <math>z</math>. The range of the list is <math>7</math>, and the mean and the median are both positive integers. How many ordered triples (<math>x</math>, <math>y</math>, <math>z</math>) are possible? <math>\\textbf{(A) } 1 \\qquad \\textbf{(B) } 2 \\qquad \\textbf{(C) } 3 \\qquad \\textbf{(D) } 4 \\qquad \\textbf{(E) } \\text{infinitely many}</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Jerry likes to play with numbers. One day, he wrote all the integers from <math>1</math> to <math>2024</math> on the whiteboard. Then he repeatedly chose four numbers on the whiteboard, erased them, and replaced them by either their sum or their product. (For example, Jerry's first step might have been to erase <math>1</math>, <math>2</math>, <math>3</math>, and <math>5</math>, and then write either <math>11</math>, their sum, or <math>30</math>, their product, on the whiteboard.) After repeatedly performing this operation, Jerry noticed that all the remaining numbers on the whiteboard were odd. What is the maximum possible number of integers on the whiteboard at that time? <math>\\textbf{(A) } 1010 \\qquad \\textbf{(B) } 1011 \\qquad \\textbf{(C) } 1012 \\qquad \\textbf{(D) } 1013 \\qquad \\textbf{(E) } 1014</math>",
+      "answerType": "integer",
+      "answerKey": "1010",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "In a race among <math>5</math> snails, there is at most one tie, but that tie can involve any number of snails. For example, the result might be that Dazzler is first; Abby, Cyrus, and Elroy are tied for second; and Bruna is fifth. How many different results of the race are possible? <math>\\textbf{(A) } 180 \\qquad\\textbf{(B) } 361 \\qquad\\textbf{(C) } 420 \\qquad\\textbf{(D) } 431 \\qquad\\textbf{(E) } 720</math>",
+      "answerType": "integer",
+      "answerKey": "431",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "How many different remainders can result when the <imath>100</imath>th power of an integer is divided by <imath>125</imath>? <imath>\\textbf{(A) } 1 \\qquad\\textbf{(B) } 2 \\qquad\\textbf{(C) } 5 \\qquad\\textbf{(D) } 25 \\qquad\\textbf{(E) } 125</imath>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "In the following table, each question mark is to be replaced by \"Possible\" or \"Not Possible\" to indicate whether a nonvertical line with the given slope can contain the given number of lattice points (points both of whose coordinates are integers). How many of the 12 entries will be \"Possible\"? [[File:AMC10B2024 P19.png]] <math>\\textbf{(A) } 4 \\qquad\\textbf{(B) } 5 \\qquad\\textbf{(C) } 6 \\qquad\\textbf{(D) } 7 \\qquad\\textbf{(E) } 9</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Three different pairs of shoes are placed in a row so that no left shoe is next to a right shoe from a different pair. In how many ways can these six shoes be lined up? <imath>\\textbf{(A) } 60 \\qquad\\textbf{(B) } 72 \\qquad\\textbf{(C) } 90 \\qquad\\textbf{(D) } 108 \\qquad\\textbf{(E) } 120</imath>",
+      "answerType": "integer",
+      "answerKey": "60",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Two straight pipes (circular cylinders), with radii <math>1</math> and <math>\\frac{1}{4}</math>, lie parallel and in contact on a flat floor. The figure below shows a head-on view. What is the sum of the possible radii of a third parallel pipe lying on the same floor and in contact with both? <asy> size(6cm); draw(circle((0,1),1), linewidth(1.2)); draw((-1,0)--(1.25,0), linewidth(1.2)); draw(circle((1,1/4),1/4), linewidth(1.2)); </asy> <math>\\textbf{(A)}~\\frac{1}{9} \\qquad\\textbf{(B)}~1 \\qquad\\textbf{(C)}~\\frac{10}{9} \\qquad\\textbf{(D)}~\\frac{11}{9} \\qquad\\textbf{(E)}~\\frac{19}{9}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 10 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "A group of <math>16</math> people will be partitioned into <math>4</math> indistinguishable <math>4</math>-person committees. Each committee will have one chairperson and one secretary. The number of different ways to make these assignments can be written as <math>3^{r}M</math>, where <math>r</math> and <math>M</math> are positive integers and <math>M</math> is not divisible by <math>3</math>. What is <math>r</math>? <math>\\textbf{(A) }5 \\qquad \\textbf{(B) }6 \\qquad \\textbf{(C) }7 \\qquad \\textbf{(D) }8 \\qquad \\textbf{(E) }9 \\qquad</math>",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "The Fibonacci numbers are defined by <math>F_1 = 1, F_2 = 1,</math> and <math>F_n = F_{n-1} + F_{n-2}</math> for <math>n \\geq 3.</math> What is <cmath>{\\frac{F_2}{F_1}} + {\\frac{F_4}{F_2}} + {\\frac{F_6}{F_3}} + ... + {\\frac{F_{20}}{F_{10}}}?</cmath> <math>\\textbf{(A) } 318 \\qquad\\textbf{(B) } 319 \\qquad\\textbf{(C) } 320 \\qquad\\textbf{(D) } 321 \\qquad\\textbf{(E) } 322</math>",
+      "answerType": "integer",
+      "answerKey": "319",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <cmath>P(m)=\\frac{m}{2}+\\frac{m^2}{4}+\\frac{m^4}{8}+\\frac{m^8}{8}</cmath> How many of the values <math>P(2022)</math>, <math>P(2023)</math>, <math>P(2024)</math>, and <math>P(2025)</math> are integers? <math>\\textbf{(A) } 0 \\qquad\\textbf{(B) } 1 \\qquad\\textbf{(C) } 2 \\qquad\\textbf{(D) } 3 \\qquad\\textbf{(E) } 4</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Each of <math>27</math> bricks (right rectangular prisms) has dimensions <math>a \\times b \\times c</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are pairwise relatively prime positive integers. These bricks are arranged to form a <math>3 \\times 3 \\times 3</math> block, as shown on the left below. A <math>28</math>th brick with the same dimensions is introduced, and these bricks are reconfigured into a <math>2 \\times 2 \\times 7</math> block, shown on the right. The new block is <math>1</math> unit taller, <math>1</math> unit wider, and <math>1</math> unit deeper than the old one. What is <math>a + b + c</math>? [[File:AMC10B2024 P25.png]] <math> \\textbf{(A) }88 \\qquad \\textbf{(B) }89 \\qquad \\textbf{(C) }90 \\qquad \\textbf{(D) }91 \\qquad \\textbf{(E) }92 \\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "E(92)",
+      "points": 1
+    }
+  ]
+}

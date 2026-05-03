@@ -1,0 +1,242 @@
+{
+  "slug": "2016-amc-12b",
+  "title": "2016 AMC 12B",
+  "description": "Converted from 2016_AMC_12B_questions.txt and 2016_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is the value of <math>\\frac{2a^{-1}+\\frac{a^{-1}}{2}}{a}</math> when <math>a= \\frac{1}{2}</math>? <math>\\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ \\frac{5}{2}\\qquad\\textbf{(D)}\\ 10\\qquad\\textbf{(E)}\\ 20</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "The harmonic mean of two numbers can be calculated as twice their product divided by their sum. The harmonic mean of <math>1</math> and <math>2016</math> is closest to which integer? <math>\\textbf{(A)}\\ 2 \\qquad \\textbf{(B)}\\ 45 \\qquad \\textbf{(C)}\\ 504 \\qquad \\textbf{(D)}\\ 1008 \\qquad \\textbf{(E)}\\ 2015 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Let <math>x=-2016</math>. What is the value of <math>\\bigg|</math> <math>||x|-x|-|x|</math> <math>\\bigg|</math> <math>-x</math>? <math>\\textbf{(A)}\\ -2016\\qquad\\textbf{(B)}\\ 0\\qquad\\textbf{(C)}\\ 2016\\qquad\\textbf{(D)}\\ 4032\\qquad\\textbf{(E)}\\ 6048</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "The ratio of the measures of two acute angles is <math>5:4</math>, and the complement of one of these two angles is twice as large as the complement of the other. What is the sum of the degree measures of the two angles? <math>\\textbf{(A)}\\ 75\\qquad\\textbf{(B)}\\ 90\\qquad\\textbf{(C)}\\ 135\\qquad\\textbf{(D)}\\ 150\\qquad\\textbf{(E)}\\ 270</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 135",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "The War of <math>1812</math> started with a declaration of war on Thursday, June <math>18</math>, <math>1812</math>. The peace treaty to end the war was signed <math>919</math> days later, on December <math>24</math>, <math>1814</math>. On what day of the week was the treaty signed? <math>\\textbf{(A)}\\ \\text{Friday} \\qquad \\textbf{(B)}\\ \\text{Saturday} \\qquad \\textbf{(C)}\\ \\text{Sunday} \\qquad \\textbf{(D)}\\ \\text{Monday} \\qquad \\textbf{(E)}\\ \\text{Tuesday} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ Saturday",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "All three vertices of <math>\\bigtriangleup ABC</math> lie on the parabola defined by <math>y=x^2</math>, with <math>A</math> at the origin and <math>\\overline{BC}</math> parallel to the <math>x</math>-axis. The area of the triangle is <math>64</math>. What is the length of <math>BC</math>? <math>\\textbf{(A)}\\ 4\\qquad\\textbf{(B)}\\ 6\\qquad\\textbf{(C)}\\ 8\\qquad\\textbf{(D)}\\ 10\\qquad\\textbf{(E)}\\ 16</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Josh writes the numbers <math>1,2,3,\\dots,99,100</math>. He marks out <math>1</math>, skips the next number <math>(2)</math>, marks out <math>3</math>, and continues skipping and marking out the next number to the end of the list. Then he goes back to the start of his list, marks out the first remaining number <math>(2)</math>, skips the next number <math>(4)</math>, marks out <math>6</math>, skips <math>8</math>, marks out <math>10</math>, and so on to the end. Josh continues in this manner until only one number remains. What is that number? <math>\\textbf{(A)}\\ 13 \\qquad \\textbf{(B)}\\ 32 \\qquad \\textbf{(C)}\\ 56 \\qquad \\textbf{(D)}\\ 64 \\qquad \\textbf{(E)}\\ 96</math>",
+      "answerType": "integer",
+      "answerKey": "64",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "A thin piece of wood of uniform density in the shape of an equilateral triangle with side length <math>3</math> inches weighs <math>12</math> ounces. A second piece of the same type of wood, with the same thickness, also in the shape of an equilateral triangle, has side length of <math>5</math> inches. Which of the following is closest to the weight, in ounces, of the second piece? <math>\\textbf{(A)}\\ 14.0\\qquad\\textbf{(B)}\\ 16.0\\qquad\\textbf{(C)}\\ 20.0\\qquad\\textbf{(D)}\\ 33.3\\qquad\\textbf{(E)}\\ 55.6</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 33.3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Carl decided to fence in his rectangular garden. He bought <math>20</math> fence posts, placed one on each of the four corners, and spaced out the rest evenly along the edges of the garden, leaving exactly <math>4</math> yards between neighboring posts. The longer side of his garden, including the corners, has twice as many posts as the shorter side, including the corners. What is the area, in square yards, of Carl's garden? <math>\\textbf{(A)}\\ 256\\qquad\\textbf{(B)}\\ 336\\qquad\\textbf{(C)}\\ 384\\qquad\\textbf{(D)}\\ 448\\qquad\\textbf{(E)}\\ 512</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 336",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "A quadrilateral has vertices <math>P(a,b)</math>, <math>Q(b,a)</math>, <math>R(-a, -b)</math>, and <math>S(-b, -a)</math>, where <math>a</math> and <math>b</math> are integers with <math>a>b>0</math>. The area of <math>PQRS</math> is <math>16</math>. What is <math>a+b</math>? <math>\\textbf{(A)}\\ 4 \\qquad\\textbf{(B)}\\ 5 \\qquad\\textbf{(C)}\\ 6 \\qquad\\textbf{(D)}\\ 12 \\qquad\\textbf{(E)}\\ 13</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Fast Forward to 00:00 for problem 11 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ 50",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Fast Forward to 6:20 for problem 12 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Fast Forward to 9:16 for problem 13 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ 5.5",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Fast Forward to 12:26 for problem 14 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Fast Forward to 17:19 for problem 15 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ 729",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Fast Forward to 22:34 for problem 16 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "E) 7",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Fast Forward to 26:14 for problem 17 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Fast Forward to 33:32 for problem 18 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ \\pi + 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Fast Forward to 39:00 for problem 19 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Fast forward to 42:52 for problem 20 https://www.youtube.com/watch?v=4osvFatUv1o ~THEMATHCANADIAN",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "https://www.youtube.com/watch?v=P3jJDLGyF2w&t=1546s ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Fast Forward to 11:20 for problem 22 https://www.youtube.com/watch?v=P3jJDLGyF2w&t=1546s ~THEMATHCANADIAN",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "Fast Forward to 20:17 for problem 23 https://www.youtube.com/watch?v=P3jJDLGyF2w&t=1546s ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 6",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "There are exactly <math>77,000</math> ordered quadruplets <math>(a, b, c, d)</math> such that <math>\\gcd(a, b, c, d) = 77</math> and <math>\\operatorname{lcm}(a, b, c, d) = n</math>. What is the smallest possible value for <math>n</math>? <math>\\textbf{(A)}\\ 13,860\\qquad\\textbf{(B)}\\ 20,790\\qquad\\textbf{(C)}\\ 21,560 \\qquad\\textbf{(D)}\\ 27,720 \\qquad\\textbf{(E)}\\ 41,580</math>",
+      "answerType": "exact",
+      "answerKey": "27,720",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Fast Forward to 26:01 for problem 25 https://www.youtube.com/watch?v=P3jJDLGyF2w&t=1546s ~THEMATHCANADIAN",
+      "answerType": "exact",
+      "answerKey": "\\ 17",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "2022-aime-i",
+  "title": "2022 AIME I",
+  "description": "Converted from 2022_AIME_I_questions.txt and 2022_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Quadratic polynomials <math>P(x)</math> and <math>Q(x)</math> have leading coefficients <math>2</math> and <math>-2,</math> respectively. The graphs of both polynomials pass through the two points <math>(16,54)</math> and <math>(20,53).</math> Find <math>P(0) + Q(0).</math>",
+      "answerType": "integer",
+      "answerKey": "116",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Find the three-digit positive integer <math>\\underline{a}\\,\\underline{b}\\,\\underline{c}</math> whose representation in base nine is <math>\\underline{b}\\,\\underline{c}\\,\\underline{a}_{\\,\\text{nine}},</math> where <math>a,</math> <math>b,</math> and <math>c</math> are (not necessarily distinct) digits.",
+      "answerType": "integer",
+      "answerKey": "227",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "In isosceles trapezoid <imath>ABCD</imath>, parallel bases <imath>\\overline{AB}</imath> and <imath>\\overline{CD}</imath> have lengths <imath>500</imath> and <imath>650</imath>, respectively, and <imath>AD=BC=333</imath>. The angle bisectors of <imath>\\angle{A}</imath> and <imath>\\angle{D}</imath> meet at <imath>P</imath>, and the angle bisectors of <imath>\\angle{B}</imath> and <imath>\\angle{C}</imath> meet at <imath>Q</imath>. Find <imath>PQ</imath>.",
+      "answerType": "integer",
+      "answerKey": "242",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Let <math>w = \\dfrac{\\sqrt{3} + i}{2}</math> and <math>z = \\dfrac{-1 + i\\sqrt{3}}{2},</math> where <math>i = \\sqrt{-1}.</math> Find the number of ordered pairs <math>(r,s)</math> of positive integers not exceeding <math>100</math> that satisfy the equation <math>i \\cdot w^r = z^s.</math>",
+      "answerType": "integer",
+      "answerKey": "834",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "A straight river that is <math>264</math> meters wide flows from west to east at a rate of <math>14</math> meters per minute. Melanie and Sherry sit on the south bank of the river with Melanie a distance of <math>D</math> meters downstream from Sherry. Relative to the water, Melanie swims at <math>80</math> meters per minute, and Sherry swims at <math>60</math> meters per minute. At the same time, Melanie and Sherry begin swimming in straight lines to a point on the north bank of the river that is equidistant from their starting positions. The two women arrive at this point simultaneously. Find <math>D</math>.",
+      "answerType": "integer",
+      "answerKey": "550",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Find the number of ordered pairs of integers <math>(a, b)</math> such that the sequence<cmath>3, 4, 5, a, b, 30, 40, 50</cmath>is strictly increasing and no set of four (not necessarily consecutive) terms forms an arithmetic progression.",
+      "answerType": "integer",
+      "answerKey": "228",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Let <math>a,b,c,d,e,f,g,h,i</math> be distinct integers from <math>1</math> to <math>9.</math> The minimum possible positive value of <cmath>\\dfrac{a \\cdot b \\cdot c - d \\cdot e \\cdot f}{g \\cdot h \\cdot i}</cmath> can be written as <math>\\frac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "289",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Equilateral triangle <imath>\\triangle ABC</imath> is inscribed in circle <imath>\\omega</imath> with radius <imath>18.</imath> Circle <imath>\\omega_A</imath> is tangent to sides <imath>\\overline{AB}</imath> and <imath>\\overline{AC}</imath> and is internally tangent to <imath>\\omega.</imath> Circles <imath>\\omega_B</imath> and <imath>\\omega_C</imath> are defined analogously. Circles <imath>\\omega_A,</imath> <imath>\\omega_B,</imath> and <imath>\\omega_C</imath> meet in six points---two points for each pair of circles. The three intersection points closest to the vertices of <imath>\\triangle ABC</imath> are the vertices of a large equilateral triangle in the interior of <imath>\\triangle ABC,</imath> and the other three intersection points are the vertices of a smaller equilateral triangle in the interior of <imath>\\triangle ABC.</imath> The side length of the smaller equilateral triangle can be written as <imath>\\sqrt{a} - \\sqrt{b},</imath> where <imath>a</imath> and <imath>b</imath> are positive integers. Find <imath>a+b.</imath>",
+      "answerType": "integer",
+      "answerKey": "378",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Ellina has twelve blocks, two each of red (<math>\\textbf{R}</math>), blue (<math>\\textbf{B}</math>), yellow (<math>\\textbf{Y}</math>), green (<math>\\textbf{G}</math>), orange (<math>\\textbf{O}</math>), and purple (<math>\\textbf{P}</math>). Call an arrangement of blocks <math>\\textit{even}</math> if there is an even number of blocks between each pair of blocks of the same color. For example, the arrangement <cmath>\\textbf{R B B Y G G Y R O P P O}</cmath> is even. Ellina arranges her blocks in a row in random order. The probability that her arrangement is even is <math>\\frac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "247",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Three spheres with radii <imath>11</imath>, <imath>13</imath>, and <imath>19</imath> are mutually externally tangent. A plane intersects the spheres in three congruent circles centered at <imath>A</imath>, <imath>B</imath>, and <imath>C</imath>, respectively, and the centers of the spheres all lie on the same side of this plane. Suppose that <imath>AB^2 = 560</imath>. Find <imath>AC^2</imath>.",
+      "answerType": "integer",
+      "answerKey": "756",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Let <imath>ABCD</imath> be a parallelogram with <imath>\\angle BAD < 90^\\circ.</imath> A circle tangent to sides <imath>\\overline{DA},</imath> <imath>\\overline{AB},</imath> and <imath>\\overline{BC}</imath> intersects diagonal <imath>\\overline{AC}</imath> at points <imath>P</imath> and <imath>Q</imath> with <imath>AP < AQ,</imath> as shown. Suppose that <imath>AP=3,</imath> <imath>PQ=9,</imath> and <imath>QC=16.</imath> Then the area of <imath>ABCD</imath> can be expressed in the form <imath>m\\sqrt{n},</imath> where <imath>m</imath> and <imath>n</imath> are positive integers, and <imath>n</imath> is not divisible by the square of any prime. Find <imath>m+n.</imath> <asy> defaultpen(linewidth(0.6)+fontsize(11)); size(8cm); pair A,B,C,D,P,Q; A=(0,0); label(\"$A$\", A, SW); B=(6,15); label(\"$B$\", B, NW); C=(30,15); label(\"$C$\", C, NE); D=(24,0); label(\"$D$\", D, SE); P=(5.2,2.6); label(\"$P$\", (5.8,2.6), N); Q=(18.3,9.1); label(\"$Q$\", (18.1,9.7), W); draw(A--B--C--D--cycle); draw(C--A); draw(Circle((10.95,7.45), 7.45)); dot(A^^B^^C^^D^^P^^Q); </asy>",
+      "answerType": "integer",
+      "answerKey": "150",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "For any finite set <imath>X</imath>, let <imath>| X |</imath> denote the number of elements in <imath>X</imath>. Define <cmath> S_n = \\sum | A \\cap B | , </cmath> where the sum is taken over all ordered pairs <imath>(A, B)</imath> such that <imath>A</imath> and <imath>B</imath> are subsets of <imath>\\left\\{ 1 , 2 , 3, \\cdots , n \\right\\}</imath> with <imath>|A| = |B|</imath>. For example, <imath>S_2 = 4</imath> because the sum is taken over the pairs of subsets <cmath> (A, B) \\in \\left\\{ (\\emptyset, \\emptyset) , ( \\{1\\} , \\{1\\} ), ( \\{1\\} , \\{2\\} ) , ( \\{2\\} , \\{1\\} ) , ( \\{2\\} , \\{2\\} ) , ( \\{1 , 2\\} , \\{1 , 2\\} ) \\right\\} , </cmath> giving <imath>S_2 = 0 + 1 + 0 + 0 + 1 + 2 = 4</imath>. Let <imath>\\frac{S_{2022}}{S_{2021}} = \\frac{p}{q}</imath>, where <imath>p</imath> and <imath>q</imath> are relatively prime positive integers. Find the remainder when <imath>p + q</imath> is divided by 1000.",
+      "answerType": "integer",
+      "answerKey": "245",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Let <math>S</math> be the set of all rational numbers that can be expressed as a repeating decimal in the form <math>0.\\overline{abcd},</math> where at least one of the digits <math>a,</math> <math>b,</math> <math>c,</math> or <math>d</math> is nonzero. Let <math>N</math> be the number of distinct numerators obtained when numbers in <math>S</math> are written as fractions in lowest terms. For example, both <math>4</math> and <math>410</math> are counted among the distinct numerators for numbers in <math>S</math> because <math>0.\\overline{3636} = \\frac{4}{11}</math> and <math>0.\\overline{1230} = \\frac{410}{3333}.</math> Find the remainder when <math>N</math> is divided by <math>1000.</math>",
+      "answerType": "integer",
+      "answerKey": "392",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Given <imath>\\triangle ABC</imath> and a point <imath>P</imath> on one of its sides, call line <imath>\\ell</imath> the <imath>\\textit{splitting line}</imath> of <imath>\\triangle ABC</imath> through <imath>P</imath> if <imath>\\ell</imath> passes through <imath>P</imath> and divides <imath>\\triangle ABC</imath> into two polygons of equal perimeter. Let <imath>\\triangle ABC</imath> be a triangle where <imath>BC = 219</imath> and <imath>AB</imath> and <imath>AC</imath> are positive integers. Let <imath>M</imath> and <imath>N</imath> be the midpoints of <imath>\\overline{AB}</imath> and <imath>\\overline{AC},</imath> respectively, and suppose that the splitting lines of <imath>\\triangle ABC</imath> through <imath>M</imath> and <imath>N</imath> intersect at <imath>30^\\circ.</imath> Find the perimeter of <imath>\\triangle ABC.</imath>",
+      "answerType": "integer",
+      "answerKey": "459",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>x,</math> <math>y,</math> and <math>z</math> be positive real numbers satisfying the system of equations: <cmath>\\begin{align*} \\sqrt{2x-xy} + \\sqrt{2y-xy} &= 1 \\\\ \\sqrt{2y-yz} + \\sqrt{2z-yz} &= \\sqrt2 \\\\ \\sqrt{2z-zx} + \\sqrt{2x-zx} &= \\sqrt3. \\end{align*}</cmath> Then <math>\\left[ (1-x)(1-y)(1-z) \\right]^2</math> can be written as <math>\\frac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "033",
+      "points": 1
+    }
+  ]
+}

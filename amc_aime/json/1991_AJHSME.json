@@ -1,0 +1,191 @@
+{
+  "slug": "1991-ajhsme",
+  "title": "1991 AJHSME",
+  "description": "Converted from 1991_AJHSME_questions.txt and 1991_AJHSME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "ajhsme"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "<math>1,000,000,000,000-777,777,777,777=</math> <math>\\text{(A)}\\ 222,222,222,222 \\qquad \\text{(B)}\\ 222,222,222,223 \\qquad \\text{(C)}\\ 233,333,333,333 \\qquad \\\\ \\text{(D)}\\ 322,222,222,223 \\qquad \\text{(E)}\\ 333,333,333,333</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "<math>\\frac{16+8}{4-2}=</math> <math>\\text{(A)}\\ 4 \\qquad \\text{(B)}\\ 8 \\qquad \\text{(C)}\\ 12 \\qquad \\text{(D)}\\ 16 \\qquad \\text{(E)}\\ 20</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Two hundred thousand times two hundred thousand equals <math>\\text{(A)}\\ \\text{four hundred thousand} \\qquad \\text{(B)}\\ \\text{four million} \\qquad \\text{(C)}\\ \\text{forty thousand} \\qquad \\\\ \\text{(D)}\\ \\text{four hundred million} \\qquad \\text{(E)}\\ \\text{forty billion}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "If <math>991+993+995+997+999=5000-N</math>, then <math>N=</math> <math>\\text{(A)}\\ 5 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 15 \\qquad \\text{(D)}\\ 20 \\qquad \\text{(E)}\\ 25</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "A \"domino\" is made up of two small squares: <asy> unitsize(12); fill((0,0)--(1,0)--(1,1)--(0,1)--cycle,black); draw((1,1)--(2,1)--(2,0)--(1,0)); </asy> Which of the \"checkerboards\" illustrated below CANNOT be covered exactly and completely by a whole number of non-overlapping dominoes? <asy> unitsize(12); fill((0,0)--(1,0)--(1,1)--(0,1)--cycle,black); fill((1,1)--(1,2)--(2,2)--(2,1)--cycle,black); fill((2,0)--(3,0)--(3,1)--(2,1)--cycle,black); fill((3,1)--(4,1)--(4,2)--(3,2)--cycle,black); fill((0,2)--(1,2)--(1,3)--(0,3)--cycle,black); fill((2,2)--(2,3)--(3,3)--(3,2)--cycle,black); draw((0,0)--(0,3)--(4,3)--(4,0)--cycle); draw((6,0)--(11,0)--(11,3)--(6,3)--cycle); fill((6,0)--(7,0)--(7,1)--(6,1)--cycle,black); fill((8,0)--(9,0)--(9,1)--(8,1)--cycle,black); fill((10,0)--(11,0)--(11,1)--(10,1)--cycle,black); fill((7,1)--(7,2)--(8,2)--(8,1)--cycle,black); fill((9,1)--(9,2)--(10,2)--(10,1)--cycle,black); fill((6,2)--(6,3)--(7,3)--(7,2)--cycle,black); fill((8,2)--(8,3)--(9,3)--(9,2)--cycle,black); fill((10,2)--(10,3)--(11,3)--(11,2)--cycle,black); draw((13,-1)--(13,3)--(17,3)--(17,-1)--cycle); fill((13,3)--(14,3)--(14,2)--(13,2)--cycle,black); fill((15,3)--(16,3)--(16,2)--(15,2)--cycle,black); fill((14,2)--(15,2)--(15,1)--(14,1)--cycle,black); fill((16,2)--(17,2)--(17,1)--(16,1)--cycle,black); fill((13,1)--(14,1)--(14,0)--(13,0)--cycle,black); fill((15,1)--(16,1)--(16,0)--(15,0)--cycle,black); fill((14,0)--(15,0)--(15,-1)--(14,-1)--cycle,black); fill((16,0)--(17,0)--(17,-1)--(16,-1)--cycle,black); draw((19,3)--(24,3)--(24,-1)--(19,-1)--cycle,black); fill((19,3)--(20,3)--(20,2)--(19,2)--cycle,black); fill((21,3)--(22,3)--(22,2)--(21,2)--cycle,black); fill((23,3)--(24,3)--(24,2)--(23,2)--cycle,black); fill((20,2)--(21,2)--(21,1)--(20,1)--cycle,black); fill((22,2)--(23,2)--(23,1)--(22,1)--cycle,black); fill((19,1)--(20,1)--(20,0)--(19,0)--cycle,black); fill((21,1)--(22,1)--(22,0)--(21,0)--cycle,black); fill((23,1)--(24,1)--(24,0)--(23,0)--cycle,black); fill((20,0)--(21,0)--(21,-1)--(20,-1)--cycle,black); fill((22,0)--(23,0)--(23,-1)--(22,-1)--cycle,black); draw((26,3)--(29,3)--(29,-3)--(26,-3)--cycle); fill((26,3)--(27,3)--(27,2)--(26,2)--cycle,black); fill((28,3)--(29,3)--(29,2)--(28,2)--cycle,black); fill((27,2)--(28,2)--(28,1)--(27,1)--cycle,black); fill((26,1)--(27,1)--(27,0)--(26,0)--cycle,black); fill((28,1)--(29,1)--(29,0)--(28,0)--cycle,black); fill((27,0)--(28,0)--(28,-1)--(27,-1)--cycle,black); fill((26,-1)--(27,-1)--(27,-2)--(26,-2)--cycle,black); fill((28,-1)--(29,-1)--(29,-2)--(28,-2)--cycle,black); fill((27,-2)--(28,-2)--(28,-3)--(27,-3)--cycle,black); </asy> <math>\\text{(A)}\\ 3\\times 4 \\qquad \\text{(B)}\\ 3\\times 5 \\qquad \\text{(C)}\\ 4\\times 4 \\qquad \\text{(D)}\\ 4\\times 5 \\qquad \\text{(E)}\\ 6\\times 3</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Which number in the array below is both the largest in its column and the smallest in its row? (Columns go up and down, rows go right and left.) <cmath>\\begin{tabular}[t]{ccccc} 10 & 6 & 4 & 3 & 2 \\\\ 11 & 7 & 14 & 10 & 8 \\\\ 8 & 3 & 4 & 5 & 9 \\\\ 13 & 4 & 15 & 12 & 1 \\\\ 8 & 2 & 5 & 9 & 3 \\end{tabular}</cmath> <math>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 6 \\qquad \\text{(C)}\\ 7 \\qquad \\text{(D)}\\ 12 \\qquad \\text{(E)}\\ 15</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "The value of <math>\\frac{(487,000)(12,027,300)+(9,621,001)(487,000)}{(19,367)(.05)}</math> is closest to <math>\\text{(A)}\\ 10,000,000 \\qquad \\text{(B)}\\ 100,000,000 \\qquad \\text{(C)}\\ 1,000,000,000 \\qquad \\text{(D)}\\ 10,000,000,000 \\qquad \\text{(E)}\\ 100,000,000,000</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "What is the largest quotient that can be formed using two numbers chosen from the set <math>\\{ -24, -3, -2, 1, 2, 8 \\}</math>? <math>\\text{(A)}\\ -24 \\qquad \\text{(B)}\\ -3 \\qquad \\text{(C)}\\ 8 \\qquad \\text{(D)}\\ 12 \\qquad \\text{(E)}\\ 24</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "How many whole numbers from <math>1</math> through <math>46</math> are divisible by either <math>3</math> or <math>5</math> or both? <math>\\text{(A)}\\ 18 \\qquad \\text{(B)}\\ 21 \\qquad \\text{(C)}\\ 24 \\qquad \\text{(D)}\\ 25 \\qquad \\text{(E)}\\ 27</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "The area in square units of the region enclosed by parallelogram <math>ABCD</math> is <asy> unitsize(24); pair A,B,C,D; A=(-1,0); B=(0,2); C=(4,2); D=(3,0); draw(A--B--C--D); draw((0,-1)--(0,3)); draw((-2,0)--(6,0)); draw((-.25,2.75)--(0,3)--(.25,2.75)); draw((5.75,.25)--(6,0)--(5.75,-.25)); dot(origin); dot(A); dot(B); dot(C); dot(D); label(\"$y$\",(0,3),N); label(\"$x$\",(6,0),E); label(\"$(0,0)$\",origin,SE); label(\"$D (3,0)$\",D,SE); label(\"$C (4,2)$\",C,NE); label(\"$A$\",A,SW); label(\"$B$\",B,NW); </asy> <math>\\text{(A)}\\ 6 \\qquad \\text{(B)}\\ 8 \\qquad \\text{(C)}\\ 12 \\qquad \\text{(D)}\\ 15 \\qquad \\text{(E)}\\ 18</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "There are several sets of three different numbers whose sum is <math>15</math> which can be chosen from <math>\\{ 1,2,3,4,5,6,7,8,9 \\} </math>. How many of these sets contain a <math>5</math>? <math>\\text{(A)}\\ 3 \\qquad \\text{(B)}\\ 4 \\qquad \\text{(C)}\\ 5 \\qquad \\text{(D)}\\ 6 \\qquad \\text{(E)}\\ 7</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "If <math>\\frac{2+3+4}{3}=\\frac{1990+1991+1992}{N}</math>, then <math>N=</math> <math>\\text{(A)}\\ 3 \\qquad \\text{(B)}\\ 6 \\qquad \\text{(C)}\\ 1990 \\qquad \\text{(D)}\\ 1991 \\qquad \\text{(E)}\\ 1992</math>",
+      "answerType": "integer",
+      "answerKey": "1991",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "How many zeros are at the end of the product <cmath>25\\times 25\\times 25\\times 25\\times 25\\times 25\\times 25\\times 8\\times 8\\times 8?</cmath> <math>\\text{(A)}\\ 3 \\qquad \\text{(B)}\\ 6 \\qquad \\text{(C)}\\ 9 \\qquad \\text{(D)}\\ 10 \\qquad \\text{(E)}\\ 12</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Several students are competing in a series of three races. A student earns <math>5</math> points for winning a race, <math>3</math> points for finishing second and <math>1</math> point for finishing third. There are no ties. What is the smallest number of points that a student must earn in the three races to be guaranteed of earning more points than any other student? <math>\\text{(A)}\\ 9 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 11 \\qquad \\text{(D)}\\ 13 \\qquad \\text{(E)}\\ 15</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "All six sides of a rectangular solid were rectangles. A one-foot cube was cut out of the rectangular solid as shown. The total number of square feet in the surface of the new solid is how many more or less than that of the original solid? <asy> unitsize(24); draw((0,0)--(1,0)--(1,3)--(0,3)--cycle); draw((1,0)--(1+9*sqrt(3)/2,9/2)--(1+9*sqrt(3)/2,15/2)--(1+5*sqrt(3)/2,11/2)--(1+5*sqrt(3)/2,9/2)--(1+2*sqrt(3),4)--(1+2*sqrt(3),5)--(1,3)); draw((0,3)--(2*sqrt(3),5)--(1+2*sqrt(3),5)); draw((1+9*sqrt(3)/2,15/2)--(9*sqrt(3)/2,15/2)--(5*sqrt(3)/2,11/2)--(5*sqrt(3)/2,5)); draw((1+5*sqrt(3)/2,9/2)--(1+2*sqrt(3),9/2)); draw((1+5*sqrt(3)/2,11/2)--(5*sqrt(3)/2,11/2)); label(\"$1'$\",(.5,0),S); label(\"$3'$\",(1,1.5),E); label(\"$9'$\",(1+9*sqrt(3)/4,9/4),S); label(\"$1'$\",(1+9*sqrt(3)/4,17/4),S); label(\"$1'$\",(1+5*sqrt(3)/2,5),E);label(\"$1'$\",(1/2+5*sqrt(3)/2,11/2),S); </asy> <math>\\text{(A)}\\ 2\\text{ less} \\qquad \\text{(B)}\\ 1\\text{ less} \\qquad \\text{(C)}\\ \\text{the same} \\qquad \\text{(D)}\\ 1\\text{ more} \\qquad \\text{(E)}\\ 2\\text{ more}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "The <math>16</math> squares on a piece of paper are numbered as shown in the diagram. While lying on a table, the paper is folded in half four times in the following sequence: (1) fold the top half over the bottom half (2) fold the bottom half over the top half (3) fold the right half over the left half (4) fold the left half over the right half. Which numbered square is on top after step <math>4</math>? <asy> unitsize(18); for(int a=0; a<5; ++a) { draw((a,0)--(a,4)); } for(int b=0; b<5; ++b) { draw((0,b)--(4,b)); } label(\"$1$\",(0.5,3.1),N); label(\"$2$\",(1.5,3.1),N); label(\"$3$\",(2.5,3.1),N); label(\"$4$\",(3.5,3.1),N); label(\"$5$\",(0.5,2.1),N); label(\"$6$\",(1.5,2.1),N); label(\"$7$\",(2.5,2.1),N); label(\"$8$\",(3.5,2.1),N); label(\"$9$\",(0.5,1.1),N); label(\"$10$\",(1.5,1.1),N); label(\"$11$\",(2.5,1.1),N); label(\"$12$\",(3.5,1.1),N); label(\"$13$\",(0.5,0.1),N); label(\"$14$\",(1.5,0.1),N); label(\"$15$\",(2.5,0.1),N); label(\"$16$\",(3.5,0.1),N); </asy> <math>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 9 \\qquad \\text{(C)}\\ 10 \\qquad \\text{(D)}\\ 14 \\qquad \\text{(E)}\\ 16</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "An auditorium with <math>20</math> rows of seats has <math>10</math> seats in the first row. Each successive row has one more seat than the previous row. If students taking an exam are permitted to sit in any row, but not next to another student in that row, then the maximum number of students that can be seated for an exam is <math>\\text{(A)}\\ 150 \\qquad \\text{(B)}\\ 180 \\qquad \\text{(C)}\\ 200 \\qquad \\text{(D)}\\ 400 \\qquad \\text{(E)}\\ 460</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "The vertical axis indicates the number of employees, but the scale was accidentally omitted from this graph. What percent of the employees at the Gauss company have worked there for <math>5</math> years or more? <asy> for(int a=1; a<11; ++a) { draw((a,0)--(a,-.5)); } draw((0,10.5)--(0,0)--(10.5,0)); label(\"$1$\",(1,-.5),S); label(\"$2$\",(2,-.5),S); label(\"$3$\",(3,-.5),S); label(\"$4$\",(4,-.5),S); label(\"$5$\",(5,-.5),S); label(\"$6$\",(6,-.5),S); label(\"$7$\",(7,-.5),S); label(\"$8$\",(8,-.5),S); label(\"$9$\",(9,-.5),S); label(\"$10$\",(10,-.5),S); label(\"Number of years with company\",(5.5,-2),S); label(\"X\",(1,0),N); label(\"X\",(1,1),N); label(\"X\",(1,2),N); label(\"X\",(1,3),N); label(\"X\",(1,4),N); label(\"X\",(2,0),N); label(\"X\",(2,1),N); label(\"X\",(2,2),N); label(\"X\",(2,3),N); label(\"X\",(2,4),N); label(\"X\",(3,0),N); label(\"X\",(3,1),N); label(\"X\",(3,2),N); label(\"X\",(3,3),N); label(\"X\",(3,4),N); label(\"X\",(3,5),N); label(\"X\",(3,6),N); label(\"X\",(3,7),N); label(\"X\",(4,0),N); label(\"X\",(4,1),N); label(\"X\",(4,2),N); label(\"X\",(5,0),N); label(\"X\",(5,1),N); label(\"X\",(6,0),N); label(\"X\",(6,1),N); label(\"X\",(7,0),N); label(\"X\",(7,1),N); label(\"X\",(8,0),N); label(\"X\",(9,0),N); label(\"X\",(10,0),N); label(\"Gauss Company\",(5.5,10),N); </asy> <math>\\text{(A)}\\ 9\\% \\qquad \\text{(B)}\\ 23\\frac{1}{3}\\% \\qquad \\text{(C)}\\ 30\\% \\qquad \\text{(D)}\\ 42\\frac{6}{7}\\% \\qquad \\text{(E)}\\ 50\\% </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "The average (arithmetic mean) of <math>10</math> different positive whole numbers is <math>10</math>. The largest possible value of any of these numbers is <math>\\text{(A)}\\ 10 \\qquad \\text{(B)}\\ 50 \\qquad \\text{(C)}\\ 55 \\qquad \\text{(D)}\\ 90 \\qquad \\text{(E)}\\ 91</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "In the addition problem, each digit has been replaced by a letter. If different letters represent different digits then what is the value of <math>C</math>? <asy> unitsize(18); draw((-1,0)--(3,0)); draw((-3/4,1/2)--(-1/4,1/2)); draw((-1/2,1/4)--(-1/2,3/4)); label(\"$A$\",(0.5,2.1),N); label(\"$B$\",(1.5,2.1),N); label(\"$C$\",(2.5,2.1),N); label(\"$A$\",(1.5,1.1),N); label(\"$B$\",(2.5,1.1),N); label(\"$A$\",(2.5,0.1),N); label(\"$3$\",(0.5,-.1),S); label(\"$0$\",(1.5,-.1),S); label(\"$0$\",(2.5,-.1),S); </asy> <math>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 3 \\qquad \\text{(C)}\\ 5 \\qquad \\text{(D)}\\ 7 \\qquad \\text{(E)}\\ 9</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "For every <math>3^\\circ </math> rise in temperature, the volume of a certain gas expands by <math>4</math> cubic centimeters. If the volume of the gas is <math>24</math> cubic centimeters when the temperature is <math>32^\\circ </math>, what was the volume of the gas in cubic centimeters when the temperature was <math>20^\\circ </math>? <math>\\text{(A)}\\ 8 \\qquad \\text{(B)}\\ 12 \\qquad \\text{(C)}\\ 15 \\qquad \\text{(D)}\\ 16 \\qquad \\text{(E)}\\ 40</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Each spinner is divided into <math>3</math> equal parts. The results obtained from spinning the two spinners are multiplied. What is the probability that this product is an even number? <asy> draw(circle((0,0),2)); draw(circle((5,0),2)); draw((0,0)--(sqrt(3),1)); draw((0,0)--(-sqrt(3),1)); draw((0,0)--(0,-2)); draw((5,0)--(5+sqrt(3),1)); draw((5,0)--(5-sqrt(3),1)); draw((5,0)--(5,-2)); fill((0,5/3)--(2/3,7/3)--(1/3,7/3)--(1/3,3)--(-1/3,3)--(-1/3,7/3)--(-2/3,7/3)--cycle,black); fill((5,5/3)--(17/3,7/3)--(16/3,7/3)--(16/3,3)--(14/3,3)--(14/3,7/3)--(13/3,7/3)--cycle,black); label(\"$1$\",(0,1/2),N); label(\"$2$\",(sqrt(3)/4,-1/4),ESE); label(\"$3$\",(-sqrt(3)/4,-1/4),WSW); label(\"$4$\",(5,1/2),N); label(\"$5$\",(5+sqrt(3)/4,-1/4),ESE); label(\"$6$\",(5-sqrt(3)/4,-1/4),WSW); </asy> <math>\\text{(A)}\\ \\frac{1}{3} \\qquad \\text{(B)}\\ \\frac{1}{2} \\qquad \\text{(C)}\\ \\frac{2}{3} \\qquad \\text{(D)}\\ \\frac{7}{9} \\qquad \\text{(E)}\\ 1</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "The Pythagoras High School band has <math>100</math> female and <math>80</math> male members. The Pythagoras High School orchestra has <math>80</math> female and <math>100</math> male members. There are <math>60</math> females who are members in both band and orchestra. Altogether, there are <math>230</math> students who are in either band or orchestra or both. The number of males in the band who are NOT in the orchestra is <math>\\text{(A)}\\ 10 \\qquad \\text{(B)}\\ 20 \\qquad \\text{(C)}\\ 30 \\qquad \\text{(D)}\\ 50 \\qquad \\text{(E)}\\ 70</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "A cube of edge <math>3</math> cm is cut into <math>N</math> smaller cubes, not all the same size. If the edge of each of the smaller cubes is a whole number of centimeters, then <math>N=</math> <math>\\text{(A)}\\ 4 \\qquad \\text{(B)}\\ 8 \\qquad \\text{(C)}\\ 12 \\qquad \\text{(D)}\\ 16 \\qquad \\text{(E)}\\ 20</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "An equilateral triangle is originally painted black. Each time the triangle is changed, the middle fourth of each black triangle turns white. After five changes, what fractional part of the original area of the black triangle remains black? <asy> unitsize(36); fill((0,0)--(2,0)--(1,sqrt(3))--cycle,gray); draw((0,0)--(2,0)--(1,sqrt(3))--cycle,linewidth(1)); fill((4,0)--(6,0)--(5,sqrt(3))--cycle,gray); fill((5,0)--(9/2,sqrt(3)/2)--(11/2,sqrt(3)/2)--cycle,white); draw((5,sqrt(3))--(4,0)--(5,0)--(9/2,sqrt(3)/2)--(11/2,sqrt(3)/2)--(5,0)--(6,0)--cycle,linewidth(1)); fill((8,0)--(10,0)--(9,sqrt(3))--cycle,gray); fill((9,0)--(17/2,sqrt(3)/2)--(19/2,sqrt(3)/2)--cycle,white); fill((17/2,0)--(33/4,sqrt(3)/4)--(35/4,sqrt(3)/4)--cycle,white); fill((9,sqrt(3)/2)--(35/4,3*sqrt(3)/4)--(37/4,3*sqrt(3)/4)--cycle,white); fill((19/2,0)--(37/4,sqrt(3)/4)--(39/4,sqrt(3)/4)--cycle,white); draw((9,sqrt(3))--(35/4,3*sqrt(3)/4)--(37/4,3*sqrt(3)/4)--(9,sqrt(3)/2)--(35/4,3*sqrt(3)/4)--(33/4,sqrt(3)/4)--(35/4,sqrt(3)/4)--(17/2,0)--(33/4,sqrt(3)/4)--(8,0)--(9,0)--(17/2,sqrt(3)/2)--(19/2,sqrt(3)/2)--(9,0)--(19/2,0)--(37/4,sqrt(3)/4)--(39/4,sqrt(3)/4)--(19/2,0)--(10,0)--cycle,linewidth(1)); label(\"Change 1\",(3,3*sqrt(3)/4),N); label(\"$\\Longrightarrow $\",(3,5*sqrt(3)/8),S); label(\"Change 2\",(7,3*sqrt(3)/4),N); label(\"$\\Longrightarrow $\",(7,5*sqrt(3)/8),S); </asy> <math>\\text{(A)}\\ \\frac{1}{1024} \\qquad \\text{(B)}\\ \\frac{15}{64} \\qquad \\text{(C)}\\ \\frac{243}{1024} \\qquad \\text{(D)}\\ \\frac{1}{4} \\qquad \\text{(E)}\\ \\frac{81}{256}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    }
+  ]
+}

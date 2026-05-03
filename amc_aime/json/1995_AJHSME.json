@@ -1,0 +1,212 @@
+{
+  "slug": "1995-ajhsme",
+  "title": "1995 AJHSME",
+  "description": "Converted from 1995_AJHSME_questions.txt and 1995_AJHSME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "ajhsme"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Walter has exactly one penny, one nickel, one dime and one quarter in his pocket. What percent of one dollar is in his pocket? <math>\\text{(A)}\\ 4\\% \\qquad \\text{(B)}\\ 25\\% \\qquad \\text{(C)}\\ 40\\% \\qquad \\text{(D)}\\ 41\\% \\qquad \\text{(E)}\\ 59\\%</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Jose is <math>4</math> years younger than Zack. Zack is <math>3</math> years older than Inez. Inez is <math>15</math> years old. How old is Jose? <math>\\text{(A)}\\ 8 \\qquad \\text{(B)}\\ 11 \\qquad \\text{(C)}\\ 14 \\qquad \\text{(D)}\\ 16 \\qquad \\text{(E)}\\ 22</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Which of the following operations has the same effect on a number as multiplying by <math>\\dfrac{3}{4}</math> and then dividing by <math>\\dfrac{3}{5}</math>? <math>\\text{(A)}\\ \\text{dividing by }\\dfrac{4}{3} \\qquad \\text{(B)}\\ \\text{dividing by }\\dfrac{9}{20} \\qquad \\text{(C)}\\ \\text{multiplying by }\\dfrac{9}{20} \\qquad \\text{(D)}\\ \\text{dividing by }\\dfrac{5}{4} \\qquad \\text{(E)}\\ \\text{multiplying by }\\dfrac{5}{4}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "A teacher tells the class, <center> ''\"Think of a number, add 1 to it, and double the result. Give the answer to your partner. Partner, subtract 1 from the number you are given and double the result to get your answer.\"'' </center> Ben thinks of <math>6</math>, and gives his answer to Sue. What should Sue's answer be? <math>\\text{(A)}\\ 18 \\qquad \\text{(B)}\\ 24 \\qquad \\text{(C)}\\ 26 \\qquad \\text{(D)}\\ 27 \\qquad \\text{(E)}\\ 30</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Find the smallest whole number that is larger than the sum <cmath>2\\dfrac{1}{2}+3\\dfrac{1}{3}+4\\dfrac{1}{4}+5\\dfrac{1}{5}.</cmath> <math>\\text{(A)}\\ 14 \\qquad \\text{(B)}\\ 15 \\qquad \\text{(C)}\\ 16 \\qquad \\text{(D)}\\ 17 \\qquad \\text{(E)}\\ 18</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Figures <math>I</math>, <math>II</math>, and <math>III</math> are squares. The perimeter of <math>I</math> is <math>12</math> and the perimeter of <math>II</math> is <math>24</math>. The perimeter of <math>III</math> is <asy> draw((0,0)--(15,0)--(15,6)--(12,6)--(12,9)--(0,9)--cycle); draw((9,0)--(9,9)); draw((9,6)--(12,6)); label(\"$III$\",(4.5,4),N); label(\"$II$\",(12,2.5),N); label(\"$I$\",(10.5,6.75),N); </asy> <math>\\text{(A)}\\ 9 \\qquad \\text{(B)}\\ 18 \\qquad \\text{(C)}\\ 36 \\qquad \\text{(D)}\\ 72 \\qquad \\text{(E)}\\ 81</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "At Clover View Junior High, one half of the students go home on the school bus. One fourth go home by automobile. One tenth go home on their bicycles. The rest walk home. What fractional part of the students walk home? <math>\\text{(A)}\\ \\dfrac{1}{16} \\qquad \\text{(B)}\\ \\dfrac{3}{20} \\qquad \\text{(C)}\\ \\dfrac{1}{3} \\qquad \\text{(D)}\\ \\dfrac{17}{20} \\qquad \\text{(E)}\\ \\dfrac{9}{10}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "An American traveling in Italy wishes to exchange American money (dollars) for Italian money (lire). If 3000 lire = 1.60, how much lire will the traveler receive in exchange for 1.00? <math>\\text{(A)}\\ 180 \\qquad \\text{(B)}\\ 480 \\qquad \\text{(C)}\\ 1800 \\qquad \\text{(D)}\\ 1875 \\qquad \\text{(E)}\\ 4875</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Three congruent circles with centers <math>P</math>, <math>Q</math>, and <math>R</math> are tangent to the sides of rectangle <math>ABCD</math> as shown. The circle centered at <math>Q</math> has diameter <math>4</math> and passes through points <math>P</math> and <math>R</math>. The area of the rectangle is <asy> pair A,B,C,D,P,Q,R; A = (0,4); B = (8,4); C = (8,0); D = (0,0); P = (2,2); Q = (4,2); R = (6,2); dot(A); dot(B); dot(C); dot(D); dot(P); dot(Q); dot(R); draw(A--B--C--D--cycle); draw(circle(P,2)); draw(circle(Q,2)); draw(circle(R,2)); label(\"$A$\",A,NW); label(\"$B$\",B,NE); label(\"$C$\",C,SE); label(\"$D$\",D,SW); label(\"$P$\",P,W); label(\"$Q$\",Q,W); label(\"$R$\",R,W); </asy> <math>\\text{(A)}\\ 16 \\qquad \\text{(B)}\\ 24 \\qquad \\text{(C)}\\ 32 \\qquad \\text{(D)}\\ 64 \\qquad \\text{(E)}\\ 128</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "A jacket and a shirt originally sold for <math>80</math> dollars and <math>40</math> dollars, respectively. During a sale Chris bought the <math>80</math> dollar jacket at a <math>40\\%</math> discount and the <math>40</math> dollar shirt at a <math>55\\%</math> discount. The total amount saved was what percent of the total of the original prices? <math>\\text{(A)}\\ 45\\% \\qquad \\text{(B)}\\ 47\\dfrac{1}{2}\\% \\qquad \\text{(C)}\\ 50\\% \\qquad \\text{(D)}\\ 79\\dfrac{1}{6}\\% \\qquad \\text{(E)}\\ 95\\%</math>.",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Jane can walk any distance in half the time it takes Hector to walk the same distance. They set off in opposite directions around the outside of the 18-block area as shown. When they meet for the first time, they will be closest to <asy> for(int i = -2; i <= 2; ++i) { draw((i,0)--(i,3),dashed); } draw((-3,1)--(3,1),dashed); draw((-3,2)--(3,2),dashed); draw((-3,0)--(-3,3)--(3,3)--(3,0)--cycle); dot((-3,0)); label(\"$A$\",(-3,0),SW); dot((-3,3)); label(\"$B$\",(-3,3),NW); dot((0,3)); label(\"$C$\",(0,3),N); dot((3,3)); label(\"$D$\",(3,3),NE); dot((3,0)); label(\"$E$\",(3,0),SE); dot((0,0)); label(\"start\",(0,0),S); label(\"$\\longrightarrow$\",(0,-0.75),E); label(\"$\\longleftarrow$\",(0,-0.75),W); label(\"$\\textbf{Jane}$\",(0,-1.25),W); label(\"$\\textbf{Hector}$\",(0,-1.25),E); </asy> <math>\\text{(A)}\\ A \\qquad \\text{(B)}\\ B \\qquad \\text{(C)}\\ C \\qquad \\text{(D)}\\ D \\qquad \\text{(E)}\\ E</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A ''lucky'' year is one in which at least one date, when written in the form month/day/year, has the following property: ''The product of the month times the day equals the last two digits of the year''. For example, 1956 is a lucky year because it has the date 7/8/56 and <math>7\\times 8 = 56</math>. Which of the following is NOT a lucky year? <math>\\text{(A)}\\ 1990 \\qquad \\text{(B)}\\ 1991 \\qquad \\text{(C)}\\ 1992 \\qquad \\text{(D)}\\ 1993 \\qquad \\text{(E)}\\ 1994</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "In the figure, <math>\\angle A</math>, <math>\\angle B</math>, and <math>\\angle C</math> are right angles. If <math>\\angle AEB = 40^\\circ </math> and <math>\\angle BED = \\angle BDE</math>, then <math>\\angle CDE = </math> <asy> dot((0,0)); label(\"$E$\",(0,0),SW); dot(dir(85)); label(\"$A$\",dir(85),NW); dot((4,0)); label(\"$D$\",(4,0),SE); dot((4.05677,0.648898)); label(\"$C$\",(4.05677,0.648898),NE); draw((0,0)--dir(85)--(4.05677,0.648898)--(4,0)--cycle); dot((2,2)); label(\"$B$\",(2,2),N); draw((0,0)--(2,2)--(4,0)); pair [] x = intersectionpoints((0,0)--(2,2)--(4,0),dir(85)--(4.05677,0.648898)); dot(x[0]); dot(x[1]); label(\"$F$\",x[0],SE); label(\"$G$\",x[1],SW); </asy> <math>\\text{(A)}\\ 75^\\circ \\qquad \\text{(B)}\\ 80^\\circ \\qquad \\text{(C)}\\ 85^\\circ \\qquad \\text{(D)}\\ 90^\\circ \\qquad \\text{(E)}\\ 95^\\circ</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "A team won <math>40</math> of its first <math>50</math> games. How many of the remaining <math>40</math> games must this team win so it will have won exactly <math>70 \\%</math> of its games for the season? <math>\\text{(A)}\\ 20 \\qquad \\text{(B)}\\ 23 \\qquad \\text{(C)}\\ 28 \\qquad \\text{(D)}\\ 30 \\qquad \\text{(E)}\\ 35</math>",
+      "answerType": "integer",
+      "answerKey": "23",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "What is the <math>100^\\text{th}</math> digit to the right of the decimal point in the decimal form of <math>4/37</math>? <math>\\text{(A)}\\ 0 \\qquad \\text{(B)}\\ 1 \\qquad \\text{(C)}\\ 2 \\qquad \\text{(D)}\\ 7 \\qquad \\text{(E)}\\ 8</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Students from three middle schools worked on a summer project. *Seven students from Allen school worked for <math>3</math> days. *Four students from Balboa school worked for <math>5</math> days. *Five students from Carver school worked for <math>9</math> days. The total amount paid for the students' work was 774. Assuming each student received the same amount for a day's work, how much did the students from Balboa school earn altogether? <math>\\text{(A)}\\ 9.00\\text{ dollars} \\qquad \\text{(B)}\\ 48.38\\text{ dollars} \\qquad \\text{(C)}\\ 180.00\\text{ dollars} \\qquad \\text{(D)}\\ 193.50\\text{ dollars} \\qquad \\text{(E)}\\ 258.00\\text{ dollars}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 180.00\\ dollars",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "The table below gives the percent of students in each grade at Annville and Cleona elementary schools: <cmath> \\begin{tabular}{rccccccc}&\\textbf{\\underline{K}}&\\textbf{\\underline{1}}&\\textbf{\\underline{2}}&\\textbf{\\underline{3}}&\\textbf{\\underline{4}}&\\textbf{\\underline{5}}&\\textbf{\\underline{6}}\\\\ \\textbf{Annville:}& 16\\% & 15\\% & 15\\% & 14\\% & 13\\% & 16\\% & 11\\%\\\\ \\textbf{Cleona:}& 12\\% & 15\\% & 14\\% & 13\\% & 15\\% & 14\\% & 17\\%\\end{tabular} </cmath> Annville has 100 students and Cleona has 200 students. In the two schools combined, what percent of the students are in grade 6? <math>\\text{(A)}\\ 12\\% \\qquad \\text{(B)}\\ 13\\% \\qquad \\text{(C)}\\ 14\\% \\qquad \\text{(D)}\\ 15\\% \\qquad \\text{(E)}\\ 28\\%</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 15\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "The area of each of the four congruent L-shaped regions of this 100-inch by 100-inch square is 3/16 of the total area. How many inches long is the side of the center square? <asy> draw((2,2)--(2,-2)--(-2,-2)--(-2,2)--cycle); draw((1,1)--(1,-1)--(-1,-1)--(-1,1)--cycle); draw((0,1)--(0,2)); draw((1,0)--(2,0)); draw((0,-1)--(0,-2)); draw((-1,0)--(-2,0)); </asy> <math>\\text{(A)}\\ 25 \\qquad \\text{(B)}\\ 44 \\qquad \\text{(C)}\\ 50 \\qquad \\text{(D)}\\ 62 \\qquad \\text{(E)}\\ 75</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "The graph shows the distribution of the number of children in the families of the students in Ms. Jordan's English class. The median number of children in the family for this distribution is <asy> unitsize(12); for(int i = 1; i <= 7; ++i) { draw((0,i)--(19,i),dotted); draw((-0.5,i)--(0.5,i)); } for(int i = 0; i <= 5; ++i) { draw((3*i+2,0)--(3*i+2,-0.5)); } fill((1,0)--(1,2)--(3,2)--(3,0)--cycle,white); fill((4,0)--(4,1)--(6,1)--(6,0)--cycle,white); fill((7,0)--(7,2)--(9,2)--(9,0)--cycle,white); fill((10,0)--(10,2)--(12,2)--(12,0)--cycle,white); fill((13,0)--(13,6)--(15,6)--(15,0)--cycle,white); draw((0,9)--(0,0)--(19,0)); draw((1,0)--(1,2)--(3,2)--(3,0)); draw((4,0)--(4,1)--(6,1)--(6,0)); draw((7,0)--(7,2)--(9,2)--(9,0)); draw((10,0)--(10,2)--(12,2)--(12,0)); draw((13,0)--(13,6)--(15,6)--(15,0)); label(\"$1$\",(2,-0.5),S); label(\"$2$\",(5,-0.5),S); label(\"$3$\",(8,-0.5),S); label(\"$4$\",(11,-0.5),S); label(\"$5$\",(14,-0.5),S); label(\"$6$\",(17,-0.5),S); label(\"$2$\",(-0.5,2),W); label(\"$4$\",(-0.5,4),W); label(\"$6$\",(-0.5,6),W); label(\"$\\textbf{Number of Children}$\",(9,-1.5),S); label(\"$\\textbf{in the Family}$\",(9,-2.5),S); label(\"$\\textbf{Number}$\",(-1.5,6),W); label(\"$\\textbf{of}$\",(-3,5),W); label(\"$\\textbf{Families}$\",(-1.5,4),W);</asy> <math> \\text{(A)}\\ 1\\qquad\\text{(B)}\\ 2\\qquad\\text{(C)}\\ 3\\qquad\\text{(D)}\\ 4\\qquad\\text{(E)}\\ 5 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Diana and Apollo each roll a standard die obtaining a number at random from <math>1</math> to <math>6</math>. What is the probability that Diana's number is larger than Apollo's number? <math>\\text{(A)}\\ \\dfrac{1}{3} \\qquad \\text{(B)}\\ \\dfrac{5}{12} \\qquad \\text{(C)}\\ \\dfrac{4}{9} \\qquad \\text{(D)}\\ \\dfrac{17}{36} \\qquad \\text{(E)}\\ \\dfrac{1}{2}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "A plastic snap-together cube has a protruding snap on one side and receptacle holes on the other five sides as shown. What is the smallest number of these cubes that can be snapped together so that only receptacle holes are showing? <asy> draw((0,0)--(4,0)--(4,4)--(0,4)--cycle); draw(circle((2,2),1)); draw((4,0)--(6,1)--(6,5)--(4,4)); draw((6,5)--(2,5)--(0,4)); draw(ellipse((5,2.5),0.5,1)); fill(ellipse((3,4.5),1,0.25),black); fill((2,4.5)--(2,5.25)--(4,5.25)--(4,4.5)--cycle,black); fill(ellipse((3,5.25),1,0.25),black); </asy> <math>\\text{(A)}\\ 3 \\qquad \\text{(B)}\\ 4 \\qquad \\text{(C)}\\ 5 \\qquad \\text{(D)}\\ 6 \\qquad \\text{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "The number <math>6545</math> can be written as a product of a pair of positive two-digit numbers. What is the sum of this pair of numbers? <math>\\text{(A)}\\ 162 \\qquad \\text{(B)}\\ 172 \\qquad \\text{(C)}\\ 173 \\qquad \\text{(D)}\\ 174 \\qquad \\text{(E)}\\ 222</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 162",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "How many four-digit whole numbers are there such that the leftmost digit is odd, the second digit is even, and all four digits are different? <math>\\text{(A)}\\ 1120 \\qquad \\text{(B)}\\ 1400 \\qquad \\text{(C)}\\ 1800 \\qquad \\text{(D)}\\ 2025 \\qquad \\text{(E)}\\ 2500</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 1400",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "In parallelogram <math>ABCD</math>, <math>\\overline{DE}</math> is the altitude to the base <math>\\overline{AB}</math> and <math>\\overline{DF}</math> is the altitude to the base <math>\\overline{BC}</math>. ['''Note:''' ''Both pictures represent the same parallelogram.''] If <math>DC=12</math>, <math>EB=4</math>, and <math>DE=6</math>, then <math>DF=</math> <asy> unitsize(12); pair A,B,C,D,P,Q,W,X,Y,Z; A = (0,0); B = (12,0); C = (20,6); D = (8,6); W = (18,0); X = (30,0); Y = (38,6); Z = (26,6); draw(A--B--C--D--cycle); draw(W--X--Y--Z--cycle); P = (8,0); Q = (758/25,6/25); dot(A); dot(B); dot(C); dot(D); dot(W); dot(X); dot(Y); dot(Z); dot(P); dot(Q); draw(A--B--C--D--cycle); draw(W--X--Y--Z--cycle); draw(D--P); draw(Z--Q); label(\"$A$\",A,SW); label(\"$B$\",B,SE); label(\"$C$\",C,NE); label(\"$D$\",D,NW); label(\"$E$\",P,S); label(\"$A$\",W,SW); label(\"$B$\",X,S); label(\"$C$\",Y,NE); label(\"$D$\",Z,NW); label(\"$F$\",Q,E); </asy> <math>\\text{(A)}\\ 6.4 \\qquad \\text{(B)}\\ 7 \\qquad \\text{(C)}\\ 7.2 \\qquad \\text{(D)}\\ 8 \\qquad \\text{(E)}\\ 10</math>",
+      "answerType": "exact",
+      "answerKey": "or 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Buses from Dallas to Houston leave every hour on the hour. Buses from Houston to Dallas leave every hour on the half hour. The trip from one city to the other takes <imath>5</imath> hours. Assuming the buses travel on the same highway, how many Dallas-bound buses does a Houston-bound bus pass in the highway (not in the station)? <imath> \\text{(A)}\\ 5\\qquad\\text{(B)}\\ 6\\qquad\\text{(C)}\\ 9\\qquad\\text{(D)}\\ 10\\qquad\\text{(E)}\\ 11 </imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "2024-aime-i",
+  "title": "2024 AIME I",
+  "description": "Converted from 2024_AIME_I_questions.txt and 2024_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Every morning Aya goes for a <math>9</math>-kilometer-long walk and stops at a coffee shop afterwards. When she walks at a constant speed of <math>s</math> kilometers per hour, the walk takes her 4 hours, including <math>t</math> minutes spent in the coffee shop. When she walks <math>s+2</math> kilometers per hour, the walk takes her 2 hours and 24 minutes, including <math>t</math> minutes spent in the coffee shop. Suppose Aya walks at <math>s+\\frac{1}{2}</math> kilometers per hour. Find the number of minutes the walk takes her, including the <math>t</math> minutes spent in the coffee shop.",
+      "answerType": "integer",
+      "answerKey": "204",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "There exist real numbers <math>x</math> and <math>y</math>, both greater than 1, such that <math>\\log_x\\left(y^x\\right)=\\log_y\\left(x^{4y}\\right)=10</math>. Find <math>xy</math>.",
+      "answerType": "integer",
+      "answerKey": "025",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Alice and Bob play the following game. A stack of <math>n</math> tokens lies before them. The players take turns with Alice going first. On each turn, the player removes either <math>1</math> token or <math>4</math> tokens from the stack. Whoever removes the last token wins. Find the number of positive integers <math>n</math> less than or equal to <math>2024</math> for which there exists a strategy for Bob that guarantees that Bob will win the game regardless of Alice's play.",
+      "answerType": "integer",
+      "answerKey": "809",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Jen enters a lottery by picking <imath>4</imath> distinct numbers from <imath>S=\\{1,2,3,\\cdots,9,10\\}.</imath> <imath>4</imath> numbers are randomly chosen from <imath>S.</imath> She wins a prize if at least two of her numbers were <imath>2</imath> of the randomly chosen numbers, and wins the grand prize if all four of her numbers were the randomly chosen numbers. The probability of her winning the grand prize given that she won a prize is <imath>\\tfrac{m}{n}</imath> where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "116",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Rectangles <math>ABCD</math> and <math>EFGH</math> are drawn such that <math>D,E,C,F</math> are collinear. Also, <math>A,D,H,G</math> all lie on a circle. If <math>BC=16</math>,<math>AB=107</math>,<math>FG=17</math>, and <math>EF=184</math>, what is the length of <math>CE</math>? <asy> import graph; unitsize(0.1cm); pair A = (0,0);pair B = (70,0);pair C = (70,16);pair D = (0,16);pair E = (3,16);pair F = (90,16);pair G = (90,33);pair H = (3,33); dot(A^^B^^C^^D^^E^^F^^G^^H); label(\"$A$\", A, S);label(\"$B$\", B, S);label(\"$C$\", C, N);label(\"$D$\", D, N);label(\"$E$\", E, S);label(\"$F$\", F, S);label(\"$G$\", G, N);label(\"$H$\", H, N); draw(E--D--A--B--C--E--H--G--F--C); </asy>",
+      "answerType": "integer",
+      "answerKey": "104",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Consider the paths of length <imath>16</imath> that follow the lines from the lower left corner to the upper right corner on an <imath>8\\times 8</imath> grid. Find the number of such paths that change direction exactly four times, as in the examples shown below. <asy> size(10cm); usepackage(\"tikz\");label(\"\\begin{tikzpicture}[scale=.5]\\draw(0,0)grid(8,8);\\draw[line width=2,red](0,0)--(2,0)--(2,3)--(5,3)--(5,8)--(8,8);\\end{tikzpicture}\",origin); label(\"\\begin{tikzpicture}[scale=.5]\\draw(0,0)grid(8,8);\\draw[line width=2,red](0,0)--(0,3)--(3,3)--(3,5)--(8,5)--(8,8);\\end{tikzpicture}\",E); </asy>",
+      "answerType": "integer",
+      "answerKey": "294",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Find the largest possible real part of<cmath>(75+117i)z+\\frac{96+144i}{z}</cmath>where <imath>z</imath> is a complex number with <imath>|z|=4</imath>. Here <imath>i = \\sqrt{-1}</imath>.",
+      "answerType": "integer",
+      "answerKey": "540",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Eight circles of radius <imath>34</imath> are sequentially tangent, and two of the circles are tangent to <imath>AB</imath> and <imath>BC</imath> of triangle <imath>ABC</imath>, respectively. <imath>2024</imath> circles of radius <imath>1</imath> can be arranged in the same manner. The inradius of triangle <imath>ABC</imath> can be expressed as <imath>\\frac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>. <asy> /* Made by Mathemagician108 */ pair A = (2,1); pair B = (0,0); pair C = (3,0); dot(A^^B^^C); label(\"$A$\", A, N); label(\"$B$\", B, S); label(\"$C$\", C, S); draw(A--B--C--cycle); for(real i=0.62; i<2.7; i+=0.29){ draw(circle((i,0.145), 0.145)); } </asy>",
+      "answerType": "integer",
+      "answerKey": "197",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>A</math>, <math>B</math>, <math>C</math>, and <math>D</math> be points on the hyperbola <math>\\frac{x^2}{20}- \\frac{y^2}{24} = 1</math> such that <math>ABCD</math> is a rhombus whose diagonals intersect at the origin. Find the greatest real number that is less than <math>BD^2</math> for all such rhombi.",
+      "answerType": "integer",
+      "answerKey": "480",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <imath>\\triangle ABC</imath> have side lengths <imath>AB=5</imath>, <imath>BC=9</imath>, <imath>CA=10</imath>. The tangents to circumcircle of <imath>\\triangle ABC</imath> at <imath>B</imath> and <imath>C</imath> intersect at point <imath>D</imath>, and <imath>\\overline{AD}</imath> intersects the circumcircle at <imath>P \\neq A</imath>. The length of <imath>AP</imath> is equal to <imath>\\frac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime integers. Find <imath>m + n</imath>.",
+      "answerType": "integer",
+      "answerKey": "113",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Each vertex of a regular octagon is independently colored either red or blue with equal probability. The probability that the octagon can then be rotated so that all of the blue vertices end up at positions where there had been red vertices is <math>\\tfrac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "371",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Define <math>f(x)=|| x|-\\tfrac{1}{2}|</math> and <math>g(x)=|| x|-\\tfrac{1}{4}|</math>. Find the number of intersections of the graphs of <cmath>y=4 g(f(\\sin (2 \\pi x))) \\quad\\text{ and }\\quad x=4 g(f(\\cos (3 \\pi y))).</cmath>",
+      "answerType": "exact",
+      "answerKey": "(385)",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Let <math>p</math> be the least prime number for which there exists a positive integer <math>n</math> such that <math>n^{4}+1</math> is divisible by <math>p^{2}</math>. Find the least positive integer <math>m</math> such that <math>m^{4}+1</math> is divisible by <math>p^{2}</math>.",
+      "answerType": "integer",
+      "answerKey": "110",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <imath>ABCD</imath> be a tetrahedron such that <imath>AB=CD= \\sqrt{41}</imath>, <imath>AC=BD= \\sqrt{80}</imath>, and <imath>BC=AD= \\sqrt{89}</imath>. There exists a point <imath>I</imath> inside the tetrahedron such that the distances from <imath>I</imath> to each of the faces of the tetrahedron are all equal. This distance can be written in the form <imath>\\frac{m \\sqrt n}{p}</imath>, where <imath>m</imath>, <imath>n</imath>, and <imath>p</imath> are positive integers, <imath>m</imath> and <imath>p</imath> are relatively prime, and <imath>n</imath> is not divisible by the square of any prime. Find <imath>m+n+p</imath>. ==Video solution by [[User:grogg007|grogg007]]== https://www.youtube.com/watch?v=AA81wiXj0Qs also explains basic linear algebra concepts",
+      "answerType": "integer",
+      "answerKey": "104",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>\\mathcal{B}</math> be the set of rectangular boxes with surface area <math>54</math> and volume <math>23</math>. Let <math>r</math> be the radius of the smallest sphere that can contain each of the rectangular boxes that are elements of <math>\\mathcal{B}</math>. The value of <math>r^2</math> can be written as <math>\\frac{p}{q}</math>, where <math>p</math> and <math>q</math> are relatively prime positive integers. Find <math>p+q</math>.",
+      "answerType": "integer",
+      "answerKey": "721",
+      "points": 1
+    }
+  ]
+}

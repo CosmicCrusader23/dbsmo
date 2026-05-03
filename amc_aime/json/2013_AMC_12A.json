@@ -1,0 +1,196 @@
+{
+  "slug": "2013-amc-12a",
+  "title": "2013 AMC 12A",
+  "description": "Converted from 2013_AMC_12A_questions.txt and 2013_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Square <math> ABCD </math> has side length <math> 10 </math>. Point <math> E </math> is on <math> \\overline{BC} </math>, and the area of <math> \\bigtriangleup ABE </math> is <math> 40 </math>. What is <math> BE </math>? <asy> pair A,B,C,D,E; A=(0,0); B=(0,50); C=(50,50); D=(50,0); E = (40,50); draw(A--B); draw(B--E); draw(E--C); draw(C--D); draw(D--A); draw(A--E); dot(A); dot(B); dot(C); dot(D); dot(E); label(\"A\",A,SW); label(\"B\",B,NW); label(\"C\",C,NE); label(\"D\",D,SE); label(\"E\",E,N); </asy> <math>\\textbf{(A)} \\ 4 \\qquad \\textbf{(B)} \\ 5 \\qquad \\textbf{(C)} \\ 6 \\qquad \\textbf{(D)} \\ 7 \\qquad \\textbf{(E)} \\ 8 \\qquad </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "What is the value of <cmath>\\frac{2^{2014}+2^{2012}}{2^{2014}-2^{2012}}?</cmath> <math> \\textbf{(A)}\\ -1\\qquad\\textbf{(B)}\\ 1\\qquad\\textbf{(C)}\\ \\frac{5}{3}\\qquad\\textbf{(D)}\\ 2013\\qquad\\textbf{(E)}\\ 2^{4024} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Tom, Dorothy, and Sammy went on a vacation and agreed to split the costs evenly. During their trip Tom paid &#36;<math>105</math>, Dorothy paid &#36;<math>125</math>, and Sammy paid &#36;<math>175</math>. In order to share the costs equally, Tom gave Sammy <math>t</math> dollars, and Dorothy gave Sammy <math>d</math> dollars. What is <math>t-d</math>? <math> \\textbf{(A)}\\ 15\\qquad\\textbf{(B)}\\ 20\\qquad\\textbf{(C)}\\ 25\\qquad\\textbf{(D)}\\ 30\\qquad\\textbf{(E)}\\ 35 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "In a recent basketball game, Shenille attempted only three-point shots and two-point shots. She was successful on <math>20\\%</math> of her three-point shots and <math>30\\%</math> of her two-point shots. Shenille attempted <math>30</math> shots. How many points did she score? <math> \\textbf{(A)}\\ 12\\qquad\\textbf{(B)}\\ 18\\qquad\\textbf{(C)}\\ 24\\qquad\\textbf{(D)}\\ 30\\qquad\\textbf{(E)}\\ 36 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 18",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The sequence <math>S_1, S_2, S_3, \\cdots, S_{10}</math> has the property that every term beginning with the third is the sum of the previous two. That is, <cmath> S_n = S_{n-2} + S_{n-1} \\text{ for } n \\ge 3. </cmath> Suppose that <math>S_9 = 110</math> and <math>S_7 = 42</math>. What is <math>S_4</math>? <math> \\textbf{(A)}\\ 4\\qquad\\textbf{(B)}\\ 6\\qquad\\textbf{(C)}\\ 10\\qquad\\textbf{(D)}\\ 12\\qquad\\textbf{(E)}\\ 16\\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Given that <math>x</math> and <math>y</math> are distinct nonzero real numbers such that <math>x+\\tfrac{2}{x} = y + \\tfrac{2}{y}</math>, what is <math>xy</math>? <math> \\textbf{(A)}\\ \\frac{1}{4}\\qquad\\textbf{(B)}\\ \\frac{1}{2}\\qquad\\textbf{(C)}\\ 1\\qquad\\textbf{(D)}\\ 2\\qquad\\textbf{(E)}\\ 4\\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "In <math>\\triangle ABC</math>, <math>AB=AC=28</math> and <math>BC=20</math>. Points <math>D,E,</math> and <math>F</math> are on sides <math>\\overline{AB}</math>, <math>\\overline{BC}</math>, and <math>\\overline{AC}</math>, respectively, such that <math>\\overline{DE}</math> and <math>\\overline{EF}</math> are parallel to <math>\\overline{AC}</math> and <math>\\overline{AB}</math>, respectively. What is the perimeter of parallelogram <math>ADEF</math>? <asy> size(180); pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps); real r=5/7; pair A=(10,sqrt(28^2-100)),B=origin,C=(20,0),D=(A.x*r,A.y*r); pair bottom=(C.x+(D.x-A.x),C.y+(D.y-A.y)); pair E=extension(D,bottom,B,C); pair top=(E.x+D.x,E.y+D.y); pair F=extension(E,top,A,C); draw(A--B--C--cycle^^D--E--F); dot(A^^B^^C^^D^^E^^F); label(\"$A$\",A,NW); label(\"$B$\",B,SW); label(\"$C$\",C,SE); label(\"$D$\",D,W); label(\"$E$\",E,S); label(\"$F$\",F,dir(0)); </asy> <math>\\textbf{(A) }48\\qquad \\textbf{(B) }52\\qquad \\textbf{(C) }56\\qquad \\textbf{(D) }60\\qquad \\textbf{(E) }72\\qquad</math>",
+      "answerType": "integer",
+      "answerKey": "56",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Let <math>S</math> be the set of positive integers <math>n</math> for which <math>\\tfrac{1}{n}</math> has the repeating decimal representation <math>0.\\overline{ab} = 0.ababab\\cdots,</math> with <math>a</math> and <math>b</math> different digits. What is the sum of the elements of <math>S</math>? <math> \\textbf{(A)}\\ 11\\qquad\\textbf{(B)}\\ 44\\qquad\\textbf{(C)}\\ 110\\qquad\\textbf{(D)}\\ 143\\qquad\\textbf{(E)}\\ 155\\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "143",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The angles in a particular triangle are in arithmetic progression, and the side lengths are <math>4,5,x</math>. The sum of the possible values of x equals <math>a+\\sqrt{b}+\\sqrt{c}</math> where <math>a, b</math>, and <math>c</math> are positive integers. What is <math>a+b+c</math>? <math> \\textbf{(A)}\\ 36\\qquad\\textbf{(B)}\\ 38\\qquad\\textbf{(C)}\\ 40\\qquad\\textbf{(D)}\\ 42\\qquad\\textbf{(E)}\\ 44</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Let points <math> A = (0,0) , \\ B = (1,2), \\ C = (3,3), </math> and <math> D = (4,0) </math>. Quadrilateral <math> ABCD </math> is cut into equal area pieces by a line passing through <math> A </math>. This line intersects <math> \\overline{CD} </math> at point <math> \\left (\\frac{p}{q}, \\frac{r}{s} \\right ) </math>, where these fractions are in lowest terms. What is <math> p + q + r + s </math>? <math> \\textbf{(A)} \\ 54 \\qquad \\textbf{(B)} \\ 58 \\qquad \\textbf{(C)} \\ 62 \\qquad \\textbf{(D)} \\ 70 \\qquad \\textbf{(E)} \\ 75 </math>",
+      "answerType": "integer",
+      "answerKey": "58",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The sequence <math>\\log_{12}{162}</math>, <math>\\log_{12}{x}</math>, <math>\\log_{12}{y}</math>, <math>\\log_{12}{z}</math>, <math>\\log_{12}{1250}</math> is an arithmetic progression. What is <math>x</math>? <math> \\textbf{(A)} \\ 125\\sqrt{3} \\qquad \\textbf{(B)} \\ 270 \\qquad \\textbf{(C)} \\ 162\\sqrt{5} \\qquad \\textbf{(D)} \\ 434 \\qquad \\textbf{(E)} \\ 225\\sqrt{6}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Rabbits Peter and Pauline have three offspring—Flopsie, Mopsie, and Cotton-tail. These five rabbits are to be distributed to four different pet stores so that no store gets both a parent and a child. It is not required that every store gets a rabbit. In how many different ways can this be done? <math>\\textbf{(A)} \\ 96 \\qquad \\textbf{(B)} \\ 108 \\qquad \\textbf{(C)} \\ 156 \\qquad \\textbf{(D)} \\ 204 \\qquad \\textbf{(E)} \\ 372 </math>",
+      "answerType": "integer",
+      "answerKey": "204",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "<math>A</math>, <math>B</math>, <math>C</math> are three piles of rocks. The mean weight of the rocks in <math>A</math> is <math>40</math> pounds, the mean weight of the rocks in <math>B</math> is <math>50</math> pounds, the mean weight of the rocks in the combined piles <math>A</math> and <math>B</math> is <math>43</math> pounds, and the mean weight of the rocks in the combined piles <math>A</math> and <math>C</math> is <math>44</math> pounds. What is the greatest possible integer value for the mean in pounds of the rocks in the combined piles <math>B</math> and <math>C</math>? <math> \\textbf{(A)} \\ 55 \\qquad \\textbf{(B)} \\ 56 \\qquad \\textbf{(C)} \\ 57 \\qquad \\textbf{(D)} \\ 58 \\qquad \\textbf{(E)} \\ 59</math>",
+      "answerType": "integer",
+      "answerKey": "59",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "A group of <math> 12 </math> pirates agree to divide a treasure chest of gold coins among themselves as follows. The <math> k^\\text{th} </math> pirate to take a share takes <math> \\frac{k}{12} </math> of the coins that remain in the chest. The number of coins initially in the chest is the smallest number for which this arrangement will allow each pirate to receive a positive whole number of coins. How many coins does the <math> 12^{\\text{th}} </math> pirate receive? <math> \\textbf{(A)} \\ 720 \\qquad \\textbf{(B)} \\ 1296 \\qquad \\textbf{(C)} \\ 1728 \\qquad \\textbf{(D)} \\ 1925 \\qquad \\textbf{(E)} \\ 3850 </math>",
+      "answerType": "integer",
+      "answerKey": "1925",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Six spheres of radius <math>1</math> are positioned so that their centers are at the vertices of a regular hexagon of side length <math>2</math>. The six spheres are internally tangent to a larger sphere whose center is the center of the hexagon. An eighth sphere is externally tangent to the six smaller spheres and internally tangent to the larger sphere. What is the radius of this eighth sphere? <math> \\textbf{(A)} \\ \\sqrt{2} \\qquad \\textbf{(B)} \\ \\frac{3}{2} \\qquad \\textbf{(C)} \\ \\frac{5}{3} \\qquad \\textbf{(D)} \\ \\sqrt{3} \\qquad \\textbf{(E)} \\ 2</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac32",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "In <math> \\bigtriangleup ABC </math>, <math> AB = 86 </math>, and <math> AC = 97 </math>. A circle with center <math> A </math> and radius <math> AB </math> intersects <math> \\overline{BC} </math> at points <math> B </math> and <math> X </math>. Moreover <math> \\overline{BX} </math> and <math> \\overline{CX} </math> have integer lengths. What is <math> BC </math>? <math> \\textbf{(A)} \\ 11 \\qquad \\textbf{(B)} \\ 28 \\qquad \\textbf{(C)} \\ 33 \\qquad \\textbf{(D)} \\ 61 \\qquad \\textbf{(E)} \\ 72 </math>",
+      "answerType": "integer",
+      "answerKey": "61",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Let <imath>S</imath> be the set <imath>\\{1,2,3,...,19\\}</imath>. For <imath>a,b \\in S</imath>, define <imath>a \\succ b</imath> to mean that either <imath>0 < a - b \\le 9</imath> or <imath>b - a > 9</imath>. How many ordered triples <imath>(x,y,z)</imath> of elements of <imath>S</imath> have the property that <imath>x \\succ y</imath>, <imath>y \\succ z</imath>, and <imath>z \\succ x</imath>? <imath> \\textbf{(A)} \\ 810 \\qquad \\textbf{(B)} \\ 855 \\qquad \\textbf{(C)} \\ 900 \\qquad \\textbf{(D)} \\ 950 \\qquad \\textbf{(E)} \\ 988 </imath>",
+      "answerType": "integer",
+      "answerKey": "855",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Consider <math>A = \\log (2013 + \\log (2012 + \\log (2011 + \\log (\\cdots + \\log (3 + \\log 2) \\cdots ))))</math>. Which of the following intervals contains <math>A</math>? <math> \\textbf{(A)} \\ (\\log 2016, \\log 2017) </math> <math> \\textbf{(B)} \\ (\\log 2017, \\log 2018) </math> <math> \\textbf{(C)} \\ (\\log 2018, \\log 2019) </math> <math> \\textbf{(D)} \\ (\\log 2019, \\log 2020) </math> <math> \\textbf{(E)} \\ (\\log 2020, \\log 2021) </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A palindrome is a nonnegative integer number that reads the same forwards and backwards when written in base 10 with no leading zeros. A 6-digit palindrome <math>n</math> is chosen uniformly at random. What is the probability that <math>\\frac{n}{11}</math> is also a palindrome? <math> \\textbf{(A)} \\ \\frac{8}{25} \\qquad \\textbf{(B)} \\ \\frac{33}{100} \\qquad \\textbf{(C)} \\ \\frac{7}{20} \\qquad \\textbf{(D)} \\ \\frac{9}{25} \\qquad \\textbf{(E)} \\ \\frac{11}{30}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 11 30",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "<math> ABCD</math> is a square of side length <math> \\sqrt{3} + 1 </math>. Point <math> P </math> is on <math> \\overline{AC} </math> such that <math> AP = \\sqrt{2} </math>. The square region bounded by <math> ABCD </math> is rotated <math> 90^{\\circ} </math> counterclockwise with center <math> P </math>, sweeping out a region whose area is <math> \\frac{1}{c} (a \\pi + b) </math>, where <math>a </math>, <math>b</math>, and <math> c </math> are positive integers and <math> \\text{gcd}(a,b,c) = 1 </math>. What is <math> a + b + c </math>? <math>\\textbf{(A)} \\ 15 \\qquad \\textbf{(B)} \\ 17 \\qquad \\textbf{(C)} \\ 19 \\qquad \\textbf{(D)} \\ 21 \\qquad \\textbf{(E)} \\ 23 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 19",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>f : \\mathbb{C} \\to \\mathbb{C} </math> be defined by <math> f(z) = z^2 + iz + 1 </math>. How many complex numbers <math>z </math> are there such that <math> \\text{Im}(z) > 0 </math> and both the real and the imaginary parts of <math>f(z)</math> are integers with absolute value at most <math> 10 </math>? <math> \\textbf{(A)} \\ 399 \\qquad \\textbf{(B)} \\ 401 \\qquad \\textbf{(C)} \\ 413 \\qquad \\textbf{(D)} \\ 431 \\qquad \\textbf{(E)} \\ 441 </math>",
+      "answerType": "integer",
+      "answerKey": "399",
+      "points": 1
+    }
+  ]
+}

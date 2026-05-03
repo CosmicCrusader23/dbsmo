@@ -30,6 +30,7 @@ type ProblemData = {
   id: string;
   number: number;
   statement: string;
+  contentFormat: "LATEX" | "HTML";
   answerKey: string;
   answerType: "EXACT" | "INTEGER" | "DECIMAL" | "FRACTION" | "SET" | "MULTIPLE" | "EXPRESSION";
   topicTags: string[];
@@ -88,6 +89,7 @@ function newProblem(number: number) {
     id: `new-${Math.random().toString(36).slice(2, 10)}`,
     number,
     statement: "",
+    contentFormat: "LATEX" as const,
     answerKey: "",
     answerType: "INTEGER" as const,
     topicTags: [],
@@ -137,10 +139,12 @@ export function SetEditForm({ set }: { set: SetData }) {
   }
 
   function downloadJson() {
+    const statementFormats = new Set(problems.map((problem) => problem.contentFormat));
     const exportData = {
       slug: set.slug,
       title: title,
       description: description,
+      statementFormat: statementFormats.size === 1 ? problems[0]?.contentFormat ?? "LATEX" : undefined,
       order: order,
       status: status,
       difficulty: difficulty,
@@ -149,6 +153,7 @@ export function SetEditForm({ set }: { set: SetData }) {
       problems: problems.map((p) => ({
         number: p.number,
         statement: p.statement,
+        statementFormat: p.contentFormat,
         answerType: p.answerType,
         answerKey: p.answerKey,
         points: p.points,
@@ -172,6 +177,7 @@ export function SetEditForm({ set }: { set: SetData }) {
     problemId: string,
     field:
       | "statement"
+      | "contentFormat"
       | "answerKey"
       | "answerType"
       | "points"
@@ -267,6 +273,7 @@ export function SetEditForm({ set }: { set: SetData }) {
             id: problem.id.startsWith("new-") ? undefined : problem.id,
             number: problem.number,
             statement: problem.statement.trim(),
+            contentFormat: problem.contentFormat,
             answerKey: problem.answerKey.trim(),
             answerType: problem.answerType,
             topicTags: parseTagInput(problem.topicTagsInput),
@@ -579,7 +586,28 @@ export function SetEditForm({ set }: { set: SetData }) {
             {expandedProblems.has(problem.id) && (
               <div className="problem-card-body">
                 <label className="form-field form-field-full">
-                  <span className="form-label">Statement (LaTeX supported)</span>
+                  <span
+                    className="form-label"
+                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                  >
+                    <span>Statement</span>
+                    <span style={{ display: "inline-flex", gap: 6 }}>
+                      <button
+                        className={`tag-chip ${problem.contentFormat === "LATEX" ? "active" : ""}`}
+                        type="button"
+                        onClick={() => updateProblem(problem.id, "contentFormat", "LATEX")}
+                      >
+                        LaTeX
+                      </button>
+                      <button
+                        className={`tag-chip ${problem.contentFormat === "HTML" ? "active" : ""}`}
+                        type="button"
+                        onClick={() => updateProblem(problem.id, "contentFormat", "HTML")}
+                      >
+                        HTML
+                      </button>
+                    </span>
+                  </span>
                   <textarea
                     className="form-input form-textarea"
                     rows={3}

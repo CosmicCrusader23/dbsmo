@@ -1,0 +1,118 @@
+{
+  "slug": "2026-aime-i",
+  "title": "2026 AIME I",
+  "description": "Converted from 2026_AIME_I_questions.txt and 2026_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Patrick started walking at a constant speed along a straight road from his school to the park. One hour after Patrick left, Tanya started running at a constant speed of <imath>2</imath> miles per hour faster than Patrick walked, following the same straight road from the school to the park. One hour after Tanya left, Jose started bicycling at a constant speed of <imath>7</imath> miles per hour faster than Tanya ran, following the same straight road from the school to the park. All three people arrived at the park at the same time. The distance from the school to the park is <imath>\\frac{m}{n}</imath> miles, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "277",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Find the number of positive integer palindromes written in base <imath>10</imath>, with no zero digits, and whose digits add up to <imath>13</imath>. For example, <imath>42124</imath> has these properties. Recall that a palindrome is a number whose representation reads the same from left to right as from right to left.",
+      "answerType": "integer",
+      "answerKey": "62",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A hemisphere with radius <imath>200</imath> sits on top of a horizontal circular disk with radius <imath>200</imath>, and the hemisphere and disk have the same center. Let <imath>\\mathcal T</imath> be the region of points <imath>P</imath> in the disk such that a sphere of radius 42 can be placed on top of the disk at <imath>P</imath> and lie completely inside the hemisphere. The area of <imath>\\mathcal T</imath> divided by the area of the disk is <imath>\\frac{p}{q}</imath>, where <imath>p</imath> and <imath>q</imath> are relatively prime positive integers. Find <imath>p+q</imath>.",
+      "answerType": "integer",
+      "answerKey": "79",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Find the number of integers less than or equal to <imath>100</imath> that are equal to <imath>a + b + ab</imath> for some choice of distinct positive integers <imath>a</imath> and <imath>b</imath>.",
+      "answerType": "integer",
+      "answerKey": "70",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "A plane contains points <imath>A</imath> and <imath>B</imath> with <imath>AB = 1</imath>. Point <imath>A</imath> is rotated in the plane counterclockwise through an acute angle <imath>\\theta</imath> around point <imath>B</imath> to a point <imath>A \\prime</imath>. Point <imath>B</imath> is rotated across a angle of <imath>\\theta</imath> around point <imath>A \\prime</imath> clockwise to a point <imath>B \\prime</imath>. <imath>A B \\prime = \\frac {4}{3}</imath>. If <imath>\\cos \\theta = \\frac{m}{n}</imath> where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers, find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "065",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "The product of all positive real numbers <imath>x</imath> satisfying the equation <cmath>\\sqrt[20]{x^{\\log_{2026} x}} = 26x </cmath> is an integer <imath>P</imath>. Find the number of positive integer divisors of <imath>P</imath>.",
+      "answerType": "integer",
+      "answerKey": "441",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Find the number of functions <imath>\\pi</imath> mapping the set <imath>A=\\{1,2,3,4,5,6\\}</imath> onto <imath>A</imath> such that for every <imath>a\\in A</imath>, <cmath>\\pi(\\pi(\\pi(\\pi(\\pi(\\pi(a))))))=a.</cmath>",
+      "answerType": "integer",
+      "answerKey": "396",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Let <imath>N</imath> be the number of positive integer divisors of <imath>17017^{17}</imath> that leave a remainder of <imath>5</imath> upon division by <imath>12</imath>. Find the remainder when <imath>N</imath> is divided by <imath>1000</imath>.",
+      "answerType": "integer",
+      "answerKey": "244",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Consider a die with \\( n \\) faces. Note that when we map a number to fill in the gaps of the others, the remaining numbers cannot map onto the other, or we will break the rule that five faces are filled. Thus, we must have that the remaining numbers fall into the open slots. However, the remaining slots for such numbers include the new number itself, so we subtract 1 from the count. Thus, we are just left with \\( n! \\). Now, notice that if we choose an odd number \\( k \\) to replace, any integer greater than \\( k \\) but less than or equal to \\( n \\) can cover \\( k \\) up. Thus, the result is just \\( n - k \\) slots for each of the \\( 6! \\) permutations. Thus the number of cases obtained is \\( (n - k)(n!) \\). <imath>\\square</imath> ~Pinotation",
+      "answerType": "integer",
+      "answerKey": "29",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <imath>\\triangle ABC</imath> have side lengths <imath>AB=13</imath>, <imath>BC=14</imath>, and <imath>CA=15</imath>. Triangle <imath>\\triangle A'B'C'</imath> is obtained by rotating <imath>\\triangle ABC</imath> about its circumcenter so that <imath>\\overline{A'C'}</imath> is perpendicular to <imath>\\overline{BC}</imath>, with <imath>A'</imath> and <imath>B</imath> not on the same side of line <imath>B'C'</imath>. Find the integer closest to the area of hexagon <imath>AA'CC'BB'</imath>.",
+      "answerType": "integer",
+      "answerKey": "156",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "The integers from <imath>1</imath> to <imath>64</imath> are placed in some order into an <imath>8\\times8</imath> grid of cells with one number in each cell. Let <imath>a_{i,j}</imath> be the number placed in the cell in row <imath>i</imath> and column <imath>j</imath>, and let <imath>M</imath> be the sum of the absolute differences between adjacent cells. That is, <cmath>M=\\sum^8_{i=1}\\sum^7_{j=1}(|a_{i,j+1}-a_{i,j}|+|a_{j+1,i}-a_{j,i}|).</cmath> Find the remainder when the maximum possible value of <imath>M</imath> is divided by <imath>1000</imath>.",
+      "answerType": "integer",
+      "answerKey": "896",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Problem text not found.",
+      "answerType": "integer",
+      "answerKey": "161",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "For each nonnegative integer <imath>r</imath> less than <imath>502</imath>, define<cmath>S_r=\\sum_{m\\geq 0}\\binom{10,000}{502m+r},</cmath>where <imath>\\binom{10,000}{n}</imath> is defined to be <imath>0</imath> when <imath>n>10,000</imath>. That is, <imath>S_r</imath> is the sum of all the binomial coefficients of the form <imath>\\binom{10,000}{k}</imath> for which <imath>0\\leq k\\leq 10,000</imath> and <imath>k-r</imath> is a multiple of <imath>502</imath>. Find the number of integers in the list <imath>S_0,S_1,S_2,\\dots,S_{501}</imath> that are multiples of the prime number <imath>503</imath>.",
+      "answerType": "integer",
+      "answerKey": "039",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "In an equiangular pentagon, the sum of the squares of the side lengths equals <imath>308</imath>, and the sum of the squares of the diagonal lengths equals <imath>800</imath>. The square of the perimeter of the pentagon can be expressed as <imath>m\\sqrt{n}</imath>, where <imath>m</imath> and <imath>n</imath> are positive integers and <imath>n</imath> is not divisible by the square of any prime. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "681",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <imath>a, b,</imath> and <imath>n</imath> be positive integers with both <imath>a</imath> and <imath>b</imath> greater than or equal to <imath>2</imath> and less than or equal to <imath>2n.{}</imath> Define an <imath>a \\times b</imath> cell loop in a <imath>2n \\times 2n</imath> grid of cells to be the <imath>2a + 2b - 4</imath> cells that surround an <imath>(a - 2) \\times (b - 2)</imath> (possibly empty) rectangle of cells in the grid. For example, the following diagram shows a way to partition a <imath>6 \\times 6</imath> grid of cells into <imath>4</imath> cell loops. <asy> usepackage(“mathptmx”); size(6cm); dotfactor = 30; fill((0, 2)--(0, 6)--(4, 6)--(4, 2)--cycle, royalblue); fill((1, 3)--(1, 5)--(3, 5)--(3, 3)--cycle, lightred); fill((4, 0)--(4, 6)--(6, 6)--(6, 0)--cycle, lightyellow); draw((1, 1)--(3, 1)^^(5, 1)--(5, 5)^^(1, 3)--(1, 5)--(3, 5)--(3, 3)--cycle^^(0, 0)--(0, 6)--(6, 6)--(6, 0)--cycle^^(0, 2)--(4, 2)^^(4, 0)--(4, 6), linewidth(4)); dot((2, 4)); for (int i = 1; i <= 5; i += 1) { draw((0, i)--(6, i)^^(i, 0)--(i, 6)); } </asy> Find the number of ways to partition a <imath>10\\times10</imath> grid of cells into <imath>5</imath> cell loops so that every cell of the grid belongs to exactly one cell loop.",
+      "answerType": "integer",
+      "answerKey": "83",
+      "points": 1
+    }
+  ]
+}

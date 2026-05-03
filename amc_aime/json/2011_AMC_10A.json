@@ -1,0 +1,248 @@
+{
+  "slug": "2011-amc-10a",
+  "title": "2011 AMC 10A",
+  "description": "Converted from 2011_AMC_10A_questions.txt and 2011_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A cell phone plan costs <math>20</math> dollars each month, plus <math>5</math> cents per text message sent, plus <math>10</math> cents for each minute used over <math>30</math> hours. In January Michelle sent <math>100</math> text messages and talked for <math>30.5</math> hours. How much did she have to pay? <math> \\textbf{(A)}\\ 24.00 \\qquad \\textbf{(B)}\\ 24.50 \\qquad \\textbf{(C)}\\ 25.50 \\qquad \\textbf{(D)}\\ 28.00 \\qquad \\textbf{(E)}\\ 30.00 </math>",
+      "answerType": "exact",
+      "answerKey": "\\$28",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A small bottle of shampoo can hold <math>35</math> milliliters of shampoo, whereas a large bottle can hold <math>500</math> milliliters of shampoo. Jasmine wants to buy the minimum number of small bottles necessary to completely fill a large bottle. How many bottles must she buy? <math> \\textbf{(A)}\\ 11 \\qquad \\textbf{(B)}\\ 12 \\qquad \\textbf{(C)}\\ 13 \\qquad \\textbf{(D)}\\ 14 \\qquad \\textbf{(E)}\\ 15 </math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Suppose [<math>a</math> <math>b</math>] denotes the average of <math>a</math> and <math>b</math>, and {<math>a</math> <math>b</math> <math>c</math>} denotes the average of <math>a</math>, <math>b</math>, and <math>c</math>. What is <math>\\{\\{\\text{1 1 0}\\} \\text{ [0 1] } 0\\}?</math> <math> \\textbf{(A)}\\ \\frac{2}{9} \\qquad\\textbf{(B)}\\ \\frac{5}{18} \\qquad\\textbf{(C)}\\ \\frac{1}{3} \\qquad\\textbf{(D)}\\ \\frac{7}{18} \\qquad\\textbf{(E)}\\ \\frac{2}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac7 18",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Let X and Y be the following sums of arithmetic sequences: <cmath> \\begin{eqnarray*}X &=& 10+12+14+\\cdots+100,\\\\ Y &=& 12+14+16+\\cdots+102.\\end{eqnarray*} </cmath> What is the value of <math>Y - X? </math> <math> \\textbf{(A)}\\ 92\\qquad\\textbf{(B)}\\ 98\\qquad\\textbf{(C)}\\ 100\\qquad\\textbf{(D)}\\ 102\\qquad\\textbf{(E)}\\ 112 </math>",
+      "answerType": "integer",
+      "answerKey": "92",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "At an elementary school, the students in third grade, fourth grade, and fifth grade run an average of <math>12</math>, <math>15</math>, and <math>10</math> minutes per day, respectively. There are twice as many third graders as fourth graders, and twice as many fourth graders as fifth graders. What is the average number of minutes run per day by these students? <math> \\textbf{(A)}\\ 12 \\qquad \\textbf{(B)}\\ \\frac{37}{3} \\qquad \\textbf{(C)}\\ \\frac{88}{7} \\qquad \\textbf{(D)}\\ 13 \\qquad \\textbf{(E)}\\ 14 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Set <math>A</math> has <math>20</math> elements, and set <math>B</math> has <math>15</math> elements. What is the smallest possible number of elements in <math>A \\cup B</math>? <math> \\textbf{(A)}5 \\qquad\\textbf{(B)}\\ 15 \\qquad\\textbf{(C)}\\ 20\\qquad\\textbf{(D)}\\ 35\\qquad\\textbf{(E)}\\ 300 </math>",
+      "answerType": "integer",
+      "answerKey": "20",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Which of the following equations does NOT have a solution? <math>\\text{(A)}\\:(x+7)^2=0</math> <math>\\text{(B)}\\:|-3x|+5=0</math> <math>\\text{(C)}\\:\\sqrt{-x}-2=0</math> <math>\\text{(D)}\\:\\sqrt{x}-8=0</math> <math>\\text{(E)}\\:|-3x|-4=0</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Last summer 30% of the birds living on Town Lake were geese, 25% were swans, 10% were herons, and 35% were ducks. What percent of the birds that were not swans were geese? <math> \\textbf{(A)}\\ 20\\qquad\\textbf{(B)}\\ 30\\qquad\\textbf{(C)}\\ 40\\qquad\\textbf{(D)}\\ 50\\qquad\\textbf{(E)}\\ 60 </math>",
+      "answerType": "exact",
+      "answerKey": "40 \\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "A rectangular region is bounded by the graphs of the equations <math>y=a, y=-b, x=-c,</math> and <math>x=d</math>, where <math>a,b,c,</math> and <math>d</math> are all positive numbers. Which of the following represents the area of this region? <math> \\textbf{(A)}\\ ac+ad+bc+bd\\qquad\\textbf{(B)}\\ ac-ad+bc-bd\\qquad\\textbf{(C)}\\ ac+ad-bc-bd \\quad\\quad\\qquad\\textbf{(D)}\\ -ac-ad+bc+bd\\qquad\\textbf{(E)}\\ ac-ad-bc+bd </math>",
+      "answerType": "exact",
+      "answerKey": "\\ ac + ad + bc + bd",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "A majority of the <math>30</math> students in Ms. Demeanor's class bought pencils at the school bookstore. Each of these students bought the same number of pencils, and this number was greater than <math>1</math>. The cost of a pencil in cents was greater than the number of pencils each student bought, and the total cost of all the pencils was <math>\\$17.71</math>. What was the cost of a pencil in cents? <math> \\textbf{(A)}\\ 7 \\qquad \\textbf{(B)}\\ 11 \\qquad \\textbf{(C)}\\ 17 \\qquad \\textbf{(D)}\\ 23 \\qquad \\textbf{(E)}\\ 77 </math>",
+      "answerType": "exact",
+      "answerKey": "~11",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Square <math>EFGH</math> has one vertex on each side of square <math>ABCD</math>. Point <math>E</math> is on <math>AB</math> with <math>AE=7\\cdot EB</math>. What is the ratio of the area of <math>EFGH</math> to the area of <math>ABCD</math>? <math>\\text{(A)}\\,\\frac{49}{64} \\qquad\\text{(B)}\\,\\frac{25}{32} \\qquad\\text{(C)}\\,\\frac78 \\qquad\\text{(D)}\\,\\frac{5\\sqrt{2}}{8} \\qquad\\text{(E)}\\,\\frac{\\sqrt{14}}{4} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 25 32 \\ \\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The players on a basketball team made some three-point shots, some two-point shots, and some one-point free throws. They scored as many points with two-point shots as with three-point shots. Their number of successful free throws was one more than their number of successful two-point shots. The team's total score was <math>61</math> points. How many free throws did they make? <math> \\textbf{(A)}\\ 13 \\qquad \\textbf{(B)}\\ 14 \\qquad \\textbf{(C)}\\ 15 \\qquad \\textbf{(D)}\\ 16 \\qquad \\textbf{(E)}\\ 17 </math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "How many even integers are there between <math>200</math> and <math>700</math> whose digits are all different and come from the set <math>\\left\\{1,2,5,7,8,9\\right\\}</math>? <math>\\text{(A)}\\,12 \\qquad\\text{(B)}\\,20 \\qquad\\text{(C)}\\,72 \\qquad\\text{(D)}\\,120 \\qquad\\text{(E)}\\,200</math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "A pair of standard <math>6</math>-sided dice is rolled once. The sum of the numbers rolled determines the diameter of a circle. What is the probability that the numerical value of the area of the circle is less than the numerical value of the circle's circumference? <math> \\textbf{(A)}\\ \\frac{1}{36} \\qquad \\textbf{(B)}\\ \\frac{1}{12} \\qquad \\textbf{(C)}\\ \\frac{1}{6} \\qquad \\textbf{(D)}\\ \\frac{1}{4} \\qquad \\textbf{(E)}\\ \\frac{5}{18} </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Roy bought a new battery-gasoline hybrid car. On a trip the car ran exclusively on its battery for the first <math>40</math> miles, then ran exclusively on gasoline for the rest of the trip, using gasoline at a rate of <math>0.02</math> gallons per mile. On the whole trip he averaged <math>55</math> miles per gallon. How long was the trip in miles? <math> \\mathrm{(A)}\\ 140 \\qquad \\mathrm{(B)}\\ 240 \\qquad \\mathrm{(C)}\\ 440 \\qquad \\mathrm{(D)}\\ 640 \\qquad \\mathrm{(E)}\\ 840 </math>",
+      "answerType": "exact",
+      "answerKey": "440 \\ \\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Which of the following is equal to <math>\\sqrt{9-6\\sqrt{2}}+\\sqrt{9+6\\sqrt{2}}</math>? <math>\\text{(A)}\\,3\\sqrt2 \\qquad\\text{(B)}\\,2\\sqrt6 \\qquad\\text{(C)}\\,\\frac{7\\sqrt2}{2} \\qquad\\text{(D)}\\,3\\sqrt3 \\qquad\\text{(E)}\\,6</math>",
+      "answerType": "exact",
+      "answerKey": "~2\\sqrt6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "In the eight term sequence <math>A</math>, <math>B</math>, <math>C</math>, <math>D</math>, <math>E</math>, <math>F</math>, <math>G</math>, <math>H</math>, the value of <math>C</math> is <math>5</math> and the sum of any three consecutive terms is <math>30</math>. What is <math>A+H</math>? <math> \\textbf{(A)}\\ 17 \\qquad \\textbf{(B)}\\ 18 \\qquad \\textbf{(C)}\\ 25 \\qquad \\textbf{(D)}\\ 26 \\qquad \\textbf{(E)}\\ 43 </math>",
+      "answerType": "integer",
+      "answerKey": "25",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Circles <math>A, B,</math> and <math>C</math> each has radius <math>1</math>. Circles <math>A</math> and <math>B</math> share one point of tangency. Circle <math>C</math> has a point of tangency with the midpoint of <math>\\overline{AB}.</math> What is the area inside circle <math>C</math> but outside circle <math>A</math> and circle <math>B?</math> <asy> unitsize(1.1cm); defaultpen(linewidth(.8pt)); dotfactor=4; pair A=(0,0), B=(2,0), C=(1,-1); pair M=(1,0); pair D=(2,-1); dot (A); dot (B); dot (C); dot (D); dot (M); draw(Circle(A,1)); draw(Circle(B,1)); draw(Circle(C,1)); draw(A--B); draw(M--D); draw(D--B); label(\"$A$\",A,W); label(\"$B$\",B,E); label(\"$C$\",C,W); label(\"$M$\",M,NE); label(\"$D$\",D,SE); </asy> <math> \\textbf{(A)}\\ 3 - \\frac{\\pi}{2} \\qquad \\textbf{(B)}\\ \\frac{\\pi}{2} \\qquad \\textbf{(C)}\\ 2 \\qquad \\textbf{(D)}\\ \\frac{3\\pi}{4} \\qquad \\textbf{(E)}\\ 1+\\frac{\\pi}{2} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "In 1991 the population of a town was a perfect square. Ten years later, after an increase of 150 people, the population was 9 more than a perfect square. Now, in 2011, with an increase of another 150 people, the population is once again a perfect square. Which of the following is closest to the percent growth of the town's population during this twenty-year period? <math> \\textbf{(A)}\\ 42 \\qquad\\textbf{(B)}\\ 47 \\qquad\\textbf{(C)}\\ 52\\qquad\\textbf{(D)}\\ 57\\qquad\\textbf{(E)}\\ 62 </math>",
+      "answerType": "exact",
+      "answerKey": "62\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Two points on the circumference of a circle of radius <math>r</math> are selected independently and at random. From each point a chord of length <math>r</math> is drawn in a clockwise direction. What is the probability that the two chords intersect? <math> \\textbf{(A)}\\ \\frac{1}{6}\\qquad\\textbf{(B)}\\ \\frac{1}{5}\\qquad\\textbf{(C)}\\ \\frac{1}{4}\\qquad\\textbf{(D)}\\ \\frac{1}{3}\\qquad\\textbf{(E)}\\ \\frac{1}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 3 \\",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Two counterfeit coins of equal weight are mixed with <math>8</math> identical genuine coins. The weight of each of the counterfeit coins is different from the weight of each of the genuine coins. A pair of coins is selected at random without replacement from the <math>10</math> coins. A second pair is selected at random without replacement from the remaining <math>8</math> coins. The combined weight of the first pair is equal to the combined weight of the second pair. What is the probability that all <math>4</math> selected coins are genuine? <math> \\textbf{(A)}\\ \\frac{7}{11}\\qquad\\textbf{(B)}\\ \\frac{9}{13}\\qquad\\textbf{(C)}\\ \\frac{11}{15}\\qquad\\textbf{(D)}\\ \\frac{15}{19}\\qquad\\textbf{(E)}\\ \\frac{15}{16} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 15 19 \\ \\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Each vertex of convex pentagon <math>ABCDE</math> is to be assigned a color. There are <math>6</math> colors to choose from, and the ends of each diagonal must have different colors. How many different colorings are possible? <math> \\textbf{(A)}\\ 2520\\qquad\\textbf{(B)}\\ 2880\\qquad\\textbf{(C)}\\ 3120\\qquad\\textbf{(D)}\\ 3250\\qquad\\textbf{(E)}\\ 3750 </math>",
+      "answerType": "integer",
+      "answerKey": "3120",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Seven students count from 1 to 1000 as follows: Alice says all the numbers, except she skips the middle number in each consecutive group of three numbers. That is, Alice says 1, 3, 4, 6, 7, 9, . . ., 997, 999, 1000. Barbara says all of the numbers that Alice doesn't say, except she also skips the middle number in each consecutive group of three numbers. Candice says all of the numbers that neither Alice nor Barbara says, except she also skips the middle number in each consecutive group of three numbers. Debbie, Eliza, and Fatima say all of the numbers that none of the students with the first names beginning before theirs in the alphabet say, except each also skips the middle number in each of her consecutive groups of three numbers. Finally, George says the only number that no one else says. What number does George say? <math> \\textbf{(A)}\\ 37\\qquad\\textbf{(B)}\\ 242\\qquad\\textbf{(C)}\\ 365\\qquad\\textbf{(D)}\\ 728\\qquad\\textbf{(E)}\\ 998 </math>",
+      "answerType": "integer",
+      "answerKey": "365",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Two distinct regular tetrahedra have all their vertices among the vertices of the same unit cube. What is the volume of the region formed by the intersection of the tetrahedra? <math>\\text{(A)}\\,\\frac{1}{12} \\qquad\\text{(B)}\\,\\frac{\\sqrt2}{12} \\qquad\\text{(C)}\\,\\frac{\\sqrt3}{12} \\qquad\\text{(D)}\\,\\frac{1}{6} \\qquad\\text{(E)}\\,\\frac{\\sqrt2}{6}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>R</math> be a unit square region and <math>n \\geq 4</math> an integer. A point <math>X</math> in the interior of <math>R</math> is called ''n-ray'' partitional if there are <math>n</math> rays emanating from <math>X</math> that divide <math>R</math> into <math>n</math> triangles of equal area. How many points are <math>100</math>-ray partitional but not <math>60</math>-ray partitional? <math> \\textbf{(A)}\\ 1500 \\qquad \\textbf{(B)}\\ 1560 \\qquad \\textbf{(C)}\\ 2320 \\qquad \\textbf{(D)}\\ 2480 \\qquad \\textbf{(E)}\\ 2500 </math>",
+      "answerType": "integer",
+      "answerKey": "2320",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

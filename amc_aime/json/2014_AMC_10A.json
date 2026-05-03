@@ -1,0 +1,239 @@
+{
+  "slug": "2014-amc-10a",
+  "title": "2014 AMC 10A",
+  "description": "Converted from 2014_AMC_10A_questions.txt and 2014_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is <math> 10\\cdot\\left(\\tfrac{1}{2}+\\tfrac{1}{5}+\\tfrac{1}{10}\\right)^{-1}? </math> <math>\\textbf{(A)}\\ 3 \\qquad\\textbf{(B)}\\ 8\\qquad\\textbf{(C)}\\ \\frac{25}{2} \\qquad\\textbf{(D)}\\ \\frac{170}{3}\\qquad\\textbf{(E)}\\ 170</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 25 2",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Roy's cat eats <math>\\frac{1}{3}</math> of a can of cat food every morning and <math>\\frac{1}{4}</math> of a can of cat food every evening. Before feeding his cat on Monday morning, Roy opened a box containing <math>6</math> cans of cat food. On what day of the week did the cat finish eating all the cat food in the box? <math> \\textbf{(A)}\\ \\text{Tuesday}\\qquad\\textbf{(B)}\\ \\text{Wednesday}\\qquad\\textbf{(C)}\\ \\text{Thursday}\\qquad\\textbf{(D)}\\ \\text{Friday}\\qquad\\textbf{(E)}\\ \\text{Saturday}</math>",
+      "answerType": "exact",
+      "answerKey": "Thursday \\",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Bridget bakes 48 loaves of bread for her bakery. She sells half of them in the morning for <math>\\textdollar 2.50</math> each. In the afternoon she sells two thirds of what she has left, and because they are not fresh, she charges only half price. In the late afternoon she sells the remaining loaves at a dollar each. Each loaf costs <math>\\textdollar 0.75</math> for her to make. In dollars, what is her profit for the day? <math>\\textbf{(A)}\\ 24\\qquad\\textbf{(B)}\\ 36\\qquad\\textbf{(C)}\\ 44\\qquad\\textbf{(D)}\\ 48\\qquad\\textbf{(E)}\\ 52</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 52",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Walking down Jane Street, Ralph passed four houses in a row, each painted a different color. He passed the orange house before the red house, and he passed the blue house before the yellow house. The blue house was not next to the yellow house. How many orderings of the colored houses are possible? <math>\\textbf{(A)}\\ 2\\qquad\\textbf{(B)}\\ 3\\qquad\\textbf{(C)}\\ 4\\qquad\\textbf{(D)}\\ 5\\qquad\\textbf{(E)}\\ 6</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "On an algebra quiz, <math>10\\%</math> of the students scored <math>70</math> points, <math>35\\%</math> scored <math>80</math> points, <math>30\\%</math> scored <math>90</math> points, and the rest scored <math>100</math> points. What is the difference between the mean and median score of the students' scores on this quiz? <math> \\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 5</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Suppose that <math>a</math> cows give <math>b</math> gallons of milk in <math>c</math> days. At this rate, how many gallons of milk will <math>d</math> cows give in <math>e</math> days? <math>\\textbf{(A)}\\ \\frac{bde}{ac}\\qquad\\textbf{(B)}\\ \\frac{ac}{bde}\\qquad\\textbf{(C)}\\ \\frac{abde}{c}\\qquad\\textbf{(D)}\\ \\frac{bcde}{a}\\qquad\\textbf{(E)}\\ \\frac{abc}{de}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Nonzero real numbers <math>x</math>, <math>y</math>, <math>a</math>, and <math>b</math> satisfy <math>x < a</math> and <math>y < b</math>. How many of the following inequalities must be true? <math>\\textbf{(I)}\\ x+y < a+b\\qquad</math> <math> \\textbf{(II)}\\ x-y < a-b\\qquad</math> <math> \\textbf{(III)}\\ xy < ab\\qquad</math> <math> \\textbf{(IV)}\\ \\frac{x}{y} < \\frac{a}{b}</math> <math> \\textbf{(A)}\\ 0\\qquad\\textbf{(B)}\\ 1\\qquad\\textbf{(C)}\\ 2\\qquad\\textbf{(D)}\\ 3\\qquad\\textbf{(E)}\\ 4</math>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Which of the following numbers is a perfect square? <math> \\textbf{(A)}\\ \\dfrac{14!15!}2\\qquad\\textbf{(B)}\\ \\dfrac{15!16!}2\\qquad\\textbf{(C)}\\ \\dfrac{16!17!}2\\qquad\\textbf{(D)}\\ \\dfrac{17!18!}2\\qquad\\textbf{(E)}\\ \\dfrac{18!19!}2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 17!18! 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "The two legs of a right triangle, which are altitudes, have lengths <math>2\\sqrt3</math> and <math>6</math>. How long is the third altitude of the triangle? <math> \\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Five positive consecutive integers starting with <math>a</math> have average <math>b</math>. What is the average of <math>5</math> consecutive integers that start with <math>b</math>? <math> \\textbf{(A)}\\ a+3\\qquad\\textbf{(B)}\\ a+4\\qquad\\textbf{(C)}\\ a+5\\qquad\\textbf{(D)}\\ a+6\\qquad\\textbf{(E)}\\ a+7</math>",
+      "answerType": "exact",
+      "answerKey": "a+4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A customer who intends to purchase an appliance has three coupons, only one of which may be used: Coupon 1: <math>10\\%</math> off the listed price if the listed price is at least <math>\\textdollar50</math> Coupon 2: <math>\\textdollar 20</math> off the listed price if the listed price is at least <math>\\textdollar100</math> Coupon 3: <math>18\\%</math> off the amount by which the listed price exceeds <math>\\textdollar100</math> For which of the following listed prices will coupon <math>1</math> offer a greater price reduction than either coupon <math>2</math> or coupon <math>3</math>? <math>\\textbf{(A) }\\textdollar179.95\\qquad \\textbf{(B) }\\textdollar199.95\\qquad \\textbf{(C) }\\textdollar219.95\\qquad \\textbf{(D) }\\textdollar239.95\\qquad \\textbf{(E) }\\textdollar259.95\\qquad</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A regular hexagon has side length 6. Congruent arcs with radius 3 are drawn with the center at each of the vertices, creating circular sectors as shown. The region inside the hexagon but outside the sectors is shaded as shown What is the area of the shaded region? <asy> size(125); defaultpen(linewidth(0.8)); path hexagon=(2*dir(0))--(2*dir(60))--(2*dir(120))--(2*dir(180))--(2*dir(240))--(2*dir(300))--cycle; fill(hexagon,grey); for(int i=0;i<=5;i=i+1) { path arc=2*dir(60*i)--arc(2*dir(60*i),1,120+60*i,240+60*i)--cycle; unfill(arc); draw(arc); } draw(hexagon,linewidth(1.8));</asy> <math> \\text{(A)}\\ 27\\sqrt{3}-9\\pi \\qquad \\text{(B)}\\ 27\\sqrt{3}-6\\pi \\qquad \\text{(C)}\\ 54\\sqrt{3}-18\\pi \\qquad \\text{(D)}\\ 54\\sqrt{3}-12\\pi \\qquad \\text{(E)}\\ 108\\sqrt{3}-9\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "54\\sqrt 3 -18\\pi",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Equilateral <math>\\triangle ABC</math> has side length <math>1</math>, and squares <math>ABDE</math>, <math>BCHI</math>, <math>CAFG</math> lie outside the triangle. What is the area of hexagon <math>DEFGHI</math>? <asy> import graph; size(6cm); pen dps = linewidth(0.7) + fontsize(8); defaultpen(dps); pair B = (0,0); pair C = (1,0); pair A = rotate(60,B)*C; pair E = rotate(270,A)*B; pair D = rotate(270,E)*A; pair F = rotate(90,A)*C; pair G = rotate(90,F)*A; pair I = rotate(270,B)*C; pair H = rotate(270,I)*B; draw(A--B--C--cycle); draw(A--E--D--B); draw(A--F--G--C); draw(B--I--H--C); draw(E--F); draw(D--I); draw(I--H); draw(H--G); label(\"$A$\",A,N); label(\"$B$\",B,SW); label(\"$C$\",C,SE); label(\"$D$\",D,W); label(\"$E$\",E,W); label(\"$F$\",F,E); label(\"$G$\",G,SE); label(\"$H$\",H,SE); label(\"$I$\",I,SW); </asy> <math> \\textbf{(A)}\\ \\dfrac{12+3\\sqrt3}4\\qquad\\textbf{(B)}\\ \\dfrac92\\qquad\\textbf{(C)}\\ 3+\\sqrt3\\qquad\\textbf{(D)}\\ \\dfrac{6+3\\sqrt3}2\\qquad\\textbf{(E)}\\ 6 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3+\\sqrt3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "The <math>y</math>-intercepts, <math>P</math> and <math>Q</math>, of two perpendicular lines intersecting at the point <math>A(6,8)</math> have a sum of zero. What is the area of <math>\\triangle APQ</math>? <math> \\textbf{(A)}\\ 45\\qquad\\textbf{(B)}\\ 48\\qquad\\textbf{(C)}\\ 54\\qquad\\textbf{(D)}\\ 60\\qquad\\textbf{(E)}\\ 72 </math>",
+      "answerType": "exact",
+      "answerKey": "( D )~60",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "David drives from his home to the airport to catch a flight. He drives <math>35</math> miles in the first hour, but realizes that he will be <math>1</math> hour late if he continues at this speed. He increases his speed by <math>15</math> miles per hour for the rest of the way to the airport and arrives <math>30</math> minutes early. How many miles is the airport from his home? <math>\\textbf{(A) }140\\qquad \\textbf{(B) }175\\qquad \\textbf{(C) }210\\qquad \\textbf{(D) }245\\qquad \\textbf{(E) }280\\qquad</math>",
+      "answerType": "integer",
+      "answerKey": "210",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "In rectangle <imath>ABCD</imath>, <imath>AB=1</imath>, <imath>BC=2</imath>, and points <imath>E</imath>, <imath>F</imath>, and <imath>G</imath> are midpoints of <imath>\\overline{BC}</imath>, <imath>\\overline{CD}</imath>, and <imath>\\overline{AD}</imath>, respectively. Point <imath>H</imath> is the midpoint of <imath>\\overline{GE}</imath>. What is the area of the shaded region? <asy> import graph; size(9cm); pen dps = fontsize(10); defaultpen(dps); pair D = (0,0); pair F = (1/2,0); pair C = (1,0); pair G = (0,1); pair E = (1,1); pair A = (0,2); pair B = (1,2); pair H = (1/2,1); // do not look pair X = (1/3,2/3); pair Y = (2/3,2/3); draw(A--B--C--D--cycle); draw(G--E); draw(A--F--B); draw(D--H--C); filldraw(H--X--F--Y--cycle,grey); label(\"$A$\",A,NW); label(\"$B$\",B,NE); label(\"$C$\",C,SE); label(\"$D$\",D,SW); label(\"$E$\",E,E); label(\"$F$\",F,S); label(\"$G$\",G,W); label(\"$H$\",H,N); label(\"$\\frac12$\",(0.25,0),S); label(\"$\\frac12$\",(0.75,0),S); label(\"$1$\",(1,0.5),E); label(\"$1$\",(1,1.5),E); </asy> <imath> \\textbf{(A)}\\ \\dfrac1{12}\\qquad\\textbf{(B)}\\ \\dfrac{\\sqrt3}{18}\\qquad\\textbf{(C)}\\ \\dfrac{\\sqrt2}{12}\\qquad\\textbf{(D)}\\ \\dfrac{\\sqrt3}{12}\\qquad\\textbf{(E)}\\ \\dfrac16 </imath>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac16",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Three fair six-sided dice are rolled. What is the probability that the values shown on two of the dice sum to the value shown on the remaining die? <math> \\textbf{(A)}\\ \\dfrac16\\qquad\\textbf{(B)}\\ \\dfrac{13}{72}\\qquad\\textbf{(C)}\\ \\dfrac7{36}\\qquad\\textbf{(D)}\\ \\dfrac5{24}\\qquad\\textbf{(E)}\\ \\dfrac29 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 5 24",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "A square in the coordinate plane has vertices whose <math>y</math>-coordinates are <math>0</math>, <math>1</math>, <math>4</math>, and <math>5</math>. What is the area of the square? <math> \\textbf{(A)}\\ 16\\qquad\\textbf{(B)}\\ 17\\qquad\\textbf{(C)}\\ 25\\qquad\\textbf{(D)}\\ 26\\qquad\\textbf{(E)}\\ 27 </math>",
+      "answerType": "integer",
+      "answerKey": "17",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Four cubes with edge lengths <math>1</math>, <math>2</math>, <math>3</math>, and <math>4</math> are stacked as shown. What is the length of the portion of <math>\\overline{XY}</math> contained in the cube with edge length <math>3</math>? <asy> dotfactor = 3; size(10cm); dot((0, 10)); label(\"$X$\", (0,10),W,fontsize(8pt)); dot((6,2)); label(\"$Y$\", (6,2),E,fontsize(8pt)); draw((0, 0)--(0, 10)--(1, 10)--(1, 9)--(2, 9)--(2, 7)--(3, 7)--(3,4)--(4, 4)--(4, 0)--cycle); draw((0,9)--(1, 9)--(1.5, 9.5)--(1.5, 10.5)--(0.5, 10.5)--(0, 10)); draw((1, 10)--(1.5,10.5)); draw((1.5, 10)--(3,10)--(3,8)--(2,7)--(0,7)); draw((2,9)--(3,10)); draw((3,8.5)--(4.5,8.5)--(4.5,5.5)--(3,4)--(0,4)); draw((3,7)--(4.5,8.5)); draw((4.5,6)--(6,6)--(6,2)--(4,0)); draw((4,4)--(6,6)); label(\"$1$\", (1,9.5), W,fontsize(8pt)); label(\"$2$\", (2,8), W,fontsize(8pt)); label(\"$3$\", (3,5.5), W,fontsize(8pt)); label(\"$4$\", (4,2), W,fontsize(8pt)); </asy> <math> \\textbf{(A)}\\ \\dfrac{3\\sqrt{33}}5\\qquad\\textbf{(B)}\\ 2\\sqrt3\\qquad\\textbf{(C)}\\ \\dfrac{2\\sqrt{33}}3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 3\\sqrt2 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>The product <math>(8)(888\\dots8)</math>, where the second factor has <math>k</math> digits, is an integer whose digits have a sum of <math>1000</math>. What is <math>k</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math>\\textbf{(A)}\\ 901\\qquad\\textbf{(B)}\\ 911\\qquad\\textbf{(C)}\\ 919\\qquad\\textbf{(D)}\\ 991\\qquad\\textbf{(E)}\\ 999</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Positive integers <imath>a</imath> and <imath>b</imath> are such that the graphs of <imath>y=ax+5</imath> and <imath>y=3x+b</imath> intersect the <imath>x</imath>-axis at the same point. What is the sum of all possible <imath>x</imath>-coordinates of these points of intersection? <imath> \\textbf{(A)}\\ {-20}\\qquad\\textbf{(B)}\\ {-18}\\qquad\\textbf{(C)}\\ {-15}\\qquad\\textbf{(D)}\\ {-12}\\qquad\\textbf{(E)}\\ {-8} </imath>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "In rectangle <math>ABCD</math>, <math>\\overline{AB}=20</math> and <math>\\overline{BC}=10</math>. Let <math>E</math> be a point on <math>\\overline{CD}</math> such that <math>\\angle CBE=15^\\circ</math>. What is <math>\\overline{AE}</math>? <math> \\textbf{(A)}\\ \\dfrac{20\\sqrt3}3\\qquad\\textbf{(B)}\\ 10\\sqrt3\\qquad\\textbf{(C)}\\ 18\\qquad\\textbf{(D)}\\ 11\\sqrt3\\qquad\\textbf{(E)}\\ 20 </math>",
+      "answerType": "exact",
+      "answerKey": "~20",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "A rectangular piece of paper whose length is <math>\\sqrt3</math> times the width has area <math>A</math>. The paper is divided into three equal sections along the opposite lengths, and then a dotted line is drawn from the first divider to the second divider on the opposite side as shown. The paper is then folded flat along this dotted line to create a new shape with area <math>B</math>. What is the ratio <math>\\frac{B}{A}</math>? <asy> import graph; size(6cm); real L = 0.05; pair A = (0,0); pair B = (sqrt(3),0); pair C = (sqrt(3),1); pair D = (0,1); pair X1 = (sqrt(3)/3,0); pair X2= (2*sqrt(3)/3,0); pair Y1 = (2*sqrt(3)/3,1); pair Y2 = (sqrt(3)/3,1); dot(X1); dot(Y1); draw(A--B--C--D--cycle, linewidth(2)); draw(X1--Y1,dashed); draw(X2--(2*sqrt(3)/3,L)); draw(Y2--(sqrt(3)/3,1-L)); </asy> <math> \\textbf{(A)}\\ \\frac{1}{2}\\qquad\\textbf{(B)}\\ \\frac{3}{5}\\qquad\\textbf{(C)}\\ \\frac{2}{3}\\qquad\\textbf{(D)}\\ \\frac{3}{4}\\qquad\\textbf{(E)}\\ \\frac{4}{5} </math>",
+      "answerType": "exact",
+      "answerKey": "2:3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "A sequence of natural numbers is constructed by listing the first <math>4</math>, then skipping one, listing the next <math>5</math>, skipping <math>2</math>, listing <math>6</math>, skipping <math>3</math>, and on the <math>n</math>th iteration, listing <math>n+3</math> and skipping <math>n</math>. The sequence begins <math>1,2,3,4,6,7,8,9,10,13</math>. What is the <math>500,\\!000</math>th number in the sequence? <math> \\textbf{(A)}\\ 996,\\!506\\qquad\\textbf{(B)}\\ 996,\\!507\\qquad\\textbf{(C)}\\ 996,\\!508\\qquad\\textbf{(D)}\\ 996,\\!509\\qquad\\textbf{(E)}\\ 996,\\!510 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "The number <math>5^{867}</math> is between <math>2^{2013}</math> and <math>2^{2014}</math>. How many pairs of integers <math>(m,n)</math> are there such that <math>1\\leq m\\leq 2012</math> and <cmath>5^n<2^m<2^{m+2}<5^{n+1}?</cmath> <math>\\textbf{(A) }278\\qquad \\textbf{(B) }279\\qquad \\textbf{(C) }280\\qquad \\textbf{(D) }281\\qquad \\textbf{(E) }282\\qquad</math>",
+      "answerType": "integer",
+      "answerKey": "279",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

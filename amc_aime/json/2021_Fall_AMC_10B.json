@@ -1,0 +1,154 @@
+{
+  "slug": "2021-fall-amc-10b",
+  "title": "2021 Fall AMC 10B",
+  "description": "Converted from 2021_Fall_AMC_10B_questions.txt and 2021_Fall_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "fall-amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 3,
+      "statement": "The expression <math>\\frac{2021}{2020} - \\frac{2020}{2021}</math> is equal to the fraction <math>\\frac{p}{q}</math> in which <math>p</math> and <math>q</math> are positive integers whose greatest common divisor is <math>{ }1</math>. What is <math>p?</math> <math>(\\textbf{A})\\: 1\\qquad(\\textbf{B}) \\: 9\\qquad(\\textbf{C}) \\: 2020\\qquad(\\textbf{D}) \\: 2021\\qquad(\\textbf{E}) \\: 4041</math>",
+      "answerType": "integer",
+      "answerKey": "4041",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "The least positive integer with exactly <math>2021</math> distinct positive divisors can be written in the form <math>m \\cdot 6^k</math>, where <math>m</math> and <math>k</math> are integers and <math>6</math> is not a divisor of <math>m</math>. What is <math>m+k?</math> <math>(\\textbf{A})\\: 47\\qquad(\\textbf{B}) \\: 58\\qquad(\\textbf{C}) \\: 59\\qquad(\\textbf{D}) \\: 88\\qquad(\\textbf{E}) \\: 90</math>",
+      "answerType": "integer",
+      "answerKey": "58",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "The knights in a certain kingdom come in two colors. <imath>\\frac{2}{7}</imath> of them are red, and the rest are blue. Furthermore, <imath>\\frac{1}{6}</imath> of the knights are magical, and the fraction of red knights who are magical is <imath>2</imath> times the fraction of blue knights who are magical. What fraction of red knights are magical? <imath>\\textbf{(A) }\\frac{2}{9}\\qquad\\textbf{(B) }\\frac{3}{13}\\qquad\\textbf{(C) }\\frac{7}{27}\\qquad\\textbf{(D) }\\frac{2}{7}\\qquad\\textbf{(E) }\\frac{1}{3}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 27",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Forty slips of paper numbered <math>1</math> to <math>40</math> are placed in a hat. Alice and Bob each draw one number from the hat without replacement, keeping their numbers hidden from each other. Alice says, \"I can't tell who has the larger number.\" Then Bob says, \"I know who has the larger number.\" Alice says, \"You do? Is your number prime?\" Bob replies, \"Yes.\" Alice says, \"In that case, if I multiply your number by <math>100</math> and add my number, the result is a perfect square. \" What is the sum of the two numbers drawn from the hat? <math>\\textbf{(A) }27\\qquad\\textbf{(B) }37\\qquad\\textbf{(C) }47\\qquad\\textbf{(D) }57\\qquad\\textbf{(E) }67</math>",
+      "answerType": "integer",
+      "answerKey": "27",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A regular hexagon of side length <imath>1</imath> is inscribed in a circle. Each minor arc of the circle determined by a side of the hexagon is reflected over that side. What is the area of the region bounded by these <imath>6</imath> reflected arcs? <imath>(\\textbf{A})\\: \\frac{5\\sqrt{3}}{2} - \\pi\\qquad(\\textbf{B}) \\: 3\\sqrt{3}-\\pi\\qquad(\\textbf{C}) \\: 4\\sqrt{3}-\\frac{3\\pi}{2}\\qquad(\\textbf{D}) \\: \\pi - \\frac{\\sqrt{3}}{2}\\qquad(\\textbf{E}) \\: \\frac{\\pi + \\sqrt{3}}{2}</imath>",
+      "answerType": "exact",
+      "answerKey": "3\\sqrt 3 -\\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "A square with side length <math>3</math> is inscribed in an isosceles triangle with one side of the square along the base of the triangle. A square with side length <math>2</math> has two vertices on the other square and the other two on sides of the triangle, as shown. What is the area of the triangle? <asy> //diagram by kante314 draw((0,0)--(8,0)--(4,8)--cycle, linewidth(1.5)); draw((2,0)--(2,4)--(6,4)--(6,0)--cycle, linewidth(1.5)); draw((3,4)--(3,6)--(5,6)--(5,4)--cycle, linewidth(1.5)); </asy> <math>(\\textbf{A})\\: 19\\frac14\\qquad(\\textbf{B}) \\: 20\\frac14\\qquad(\\textbf{C}) \\: 21 \\frac34\\qquad(\\textbf{D}) \\: 22\\frac12\\qquad(\\textbf{E}) \\: 23\\frac34</math>",
+      "answerType": "exact",
+      "answerKey": "20 \\frac 1 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "In square <imath>ABCD</imath>, points <imath>P</imath> and <imath>Q</imath> lie on <imath>\\overline{AD}</imath> and <imath>\\overline{AB}</imath>, respectively. Segments <imath>\\overline{BP}</imath> and <imath>\\overline{CQ}</imath> intersect at right angles at <imath>R</imath>, with <imath>BR = 6</imath> and <imath>PR = 7</imath>. What is the area of the square? <asy> size(170); defaultpen(linewidth(0.6)+fontsize(10)); real r = 3.5; pair A = origin, B = (5,0), C = (5,5), D = (0,5), P = (0,r), Q = (5-r,0), R = intersectionpoint(B--P,C--Q); draw(A--B--C--D--A^^B--P^^C--Q^^rightanglemark(P,R,C,7)); dot(\"$A$\",A,S); dot(\"$B$\",B,S); dot(\"$C$\",C,N); dot(\"$D$\",D,N); dot(\"$Q$\",Q,S); dot(\"$P$\",P,W); dot(\"$R$\",R,1.3*S); label(\"$7$\",(P+R)/2,NE); label(\"$6$\",(R+B)/2,NE); </asy> <imath>\\textbf{(A) }85\\qquad\\textbf{(B) }93\\qquad\\textbf{(C) }100\\qquad\\textbf{(D) }117\\qquad\\textbf{(E) }125</imath>",
+      "answerType": "integer",
+      "answerKey": "117",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Five balls are arranged around a circle. Chris chooses two adjacent balls at random and interchanges them. Then Silva does the same, with her choice of adjacent balls to interchange being independent of Chris's. What is the expected number of balls that occupy their original positions after these two successive transpositions? <math>(\\textbf{A})\\: 1.6\\qquad(\\textbf{B}) \\: 1.8\\qquad(\\textbf{C}) \\: 2.0\\qquad(\\textbf{D}) \\: 2.2\\qquad(\\textbf{E}) \\: 2.4</math>",
+      "answerType": "exact",
+      "answerKey": "( D ) 2.2",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Distinct lines <math>\\ell</math> and <math>m</math> lie in the <math>xy</math>-plane. They intersect at the origin. Point <math>P(-1, 4)</math> is reflected about line <math>\\ell</math> to point <math>P'</math>, and then <math>P'</math> is reflected about line <math>m</math> to point <math>P''</math>. The equation of line <math>\\ell</math> is <math>5x - y = 0</math>, and the coordinates of <math>P''</math> are <math>(4,1)</math>. What is the equation of line <math>m?</math> <math>(\\textbf{A})\\: 5x+2y=0\\qquad(\\textbf{B}) \\: 3x+2y=0\\qquad(\\textbf{C}) \\: x-3y=0\\qquad(\\textbf{D}) \\: 2x-3y=0\\qquad(\\textbf{E}) \\: 5x-3y=0</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Three identical square sheets of paper each with side length <math>6{ }</math> are stacked on top of each other. The middle sheet is rotated clockwise <math>30^\\circ</math> about its center and the top sheet is rotated clockwise <math>60^\\circ</math> about its center, resulting in the <math>24</math>-sided polygon shown in the figure below. The area of this polygon can be expressed in the form <math>a-b\\sqrt{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers, and <math>c</math> is not divisible by the square of any prime. What is <math>a+b+c?</math> <center><asy> defaultpen(fontsize(8)+0.8); size(150); pair O,A1,B1,C1,A2,B2,C2,A3,B3,C3,A4,B4,C4; real x=45, y=90, z=60; O=origin; A1=dir(x); A2=dir(x+y); A3=dir(x+2y); A4=dir(x+3y); B1=dir(x-z); B2=dir(x+y-z); B3=dir(x+2y-z); B4=dir(x+3y-z); C1=dir(x-2z); C2=dir(x+y-2z); C3=dir(x+2y-2z); C4=dir(x+3y-2z); draw(A1--A2--A3--A4--A1, gray+0.25+dashed); filldraw(B1--B2--B3--B4--cycle, white, gray+dashed+linewidth(0.25)); filldraw(C1--C2--C3--C4--cycle, white, gray+dashed+linewidth(0.25)); dot(O); pair P1,P2,P3,P4,Q1,Q2,Q3,Q4,R1,R2,R3,R4; P1=extension(A1,A2,B1,B2); Q1=extension(A1,A2,C3,C4); P2=extension(A2,A3,B2,B3); Q2=extension(A2,A3,C4,C1); P3=extension(A3,A4,B3,B4); Q3=extension(A3,A4,C1,C2); P4=extension(A4,A1,B4,B1); Q4=extension(A4,A1,C2,C3); R1=extension(C2,C3,B2,B3); R2=extension(C3,C4,B3,B4); R3=extension(C4,C1,B4,B1); R4=extension(C1,C2,B1,B2); draw(A1--P1--B2--R1--C3--Q1--A2); draw(A2--P2--B3--R2--C4--Q2--A3); draw(A3--P3--B4--R3--C1--Q3--A4); draw(A4--P4--B1--R4--C2--Q4--A1); </asy></center> <math>(\\textbf{A})\\: 75\\qquad(\\textbf{B}) \\: 93\\qquad(\\textbf{C}) \\: 96\\qquad(\\textbf{D}) \\: 129\\qquad(\\textbf{E}) \\: 147</math>",
+      "answerType": "integer",
+      "answerKey": "147",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Let <math>N</math> be the positive integer <math>7777\\ldots777</math>, a <math>313</math>-digit number where each digit is a <math>7</math>. Let <math>f(r)</math> be the leading digit of the <math>r{ }</math>th root of <math>N</math>. What is<cmath>f(2) + f(3) + f(4) + f(5)+ f(6)?</cmath><math>(\\textbf{A})\\: 8\\qquad(\\textbf{B}) \\: 9\\qquad(\\textbf{C}) \\: 11\\qquad(\\textbf{D}) \\: 22\\qquad(\\textbf{E}) \\: 29</math> ==Solution 1== We can rewrite <math>N</math> as <math>\\frac{7}{9}\\cdot 9999\\ldots999 = \\frac{7}{9}\\cdot(10^{313}-1)</math>. When approximating values, as we will shortly do, the minus one will become negligible so we can ignore it. When we take the power of ten out of the square root, we’ll be multiplying by another power of ten, so the leading digit will not change. Thus the leading digit of <math>f(r)</math> will be equal to the leading digit of <math>\\sqrt[r]{\\frac{7}{9} \\cdot 10^{313(\\mod r)}}</math>. Then <math>f(2)</math> is the first digit of <math>\\sqrt{\\frac{7}{9}\\cdot(10)} = \\sqrt{\\frac{70}{9}} = \\sqrt{7. \\ldots} \\approx 2</math> <math>f(3) = \\sqrt[3]{\\frac{7}{9} \\cdot 10} = \\sqrt[3]{\\frac{70}{9}} = \\sqrt[3]{7.\\ldots} \\approx 1</math>. <math>f(4) = \\sqrt[4]{\\frac{7}{9} \\cdot 10} = \\sqrt[4]{\\frac{70}{9}} = \\sqrt[4]{7.\\ldots} \\approx 1</math>. <math>f(5) = \\sqrt[5]{\\frac{7}{9} \\cdot 1000} = \\sqrt[5]{\\frac{7000}{9}} = \\sqrt[5]{777.\\ldots} \\approx 3</math>. <math>f(6) = \\sqrt[6]{\\frac{7}{9} \\cdot 10} = \\sqrt[6]{\\frac{70}{9}} = \\sqrt[6]{7.\\ldots} \\approx 1</math>. The final answer is therefore <math>2+1+1+3+1 = \\boxed{\\textbf{(A) }8}</math>. Note: in all of the divisions, we omitted the decimal places, because they are irrelevant to finding the leading digit. ~KingRavi, mathboy282, trevian1",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "In a particular game, each of <imath>4</imath> players rolls a standard <imath>6{ }</imath>-sided die. The winner is the player who rolls the highest number. If there is a tie for the highest roll, those involved in the tie will roll again and this process will continue until one player wins. Hugo is one of the players in this game. What is the probability that Hugo's first roll was a <imath>5,</imath> given that he won the game? <imath>(\\textbf{A})\\: \\frac{61}{216}\\qquad(\\textbf{B}) \\: \\frac{367}{1296}\\qquad(\\textbf{C}) \\: \\frac{41}{144}\\qquad(\\textbf{D}) \\: \\frac{185}{648}\\qquad(\\textbf{E}) \\: \\frac{11}{36}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 41 144",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "For each integer <math> n\\geq 2 </math>, let <math> S_n </math> be the sum of all products <math> jk </math>, where <math> j </math> and <math> k </math> are integers and <math> 1\\leq j<k\\leq n </math>. What is the sum of the 10 least values of <math> n </math> such that <math> S_n </math> is divisible by <math> 3 </math>? <math>\\textbf{(A)}\\ 196\\qquad\\textbf{(B)}\\ 197\\qquad\\textbf{(C)}\\ 198\\qquad\\textbf{(D)}\\ 199\\qquad\\textbf{(E)}\\ 200</math>",
+      "answerType": "integer",
+      "answerKey": "197",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Each of the <math>5{ }</math> sides and the <math>5{ }</math> diagonals of a regular pentagon are randomly and independently colored red or blue with equal probability. What is the probability that there will be a triangle whose vertices are among the vertices of the pentagon such that all of its sides have the same color? <math>(\\textbf{A})\\: \\frac23\\qquad(\\textbf{B}) \\: \\frac{105}{128}\\qquad(\\textbf{C}) \\: \\frac{125}{128}\\qquad(\\textbf{D}) \\: \\frac{253}{256}\\qquad(\\textbf{E}) \\: 1</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "A rectangle with side lengths <math>1{ }</math> and <math>3,</math> a square with side length <math>1,</math> and a rectangle <math>R</math> are inscribed inside a larger square as shown. The sum of all possible values for the area of <math>R</math> can be written in the form <math>\\tfrac mn</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. What is <math>m+n?</math> <asy> size(8cm); draw((0,0)--(10,0)); draw((0,0)--(0,10)); draw((10,0)--(10,10)); draw((0,10)--(10,10)); draw((1,6)--(0,9)); draw((0,9)--(3,10)); draw((3,10)--(4,7)); draw((4,7)--(1,6)); draw((0,3)--(1,6)); draw((1,6)--(10,3)); draw((10,3)--(9,0)); draw((9,0)--(0,3)); draw((6,13/3)--(10,22/3)); draw((10,22/3)--(8,10)); draw((8,10)--(4,7)); draw((4,7)--(6,13/3)); label(\"$3$\",(9/2,3/2),N); label(\"$3$\",(11/2,9/2),S); label(\"$1$\",(1/2,9/2),E); label(\"$1$\",(19/2,3/2),W); label(\"$1$\",(1/2,15/2),E); label(\"$1$\",(3/2,19/2),S); label(\"$1$\",(5/2,13/2),N); label(\"$1$\",(7/2,17/2),W); label(\"$R$\",(7,43/6),W); </asy> <math>(\\textbf{A})\\: 14\\qquad(\\textbf{B}) \\: 23\\qquad(\\textbf{C}) \\: 46\\qquad(\\textbf{D}) \\: 59\\qquad(\\textbf{E}) \\: 67</math>",
+      "answerType": "integer",
+      "answerKey": "67",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    }
+  ]
+}

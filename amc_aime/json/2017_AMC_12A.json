@@ -1,0 +1,221 @@
+{
+  "slug": "2017-amc-12a",
+  "title": "2017 AMC 12A",
+  "description": "Converted from 2017_AMC_12A_questions.txt and 2017_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Pablo buys popsicles for his friends. The store sells single popsicles for <math>\\$1</math> each, 3-popsicle boxes for <math>\\$2</math>, and 5-popsicle boxes for <math>\\$3</math>. What is the greatest number of popsicles that Pablo can buy with <math>\\$8</math>? <math> \\textbf{(A)}\\ 8\\qquad\\textbf{(B)}\\ 11\\qquad\\textbf{(C)}\\ 12\\qquad\\textbf{(D)}\\ 13\\qquad\\textbf{(E)}\\ 15 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "The sum of two nonzero real numbers is 4 times their product. What is the sum of the reciprocals of the two numbers? <math>\\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 4\\qquad\\textbf{(D)}\\ 8\\qquad\\textbf{(E)}\\ 12</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Ms. Carroll promised that anyone who got all the multiple choice questions right on the upcoming exam would receive an A on the exam. Which one of these statements necessarily follows logically? <math> \\textbf{(A)}\\ \\text{ If Lewis did not receive an A, then he got all of the multiple choice questions wrong.} \\\\ \\qquad\\textbf{(B)}\\ \\text{ If Lewis did not receive an A, then he got at least one of the multiple choice questions wrong.} \\\\ \\qquad\\textbf{(C)}\\ \\text{ If Lewis got at least one of the multiple choice questions wrong, then he did not receive an A.} \\\\ \\qquad\\textbf{(D)}\\ \\text{ If Lewis received an A, then he got all of the multiple choice questions right.} \\\\ \\qquad\\textbf{(E)}\\ \\text{ If Lewis received an A, then he got at least one of the multiple choice questions right.} </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Jerry and Silvia wanted to go from the southwest corner of a square field to the northeast corner. Jerry walked due east and then due north to reach the goal, but Silvia headed northeast and reached the goal walking in a straight line. Which of the following is closest to how much shorter Silvia's trip was, compared to Jerry's trip? <math>\\textbf{(A)}\\ 30\\%\\qquad\\textbf{(B)}\\ 40\\%\\qquad\\textbf{(C)}\\ 50\\%\\qquad\\textbf{(D)}\\ 60\\%\\qquad\\textbf{(E)}\\ 70\\%</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "At a gathering of <math>30</math> people, there are <math>20</math> people who all know each other and <math>10</math> people who know no one. People who know each other hug, and people who do not know each other shake hands. How many handshakes occur? <math>\\textbf{(A)}\\ 240\\qquad\\textbf{(B)}\\ 245\\qquad\\textbf{(C)}\\ 290\\qquad\\textbf{(D)}\\ 480\\qquad\\textbf{(E)}\\ 490</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 245",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Joy has <math>30</math> thin rods, one each of every integer length from <math>1 \\text{ cm}</math> through <math>30 \\text{ cm}</math>. She places the rods with lengths <math>3 \\text{ cm}</math>, <math>7 \\text{ cm}</math>, and <math>15 \\text{cm}</math> on a table. She then wants to choose a fourth rod that she can put with these three to form a quadrilateral with positive area. How many of the remaining rods can she choose as the fourth rod? <math>\\textbf{(A)}\\ 16 \\qquad\\textbf{(B)}\\ 17 \\qquad\\textbf{(C)}\\ 18 \\qquad\\textbf{(D)}\\ 19 \\qquad\\textbf{(E)}\\ 20</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Define a function on the positive integers recursively by <math>f(1) = 2</math>, <math>f(n) = f(n-1) + 1</math> if <math>n</math> is even, and <math>f(n) = f(n-2) + 2</math> if <math>n</math> is odd and greater than <math>1</math>. What is <math>f(2017)</math>? <math> \\textbf{(A)}\\ 2017 \\qquad\\textbf{(B)}\\ 2018 \\qquad\\textbf{(C)}\\ 4034 \\qquad\\textbf{(D)}\\ 4035 \\qquad\\textbf{(E)}\\ 4036 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "The region consisting of all points in three-dimensional space within <math>3</math> units of line segment <math>\\overline{AB}</math> has volume <math>216 \\pi</math>. What is the length <math>AB</math>? <math> \\textbf{(A)}\\ 6 \\qquad\\textbf{(B)}\\ 12 \\qquad\\textbf{(C)}\\ 18 \\qquad\\textbf{(D)}\\ 20 \\qquad\\textbf{(E)}\\ 24 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 20",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>S</math> be the set of points <math>(x,y)</math> in the coordinate plane such that two of the three quantities <math>3</math>, <math>x+2</math>, and <math>y-4</math> are equal and the third of the three quantities is no greater than the common value. Which of the following is a correct description of <math>S</math>? <math> \\textbf{(A)}\\ \\text{a single point} \\qquad\\textbf{(B)}\\ \\text{two intersecting lines} \\\\ \\qquad\\textbf{(C)}\\ \\text{three lines whose pairwise intersections are three distinct points} \\\\ \\qquad\\textbf{(D)}\\ \\text{a triangle}\\qquad\\textbf{(E)}\\ \\text{three rays with a common point} </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Chloe chooses a real number uniformly at random from the interval <math> [ 0,2017 ]</math>. Independently, Laurent chooses a real number uniformly at random from the interval <math>[ 0 , 4034 ]</math>. What is the probability that Laurent's number is greater than Chloe's number? <math> \\textbf{(A)}\\ \\dfrac{1}{2} \\qquad\\textbf{(B)}\\ \\dfrac{2}{3} \\qquad\\textbf{(C)}\\ \\dfrac{3}{4} \\qquad\\textbf{(D)}\\ \\dfrac{5}{6} \\qquad\\textbf{(E)}\\ \\dfrac{7}{8} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Claire adds the degree measures of the interior angles of a convex polygon and arrives at a sum of <math>2017</math>. She then discovers that she forgot to include one angle. What is the degree measure of the forgotten angle? <math>\\textbf{(A)}\\ 37\\qquad\\textbf{(B)}\\ 63\\qquad\\textbf{(C)}\\ 117\\qquad\\textbf{(D)}\\ 143\\qquad\\textbf{(E)}\\ 163</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 143",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "There are <math>10</math> horses, named Horse 1, Horse 2, <math>\\ldots</math>, Horse 10. They get their names from how many minutes it takes them to run one lap around a circular race track: Horse <math>k</math> runs one lap in exactly <math>k</math> minutes. At time 0 all the horses are together at the starting point on the track. The horses start running in the same direction, and they keep running around the circular track at their constant speeds. The least time <math>S > 0</math>, in minutes, at which all <math>10</math> horses will again simultaneously be at the starting point is <math>S = 2520</math>. Let <math>T>0</math> be the least time, in minutes, such that at least <math>5</math> of the horses are again at the starting point. What is the sum of the digits of <math>T</math>? <math>\\textbf{(A)}\\ 2\\qquad\\textbf{(B)}\\ 3\\qquad\\textbf{(C)}\\ 4\\qquad\\textbf{(D)}\\ 5\\qquad\\textbf{(E)}\\ 6</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Driving at a constant speed, Sharon usually takes <math>180</math> minutes to drive from her house to her mother's house. One day Sharon begins the drive at her usual speed, but after driving <math>\\frac{1}{3}</math> of the way, she hits a bad snowstorm and reduces her speed by <math>20</math> miles per hour. This time the trip takes her a total of <math>276</math> minutes. How many miles is the drive from Sharon's house to her mother's house? <math> \\textbf{(A)}\\ 132 \\qquad\\textbf{(B)}\\ 135 \\qquad\\textbf{(C)}\\ 138 \\qquad\\textbf{(D)}\\ 141 \\qquad\\textbf{(E)}\\ 144 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Alice refuses to sit next to either Bob or Carla. Derek refuses to sit next to Eric. How many ways are there for the five of them to sit in a row of <math>5</math> chairs under these conditions? <math> \\textbf{(A)}\\ 12 \\qquad \\textbf{(B)}\\ 16 \\qquad\\textbf{(C)}\\ 28 \\qquad\\textbf{(D)}\\ 32 \\qquad\\textbf{(E)}\\ 40 </math>",
+      "answerType": "exact",
+      "answerKey": "\\bold \\ 28",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>f(x) = \\sin{x} + 2\\cos{x} + 3\\tan{x}</math>, using radian measure for the variable <math>x</math>. In what interval does the smallest positive value of <math>x</math> for which <math>f(x) = 0</math> lie? <math> \\textbf{(A)}\\ (0,1) \\qquad \\textbf{(B)}\\ (1, 2) \\qquad\\textbf{(C)}\\ (2, 3) \\qquad\\textbf{(D)}\\ (3, 4) \\qquad\\textbf{(E)}\\ (4,5) </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "In the figure below, semicircles with centers at <math>A</math> and <math>B</math> and with radii 2 and 1, respectively, are drawn in the interior of, and sharing bases with, a semicircle with diameter <math>JK</math>. The two smaller semicircles are externally tangent to each other and internally tangent to the largest semicircle. A circle centered at <math>P</math> is drawn externally tangent to the two smaller semicircles and internally tangent to the largest semicircle. What is the radius of the circle centered at <math>P</math>? <asy> size(5cm); draw(arc((0,0),3,0,180)); draw(arc((2,0),1,0,180)); draw(arc((-1,0),2,0,180)); draw((-3,0)--(3,0)); pair P = (-1,0)+(2+6/7)*dir(36.86989); draw(circle(P,6/7)); dot((-1,0)); dot((2,0)); dot(P); </asy> <math> \\textbf{(A)}\\ \\frac{3}{4} \\qquad \\textbf{(B)}\\ \\frac{6}{7} \\qquad\\textbf{(C)}\\ \\frac{\\sqrt{3}}{2} \\qquad\\textbf{(D)}\\ \\frac{5}{8}\\sqrt{2} \\qquad\\textbf{(E)}\\ \\frac{11}{12} </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "There are <math>24</math> different complex numbers <math>z</math> such that <math>z^{24}=1</math>. For how many of these is <math>z^6</math> a real number? <math> \\textbf{(A)}\\ 0 \\qquad\\textbf{(B)}\\ 4 \\qquad\\textbf{(C)}\\ 6 \\qquad\\textbf{(D)}\\ 12 \\qquad\\textbf{(E)}\\ 24 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Let <math>S(n)</math> equal the sum of the digits of positive integer <math>n</math>. For example, <math>S(1507) = 13</math>. For a particular positive integer <math>n</math>, <math>S(n) = 1274</math>. Which of the following could be the value of <math>S(n+1)</math>? <math>\\textbf{(A)}\\ 1 \\qquad\\textbf{(B)}\\ 3\\qquad\\textbf{(C)}\\ 12\\qquad\\textbf{(D)}\\ 1239\\qquad\\textbf{(E)}\\ 1265</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A square with side length <math>x</math> is inscribed in a right triangle with sides of length <math>3</math>, <math>4</math>, and <math>5</math> so that one vertex of the square coincides with the right-angle vertex of the triangle. A square with side length <math>y</math> is inscribed in another right triangle with sides of length <math>3</math>, <math>4</math>, and <math>5</math> so that one side of the square lies on the hypotenuse of the triangle. What is <math>\\frac{x}{y}</math>? <math> \\textbf{(A)}\\ \\frac{12}{13} \\qquad \\textbf{(B)}\\ \\frac{35}{37} \\qquad\\textbf{(C)}\\ 1 \\qquad\\textbf{(D)}\\ \\frac{37}{35} \\qquad\\textbf{(E)}\\ \\frac{13}{12}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "How many ordered pairs <math>(a,b)</math> such that <math>a</math> is a positive real number and <math>b</math> is an integer between <math>2</math> and <math>200</math>, inclusive, satisfy the equation <math>(\\log_b a)^{2017}=\\log_b(a^{2017})?</math> <math>\\textbf{(A)}\\ 198\\qquad\\textbf{(B)}\\ 199\\qquad\\textbf{(C)}\\ 398\\qquad\\textbf{(D)}\\ 399\\qquad\\textbf{(E)}\\ 597</math>",
+      "answerType": "integer",
+      "answerKey": "597",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "A set <math>S</math> is constructed as follows. To begin, <math>S = \\{0,10\\}</math>. Repeatedly, as long as possible, if <math>x</math> is an integer root of some polynomial <math>a_{n}x^n + a_{n-1}x^{n-1} + \\dots + a_{1}x + a_0</math> for some <math>n\\geq{1}</math>, all of whose coefficients <math>a_i</math> are elements of <math>S</math>, then <math>x</math> is put into <math>S</math>. When no more elements can be added to <math>S</math>, how many elements does <math>S</math> have? <math> \\textbf{(A)}\\ 4 \\qquad \\textbf{(B)}\\ 5 \\qquad\\textbf{(C)}\\ 7 \\qquad\\textbf{(D)}\\ 9 \\qquad\\textbf{(E)}\\ 11</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A square is drawn in the Cartesian coordinate plane with vertices at <math>(2, 2)</math>, <math>(-2, 2)</math>, <math>(-2, -2)</math>, <math>(2, -2)</math>. A particle starts at <math>(0,0)</math>. Every second it moves with equal probability to one of the eight lattice points (points with integer coordinates) closest to its current position, independently of its previous moves. In other words, the probability is <math>1/8</math> that the particle will move from <math>(x, y)</math> to each of <math>(x, y + 1)</math>, <math>(x + 1, y + 1)</math>, <math>(x + 1, y)</math>, <math>(x + 1, y - 1)</math>, <math>(x, y - 1)</math>, <math>(x - 1, y - 1)</math>, <math>(x - 1, y)</math>, or <math>(x - 1, y + 1)</math>. The particle will eventually hit the square for the first time, either at one of the 4 corners of the square or at one of the 12 lattice points in the interior of one of the sides of the square. The probability that it will hit at a corner rather than at an interior point of a side is <math>m/n</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. What is <math>m + n</math>? <math> \\textbf{(A) } 4 \\qquad\\textbf{(B) } 5 \\qquad\\textbf{(C) } 7 \\qquad\\textbf{(D) } 15 \\qquad\\textbf{(E) } 39 </math>",
+      "answerType": "integer",
+      "answerKey": "39",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "For certain real numbers <math>a</math>, <math>b</math>, and <math>c</math>, the polynomial <cmath>g(x) = x^3 + ax^2 + x + 10</cmath>has three distinct roots, and each root of <math>g(x)</math> is also a root of the polynomial <cmath>f(x) = x^4 + x^3 + bx^2 + 100x + c.</cmath>What is <math>f(1)</math>? <math>\\textbf{(A)}\\ -9009 \\qquad\\textbf{(B)}\\ -8008 \\qquad\\textbf{(C)}\\ -7007 \\qquad\\textbf{(D)}\\ -6006 \\qquad\\textbf{(E)}\\ -5005</math>",
+      "answerType": "integer",
+      "answerKey": "7007",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Quadrilateral <imath>ABCD</imath> is inscribed in circle <imath>O</imath> and has side lengths <imath>AB=3, BC=2, CD=6</imath>, and <imath>DA=8</imath>. Let <imath>X</imath> and <imath>Y</imath> be points on <imath>\\overline{BD}</imath> such that <imath>\\frac{DX}{BD} = \\frac{1}{4}</imath> and <imath>\\frac{BY}{BD} = \\frac{11}{36}</imath>. Let <imath>E</imath> be the intersection of line <imath>AX</imath> and the line through <imath>Y</imath> parallel to <imath>\\overline{AD}</imath>. Let <imath>F</imath> be the intersection of line <imath>CX</imath> and the line through <imath>E</imath> parallel to <imath>\\overline{AC}</imath>. Let <imath>G</imath> be the point on circle <imath>O</imath> other than <imath>C</imath> that lies on line <imath>CX</imath>. What is <imath>XF\\cdot XG</imath>? <imath>\\textbf{(A) }17\\qquad\\textbf{(B) }\\frac{59 - 5\\sqrt{2}}{3}\\qquad\\textbf{(C) }\\frac{91 - 12\\sqrt{3}}{4}\\qquad\\textbf{(D) }\\frac{67 - 10\\sqrt{2}}{3}\\qquad\\textbf{(E) }18</imath>",
+      "answerType": "integer",
+      "answerKey": "17",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "The vertices <math>V</math> of a centrally symmetric hexagon in the complex plane are given by <cmath>V=\\left\\{ \\sqrt{2}i,-\\sqrt{2}i, \\frac{1}{\\sqrt{8}}(1+i),\\frac{1}{\\sqrt{8}}(-1+i),\\frac{1}{\\sqrt{8}}(1-i),\\frac{1}{\\sqrt{8}}(-1-i) \\right\\}.</cmath> For each <math>j</math>, <math>1\\leq j\\leq 12</math>, an element <math>z_j</math> is chosen from <math>V</math> at random, independently of the other choices. Let <math>P={\\prod}_{j=1}^{12}z_j</math> be the product of the <math>12</math> numbers selected. What is the probability that <math>P=-1</math>? <math>\\textbf{(A) } \\dfrac{5\\cdot11}{3^{10}} \\qquad \\textbf{(B) } \\dfrac{5^2\\cdot11}{2\\cdot3^{10}} \\qquad \\textbf{(C) } \\dfrac{5\\cdot11}{3^{9}} \\qquad \\textbf{(D) } \\dfrac{5\\cdot7\\cdot11}{2\\cdot3^{10}} \\qquad \\textbf{(E) } \\dfrac{2^2\\cdot5\\cdot11}{3^{10}}</math>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 2^2\\cdot 5\\cdot 11 3^ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    }
+  ]
+}

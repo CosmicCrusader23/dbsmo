@@ -1,0 +1,251 @@
+{
+  "slug": "2018-amc-10a",
+  "title": "2018 AMC 10A",
+  "description": "Converted from 2018_AMC_10A_questions.txt and 2018_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is the value of <cmath>\\left(\\left((2+1)^{-1}+1\\right)^{-1}+1\\right)^{-1}+1?</cmath> <math>\\textbf{(A) } \\frac58 \\qquad \\textbf{(B) }\\frac{11}7 \\qquad \\textbf{(C) } \\frac85 \\qquad \\textbf{(D) } \\frac{18}{11} \\qquad \\textbf{(E) } \\frac{15}8 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 11 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Liliane has <math>50\\%</math> more soda than Jacqueline, and Alice has <math>25\\%</math> more soda than Jacqueline. What is the relationship between the amounts of soda that Liliane and Alice have? <math>\\textbf{(A) }</math> Liliane has <math>20\\%</math> more soda than Alice. <math>\\textbf{(B) }</math> Liliane has <math>25\\%</math> more soda than Alice. <math>\\textbf{(C) }</math> Liliane has <math>45\\%</math> more soda than Alice. <math>\\textbf{(D) }</math> Liliane has <math>75\\%</math> more soda than Alice. <math>\\textbf{(E) }</math> Liliane has <math>100\\%</math> more soda than Alice.",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A unit of blood expires after <math>10!=10\\cdot 9 \\cdot 8 \\cdots 1</math> seconds. Yasin donates a unit of blood at noon of January 1. On what day does his unit of blood expire? <math>\\textbf{(A) }\\text{January 2}\\qquad\\textbf{(B) }\\text{January 12}\\qquad\\textbf{(C) }\\text{January 22}\\qquad\\textbf{(D) }\\text{February 11}\\qquad\\textbf{(E) }\\text{February 12}</math>",
+      "answerType": "exact",
+      "answerKey": "February 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "How many ways can a student schedule <math>3</math> mathematics courses -- algebra, geometry, and number theory -- in a <math>6</math>-period day if no two mathematics courses can be taken in consecutive periods? (What courses the student takes during the other <math>3</math> periods is of no concern here.) <math>\\textbf{(A) }3\\qquad\\textbf{(B) }6\\qquad\\textbf{(C) }12\\qquad\\textbf{(D) }18\\qquad\\textbf{(E) }24</math>",
+      "answerType": "integer",
+      "answerKey": "24",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Alice, Bob, and Charlie were on a hike and were wondering how far away the nearest town was. When Alice said, \"We are at least <math>6</math> miles away,\" Bob replied, \"We are at most <math>5</math> miles away.\" Charlie then remarked, \"Actually the nearest town is at most <math>4</math> miles away.\" It turned out that none of the three statements were true. Let <math>d</math> be the distance in miles to the nearest town. Which of the following intervals is the set of all possible values of <math>d</math>? <math>\\textbf{(A) } (0,4) \\qquad \\textbf{(B) } (4,5) \\qquad \\textbf{(C) } (4,6) \\qquad \\textbf{(D) } (5,6) \\qquad \\textbf{(E) } (5,\\infty) </math>",
+      "answerType": "exact",
+      "answerKey": "(5,6)",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Sangho uploaded a video to a website where viewers can vote that they like or dislike a video. Each video begins with a score of <math>0</math>, and the score increases by <math>1</math> for each like vote and decreases by <math>1</math> for each dislike vote. At one point Sangho saw that his video had a score of <math>90</math>, and that <math>65\\%</math> of the votes cast on his video were like votes. How many votes had been cast on Sangho's video at that point? <math>\\textbf{(A) } 200 \\qquad \\textbf{(B) } 300 \\qquad \\textbf{(C) } 400 \\qquad \\textbf{(D) } 500 \\qquad \\textbf{(E) } 600 </math>",
+      "answerType": "integer",
+      "answerKey": "300",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "For how many (not necessarily positive) integer values of <math>n</math> is the value of <math>4000\\cdot \\left(\\tfrac{2}{5}\\right)^n</math> an integer? <math> \\textbf{(A) }3 \\qquad \\textbf{(B) }4 \\qquad \\textbf{(C) }6 \\qquad \\textbf{(D) }8 \\qquad \\textbf{(E) }9 \\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Joe has a collection of <math>23</math> coins, consisting of <math>5</math>-cent coins, <math>10</math>-cent coins, and <math>25</math>-cent coins. He has <math>3</math> more <math>10</math>-cent coins than <math>5</math>-cent coins, and the total value of his collection is <math>320</math> cents. How many more <math>25</math>-cent coins does Joe have than <math>5</math>-cent coins? <math>\\textbf{(A) } 0 \\qquad \\textbf{(B) } 1 \\qquad \\textbf{(C) } 2 \\qquad \\textbf{(D) } 3 \\qquad \\textbf{(E) } 4 </math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "All of the triangles in the diagram below are similar to isosceles triangle <math>ABC</math>, in which <math>AB=AC</math>. Each of the <math>7</math> smallest triangles has area <math>1,</math> and <math>\\triangle ABC</math> has area <math>40</math>. What is the area of trapezoid <math>DBCE</math>? <asy> unitsize(5); dot((0,0)); dot((60,0)); dot((50,10)); dot((10,10)); dot((30,30)); draw((0,0)--(60,0)--(50,10)--(30,30)--(10,10)--(0,0)); draw((10,10)--(50,10)); label(\"$B$\",(0,0),SW); label(\"$C$\",(60,0),SE); label(\"$E$\",(50,10),E); label(\"$D$\",(10,10),W); label(\"$A$\",(30,30),N); draw((10,10)--(15,15)--(20,10)--(25,15)--(30,10)--(35,15)--(40,10)--(45,15)--(50,10)); draw((15,15)--(45,15)); </asy> <math>\\textbf{(A) } 16 \\qquad \\textbf{(B) } 18 \\qquad \\textbf{(C) } 20 \\qquad \\textbf{(D) } 22 \\qquad \\textbf{(E) } 24 </math>",
+      "answerType": "exact",
+      "answerKey": "E) 24",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Suppose that real number <math>x</math> satisfies <cmath>\\sqrt{49-x^2}-\\sqrt{25-x^2}=3</cmath>What is the value of <math>\\sqrt{49-x^2}+\\sqrt{25-x^2}</math>? <math> \\textbf{(A) }8\\qquad \\textbf{(B) }\\sqrt{33}+8\\qquad \\textbf{(C) }9\\qquad \\textbf{(D) }2\\sqrt{10}+4\\qquad \\textbf{(E) }12\\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "When <math>7</math> fair standard <math>6</math>-sided dice are thrown, the probability that the sum of the numbers on the top faces is <math>10</math> can be written as <cmath>\\frac{n}{6^{7}},</cmath> where <math>n</math> is a positive integer. What is <math>n</math>? <math> \\textbf{(A) }42\\qquad \\textbf{(B) }49\\qquad \\textbf{(C) }56\\qquad \\textbf{(D) }63\\qquad \\textbf{(E) }84\\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "84",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "How many ordered pairs of real numbers <math>(x,y)</math> satisfy the following system of equations? <cmath>\\begin{align*} x+3y&=3 \\\\ \\big||x|-|y|\\big|&=1 \\end{align*}</cmath> <math>\\textbf{(A) } 1 \\qquad \\textbf{(B) } 2 \\qquad \\textbf{(C) } 3 \\qquad \\textbf{(D) } 4 \\qquad \\textbf{(E) } 8 </math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "A paper triangle with sides of lengths <math>3,4,</math> and <math>5</math> inches, as shown, is folded so that point <math>A</math> falls on point <math>B</math>. What is the length in inches of the crease? <asy> draw((0,0)--(4,0)--(4,3)--(0,0)); label(\"$A$\", (0,0), SW); label(\"$B$\", (4,3), NE); label(\"$C$\", (4,0), SE); label(\"$4$\", (2,0), S); label(\"$3$\", (4,1.5), E); label(\"$5$\", (2,1.5), NW); fill(origin--(0,0)--(4,3)--(4,0)--cycle, gray); </asy> <math>\\textbf{(A) } 1+\\frac12 \\sqrt2 \\qquad \\textbf{(B) } \\sqrt3 \\qquad \\textbf{(C) } \\frac74 \\qquad \\textbf{(D) } \\frac{15}{8} \\qquad \\textbf{(E) } 2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 15 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "What is the greatest integer less than or equal to <cmath>\\frac{3^{100}+2^{100}}{3^{96}+2^{96}}?</cmath> <math> \\textbf{(A) }80\\qquad \\textbf{(B) }81 \\qquad \\textbf{(C) }96 \\qquad \\textbf{(D) }97 \\qquad \\textbf{(E) }625\\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 80",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Two circles of radius <imath>5</imath> are externally tangent to each other and are internally tangent to a circle of radius <imath>13</imath> at points <imath>A</imath> and <imath>B</imath>, as shown in the diagram. The distance <imath>AB</imath> can be written in the form <imath>\\tfrac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. What is <imath>m+n</imath>? <asy> draw(circle((0,0),13)); draw(circle((5,-6.2),5)); draw(circle((-5,-6.2),5)); label(\"$B$\", (9.5,-9.5), S); label(\"$A$\", (-9.5,-9.5), S); </asy> <imath>\\textbf{(A) } 21 \\qquad \\textbf{(B) } 29 \\qquad \\textbf{(C) } 58 \\qquad \\textbf{(D) } 69 \\qquad \\textbf{(E) } 93 </imath>",
+      "answerType": "integer",
+      "answerKey": "69",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Right triangle <math>ABC</math> has leg lengths <math>AB=20</math> and <math>BC=21</math>. Including <math>\\overline{AB}</math> and <math>\\overline{BC}</math>, how many line segments with integer length can be drawn from vertex <math>B</math> to a point on hypotenuse <math>\\overline{AC}</math>? <math> \\textbf{(A) }5 \\qquad \\textbf{(B) }8 \\qquad \\textbf{(C) }12 \\qquad \\textbf{(D) }13 \\qquad \\textbf{(E) }15 \\qquad </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>S</math> be a set of <math>6</math> integers taken from <math>\\{1,2,\\dots,12\\}</math> with the property that if <math>a</math> and <math>b</math> are elements of <math>S</math> with <math>a<b</math>, then <math>b</math> is not a multiple of <math>a</math>. What is the least possible value of an element in <math>S</math>? <math>\\textbf{(A)}\\ 2\\qquad\\textbf{(B)}\\ 3\\qquad\\textbf{(C)}\\ 4\\qquad\\textbf{(D)}\\ 5\\qquad\\textbf{(E)}\\ 7</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "How many nonnegative integers can be written in the form <cmath>a_7\\cdot3^7+a_6\\cdot3^6+a_5\\cdot3^5+a_4\\cdot3^4+a_3\\cdot3^3+a_2\\cdot3^2+a_1\\cdot3^1+a_0\\cdot3^0,</cmath> where <imath>a_i\\in \\{-1,0,1\\}</imath> for <imath>0\\le i \\le 7</imath>? <imath>\\textbf{(A) } 512 \\qquad \\textbf{(B) } 729 \\qquad \\textbf{(C) } 1094 \\qquad \\textbf{(D) } 3281 \\qquad \\textbf{(E) } 59,048 </imath>",
+      "answerType": "integer",
+      "answerKey": "3281",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A number <math>m</math> is randomly selected from the set <math>\\{11,13,15,17,19\\}</math>, and a number <math>n</math> is randomly selected from <math>\\{1999,2000,2001,\\ldots,2018\\}</math>. What is the probability that <math>m^n</math> has a units digit of <math>1</math>? <math>\\textbf{(A) } \\frac{1}{5} \\qquad \\textbf{(B) } \\frac{1}{4} \\qquad \\textbf{(C) } \\frac{3}{10} \\qquad \\textbf{(D) } \\frac{7}{20} \\qquad \\textbf{(E) } \\frac{2}{5} </math>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 2 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "A scanning code consists of a <math>7 \\times 7</math> grid of squares, with some of its squares colored black and the rest colored white. There must be at least one square of each color in this grid of <math>49</math> squares. A scanning code is called <math>\\textit{symmetric}</math> if its look does not change when the entire square is rotated by a multiple of <math>90 ^{\\circ}</math> counterclockwise around its center, nor when it is reflected across a line joining opposite corners or a line joining midpoints of opposite sides. What is the total number of possible symmetric scanning codes? <math>\\textbf{(A)} \\text{ 510} \\qquad \\textbf{(B)} \\text{ 1022} \\qquad \\textbf{(C)} \\text{ 8190} \\qquad \\textbf{(D)} \\text{ 8192} \\qquad \\textbf{(E)} \\text{ 65,534}</math>",
+      "answerType": "integer",
+      "answerKey": "1022",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Which of the following describes the set of values of <math>a</math> for which the curves <math>x^2+y^2=a^2</math> and <math>y=x^2-a</math> in the real <math>xy</math>-plane intersect at exactly <math>3</math> points? <math> \\textbf{(A) }a=\\frac14 \\qquad \\textbf{(B) }\\frac14 < a < \\frac12 \\qquad \\textbf{(C) }a>\\frac14 \\qquad \\textbf{(D) }a=\\frac12 \\qquad \\textbf{(E) }a>\\frac12 \\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "a>\\frac12",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Let <math>a, b, c,</math> and <math>d</math> be positive integers such that <math>\\gcd(a, b)=24</math>, <math>\\gcd(b, c)=36</math>, <math>\\gcd(c, d)=54</math>, and <math>70<\\gcd(d, a)<100</math>. Which of the following must be a divisor of <math>a</math>? (gcd means greatest common factor) <math>\\textbf{(A)} \\text{ 5} \\qquad \\textbf{(B)} \\text{ 7} \\qquad \\textbf{(C)} \\text{ 11} \\qquad \\textbf{(D)} \\text{ 13} \\qquad \\textbf{(E)} \\text{ 17}</math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Farmer Pythagoras has a field in the shape of a right triangle. The right triangle's legs have lengths <math>3</math> and <math>4</math> units. In the corner where those sides meet at a right angle, he leaves a small unplanted square <math>S</math> so that from the air it looks like the right angle symbol. The rest of the field is planted. The shortest distance from <math>S</math> to the hypotenuse is <math>2</math> units. What fraction of the field is planted? <asy> /* Edited by MRENTHUSIASM */ size(160); pair A, B, C, D, F; A = origin; B = (4,0); C = (0,3); D = (2/7,2/7); F = foot(D,B,C); fill(A--(2/7,0)--D--(0,2/7)--cycle, lightgray); draw(A--B--C--cycle); draw((2/7,0)--D--(0,2/7)); label(\"$4$\", midpoint(A--B), N); label(\"$3$\", midpoint(A--C), E); label(\"$2$\", midpoint(D--F), SE); label(\"$S$\", midpoint(A--D)); draw(D--F, dashed); </asy> <math>\\textbf{(A) } \\frac{25}{27} \\qquad \\textbf{(B) } \\frac{26}{27} \\qquad \\textbf{(C) } \\frac{73}{75} \\qquad \\textbf{(D) } \\frac{145}{147} \\qquad \\textbf{(E) } \\frac{74}{75} </math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 145 147",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "Triangle <imath>ABC</imath> with <imath>AB=50</imath> and <imath>AC=10</imath> has area <imath>120</imath>. Let <imath>D</imath> be the midpoint of <imath>\\overline{AB}</imath>, and let <imath>E</imath> be the midpoint of <imath>\\overline{AC}</imath>. The angle bisector of <imath>\\angle BAC</imath> intersects <imath>\\overline{DE}</imath> and <imath>\\overline{BC}</imath> at <imath>F</imath> and <imath>G</imath>, respectively. What is the area of quadrilateral <imath>FDBG</imath>? <imath> \\textbf{(A) }60 \\qquad \\textbf{(B) }65 \\qquad \\textbf{(C) }70 \\qquad \\textbf{(D) }75 \\qquad \\textbf{(E) }80 \\qquad </imath>",
+      "answerType": "integer",
+      "answerKey": "75",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "For a positive integer <math>n</math> and nonzero digits <math>a</math>, <math>b</math>, and <math>c</math>, let <math>A_n</math> be the <math>n</math>-digit integer each of whose digits is equal to <math>a</math>; let <math>B_n</math> be the <math>n</math>-digit integer each of whose digits is equal to <math>b</math>, and let <math>C_n</math> be the <math>2n</math>-digit (not <math>n</math>-digit) integer each of whose digits is equal to <math>c</math>. What is the greatest possible value of <math>a + b + c</math> for which there are at least two values of <math>n</math> such that <math>C_n - B_n = A_n^2</math>? <math>\\textbf{(A) } 12 \\qquad \\textbf{(B) } 14 \\qquad \\textbf{(C) } 16 \\qquad \\textbf{(D) } 18 \\qquad \\textbf{(E) } 20</math>",
+      "answerType": "integer",
+      "answerKey": "18",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    }
+  ]
+}

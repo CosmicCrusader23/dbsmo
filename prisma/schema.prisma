@@ -27,6 +27,11 @@ enum AnswerType {
   EXPRESSION
 }
 
+enum ProblemContentFormat {
+  LATEX
+  HTML
+}
+
 enum FeedbackType {
   WRONG_ANSWER_KEY
   WRONG_SOLUTION
@@ -123,6 +128,7 @@ model Problem {
   problemSetId    String
   number          Int
   statement       String           @default("")
+  contentFormat   ProblemContentFormat @default(LATEX)
   answerKey       String
   answerType      AnswerType
   acceptedAnswers String[]

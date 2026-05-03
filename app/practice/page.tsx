@@ -13,12 +13,12 @@ import {
   Trophy,
   XCircle,
 } from "lucide-react";
-import "katex/dist/katex.min.css";
-import renderMathInElement from "katex/dist/contrib/auto-render";
+import { LatexStatement } from "../problem-sets/[slug]/latex-statement";
 
 type Problem = {
   id: string;
   statement: string;
+  contentFormat: "LATEX" | "HTML";
   topicTags: string[];
   problemSet: {
     title: string;
@@ -75,26 +75,6 @@ export default function PracticePage() {
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    if (problem) {
-      setTimeout(() => {
-        const els = document.querySelectorAll(".statement-text");
-        els.forEach((el) => {
-          renderMathInElement(el as HTMLElement, {
-            delimiters: [
-              { left: "$$", right: "$$", display: true },
-              { left: "$", right: "$", display: false },
-              { left: "\\(", right: "\\)", display: false },
-              { left: "\\[", right: "\\]", display: true },
-            ],
-            throwOnError: false,
-            strict: false,
-          });
-        });
-      }, 0);
-    }
-  }, [problem]);
 
   function loadNextProblem(tag: string) {
     setLoadingProblem(true);
@@ -294,7 +274,7 @@ export default function PracticePage() {
               ) : problem ? (
                 <div>
                   <div className="statement-text" style={{ fontSize: "1.2rem", marginBottom: 30 }}>
-                    {problem.statement}
+                    <LatexStatement statement={problem.statement} format={problem.contentFormat} />
                   </div>
                   
                   <form onSubmit={submitAnswer} style={{ display: "flex", gap: 15, alignItems: "center", flexWrap: "wrap" }}>

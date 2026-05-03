@@ -1,0 +1,241 @@
+{
+  "slug": "2024-amc-8",
+  "title": "2024 AMC 8",
+  "description": "Converted from 2024_AMC_8_questions.txt and 2024_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=O0O0g7qq9AbhQN9I&t=130",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=noTBPTosCtH31CpW&t=287 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 6.54",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=9ZUxEGmGam7il9xr&t=907 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Aaliyah rolls two standard 6-sided dice. She notices that the product of the two numbers rolled is a multiple of <imath>6</imath>. Which of the following integers cannot be the sum of the two numbers? <imath>\\textbf{(A) } 5\\qquad\\textbf{(B) } 6\\qquad\\textbf{(C) } 7\\qquad\\textbf{(D) } 8\\qquad\\textbf{(E) } 9</imath>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=ZedvqIYTDG3D20Rp&t=1301 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "~R, P, S, Q",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=eg8T8wApi2j83Ia_&t=1497 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=6wjacdxeAgtpc0fW&t=1762 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=ORnDevWxiB6tv1jO&t=1912 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "28",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=kk52okhz__aC8g9l&t=2078 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 414",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=qhPbhu8o5hamBrtb&t=2315 ~Math-X",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Rohan keeps 90 guppies in 4 fish tanks. * There is 1 more guppy in the 2nd tank than in the 1st tank. * There are 2 more guppies in the 3rd tank than in the 2nd tank. * There are 3 more guppies in the 4th tank than in the 3rd tank. How many guppies are in the 4th tank? <math>\\textbf{(A)}\\ 20 \\qquad \\textbf{(B)}\\ 21 \\qquad \\textbf{(C)}\\ 23 \\qquad \\textbf{(D)}\\ 24 \\qquad \\textbf{(E)}\\ 26</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 26",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Buzz Bunny is hopping up and down a set of stairs, one step at a time. In how many ways can Buzz Bunny start on the ground, make a sequence of <imath>6</imath> hops, and end up back on the ground? (For example, one sequence of hops is up-up-down-down-up-down.) [[File:2024-AMC8-q13.png|center]] <imath>\\textbf{(A)}\\ 4 \\qquad \\textbf{(B)}\\ 5 \\qquad \\textbf{(C)}\\ 6 \\qquad \\textbf{(D)}\\ 8 \\qquad \\textbf{(E)}\\ 12</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=y_YVZFC4DQdB2qhM&t=3280 ~Math-X",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let the letters <imath>F</imath>,<imath>L</imath>,<imath>Y</imath>,<imath>B</imath>,<imath>U</imath>,<imath>G</imath> represent distinct digits. Suppose <imath>\\underline{F}~\\underline{L}~\\underline{Y}~\\underline{F}~\\underline{L}~\\underline{Y}</imath> is the greatest number that satisfies the equation <cmath>8\\cdot\\underline{F}~\\underline{L}~\\underline{Y}~\\underline{F}~\\underline{L}~\\underline{Y}=\\underline{B}~\\underline{U}~\\underline{G}~\\underline{B}~\\underline{U}~\\underline{G}.</cmath> What is the value of <imath>\\underline{F}~\\underline{L}~\\underline{Y}+\\underline{B}~\\underline{U}~\\underline{G}</imath>? <imath>\\textbf{(A)}\\ 1089 \\qquad \\textbf{(B)}\\ 1098 \\qquad \\textbf{(C)}\\ 1107 \\qquad \\textbf{(D)}\\ 1116 \\qquad \\textbf{(E)}\\ 1125</imath>",
+      "answerType": "integer",
+      "answerKey": "1107",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Minh enters the numbers <imath>1</imath> through <imath>81</imath> into the cells of a <imath>9 \\times 9</imath> grid in some order. She calculates the product of the numbers in each row and column. What is the least number of rows and columns that could have a product divisible by <imath>3</imath>? <imath>\\textbf{(A) } 8\\qquad\\textbf{(B) } 9\\qquad\\textbf{(C) } 10\\qquad\\textbf{(D) } 11\\qquad\\textbf{(E) } 12</imath>",
+      "answerType": "integer",
+      "answerKey": "11",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=Q2e8OfkuzKZXmoau&t=4624 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "32",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=lg7OGcJ7OwdDFHAn&t=4872 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "108",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=ZnK2pJGftec8ywRO&t=5589 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 4 15",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=QSxNpXGLosdIpffx&t=5954",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=yTyYiS2S75HoSfmI&t=6313 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "24",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "A roll of tape is <math>4</math> inches in diameter and is wrapped around a ring that is <math>2</math> inches in diameter. A cross section of the tape is shown in the figure below. The tape is <math>0.015</math> inches thick. If the tape is completely unrolled, approximately how long would it be? Round your answer to the nearest <math>100</math> inches. <asy> /* AMC8 P22 2024, revised by Teacher David */ size(150); pair o = (0,0); real r1 = 1; real r2 = 2; filldraw(circle(o, r2), mediumgray, linewidth(1pt)); filldraw(circle(o, r1), white, linewidth(1pt)); draw((-2,-2.6)--(-2,-2.4)); draw((2,-2.6)--(2,-2.4)); draw((-2,-2.5)--(2,-2.5), L=Label(\"4 in.\")); draw((-1,0)--(1,0), L=Label(\"2 in.\", align=(0,1)), arrow=Arrows()); draw((2,0)--(2,-1.3), linewidth(1pt)); </asy> <math>\\textbf{(A) } 300\\qquad\\textbf{(B) } 600\\qquad\\textbf{(C) } 1200\\qquad\\textbf{(D) } 1500\\qquad\\textbf{(E) } 1800</math>",
+      "answerType": "integer",
+      "answerKey": "600",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=WqyvRC1PRp2FZIL9&t=7181 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "7000",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "https://youtu.be/BaE00H2SHQM?si=793ml6R_qT79h-aI&t=7651 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\mathbf 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "A small airplane has <imath>4</imath> rows of seats with <imath>3</imath> seats in each row. Eight passengers have boarded the plane and are distributed randomly among the seats. A married couple is next to board. What is the probability there will be 2 adjacent seats in the same row for the couple? <asy> // Asymptote by aoum import roundedpath; unitsize(1cm); path p = roundedpath((0,0)--(1,0)--(1,1)--(0,1)--cycle, 0.1); for (int r = 0; r < 4; ++r) { for (int c = 0; c < 3; ++c) { draw(shift(1.1 * c, 1.3 * r) * p); } } </asy> <imath>\\textbf{(A)} \\frac{8}{15}\\qquad\\textbf{(B)} \\frac{32}{55}\\qquad\\textbf{(C) } \\frac{20}{33}\\qquad\\textbf{(D) } \\frac{34}{55}\\qquad\\textbf{(E) } \\frac{8}{11}</imath>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 20 33",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

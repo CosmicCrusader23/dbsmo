@@ -1,0 +1,118 @@
+{
+  "slug": "2004-aime-ii",
+  "title": "2004 AIME II",
+  "description": "Converted from 2004_AIME_II_questions.txt and 2004_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A [[chord]] of a [[circle]] is [[perpendicular]] to a [[radius]] at the [[midpoint]] of the radius. The [[ratio]] of the [[area]] of the larger of the two regions into which the chord divides the circle to the smaller can be expressed in the form <math> \\frac{a\\pi+b\\sqrt{c}}{d\\pi-e\\sqrt{f}}, </math> where <math> a, b, c, d, e, </math> and <math> f </math> are [[positive integer]]s, <math> a </math> and <math> e </math> are [[relatively prime]], and neither <math> c </math> nor <math> f </math> is [[divisibility | divisible]] by the [[square]] of any [[prime]]. Find the [[remainder]] when the product <math> abcdef </math> is divided by 1000. [[Image:2004 AIME II Problem 1.png]]",
+      "answerType": "integer",
+      "answerKey": "592",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "A jar has <math>10</math> red candies and <math>10</math> blue candies. Terry picks two candies at random, then Mary picks two of the remaining candies at random. Given that the [[probability]] that they get the same color combination, irrespective of order, is <math> m/n, </math> where <math> m </math> and <math> n </math> are [[relatively prime]] [[positive integer]]s, find <math> m+n. </math>",
+      "answerType": "integer",
+      "answerKey": "441",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A solid rectangular block is formed by gluing together <math> N </math> [[congruent (geometry) | congruent]] 1-cm [[cube (geometry) | cube]]s [[face]] to face. When the block is viewed so that three of its faces are visible, exactly <math>231</math> of the 1-cm cubes cannot be seen. Find the smallest possible value of <math> N. </math>",
+      "answerType": "integer",
+      "answerKey": "384",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "How many [[positive integer]]s less than 10,000 have at most two different [[digit]]s?",
+      "answerType": "integer",
+      "answerKey": "927",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "In order to complete a large job, <math>1000</math> workers were hired, just enough to complete the job on schedule. All the workers stayed on the job while the first quarter of the work was done, so the first quarter of the work was completed on schedule. Then <math>100</math> workers were laid off, so the second quarter of the work was completed behind schedule. Then an additional <math>100</math> workers were laid off, so the third quarter of the work was completed still further behind schedule. Given that all workers work at the same rate, what is the minimum number of additional workers, beyond the <math>800</math> workers still on the job at the end of the third quarter, that must be hired after three-quarters of the work has been completed so that the entire project can be completed on schedule or before?",
+      "answerType": "integer",
+      "answerKey": "766",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Three clever monkeys divide a pile of bananas. The first monkey takes some bananas from the pile, keeps three-fourths of them, and divides the rest equally between the other two. The second monkey takes some bananas from the pile, keeps one-fourth of them, and divides the rest equally between the other two. The third monkey takes the remaining bananas from the pile, keeps one-twelfth of them, and divides the rest equally between the other two. Given that the pile starts out with a positive number of bananas, each monkey receives a whole number of bananas whenever the bananas are divided, and the numbers of bananas the first, second, and third monkeys have at the end of the process are in the ratio <imath>3</imath>: <imath>2</imath>: <imath>1</imath>, what is the least possible total for the number of bananas?",
+      "answerType": "integer",
+      "answerKey": "408",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "<math> ABCD </math> is a rectangular sheet of paper that has been folded so that corner <math> B </math> is matched with point <math> B' </math> on edge <math> AD. </math> The crease is <math> EF, </math> where <math> E </math> is on <math> AB </math> and <math> F </math> is on <math> CD. </math> The dimensions <math> AE=8, BE=17, </math> and <math> CF=3 </math> are given. The perimeter of rectangle <math> ABCD </math> is <math> m/n, </math> where <math> m </math> and <math> n </math> are relatively prime positive integers. Find <math> m+n. </math> <asy> size(200); defaultpen(linewidth(0.7)+fontsize(10)); pair A=origin, B=(25,0), C=(25,70/3), D=(0,70/3), E=(8,0), F=(22,70/3), Bp=reflect(E,F)*B, Cp=reflect(E,F)*C; draw(F--D--A--E); draw(E--B--C--F, linetype(\"4 4\")); filldraw(E--F--Cp--Bp--cycle, white, black); pair point=( 12.5, 35/3 ); label(\"$A$\", A, dir(point--A)); label(\"$B$\", B, dir(point--B)); label(\"$C$\", C, dir(point--C)); label(\"$D$\", D, dir(point--D)); label(\"$E$\", E, dir(point--E)); label(\"$F$\", F, dir(point--F)); label(\"$B^\\prime$\", Bp, dir(point--Bp)); label(\"$C^\\prime$\", Cp, dir(point--Cp));</asy>",
+      "answerType": "integer",
+      "answerKey": "293",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "How many positive integer divisors of <math>2004^{2004}</math> are divisible by exactly 2004 positive integers?",
+      "answerType": "integer",
+      "answerKey": "54",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "A [[sequence]] of positive integers with <math> a_1=1 </math> and <math> a_9+a_{10}=646 </math> is formed so that the first three terms are in [[geometric sequence|geometric progression]], the second, third, and fourth terms are in [[arithmetic sequence|arithmetic progression]], and, in general, for all <math> n\\ge1, </math> the terms <math> a_{2n-1}, a_{2n}, a_{2n+1} </math> are in geometric progression, and the terms <math> a_{2n}, a_{2n+1}, </math> and <math> a_{2n+2} </math> are in arithmetic progression. Let <math> a_n </math> be the greatest term in this sequence that is less than <math>1000</math>. Find <math> n+a_n. </math>",
+      "answerType": "integer",
+      "answerKey": "973",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <math> S </math> be the [[set]] of [[integer]]s between <math>1</math> and <math> 2^{40} </math> whose binary expansions have exactly two <math>1</math>'s. If a number is chosen at random from <math> S, </math> the [[probability]] that it is divisible by <math>9</math> is <math> p/q, </math> where <math> p </math> and <math> q </math> are relatively prime positive integers. Find <math> p+q. </math>",
+      "answerType": "integer",
+      "answerKey": "913",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "A [[right cone|right circular cone]] has a [[base]] with [[radius]] <math>600</math> and [[height]] <math> 200\\sqrt{7}. </math> A fly starts at a point on the surface of the cone whose distance from the [[vertex]] of the cone is <math>125</math>, and crawls along the surface of the cone to a point on the exact opposite side of the cone whose distance from the vertex is <math>375\\sqrt{2}.</math> Find the least distance that the fly could have crawled.",
+      "answerType": "integer",
+      "answerKey": "625",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Let <math> ABCD </math> be an [[isosceles trapezoid]], whose dimensions are <math> AB = 6, BC=5=DA, </math>and <math> CD=4. </math> Draw [[circle]]s of [[radius]] 3 centered at <math> A </math> and <math> B, </math> and circles of radius 2 centered at <math> C </math> and <math> D. </math> A circle contained within the trapezoid is [[tangent]] to all four of these circles. Its radius is <math> \\frac{-k+m\\sqrt{n}}p, </math> where <math> k, m, n, </math> and <math> p </math> are [[positive integer]]s, <math> n </math> is not [[divisibility | divisible]] by the [[perfect square | square]] of any [[prime number | prime]], and <math> k </math> and <math> p </math> are [[relatively prime]]. Find <math> k+m+n+p. </math>",
+      "answerType": "integer",
+      "answerKey": "134",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Let <math> ABCDE </math> be a [[convex]] [[pentagon]] with <math> AB \\parallel CE, BC \\parallel AD, AC \\parallel DE, \\angle ABC=120^\\circ, AB=3, BC=5, </math> and <math>DE = 15. </math> Given that the [[ratio]] between the area of triangle <math> ABC </math> and the area of triangle <math> EBD </math> is <math> m/n, </math> where <math> m </math> and <math> n </math> are relatively prime positive integers, find <math> m+n. </math>",
+      "answerType": "integer",
+      "answerKey": "484",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Consider a string of <math> n </math> <math> 7 </math>'s, <math> 7777\\cdots77, </math> into which <math> + </math> signs are inserted to produce an arithmetic [[expression]]. For example, <math> 7+77+777+7+7=875 </math> could be obtained from eight <math> 7 </math>'s in this way. For how many values of <math> n </math> is it possible to insert <math> + </math> signs so that the resulting expression has value <math> 7000 </math>?",
+      "answerType": "integer",
+      "answerKey": "108",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "A long thin strip of paper is <math>1024</math> units in length, <math>1</math> unit in width, and is divided into <math>1024</math> unit squares. The paper is folded in half repeatedly. For the first fold, the right end of the paper is folded over to coincide with and lie on top of the left end. The result is a <math>512</math> by <math>1</math> strip of double thickness. Next, the right end of this strip is folded over to coincide with and lie on top of the left end, resulting in a <math>256</math> by <math>1</math> strip of quadruple thickness. This process is repeated <math>8</math> more times. After the last fold, the strip has become a stack of <math>1024</math> unit squares. How many of these squares lie below the square that was originally the <math>942</math>nd square counting from the left?",
+      "answerType": "integer",
+      "answerKey": "593",
+      "points": 1
+    }
+  ]
+}

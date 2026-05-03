@@ -1,0 +1,263 @@
+{
+  "slug": "2024-amc-10a",
+  "title": "2024 AMC 10A",
+  "description": "Converted from 2024_AMC_10A_questions.txt and 2024_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is the value of <math>9901\\cdot101-99\\cdot10101?</math> <math>\\textbf{(A)}~2\\qquad\\textbf{(B)}~20\\qquad\\textbf{(C)}~200\\qquad\\textbf{(D)}~202\\qquad\\textbf{(E)}~2020</math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A model used to estimate the time it will take to hike to the top of the mountain on a trail is of the form <math>T=aL+bG,</math> where <math>a</math> and <math>b</math> are constants, <math>T</math> is the time in minutes, <math>L</math> is the length of the trail in miles, and <math>G</math> is the altitude gain in feet. The model estimates that it will take <math>69</math> minutes to hike to the top if a trail is <math>1.5</math> miles long and ascends <math>800</math> feet, as well as if a trail is <math>1.2</math> miles long and ascends <math>1100</math> feet. How many minutes does the model estimates it will take to hike to the top if the trail is <math>4.2</math> miles long and ascends <math>4000</math> feet? <math> \\textbf{(A) }240\\qquad\\textbf{(B) }246\\qquad\\textbf{(C) }252\\qquad\\textbf{(D) }258\\qquad\\textbf{(E) }264 </math>",
+      "answerType": "integer",
+      "answerKey": "246",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Let <imath>n</imath> be the least prime number that can be written as the sum of <imath>5</imath> distinct prime numbers. What is the sum of the digits of <imath>n</imath>? <imath>\\textbf{(A) }5\\qquad\\textbf{(B) }7\\qquad\\textbf{(C) }8\\qquad\\textbf{(D) }10\\qquad\\textbf{(E) }13</imath>",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "The number <math>2024</math> is written as the sum of not necessarily distinct two-digit numbers. What is the least number of two-digit numbers needed to write this sum? <math>\\textbf{(A) }20\\qquad\\textbf{(B) }21\\qquad\\textbf{(C) }22\\qquad\\textbf{(D) }23\\qquad\\textbf{(E) }24</math>",
+      "answerType": "integer",
+      "answerKey": "21",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "What is the least value of <math>n</math> such that <math>n!</math> is a multiple of <math>2024</math>? <math>\\textbf{(A) } 11\\qquad\\textbf{(B) } 21\\qquad\\textbf{(C) } 22\\qquad\\textbf{(D) } 23\\qquad\\textbf{(E) } 253</math>",
+      "answerType": "integer",
+      "answerKey": "23",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "What is the minimum number of successive swaps of adjacent letters in the string <math>ABCDEF</math> that are needed to change the string to <math>FEDCBA?</math> (For example, <math>3</math> swaps are required to change <math>ABC</math> to <math>CBA;</math> one such sequence of swaps is <math>ABC\\to BAC\\to BCA\\to CBA.</math>) <math>\\textbf{(A)}~6\\qquad\\textbf{(B)}~10\\qquad\\textbf{(C)}~12\\qquad\\textbf{(D)}~15\\qquad\\textbf{(E)}~24</math>",
+      "answerType": "exact",
+      "answerKey": "~15",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The product of three integers is <math>60</math>. What is the least possible positive sum of the three integers? <math>\\textbf{(A) }2\\qquad\\textbf{(B) }3\\qquad\\textbf{(C) }5\\qquad\\textbf{(D) }6\\qquad\\textbf{(E) }13</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Amy, Bomani, Charlie, and Daria work in a chocolate factory. On Monday Amy, Bomani, and Charlie started working at <math>1:00 \\ \\mathrm{PM}</math> and were able to pack <math>4</math>, <math>3</math>, and <math>3</math> packages, respectively, every <math>3</math> minutes. At some later time, Daria joined the group, and Daria was able to pack <math>5</math> packages every <math>4</math> minutes. Together, they finished packing <math>450</math> packages at exactly <math>2:45\\ \\mathrm{PM}</math>. At what time did Daria join the group? <math>\\textbf{(A) }1:25\\text{ PM}\\qquad\\textbf{(B) }1:35\\text{ PM}\\qquad\\textbf{(C) }1:45\\text{ PM}\\qquad\\textbf{(D) }1:55\\text{ PM}\\qquad\\textbf{(E) }2:05\\text{ PM}</math>",
+      "answerType": "exact",
+      "answerKey": "1:25 PM",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "In how many ways can <math>6</math> juniors and <math>6</math> seniors form <math>3</math> disjoint teams of <math>4</math> people so that each team has <math>2</math> juniors and <math>2</math> seniors? <math>\\textbf{(A) }720\\qquad\\textbf{(B) }1350\\qquad\\textbf{(C) }2700\\qquad\\textbf{(D) }3280\\qquad\\textbf{(E) }8100</math>",
+      "answerType": "integer",
+      "answerKey": "1350",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Consider the following operation. Given a positive integer <imath>n</imath>, if <imath>n</imath> is a multiple of <imath>3</imath>, then you replace <imath>n</imath> by <imath> \\frac{n}{3}</imath>. If <imath>n</imath> is not a multiple of <imath>3</imath>, then you replace <imath>n</imath> by <imath>n+10</imath>. Then continue this process. For example, beginning with <imath>n=4</imath>, this procedure gives <imath>4 \\to 14 \\to 24 \\to 8 \\to 18 \\to 6 \\to 2 \\to 12 \\to \\cdots</imath>. Suppose you start with <imath>n=100</imath>. What value results if you perform this operation exactly <imath>100</imath> times? <imath>\\textbf{(A) }10\\qquad\\textbf{(B) }20\\qquad\\textbf{(C) }30\\qquad\\textbf{(D) }40\\qquad\\textbf{(E) }50</imath>",
+      "answerType": "integer",
+      "answerKey": "30",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "How many ordered pairs of integers <math>(m, n)</math> satisfy <math>\\sqrt{n^2 - 49} = m</math>? <math>\\textbf{(A)}~1\\qquad\\textbf{(B)}~2\\qquad\\textbf{(C)}~3\\qquad\\textbf{(D)}~4\\qquad\\textbf{(E)}~\\text{infinitely many}</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Zelda played the ''Adventures of Math'' game on August 1 and scored <math>1700</math> points. She continued to play daily over the next <math>5</math> days. The bar chart below shows the daily change in her score compared to the day before. (For example, Zelda's score on August 2 was <math>1700 + 80 = 1780</math> points.) What was Zelda's average score in points over the <math>6</math> days?[[File:Screenshot_2024-11-08_1.51.51_PM.png]] <math>\\textbf{(A)} 1700\\qquad\\textbf{(B)} 1702\\qquad\\textbf{(C)} 1703\\qquad\\textbf{(D)}1713\\qquad\\textbf{(E)} 1715</math>",
+      "answerType": "integer",
+      "answerKey": "1715",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Two transformations are said to commute if applying the first followed by the second gives the same result as applying the second followed by the first. Consider these four transformations of the coordinate plane: * a translation <math>2</math> units to the right, * a <math>90^{\\circ}</math>-rotation counterclockwise about the origin, * a reflection across the <math>x</math>-axis, and * a dilation centered at the origin with scale factor <math>2.</math> Of the <math>6</math> pairs of distinct transformations from this list, how many commute? <math>\\textbf{(A)}~1\\qquad\\textbf{(B)}~2\\qquad\\textbf{(C)}~3\\qquad\\textbf{(D)}~4\\qquad\\textbf{(E)}~5</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "One side of an equilateral triangle of height <math>24</math> lies on line <math>\\ell</math>. A circle of radius <math>12</math> is tangent to line <math>\\ l</math> and is externally tangent to the triangle. The area of the region exterior to the triangle and the circle and bounded by the triangle, the circle, and line <math>\\ell</math> can be written as <math>a \\sqrt{b} - c \\pi</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers and <math>b</math> is not divisible by the square of any prime. What is <math>a + b + c</math>? <math>\\textbf{(A)}~72\\qquad\\textbf{(B)}~73\\qquad\\textbf{(C)}~74\\qquad\\textbf{(D)}~75\\qquad\\textbf{(E)}~76</math>",
+      "answerType": "exact",
+      "answerKey": "~75",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>M</math> be the greatest integer such that both <math>M+1213</math> and <math>M+3773</math> are perfect squares. What is the units digit of <math>M</math>? <math>\\textbf{(A) }1\\qquad\\textbf{(B) }2\\qquad\\textbf{(C) }3\\qquad\\textbf{(D) }6\\qquad\\textbf{(E) }8</math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "All of the rectangles in the figure below, which is drawn to scale, are similar to the enclosing rectangle. Each number represents the area of the rectangle. What is length <imath>AB</imath>? [[File:Screenshot 2024-11-08 2.08.49 PM.png|center]] <imath>\\textbf{(A) }4+4\\sqrt5\\qquad\\textbf{(B) }10\\sqrt2\\qquad\\textbf{(C) }5+5\\sqrt5\\qquad\\textbf{(D) }10\\sqrt[4]{8}\\qquad\\textbf{(E) }20</imath>",
+      "answerType": "exact",
+      "answerKey": "10\\sqrt[4] 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Two teams are in a best-two-out-of-three playoff: the teams will play at most <imath>3</imath> games, and the winner of the playoff is the first team to win <imath>2</imath> games. The first game is played on Team A's home field, and the remaining games are played on Team B's home field. Team A has a <imath>\\frac{2}{3}</imath> chance of winning at home, and its probability of winning when playing away from home is <imath>p</imath>. Outcomes of the games are independent. The probability that Team A wins the playoff is <imath>\\frac{1}{2}</imath>. Then <imath>p</imath> can be written in the form <imath>\\frac{1}{2}(m - \\sqrt{n})</imath>, where <imath>m</imath> and <imath>n</imath> are positive integers. What is <imath>m + n</imath>? <imath>\\textbf{(A) } 10 \\qquad \\textbf{(B) } 11 \\qquad \\textbf{(C) } 12 \\qquad \\textbf{(D) } 13 \\qquad \\textbf{(E) } 14</imath>",
+      "answerType": "integer",
+      "answerKey": "14",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "There are exactly <math>K</math> positive integers <math>b</math> with <math>5 \\leq b \\leq 2024</math> such that the base-<math>b</math> integer <math>2024_b</math> is divisible by <math>16</math> (where <math>16</math> is in base ten). What is the sum of the digits of <math>K</math>? <math>\\textbf{(A) }16\\qquad\\textbf{(B) }17\\qquad\\textbf{(C) }18\\qquad\\textbf{(D) }20\\qquad\\textbf{(E) }21</math>",
+      "answerType": "integer",
+      "answerKey": "20",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "The first three terms of a geometric sequence are the integers <math>a,\\,720,</math> and <math>b,</math> where <math>a<720<b.</math> What is the sum of the digits of the least possible value of <math>b?</math> <math>\\textbf{(A) } 9 \\qquad \\textbf{(B) } 12 \\qquad \\textbf{(C) } 16 \\qquad \\textbf{(D) } 18 \\qquad \\textbf{(E) } 21</math>",
+      "answerType": "integer",
+      "answerKey": "21",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "https://youtu.be/rFU5EW9VOq8",
+      "answerType": "integer",
+      "answerKey": "608",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "The numbers, in order, of each row and the numbers, in order, of each column of a <math>5 \\times 5</math> array of integers form an arithmetic progression of length <math>5</math>. The numbers in positions <math>(5, 5), \\,(2,4),\\,(4,3),</math> and <math>(3, 1)</math> are <math>0, 48, 16,</math> and <math>12</math>, respectively. What number is in position <math>(1, 2)?</math> <cmath> \\begin{bmatrix} . & ? &.&.&. \\\\ .&.&.&48&.\\\\ 12&.&.&.&.\\\\ .&.&16&.&.\\\\ .&.&.&.&0\\end{bmatrix}</cmath> <math>\\textbf{(A) } 19 \\qquad \\textbf{(B) } 24 \\qquad \\textbf{(C) } 29 \\qquad \\textbf{(D) } 34 \\qquad \\textbf{(E) } 39</math>",
+      "answerType": "integer",
+      "answerKey": "29",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "https://www.youtube.com/watch?v=hNUJSdrn1V0",
+      "answerType": "exact",
+      "answerKey": "\\dfrac92\\sqrt3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Integers <math>a</math>, <math>b</math>, and <math>c</math> satisfy <math>ab + c = 100</math>, <math>bc + a = 87</math>, and <math>ca + b = 60</math>. What is <math>ab + bc + ca</math>? <math> \\textbf{(A) }212 \\qquad \\textbf{(B) }247 \\qquad \\textbf{(C) }258 \\qquad \\textbf{(D) }276 \\qquad \\textbf{(E) }284 \\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "276",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "A bee is moving in three-dimensional space. A fair six-sided die with faces labeled <imath>A^+, A^-, B^+, B^-, C^+,</imath> and <imath>C^-</imath> is rolled. Suppose the bee occupies the point <imath>(a,b,c).</imath> If the die shows <imath>A^+</imath>, then the bee moves to the point <imath>(a+1,b,c)</imath> and if the die shows <imath>A^-,</imath> then the bee moves to the point <imath>(a-1,b,c).</imath> Analogous moves are made with the other four outcomes. Suppose the bee starts at the point <imath>(0,0,0)</imath> and the die is rolled four times. What is the probability that the bee traverses four distinct edges of some unit cube? <imath>\\textbf{(A) }\\frac{1}{54}\\qquad\\textbf{(B) }\\frac{7}{54}\\qquad\\textbf{(C) }\\frac{1}{6}\\qquad\\textbf{(D) }\\frac{5}{18}\\qquad\\textbf{(E) }\\frac{2}{5}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 54",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "The figure below shows a dotted grid <math>8</math> cells wide and <math>3</math> cells tall consisting of <math>1''\\times1''</math> squares. Carl places <math>1</math>-inch toothpicks along some of the sides of the squares to create a closed loop that does not intersect itself. The numbers in the cells indicate the number of sides of that square that are to be covered by toothpicks, and any number of toothpicks are allowed if no number is written. In how many ways can Carl place the toothpicks? <asy> size(6cm); for (int i=0; i<9; ++i) { draw((i,0)--(i,3),dotted); } for (int i=0; i<4; ++i){ draw((0,i)--(8,i),dotted); } for (int i=0; i<8; ++i) { for (int j=0; j<3; ++j) { if (j==1) { label(\"1\",(i+0.5,1.5)); }}} </asy> <math>\\textbf{(A) }130\\qquad\\textbf{(B) }144\\qquad\\textbf{(C) }146\\qquad\\textbf{(D) }162\\qquad\\textbf{(E) }196</math>",
+      "answerType": "integer",
+      "answerKey": "146",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

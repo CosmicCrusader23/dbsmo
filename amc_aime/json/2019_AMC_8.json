@@ -1,0 +1,251 @@
+{
+  "slug": "2019-amc-8",
+  "title": "2019 AMC 8",
+  "description": "Converted from 2019_AMC_8_questions.txt and 2019_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "https://youtu.be/IgpayYB48C4?si=2nxxlhOYNmBnEhj5 ~Math-X The Learning Royal: https://youtu.be/IiFFDDITE6Q",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "https://youtu.be/IgpayYB48C4?si=N-pH5zJQY7O5lVWk&t=162 ~Math-X The Learning Royal: https://youtu.be/IiFFDDITE6Q",
+      "answerType": "exact",
+      "answerKey": "\\ 150",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "https://youtu.be/IgpayYB48C4?si=-TpVe8QyZbbc6yKr&t=266 ~Math-X The Learning Royal: https://youtu.be/IiFFDDITE6Q",
+      "answerType": "exact",
+      "answerKey": "\\frac 19 15 <\\frac 17 13 <\\frac 15 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "https://youtu.be/IgpayYB48C4?si=CGr1gRwXKdjrhl24&t=678 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 120",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "https://youtu.be/Xm4ZGND9WoY ~Hayabusa1",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "https://youtu.be/IgpayYB48C4?si=AdzSEy4Ocrte4gEU&t=1650 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "https://youtu.be/IgpayYB48C4?si=ESh8VTHfpwe7idKH&t=2030 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "\\ 48",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Gilda has a bag of marbles. She gives <math>20\\%</math> of them to her friend Pedro. Then Gilda gives <math>10\\%</math> of what is left to another friend, Ebony. Finally, Gilda gives <math>25\\%</math> of what is now left in the bag to her brother Jimmy. What percentage of her original bag of marbles does Gilda have left for herself? <math>\\textbf{(A) }20\\qquad\\textbf{(B) }33\\frac{1}{3}\\qquad\\textbf{(C) }38\\qquad\\textbf{(D) }45\\qquad\\textbf{(E) }54</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 54",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Alex and Felicia each have cats as pets. Alex buys cat food in cylindrical cans that are <imath>6</imath> cm in diameter and <imath>12</imath> cm high. Felicia buys cat food in cylindrical cans that are <imath>12</imath> cm in diameter and <imath>6</imath> cm high. What is the ratio of the volume of one of Alex's cans to the volume of one of Felicia's cans? <imath>\\textbf{(A) }1:4\\qquad\\textbf{(B) }1:2\\qquad\\textbf{(C) }1:1\\qquad\\textbf{(D) }2:1\\qquad\\textbf{(E) }4:1</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 1:2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "The diagram shows the number of students at soccer practice each weekday during last week. After computing the mean and median values, Coach discovers that there were actually <math>21</math> participants on Wednesday. Which of the following statements describes the change in the mean and median after the correction is made? <center><asy> unitsize(2mm); defaultpen(fontsize(8bp)); real d = 5; real t = 0.7; real r; int[] num = {20,26,16,22,16}; string[] days = {\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\"}; for (int i=0; i<30; i=i+2) { draw((i,0)--(i,-5*d),gray); }for (int i=0; i<5; ++i) { r = -1*(i+0.5)*d; fill((0,r-t)--(0,r+t)--(num[i],r+t)--(num[i],r-t)--cycle,gray); label(days[i],(-1,r),W); }for(int i=0; i<32; i=i+4) { label(string(i),(i,1)); }label(\"Number of students at soccer practice\",(14,3.5)); </asy></center> <math>\\textbf{(A) }</math>The mean increases by <math>1</math> and the median does not change. <math>\\textbf{(B) }</math>The mean increases by <math>1</math> and the median increases by <math>1</math>. <math>\\textbf{(C) }</math>The mean increases by <math>1</math> and the median increases by <math>5</math>. <math>\\textbf{(D) }</math>The mean increases by <math>5</math> and the median increases by <math>1</math>. <math>\\textbf{(E) }</math>The mean increases by <math>5</math> and the median increases by <math>5</math>.",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "https://youtu.be/IgpayYB48C4?si=hwYx8EF3iCm50Ms8&t=3557 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "39",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The faces of a cube are painted in six different colors: red <math>(R)</math>, white <math>(W)</math>, green <math>(G)</math>, brown <math>(B)</math>, aqua <math>(A)</math>, and purple <math>(P)</math>. Three views of the cube are shown below. What is the color of the face opposite the aqua face? <!--- [[File:2019AMC8Prob12.png]] --> <asy> unitsize(2cm); pair x, y, z, trans; int i; x = dir(-5); y = (0.6,0.5); z = (0,1); trans = (2,0); for (i = 0; i <= 2; ++i) { draw(shift(i*trans)*((0,0)--x--(x + y)--(x + y + z)--(y + z)--z--cycle)); draw(shift(i*trans)*((x + z)--x)); draw(shift(i*trans)*((x + z)--(x + y + z))); draw(shift(i*trans)*((x + z)--z)); } label(rotate(-3)*\"$R$\", (x + z)/2); label(rotate(-5)*slant(0.5)*\"$B$\", ((x + z) + (y + z))/2); label(rotate(35)*slant(0.5)*\"$G$\", ((x + z) + (x + y))/2); label(rotate(-3)*\"$W$\", (x + z)/2 + trans); label(rotate(50)*slant(-1)*\"$B$\", ((x + z) + (y + z))/2 + trans); label(rotate(35)*slant(0.5)*\"$R$\", ((x + z) + (x + y))/2 + trans); label(rotate(-3)*\"$P$\", (x + z)/2 + 2*trans); label(rotate(-5)*slant(0.5)*\"$R$\", ((x + z) + (y + z))/2 + 2*trans); label(rotate(-85)*slant(-1)*\"$G$\", ((x + z) + (x + y))/2 + 2*trans); </asy> <math> \\textbf{(A)} \\text{ red}\\qquad\\textbf{(B)} \\text{ white}\\qquad\\textbf{(C)} \\text{ green}\\qquad\\textbf{(D)} \\text{ brown}\\qquad\\textbf{(E)} \\text{ purple} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ R",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "https://youtu.be/IgpayYB48C4?si=AbOfamWIMyCRNHTA&t=3984 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Isabella has <imath>6</imath> coupons that can be redeemed for free ice cream cones at Pete's Sweet Treats. In order to make the coupons last, she decides that she will redeem one every <imath>10</imath> days until she has used them all. She knows that Pete's is closed on Sundays, but as she circles the <imath>6</imath> dates on her calendar, she realizes that no circled date falls on a Sunday. On what day of the week does Isabella redeem her first coupon? <imath>\\textbf{(A) }\\text{Monday}\\qquad\\textbf{(B) }\\text{Tuesday}\\qquad\\textbf{(C) }\\text{Wednesday}\\qquad\\textbf{(D) }\\text{Thursday}\\qquad\\textbf{(E) }\\text{Friday}</imath>",
+      "answerType": "exact",
+      "answerKey": "Wednesday",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "On a beach <math>50</math> people are wearing sunglasses and <math>35</math> people are wearing caps. Some people are wearing both sunglasses and caps. If one of the people wearing a cap is selected at random, the probability that this person is also wearing sunglasses is <math>\\frac{2}{5}</math>. If instead, someone wearing sunglasses is selected at random, what is the probability that this person is also wearing a cap? <math>\\textbf{(A) }\\frac{14}{85}\\qquad\\textbf{(B) }\\frac{7}{25}\\qquad\\textbf{(C) }\\frac{2}{5}\\qquad\\textbf{(D) }\\frac{4}{7}\\qquad\\textbf{(E) }\\frac{7}{10}</math>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 7 25",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "https://youtu.be/IgpayYB48C4?si=8YldGqXbPzZfeA-z&t=4756 ~Math-X https://www.youtube.com/watch?v=OC1KdFeZFeE Associated Video https://youtu.be/5K1AgeZ8rUQ - happytwin https://www.youtube.com/watch?v=0rcDe2bDRug ~David",
+      "answerType": "exact",
+      "answerKey": "\\ 110",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "https://youtu.be/IgpayYB48C4?si=UJVe2zopeqT-4rLM&t=5256 ~Math-X https://www.youtube.com/watch?v=yPQmvyVyvaM Associated video https://www.youtube.com/watch?v=ffHl1dAjs7g&list=PLLCzevlMcsWNBsdpItBT4r7Pa8cZb6Viu&index=1 ~ MathEx",
+      "answerType": "exact",
+      "answerKey": "\\frac 50 99",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "https://youtu.be/IgpayYB48C4?si=UsI0Wu2OeYT813rn&t=5524 ~Math-X",
+      "answerType": "exact",
+      "answerKey": "( C )",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "https://youtu.be/IgpayYB48C4?si=ZFTK7CQBPH6nrE9h&t=5702 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "24",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "https://youtu.be/IgpayYB48C4?si=EHbnc8zZoQ15Gfv6&t=6050 ~Math-X",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "What is the area of the triangle formed by the lines <math>y=5</math>, <math>y=1+x</math>, and <math>y=1-x</math>? <math>\\textbf{(A) }4\\qquad\\textbf{(B) }8\\qquad\\textbf{(C) }10\\qquad\\textbf{(D) }12\\qquad\\textbf{(E) }16</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 16",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "A store increased the original price of a shirt by a certain percent and then lowered the new price by the same amount. Given that the resulting price was <imath>84\\%</imath> of the original price, by what percent was the price increased and decreased<imath>?</imath> <imath>\\textbf{(A) }16\\qquad\\textbf{(B) }20\\qquad\\textbf{(C) }28\\qquad\\textbf{(D) }36\\qquad\\textbf{(E) }40</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 40",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "After Euclid High School's last basketball game, it was determined that <math>\\frac{1}{4}</math> of the team's points were scored by Alexa and <math>\\frac{2}{7}</math> were scored by Brittany. Chelsea scored <math>15</math> points. None of the other <math>7</math> team members scored more than <math>2</math> points. What was the total number of points scored by the other <math>7</math> team members? <math>\\textbf{(A) }10\\qquad\\textbf{(B) }11\\qquad\\textbf{(C) }12\\qquad\\textbf{(D) }13\\qquad\\textbf{(E) }14</math>",
+      "answerType": "integer",
+      "answerKey": "11",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "In triangle <imath>\\triangle ABC</imath>, point <imath>D</imath> divides side <imath>\\overline{AC}</imath> so that <imath>AD:DC=1:2</imath>. Let <imath>E</imath> be the midpoint of <imath>\\overline{BD}</imath> and let <imath>F</imath> be the point of intersection of line <imath>\\overline{BC}</imath> and line <imath>\\overline{AE}</imath>. Given that the area of <imath>\\triangle ABC</imath> is <imath>360</imath>, what is the area of <imath>\\triangle EBF</imath>? <asy> unitsize(2cm); pair A,B,C,DD,EE,FF; B = (0,0); C = (3,0); A = (1.2,1.7); DD = (2/3)*A+(1/3)*C; EE = (B+DD)/2; FF = intersectionpoint(B--C,A--A+2*(EE-A)); draw(A--B--C--cycle); draw(A--FF); draw(B--DD);dot(A); label(\"$A$\",A,N); dot(B); label(\"$B$\", B,SW);dot(C); label(\"$C$\",C,SE); dot(DD); label(\"$D$\",DD,NE); dot(EE); label(\"$E$\",EE,NW); dot(FF); label(\"$F$\",FF,S); </asy> <imath>\\textbf{(A) }24\\qquad\\textbf{(B) }30\\qquad\\textbf{(C) }32\\qquad\\textbf{(D) }36\\qquad\\textbf{(E) }40</imath>",
+      "answerType": "integer",
+      "answerKey": "30",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Alice has <imath>24</imath> apples. In how many ways can she share them with Becky and Chris so that each of the three people has at least two apples? <imath>\\textbf{(A) }105\\qquad\\textbf{(B) }114\\qquad\\textbf{(C) }190\\qquad\\textbf{(D) }210\\qquad\\textbf{(E) }380</imath>",
+      "answerType": "integer",
+      "answerKey": "190",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "slug": "2011-amc-12a",
+  "title": "2011 AMC 12A",
+  "description": "Converted from 2011_AMC_12A_questions.txt and 2011_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A cell phone plan costs <math>20</math> dollars each month, plus <math>5</math> cents per text message sent, plus <math>10</math> cents for each minute used over <math>30</math> hours. In January Michelle sent <math>100</math> text messages and talked for <math>30.5</math> hours. How much did she have to pay? <math> \\textbf{(A)}\\ 24.00 \\qquad \\textbf{(B)}\\ 24.50 \\qquad \\textbf{(C)}\\ 25.50 \\qquad \\textbf{(D)}\\ 28.00 \\qquad \\textbf{(E)}\\ 30.00 </math>",
+      "answerType": "exact",
+      "answerKey": "\\$28",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "There are <math>5</math> coins placed flat on a table according to the figure. What is the order of the coins from top to bottom? <asy> size(100); defaultpen(linewidth(.8pt)+fontsize(8pt)); draw(arc((0,1), 1.2, 25, 214)); draw(arc((.951,.309), 1.2, 0, 360)); draw(arc((.588,-.809), 1.2, 132, 370)); draw(arc((-.588,-.809), 1.2, 75, 300)); draw(arc((-.951,.309), 1.2, 96, 228)); label(\"$A$\",(0,1),NW); label(\"$B$\",(-1.1,.309),NW); label(\"$C$\",(.951,.309),E); label(\"$D$\",(-.588,-.809),W); label(\"$E$\",(.588,-.809),S); </asy> <math>\\textbf{(A)}\\ (C, A, E, D, B) \\qquad \\textbf{(B)}\\ (C, A, D, E, B) \\qquad \\textbf{(C)}\\ (C, D, E, A, B) \\qquad \\textbf{(D)}\\ (C, E, A, D, B) \\qquad \\textbf{(E)}\\ (C, E, D, A, B) </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A small bottle of shampoo can hold <math>35</math> milliliters of shampoo, whereas a large bottle can hold <math>500</math> milliliters of shampoo. Jasmine wants to buy the minimum number of small bottles necessary to completely fill a large bottle. How many bottles must she buy? <math> \\textbf{(A)}\\ 11 \\qquad \\textbf{(B)}\\ 12 \\qquad \\textbf{(C)}\\ 13 \\qquad \\textbf{(D)}\\ 14 \\qquad \\textbf{(E)}\\ 15 </math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "At an elementary school, the students in third grade, fourth grade, and fifth grade run an average of <math>12</math>, <math>15</math>, and <math>10</math> minutes per day, respectively. There are twice as many third graders as fourth graders, and twice as many fourth graders as fifth graders. What is the average number of minutes run per day by these students? <math> \\textbf{(A)}\\ 12 \\qquad \\textbf{(B)}\\ \\frac{37}{3} \\qquad \\textbf{(C)}\\ \\frac{88}{7} \\qquad \\textbf{(D)}\\ 13 \\qquad \\textbf{(E)}\\ 14 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Last summer <math>30\\%</math> of the birds living on Town Lake were geese, <math>25\\%</math> were swans, <math>10\\%</math> were herons, and <math>35\\%</math> were ducks. What percent of the birds that were not swans were geese? <math> \\textbf{(A)}\\ 20 \\qquad \\textbf{(B)}\\ 30 \\qquad \\textbf{(C)}\\ 40 \\qquad \\textbf{(D)}\\ 50 \\qquad \\textbf{(E)}\\ 60</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "The players on a basketball team made some three-point shots, some two-point shots, and some one-point free throws. They scored as many points with two-point shots as with three-point shots. Their number of successful free throws was one more than their number of successful two-point shots. The team's total score was <math>61</math> points. How many free throws did they make? <math> \\textbf{(A)}\\ 13 \\qquad \\textbf{(B)}\\ 14 \\qquad \\textbf{(C)}\\ 15 \\qquad \\textbf{(D)}\\ 16 \\qquad \\textbf{(E)}\\ 17 </math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "A majority of the <math>30</math> students in Ms. Demeanor's class bought pencils at the school bookstore. Each of these students bought the same number of pencils, and this number was greater than <math>1</math>. The cost of a pencil in cents was greater than the number of pencils each student bought, and the total cost of all the pencils was <math>\\$17.71</math>. What was the cost of a pencil in cents? <math> \\textbf{(A)}\\ 7 \\qquad \\textbf{(B)}\\ 11 \\qquad \\textbf{(C)}\\ 17 \\qquad \\textbf{(D)}\\ 23 \\qquad \\textbf{(E)}\\ 77 </math>",
+      "answerType": "exact",
+      "answerKey": "~11",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "In the eight term sequence <math>A</math>, <math>B</math>, <math>C</math>, <math>D</math>, <math>E</math>, <math>F</math>, <math>G</math>, <math>H</math>, the value of <math>C</math> is <math>5</math> and the sum of any three consecutive terms is <math>30</math>. What is <math>A+H</math>? <math> \\textbf{(A)}\\ 17 \\qquad \\textbf{(B)}\\ 18 \\qquad \\textbf{(C)}\\ 25 \\qquad \\textbf{(D)}\\ 26 \\qquad \\textbf{(E)}\\ 43 </math>",
+      "answerType": "integer",
+      "answerKey": "25",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "At a twins and triplets convention, there were <math>9</math> sets of twins and <math>6</math> sets of triplets, all from different families. Each twin shook hands with all the twins except his/her siblings and with half the triplets. Each triplet shook hands with all the triplets except his/her siblings and with half the twins. How many handshakes took place? <math> \\textbf{(A)}\\ 324 \\qquad \\textbf{(B)}\\ 441 \\qquad \\textbf{(C)}\\ 630 \\qquad \\textbf{(D)}\\ 648 \\qquad \\textbf{(E)}\\ 882 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "A pair of standard <math>6</math>-sided dice is rolled once. The sum of the numbers rolled determines the diameter of a circle. What is the probability that the numerical value of the area of the circle is less than the numerical value of the circle's circumference? <math> \\textbf{(A)}\\ \\frac{1}{36} \\qquad \\textbf{(B)}\\ \\frac{1}{12} \\qquad \\textbf{(C)}\\ \\frac{1}{6} \\qquad \\textbf{(D)}\\ \\frac{1}{4} \\qquad \\textbf{(E)}\\ \\frac{5}{18} </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Circles <math>A, B,</math> and <math>C</math> each has radius <math>1</math>. Circles <math>A</math> and <math>B</math> share one point of tangency. Circle <math>C</math> has a point of tangency with the midpoint of <math>\\overline{AB}.</math> What is the area inside circle <math>C</math> but outside circle <math>A</math> and circle <math>B?</math> <asy> unitsize(1.1cm); defaultpen(linewidth(.8pt)); dotfactor=4; pair A=(0,0), B=(2,0), C=(1,-1); pair M=(1,0); pair D=(2,-1); dot (A); dot (B); dot (C); dot (D); dot (M); draw(Circle(A,1)); draw(Circle(B,1)); draw(Circle(C,1)); draw(A--B); draw(M--D); draw(D--B); label(\"$A$\",A,W); label(\"$B$\",B,E); label(\"$C$\",C,W); label(\"$M$\",M,NE); label(\"$D$\",D,SE); </asy> <math> \\textbf{(A)}\\ 3 - \\frac{\\pi}{2} \\qquad \\textbf{(B)}\\ \\frac{\\pi}{2} \\qquad \\textbf{(C)}\\ 2 \\qquad \\textbf{(D)}\\ \\frac{3\\pi}{4} \\qquad \\textbf{(E)}\\ 1+\\frac{\\pi}{2} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A power boat and a raft both left dock <math>A</math> on a river and headed downstream. The raft drifted at the speed of the river current. The power boat maintained a constant speed with respect to the river. The power boat reached dock <math>B</math> downriver, then immediately turned and traveled back upriver. It eventually met the raft on the river 9 hours after leaving dock <math>A.</math> How many hours did it take the power boat to go from <math>A</math> to <math>B</math>? <math> \\textbf{(A)}\\ 3 \\qquad \\textbf{(B)}\\ 3.5 \\qquad \\textbf{(C)}\\ 4 \\qquad \\textbf{(D)}\\ 4.5 \\qquad \\textbf{(E)}\\ 5 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Triangle <math>ABC</math> has side-lengths <math>AB = 12, BC = 24,</math> and <math>AC = 18.</math> The line through the incenter of <math>\\triangle ABC</math> parallel to <math>\\overline{BC}</math> intersects <math>\\overline{AB}</math> at <math>M</math> and <math>\\overline{AC}</math> at <math>N.</math> What is the perimeter of <math>\\triangle AMN?</math> <math> \\textbf{(A)}\\ 27 \\qquad \\textbf{(B)}\\ 30 \\qquad \\textbf{(C)}\\ 33 \\qquad \\textbf{(D)}\\ 36 \\qquad \\textbf{(E)}\\ 42 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Suppose <math>a</math> and <math>b</math> are single-digit positive integers chosen independently and at random. What is the probability that the point <math>(a,b)</math> lies above the parabola <math>y=ax^2-bx</math>? <math> \\textbf{(A)}\\ \\frac{11}{81} \\qquad \\textbf{(B)}\\ \\frac{13}{81} \\qquad \\textbf{(C)}\\ \\frac{5}{27} \\qquad \\textbf{(D)}\\ \\frac{17}{81} \\qquad \\textbf{(E)}\\ \\frac{19}{81} </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "The circular base of a hemisphere of radius <math>2</math> rests on the base of a square pyramid of height <math>6</math>. The hemisphere is tangent to the other four faces of the pyramid. What is the edge-length of the base of the pyramid? <math> \\textbf{(A)}\\ 3\\sqrt{2} \\qquad \\textbf{(B)}\\ \\frac{13}{3} \\qquad \\textbf{(C)}\\ 4\\sqrt{2} \\qquad \\textbf{(D)}\\ 6 \\qquad \\textbf{(E)}\\ \\frac{13}{2} </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Each vertex of convex pentagon <math>ABCDE</math> is to be assigned a color. There are <math>6</math> colors to choose from, and the ends of each diagonal must have different colors. How many different colorings are possible? <math> \\textbf{(A)}\\ 2520 \\qquad \\textbf{(B)}\\ 2880 \\qquad \\textbf{(C)}\\ 3120 \\qquad \\textbf{(D)}\\ 3250 \\qquad \\textbf{(E)}\\ 3750 </math>",
+      "answerType": "exact",
+      "answerKey": "\\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Circles with radii <math>1</math>, <math>2</math>, and <math>3</math> are mutually externally tangent. What is the area of the triangle determined by the points of tangency? <math> \\textbf{(A)}\\ \\frac{3}{5} \\qquad \\textbf{(B)}\\ \\frac{4}{5} \\qquad \\textbf{(C)}\\ 1 \\qquad \\textbf{(D)}\\ \\frac{6}{5} \\qquad \\textbf{(E)}\\ \\frac{4}{3} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Suppose that <math>\\left|x+y\\right|+\\left|x-y\\right|=2</math>. What is the maximum possible value of <math>x^2-6x+y^2</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\textbf{(A)}\\ 5 \\qquad \\textbf{(B)}\\ 6 \\qquad \\textbf{(C)}\\ 7 \\qquad \\textbf{(D)}\\ 8 \\qquad \\textbf{(E)}\\ 9 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "At a competition with <math>N</math> players, the number of players given elite status is equal to <math>2^{1+\\lfloor \\log_{2} (N-1) \\rfloor}-N</math>. Suppose that <math>19</math> players are given elite status. What is the sum of the two smallest possible values of <math>N</math>? <math> \\textbf{(A)}\\ 38 \\qquad \\textbf{(B)}\\ 90 \\qquad \\textbf{(C)}\\ 154 \\qquad \\textbf{(D)}\\ 406 \\qquad \\textbf{(E)}\\ 1024 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Let <math>f(x)=ax^2+bx+c</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are integers. Suppose that <math>f(1)=0</math>, <math>50<f(7)<60</math>, <math>70<f(8)<80</math>, <math>5000k<f(100)<5000(k+1)</math> for some integer <math>k</math>. What is <math>k</math>? <math> \\textbf{(A)}\\ 1 \\qquad \\textbf{(B)}\\ 2 \\qquad \\textbf{(C)}\\ 3 \\qquad \\textbf{(D)}\\ 4 \\qquad \\textbf{(E)}\\ 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Let <math>f_{1}(x)=\\sqrt{1-x}</math>, and for integers <math>n \\geq 2</math>, let <math>f_{n}(x)=f_{n-1}(\\sqrt{n^2 - x})</math>. If <math>N</math> is the largest value of <math>n</math> for which the domain of <math>f_{n}</math> is nonempty, the domain of <math>f_{N}</math> is <math>\\{c\\}</math>. What is <math>N+c</math>? <math> \\textbf{(A)}\\ -226 \\qquad \\textbf{(B)}\\ -144 \\qquad \\textbf{(C)}\\ -20 \\qquad \\textbf{(D)}\\ 20 \\qquad \\textbf{(E)}\\ 144 </math>",
+      "answerType": "integer",
+      "answerKey": "226",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Let <math>R</math> be a unit square region and <math>n \\geq 4</math> an integer. A point <math>X</math> in the interior of <math>R</math> is called ''n-ray'' partitional if there are <math>n</math> rays emanating from <math>X</math> that divide <math>R</math> into <math>n</math> triangles of equal area. How many points are <math>100</math>-ray partitional but not <math>60</math>-ray partitional? <math> \\textbf{(A)}\\ 1500 \\qquad \\textbf{(B)}\\ 1560 \\qquad \\textbf{(C)}\\ 2320 \\qquad \\textbf{(D)}\\ 2480 \\qquad \\textbf{(E)}\\ 2500 </math>",
+      "answerType": "integer",
+      "answerKey": "2320",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Let <math>f(z)= \\frac{z+a}{z+b}</math> and <math>g(z)=f(f(z))</math>, where <math>a</math> and <math>b</math> are complex numbers. Suppose that <math>\\left| a \\right| = 1</math> and <math>g(g(z))=z</math> for all <math>z</math> for which <math>g(g(z))</math> is defined. What is the difference between the largest and smallest possible values of <math>\\left| b \\right|</math>? <math> \\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ \\sqrt{2}-1 \\qquad \\textbf{(C)}\\ \\sqrt{3}-1 \\qquad \\textbf{(D)}\\ 1 \\qquad \\textbf{(E)}\\ 2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 3 -1",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Consider all quadrilaterals <math>ABCD</math> such that <math>AB=14</math>, <math>BC=9</math>, <math>CD=7</math>, and <math>DA=12</math>. What is the radius of the largest possible circle that fits inside or on the boundary of such a quadrilateral? <math> \\textbf{(A)}\\ \\sqrt{15} \\qquad \\textbf{(B)}\\ \\sqrt{21} \\qquad \\textbf{(C)}\\ 2\\sqrt{6} \\qquad \\textbf{(D)}\\ 5 \\qquad \\textbf{(E)}\\ 2\\sqrt{7} </math>",
+      "answerType": "exact",
+      "answerKey": "2\\sqrt6",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Triangle <math>ABC</math> has <math>\\angle BAC = 60^{\\circ}</math>, <math>\\angle CBA \\leq 90^{\\circ}</math>, <math>BC=1</math>, and <math>AC \\geq AB</math>. Let <math>H</math>, <math>I</math>, and <math>O</math> be the orthocenter, incenter, and circumcenter of <math>\\triangle ABC</math>, respectively. Assume that the area of pentagon <math>BCOIH</math> is the maximum possible. What is <math>\\angle CBA</math>? <math> \\textbf{(A)}\\ 60^{\\circ} \\qquad \\textbf{(B)}\\ 72^{\\circ} \\qquad \\textbf{(C)}\\ 75^{\\circ} \\qquad \\textbf{(D)}\\ 80^{\\circ} \\qquad \\textbf{(E)}\\ 90^{\\circ} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "2003-aime-i",
+  "title": "2003 AIME I",
+  "description": "Converted from 2003_AIME_I_questions.txt and 2003_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Given that <center><math> \\frac{((3!)!)!}{3!} = k \\cdot n!, </math></center> where <math> k </math> and <math> n </math> are [[positive integer]]s and <math> n </math> is as large as possible, find <math> k + n. </math>",
+      "answerType": "integer",
+      "answerKey": "839",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "One hundred [[concentric]] [[circle]]s with [[radius | radii]] <math> 1, 2, 3, \\dots, 100 </math> are drawn in a plane. The interior of the circle of radius <math>1</math> is colored red, and each region bounded by consecutive circles is colored either red or green, with no two adjacent regions the same color. The [[ratio]] of the total area of the green regions to the area of the circle of radius <math>100</math> can be expressed as <math> m/n, </math> where <math> m </math> and <math> n </math> are [[relatively prime]] [[positive integer]]s. Find <math> m + n. </math>",
+      "answerType": "integer",
+      "answerKey": "301",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Let the [[set]] <math> \\mathcal{S} = \\{8, 5, 1, 13, 34, 3, 21, 2\\}. </math> Susan makes a list as follows: for each two-element subset of <math> \\mathcal{S}, </math> she writes on her list the greater of the set's two elements. Find the sum of the numbers on the list.",
+      "answerType": "integer",
+      "answerKey": "484",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Given that <math> \\log_{10} \\sin x + \\log_{10} \\cos x = -1 </math> and that <math> \\log_{10} (\\sin x + \\cos x) = \\frac{1}{2} (\\log_{10} n - 1), </math> find <math> n. </math>",
+      "answerType": "integer",
+      "answerKey": "012",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Consider the [[set]] of [[point]]s that are inside or within one unit of a [[rectangular prism|rectangular parallelepiped]] (box) that measures <math>3</math> by <math>4</math> by <math>5</math> units. Given that the [[volume]] of this set is <math>\\frac{m + n\\pi}{p}, </math> where <math> m, n, </math> and <math> p </math> are positive [[integer]]s, and <math> n </math> and <math> p </math> are [[relatively prime]], find <math> m + n + p. </math>",
+      "answerType": "integer",
+      "answerKey": "505",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "The sum of the areas of all triangles whose vertices are also vertices of a <math>1</math> by <math>1</math> by <math>1</math> cube is <math> m + \\sqrt{n} + \\sqrt{p}, </math> where <math> m, n, </math> and <math> p </math> are [[integer]]s. Find <math> m + n + p. </math>",
+      "answerType": "integer",
+      "answerKey": "348",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "[[Point]] <imath> B </imath> is on <imath> \\overline{AC} </imath> with <imath> AB = 9 </imath> and <imath> BC = 21. </imath> Point <imath> D </imath> is not on <imath> \\overline{AC} </imath> so that <imath> AD = CD, </imath> and <imath> AD </imath> and <imath> BD </imath> are [[integer]]s. Let <imath> s </imath> be the sum of all possible [[perimeter]]s of <imath> \\triangle ACD</imath>. Find <imath> s. </imath>",
+      "answerType": "integer",
+      "answerKey": "380",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "In an [[increasing sequence]] of four positive integers, the first three terms form an [[arithmetic progression]], the last three terms form a [[geometric progression]], and the first and fourth terms differ by <math>30</math>. Find the sum of the four terms.",
+      "answerType": "integer",
+      "answerKey": "129",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "An [[integer]] between <math>1000</math> and <math>9999</math>, inclusive, is called ''balanced'' if the sum of its two leftmost [[digit]]s equals the sum of its two rightmost digits. How many balanced integers are there?",
+      "answerType": "integer",
+      "answerKey": "615",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "[[Triangle]] <imath> ABC </imath> is [[isosceles triangle | isosceles]] with <imath> AC = BC </imath> and <imath> \\angle ACB = 106^\\circ. </imath> Point <imath> M </imath> is in the interior of the triangle so that <imath> \\angle MAC = 7^\\circ </imath> and <imath> \\angle MCA = 23^\\circ. </imath> Find the number of degrees in <imath> \\angle CMB. </imath>",
+      "answerType": "integer",
+      "answerKey": "083",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "An [[angle]] <math> x </math> is chosen at random from the [[interval]] <math> 0^\\circ < x < 90^\\circ. </math> Let <math> p </math> be the probability that the numbers <math> \\sin^2 x, \\cos^2 x, </math> and <math> \\sin x \\cos x </math> are not the lengths of the sides of a triangle. Given that <math> p = d/n, </math> where <math> d </math> is the number of degrees in <math> \\text{arctan}</math> <math>m</math> and <math> m </math> and <math> n </math> are [[positive integer]]s with <math> m + n < 1000, </math> find <math> m + n. </math>",
+      "answerType": "integer",
+      "answerKey": "092",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "In [[convex]] [[quadrilateral]] <math> ABCD, \\angle A \\cong \\angle C, AB = CD = 180, </math> and <math> AD \\neq BC. </math> The [[perimeter]] of <math> ABCD </math> is <math> 640 </math>. Find <math> \\lfloor 1000 \\cos A \\rfloor. </math> (The notation <math> \\lfloor x \\rfloor </math> means the greatest [[integer]] that is less than or equal to <math> x. </math>)",
+      "answerType": "integer",
+      "answerKey": "777",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Let <math> N </math> be the number of positive integers that are less than or equal to <math>2003</math> and whose base-<math>2</math> representation has more <math>1</math>'s than <math>0</math>'s. Find the [[remainder]] when <math> N </math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "155",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The [[decimal]] representation of <math> m/n, </math> where <math> m </math> and <math> n </math> are [[relatively prime]] positive integers and <math> m < n, </math> contains the digits <math>2, 5</math>, and <math>1</math> consecutively and in that order. Find the smallest value of <math> n </math> for which this is possible.",
+      "answerType": "integer",
+      "answerKey": "127",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "In <math> \\triangle ABC, AB = 360, BC = 507, </math> and <math> CA = 780. </math> Let <math> M </math> be the [[midpoint]] of <math> \\overline{CA}, </math> and let <math> D </math> be the point on <math> \\overline{CA} </math> such that <math> \\overline{BD} </math> bisects angle <math> ABC. </math> Let <math> F </math> be the point on <math> \\overline{BC} </math> such that <math> \\overline{DF} \\perp \\overline{BD}. </math> Suppose that <math> \\overline{DF} </math> meets <math> \\overline{BM} </math> at <math> E. </math> The ratio <math> DE: EF </math> can be written in the form <math> m/n, </math> where <math> m </math> and <math> n </math> are relatively prime positive integers. Find <math> m + n. </math>",
+      "answerType": "integer",
+      "answerKey": "289",
+      "points": 1
+    }
+  ]
+}

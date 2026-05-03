@@ -1,0 +1,260 @@
+{
+  "slug": "2023-amc-8",
+  "title": "2023 AMC 8",
+  "description": "Converted from 2023_AMC_8_questions.txt and 2023_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "https://youtu.be/Pf93RGtKo1I?feature=shared",
+      "answerType": "exact",
+      "answerKey": "\\ 18",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A square piece of paper is folded twice into four equal quarters, as shown below, then cut along the dashed line. When unfolded, the paper will match which of the following figures? <asy> //Restored original diagram. Alter it if you would like, but it was made by TheMathGuyd, // Diagram by TheMathGuyd. I even put the lined texture :) // Thank you Kante314 for inspiring thicker arrows. They do look much better size(0,3cm); path sq = (-0.5,-0.5)--(0.5,-0.5)--(0.5,0.5)--(-0.5,0.5)--cycle; path rh = (-0.125,-0.125)--(0.5,-0.5)--(0.5,0.5)--(-0.125,0.875)--cycle; path sqA = (-0.5,-0.5)--(-0.25,-0.5)--(0,-0.25)--(0.25,-0.5)--(0.5,-0.5)--(0.5,-0.25)--(0.25,0)--(0.5,0.25)--(0.5,0.5)--(0.25,0.5)--(0,0.25)--(-0.25,0.5)--(-0.5,0.5)--(-0.5,0.25)--(-0.25,0)--(-0.5,-0.25)--cycle; path sqB = (-0.5,-0.5)--(-0.25,-0.5)--(0,-0.25)--(0.25,-0.5)--(0.5,-0.5)--(0.5,0.5)--(0.25,0.5)--(0,0.25)--(-0.25,0.5)--(-0.5,0.5)--cycle; path sqC = (-0.25,-0.25)--(0.25,-0.25)--(0.25,0.25)--(-0.25,0.25)--cycle; path trD = (-0.25,0)--(0.25,0)--(0,0.25)--cycle; path sqE = (-0.25,0)--(0,-0.25)--(0.25,0)--(0,0.25)--cycle; filldraw(sq,mediumgrey,black); draw((0.75,0)--(1.25,0),currentpen+1,Arrow(size=6)); //folding path sqside = (-0.5,-0.5)--(0.5,-0.5); path rhside = (-0.125,-0.125)--(0.5,-0.5); transform fld = shift((1.75,0))*scale(0.5); draw(fld*sq,black); int i; for(i=0; i<10; i=i+1) { draw(shift(0,0.05*i)*fld*sqside,deepblue); } path rhedge = (-0.125,-0.125)--(-0.125,0.8)--(-0.2,0.85)--cycle; filldraw(fld*rhedge,grey); path sqedge = (-0.5,-0.5)--(-0.5,0.4475)--(-0.575,0.45)--cycle; filldraw(fld*sqedge,grey); filldraw(fld*rh,white,black); int i; for(i=0; i<10; i=i+1) { draw(shift(0,0.05*i)*fld*rhside,deepblue); } draw((2.25,0)--(2.75,0),currentpen+1,Arrow(size=6)); //cutting transform cut = shift((3.25,0))*scale(0.5); draw(shift((-0.01,+0.01))*cut*sq); draw(cut*sq); filldraw(shift((0.01,-0.01))*cut*sq,white,black); int j; for(j=0; j<10; j=j+1) { draw(shift(0,0.05*j)*cut*sqside,deepblue); } draw(shift((0.01,-0.01))*cut*(0,-0.5)--shift((0.01,-0.01))*cut*(0.5,0),dashed); //Answers Below, but already Separated //filldraw(sqA,grey,black); //filldraw(sqB,grey,black); //filldraw(sq,grey,black); //filldraw(sqC,white,black); //filldraw(sq,grey,black); //filldraw(trD,white,black); //filldraw(sq,grey,black); //filldraw(sqE,white,black); </asy> <asy> // Diagram by TheMathGuyd. size(0,7.5cm); path sq = (-0.5,-0.5)--(0.5,-0.5)--(0.5,0.5)--(-0.5,0.5)--cycle; path rh = (-0.125,-0.125)--(0.5,-0.5)--(0.5,0.5)--(-0.125,0.875)--cycle; path sqA = (-0.5,-0.5)--(-0.25,-0.5)--(0,-0.25)--(0.25,-0.5)--(0.5,-0.5)--(0.5,-0.25)--(0.25,0)--(0.5,0.25)--(0.5,0.5)--(0.25,0.5)--(0,0.25)--(-0.25,0.5)--(-0.5,0.5)--(-0.5,0.25)--(-0.25,0)--(-0.5,-0.25)--cycle; path sqB = (-0.5,-0.5)--(-0.25,-0.5)--(0,-0.25)--(0.25,-0.5)--(0.5,-0.5)--(0.5,0.5)--(0.25,0.5)--(0,0.25)--(-0.25,0.5)--(-0.5,0.5)--cycle; path sqC = (-0.25,-0.25)--(0.25,-0.25)--(0.25,0.25)--(-0.25,0.25)--cycle; path trD = (-0.25,0)--(0.25,0)--(0,0.25)--cycle; path sqE = (-0.25,0)--(0,-0.25)--(0.25,0)--(0,0.25)--cycle; //ANSWERS real sh = 1.5; label(\"$\\textbf{(A)}$\",(-0.5,0.5),SW); label(\"$\\textbf{(B)}$\",shift((sh,0))*(-0.5,0.5),SW); label(\"$\\textbf{(C)}$\",shift((2sh,0))*(-0.5,0.5),SW); label(\"$\\textbf{(D)}$\",shift((0,-sh))*(-0.5,0.5),SW); label(\"$\\textbf{(E)}$\",shift((sh,-sh))*(-0.5,0.5),SW); filldraw(sqA,mediumgrey,black); filldraw(shift((sh,0))*sqB,mediumgrey,black); filldraw(shift((2*sh,0))*sq,mediumgrey,black); filldraw(shift((2*sh,0))*sqC,white,black); filldraw(shift((0,-sh))*sq,mediumgrey,black); filldraw(shift((0,-sh))*trD,white,black); filldraw(shift((sh,-sh))*sq,mediumgrey,black); filldraw(shift((sh,-sh))*sqE,white,black); </asy>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "https://youtu.be/Pf93RGtKo1I?feature=shared&t=109",
+      "answerType": "exact",
+      "answerKey": "\\ 23",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "https://youtu.be/Pf93RGtKo1I?feature=shared&t=190",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "https://youtu.be/Pf93RGtKo1I?feature=shared&t=280",
+      "answerType": "exact",
+      "answerKey": "\\ 1500",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "The digits <math>2,0,2,</math> and <math>3</math> are placed in the expression below, one digit per box. What is the maximum possible value of the expression? <asy> // Diagram by TheMathGuyd. I can compress this later size(5cm); real w=2.2; pair O,I,J; O=(0,0);I=(1,0);J=(0,1); path bsqb = O--I; path bsqr = I--I+J; path bsqt = I+J--J; path bsql = J--O; path lsqb = shift((1.2,0.75))*scale(0.5)*bsqb; path lsqr = shift((1.2,0.75))*scale(0.5)*bsqr; path lsqt = shift((1.2,0.75))*scale(0.5)*bsqt; path lsql = shift((1.2,0.75))*scale(0.5)*bsql; draw(bsqb,dashed); draw(bsqr,dashed); draw(bsqt,dashed); draw(bsql,dashed); draw(lsqb,dashed); draw(lsqr,dashed); draw(lsqt,dashed); draw(lsql,dashed); label(scale(3)*\"$\\times$\",(w,1/3)); draw(shift(1.3w,0)*bsqb,dashed); draw(shift(1.3w,0)*bsqr,dashed); draw(shift(1.3w,0)*bsqt,dashed); draw(shift(1.3w,0)*bsql,dashed); draw(shift(1.3w,0)*lsqb,dashed); draw(shift(1.3w,0)*lsqr,dashed); draw(shift(1.3w,0)*lsqt,dashed); draw(shift(1.3w,0)*lsql,dashed); </asy> <math>\\textbf{(A) }0 \\qquad \\textbf{(B) }8 \\qquad \\textbf{(C) }9 \\qquad \\textbf{(D) }16 \\qquad \\textbf{(E) }18</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "A rectangle, with sides parallel to the <imath>x</imath>-axis and <imath>y</imath>-axis, has opposite vertices located at <imath>(15, 3)</imath> and <imath>(16, 5)</imath>. A line is drawn through points <imath>A(0, 0)</imath> and <imath>B(3, 1)</imath>. Another line is drawn through points <imath>C(0, 10)</imath> and <imath>D(2, 9)</imath>. How many points on the rectangle lie on at least one of the two lines? <asy> usepackage(\"mathptmx\"); size(9cm); draw((0,-.5)--(0,11),EndArrow(size=.15cm)); draw((1,0)--(1,11),mediumgray); draw((2,0)--(2,11),mediumgray); draw((3,0)--(3,11),mediumgray); draw((4,0)--(4,11),mediumgray); draw((5,0)--(5,11),mediumgray); draw((6,0)--(6,11),mediumgray); draw((7,0)--(7,11),mediumgray); draw((8,0)--(8,11),mediumgray); draw((9,0)--(9,11),mediumgray); draw((10,0)--(10,11),mediumgray); draw((11,0)--(11,11),mediumgray); draw((12,0)--(12,11),mediumgray); draw((13,0)--(13,11),mediumgray); draw((14,0)--(14,11),mediumgray); draw((15,0)--(15,11),mediumgray); draw((16,0)--(16,11),mediumgray); draw((-.5,0)--(17,0),EndArrow(size=.15cm)); draw((0,1)--(17,1),mediumgray); draw((0,2)--(17,2),mediumgray); draw((0,3)--(17,3),mediumgray); draw((0,4)--(17,4),mediumgray); draw((0,5)--(17,5),mediumgray); draw((0,6)--(17,6),mediumgray); draw((0,7)--(17,7),mediumgray); draw((0,8)--(17,8),mediumgray); draw((0,9)--(17,9),mediumgray); draw((0,10)--(17,10),mediumgray); draw((-.13,1)--(.13,1)); draw((-.13,2)--(.13,2)); draw((-.13,3)--(.13,3)); draw((-.13,4)--(.13,4)); draw((-.13,5)--(.13,5)); draw((-.13,6)--(.13,6)); draw((-.13,7)--(.13,7)); draw((-.13,8)--(.13,8)); draw((-.13,9)--(.13,9)); draw((-.13,10)--(.13,10)); draw((1,-.13)--(1,.13)); draw((2,-.13)--(2,.13)); draw((3,-.13)--(3,.13)); draw((4,-.13)--(4,.13)); draw((5,-.13)--(5,.13)); draw((6,-.13)--(6,.13)); draw((7,-.13)--(7,.13)); draw((8,-.13)--(8,.13)); draw((9,-.13)--(9,.13)); draw((10,-.13)--(10,.13)); draw((11,-.13)--(11,.13)); draw((12,-.13)--(12,.13)); draw((13,-.13)--(13,.13)); draw((14,-.13)--(14,.13)); draw((15,-.13)--(15,.13)); draw((16,-.13)--(16,.13)); label(scale(.7)*\"$1$\", (1,-.13), S); label(scale(.7)*\"$2$\", (2,-.13), S); label(scale(.7)*\"$3$\", (3,-.13), S); label(scale(.7)*\"$4$\", (4,-.13), S); label(scale(.7)*\"$5$\", (5,-.13), S); label(scale(.7)*\"$6$\", (6,-.13), S); label(scale(.7)*\"$7$\", (7,-.13), S); label(scale(.7)*\"$8$\", (8,-.13), S); label(scale(.7)*\"$9$\", (9,-.13), S); label(scale(.7)*\"$10$\", (10,-.13), S); label(scale(.7)*\"$11$\", (11,-.13), S); label(scale(.7)*\"$12$\", (12,-.13), S); label(scale(.7)*\"$13$\", (13,-.13), S); label(scale(.7)*\"$14$\", (14,-.13), S); label(scale(.7)*\"$15$\", (15,-.13), S); label(scale(.7)*\"$16$\", (16,-.13), S); label(scale(.7)*\"$1$\", (-.13,1), W); label(scale(.7)*\"$2$\", (-.13,2), W); label(scale(.7)*\"$3$\", (-.13,3), W); label(scale(.7)*\"$4$\", (-.13,4), W); label(scale(.7)*\"$5$\", (-.13,5), W); label(scale(.7)*\"$6$\", (-.13,6), W); label(scale(.7)*\"$7$\", (-.13,7), W); label(scale(.7)*\"$8$\", (-.13,8), W); label(scale(.7)*\"$9$\", (-.13,9), W); label(scale(.7)*\"$10$\", (-.13,10), W); dot((0,0),linewidth(4)); label(scale(.75)*\"$A$\", (0,0), NE); dot((3,1),linewidth(4)); label(scale(.75)*\"$B$\", (3,1), NE); dot((0,10),linewidth(4)); label(scale(.75)*\"$C$\", (0,10), NE); dot((2,9),linewidth(4)); label(scale(.75)*\"$D$\", (2,9), NE); draw((15,3)--(16,3)--(16,5)--(15,5)--cycle,linewidth(1.125)); dot((15,3),linewidth(4)); dot((16,3),linewidth(4)); dot((16,5),linewidth(4)); dot((15,5),linewidth(4)); </asy> <imath>\\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ 1 \\qquad \\textbf{(C)}\\ 2 \\qquad \\textbf{(D)}\\ 3 \\qquad \\textbf{(E)}\\ 4</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Lola, Lolo, Tiya, and Tiyo participated in a ping pong tournament. Each player competed against each of the other three players exactly twice. Shown below are the win-loss records for the players. The numbers <math>1</math> and <math>0</math> represent a win or loss, respectively. For example, Lola won five matches and lost the fourth match. What was Tiyo’s win-loss record? <cmath>\\begin{tabular}{c | c} Player & Result \\\\ \\hline Lola & \\texttt{111011}\\\\ Lolo & \\texttt{101010}\\\\ Tiya & \\texttt{010100}\\\\ Tiyo & \\texttt{??????} \\end{tabular}</cmath> <math>\\textbf{(A)}\\ \\texttt{000101} \\qquad \\textbf{(B)}\\ \\texttt{001001} \\qquad \\textbf{(C)}\\ \\texttt{010000} \\qquad \\textbf{(D)}\\ \\texttt{010101} \\qquad \\textbf{(E)}\\ \\texttt{011000}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ tt 000101",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Problem text not found.",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "https://youtu.be/Pf93RGtKo1I?feature=shared&t=694",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "https://youtu.be/9WP3LQaMIVg?feature=shared&t=1",
+      "answerType": "exact",
+      "answerKey": "\\ 60 , 000",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "https://youtu.be/9WP3LQaMIVg?feature=shared&t=128",
+      "answerType": "exact",
+      "answerKey": "\\ \\dfrac 11 36",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "https://youtu.be/9WP3LQaMIVg?feature=shared&t=273",
+      "answerType": "exact",
+      "answerKey": "\\ 48",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Nicolas is planning to send a package to his friend Anton, who is a stamp collector. To pay for the postage, Nicolas would like to cover the package with a large number of stamps. Suppose he has a collection of <math>5</math>-cent, <math>10</math>-cent, and <math>25</math>-cent stamps, with exactly <math>20</math> of each type. What is the greatest number of stamps Nicolas can use to make exactly <math>\\$7.10</math> in postage? (Note: The amount <math>\\$7.10</math> corresponds to <math>7</math> dollars and <math>10</math> cents. One dollar is worth <math>100</math> cents.) <math>\\textbf{(A)}\\ 45 \\qquad \\textbf{(B)}\\ 46 \\qquad \\textbf{(C)}\\ 51 \\qquad \\textbf{(D)}\\ 54\\qquad \\textbf{(E)}\\ 55</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 55",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "https://youtu.be/9WP3LQaMIVg?feature=shared&t=510",
+      "answerType": "exact",
+      "answerKey": "\\ 4.2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "https://youtu.be/_huZfhiCBN8",
+      "answerType": "exact",
+      "answerKey": "~133 Ps, 134 Qs, 133 Rs",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "https://youtu.be/aIdo4HQL9O4 ==See Also== {{AMC8 box|year=2023|num-b=16|num-a=18}} {{MAA Notice}}",
+      "answerType": "exact",
+      "answerKey": "\\ 1",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Greta Grasshopper sits on a long line of lily pads in a pond. From any lily pad, Greta can jump <imath>5</imath> pads to the right or <imath>3</imath> pads to the left. What is the fewest number of jumps Greta must make to reach the lily pad located <imath>2023</imath> pads to the right of her starting position? <imath>\\textbf{(A) } 405 \\qquad \\textbf{(B) } 407 \\qquad \\textbf{(C) } 409 \\qquad \\textbf{(D) } 411 \\qquad \\textbf{(E) } 413</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 411",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "https://youtu.be/ycBjF78BAOs",
+      "answerType": "exact",
+      "answerKey": "5 : 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "https://youtu.be/Ku_c1YHnLt0?si=JYCI-Itkw4-cwVkp&t=4411",
+      "answerType": "exact",
+      "answerKey": "\\ 60",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "https://youtu.be/_TMRSjRWPis?feature=shared",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "https://youtu.be/Ku_c1YHnLt0?si=zUwGxHUKY_aFPNQi&t=4953 ==Video solution by CoolMathProblems: == https://youtu.be/KcA5CneWAbI",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Each square in a <math>3 \\times 3</math> grid is randomly filled with one of the <math>4</math> gray and white tiles shown below on the right. <asy> size(5.663333333cm); draw((0,0)--(3,0)--(3,3)--(0,3)--cycle,gray); draw((1,0)--(1,3)--(2,3)--(2,0),gray); draw((0,1)--(3,1)--(3,2)--(0,2),gray); fill((6,.33)--(7,.33)--(7,1.33)--cycle,mediumgray); draw((6,.33)--(7,.33)--(7,1.33)--(6,1.33)--cycle,gray); fill((6,1.67)--(7,2.67)--(6,2.67)--cycle,mediumgray); draw((6,1.67)--(7,1.67)--(7,2.67)--(6,2.67)--cycle,gray); fill((7.33,.33)--(8.33,.33)--(7.33,1.33)--cycle,mediumgray); draw((7.33,.33)--(8.33,.33)--(8.33,1.33)--(7.33,1.33)--cycle,gray); fill((8.33,1.67)--(8.33,2.67)--(7.33,2.67)--cycle,mediumgray); draw((7.33,1.67)--(8.33,1.67)--(8.33,2.67)--(7.33,2.67)--cycle,gray); </asy> What is the probability that the tiling will contain a large gray diamond in one of the smaller <math>2 \\times 2</math> grids? Below is an example of such tiling. <asy> size(2cm); fill((1,0)--(0,1)--(0,2)--(1,1)--cycle,mediumgray); fill((2,0)--(3,1)--(2,2)--(1,1)--cycle,mediumgray); fill((1,2)--(1,3)--(0,3)--cycle,mediumgray); fill((1,2)--(2,2)--(2,3)--cycle,mediumgray); fill((3,2)--(3,3)--(2,3)--cycle,mediumgray); draw((0,0)--(3,0)--(3,3)--(0,3)--cycle,gray); draw((1,0)--(1,3)--(2,3)--(2,0),gray); draw((0,1)--(3,1)--(3,2)--(0,2),gray); </asy> <math>\\textbf{(A) } \\frac{1}{1024} \\qquad \\textbf{(B) } \\frac{1}{256} \\qquad \\textbf{(C) } \\frac{1}{64} \\qquad \\textbf{(D) } \\frac{1}{16} \\qquad \\textbf{(E) } \\frac{1}{4}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 64",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Isosceles <imath>\\triangle ABC</imath> has equal side lengths <imath>AB</imath> and <imath>BC</imath>. In the figure below, segments are drawn parallel to <imath>\\overline{AC}</imath> so that the shaded portions of <imath>\\triangle ABC</imath> have the same area. The heights of the two unshaded portions are 11 and 5 units, respectively. What is the height of <imath>h</imath> of <imath>\\triangle ABC</imath>? (Diagram not drawn to scale.) <asy> //Diagram by TheMathGuyd size(12cm); real h = 2.5; // height real g=4; //c2c space real s = 0.65; //Xcord of Hline real adj = 0.08; //adjust line diffs pair A,B,C; B=(0,h); C=(1,0); A=-conj(C); pair PONE=(s,h*(1-s)); //Endpoint of Hline ONE pair PTWO=(s+adj,h*(1-s-adj)); //Endpoint of Hline ONE path LONE=PONE--(-conj(PONE)); //Hline ONE path LTWO=PTWO--(-conj(PTWO)); path T=A--B--C--cycle; //Triangle fill (shift(g,0)*(LTWO--B--cycle),mediumgrey); fill (LONE--A--C--cycle,mediumgrey); draw(LONE); draw(T); label(\"$A$\",A,SW); label(\"$B$\",B,N); label(\"$C$\",C,SE); draw(shift(g,0)*LTWO); draw(shift(g,0)*T); label(\"$A$\",shift(g,0)*A,SW); label(\"$B$\",shift(g,0)*B,N); label(\"$C$\",shift(g,0)*C,SE); draw(B--shift(g,0)*B,dashed); draw(C--shift(g,0)*A,dashed); draw((g/2,0)--(g/2,h),dashed); draw((0,h*(1-s))--B,dashed); draw((g,h*(1-s-adj))--(g,0),dashed); label(\"$5$\", midpoint((g,h*(1-s-adj))--(g,0)),UnFill); label(\"$h$\", midpoint((g/2,0)--(g/2,h)),UnFill); label(\"$11$\", midpoint((0,h*(1-s))--B),UnFill); </asy> <imath>\\textbf{(A) } 14.6 \\qquad \\textbf{(B) } 14.8 \\qquad \\textbf{(C) } 15 \\qquad \\textbf{(D) } 15.2 \\qquad \\textbf{(E) } 15.4</imath>",
+      "answerType": "decimal",
+      "answerKey": "14.6",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Fifteen integers <imath>a_1, a_2, a_3, \\dots, a_{15}</imath> are arranged in order on a number line. The integers are equally spaced and have the property that <cmath>1 \\le a_1 \\le 10, \\thickspace 13 \\le a_2 \\le 20, \\thickspace \\text{ and } \\thickspace 241 \\le a_{15}\\le 250.</cmath> What is the sum of digits of <imath>a_{14}?</imath> <imath>\\textbf{(A)}\\ 8 \\qquad \\textbf{(B)}\\ 9 \\qquad \\textbf{(C)}\\ 10 \\qquad \\textbf{(D)}\\ 11 \\qquad \\textbf{(E)}\\ 12</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    }
+  ]
+}

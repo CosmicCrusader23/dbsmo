@@ -1,0 +1,260 @@
+{
+  "slug": "2005-amc-10a",
+  "title": "2005 AMC 10A",
+  "description": "Converted from 2005_AMC_10A_questions.txt and 2005_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "While eating out, Mike and Joe each tipped their server <math>\\$2</math>. Mike tipped <math>10\\%</math> of his bill and Joe tipped <math>20\\%</math> of his bill. What was the difference, in dollars, between their bills? <math> \\textbf{(A) } 2\\qquad \\textbf{(B) } 4\\qquad \\textbf{(C) } 5\\qquad \\textbf{(D) } 10\\qquad \\textbf{(E) } 20 </math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "For each pair of real numbers <math>a \\neq b</math>, define the operation <math>\\star</math> as <cmath>(a \\star b) = \\frac{a+b}{a-b}.</cmath> What is the value of <math> ((1 \\star 2) \\star 3)</math>? <math> \\textbf{(A) } -\\frac{2}{3}\\qquad \\textbf{(B) } -\\frac{1}{5}\\qquad \\textbf{(C) } 0\\qquad \\textbf{(D) } \\frac{1}{2}\\qquad \\textbf{(E) } \\text{This value is not defined.} </math>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "The equations <math>2x + 7 = 3</math> and <math>bx - 10 = -2</math> have the same solution <math>x</math>. What is the value of <math>b</math>? <math> \\textbf{(A) } -8 \\qquad \\textbf{(B) } -4 \\qquad \\textbf{(C) } -2 \\qquad \\textbf{(D) } 4 \\qquad \\textbf{(E) } 8 </math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "A rectangle with a diagonal of length <math>x</math> is twice as long as it is wide. What is the area of the rectangle? <math> \\textbf{(A) } \\frac{1}{4}x^2\\qquad \\textbf{(B) } \\frac{2}{5}x^2\\qquad \\textbf{(C) } \\frac{1}{2}x^2\\qquad \\textbf{(D) } x^2\\qquad \\textbf{(E) } \\frac{3}{2}x^2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 5 x^2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "A store normally sells windows at <math>\\$100</math> each. This week the store is offering one free window for each purchase of four. Dave needs seven windows and Doug needs eight windows. How many dollars will they save if they purchase the windows together rather than separately? <math> \\textbf{(A) } 100\\qquad \\textbf{(B) } 200\\qquad \\textbf{(C) } 300\\qquad \\textbf{(D) } 400\\qquad \\textbf{(E) } 500 </math>",
+      "answerType": "integer",
+      "answerKey": "100",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "The average (mean) of <math>20</math> numbers is <math>30</math>, and the average of <math>30</math> other numbers is <math>20</math>. What is the average of all <math>50</math> numbers? <math> \\textbf{(A) } 23\\qquad \\textbf{(B) } 24\\qquad \\textbf{(C) } 25\\qquad \\textbf{(D) } 26\\qquad \\textbf{(E) } 27 </math>",
+      "answerType": "integer",
+      "answerKey": "24",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Josh and Mike live <math>13</math> miles apart. Yesterday Josh started to ride his bicycle toward Mike's house. A little later Mike started to ride his bicycle toward Josh's house. When they met, Josh had ridden for twice the length of time as Mike and at four-fifths of Mike's rate. How many miles had Mike ridden when they met? <math> \\textbf{(A) } 4\\qquad \\textbf{(B) } 5\\qquad \\textbf{(C) } 6\\qquad \\textbf{(D) } 7\\qquad \\textbf{(E) } 8 </math>",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "In the figure, the length of side <math>AB</math> of square <math>ABCD</math> is <math>\\sqrt{50}</math>, <math>E</math> is between <math>B</math> and <math>H</math>, and <math>BE = 1</math>. What is the area of the inner square <math>EFGH</math>? <asy> unitsize(4cm); defaultpen(linewidth(.8pt)+fontsize(10pt)); pair D=(0,0), C=(1,0), B=(1,1), A=(0,1); pair F=intersectionpoints(Circle(D,2/sqrt(5)),Circle(A,1))[0]; pair G=foot(A,D,F), H=foot(B,A,G), E=foot(C,B,H); draw(A--B--C--D--cycle); draw(D--F); draw(C--E); draw(B--H); draw(A--G); label(\"$A$\",A,NW); label(\"$B$\",B,NE); label(\"$C$\",C,SE); label(\"$D$\",D,SW); label(\"$E$\",E,NNW); label(\"$F$\",F,ENE); label(\"$G$\",G,SSE); label(\"$H$\",H,WSW); </asy> <math> \\textbf{(A) } 25\\qquad\\textbf{(B) } 32\\qquad\\textbf{(C) } 36\\qquad\\textbf{(D) } 40\\qquad\\textbf{(E) } 42 </math>",
+      "answerType": "integer",
+      "answerKey": "36",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Three tiles are marked <math>X</math> and two other tiles are marked <math>O</math>. The five tiles are randomly arranged in a row. What is the probability that the arrangement reads <math>XOXOX</math>? <math> \\textbf{(A) } \\frac{1}{12}\\qquad \\textbf{(B) } \\frac{1}{10}\\qquad \\textbf{(C) } \\frac{1}{6}\\qquad \\textbf{(D) } \\frac{1}{4}\\qquad \\textbf{(E) } \\frac{1}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "There are two values of <math>a</math> for which the equation <math>4x^2 + ax + 8x + 9 = 0</math> has only one solution for <math>x</math>. What is the sum of those values of <math>a</math>? <math> \\textbf{(A) } -16 \\qquad\\textbf{(B) } -8 \\qquad\\textbf{(C) } 0 \\qquad\\textbf{(D) } 8 \\qquad\\textbf{(E) } 20 </math>",
+      "answerType": "integer",
+      "answerKey": "16",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A wooden cube <math>n</math> units on a side is painted red on all six faces and then cut into <math>n^3</math> unit cubes. Exactly one-fourth of the total number of faces of the unit cubes are red. What is <math>n</math>? <math> \\textbf{(A) } 3\\qquad \\textbf{(B) } 4\\qquad \\textbf{(C) } 5\\qquad \\textbf{(D) } 6\\qquad \\textbf{(E) } 7 </math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The figure shown is called a ''trefoil'' and is constructed by drawing circular sectors about sides of the congruent equilateral triangles. What is the area of a trefoil whose horizontal base has length <math>2</math>? <asy> unitsize(1.5cm); defaultpen(linewidth(.8pt)+fontsize(12pt)); pair O=(0,0), A=dir(0), B=dir(60), C=dir(120), D=dir(180); pair E=B+C; draw(D--E--B--O--C--B--A,linetype(\"4 4\")); draw(Arc(O,1,0,60),linewidth(1.2pt)); draw(Arc(O,1,120,180),linewidth(1.2pt)); draw(Arc(C,1,0,60),linewidth(1.2pt)); draw(Arc(B,1,120,180),linewidth(1.2pt)); draw(A--D,linewidth(1.2pt)); draw(O--dir(40),EndArrow(HookHead,4)); draw(O--dir(140),EndArrow(HookHead,4)); draw(C--C+dir(40),EndArrow(HookHead,4)); draw(B--B+dir(140),EndArrow(HookHead,4)); label(\"2\",O,S); draw((0.1,-0.12)--(1,-0.12),EndArrow(HookHead,4),EndBar); draw((-0.1,-0.12)--(-1,-0.12),EndArrow(HookHead,4),EndBar); </asy> <math> \\textbf{(A) }\\frac{1}{3}\\pi+\\frac{\\sqrt{3}}{2}\\qquad \\textbf{(B) } \\frac{2}{3}\\pi\\qquad \\textbf{(C) } \\frac{2}{3}\\pi+\\frac{\\sqrt{3}}{4}\\qquad \\textbf{(D) } \\frac{2}{3}\\pi+\\frac{\\sqrt{3}}{3}\\qquad \\textbf{(E) } \\frac{2}{3}\\pi+\\frac{\\sqrt{3}}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 3 \\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "How many positive integers <math>n</math> satisfy the following condition: <cmath>\\left(130n\\right)^{50} > n^{100} > 2^{200} \\ \\text{?}</cmath> <math> \\textbf{(A) } 0\\qquad \\textbf{(B) } 7\\qquad \\textbf{(C) } 12\\qquad \\textbf{(D) } 65\\qquad \\textbf{(E) } 125 </math>",
+      "answerType": "integer",
+      "answerKey": "125",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "How many three-digit numbers satisfy the property that the middle digit is the average of the first and the last digits? <math> \\textbf{(A) } 41\\qquad \\textbf{(B) } 42\\qquad \\textbf{(C) } 43\\qquad \\textbf{(D) } 44\\qquad \\textbf{(E) } 45 </math>",
+      "answerType": "integer",
+      "answerKey": "45",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "How many positive cubes divide <math>3! \\cdot 5! \\cdot 7!</math>? <math> \\textbf{(A) } 2\\qquad \\textbf{(B) } 3\\qquad \\textbf{(C) } 4\\qquad \\textbf{(D) } 5\\qquad \\textbf{(E) } 6 </math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "The sum of the digits of a two-digit number is subtracted from the number. The units digit of the result is <math>6</math>. How many two-digit numbers have this property? <math> \\textbf{(A) } 5\\qquad \\textbf{(B) } 7\\qquad \\textbf{(C) } 9\\qquad \\textbf{(D) } 10\\qquad \\textbf{(E) } 19 </math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "In the five-sided star shown, the letters <math>A</math>, <math>B</math>, <math>C</math>, <math>D</math>, and <math>E</math> are replaced by the numbers <math>3</math>, <math>5</math>, <math>6</math>, <math>7</math>, and <math>9</math>, although not necessarily in this order. The sums of the numbers at the ends of the line segments <math>\\overline{AB}</math>, <math>\\overline{BC}</math>, <math>\\overline{CD}</math>, <math>\\overline{DE}</math>, and <math>\\overline{EA}</math> form an arithmetic sequence, although not necessarily in this order. What is the middle term of the arithmetic sequence? <asy> size(150); defaultpen(linewidth(0.8)); string[] strng = {'A','D','B','E','C'}; pair A=dir(90),B=dir(306),C=dir(162),D=dir(18),E=dir(234); draw(A--B--C--D--E--cycle); for(int i=0;i<=4;i=i+1) { path circ=circle(dir(90-72*i),0.125); unfill(circ); draw(circ); label(\"$\"+strng[i]+\"$\",dir(90-72*i)); } </asy> <math> \\textbf{(A) } 9\\qquad \\textbf{(B) } 10\\qquad \\textbf{(C) } 11\\qquad \\textbf{(D) } 12\\qquad \\textbf{(E) } 13 </math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Team <math>A</math> and team <math>B</math> play a series. The first team to win three games wins the series. Each team is equally likely to win each game, there are no ties, and the outcomes of the individual games are independent. If team <math>B</math> wins the second game and team <math>A</math> wins the series, what is the probability that team <math>B</math> wins the first game? <math> \\textbf{(A) } \\frac{1}{5}\\qquad \\textbf{(B) } \\frac{1}{4}\\qquad \\textbf{(C) } \\frac{1}{3}\\qquad \\textbf{(D) } \\frac{1}{2}\\qquad \\textbf{(E) } \\frac{2}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Three one-inch squares are placed with their bases on a line. The center square is lifted out and rotated <math>45^{\\circ}</math>, as shown. Then it is centered and lowered into its original location until it touches both of the adjoining squares. How many inches is the point <math>B</math> from the line on which the bases of the original squares were placed? <asy> unitsize(1inch); defaultpen(linewidth(.8pt)+fontsize(8pt)); draw((0,0)--((1/3) + 3*(1/2),0)); fill(((1/6) + (1/2),0)--((1/6) + (1/2),(1/2))--((1/6) + 1,(1/2))--((1/6) + 1,0)--cycle, rgb(.7,.7,.7)); draw(((1/6),0)--((1/6) + (1/2),0)--((1/6) + (1/2),(1/2))--((1/6),(1/2))--cycle); draw(((1/6) + (1/2),0)--((1/6) + (1/2),(1/2))--((1/6) + 1,(1/2))--((1/6) + 1,0)--cycle); draw(((1/6) + 1,0)--((1/6) + 1,(1/2))--((1/6) + (3/2),(1/2))--((1/6) + (3/2),0)--cycle); draw((2,0)--(2 + (1/3) + (3/2),0)); draw(((2/3) + (3/2),0)--((2/3) + 2,0)--((2/3) + 2,(1/2))--((2/3) + (3/2),(1/2))--cycle); draw(((2/3) + (5/2),0)--((2/3) + (5/2),(1/2))--((2/3) + 3,(1/2))--((2/3) + 3,0)--cycle); label(\"$B$\",((1/6) + (1/2),(1/2)),NW); label(\"$B$\",((2/3) + 2 + (1/4),(29/30)),NNE); draw(((1/6) + (1/2),(1/2)+0.05)..(1,.8)..((2/3) + 2 + (1/4)-.05,(29/30)),EndArrow(HookHead,3)); fill(((2/3) + 2 + (1/4),(1/4))--((2/3) + (5/2) + (1/10),(1/2) + (1/9))--((2/3) + 2 + (1/4),(29/30))--((2/3) + 2 - (1/10),(1/2) + (1/9))--cycle, rgb(.7,.7,.7)); draw(((2/3) + 2 + (1/4),(1/4))--((2/3) + (5/2) + (1/10),(1/2) + (1/9))--((2/3) + 2 + (1/4),(29/30))--((2/3) + 2 - (1/10),(1/2) + (1/9))--cycle);</asy> <math> \\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ \\sqrt{2}\\qquad\\textbf{(C)}\\ \\frac{3}{2}\\qquad\\textbf{(D)}\\ \\sqrt{2}+\\frac{1}{2}\\qquad\\textbf{(E)}\\ 2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 2 +\\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "An equiangular octagon has four sides of length <math>1</math> and four sides of length <math>\\sqrt{2}/2</math>, arranged so that no two consecutive sides have the same length. What is the area of the octagon? <math> \\textbf{(A) } \\frac{7}{2}\\qquad \\textbf{(B) } \\frac{7\\sqrt{2}}{2}\\qquad \\textbf{(C) } \\frac{5+4\\sqrt{2}}{2}\\qquad \\textbf{(D) } \\frac{4+5\\sqrt{2}}{2}\\qquad \\textbf{(E) } 7 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "For how many positive integers <math>n</math> does <math>1+2+\\dotsb+n</math> evenly divide <math>6n</math>? <math> \\textbf{(A) } 3\\qquad \\textbf{(B) } 5\\qquad \\textbf{(C) } 7\\qquad \\textbf{(D) } 9\\qquad \\textbf{(E) } 11 </math>",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Let <math>S</math> be the set of the <math>2005</math> smallest positive multiples of <math>4</math>, and let <math>T</math> be the set of the <math>2005</math> smallest positive multiples of <math>6</math>. How many elements are common to <math>S</math> and <math>T</math>? <math> \\textbf{(A) } 166\\qquad \\textbf{(B) } 333\\qquad \\textbf{(C) } 500\\qquad \\textbf{(D) } 668\\qquad \\textbf{(E) } 1001 </math>",
+      "answerType": "integer",
+      "answerKey": "668",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Let <math>\\overline{AB}</math> be a diameter of a circle and <math>C</math> be a point on <math>\\overline{AB}</math> with <math>2 \\cdot AC = BC</math>. Let <math>D</math> and <math>E</math> be points on the circle such that <math>\\overline{DC} \\perp \\overline{AB}</math> and <math>\\overline{DE}</math> is a second diameter. What is the ratio of the area of <math>\\triangle DCE</math> to the area of <math>\\triangle ABD</math>? <asy> unitsize(2.5cm); defaultpen(fontsize(10pt)+linewidth(.8pt)); dotfactor=3; pair O=(0,0), C=(-1/3,0), B=(1,0), A=(-1,0); pair D=dir(aCos(C.x)), E=(-D.x,-D.y); draw(A--B--D--cycle); draw(D--E--C); draw(unitcircle,white); drawline(D,C); dot(O); clip(unitcircle); draw(unitcircle); label(\"$E$\",E,SSE); label(\"$B$\",B,E); label(\"$A$\",A,W); label(\"$D$\",D,NNW); label(\"$C$\",C,SW); draw(rightanglemark(D,C,B,2));</asy> <math> \\textbf{(A) } \\frac{1}{6}\\qquad \\textbf{(B) } \\frac{1}{4}\\qquad \\textbf{(C) } \\frac{1}{3}\\qquad \\textbf{(D) } \\frac{1}{2}\\qquad \\textbf{(E) } \\frac{2}{3} </math>",
+      "answerType": "fraction",
+      "answerKey": "1/3",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "This solution is extremely tedious and hard to understand. Therefore, I recommend solution 4 down below. View at your own cost!! If <imath> P(n) = \\sqrt{n} </imath>, then <imath> n = p_{1}^{2} </imath>, where <imath> p_{1} </imath> is a [[prime number]]. . If <imath> P(n+48) = \\sqrt{n+48} </imath>, then <imath> n+48 = p_{2}^{2} </imath>, where <imath> p_{2} </imath> is a different prime number. So: <imath> p_{2}^{2} = n+48 </imath> <imath> p_{1}^{2} = n </imath> <imath> p_{2}^{2} - p_{1}^{2} = 48 </imath> <imath> (p_{2}+p_{1})(p_{2}-p_{1})=48 </imath> Since <imath> p_{1} > 0 </imath> : <imath> (p_{2}+p_{1}) > (p_{2}-p_{1}) </imath>. Looking at pairs of [[divisor]]s of <imath>48</imath>, we have several possibilities to solve for <imath>p_{1}</imath> and <imath>p_{2}</imath>: (Note: you can skip several cases below by observing that <imath>p_1+p_2</imath> and <imath>p_1-p_{2}</imath> must be even, and <imath>p_1+p_2 \\neq p_1-p_2 \\pmod 4 </imath>.) <imath> (p_{2}+p_{1}) = 48 </imath> <imath> (p_{2}-p_{1}) = 1 </imath> (impossible) <imath> p_{1} = \\frac{47}{2} </imath> <imath> p_{2} = \\frac{49}{2} </imath> <imath> (p_{2}+p_{1}) = 24 </imath> <imath> (p_{2}-p_{1}) = 2 </imath> <imath> p_{1} = 11 </imath> <imath> p_{2} = 13 </imath> (Valid!) <imath> (p_{2}+p_{1}) = 16 </imath> <imath> (p_{2}-p_{1}) = 3 </imath> (impossible) <imath> p_{1} = \\frac{13}{2} </imath> <imath> p_{2} = \\frac{19}{2} </imath> <imath> (p_{2}+p_{1}) = 12 </imath> <imath> (p_{2}-p_{1}) = 4 </imath> (impossible) <imath> p_{1} = 4 </imath> <imath> p_{2} = 8 </imath> <imath> (p_{2}+p_{1}) = 8 </imath> <imath> (p_{2}-p_{1}) = 6 </imath> <imath> p_{1} = 1 </imath> (not prime) <imath> p_{2} = 7 </imath> The only solution <imath> (p_{1} , p_{2}) </imath> where both numbers are primes is <imath>(11,13)</imath>. Therefore the number of [[positive integer]]s <imath>n</imath> that satisfy both statements is <imath>\\boxed{\\textbf{(B) }1}.</imath>",
+      "answerType": "exact",
+      "answerKey": "~1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "In <math>\\triangle ABC</math> we have <math>AB = 25</math>, <math>BC = 39</math>, and <math>AC = 42</math>. Points <math>D</math> and <math>E</math> are on <math>\\overline{AB}</math> and <math>\\overline{AC}</math> respectively, with <math>AD = 19</math> and <math>AE = 14</math>. What is the ratio of the area of triangle <math>ADE</math> to the area of the quadrilateral <math>BCED</math>? <math> \\textbf{(A) } \\frac{266}{1521}\\qquad \\textbf{(B) } \\frac{19}{75}\\qquad \\textbf{(C) } \\frac{1}{3}\\qquad \\textbf{(D) } \\frac{19}{56}\\qquad \\textbf{(E) } 1 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 19 56",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    }
+  ]
+}

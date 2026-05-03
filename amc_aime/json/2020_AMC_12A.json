@@ -1,0 +1,141 @@
+{
+  "slug": "2020-amc-12a",
+  "title": "2020 AMC 12A",
+  "description": "Converted from 2020_AMC_12A_questions.txt and 2020_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Carlos took <math>70\\%</math> of a whole pie. Maria took one third of the remainder. What portion of the whole pie was left? <math>\\textbf{(A)}\\ 10\\%\\qquad\\textbf{(B)}\\ 15\\%\\qquad\\textbf{(C)}\\ 20\\%\\qquad\\textbf{(D)}\\ 30\\%\\qquad\\textbf{(E)}\\ 35\\%</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 20\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "The acronym AMC is shown in the rectangular grid below with grid lines spaced <math>1</math> unit apart. In units, what is the sum of the lengths of the line segments that form the acronym AMC<math>?</math> <asy> import olympiad; unitsize(25); for (int i = 0; i < 3; ++i) { for (int j = 0; j < 9; ++j) { pair A = (j,i); } } for (int i = 0; i < 3; ++i) { for (int j = 0; j < 9; ++j) { if (j != 8) { draw((j,i)--(j+1,i), dashed); } if (i != 2) { draw((j,i)--(j,i+1), dashed); } } } draw((0,0)--(2,2),linewidth(2)); draw((2,0)--(2,2),linewidth(2)); draw((1,1)--(2,1),linewidth(2)); draw((3,0)--(3,2),linewidth(2)); draw((5,0)--(5,2),linewidth(2)); draw((4,1)--(3,2),linewidth(2)); draw((4,1)--(5,2),linewidth(2)); draw((6,0)--(8,0),linewidth(2)); draw((6,2)--(8,2),linewidth(2)); draw((6,0)--(6,2),linewidth(2)); </asy> <math>\\textbf{(A) } 17 \\qquad \\textbf{(B) } 15 + 2\\sqrt{2} \\qquad \\textbf{(C) } 13 + 4\\sqrt{2} \\qquad \\textbf{(D) } 11 + 6\\sqrt{2} \\qquad \\textbf{(E) } 21</math>",
+      "answerType": "exact",
+      "answerKey": "13 + 4\\sqrt 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "In the plane figure shown below, <math>3</math> of the unit squares have been shaded. What is the least number of additional unit squares that must be shaded so that the resulting figure has two lines of symmetry? <asy> import olympiad; unitsize(25); filldraw((1,3)--(1,4)--(2,4)--(2,3)--cycle, gray(0.7)); filldraw((2,1)--(2,2)--(3,2)--(3,1)--cycle, gray(0.7)); filldraw((4,0)--(5,0)--(5,1)--(4,1)--cycle, gray(0.7)); for (int i = 0; i < 5; ++i) { for (int j = 0; j < 6; ++j) { pair A = (j,i); } } for (int i = 0; i < 5; ++i) { for (int j = 0; j < 6; ++j) { if (j != 5) { draw((j,i)--(j+1,i)); } if (i != 4) { draw((j,i)--(j,i+1)); } } } </asy> <math>\\textbf{(A) } 4 \\qquad \\textbf{(B) } 5 \\qquad \\textbf{(C) } 6 \\qquad \\textbf{(D) } 7 \\qquad \\textbf{(E) } 8</math>",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "How many solutions does the equation <math>\\tan(2x)=\\cos(\\tfrac{x}{2})</math> have on the interval <math>[0,2\\pi]?</math> <math> \\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "There is a unique positive integer <math>n</math> such that<cmath>\\log_2{(\\log_{16}{n})} = \\log_4{(\\log_4{n})}.</cmath>What is the sum of the digits of <math>n?</math> <math>\\textbf{(A) } 4 \\qquad \\textbf{(B) } 7 \\qquad \\textbf{(C) } 8 \\qquad \\textbf{(D) } 11 \\qquad \\textbf{(E) } 13</math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Line <math>l</math> in the coordinate plane has equation <math>3x-5y+40=0</math>. This line is rotated <math>45^{\\circ}</math> counterclockwise about the point <math>(20,20)</math> to obtain line <math>k</math>. What is the <math>x</math>-coordinate of the <math>x</math>-intercept of line <math>k?</math> <math>\\textbf{(A) } 10 \\qquad \\textbf{(B) } 15 \\qquad \\textbf{(C) } 20 \\qquad \\textbf{(D) } 25 \\qquad \\textbf{(E) } 30</math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "There are integers <math>a, b,</math> and <math>c,</math> each greater than <math>1,</math> such that <cmath>\\sqrt[a]{N\\sqrt[b]{N\\sqrt[c]{N}}} = \\sqrt[36]{N^{25}}</cmath> for all <math>N \\neq 1</math>. What is <math>b</math>? <math>\\textbf{(A) } 2 \\qquad \\textbf{(B) } 3 \\qquad \\textbf{(C) } 4 \\qquad \\textbf{(D) } 5 \\qquad \\textbf{(E) } 6</math>",
+      "answerType": "exact",
+      "answerKey": "B) 3",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Regular octagon <math>ABCDEFGH</math> has area <math>n</math>. Let <math>m</math> be the area of quadrilateral <math>ACEG</math>. What is <math>\\tfrac{m}{n}?</math> <math>\\textbf{(A) } \\frac{\\sqrt{2}}{4} \\qquad \\textbf{(B) } \\frac{\\sqrt{2}}{2} \\qquad \\textbf{(C) } \\frac{3}{4} \\qquad \\textbf{(D) } \\frac{3\\sqrt{2}}{5} \\qquad \\textbf{(E) } \\frac{2\\sqrt{2}}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\sqrt 2 2",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "In the complex plane, let <math>A</math> be the set of solutions to <math>z^{3}-8=0</math> and let <math>B</math> be the set of solutions to <math>z^{3}-8z^{2}-8z+64=0.</math> What is the greatest distance between a point of <math>A</math> and a point of <math>B?</math> <math>\\textbf{(A) } 2\\sqrt{3} \\qquad \\textbf{(B) } 6 \\qquad \\textbf{(C) } 9 \\qquad \\textbf{(D) } 2\\sqrt{21} \\qquad \\textbf{(E) } 9+\\sqrt{3}</math>",
+      "answerType": "exact",
+      "answerKey": "2\\sqrt 21",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "The vertices of a quadrilateral lie on the graph of <math>y=\\ln{x}</math>, and the <math>x</math>-coordinates of these vertices are consecutive positive integers. The area of the quadrilateral is <math>\\ln{\\frac{91}{90}}</math>. What is the <math>x</math>-coordinate of the leftmost vertex? <math>\\textbf{(A) } 6 \\qquad \\textbf{(B) } 7 \\qquad \\textbf{(C) } 10 \\qquad \\textbf{(D) } 12 \\qquad \\textbf{(E) } 13</math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "How many positive integers <imath>n</imath> are there such that <imath>n</imath> is a multiple of <imath>5</imath>, and the least common multiple of <imath>5!</imath> and <imath>n</imath> equals <imath>5</imath> times the greatest common divisor of <imath>10!</imath> and <imath>n?</imath> <imath>\\textbf{(A) } 12 \\qquad \\textbf{(B) } 24 \\qquad \\textbf{(C) } 36 \\qquad \\textbf{(D) } 48 \\qquad \\textbf{(E) } 72</imath>",
+      "answerType": "integer",
+      "answerKey": "48",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Let <imath>(a_n)</imath> and <imath>(b_n)</imath> be the sequences of real numbers such that <cmath>\\[ (2 + i)^n = a_n + b_ni \\]</cmath>for all integers <imath>n\\geq 0</imath>, where <imath>i = \\sqrt{-1}</imath>. What is<cmath>\\sum_{n=0}^\\infty\\frac{a_nb_n}{7^n}\\,?</cmath> <imath>\\textbf{(A) }\\frac 38\\qquad\\textbf{(B) }\\frac7{16}\\qquad\\textbf{(C) }\\frac12\\qquad\\textbf{(D) }\\frac9{16}\\qquad\\textbf{(E) }\\frac47</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 16",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "Suppose that <math>\\triangle{ABC}</math> is an equilateral triangle of side length <math>s</math>, with the property that there is a unique point <math>P</math> inside the triangle such that <math>AP=1</math>, <math>BP=\\sqrt{3}</math>, and <math>CP=2</math>. What is <math>s</math>? <math>\\textbf{(A) } 1+\\sqrt{2} \\qquad \\textbf{(B) } \\sqrt{7} \\qquad \\textbf{(C) } \\frac{8}{3} \\qquad \\textbf{(D) } \\sqrt{5+\\sqrt{5}} \\qquad \\textbf{(E) } 2\\sqrt{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "https://www.youtube.com/watch?v=7_mdreGBPvg&t=428s&ab_channel=ArtofProblemSolving Created by Richard Rusczyk",
+      "answerType": "integer",
+      "answerKey": "929",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

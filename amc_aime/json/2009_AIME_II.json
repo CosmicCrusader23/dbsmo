@@ -1,0 +1,118 @@
+{
+  "slug": "2009-aime-ii",
+  "title": "2009 AIME II",
+  "description": "Converted from 2009_AIME_II_questions.txt and 2009_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Before starting to paint, Bill had <math>130</math> ounces of blue paint, <math>164</math> ounces of red paint, and <math>188</math> ounces of white paint. Bill painted four equally sized stripes on a wall, making a blue stripe, a red stripe, a white stripe, and a pink stripe. Pink is a mixture of red and white, not necessarily in equal amounts. When Bill finished, he had equal amounts of blue, red, and white paint left. Find the total number of ounces of paint Bill had left.",
+      "answerType": "integer",
+      "answerKey": "114",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Suppose that <math>a</math>, <math>b</math>, and <math>c</math> are positive real numbers such that <math>a^{\\log_3 7} = 27</math>, <math>b^{\\log_7 11} = 49</math>, and <math>c^{\\log_{11}25} = \\sqrt{11}</math>. Find <cmath> a^{(\\log_3 7)^2} + b^{(\\log_7 11)^2} + c^{(\\log_{11} 25)^2}. </cmath>",
+      "answerType": "integer",
+      "answerKey": "469",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "In rectangle <math>ABCD</math>, <math>AB=100</math>. Let <math>E</math> be the midpoint of <math>\\overline{AD}</math>. Given that line <math>AC</math> and line <math>BE</math> are perpendicular, find the greatest integer less than <math>AD</math>.",
+      "answerType": "integer",
+      "answerKey": "141",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "A group of children held a grape-eating contest. When the contest was over, the winner had eaten <math>n</math> grapes, and the child in <math>k</math>-th place had eaten <math>n+2-2k</math> grapes. The total number of grapes eaten in the contest was <math>2009</math>. Find the smallest possible value of <math>n</math>.",
+      "answerType": "integer",
+      "answerKey": "089",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Equilateral triangle <math>T</math> is inscribed in circle <math>A</math>, which has radius <math>10</math>. Circle <math>B</math> with radius <math>3</math> is internally tangent to circle <math>A</math> at one vertex of <math>T</math>. Circles <math>C</math> and <math>D</math>, both with radius <math>2</math>, are internally tangent to circle <math>A</math> at the other two vertices of <math>T</math>. Circles <math>B</math>, <math>C</math>, and <math>D</math> are all externally tangent to circle <math>E</math>, which has radius <math>\\dfrac mn</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>. <asy> unitsize(3mm); defaultpen(linewidth(.8pt)); dotfactor=4; pair A=(0,0), D=8*dir(330), C=8*dir(210), B=7*dir(90); pair Ep=(0,4-27/5); pair[] dotted={A,B,C,D,Ep}; draw(Circle(A,10)); draw(Circle(B,3)); draw(Circle(C,2)); draw(Circle(D,2)); draw(Circle(Ep,27/5)); dot(dotted); label(\"$E$\",Ep,E); label(\"$A$\",A,W); label(\"$B$\",B,W); label(\"$C$\",C,W); label(\"$D$\",D,E); </asy>",
+      "answerType": "integer",
+      "answerKey": "032",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Let <math>m</math> be the number of five-element subsets that can be chosen from the set of the first <math>14</math> natural numbers so that at least two of the five numbers are consecutive. Find the remainder when <math>m</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "750",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Define <math>n!!</math> to be <math>n(n-2)(n-4)\\cdots 3\\cdot 1</math> for <math>n</math> odd and <math>n(n-2)(n-4)\\cdots 4\\cdot 2</math> for <math>n</math> even. When <math>\\sum_{i=1}^{2009} \\frac{(2i-1)!!}{(2i)!!}</math> is expressed as a fraction in lowest terms, its denominator is <math>2^ab</math> with <math>b</math> odd. Find <math>\\dfrac{ab}{10}</math>.",
+      "answerType": "integer",
+      "answerKey": "401",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Dave rolls a fair six-sided die until a six appears for the first time. Independently, Linda rolls a fair six-sided die until a six appears for the first time. Let <math>m</math> and <math>n</math> be relatively prime positive integers such that <math>\\dfrac mn</math> is the probability that the number of times Dave rolls his die is equal to or within one of the number of times Linda rolls her die. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "41",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>m</math> be the number of solutions in positive integers to the equation <math>4x+3y+2z=2009</math>, and let <math>n</math> be the number of solutions in positive integers to the equation <math>4x+3y+2z=2000</math>. Find the remainder when <math>m-n</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "000",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Four lighthouses are located at points <math>A</math>, <math>B</math>, <math>C</math>, and <math>D</math>. The lighthouse at <math>A</math> is <math>5</math> kilometers from the lighthouse at <math>B</math>, the lighthouse at <math>B</math> is <math>12</math> kilometers from the lighthouse at <math>C</math>, and the lighthouse at <math>A</math> is <math>13</math> kilometers from the lighthouse at <math>C</math>. To an observer at <math>A</math>, the angle determined by the lights at <math>B</math> and <math>D</math> and the angle determined by the lights at <math>C</math> and <math>D</math> are equal. To an observer at <math>C</math>, the angle determined by the lights at <math>A</math> and <math>B</math> and the angle determined by the lights at <math>D</math> and <math>B</math> are equal. The number of kilometers from <math>A</math> to <math>D</math> is given by <math>\\frac {p\\sqrt{q}}{r}</math>, where <math>p</math>, <math>q</math>, and <math>r</math> are relatively prime positive integers, and <math>r</math> is not divisible by the square of any prime. Find <math>p</math> + <math>q</math> + <math>r</math>.",
+      "answerType": "integer",
+      "answerKey": "096",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "For certain pairs <math>(m,n)</math> of positive integers with <math>m\\geq n</math> there are exactly <math>50</math> distinct positive integers <math>k</math> such that <math>|\\log m - \\log k| < \\log n</math>. Find the sum of all possible values of the product <math>mn</math>.",
+      "answerType": "integer",
+      "answerKey": "125",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "From the set of integers <math>\\{1,2,3,\\dots,2009\\}</math>, choose <math>k</math> pairs <math>\\{a_i,b_i\\}</math> with <math>a_i<b_i</math> so that no two pairs have a common element. Suppose that all the sums <math>a_i+b_i</math> are distinct and less than or equal to <math>2009</math>. Find the maximum possible value of <math>k</math>.",
+      "answerType": "integer",
+      "answerKey": "803",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Let <math>A</math> and <math>B</math> be the endpoints of a semicircular arc of radius <math>2</math>. The arc is divided into seven congruent arcs by six equally spaced points <math>C_1</math>, <math>C_2</math>, <math>\\dots</math>, <math>C_6</math>. All chords of the form <math>\\overline {AC_i}</math> or <math>\\overline {BC_i}</math> are drawn. Let <math>n</math> be the product of the lengths of these twelve chords. Find the remainder when <math>n</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "672",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The sequence <math>(a_n)</math> satisfies <math>a_0=0</math> and <math>a_{n + 1} = \\frac85a_n + \\frac65\\sqrt {4^n - a_n^2}</math> for <math>n\\geq 0</math>. Find the greatest integer less than or equal to <math>a_{10}</math>.",
+      "answerType": "integer",
+      "answerKey": "983",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>\\overline{MN}</math> be a diameter of a circle with diameter 1. Let <math>A</math> and <math>B</math> be points on one of the semicircular arcs determined by <math>\\overline{MN}</math> such that <math>A</math> is the midpoint of the semicircle and <math>MB=\\frac{3}5</math>. Point <math>C</math> lies on the other semicircular arc. Let <math>d</math> be the length of the line segment whose endpoints are the intersections of diameter <math>\\overline{MN}</math> with chords <math>\\overline{AC}</math> and <math>\\overline{BC}</math>. The largest possible value of <math>d</math> can be written in the form <math> r-s\\sqrt{t} </math>, where <math>r, s</math> and <math>t</math> are positive integers and <math>t</math> is not divisible by the square of any prime. Find <math>r+s+t</math>.",
+      "answerType": "integer",
+      "answerKey": "014",
+      "points": 1
+    }
+  ]
+}

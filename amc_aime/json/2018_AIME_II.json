@@ -1,0 +1,118 @@
+{
+  "slug": "2018-aime-ii",
+  "title": "2018 AIME II",
+  "description": "Converted from 2018_AIME_II_questions.txt and 2018_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Points <math>A</math>, <math>B</math>, and <math>C</math> lie in that order along a straight path where the distance from <math>A</math> to <math>C</math> is <math>1800</math> meters. Ina runs twice as fast as Eve, and Paul runs twice as fast as Ina. The three runners start running at the same time with Ina starting at <math>A</math> and running toward <math>C</math>, Paul starting at <math>B</math> and running toward <math>C</math>, and Eve starting at <math>C</math> and running toward <math>A</math>. When Paul meets Eve, he turns around and runs toward <math>A</math>. Paul and Ina both arrive at <math>B</math> at the same time. Find the number of meters from <math>A</math> to <math>B</math>.",
+      "answerType": "integer",
+      "answerKey": "800",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Let <math>a_{0} = 2</math>, <math>a_{1} = 5</math>, and <math>a_{2} = 8</math>, and for <math>n > 2</math> define <math>a_{n}</math> recursively to be the remainder when <math>4</math>(<math>a_{n-1}</math> <math>+</math> <math>a_{n-2}</math> <math>+</math> <math>a_{n-3}</math>) is divided by <math>11</math>. Find <math>a_{2018} \\cdot a_{2020} \\cdot a_{2022}</math>.",
+      "answerType": "integer",
+      "answerKey": "112",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Find the sum of all positive integers <math>b < 1000</math> such that the base-<math>b</math> integer <math>36_{b}</math> is a perfect square and the base-<math>b</math> integer <math>27_{b}</math> is a perfect cube.",
+      "answerType": "integer",
+      "answerKey": "371",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "In equiangular octagon <math>CAROLINE</math>, <math>CA = RO = LI = NE =</math> <math>\\sqrt{2}</math> and <math>AR = OL = IN = EC = 1</math>. The self-intersecting octagon <math>CORNELIA</math> encloses six non-overlapping triangular regions. Let <math>K</math> be the area enclosed by <math>CORNELIA</math>, that is, the total area of the six triangular regions. Then <math>K =</math> <math>\\dfrac{a}{b}</math>, where <math>a</math> and <math>b</math> are relatively prime positive integers. Find <math>a + b</math>.",
+      "answerType": "integer",
+      "answerKey": "023",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Suppose that <math>x</math>, <math>y</math>, and <math>z</math> are complex numbers such that <math>xy = -80 - 320i</math>, <math>yz = 60</math>, and <math>zx = -96 + 24i</math>, where <math>i</math> <math>=</math> <math>\\sqrt{-1}</math>. Then there are real numbers <math>a</math> and <math>b</math> such that <math>x + y + z = a + bi</math>. Find <math>a^2 + b^2</math>.",
+      "answerType": "integer",
+      "answerKey": "074",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A real number <imath>a</imath> is chosen randomly and uniformly from the interval <imath>[-20, 18]</imath>. The probability that the roots of the polynomial <imath>x^4 + 2ax^3 + (2a - 2)x^2 + (-4a + 3)x - 2</imath> are all real can be written in the form <imath>\\dfrac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m + n</imath>.",
+      "answerType": "integer",
+      "answerKey": "037",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Triangle <math>ABC</math> has side lengths <math>AB = 9</math>, <math>BC =</math> <math>5\\sqrt{3}</math>, and <math>AC = 12</math>. Points <math>A = P_{0}, P_{1}, P_{2}, ... , P_{2450} = B</math> are on segment <math>\\overline{AB}</math> with <math>P_{k}</math> between <math>P_{k-1}</math> and <math>P_{k+1}</math> for <math>k = 1, 2, ..., 2449</math>, and points <math>A = Q_{0}, Q_{1}, Q_{2}, ... , Q_{2450} = C</math> are on segment <math>\\overline{AC}</math> with <math>Q_{k}</math> between <math>Q_{k-1}</math> and <math>Q_{k+1}</math> for <math>k = 1, 2, ..., 2449</math>. Furthermore, each segment <math>\\overline{P_{k}Q_{k}}</math>, <math>k = 1, 2, ..., 2449</math>, is parallel to <math>\\overline{BC}</math>. The segments cut the triangle into <math>2450</math> regions, consisting of <math>2449</math> trapezoids and <math>1</math> triangle. Each of the <math>2450</math> regions has the same area. Find the number of segments <math>\\overline{P_{k}Q_{k}}</math>, <math>k = 1, 2, ..., 2450</math>, that have rational length.",
+      "answerType": "integer",
+      "answerKey": "020",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "A frog is positioned at the origin of the coordinate plane. From the point <math>(x, y)</math>, the frog can jump to any of the points <math>(x + 1, y)</math>, <math>(x + 2, y)</math>, <math>(x, y + 1)</math>, or <math>(x, y + 2)</math>. Find the number of distinct sequences of jumps in which the frog begins at <math>(0, 0)</math> and ends at <math>(4, 4)</math>.",
+      "answerType": "integer",
+      "answerKey": "556",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Octagon <math>ABCDEFGH</math> with side lengths <math>AB = CD = EF = GH = 10</math> and <math>BC = DE = FG = HA = 11</math> is formed by removing 6-8-10 triangles from the corners of a <math>23</math> <math>\\times</math> <math>27</math> rectangle with side <math>\\overline{AH}</math> on a short side of the rectangle, as shown. Let <math>J</math> be the midpoint of <math>\\overline{AH}</math>, and partition the octagon into 7 triangles by drawing segments <math>\\overline{JB}</math>, <math>\\overline{JC}</math>, <math>\\overline{JD}</math>, <math>\\overline{JE}</math>, <math>\\overline{JF}</math>, and <math>\\overline{JG}</math>. Find the area of the convex polygon whose vertices are the centroids of these 7 triangles. <asy> unitsize(6); pair P = (0, 0), Q = (0, 23), R = (27, 23), SS = (27, 0); pair A = (0, 6), B = (8, 0), C = (19, 0), D = (27, 6), EE = (27, 17), F = (19, 23), G = (8, 23), J = (0, 23/2), H = (0, 17); draw(P--Q--R--SS--cycle); draw(J--B); draw(J--C); draw(J--D); draw(J--EE); draw(J--F); draw(J--G); draw(A--B); draw(H--G); real dark = 0.6; filldraw(A--B--P--cycle, gray(dark)); filldraw(H--G--Q--cycle, gray(dark)); filldraw(F--EE--R--cycle, gray(dark)); filldraw(D--C--SS--cycle, gray(dark)); dot(A); dot(B); dot(C); dot(D); dot(EE); dot(F); dot(G); dot(H); dot(J); dot(H); defaultpen(fontsize(10pt)); real r = 1.3; label(\"$A$\", A, W*r); label(\"$B$\", B, S*r); label(\"$C$\", C, S*r); label(\"$D$\", D, E*r); label(\"$E$\", EE, E*r); label(\"$F$\", F, N*r); label(\"$G$\", G, N*r); label(\"$H$\", H, W*r); label(\"$J$\", J, W*r); </asy>",
+      "answerType": "integer",
+      "answerKey": "184",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Find the number of functions <math>f(x)</math> from <math>\\{1, 2, 3, 4, 5\\}</math> to <math>\\{1, 2, 3, 4, 5\\}</math> that satisfy <math>f(f(x)) = f(f(f(x)))</math> for all <math>x</math> in <math>\\{1, 2, 3, 4, 5\\}</math>.",
+      "answerType": "integer",
+      "answerKey": "756",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Find the number of permutations of <math>1, 2, 3, 4, 5, 6</math> such that for each <math>k</math> with <math>1</math> <math>\\leq</math> <math>k</math> <math>\\leq</math> <math>5</math>, at least one of the first <math>k</math> terms of the permutation is greater than <math>k</math>.",
+      "answerType": "integer",
+      "answerKey": "461",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Let <imath>ABCD</imath> be a convex quadrilateral with <imath>AB = CD = 10</imath>, <imath>BC = 14</imath>, and <imath>AD = 2\\sqrt{65}</imath>. Assume that the diagonals of <imath>ABCD</imath> intersect at point <imath>P</imath>, and that the sum of the areas of triangles <imath>APB</imath> and <imath>CPD</imath> equals the sum of the areas of triangles <imath>BPC</imath> and <imath>APD</imath>. Find the area of quadrilateral <imath>ABCD</imath>.",
+      "answerType": "integer",
+      "answerKey": "112",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Misha rolls a standard, fair six-sided die until she rolls <imath>1-2-3</imath> in that order on three consecutive rolls. The probability that she will roll the die an odd number of times is <imath>\\dfrac{m}{n}</imath> where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "647",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The incircle <math>\\omega</math> of triangle <math>ABC</math> is tangent to <math>\\overline{BC}</math> at <math>X</math>. Let <math>Y \\neq X</math> be the other intersection of <math>\\overline{AX}</math> with <math>\\omega</math>. Points <math>P</math> and <math>Q</math> lie on <math>\\overline{AB}</math> and <math>\\overline{AC}</math>, respectively, so that <math>\\overline{PQ}</math> is tangent to <math>\\omega</math> at <math>Y</math>. Assume that <math>AP = 3</math>, <math>PB = 4</math>, <math>AC = 8</math>, and <math>AQ = \\dfrac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "227",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Find the number of functions <math>f</math> from <math>\\{0, 1, 2, 3, 4, 5, 6\\}</math> to the integers such that <math>f(0) = 0</math>, <math>f(6) = 12</math>, and <cmath>|x - y| \\leq |f(x) - f(y)| \\leq 3|x - y|</cmath> for all <math>x</math> and <math>y</math> in <math>\\{0, 1, 2, 3, 4, 5, 6\\}</math>.",
+      "answerType": "integer",
+      "answerKey": "185",
+      "points": 1
+    }
+  ]
+}

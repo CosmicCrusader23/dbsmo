@@ -1,0 +1,257 @@
+{
+  "slug": "2004-amc-8",
+  "title": "2004 AMC 8",
+  "description": "Converted from 2004_AMC_8_questions.txt and 2004_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "On a map, a <math>12</math>-centimeter length represents <math>72</math> kilometers. How many kilometers does a <math>17</math>-centimeter length represent? <math> \\textbf{(A)}\\ 6\\qquad\\textbf{(B)}\\ 102\\qquad\\textbf{(C)}\\ 204\\qquad\\textbf{(D)}\\ 864\\qquad\\textbf{(E)}\\ 1224 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 102",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "How many different four-digit numbers can be formed by rearranging the four digits in <math>2004</math>? <math> \\textbf{(A)}\\ 4\\qquad\\textbf{(B)}\\ 6\\qquad\\textbf{(C)}\\ 16\\qquad\\textbf{(D)}\\ 24\\qquad\\textbf{(E)}\\ 81 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Twelve friends met for dinner at Oscar's Overstuffed Oyster House, and each ordered one meal. The portions were so large, there was enough food for <math>18</math> people. If they shared, how many meals should they have ordered to have just enough food for the <math>12</math> of them? <math> \\textbf{(A)}\\ 8\\qquad\\textbf{(B)}\\ 9\\qquad\\textbf{(C)}\\ 10\\qquad\\textbf{(D)}\\ 15\\qquad\\textbf{(E)}\\ 18 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Ms. Hamilton’s eighth-grade class wants to participate in the annual three-person-team basketball tournament. Lance, Sally, Joy, and Fred are chosen for the team. In how many ways can the three starters be chosen? <math> \\textbf{(A)}\\ 2\\qquad\\textbf{(B)}\\ 4\\qquad\\textbf{(C)}\\ 6\\qquad\\textbf{(D)}\\ 8\\qquad\\textbf{(E)}\\ 10 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Ms. Hamilton's eighth-grade class wants to participate in the annual three-person-team basketball tournament. The losing team of each game is eliminated from the tournament. If sixteen teams compete, how many games will be played to determine the winner? <math> \\textbf{(A)}\\ 4\\qquad\\textbf{(B)}\\ 7\\qquad\\textbf{(C)}\\ 8\\qquad\\textbf{(D)}\\ 15\\qquad\\textbf{(E)}\\ 16 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 15",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "After Sally takes <math>20</math> shots, she has made <math>55\\%</math> of her shots. After she takes <math>5</math> more shots, she raises her percentage to <math>56\\%</math>. How many of the last <math>5</math> shots did she make? <math> \\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "An athlete's target heart rate, in beats per minute, is <math>80\\%</math> of the theoretical maximum heart rate. The maximum heart rate is found by subtracting the athlete's age, in years, from <math>220</math>. To the nearest whole number, what is the target heart rate of an athlete who is <math>26</math> years old? <math> \\textbf{(A)}\\ 134\\qquad\\textbf{(B)}\\ 155\\qquad\\textbf{(C)}\\ 176\\qquad\\textbf{(D)}\\ 194\\qquad\\textbf{(E)}\\ 243 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 155",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Find the number of two-digit positive integers whose digits total <math>7</math>. <math> \\textbf{(A)}\\ 6\\qquad\\textbf{(B)}\\ 7\\qquad\\textbf{(C)}\\ 8\\qquad\\textbf{(D)}\\ 9\\qquad\\textbf{(E)}\\ 10</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "The average of the five numbers in a list is <math>54</math>. The average of the first two numbers is <math>48</math>. What is the average of the last three numbers? <math>\\textbf{(A)}\\ 55 \\qquad \\textbf{(B)}\\ 56 \\qquad \\textbf{(C)}\\ 57 \\qquad \\textbf{(D)}\\ 58 \\qquad \\textbf{(E)}\\ 59</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 58",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Handy Aaron helped a neighbor <math>1 \\frac14</math> hours on Monday, <math>50</math> minutes on Tuesday, from 8:20 to 10:45 on Wednesday morning, and a half-hour on Friday. He is paid <math>\\textdollar 3</math> per hour. How much did he earn for the week? <math>\\textbf{(A)}\\ \\textdollar 8 \\qquad \\textbf{(B)}\\ \\textdollar 9 \\qquad \\textbf{(C)}\\ \\textdollar 10 \\qquad \\textbf{(D)}\\ \\textdollar 12 \\qquad \\textbf{(E)}\\ \\textdollar 15</math>",
+      "answerType": "exact",
+      "answerKey": "\\ dollar 15",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The numbers <math>-2, 4, 6, 9</math> and <math>12</math> are rearranged according to these rules: 1. The largest isn't first, but it is in one of the first three places. 2. The smallest isn't last, but it is in one of the last three places. 3. The median isn't first or last. What is the average of the first and last numbers? <math>\\textbf{(A)}\\ 3.5 \\qquad \\textbf{(B)}\\ 5 \\qquad \\textbf{(C)}\\ 6.5 \\qquad \\textbf{(D)}\\ 7.5 \\qquad \\textbf{(E)}\\ 8</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6.5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Niki usually leaves her cell phone on. If her cell phone is on but she is not actually using it, the battery will last for <math>24</math> hours. If she is using it constantly, the battery will last for only <math>3</math> hours. Since the last recharge, her phone has been on <math>9</math> hours, and during that time she has used it for <math>60</math> minutes. If she doesn’t use it any more but leaves the phone on, how many more hours will the battery last? <math>\\textbf{(A)}\\ 7 \\qquad \\textbf{(B)}\\ 8 \\qquad \\textbf{(C)}\\ 11 \\qquad \\textbf{(D)}\\ 14 \\qquad \\textbf{(E)}\\ 15</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Amy, Bill and Celine are friends with different ages. Exactly one of the following statements is true. I. Bill is the oldest. II. Amy is not the oldest. III. Celine is not the youngest. Rank the friends from the oldest to youngest. <math>\\textbf{(A)}\\ \\text{Bill, Amy, Celine}\\qquad \\textbf{(B)}\\ \\text{Amy, Bill, Celine}\\qquad \\textbf{(C)}\\ \\text{Celine, Amy, Bill}\\\\ \\textbf{(D)}\\ \\text{Celine, Bill, Amy} \\qquad \\textbf{(E)}\\ \\text{Amy, Celine, Bill}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ Amy, Celine, Bill",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "What is the area enclosed by the geoboard quadrilateral below? <asy> unitsize(3mm); defaultpen(linewidth(.8pt)); dotfactor=2; for(int a=0; a<=10; ++a) for(int b=0; b<=10; ++b) { dot((a,b)); }; draw((4,0)--(0,5)--(3,4)--(10,10)--cycle); </asy> <math>\\textbf{(A)}\\ 15\\qquad \\textbf{(B)}\\ 18\\frac12 \\qquad \\textbf{(C)}\\ 22\\frac12 \\qquad \\textbf{(D)}\\ 27 \\qquad \\textbf{(E)}\\ 41</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 22\\frac12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Thirteen black and six white hexagonal tiles were used to create the figure below. If a new figure is created by attaching a border of white tiles with the same size and shape as the others, what will be the difference between the total number of white tiles and the total number of black tiles in the new figure? <asy> defaultpen(linewidth(1)); real x=sqrt(3)/2; path p=rotate(30)*polygon(6); filldraw(p^^shift(0,3)*p^^shift(4x,0)*p^^shift(3x,1.5)*p^^shift(2x,3)*p^^shift(-4x,0)*p^^shift(-3x,1.5)*p^^shift(-2x,3)*p^^shift(3x,-1.5)*p^^shift(-3x,-1.5)*p^^shift(2x,-3)*p^^shift(-2x,-3)*p^^shift(0,-3)*p, black, black); draw(shift(2x,0)*p^^shift(-2x,0)*p^^shift(x,1.5)*p^^shift(-x,1.5)*p^^shift(x,-1.5)*p^^shift(-x,-1.5)*p); </asy> <math>\\textbf{(A)}\\ 5\\qquad \\textbf{(B)}\\ 7\\qquad \\textbf{(C)}\\ 11\\qquad \\textbf{(D)}\\ 12 \\qquad \\textbf{(E)}\\ 18</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Two <imath>600</imath> mL pitchers contain orange juice. One pitcher is <imath>1/3</imath> full and the other pitcher is <imath>2/5</imath> full. Water is added to fill each pitcher completely, then both pitchers are poured into one large container. What fraction of the mixture in the large container is orange juice? <imath>\\textbf{(A)}\\ \\frac18 \\qquad \\textbf{(B)}\\ \\frac{3}{16} \\qquad \\textbf{(C)}\\ \\frac{11}{30} \\qquad \\textbf{(D)}\\ \\frac{11}{19}\\qquad \\textbf{(E)}\\ \\frac{11}{15}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 11 30",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Three friends have a total of <math>6</math> identical pencils, and each one has at least one pencil. In how many ways can this happen? <math>\\textbf{(A)}\\ 1\\qquad \\textbf{(B)}\\ 3\\qquad \\textbf{(C)}\\ 6\\qquad \\textbf{(D)}\\ 10 \\qquad \\textbf{(E)}\\ 12</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Five friends compete in a dart-throwing contest. Each one has two darts to throw at the same circular target, and each individual's score is the sum of the scores in the target regions that are hit. The scores for the target regions are the whole numbers <math>1</math> through <math>10</math>. Each throw hits the target in a region with a different value. The scores are: Alice <math>16</math> points, Ben <math>4</math> points, Cindy <math>7</math> points, Dave <math>11</math> points, and Ellen <math>17</math> points. Who hits the region worth <math>6</math> points? <math>\\textbf{(A)}\\ \\text{Alice}\\qquad \\textbf{(B)}\\ \\text{Ben}\\qquad \\textbf{(C)}\\ \\text{Cindy}\\qquad \\textbf{(D)}\\ \\text{Dave} \\qquad \\textbf{(E)}\\ \\text{Ellen}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ Alice",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A whole number larger than <math>2</math> leaves a remainder of <math>2</math> when divided by each of the numbers <math>3, 4, 5,</math> and <math>6</math>. The smallest such number lies between which two numbers? <math>\\textbf{(A)}\\ 40\\ \\text{and}\\ 49 \\qquad \\textbf{(B)}\\ 60 \\text{ and } 79 \\qquad \\textbf{(C)}\\ 100\\ \\text{and}\\ 129 \\qquad \\textbf{(D)}\\ 210\\ \\text{and}\\ 249\\qquad \\textbf{(E)}\\ 320\\ \\text{and}\\ 369</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 60\\ and \\ 79",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Two-thirds of the people in a room are seated in three-fourths of the chairs. The rest of the people are standing. If there are <math>6</math> empty chairs, how many people are in the room? <math>\\textbf{(A)}\\ 12\\qquad \\textbf{(B)}\\ 18\\qquad \\textbf{(C)}\\ 24\\qquad \\textbf{(D)}\\ 27\\qquad \\textbf{(E)}\\ 36</math>",
+      "answerType": "exact",
+      "answerKey": "( D ) 27",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Spinners <math>A</math> and <math>B</math> are spun. On each spinner, the arrow is equally likely to land on each number. What is the probability that the product of the two spinners' numbers is even? <asy> pair A=(0,0); pair B=(3,0); draw(Circle(A,1)); draw(Circle(B,1)); draw((-1,0)--(1,0)); draw((0,1)--(0,-1)); draw((3,0)--(3,1)); draw((3+sqrt(3)/2,-.5)--(3,0)); draw((3,0)--(3-sqrt(3)/2,-.5)); label(\"$A$\",(-1,1)); label(\"$B$\",(2,1)); label(\"$1$\",(-.4,.4)); label(\"$2$\",(.4,.4)); label(\"$3$\",(.4,-.4)); label(\"$4$\",(-.4,-.4)); label(\"$1$\",(2.6,.4)); label(\"$2$\",(3.4,.4)); label(\"$3$\",(3,-.5)); </asy> <math>\\textbf{(A)}\\ \\frac14\\qquad \\textbf{(B)}\\ \\frac13\\qquad \\textbf{(C)}\\ \\frac12\\qquad \\textbf{(D)}\\ \\frac23\\qquad \\textbf{(E)}\\ \\frac34</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac23",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "At a party there are only single women and married men with their wives. The probability that a randomly selected woman is single is <math>\\frac25</math>. What fraction of the people in the room are married men? <math>\\textbf{(A)}\\ \\frac13\\qquad \\textbf{(B)}\\ \\frac38\\qquad \\textbf{(C)}\\ \\frac25\\qquad \\textbf{(D)}\\ \\frac{5}{12}\\qquad \\textbf{(E)}\\ \\frac35</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac38",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Tess runs counterclockwise around rectangular block <imath>JKLM</imath>. She lives at corner <imath>J</imath>. Which graph could represent her straight-line distance from home? <asy> unitsize(5mm); pair J=(-3,2); pair K=(-3,-2); pair L=(3,-2); pair M=(3,2); draw(J--K--L--M--cycle); label(\"$J$\",J,NW); label(\"$K$\",K,SW); label(\"$L$\",L,SE); label(\"$M$\",M,NE); </asy> <imath>\\textbf{(A)}</imath> <asy> size(80);defaultpen(linewidth(0.8)); //A draw((16,0)--origin--(0,16)); draw(origin--(15,15)); label(\"time\", (8,0), S); label(rotate(90)*\"distance\", (0,8), W); </asy> <imath>\\textbf{(B)}</imath> <asy> size(80);defaultpen(linewidth(0.8)); //B draw((16,0)--origin--(0,16)); draw((0,6)--(1,6)--(1,12)--(2,12)--(2,11)--(3,11)--(3,1)--(12,1)--(12,0)); label(\"time\", (8,0), S); label(rotate(90)*\"distance\", (0,8), W); </asy> <imath>\\textbf{(C)}</imath> <asy> size(80);defaultpen(linewidth(0.8)); //C draw((16,0)--origin--(0,16)); draw(origin--(2.7,8)--(3,9)^^(11,9)--(14,0)); draw(Arc((4,9), 1, 0, 180)); draw(Arc((10,9), 1, 0, 180)); draw(Arc((7,9), 2, 180,360)); label(\"time\", (8,0), S); label(rotate(90)*\"distance\", (0,8), W); </asy> <imath>\\textbf{(D)}</imath> <asy> size(80);defaultpen(linewidth(0.8)); //D draw((16,0)--origin--(0,16)); draw(origin--(2,6)--(7,14)--(10,12)--(14,0)); label(\"time\", (8,0), S); label(rotate(90)*\"distance\", (0,8), W); </asy> <imath>\\textbf{(E)}</imath> <asy> size(80);defaultpen(linewidth(0.8)); //E draw((16,0)--origin--(0,16)); draw(origin--(3,6)--(7,6)--(10,12)--(14,12)); label(\"time\", (8,0), S); label(rotate(90)*\"distance\", (0,8), W); </asy>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "In the figure, <math>ABCD</math> is a rectangle and <math>EFGH</math> is a parallelogram. Using the measurements given in the figure, what is the length <math>d</math> of the segment that is perpendicular to <math>\\overline{HE}</math> and <math>\\overline{FG}</math>? <asy> unitsize(3mm); defaultpen(linewidth(.8pt)+fontsize(10pt)); pair D=(0,0), C=(10,0), B=(10,8), A=(0,8); pair E=(4,8), F=(10,3), G=(6,0), H=(0,5); draw(A--B--C--D--cycle); draw(E--F--G--H--cycle); label(\"$A$\",A,NW); label(\"$B$\",B,NE); label(\"$C$\",C,SE); label(\"$D$\",D,SW); label(\"$E$\",E,N); label(\"$F$\",(10.8,3)); label(\"$G$\",G,S); label(\"$H$\",H,W); label(\"$4$\",A--E,N); label(\"$6$\",B--E,N); label(\"$5$\",(10.8,5.5)); label(\"$3$\",(10.8,1.5)); label(\"$4$\",G--C,S); label(\"$6$\",G--D,S); label(\"$5$\",D--H,W); label(\"$3$\",A--H,W); draw((3,7.25)--(7.56,1.17)); label(\"$d$\",(3,7.25)--(7.56,1.17), NE); </asy> <math>\\textbf{(A)}\\ 6.8\\qquad \\textbf{(B)}\\ 7.1\\qquad \\textbf{(C)}\\ 7.6\\qquad \\textbf{(D)}\\ 7.8\\qquad \\textbf{(E)}\\ 8.1</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 7.6",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Two <math>4 \\times 4</math> squares intersect at right angles, bisecting their intersecting sides, as shown. The circle's diameter is the segment between the two points of intersection. What is the area of the shaded region created by removing the circle from the squares? <asy> unitsize(6mm); draw(unitcircle); filldraw((0,1)--(1,2)--(3,0)--(1,-2)--(0,-1)--(-1,-2)--(-3,0)--(-1,2)--cycle,lightgray,black); filldraw(unitcircle,white,black); </asy> <math>\\text{(A)}\\ 16-4\\pi\\qquad \\text{(B)}\\ 16-2\\pi \\qquad \\text{(C)}\\ 28-4\\pi \\qquad \\text{(D)}\\ 28-2\\pi \\qquad \\text{(E)}\\ 32-2\\pi</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 28-2\\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    }
+  ]
+}

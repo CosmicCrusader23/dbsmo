@@ -1,0 +1,241 @@
+{
+  "slug": "1993-ajhsme",
+  "title": "1993 AJHSME",
+  "description": "Converted from 1993_AJHSME_questions.txt and 1993_AJHSME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "ajhsme"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Which pair of numbers does NOT have a product equal to <math>36</math>? <math> \\text{(A)}\\ \\{-4,-9\\}\\qquad\\text{(B)}\\ \\{-3,-12\\}\\qquad\\text{(C)}\\ \\left\\{\\frac{1}{2},-72\\right\\}\\qquad\\text{(D)}\\ \\{ 1,36\\}\\qquad\\text{(E)}\\ \\left\\{\\frac{3}{2},24\\right\\} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Which of the following numbers has the largest prime factor? <math> \\text{(A)}\\ 39\\qquad\\text{(B)}\\ 51\\qquad\\text{(C)}\\ 77\\qquad\\text{(D)}\\ 91\\qquad\\text{(E)}\\ 121 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "<math>1000\\times 1993 \\times 0.1993 \\times 10 = </math> <math>\\text{(A)}\\ 1.993\\times 10^3 \\qquad \\text{(B)}\\ 1993.1993 \\qquad \\text{(C)}\\ (199.3)^2 \\qquad \\text{(D)}\\ 1,993,001.993 \\qquad \\text{(E)}\\ (1993)^2</math>",
+      "answerType": "exact",
+      "answerKey": "\\ (1993)^2",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Which one of the following bar graphs could represent the data from the circle graph? <asy> unitsize(36); draw(circle((0,0),1),gray); fill((0,0)--arc((0,0),(0,-1),(1,0))--cycle,gray); fill((0,0)--arc((0,0),(1,0),(0,1))--cycle,black); </asy> <asy> unitsize(4); fill((1,0)--(1,15)--(5,15)--(5,0)--cycle,gray); fill((6,0)--(6,15)--(10,15)--(10,0)--cycle,black); draw((11,0)--(11,20)--(15,20)--(15,0)); fill((26,0)--(26,15)--(30,15)--(30,0)--cycle,gray); fill((31,0)--(31,15)--(35,15)--(35,0)--cycle,black); draw((36,0)--(36,15)--(40,15)--(40,0)); fill((51,0)--(51,10)--(55,10)--(55,0)--cycle,gray); fill((56,0)--(56,10)--(60,10)--(60,0)--cycle,black); draw((61,0)--(61,20)--(65,20)--(65,0)); fill((76,0)--(76,10)--(80,10)--(80,0)--cycle,gray); fill((81,0)--(81,15)--(85,15)--(85,0)--cycle,black); draw((86,0)--(86,20)--(90,20)--(90,0)); fill((101,0)--(101,15)--(105,15)--(105,0)--cycle,gray); fill((106,0)--(106,10)--(110,10)--(110,0)--cycle,black); draw((111,0)--(111,20)--(115,20)--(115,0)); for(int a = 0; a < 5; ++a) { draw((25*a,21)--(25*a,0)--(25*a+16,0)); } label(\"(A)\",(8,21),N); label(\"(B)\",(33,21),N); label(\"(C)\",(58,21),N); label(\"(D)\",(83,21),N); label(\"(E)\",(108,21),N); </asy>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A can of soup can feed <math>3</math> adults or <math>5</math> children. If there are <math>5</math> cans of soup and <math>15</math> children are fed, then how many adults would the remaining soup feed? <math>\\text{(A)}\\ 5 \\qquad \\text{(B)}\\ 6 \\qquad \\text{(C)}\\ 7 \\qquad \\text{(D)}\\ 8 \\qquad \\text{(E)}\\ 10</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "<math>3^3+3^3+3^3 = </math> <math>\\text{(A)}\\ 3^4 \\qquad \\text{(B)}\\ 9^3 \\qquad \\text{(C)}\\ 3^9 \\qquad \\text{(D)}\\ 27^3 \\qquad \\text{(E)}\\ 3^{27}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3^4",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "To control her blood pressure, Jill's grandmother takes one half of a pill every other day. If one supply of medicine contains <math>60</math> pills, then the supply of medicine would last approximately <math>\\text{(A)}\\ 1\\text{ month} \\qquad \\text{(B)}\\ 4\\text{ months} \\qquad \\text{(C)}\\ 6\\text{ months} \\qquad \\text{(D)}\\ 8\\text{ months} \\qquad \\text{(E)}\\ 1\\text{ year}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8 months",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Consider the operation <math>*</math> defined by the following table: <cmath>\\begin{tabular}{c|cccc} * & 1 & 2 & 3 & 4 \\\\ \\hline 1 & 1 & 2 & 3 & 4 \\\\ 2 & 2 & 4 & 1 & 3 \\\\ 3 & 3 & 1 & 4 & 2 \\\\ 4 & 4 & 3 & 2 & 1 \\end{tabular}</cmath> For example, <math>3*2=1</math>. Then <math>(2*4)*(1*3)=</math> <math>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 2 \\qquad \\text{(C)}\\ 3 \\qquad \\text{(D)}\\ 4 \\qquad \\text{(E)}\\ 5</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "This line graph represents the price of a trading card during the first <math>6</math> months of <math>1993</math>. <asy> unitsize(18); for (int a = 0; a <= 6; ++a) { draw((4*a,0)--(4*a,10)); } for (int a = 0; a <= 5; ++a) { draw((0,2*a)--(24,2*a)); } draw((0,5)--(4,4)--(8,8)--(12,3)--(16,9)--(20,6)--(24,2),linewidth(1.5)); label(\"$Jan$\",(2,0),S); label(\"$Feb$\",(6,0),S); label(\"$Mar$\",(10,0),S); label(\"$Apr$\",(14,0),S); label(\"$May$\",(18,0),S); label(\"$Jun$\",(22,0),S); label(\"$\\textbf{1993 PRICES FOR A TRADING CARD}$\",(12,10),N); label(\"$\\textbf{Price}$\",(-2, 6),N); label(\"$1$\",(0,2),W); label(\"$2$\",(0,4),W); label(\"$3$\",(0,6),W); label(\"$4$\",(0,8),W); label(\"$5$\",(0,10),W); </asy> The greatest monthly drop in price occurred during <math>\\text{(A)}\\ \\text{January} \\qquad \\text{(B)}\\ \\text{March} \\qquad \\text{(C)}\\ \\text{April} \\qquad \\text{(D)}\\ \\text{May} \\qquad \\text{(E)}\\ \\text{June}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ March",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Consider this histogram of the scores for <math>81</math> students taking a test: <asy> unitsize(12); draw((0,0)--(26,0)); draw((1,1)--(25,1)); draw((3,2)--(25,2)); draw((5,3)--(23,3)); draw((5,4)--(21,4)); draw((7,5)--(21,5)); draw((9,6)--(21,6)); draw((11,7)--(19,7)); draw((11,8)--(19,8)); draw((11,9)--(19,9)); draw((11,10)--(19,10)); draw((13,11)--(19,11)); draw((13,12)--(19,12)); draw((13,13)--(17,13)); draw((13,14)--(17,14)); draw((15,15)--(17,15)); draw((15,16)--(17,16)); draw((1,0)--(1,1)); draw((3,0)--(3,2)); draw((5,0)--(5,4)); draw((7,0)--(7,5)); draw((9,0)--(9,6)); draw((11,0)--(11,10)); draw((13,0)--(13,14)); draw((15,0)--(15,16)); draw((17,0)--(17,16)); draw((19,0)--(19,12)); draw((21,0)--(21,6)); draw((23,0)--(23,3)); draw((25,0)--(25,2)); for (int a = 1; a < 13; ++a) { draw((2*a,-.25)--(2*a,.25)); } label(\"$40$\",(2,-.25),S); label(\"$45$\",(4,-.25),S); label(\"$50$\",(6,-.25),S); label(\"$55$\",(8,-.25),S); label(\"$60$\",(10,-.25),S); label(\"$65$\",(12,-.25),S); label(\"$70$\",(14,-.25),S); label(\"$75$\",(16,-.25),S); label(\"$80$\",(18,-.25),S); label(\"$85$\",(20,-.25),S); label(\"$90$\",(22,-.25),S); label(\"$95$\",(24,-.25),S); label(\"$1$\",(2,1),N); label(\"$2$\",(4,2),N); label(\"$4$\",(6,4),N); label(\"$5$\",(8,5),N); label(\"$6$\",(10,6),N); label(\"$10$\",(12,10),N); label(\"$14$\",(14,14),N); label(\"$16$\",(16,16),N); label(\"$12$\",(18,12),N); label(\"$6$\",(20,6),N); label(\"$3$\",(22,3),N); label(\"$2$\",(24,2),N); label(\"Number\",(4,8),N); label(\"of Students\",(4,7),N); label(\"$\\textbf{STUDENT TEST SCORES}$\",(14,18),N); </asy> The median is in the interval labeled <math>\\text{(A)}\\ 60 \\qquad \\text{(B)}\\ 65 \\qquad \\text{(C)}\\ 70 \\qquad \\text{(D)}\\ 75 \\qquad \\text{(E)}\\ 80</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 70",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "If each of the three operation signs, <math>+</math>, <math>\\text{--}</math>, <math>\\times </math>, is used exactly ONCE in one of the blanks in the expression <cmath>5\\hspace{1 mm}\\underline{\\hspace{4 mm}}\\hspace{1 mm}4\\hspace{1 mm}\\underline{\\hspace{4 mm}}\\hspace{1 mm}6\\hspace{1 mm}\\underline{\\hspace{4 mm}}\\hspace{1 mm}3</cmath> then the value of the result could equal <math>\\text{(A)}\\ 9 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 15 \\qquad \\text{(D)}\\ 16 \\qquad \\text{(E)}\\ 19</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 19",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "The word \"'''HELP'''\" in block letters is painted in black with strokes <math>1</math> unit wide on a <math>5</math> by <math>15</math> rectangular white sign with dimensions as shown. The area of the white portion of the sign, in square units, is <asy> unitsize(12); fill((0,0)--(0,5)--(1,5)--(1,3)--(2,3)--(2,5)--(3,5)--(3,0)--(2,0)--(2,2)--(1,2)--(1,0)--cycle,black); fill((4,0)--(4,5)--(7,5)--(7,4)--(5,4)--(5,3)--(7,3)--(7,2)--(5,2)--(5,1)--(7,1)--(7,0)--cycle,black); fill((8,0)--(8,5)--(9,5)--(9,1)--(11,1)--(11,0)--cycle,black); fill((12,0)--(12,5)--(15,5)--(15,2)--(13,2)--(13,0)--cycle,black); fill((13,3)--(14,3)--(14,4)--(13,4)--cycle,white); draw((0,0)--(15,0)--(15,5)--(0,5)--cycle); </asy> <math>\\text{(A)}\\ 30 \\qquad \\text{(B)}\\ 32 \\qquad \\text{(C)}\\ 34 \\qquad \\text{(D)}\\ 36 \\qquad \\text{(E)}\\ 38</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 36",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "The nine squares in the table shown are to be filled so that every row and every column contains each of the numbers <math>1,2,3</math>. Then <math>A+B=</math> <cmath> \\begin{tabular}{|c|c|c|}\\hline 1 & &\\\\ \\hline & 2 & A\\\\ \\hline & & B\\\\ \\hline\\end{tabular} </cmath> <math>\\text{(A)}\\ 2 \\qquad \\text{(B)}\\ 3 \\qquad \\text{(C)}\\ 4 \\qquad \\text{(D)}\\ 5 \\qquad \\text{(E)}\\ 6</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "The arithmetic mean (average) of four numbers is <math>85</math>. If the largest of these numbers is <math>97</math>, then the mean of the remaining three numbers is <math>\\text{(A)}\\ 81.0 \\qquad \\text{(B)}\\ 82.7 \\qquad \\text{(C)}\\ 83.0 \\qquad \\text{(D)}\\ 84.0 \\qquad \\text{(E)}\\ 84.3</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 81",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "<math> \\frac{1}{1+\\frac{1}{2+\\frac{1}{3}}}= </math> <math>\\text{(A)}\\ \\dfrac{1}{6} \\qquad \\text{(B)}\\ \\dfrac{3}{10} \\qquad \\text{(C)}\\ \\dfrac{7}{10} \\qquad \\text{(D)}\\ \\dfrac{5}{6} \\qquad \\text{(E)}\\ \\dfrac{10}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 7 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Square corners, 5 units on a side, are removed from a <math>20</math> unit by <math>30</math> unit rectangular sheet of cardboard. The sides are then folded to form an open box. The surface area, in square units, of the interior of the box is <asy> fill((0,0)--(20,0)--(20,5)--(0,5)--cycle,lightgray); fill((20,0)--(20+5*sqrt(2),5*sqrt(2))--(20+5*sqrt(2),5+5*sqrt(2))--(20,5)--cycle,lightgray); draw((0,0)--(20,0)--(20,5)--(0,5)--cycle); draw((0,5)--(5*sqrt(2),5+5*sqrt(2))--(20+5*sqrt(2),5+5*sqrt(2))--(20,5)); draw((20+5*sqrt(2),5+5*sqrt(2))--(20+5*sqrt(2),5*sqrt(2))--(20,0)); draw((5*sqrt(2),5+5*sqrt(2))--(5*sqrt(2),5*sqrt(2))--(5,5),dashed); draw((5*sqrt(2),5*sqrt(2))--(15+5*sqrt(2),5*sqrt(2)),dashed); </asy> <math>\\text{(A)}\\ 300 \\qquad \\text{(B)}\\ 500 \\qquad \\text{(C)}\\ 550 \\qquad \\text{(D)}\\ 600 \\qquad \\text{(E)}\\ 1000</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 500",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "The rectangle shown has length <math>AC=32</math>, width <math>AE=20</math>, and <math>B</math> and <math>F</math> are midpoints of <math>\\overline{AC}</math> and <math>\\overline{AE}</math>, respectively. The area of quadrilateral <math>ABDF</math> is <asy> pair A,B,C,D,EE,F; A = (0,20); B = (16,20); C = (32,20); D = (32,0); EE = (0,0); F = (0,10); draw(A--C--D--EE--cycle); draw(B--D--F); dot(A); dot(B); dot(C); dot(D); dot(EE); dot(F); label(\"$A$\",A,NW); label(\"$B$\",B,N); label(\"$C$\",C,NE); label(\"$D$\",D,SE); label(\"$E$\",EE,SW); label(\"$F$\",F,W); </asy> <math>\\text{(A)}\\ 320 \\qquad \\text{(B)}\\ 325 \\qquad \\text{(C)}\\ 330 \\qquad \\text{(D)}\\ 335 \\qquad \\text{(E)}\\ 340</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 320",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "<math>(1901+1902+1903+\\cdots + 1993) - (101+102+103+\\cdots + 193) = </math> <math>\\text{(A)}\\ 167,400 \\qquad \\text{(B)}\\ 172,050 \\qquad \\text{(C)}\\ 181,071 \\qquad \\text{(D)}\\ 199,300 \\qquad \\text{(E)}\\ 362,142</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 167,400",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "When <math>10^{93}-93</math> is expressed as a single whole number, the sum of the digits is <math>\\text{(A)}\\ 10 \\qquad \\text{(B)}\\ 93 \\qquad \\text{(C)}\\ 819 \\qquad \\text{(D)}\\ 826 \\qquad \\text{(E)}\\ 833</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 826",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "If the length of a rectangle is increased by <math>20\\% </math> and its width is increased by <math>50\\% </math>, then the area is increased by <math>\\text{(A)}\\ 10\\% \\qquad \\text{(B)}\\ 30\\% \\qquad \\text{(C)}\\ 70\\% \\qquad \\text{(D)}\\ 80\\% \\qquad \\text{(E)}\\ 100\\% </math>",
+      "answerType": "exact",
+      "answerKey": "80\\%",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Pat Peano has a collection of numbers to label the pages of his scrapbook. He has an infinite number of 0's, 1's, 3's, 4's, 5's, 6's, 7's, 8's and 9's, but only twenty-two 2's. How far can he number the pages of his scrapbook with these digits? <imath>\\text{(A)}\\ 22 \\qquad \\text{(B)}\\ 99 \\qquad \\text{(C)}\\ 112 \\qquad \\text{(D)}\\ 119 \\qquad \\text{(E)}\\ 199</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 119",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Five runners, <math>P</math>, <math>Q</math>, <math>R</math>, <math>S</math>, <math>T</math>, have a race, and <math>P</math> beats <math>Q</math>, <math>P</math> beats <math>R</math>, <math>Q</math> beats <math>S</math>, and <math>T</math> finishes after <math>P</math> and before <math>Q</math>. Who could NOT have finished third in the race? <math>\\text{(A)}\\ P\\text{ and }Q \\qquad \\text{(B)}\\ P\\text{ and }R \\qquad \\text{(C)}\\ P\\text{ and }S \\qquad \\text{(D)}\\ P\\text{ and }T \\qquad \\text{(E)}\\ P,S\\text{ and }T</math>",
+      "answerType": "exact",
+      "answerKey": "\\ P\\ and \\ S",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "What number is directly above <math>142</math> in this array of numbers? <cmath> \\begin{array}{cccccc}& & & 1 & &\\\\ & & 2 & 3 & 4 &\\\\ & 5 & 6 & 7 & 8 & 9\\\\ 10 & 11 & 12 &\\cdots & &\\\\ \\end{array} </cmath> <math>\\text{(A)}\\ 99 \\qquad \\text{(B)}\\ 119 \\qquad \\text{(C)}\\ 120 \\qquad \\text{(D)}\\ 121 \\qquad \\text{(E)}\\ 122</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 120",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "A checkerboard consists of one-inch squares. A square card, <math>1.5</math> inches on a side, is placed on the board so that it covers part or all of the area of each of <math>n</math> squares. The maximum possible value of <math>n</math> is <math>\\text{(A)}\\ 4\\text{ or }5 \\qquad \\text{(B)}\\ 6\\text{ or }7\\qquad \\text{(C)}\\ 8\\text{ or }9 \\qquad \\text{(D)}\\ 10\\text{ or }11 \\qquad \\text{(E)}\\ 12\\text{ or more}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12\\ or more",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    }
+  ]
+}

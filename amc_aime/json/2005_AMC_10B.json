@@ -1,0 +1,260 @@
+{
+  "slug": "2005-amc-10b",
+  "title": "2005 AMC 10B",
+  "description": "Converted from 2005_AMC_10B_questions.txt and 2005_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A scout troop buys <math>1000</math> candy bars at a price of five for <math>2</math> dollars. They sell all the candy bars at the price of two for <math>1</math> dollar. What was their profit, in dollars? <math> \\textbf{(A) }\\ 100 \\qquad \\textbf{(B) }\\ 200 \\qquad \\textbf{(C) }\\ 300 \\qquad \\textbf{(D) }\\ 400 \\qquad \\textbf{(E) }\\ 500 </math>",
+      "answerType": "integer",
+      "answerKey": "100",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A positive number <math>x</math> has the property that <math>x\\%</math> of <math>x</math> is <math>4</math>. What is <math>x</math>? <math> \\textbf{(A) }\\ 2 \\qquad \\textbf{(B) }\\ 4 \\qquad \\textbf{(C) }\\ 10 \\qquad \\textbf{(D) }\\ 20 \\qquad \\textbf{(E) }\\ 40 </math>",
+      "answerType": "integer",
+      "answerKey": "20",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "A gallon of paint is used to paint a room. One third of the paint is used on the first day. On the second day, one third of the remaining paint is used. What fraction of the original amount of paint is available to use on the third day? <math>\\textbf{(A) } \\frac{1}{10} \\qquad \\textbf{(B) } \\frac{1}{9} \\qquad \\textbf{(C) } \\frac{1}{3} \\qquad \\textbf{(D) } \\frac{4}{9} \\qquad \\textbf{(E) } \\frac{5}{9} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 4 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "For real numbers <math>a</math> and <math>b</math>, define <math>a \\diamond b = \\sqrt{a^2 + b^2}</math>. What is the value of <math>(5 \\diamond 12) \\diamond ((-12) \\diamond (-5))</math>? <math>\\textbf{(A) } 0 \\qquad \\textbf{(B) } \\frac{17}{2} \\qquad \\textbf{(C) } 13 \\qquad \\textbf{(D) } 13\\sqrt{2} \\qquad \\textbf{(E) } 26</math>",
+      "answerType": "exact",
+      "answerKey": "13\\sqrt 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Brianna is using part of the money she earned on her weekend job to buy several equally-priced CDs. She used one fifth of her money to buy one third of the CDs. What fraction of her money will she have left after she buys all the CDs? <math>\\textbf{(A) }\\ \\frac15 \\qquad\\textbf{(B) }\\ \\frac13 \\qquad\\textbf{(C) }\\ \\frac25 \\qquad\\textbf{(D) }\\ \\frac23 \\qquad\\textbf{(E) }\\ \\frac45 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "At the beginning of the school year, Lisa's goal was to earn an <math>A</math> on at least <math>80\\%</math> of her <math>50</math> quizzes for the year. She earned an <math>A</math> on <math>22</math> of the first <math>30</math> quizzes. If she is to achieve her goal, on at most how many of the remaining quizzes can she earn a grade lower than an <math>A</math>? <math> \\textbf{(A) }\\ 1 \\qquad \\textbf{(B) }\\ 2 \\qquad \\textbf{(C) }\\ 3 \\qquad \\textbf{(D) }\\ 4 \\qquad \\textbf{(E) }\\ 5 </math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "A circle is inscribed in a square, then a square is inscribed in this circle, and finally, a circle is inscribed in this square. What is the ratio of the area of the smallest circle to the area of the largest square? <math>\\textbf{(A) } \\frac{\\pi}{16} \\qquad \\textbf{(B) } \\frac{\\pi}{8} \\qquad \\textbf{(C) } \\frac{3\\pi}{16} \\qquad \\textbf{(D) } \\frac{\\pi}{4} \\qquad \\textbf{(E) } \\frac{\\pi}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\pi 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "An <math>8 </math>-foot by <math>10</math>-foot bathroom floor is tiled with square tiles of size <math>1</math> foot by <math>1</math> foot. Each tile has a pattern consisting of four white quarter circles of radius <math>1/2</math> foot centered at each corner of the tile. The remaining portion of the tile is shaded. How many square feet of the floor are shaded? <asy> unitsize(2cm); defaultpen(linewidth(.8pt)); fill(unitsquare,gray); filldraw(Arc((0,0),.5,0,90)--(0,0)--cycle,white,black); filldraw(Arc((1,0),.5,90,180)--(1,0)--cycle,white,black); filldraw(Arc((1,1),.5,180,270)--(1,1)--cycle,white,black); filldraw(Arc((0,1),.5,270,360)--(0,1)--cycle,white,black); </asy> <math> \\textbf{(A) }\\ 80-20\\pi \\qquad \\textbf{(B) }\\ 60-10\\pi \\qquad \\textbf{(C) }\\ 80-10\\pi \\qquad \\textbf{(D) }\\ 60+10\\pi \\qquad \\textbf{(E) }\\ 80+10\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "80-20\\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "One fair die has faces <math>1, 1, 2, 2, 3, 3</math> and another has faces <math>4, 4, 5, 5, 6, 6.</math> The dice are rolled and the numbers on the top faces are added. What is the probability that the sum will be odd? <math>\\textbf{(A) } \\frac{1}{3} \\qquad \\textbf{(B) } \\frac{4}{9} \\qquad \\textbf{(C) } \\frac{1}{2} \\qquad \\textbf{(D) } \\frac{5}{9} \\qquad \\textbf{(E) } \\frac{2}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 5 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "In <math>\\triangle ABC</math>, we have <math>AC=BC=7</math> and <math>AB=2</math>. Suppose that <math>D</math> is a point on line <math>AB</math> such that <math>B</math> lies between <math>A</math> and <math>D</math> and <math>CD=8</math>. What is <math>BD</math>? <math> \\textbf{(A) }\\ 3 \\qquad \\textbf{(B) }\\ 2\\sqrt{3} \\qquad \\textbf{(C) }\\ 4 \\qquad \\textbf{(D) }\\ 5 \\qquad \\textbf{(E) }\\ 4\\sqrt{2} </math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The first term of a sequence is <math>2005</math>. Each succeeding term is the sum of the cubes of the digits of the previous term. What is the <math>{2005}^{\\text{th}}</math> term of the sequence? <math>\\mathrm{(A)} 29 \\qquad \\mathrm{(B)} 55 \\qquad \\mathrm{(C)} 85 \\qquad \\mathrm{(D)} 133 \\qquad \\mathrm{(E)} 250</math>",
+      "answerType": "integer",
+      "answerKey": "250",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Twelve fair dice are rolled. What is the probability that the product of the numbers on the top faces is prime? <math>\\textbf{(A) } \\left(\\frac{1}{12}\\right)^{12} \\qquad \\textbf{(B) } \\left(\\frac{1}{6}\\right)^{12} \\qquad \\textbf{(C) } 2\\left(\\frac{1}{6}\\right)^{11} \\qquad \\textbf{(D) } \\frac{5}{2}\\left(\\frac{1}{6}\\right)^{11} \\qquad \\textbf{(E) } \\left(\\frac{1}{6}\\right)^{10} </math>",
+      "answerType": "exact",
+      "answerKey": "\\left(\\dfrac 1 6 \\right)^ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "How many numbers between <math>1</math> and <math>2005</math> are integer multiples of <math>3</math> or <math>4</math> but not <math>12</math>? <math>\\textbf{(A) } 501 \\qquad \\textbf{(B) } 668 \\qquad \\textbf{(C) } 835 \\qquad \\textbf{(D) } 1002 \\qquad \\textbf{(E) } 1169 </math>",
+      "answerType": "integer",
+      "answerKey": "835",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Equilateral <math> \\triangle ABC</math> has side length <math>2</math>, <math> M</math> is the midpoint of <math> \\overline{AC}</math>, and <math> C</math> is the midpoint of <math> \\overline{BD}</math>. What is the area of <math> \\triangle CDM</math>? <asy>defaultpen(linewidth(.8pt)+fontsize(8pt)); pair B = (0,0); pair A = 2*dir(60); pair C = (2,0); pair D = (4,0); pair M = midpoint(A--C); label(\"$A$\",A,NW);label(\"$B$\",B,SW);label(\"$C$\",C, SE);label(\"$M$\",M,NE);label(\"$D$\",D,SE); draw(A--B--C--cycle); draw(C--D--M--cycle);</asy> <math> \\textbf{(A) }\\ \\frac {\\sqrt {2}}{2}\\qquad \\textbf{(B) }\\ \\frac {3}{4}\\qquad \\textbf{(C) }\\ \\frac {\\sqrt {3}}{2}\\qquad \\textbf{(D) }\\ 1\\qquad \\textbf{(E) }\\ \\sqrt {2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac \\sqrt 3 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "An envelope contains eight bills: <math>2</math> ones, <math>2</math> fives, <math>2</math> tens, and <math>2</math> twenties. Two bills are drawn at random without replacement. What is the probability that their sum is &#36;<math>20</math> or more? <math>\\textbf{(A) }\\ {{{\\frac{1}{4}}}} \\qquad \\textbf{(B) }\\ {{{\\frac{2}{5}}}} \\qquad \\textbf{(C) }\\ {{{\\frac{3}{7}}}} \\qquad \\textbf{(D) }\\ {{{\\frac{1}{2}}}} \\qquad \\textbf{(E) }\\ {{{\\frac{2}{3}}}}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "The [[quadratic equation]] <math>x^2+mx+n</math> has roots twice those of <math>x^2+px+m</math>, and none of <math>m,n,</math> and <math>p</math> is zero. What is the value of <math>n/p</math>? <math>\\textbf{(A) }\\ {{{1}}} \\qquad \\textbf{(B) }\\ {{{2}}} \\qquad \\textbf{(C) }\\ {{{4}}} \\qquad \\textbf{(D) }\\ {{{8}}} \\qquad \\textbf{(E) }\\ {{{16}}}</math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Suppose that <math>4^a = 5</math>, <math>5^b = 6</math>, <math>6^c = 7</math>, and <math>7^d = 8</math>. What is <math>a \\cdot b\\cdot c \\cdot d</math>? <math>\\textbf{(A) } 1 \\qquad \\textbf{(B) } \\frac{3}{2} \\qquad \\textbf{(C) } 2 \\qquad \\textbf{(D) } \\frac{5}{2} \\qquad \\textbf{(E) } 3 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "All of David's telephone numbers have the form <math>555-abc-defg</math>, where <math>a</math>, <math>b</math>, <math>c</math>, <math>d</math>, <math>e</math>, <math>f</math>, and <math>g</math> are distinct digits and in increasing order, and none is either <math>0</math> or <math>1</math>. How many different telephone numbers can David have? <math>\\textbf{(A) } 1 \\qquad \\textbf{(B) } 2 \\qquad \\textbf{(C) } 7 \\qquad \\textbf{(D) } 8 \\qquad \\textbf{(E) } 9 </math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "On a certain math exam, <math>10\\%</math> of the students got <math>70</math> points, <math>25\\%</math> got <math>80</math> points, <math>20\\%</math> got <math>85</math> points, <math>15\\%</math> got <math>90</math> points, and the rest got <math>95</math> points. What is the difference between the [[mean]] and the [[median]] score on this exam? <math>\\textbf{(A) }\\ 0 \\qquad \\textbf{(B) }\\ 1 \\qquad \\textbf{(C) }\\ 2 \\qquad \\textbf{(D) }\\ 4 \\qquad \\textbf{(E) }\\ 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "What is the average (mean) of all 5-digit numbers that can be formed by using each of the digits 1, 3, 5, 7, and 8 exactly once? <math> \\textbf{(A) }48000\\qquad\\textbf{(B) }49999.5\\qquad\\textbf{(C) }53332.8\\qquad\\textbf{(D) }55555\\qquad\\textbf{(E) }56432.8 </math>",
+      "answerType": "decimal",
+      "answerKey": "53332.8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Forty slips are placed into a hat, each bearing a number <math>1</math>, <math>2</math>, <math>3</math>, <math>4</math>, <math>5</math>, <math>6</math>, <math>7</math>, <math>8</math>, <math>9</math>, or <math>10</math>, with each number entered on four slips. Four slips are drawn from the hat at random and without replacement. Let <math>p</math> be the probability that all four slips bear the same number. Let <math>q</math> be the probability that two of the slips bear a number <math>a</math> and the other two bear a number <math>b \\neq a</math>. What is the value of <math>q/p</math>? <math>\\textbf{(A) } 162 \\qquad \\textbf{(B) } 180 \\qquad \\textbf{(C) } 324 \\qquad \\textbf{(D) } 360 \\qquad \\textbf{(E) } 720 </math>",
+      "answerType": "integer",
+      "answerKey": "162",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "For how many positive integers <math>n</math> less than or equal to <math>24</math> is <math>n!</math> evenly divisible by <math>1 + 2 + \\cdots + n?</math> <math>\\textbf{(A) } 8 \\qquad \\textbf{(B) } 12 \\qquad \\textbf{(C) } 16 \\qquad \\textbf{(D) } 17 \\qquad \\textbf{(E) } 21 </math>",
+      "answerType": "integer",
+      "answerKey": "16",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "In trapezoid <math>ABCD</math> we have <math>\\overline{AB}</math> parallel to <math>\\overline{DC}</math>, <math>E</math> as the midpoint of <math>\\overline{BC}</math>, and <math>F</math> as the midpoint of <math>\\overline{DA}</math>. The area of <math>ABEF</math> is twice the area of <math>FECD</math>. What is <math>AB/DC</math>? <math>\\textbf{(A) } 2 \\qquad \\textbf{(B) } 3 \\qquad \\textbf{(C) } 5 \\qquad \\textbf{(D) } 6 \\qquad \\textbf{(E) } 8 </math>",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <math>x</math> and <math>y</math> be two-digit integers such that <math>y</math> is obtained by reversing the digits of <math>x</math>. The integers <math>x</math> and <math>y</math> satisfy <math>x^2 - y^2 = m^2</math> for some positive integer <math>m</math>. What is <math>x + y + m</math>? <math>\\textbf{(A) } 88 \\qquad \\textbf{(B) } 112 \\qquad \\textbf{(C) } 116 \\qquad \\textbf{(D) } 144 \\qquad \\textbf{(E) } 154 </math>",
+      "answerType": "integer",
+      "answerKey": "154",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "A [[subset]] <math>B</math> of the set of integers from <math>1</math> to <math>100</math>, inclusive, has the property that no two elements of <math>B</math> sum to <math>125</math>. What is the maximum possible number of elements in <math>B</math>? <math>\\textbf{(A) } 50 \\qquad \\textbf{(B) } 51 \\qquad \\textbf{(C) } 62 \\qquad \\textbf{(D) } 65 \\qquad \\textbf{(E) } 68 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 62",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

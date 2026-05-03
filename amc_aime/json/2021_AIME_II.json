@@ -1,0 +1,118 @@
+{
+  "slug": "2021-aime-ii",
+  "title": "2021 AIME II",
+  "description": "Converted from 2021_AIME_II_questions.txt and 2021_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the arithmetic mean of all the three-digit palindromes. (Recall that a palindrome is a number that reads the same forward and backward, such as <math>777</math> or <math>383</math>.)",
+      "answerType": "integer",
+      "answerKey": "550",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Equilateral triangle <math>ABC</math> has side length <math>840</math>. Point <math>D</math> lies on the same side of line <math>BC</math> as <math>A</math> such that <math>\\overline{BD} \\perp \\overline{BC}</math>. The line <math>\\ell</math> through <math>D</math> parallel to line <math>BC</math> intersects sides <math>\\overline{AB}</math> and <math>\\overline{AC}</math> at points <math>E</math> and <math>F</math>, respectively. Point <math>G</math> lies on <math>\\ell</math> such that <math>F</math> is between <math>E</math> and <math>G</math>, <math>\\triangle AFG</math> is isosceles, and the ratio of the area of <math>\\triangle AFG</math> to the area of <math>\\triangle BED</math> is <math>8:9</math>. Find <math>AF</math>. <asy> pair A,B,C,D,E,F,G; B=origin; A=5*dir(60); C=(5,0); E=0.6*A+0.4*B; F=0.6*A+0.4*C; G=rotate(240,F)*A; D=extension(E,F,B,dir(90)); draw(D--G--A,grey); draw(B--0.5*A+rotate(60,B)*A*0.5,grey); draw(A--B--C--cycle,linewidth(1.5)); dot(A^^B^^C^^D^^E^^F^^G); label(\"$A$\",A,dir(90)); label(\"$B$\",B,dir(225)); label(\"$C$\",C,dir(-45)); label(\"$D$\",D,dir(180)); label(\"$E$\",E,dir(-45)); label(\"$F$\",F,dir(225)); label(\"$G$\",G,dir(0)); label(\"$\\ell$\",midpoint(E--F),dir(90)); </asy>",
+      "answerType": "integer",
+      "answerKey": "336",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Find the number of permutations <math>x_1, x_2, x_3, x_4, x_5</math> of numbers <math>1, 2, 3, 4, 5</math> such that the sum of five products <cmath>x_1x_2x_3 + x_2x_3x_4 + x_3x_4x_5 + x_4x_5x_1 + x_5x_1x_2</cmath> is divisible by <math>3</math>.",
+      "answerType": "integer",
+      "answerKey": "080",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "There are real numbers <math>a, b, c,</math> and <math>d</math> such that <math>-20</math> is a root of <math>x^3 + ax + b</math> and <math>-21</math> is a root of <math>x^3 + cx^2 + d.</math> These two polynomials share a complex root <math>m + \\sqrt{n} \\cdot i,</math> where <math>m</math> and <math>n</math> are positive integers and <math>i = \\sqrt{-1}.</math> Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "330",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "For positive real numbers <math>s</math>, let <math>\\tau(s)</math> denote the set of all obtuse triangles that have area <math>s</math> and two sides with lengths <math>4</math> and <math>10</math>. The set of all <math>s</math> for which <math>\\tau(s)</math> is nonempty, but all triangles in <math>\\tau(s)</math> are congruent, is an interval <math>[a,b)</math>. Find <math>a^2+b^2</math>.",
+      "answerType": "integer",
+      "answerKey": "736",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "For any finite set <math>S</math>, let <math>|S|</math> denote the number of elements in <math>S</math>. Find the number of ordered pairs <math>(A,B)</math> such that <math>A</math> and <math>B</math> are (not necessarily distinct) subsets of <math>\\{1,2,3,4,5\\}</math> that satisfy <cmath>|A| \\cdot |B| = |A \\cap B| \\cdot |A \\cup B|</cmath>",
+      "answerType": "integer",
+      "answerKey": "454",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Let <math>a, b, c,</math> and <math>d</math> be real numbers that satisfy the system of equations <cmath>\\begin{align*} a + b &= -3, \\\\ ab + bc + ca &= -4, \\\\ abc + bcd + cda + dab &= 14, \\\\ abcd &= 30. \\end{align*}</cmath> There exist relatively prime positive integers <math>m</math> and <math>n</math> such that <cmath>a^2 + b^2 + c^2 + d^2 = \\frac{m}{n}. </cmath>Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "145",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "An ant makes a sequence of moves on a cube where a move consists of walking from one vertex to an adjacent vertex along an edge of the cube. Initially the ant is at a vertex of the bottom face of the cube and chooses one of the three adjacent vertices to move to as its first move. For all moves after the first move, the ant does not return to its previous vertex, but chooses to move to one of the other two adjacent vertices. All choices are selected at random so that each of the possible moves is equally likely. The probability that after exactly <math>8</math> moves that ant is at a vertex of the top face on the cube is <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n.</math>",
+      "answerType": "integer",
+      "answerKey": "049",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Find the number of ordered pairs <math>(m, n)</math> such that <math>m</math> and <math>n</math> are positive integers in the set <math>\\{1, 2, ..., 30\\}</math> and the greatest common divisor of <math>2^m + 1</math> and <math>2^n - 1</math> is not <math>1</math>.",
+      "answerType": "integer",
+      "answerKey": "295",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Two spheres with radii <math>36</math> and one sphere with radius <math>13</math> are each externally tangent to the other two spheres and to two different planes <math>\\mathcal{P}</math> and <math>\\mathcal{Q}</math>. The intersection of planes <math>\\mathcal{P}</math> and <math>\\mathcal{Q}</math> is the line <math>\\ell</math>. The distance from line <math>\\ell</math> to the point where the sphere with radius <math>13</math> is tangent to plane <math>\\mathcal{P}</math> is <math>\\tfrac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "335",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "A teacher was leading a class of four perfectly logical students. The teacher chose a set <math>S</math> of four integers and gave a different number in <math>S</math> to each student. Then the teacher announced to the class that the numbers in <math>S</math> were four consecutive two-digit positive integers, that some number in <math>S</math> was divisible by <math>6</math>, and a different number in <math>S</math> was divisible by <math>7</math>. The teacher then asked if any of the students could deduce what <math>S</math> is, but in unison, all of the students replied no. However, upon hearing that all four students replied no, each student was able to determine the elements of <math>S</math>. Find the sum of all possible values of the greatest element of <math>S</math>.",
+      "answerType": "integer",
+      "answerKey": "258",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A convex quadrilateral has area <math>30</math> and side lengths <math>5, 6, 9,</math> and <math>7,</math> in that order. Denote by <math>\\theta</math> the measure of the acute angle formed by the diagonals of the quadrilateral. Then <math>\\tan \\theta</math> can be written in the form <math>\\tfrac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "047",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Find the least positive integer <math>n</math> for which <math>2^n + 5^n - n</math> is a multiple of <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "797",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>\\Delta ABC</math> be an acute triangle with circumcenter <math>O</math> and centroid <math>G</math>. Let <math>X</math> be the intersection of the line tangent to the circumcircle of <math>\\Delta ABC</math> at <math>A</math> and the line perpendicular to <math>GO</math> at <math>G</math>. Let <math>Y</math> be the intersection of lines <math>XG</math> and <math>BC</math>. Given that the measures of <math>\\angle ABC, \\angle BCA, </math> and <math>\\angle XOY</math> are in the ratio <math>13 : 2 : 17, </math> the degree measure of <math>\\angle BAC</math> can be written as <math>\\frac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "592",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>f(n)</math> and <math>g(n)</math> be functions satisfying <cmath>f(n) = \\begin{cases}\\sqrt{n} & \\text{ if } \\sqrt{n} \\text{ is an integer}\\\\ 1 + f(n+1) & \\text{ otherwise} \\end{cases}</cmath>and <cmath>g(n) = \\begin{cases}\\sqrt{n} & \\text{ if } \\sqrt{n} \\text{ is an integer}\\\\ 2 + g(n+2) & \\text{ otherwise} \\end{cases}</cmath>for positive integers <math>n</math>. Find the least positive integer <math>n</math> such that <math>\\tfrac{f(n)}{g(n)} = \\tfrac{4}{7}</math>.",
+      "answerType": "integer",
+      "answerKey": "258",
+      "points": 1
+    }
+  ]
+}

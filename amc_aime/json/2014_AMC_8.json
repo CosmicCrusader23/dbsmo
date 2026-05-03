@@ -1,0 +1,251 @@
+{
+  "slug": "2014-amc-8",
+  "title": "2014 AMC 8",
+  "description": "Converted from 2014_AMC_8_questions.txt and 2014_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Harry and Terry are each told to calculate <math>8-(2+5)</math>. Harry gets the correct answer. Terry ignores the parentheses and calculates <math>8-2+5</math>. If Harry's answer is <math>H</math> and Terry's answer is <math>T</math>, what is <math>H-T</math>? <math>\\textbf{(A) }-10\\qquad\\textbf{(B) }-6\\qquad\\textbf{(C) }0\\qquad\\textbf{(D) }6\\qquad \\textbf{(E) }10</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Paul owes Paula <math>35</math> cents and has a pocket full of <math>5</math>-cent coins, <math>10</math>-cent coins, and <math>25</math>-cent coins that he can use to pay her. What is the difference between the largest and the smallest number of coins he can use to pay her? <math>\\textbf{(A) }1\\qquad\\textbf{(B) }2\\qquad\\textbf{(C) }3\\qquad\\textbf{(D) }4\\qquad \\textbf{(E) }5</math>",
+      "answerType": "exact",
+      "answerKey": "~5",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Isabella had a week to read a book for a school assignment. She read an average of <math>36</math> pages per day for the first three days and an average of <math>44</math> pages per day for the next three days. She then finished the book by reading <math>10</math> pages on the last day. How many pages were in the book? <math>\\textbf{(A) }240\\qquad\\textbf{(B) }250\\qquad\\textbf{(C) }260\\qquad\\textbf{(D) }270\\qquad \\textbf{(E) }280</math>",
+      "answerType": "exact",
+      "answerKey": "~250",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "The sum of two prime numbers is <math>85</math>. What is the product of these two prime numbers? <math>\\textbf{(A) }85\\qquad\\textbf{(B) }91\\qquad\\textbf{(C) }115\\qquad\\textbf{(D) }133\\qquad \\textbf{(E) }166</math>",
+      "answerType": "exact",
+      "answerKey": "~166",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Margie's car can go <math>32</math> miles on a gallon of gas, and gas currently costs \\$<math>4</math> per gallon. How many miles can Margie drive on <math>\\textdollar 20</math> worth of gas? <math>\\textbf{(A) }64\\qquad\\textbf{(B) }128\\qquad\\textbf{(C) }160\\qquad\\textbf{(D) }320\\qquad \\textbf{(E) }640</math>",
+      "answerType": "exact",
+      "answerKey": "~160",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Six rectangles each with a common base width of <math>2</math> have lengths of <math>1, 4, 9, 16, 25</math>, and <math>36</math>. What is the sum of the areas of the six rectangles? <math>\\textbf{(A) }91\\qquad\\textbf{(B) }93\\qquad\\textbf{(C) }162\\qquad\\textbf{(D) }182\\qquad \\textbf{(E) }202</math>",
+      "answerType": "exact",
+      "answerKey": "~182",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "There are four more girls than boys in Ms. Raub's class of <math>28</math> students. What is the ratio of number of girls to the number of boys in her class? <math>\\textbf{(A) }3 : 4\\qquad\\textbf{(B) }4 : 3\\qquad\\textbf{(C) }3 : 2\\qquad\\textbf{(D) }7 : 4\\qquad \\textbf{(E) }2 : 1</math>",
+      "answerType": "exact",
+      "answerKey": "~4:3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Eleven members of the Middle School Math Club each paid the same amount for a guest speaker to talk about problem solving at their math club meeting. They paid their guest speaker <math> \\textdollar\\underline{1} \\underline{A} \\underline{2}</math>. What is the missing digit <math>A</math> of this <math>3</math>-digit number? <math>\\textbf{(A) }0\\qquad\\textbf{(B) }1\\qquad\\textbf{(C) }2\\qquad\\textbf{(D) }3\\qquad \\textbf{(E) }4</math>",
+      "answerType": "exact",
+      "answerKey": "~3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "In <math>\\bigtriangleup ABC</math>, <math>D</math> is a point on side <math>\\overline{AC}</math> such that <math>BD=DC</math> and <math>\\angle BCD</math> measures <math>70^\\circ</math>. What is the degree measure of <math>\\angle ADB</math>? <asy> size(300); defaultpen(linewidth(0.8)); pair A=(-1,0),C=(1,0),B=dir(40),D=origin; draw(A--B--C--A); draw(D--B); dot(\"$A$\", A, SW); dot(\"$B$\", B, NE); dot(\"$C$\", C, SE); dot(\"$D$\", D, S); label(\"$70^\\circ$\",C,2*dir(180-35));</asy> <math>\\textbf{(A) }100\\qquad\\textbf{(B) }120\\qquad\\textbf{(C) }135\\qquad\\textbf{(D) }140\\qquad \\textbf{(E) }150</math>",
+      "answerType": "exact",
+      "answerKey": "~140",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "The first AMC <math>8</math> was given in <math>1985</math> and it has been given annually since that time. Samantha turned <math>12</math> years old the year that she took the seventh AMC <math>8</math>. In what year was Samantha born? <math>\\textbf{(A) }1979\\qquad\\textbf{(B) }1980\\qquad\\textbf{(C) }1981\\qquad\\textbf{(D) }1982\\qquad \\textbf{(E) }1983</math>",
+      "answerType": "exact",
+      "answerKey": "\\left( A \\right)1979",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Jack wants to bike from his house to Jill's house, which is located three blocks east and two blocks north of Jack's house. After biking each block, Jack can continue either east or north, but he needs to avoid a dangerous intersection one block east and one block north of his house. In how many ways can he reach Jill's house by biking a total of five blocks? <math>\\textbf{(A) }4\\qquad\\textbf{(B) }5\\qquad\\textbf{(C) }6\\qquad\\textbf{(D) }8\\qquad \\textbf{(E) }10</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A magazine printed photos of three celebrities along with three photos of the celebrities as babies. The baby pictures did not identify the celebrities. Readers were asked to match each celebrity with the correct baby pictures. What is the probability that a reader guessing at random will match all three correctly? <math> \\textbf{(A) }\\frac{1}{9}\\qquad\\textbf{(B) }\\frac{1}{6}\\qquad\\textbf{(C) }\\frac{1}{4}\\qquad\\textbf{(D) }\\frac{1}{3}\\qquad\\textbf{(E) }\\frac{1}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 1 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "If <math>n</math> and <math>m</math> are integers and <math>n^2+m^2</math> is even, which of the following is impossible? <math>\\textbf{(A) }</math> <math>n</math> and <math>m</math> are even <math>\\qquad\\textbf{(B) }</math> <math>n</math> and <math>m</math> are odd <math>\\qquad\\textbf{(C) }</math> <math>n+m</math> is even <math>\\qquad\\textbf{(D) }</math> <math>n+m</math> is odd <math>\\qquad \\textbf{(E) }</math> none of these are impossible",
+      "answerType": "exact",
+      "answerKey": "( D )",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Rectangle <math>ABCD</math> and right triangle <math>DCE</math> have the same area. They are joined to form a trapezoid, as shown. What is <math>DE</math>? <asy> size(250); defaultpen(linewidth(0.8)); pair A=(0,5),B=origin,C=(6,0),D=(6,5),E=(18,0); draw(A--B--E--D--cycle^^C--D); draw(rightanglemark(D,C,E,30)); label(\"$A$\",A,NW); label(\"$B$\",B,SW); label(\"$C$\",C,S); label(\"$D$\",D,N); label(\"$E$\",E,S); label(\"$5$\",A/2,W); label(\"$6$\",(A+D)/2,N); </asy> <math> \\textbf{(A) }12\\qquad\\textbf{(B) }13\\qquad\\textbf{(C) }14\\qquad\\textbf{(D) }15\\qquad\\textbf{(E) }16 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "The circumference of the circle with center <math>O</math> is divided into <math>12</math> equal arcs, marked the letters <math>A</math> through <math>L</math> as seen below. What is the number of degrees in the sum of the angles <math>x</math> and <math>y</math>? <asy> size(230); defaultpen(linewidth(0.65)); pair O=origin; pair[] circum = new pair[12]; string[] let = {\"$A$\",\"$B$\",\"$C$\",\"$D$\",\"$E$\",\"$F$\",\"$G$\",\"$H$\",\"$I$\",\"$J$\",\"$K$\",\"$L$\"}; draw(unitcircle); for(int i=0;i<=11;i=i+1) { circum[i]=dir(120-30*i); dot(circum[i],linewidth(2.5)); label(let[i],circum[i],2*dir(circum[i])); } draw(O--circum[4]--circum[0]--circum[6]--circum[8]--cycle); label(\"$x$\",circum[0],2.75*(dir(circum[0]--circum[4])+dir(circum[0]--circum[6]))); label(\"$y$\",circum[6],1.75*(dir(circum[6]--circum[0])+dir(circum[6]--circum[8]))); label(\"$O$\",O,dir(60)); </asy> <math> \\textbf{(A) }75\\qquad\\textbf{(B) }80\\qquad\\textbf{(C) }90\\qquad\\textbf{(D) }120\\qquad\\textbf{(E) }150 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 90",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "The \"Middle School Eight\" basketball conference has <math>8</math> teams. Every season, each team plays every other conference team twice (home and away), and each team also plays <math>4</math> games against non-conference opponents. What is the total number of games in a season involving the \"Middle School Eight\" teams? <math>\\textbf{(A) }60\\qquad\\textbf{(B) }88\\qquad\\textbf{(C) }96\\qquad\\textbf{(D) }144\\qquad \\textbf{(E) }160</math>",
+      "answerType": "integer",
+      "answerKey": "88",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "George walks <math>1</math> mile to school. He leaves home at the same time each day, walks at a steady speed of <math>3</math> miles per hour, and arrives just as school begins. Today he was distracted by the pleasant weather and walked the first <math>\\frac{1}{2}</math> mile at a speed of only <math>2</math> miles per hour. At how many miles per hour must George run the last <math>\\frac{1}{2}</math> mile in order to arrive just as school begins today? <math>\\textbf{(A) }4\\qquad\\textbf{(B) }6\\qquad\\textbf{(C) }8\\qquad\\textbf{(D) }10\\qquad \\textbf{(E) }12</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Four children were born at City Hospital yesterday. Assume each child is equally likely to be a boy or a girl. Which of the following outcomes is most likely? <imath>\\textbf{(A) }</imath> All are boys <imath>\\textbf{(B) }</imath> All are girls <imath>\\textbf{(C) }</imath> 2 are boys and 2 are girls <imath>\\textbf{(D) }</imath> 3 are the same gender and 1 is of the other gender <imath>\\textbf{(E) }</imath> All of these outcomes are equally likely",
+      "answerType": "exact",
+      "answerKey": "3 are of one gender and 1 of the other gender",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A cube with <math>3</math>-inch edges is to be constructed from <math>27</math> smaller cubes with <math>1</math>-inch edges. Twenty-one of the cubes are colored red and <math>6</math> are colored white. If the <math>3</math>-inch cube is constructed to have the smallest possible white surface area showing, what fraction of the surface area is white? <math> \\textbf{(A) }\\frac{5}{54}\\qquad\\textbf{(B) }\\frac{1}{9}\\qquad\\textbf{(C) }\\frac{5}{27}\\qquad\\textbf{(D) }\\frac{2}{9}\\qquad\\textbf{(E) }\\frac{1}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 5 54",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Rectangle <imath>ABCD</imath> has sides <imath>CD=3</imath> and <imath>DA=5</imath>. A circle of radius <imath>1</imath> is centered at <imath>A</imath>, a circle of radius <imath>2</imath> is centered at <imath>B</imath>, and a circle of radius <imath>3</imath> is centered at <imath>C</imath>. Which of the following is closest to the area of the region inside the rectangle but outside all three circles? <asy> draw((0,0)--(5,0)--(5,3)--(0,3)--(0,0)); draw(Circle((0,0),1)); draw(Circle((0,3),2)); draw(Circle((5,3),3)); label(\"A\",(0.2,0),W); label(\"B\",(0.2,2.8),NW); label(\"C\",(4.8,2.8),NE); label(\"D\",(5,0),SE); label(\"5\",(2.5,0),N); label(\"3\",(5,1.5),E); </asy> <imath> \\text{(A) }3.5\\qquad\\text{(B) }4.0\\qquad\\text{(C) }4.5\\qquad\\text{(D) }5.0\\qquad\\text{(E) }5.5 </imath>",
+      "answerType": "decimal",
+      "answerKey": "4.0",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "The <math>7</math>-digit numbers <math>\\underline{7} \\underline{4} \\underline{A} \\underline{5} \\underline{2} \\underline{B} \\underline{1}</math> and <math>\\underline{3} \\underline{2} \\underline{6} \\underline{A} \\underline{B} \\underline{4} \\underline{C}</math> are each multiples of <math>3</math>. Which of the following could be the value of <math>C</math>? <math>\\textbf{(A) }1\\qquad\\textbf{(B) }2\\qquad\\textbf{(C) }3\\qquad\\textbf{(D) }5\\qquad \\textbf{(E) }8</math>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "A <math>2</math>-digit number is such that the product of the digits plus the sum of the digits is equal to the number. What is the units digit of the number? <math>\\textbf{(A) }1\\qquad\\textbf{(B) }3\\qquad\\textbf{(C) }5\\qquad\\textbf{(D) }7\\qquad \\textbf{(E) }9</math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "https://www.youtube.com/watch?v=6S0u_fDjSxc",
+      "answerType": "integer",
+      "answerKey": "11",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "One day the Beverage Barn sold <imath>252</imath> cans of soda to <imath>100</imath> customers, and every customer bought at least one can of soda. What is the maximum possible median number of cans of soda bought per customer on that day? <imath>\\textbf{(A) }2.5\\qquad\\textbf{(B) }3.0\\qquad\\textbf{(C) }3.5\\qquad\\textbf{(D) }4.0\\qquad \\textbf{(E) }4.5</imath>",
+      "answerType": "decimal",
+      "answerKey": "3.5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "A straight one-mile stretch of highway, 40 feet wide, is closed. Robert rides his bike on a path composed of semicircles as shown. If he rides at 5 miles per hour, how many hours will it take to cover the one-mile stretch? <asy>size(10cm); pathpen=black; pointpen=black; D(arc((-2,0),1,300,360)); D(arc((0,0),1,0,180)); D(arc((2,0),1,180,360)); D(arc((4,0),1,0,180)); D(arc((6,0),1,180,240)); D((-1.5,-1)--(5.5,-1));</asy> Note: 1 mile = 5280 feet <imath> \\textbf{(A) }\\frac{\\pi}{11}\\qquad\\textbf{(B) }\\frac{\\pi}{10}\\qquad\\textbf{(C) }\\frac{\\pi}{5}\\qquad\\textbf{(D) }\\frac{2\\pi}{5}\\qquad\\textbf{(E) }\\frac{2\\pi}{3} </imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\pi 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

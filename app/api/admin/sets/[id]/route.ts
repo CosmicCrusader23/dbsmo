@@ -4,6 +4,10 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
+import {
+  isSupportedProblemContentFormat,
+  normalizeProblemContentFormat,
+} from "@/lib/problem-content-format";
 import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
 
 export const runtime = "nodejs";
@@ -22,6 +26,12 @@ const problemPatchSchema = z.object({
   id: z.string().min(1).optional(),
   number: z.number().int().positive().optional(),
   statement: z.string().optional(),
+  contentFormat: z
+    .string()
+    .optional()
+    .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
+      message: "Invalid contentFormat. Use LATEX or HTML.",
+    }),
   answerKey: z.string().min(1),
   answerType: answerTypeSchema,
   topicTags: z.array(z.string().min(1)).optional(),
@@ -179,6 +189,7 @@ export async function PATCH(request: Request, context: RouteContext) {
         const data = {
           number: problem.number ?? index + 1,
           statement: problem.statement?.trim() ?? "",
+          contentFormat: normalizeProblemContentFormat(problem.contentFormat),
           answerKey: problem.answerKey.trim(),
           answerType: problem.answerType,
           topicTags: normalizeTagList(problem.topicTags ?? []),

@@ -1,0 +1,257 @@
+{
+  "slug": "2025-amc-12b",
+  "title": "2025 AMC 12B",
+  "description": "Converted from 2025_AMC_12B_questions.txt and 2025_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "The instructions on a <imath>350</imath>-gram bag of coffee beans say that proper brewing of a large mug of pour-over coffee requires <imath>20</imath> grams of coffee beans. What is the greatest number of properly brewed large mugs of coffee that can be made from the coffee beans in that bag? <imath>\\textbf{(A) } 16 \\qquad\\textbf{(B) } 17 \\qquad\\textbf{(C) } 18 \\qquad\\textbf{(D) } 19 \\qquad\\textbf{(E) } 20</imath>",
+      "answerType": "integer",
+      "answerKey": "17",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Jerry wrote down the ones digit of each of the first <imath>2025</imath> positive squares: <imath>1, 4, 9, 6, 5, 6, \\dots</imath>. What is the sum of all the numbers Jerry wrote down? <imath>\\textbf{(A)}~9025 \\qquad \\textbf{(B)}~9070 \\qquad \\textbf{(C)}~9090 \\qquad \\textbf{(D)}~9115 \\qquad \\textbf{(E)}~9160</imath>",
+      "answerType": "exact",
+      "answerKey": "~9115",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "What is the value of <imath>i(i-1)(i-2)(i-3)</imath>, where <imath>i = \\sqrt{-1}</imath>? <imath>\\textbf{(A)}~6-5i \\qquad \\textbf{(B)}~-10i \\qquad \\textbf{(C)}~10i \\qquad \\textbf{(D)}~-10 \\qquad \\textbf{(E)}~10</imath>",
+      "answerType": "exact",
+      "answerKey": "~-10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "The value of the two-digit number <imath>\\underline{a}~\\underline{b}</imath> in base seven equals the value of the two-digit number <imath>\\underline{b}~\\underline{a}</imath> in base nine. What is <imath>a+b?</imath> <imath>\\textbf{(A)}~7\\qquad\\textbf{(B)}~9\\qquad\\textbf{(C)}~10\\qquad\\textbf{(D)}~11\\qquad\\textbf{(E)}~14</imath>",
+      "answerType": "exact",
+      "answerKey": "~7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Positive integers <imath>x</imath> and <imath>y</imath> satisfy the equation <imath>57x+ 22y = 400</imath>. What is the least possible value of <imath>x+y</imath>? <imath>\\textbf{(A) } 10 \\qquad\\textbf{(B) } 11 \\qquad\\textbf{(C) } 13 \\qquad\\textbf{(D) } 14 \\qquad\\textbf{(E) } 15</imath>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Emmy says to Max, \"I ordered 36 math club sweatshirts today.\" Max asks, \"How much did each shirt cost?\" Emmy responds, \"I'll give you a hint. The total cost was <imath>\\$ \\underline A~\\underline B~\\underline B.\\underline B~\\underline A</imath>, where <imath>A</imath> and <imath>B</imath> are digits and <imath>A \\neq 0</imath>.\" After a pause, Max says, \"That was a good price.\" What is <imath>A + B</imath>? <imath>\\textbf{(A)}~7 \\qquad \\textbf{(B)}~8 \\qquad \\textbf{(C)}~11 \\qquad \\textbf{(D)}~14 \\qquad \\textbf{(E)}~15</imath>",
+      "answerType": "exact",
+      "answerKey": "~11",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "What is the value of <cmath>\\sum_{n = 2}^{255}\\frac{\\log_{2}\\left(1 + \\tfrac{1}{n}\\right)}{\\left(\\log_{2}n\\right)\\left(\\log_{2}(n + 1)\\right)}?</cmath> <imath>\\textbf{(A)}~\\frac{3}{4} \\qquad \\textbf{(B)}~1 -\\frac{1}{\\log_{2}255} \\qquad \\textbf{(C)}~\\frac{7}{8} \\qquad \\textbf{(D)}~\\frac{15}{16} \\qquad \\textbf{(E)}~1</imath>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 7 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "There are integers <imath>a</imath> and <imath>b</imath> such that the polynomial <imath>x^3 - 5x^2 + ax + b</imath> has <imath>4+\\sqrt{5}</imath> as a root. What is <imath>a+b</imath>? <imath>\\textbf{(A) } 13 \\qquad \\textbf{(B) } 17 \\qquad \\textbf{(C) } 20 \\qquad \\textbf{(D) } 30 \\qquad \\textbf{(E) } 68</imath>",
+      "answerType": "integer",
+      "answerKey": "20",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "What is the tens digit of <imath>6^{6^6}</imath>? <imath>\\textbf{(A)}~1 \\qquad \\textbf{(B)}~3 \\qquad \\textbf{(C)}~5 \\qquad \\textbf{(D)}~7 \\qquad \\textbf{(E)}~9</imath>",
+      "answerType": "exact",
+      "answerKey": "~5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "The altitude to the hypotenuse of a <imath>30^\\circ{-}60^\\circ{-}90^\\circ</imath> is divided into two segments of lengths <imath>x<y</imath> by the median to the shortest side of the triangle. What is the ratio <imath>\\tfrac{x}{x+y}</imath>? <imath>\\textbf{(A) } \\dfrac{3}{7} \\qquad \\textbf{(B) } \\dfrac{\\sqrt3}{4} \\qquad \\textbf{(C) } \\dfrac{4}{9} \\qquad \\textbf{(D) } \\dfrac{5}{11} \\qquad \\textbf{(E) } \\dfrac{4\\sqrt3}{15} </imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Nine athletes, no two of whom are the same height, try out for the basketball team. One at a time, they draw a wristband at random, without replacement, from a bag containing 3 blue bands, 3 red bands, and 3 green bands. They are divided into a blue group, a red group, and a green group. The tallest member of each group is named the group captain. What is the probability that the group captains are the three tallest athletes? <imath>\\textbf{(A) } \\dfrac{2}{9} \\qquad \\textbf{(B) } \\dfrac{2}{7} \\qquad \\textbf{(C) } \\dfrac{9}{28} \\qquad \\textbf{(D) } \\dfrac{1}{3} \\qquad \\textbf{(E) } \\dfrac{3}{8} </imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 9 28",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The windshield wiper on the driver's side of a large bus is depicted below. <asy> /* Made by MRENTHUSIASM */ size(200); pair A, B, C, D; A = origin; B = (3/2,3*sqrt(3)/2); C = B+(0,1.75); D = B-(0,1.75); draw(A--B,linewidth(1.1)); draw(C--D,red+linewidth(2.1)); dot(A^^B,linewidth(5)); label(\"$A$\",A,1.5*W); label(\"$B$\",B,1.5*E); label(\"$C$\",C,1.5*E); label(\"$D$\",D,1.5*E); </asy> Arm <imath>\\overline{AB}</imath> pivots back and forth around point <imath>A</imath>, sweeping out an arc of <imath>60^{\\circ}</imath>, symmetric about the vertical line through <imath>A</imath>. The wiper blade <imath>\\overline{CD}</imath> is attached to <imath>B</imath> at its midpoint and stays vertical as the arm moves. The arm is <imath>3</imath> feet long, and the wiper blade is <imath>3.5</imath> feet tall. What is the area of the windshield cleaned by the wiper, in square feet, to the nearest hundredth? (Assume that the windshield is a flat vertical surface.) <imath>\\textbf{(A) } 9.68 \\qquad \\textbf{(B) } 10.14 \\qquad \\textbf{(C) } 10.50 \\qquad \\textbf{(D) } 11.32 \\qquad \\textbf{(E) } 12.00</imath>",
+      "answerType": "decimal",
+      "answerKey": "10.50",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "A circle has been divided into 6 sectors of different sizes. Then 2 of the sectors are painted red, 2 painted green, and 2 painted blue so that no two neighboring sectors are painted the same color. One such coloring is shown below. <asy> /* Made by Mathemagician108 */ unitsize(1.7cm); pair O = (0, 0); real R = 2; pair A = (R, 0); pair B = (0.5*R, 0.866*R); pair C = (0, R); pair D = (-R, 0); pair E = (-0.954*R, -0.3*R); pair F = (-0.22*R, -0.975*R); path sector1 = O -- A .. arc(O,A,B) -- cycle; path sector2 = O -- B .. arc(O,B,C) -- cycle; path sector3 = O -- C .. arc(O,C,D) -- cycle; path sector4 = O -- D .. arc(O,D,E) -- cycle; path sector5 = O -- E .. arc(O,E,F) -- cycle; path sector6 = O -- F .. arc(O,F,A) -- cycle; pen r = rgb(255, 120, 120); pen g = rgb(120, 255, 120); pen b = rgb(120, 120, 255); filldraw(sector1, g); filldraw(sector2, r); filldraw(sector3, b); filldraw(sector4, r); filldraw(sector5, g); filldraw(sector6, b); draw(circle(O, R)); defaultpen(fontsize(12pt)); label(\"green\", (0.57*R, 0.32*R)); label(\"red\", (0.16*R, 0.63*R)); label(\"blue\", (-0.45*R, 0.45*R)); label(\"red\", (-0.69*R, -0.1*R)); label(\"green\", (-0.45*R, -0.5*R)); label(\"blue\", (0.39*R, -0.49*R)); </asy> How many different colorings are possible? <imath>\\textbf{(A)}~12\\qquad\\textbf{(B)}~16\\qquad\\textbf{(C)}~18\\qquad\\textbf{(D)}~24\\qquad\\textbf{(E)}~28</imath>",
+      "answerType": "exact",
+      "answerKey": "~24",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Consider a decreasing sequence of \\(n\\) positive integers <cmath> x_1 > x_2 > \\cdots > x_n </cmath> that satisfies the following conditions: * The average of the first \\(3\\) terms in the sequence is \\(2025\\). * For all \\(4 \\le k \\le n\\), the average of the first \\(k\\) terms is \\(1\\) less than the average of the first \\(k-1\\) terms. What is the greatest possible value of \\(n\\)? <imath>\\textbf{(A)}~1013 \\qquad \\textbf{(B)}~1014 \\qquad \\textbf{(C)}~1016 \\qquad \\textbf{(D)}~2016 \\qquad \\textbf{(E)}~2025</imath>",
+      "answerType": "integer",
+      "answerKey": "1014",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "A container has a <imath>1\\times 1</imath> square bottom, a <imath>3\\times 3</imath> open square top, and four congruent trapezoidal sides, as shown. Starting when the container is empty, a hose that runs water at a constant rate takes <imath>35</imath> minutes to fill the container up to the midline of the trapezoids. <asy> /* Made by Mathemagician108 */ import graph3; size(200); real a = 1; real d = 0.6; real h = 0.9; triple A1 = (a,0,0); triple B1 = (0,a,0); triple C1 = (-a,0,0); triple D1 = (0,-a,0); triple A2 = (a+d,0,h); triple B2 = (0,a+d,h); triple C2 = (-(a+d),0,h); triple D2 = (0,-(a+d),h); triple A3 = (a+2*d,0,2*h); triple B3 = (0,a+2*d,2*h); triple C3 = (-(a+2*d),0,2*h); triple D3 = (0,-(a+2*d),2*h); path3 bottom = A1--B1--C1--D1--cycle; path3 backright = A1--B1--B2--A2--cycle; path3 backleft = B1--C1--C2--B2--cycle; path3 frontleft = C1--D1--D3--C3--cycle; path3 frontright = D1--A1--A3--D3--cycle; defaultpen(1); pen blue = rgb(202, 201, 255); pen red = rgb(255, 164, 164); // colored surfaces draw(surface(bottom), emissive(gray)); draw(surface(backright), emissive(blue)); draw(surface(backleft), emissive(blue)); draw(surface(frontleft), emissive(red)); draw(surface(frontright), emissive(red)); // black outlines draw(A1--D1--C1); draw(A2--D2--C2); draw(A3--D3--C3, linewidth(1.4)); draw((0.32,0.68,0)--B1--(-0.32,0.68,0)); draw((1.25,0.35,h)--B2--(-1.25,0.35,h)); draw(A3--B3--C3); draw(A1--A3); draw(B1--B3); draw(C1--C3); draw(D1--D3, linewidth(1.4)); currentprojection=perspective((0,-4,3)); </asy> How many more minutes will it take to fill the remainder of the container? <imath>\\text{(A) }70 \\qquad \\text{(B) }85 \\qquad \\text{(C) }90 \\qquad \\text{(D) }95 \\qquad \\text{(E) }105</imath>",
+      "answerType": "exact",
+      "answerKey": "\\mathbf \\ 95",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "An analog clock starts at midnight and runs for <imath>2025</imath> minutes before stopping. What is the tangent of the acute angle between the hour hand and the minute hand when the clock stops? <imath>\\textbf{(A) } 0 \\qquad \\textbf{(B) } \\sqrt{2}-1 \\qquad \\textbf{(C) } 2-\\sqrt{2} \\qquad \\textbf{(D) } \\frac{\\sqrt{2}}{2} \\qquad \\textbf{(E) } 3-\\sqrt{2}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 2 -1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Each of the <imath>9</imath> squares in a <imath>{3 \\times 3}</imath> grid is to be colored red, blue, or yellow in such a way that each red square shares an edge with at least one blue square, each blue square shares an edge with at least one yellow square, and each yellow square shares an edge with at least one red square. Colorings that can be obtained from one another by rotations and/or reflections are considered the same. How many different colorings are possible? <imath>\\textbf{(A) } 3 \\qquad \\textbf{(B) } 9 \\qquad \\textbf{(C) } 12 \\qquad \\textbf{(D) } 18 \\qquad \\textbf{(E) } 27</imath>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Awnik repeatedly plays a game that has a probability of winning of <imath>\\frac{1}{3}</imath>. The outcomes of the games are independent. What is the expected value of the number of games he will play until he has both won and lost at least once? <imath>\\textbf{(A) } \\frac{5}{2} \\qquad \\textbf{(B) } 3 \\qquad \\textbf{(C) } \\frac{16}{5} \\qquad \\textbf{(D) } \\frac{7}{2} \\qquad \\textbf{(E) } \\frac{15}{4}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 2",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A rectangular grid of squares has <imath>141</imath> rows and <imath>91</imath> columns. Each square has room for two numbers. Horace and Vera each fill in the grid by putting the numbers from <imath>1</imath> through <imath>141 \\times 91 = 12{,}831</imath> into the squares. Horace fills the grid horizontally: he puts <imath>1</imath> through <imath>91</imath> in order from left to right into row <imath>1</imath>, puts <imath>92</imath> through <imath>182</imath> into row <imath>2</imath> in order from left to right, and continues similarly through row <imath>141</imath>. Vera fills the grid vertically: she puts <imath>1</imath> through <imath>141</imath> in order from top to bottom into column <imath>1</imath>, then <imath>142</imath> through <imath>282</imath> into column <imath>2</imath> in order from top to bottom, and continues similarly through column <imath>91</imath>. How many squares get two copies of the same number? <imath>\\textbf{(A)}~7 \\qquad \\textbf{(B)}~10 \\qquad \\textbf{(C)}~11 \\qquad \\textbf{(D)}~12 \\qquad \\textbf{(E)}~19</imath>",
+      "answerType": "integer",
+      "answerKey": "11",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "A frog hops along the number line according to the following rules: * It starts at <imath>0</imath>. * If it is at <imath>0</imath>, then it moves to <imath>1</imath> with probability <imath>\\frac 12</imath> and disappears with probability <imath>\\frac 12</imath>. * For <imath>n=1,2,3,</imath> if it is at <imath>n</imath>, then it moves to <imath>n+1</imath> with probability <imath>\\frac 14,</imath> to <imath>n-1</imath> with probability <imath>\\frac 14,</imath> and disappears with probability <imath>\\frac 12</imath>. What is the probability that the frog reaches <imath>4?</imath> <imath>\\textbf{(A) } \\frac1{101} \\qquad \\textbf{(B) } \\frac 1{100} \\qquad \\textbf{(C) } \\frac1{99} \\qquad \\textbf{(D) } \\frac1{98} \\qquad \\textbf{(E) } \\frac1{97}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac1 97",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Two non-congruent triangles have the same area. Each triangle has sides of length <imath>8</imath> and <imath>9</imath>, and the third side of each triangle has integer length. What is the sum of the lengths of the third sides? <imath>\\textbf{(A) } 20 \\qquad \\textbf{(B) } 22 \\qquad \\textbf{(C) } 24 \\qquad \\textbf{(D) } 26 \\qquad \\textbf{(E) } 28</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 24",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "What is the greatest possible area of the triangle in the complex plane with vertices <imath>2z</imath>, <imath>(1+i)z</imath>, and <imath>(1-i)z</imath>, where <imath>z</imath> is a complex number satisfying <imath>|4z - 2| = 1</imath>? <imath>\\textbf{(A)}~\\frac 14 \\qquad \\textbf{(B)}~\\frac 12 \\qquad \\textbf{(C)}~\\frac{9}{16} \\qquad \\textbf{(D)}~\\frac 34 \\qquad \\textbf{(E)}~1</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 9 16",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Let <imath>S</imath> be the set of all integers <imath>z > 1</imath> such that for all pairs of nonnegative integers <imath>(x, y)</imath> with <imath>x < y < z</imath>, the remainder when <imath>2025x</imath> is divided by <imath>z</imath> is less than the remainder when <imath>2025y</imath> is divided by <imath>z</imath>. What is the sum of the elements of <imath>S</imath>? <imath>\\textbf{(A)}~3041 \\qquad \\textbf{(B)}~3542 \\qquad \\textbf{(C)}~3750 \\qquad \\textbf{(D)}~4044 \\qquad \\textbf{(E)}~4319</imath>",
+      "answerType": "exact",
+      "answerKey": "~4319",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "How many real numbers satisfy the equation <imath>\\sin(20\\pi x) = \\log_{20}(x)</imath>? <imath>\\textbf{(A) } 199 \\qquad \\textbf{(B) } 200 \\qquad \\textbf{(C) } 398 \\qquad \\textbf{(D) } 399 \\qquad \\textbf{(E) } 400</imath>",
+      "answerType": "integer",
+      "answerKey": "399",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Three concentric circles have radii <imath>1</imath>, <imath>2</imath>, and <imath>3</imath>. An equilateral triangle of side length <imath>s</imath> has one vertex on each circle. What is <imath>s^{2}</imath>? <imath>\\textbf{(A)}~6 \\qquad \\textbf{(B)}~\\frac{25}{4} \\qquad \\textbf{(C)}~\\frac{13}{2} \\qquad \\textbf{(D)}~\\frac{27}{4} \\qquad \\textbf{(E)}~7</imath>",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1
+    }
+  ]
+}

@@ -10,9 +10,12 @@
 1. Click **Create Set** in the sidebar.
 2. Fill out the set title, slug, topic tags, and settings.
    - **Order ID:** If you leave the `order` as `0` or blank, the system automatically assigns the next available number.
-3. Add problems one-by-one, including the LaTeX statement, answer type, and answer key.
-4. You can also preview the LaTeX live.
-5. Click **Save problem set** to finish. The set will show you as the uploader.
+3. Add problems one-by-one, including statement, answer type, and answer key.
+4. For each problem, use the **LaTeX / HTML** toggle next to the statement field.
+   - Use **LaTeX** for `$...$`/`$$...$$` style input.
+   - Use **HTML** for content that includes tags like `<math>...</math>`.
+5. You can preview the statement live before saving.
+6. Click **Save problem set** to finish. The set will show you as the uploader.
 
 ## Uploading a Problem Set (JSON)
 
@@ -22,6 +25,7 @@
    - Set title, slug, problem count.
    - Any warnings or errors.
 4. If the preview looks correct, click **Import draft** to create the set as a draft.
+   - Optional field: `statementFormat` (default: `LATEX`). Set it to `HTML` for statements using `<math>` tags.
 
 See [import-format.md](./import-format.md) for the JSON format specification.
 

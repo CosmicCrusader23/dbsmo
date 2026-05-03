@@ -1,0 +1,127 @@
+{
+  "slug": "2018-amc-12a",
+  "title": "2018 AMC 12A",
+  "description": "Converted from 2018_AMC_12A_questions.txt and 2018_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A large urn contains <math>100</math> balls, of which <math>36 \\%</math> are red and the rest are blue. How many of the blue balls must be removed so that the percentage of red balls in the urn will be <math>72 \\%</math>? (No red balls are to be removed.) <math> \\textbf{(A)}\\ 28 \\qquad\\textbf{(B)}\\ 32 \\qquad\\textbf{(C)}\\ 36 \\qquad\\textbf{(D)}\\ 50 \\qquad\\textbf{(E)}\\ 64 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 50",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "While exploring a cave, Carl comes across a collection of <math>5</math>-pound rocks worth <math>\\$14</math> each, <math>4</math>-pound rocks worth <math>\\$11</math> each, and <math>1</math>-pound rocks worth <math>\\$2</math> each. There are at least <math>20</math> of each size. He can carry at most <math>18</math> pounds. What is the maximum value, in dollars, of the rocks he can carry out of the cave? <math>\\textbf{(A) } 48 \\qquad \\textbf{(B) } 49 \\qquad \\textbf{(C) } 50 \\qquad \\textbf{(D) } 51 \\qquad \\textbf{(E) } 52 </math>",
+      "answerType": "integer",
+      "answerKey": "50",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "What is the sum of all possible values of <math>k</math> for which the polynomials <math>x^2 - 3x + 2</math> and <math>x^2 - 5x + k</math> have a root in common? <math>\\textbf{(A) }3 \\qquad\\textbf{(B) }4 \\qquad\\textbf{(C) }5 \\qquad\\textbf{(D) }6 \\qquad\\textbf{(E) }10</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "For positive integers <math>m</math> and <math>n</math> such that <math>m+10<n+1</math>, both the mean and the median of the set <math>\\{m, m+4, m+10, n+1, n+2, 2n\\}</math> are equal to <math>n</math>. What is <math>m+n</math>? <math>\\textbf{(A)}20\\qquad\\textbf{(B)}21\\qquad\\textbf{(C)}22\\qquad\\textbf{(D)}23\\qquad\\textbf{(E)}24</math>",
+      "answerType": "exact",
+      "answerKey": "~21",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Which of the following describes the largest subset of values of <math>y</math> within the closed interval <math>[0,\\pi]</math> for which <cmath>\\sin(x+y)\\leq \\sin(x)+\\sin(y)</cmath>for every <math>x</math> between <math>0</math> and <math>\\pi</math>, inclusive? <math>\\textbf{(A) } y=0 \\qquad \\textbf{(B) } 0\\leq y\\leq \\frac{\\pi}{4} \\qquad \\textbf{(C) } 0\\leq y\\leq \\frac{\\pi}{2} \\qquad \\textbf{(D) } 0\\leq y\\leq \\frac{3\\pi}{4} \\qquad \\textbf{(E) } 0\\leq y\\leq \\pi </math>",
+      "answerType": "exact",
+      "answerKey": "0\\le y\\le \\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "The solution to the equation <math>\\log_{3x} 4 = \\log_{2x} 8</math>, where <math>x</math> is a positive real number other than <math>\\frac{1}{3}</math> or <math>\\frac{1}{2}</math>, can be written as <math>\\frac {p}{q}</math> where <math>p</math> and <math>q</math> are relatively prime positive integers. What is <math>p + q</math>? <math>\\textbf{(A) } 5 \\qquad \\textbf{(B) } 13 \\qquad \\textbf{(C) } 17 \\qquad \\textbf{(D) } 31 \\qquad \\textbf{(E) } 35 </math>",
+      "answerType": "integer",
+      "answerKey": "31",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "https://www.youtube.com/watch?v=woXlEargLpI&ab_channel=LetsSolveMathProblems",
+      "answerType": "integer",
+      "answerKey": "19",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Triangle <math>ABC</math> is an isosceles right triangle with <math>AB=AC=3</math>. Let <math>M</math> be the midpoint of hypotenuse <math>\\overline{BC}</math>. Points <math>I</math> and <math>E</math> lie on sides <math>\\overline{AC}</math> and <math>\\overline{AB}</math>, respectively, so that <math>AI>AE</math> and <math>AIME</math> is a cyclic quadrilateral. Given that triangle <math>EMI</math> has area <math>2</math>, the length <math>CI</math> can be written as <math>\\frac{a-\\sqrt{b}}{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers and <math>b</math> is not divisible by the square of any prime. What is the value of <math>a+b+c</math>? <math> \\textbf{(A) }9 \\qquad \\textbf{(B) }10 \\qquad \\textbf{(C) }11 \\qquad \\textbf{(D) }12 \\qquad \\textbf{(E) }13 \\qquad </math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Which of the following polynomials has the greatest real root? <imath>\\textbf{(A) } x^{19}+2018x^{11}+1 \\qquad \\textbf{(B) } x^{17}+2018x^{11}+1 \\qquad \\textbf{(C) } x^{19}+2018x^{13}+1 \\qquad \\textbf{(D) } x^{17}+2018x^{13}+1 \\qquad \\textbf{(E) } 2019x+2018 </imath>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "The solutions to the equations <imath>z^2=4+4\\sqrt{15}i</imath> and <imath>z^2=2+2\\sqrt 3i,</imath> where <imath>i=\\sqrt{-1},</imath> form the vertices of a parallelogram in the complex plane. The area of this parallelogram can be written in the form <imath>p\\sqrt q-r\\sqrt s,</imath> where <imath>p,</imath> <imath>q,</imath> <imath>r,</imath> and <imath>s</imath> are positive integers and neither <imath>q</imath> nor <imath>s</imath> is divisible by the square of any prime number. What is <imath>p+q+r+s?</imath> <imath>\\textbf{(A) } 20 \\qquad \\textbf{(B) } 21 \\qquad \\textbf{(C) } 22 \\qquad \\textbf{(D) } 23 \\qquad \\textbf{(E) } 24 </imath>",
+      "answerType": "integer",
+      "answerKey": "20",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "In <math>\\triangle PAT,</math> <math>\\angle P=36^{\\circ},</math> <math>\\angle A=56^{\\circ},</math> and <math>PA=10.</math> Points <math>U</math> and <math>G</math> lie on sides <math>\\overline{TP}</math> and <math>\\overline{TA},</math> respectively, so that <math>PU=AG=1.</math> Let <math>M</math> and <math>N</math> be the midpoints of segments <math>\\overline{PA}</math> and <math>\\overline{UG},</math> respectively. What is the degree measure of the acute angle formed by lines <math>MN</math> and <math>PA?</math> <math>\\textbf{(A) } 76 \\qquad \\textbf{(B) } 77 \\qquad \\textbf{(C) } 78 \\qquad \\textbf{(D) } 79 \\qquad \\textbf{(E) } 80 </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "Alice, Bob, and Carol play a game in which each of them chooses a real number between <math>0</math> and <math>1.</math> The winner of the game is the one whose number is between the numbers chosen by the other two players. Alice announces that she will choose her number uniformly at random from all the numbers between <math>0</math> and <math>1,</math> and Bob announces that he will choose his number uniformly at random from all the numbers between <math>\\tfrac{1}{2}</math> and <math>\\tfrac{2}{3}.</math> Armed with this information, what number should Carol choose to maximize her chance of winning? <math> \\textbf{(A) }\\frac{1}{2}\\qquad \\textbf{(B) }\\frac{13}{24} \\qquad \\textbf{(C) }\\frac{7}{12} \\qquad \\textbf{(D) }\\frac{5}{8} \\qquad \\textbf{(E) }\\frac{2}{3}\\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 13 24",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

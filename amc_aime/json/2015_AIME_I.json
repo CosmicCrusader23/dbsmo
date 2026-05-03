@@ -1,0 +1,118 @@
+{
+  "slug": "2015-aime-i",
+  "title": "2015 AIME I",
+  "description": "Converted from 2015_AIME_I_questions.txt and 2015_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "https://www.youtube.com/watch?v=5HAk-6qlOH0",
+      "answerType": "integer",
+      "answerKey": "722",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "https://www.youtube.com/watch?v=5HAk-6qlOH0",
+      "answerType": "integer",
+      "answerKey": "139",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "https://www.youtube.com/watch?v=5HAk-6qlOH0",
+      "answerType": "integer",
+      "answerKey": "307",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Point <math>B</math> lies on line segment <math>\\overline{AC}</math> with <math>AB=16</math> and <math>BC=4</math>. Points <math>D</math> and <math>E</math> lie on the same side of line <math>AC</math> forming equilateral triangles <math>\\triangle ABD</math> and <math>\\triangle BCE</math>. Let <math>M</math> be the midpoint of <math>\\overline{AE}</math>, and <math>N</math> be the midpoint of <math>\\overline{CD}</math>. The area of <math>\\triangle BMN</math> is <math>x</math>. Find <math>x^2</math>.",
+      "answerType": "integer",
+      "answerKey": "507",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "In a drawer Sandy has <math>5</math> pairs of socks, each pair a different color. On Monday Sandy selects two individual socks at random from the <math>10</math> socks in the drawer. On Tuesday Sandy selects <math>2</math> of the remaining <math>8</math> socks at random and on Wednesday two of the remaining <math>6</math> socks at random. The probability that Wednesday is the first day Sandy selects matching socks is <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers, Find <math>m+n</math>.",
+      "answerType": "exact",
+      "answerKey": "\\frac 26 315",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Point <math>A,B,C,D,</math> and <math>E</math> are equally spaced on a minor arc of a circle. Points <math>E,F,G,H,I</math> and <math>A</math> are equally spaced on a minor arc of a second circle with center <math>C</math> as shown in the figure below. The angle <math>\\angle ABD</math> exceeds <math>\\angle AHG</math> by <math>12^\\circ</math>. Find the degree measure of <math>\\angle BAG</math>. <asy> pair A,B,C,D,E,F,G,H,I,O; O=(0,0); C=dir(90); B=dir(70); A=dir(50); D=dir(110); E=dir(130); draw(arc(O,1,50,130)); real x=2*sin(20*pi/180); F=x*dir(228)+C; G=x*dir(256)+C; H=x*dir(284)+C; I=x*dir(312)+C; draw(arc(C,x,200,340)); label(\"$A$\",A,dir(0)); label(\"$B$\",B,dir(75)); label(\"$C$\",C,dir(90)); label(\"$D$\",D,dir(105)); label(\"$E$\",E,dir(180)); label(\"$F$\",F,dir(225)); label(\"$G$\",G,dir(260)); label(\"$H$\",H,dir(280)); label(\"$I$\",I,dir(315)); </asy>",
+      "answerType": "integer",
+      "answerKey": "058",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "In the diagram below, <math>ABCD</math> is a square. Point <math>E</math> is the midpoint of <math>\\overline{AD}</math>. Points <math>F</math> and <math>G</math> lie on <math>\\overline{CE}</math>, and <math>H</math> and <math>J</math> lie on <math>\\overline{AB}</math> and <math>\\overline{BC}</math>, respectively, so that <math>FGHJ</math> is a square. Points <math>K</math> and <math>L</math> lie on <math>\\overline{GH}</math>, and <math>M</math> and <math>N</math> lie on <math>\\overline{AD}</math> and <math>\\overline{AB}</math>, respectively, so that <math>KLMN</math> is a square. The area of <math>KLMN</math> is 99. Find the area of <math>FGHJ</math>. <asy> pair A,B,C,D,E,F,G,H,J,K,L,M,N; B=(0,0); real m=7*sqrt(55)/5; J=(m,0); C=(7*m/2,0); A=(0,7*m/2); D=(7*m/2,7*m/2); E=(A+D)/2; H=(0,2m); N=(0,2m+3*sqrt(55)/2); G=foot(H,E,C); F=foot(J,E,C); draw(A--B--C--D--cycle); draw(C--E); draw(G--H--J--F); pair X=foot(N,E,C); M=extension(N,X,A,D); K=foot(N,H,G); L=foot(M,H,G); draw(K--N--M--L); label(\"$A$\",A,NW); label(\"$B$\",B,SW); label(\"$C$\",C,SE); label(\"$D$\",D,NE); label(\"$E$\",E,dir(90)); label(\"$F$\",F,NE); label(\"$G$\",G,NE); label(\"$H$\",H,W); label(\"$J$\",J,S); label(\"$K$\",K,SE); label(\"$L$\",L,SE); label(\"$M$\",M,dir(90)); label(\"$N$\",N,dir(180)); </asy>",
+      "answerType": "integer",
+      "answerKey": "539",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "For positive integer <math>n</math>, let <math>s(n)</math> denote the sum of the digits of <math>n</math>. Find the smallest positive integer satisfying <math>s(n) = s(n+864) = 20</math>.",
+      "answerType": "integer",
+      "answerKey": "695",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>S</math> be the set of all ordered triple of integers <math>(a_1,a_2,a_3)</math> with <math>1 \\le a_1,a_2,a_3 \\le 10</math>. Each ordered triple in <math>S</math> generates a sequence according to the rule <math>a_n=a_{n-1}\\cdot | a_{n-2}-a_{n-3} |</math> for all <math>n\\ge 4</math>. Find the number of such sequences for which <math>a_n=0</math> for some <math>n</math>.",
+      "answerType": "integer",
+      "answerKey": "494",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <math>f(x)</math> be a third-degree polynomial with real coefficients satisfying <cmath>|f(1)|=|f(2)|=|f(3)|=|f(5)|=|f(6)|=|f(7)|=12.</cmath> Find <math>|f(0)|</math>.",
+      "answerType": "integer",
+      "answerKey": "072",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Triangle <math>ABC</math> has positive integer side lengths with <math>AB=AC</math>. Let <math>I</math> be the intersection of the bisectors of <math>\\angle B</math> and <math>\\angle C</math>. Suppose <math>BI=8</math>. Find the smallest possible perimeter of <math>\\triangle ABC</math>.",
+      "answerType": "integer",
+      "answerKey": "108",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Consider all 1000-element subsets of the set <math>\\{1, 2, 3, ... , 2015\\}</math>. From each such subset choose the least element. The arithmetic mean of all of these least elements is <math> \\frac{p}{q} </math>, where <math>p</math> and <math>q</math> are relatively prime positive integers. Find <math>p + q</math>.",
+      "answerType": "integer",
+      "answerKey": "431",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "With all angles measured in degrees, the product <math>\\prod_{k=1}^{45} \\csc^2(2k-1)^\\circ=m^n</math>, where <math>m</math> and <math>n</math> are integers greater than 1. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "091",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "For each integer <math>n \\ge 2</math>, let <math>A(n)</math> be the area of the region in the coordinate plane defined by the inequalities <math>1\\le x \\le n</math> and <math>0\\le y \\le x \\left\\lfloor \\sqrt x \\right\\rfloor</math>, where <math>\\left\\lfloor \\sqrt x \\right\\rfloor</math> is the greatest integer not exceeding <math>\\sqrt x</math>. Find the number of values of <math>n</math> with <math>2\\le n \\le 1000</math> for which <math>A(n)</math> is an integer.",
+      "answerType": "integer",
+      "answerKey": "483",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "A block of wood has the shape of a right circular cylinder with radius <math>6</math> and height <math>8</math>, and its entire surface has been painted blue. Points <math>A</math> and <math>B</math> are chosen on the edge of one of the circular faces of the cylinder so that <math>\\overarc{AB}</math> on that face measures <math>120^\\circ</math>. The block is then sliced in half along the plane that passes through point <math>A</math>, point <math>B</math>, and the center of the cylinder, revealing a flat, unpainted face on each half. The area of one of these unpainted faces is <math>a\\cdot\\pi + b\\sqrt{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are integers and <math>c</math> is not divisible by the square of any prime. Find <math>a+b+c</math>. <asy> import three; import solids; size(8cm); currentprojection=orthographic(-1,-5,3); picture lpic, rpic; size(lpic,5cm); draw(lpic,surface(revolution((0,0,0),(-3,3*sqrt(3),0)..(0,6,4)..(3,3*sqrt(3),8),Z,0,120)),gray(0.7),nolight); draw(lpic,surface(revolution((0,0,0),(-3*sqrt(3),-3,8)..(-6,0,4)..(-3*sqrt(3),3,0),Z,0,90)),gray(0.7),nolight); draw(lpic,surface((3,3*sqrt(3),8)..(-6,0,8)..(3,-3*sqrt(3),8)--cycle),gray(0.7),nolight); draw(lpic,(3,-3*sqrt(3),8)..(-6,0,8)..(3,3*sqrt(3),8)); draw(lpic,(-3,3*sqrt(3),0)--(-3,-3*sqrt(3),0),dashed); draw(lpic,(3,3*sqrt(3),8)..(0,6,4)..(-3,3*sqrt(3),0)--(-3,3*sqrt(3),0)..(-3*sqrt(3),3,0)..(-6,0,0),dashed); draw(lpic,(3,3*sqrt(3),8)--(3,-3*sqrt(3),8)..(0,-6,4)..(-3,-3*sqrt(3),0)--(-3,-3*sqrt(3),0)..(-3*sqrt(3),-3,0)..(-6,0,0)); draw(lpic,(6*cos(atan(-1/5)+3.14159),6*sin(atan(-1/5)+3.14159),0)--(6*cos(atan(-1/5)+3.14159),6*sin(atan(-1/5)+3.14159),8)); size(rpic,5cm); draw(rpic,surface(revolution((0,0,0),(3,3*sqrt(3),8)..(0,6,4)..(-3,3*sqrt(3),0),Z,230,360)),gray(0.7),nolight); draw(rpic,surface((-3,3*sqrt(3),0)..(6,0,0)..(-3,-3*sqrt(3),0)--cycle),gray(0.7),nolight); draw(rpic,surface((-3,3*sqrt(3),0)..(0,6,4)..(3,3*sqrt(3),8)--(3,3*sqrt(3),8)--(3,-3*sqrt(3),8)--(3,-3*sqrt(3),8)..(0,-6,4)..(-3,-3*sqrt(3),0)--cycle),white,nolight); draw(rpic,(-3,-3*sqrt(3),0)..(-6*cos(atan(-1/5)+3.14159),-6*sin(atan(-1/5)+3.14159),0)..(6,0,0)); draw(rpic,(-6*cos(atan(-1/5)+3.14159),-6*sin(atan(-1/5)+3.14159),0)..(6,0,0)..(-3,3*sqrt(3),0),dashed); draw(rpic,(3,3*sqrt(3),8)--(3,-3*sqrt(3),8)); draw(rpic,(-3,3*sqrt(3),0)..(0,6,4)..(3,3*sqrt(3),8)--(3,3*sqrt(3),8)..(3*sqrt(3),3,8)..(6,0,8)); draw(rpic,(-3,3*sqrt(3),0)--(-3,-3*sqrt(3),0)..(0,-6,4)..(3,-3*sqrt(3),8)--(3,-3*sqrt(3),8)..(3*sqrt(3),-3,8)..(6,0,8)); draw(rpic,(-6*cos(atan(-1/5)+3.14159),-6*sin(atan(-1/5)+3.14159),0)--(-6*cos(atan(-1/5)+3.14159),-6*sin(atan(-1/5)+3.14159),8)); label(rpic,\"$A$\",(-3,3*sqrt(3),0),W); label(rpic,\"$B$\",(-3,-3*sqrt(3),0),W); add(lpic.fit(),(0,0)); add(rpic.fit(),(1,0)); </asy> --Credit to Royalreter1 and chezbgone2 For The Diagram--",
+      "answerType": "integer",
+      "answerKey": "053",
+      "points": 1
+    }
+  ]
+}

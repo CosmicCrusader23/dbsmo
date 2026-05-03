@@ -1,0 +1,118 @@
+{
+  "slug": "2017-aime-i",
+  "title": "2017 AIME I",
+  "description": "Converted from 2017_AIME_I_questions.txt and 2017_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Fifteen distinct points are designated on <math>\\triangle ABC</math>: the 3 vertices <math>A</math>, <math>B</math>, and <math>C</math>; <math>3</math> other points on side <math>\\overline{AB}</math>; <math>4</math> other points on side <math>\\overline{BC}</math>; and <math>5</math> other points on side <math>\\overline{CA}</math>. Find the number of triangles with positive area whose vertices are among these <math>15</math> points.",
+      "answerType": "integer",
+      "answerKey": "390",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "When each of <math>702</math>, <math>787</math>, and <math>855</math> is divided by the positive integer <math>m</math>, the remainder is always the positive integer <math>r</math>. When each of <math>412</math>, <math>722</math>, and <math>815</math> is divided by the positive integer <math>n</math>, the remainder is always the positive integer <math>s \\neq r</math>. Find <math>m+n+r+s</math>.",
+      "answerType": "integer",
+      "answerKey": "062",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "For a positive integer <math>n</math>, let <math>d_n</math> be the units digit of <math>1 + 2 + \\dots + n</math>. Find the remainder when <cmath>\\sum_{n=1}^{2017} d_n</cmath>is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "069",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "A pyramid has a triangular base with side lengths <math>20</math>, <math>20</math>, and <math>24</math>. The three edges of the pyramid from the three corners of the base to the fourth vertex of the pyramid all have length <math>25</math>. The volume of the pyramid is <math>m\\sqrt{n}</math>, where <math>m</math> and <math>n</math> are positive integers, and <math>n</math> is not divisible by the square of any prime. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "803",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "A rational number written in base eight is <math>\\underline{ab} . \\underline{cd}</math>, where all digits are nonzero. The same number in base twelve is <math>\\underline{bb} . \\underline{ba}</math>. Find the base-ten number <math>\\underline{abc}</math>.",
+      "answerType": "integer",
+      "answerKey": "321",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A circle is circumscribed around an isosceles triangle whose two congruent angles have degree measure <math>x</math>. Two points are chosen independently and uniformly at random on the circle, and a chord is drawn between them. The probability that the chord intersects the triangle is <math>\\frac{14}{25}</math>. Find the difference between the largest and smallest possible values of <math>x</math>.",
+      "answerType": "integer",
+      "answerKey": "048",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "For nonnegative integers <math>a</math> and <math>b</math> with <math>a + b \\leq 6</math>, let <math>T(a, b) = \\binom{6}{a} \\binom{6}{b} \\binom{6}{a + b}</math>. Let <math>S</math> denote the sum of all <math>T(a, b)</math>, where <math>a</math> and <math>b</math> are nonnegative integers with <math>a + b \\leq 6</math>. Find the remainder when <math>S</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "564",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Two real numbers <math>a</math> and <math>b</math> are chosen independently and uniformly at random from the interval <math>(0, 75)</math>. Let <math>O</math> and <math>P</math> be two points on the plane with <math>OP = 200</math>. Let <math>Q</math> and <math>R</math> be on the same side of line <math>OP</math> such that the degree measures of <math>\\angle POQ</math> and <math>\\angle POR</math> are <math>a</math> and <math>b</math> respectively, and <math>\\angle OQP</math> and <math>\\angle ORP</math> are both right angles. The probability that <math>QR \\leq 100</math> is equal to <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "41",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <imath>a_{10} = 10</imath>, and for each positive integer <imath>n >10</imath> let <imath>a_n = 100a_{n - 1} + n</imath>. Find the least positive <imath>n > 10</imath> such that <imath>a_n</imath> is a multiple of <imath>99</imath>.",
+      "answerType": "integer",
+      "answerKey": "045",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <math>z_1=18+83i,~z_2=18+39i,</math> and <math>z_3=78+99i,</math> where <math>i=\\sqrt{-1}.</math> Let <math>z</math> be the unique complex number with the properties that <math>\\frac{z_3-z_1}{z_2-z_1}~\\cdot~\\frac{z-z_2}{z-z_3}</math> is a real number and the imaginary part of <math>z</math> is the greatest possible. Find the real part of <math>z</math>.",
+      "answerType": "integer",
+      "answerKey": "056",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Consider arrangements of the <math>9</math> numbers <math>1, 2, 3, \\dots, 9</math> in a <math>3 \\times 3</math> array. For each such arrangement, let <math>a_1</math>, <math>a_2</math>, and <math>a_3</math> be the medians of the numbers in rows <math>1</math>, <math>2</math>, and <math>3</math> respectively, and let <math>m</math> be the median of <math>\\{a_1, a_2, a_3\\}</math>. Let <math>Q</math> be the number of arrangements for which <math>m = 5</math>. Find the remainder when <math>Q</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "360",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Call a set <imath>S</imath> product-free if there do not exist <imath>a, b, c \\in S</imath> (not necessarily distinct) such that <imath>a b = c</imath>. For example, the empty set and the set <imath>\\{16, 20\\}</imath> are product-free, whereas the sets <imath>\\{4, 16\\}</imath> and <imath>\\{2, 8, 16\\}</imath> are not product-free. Find the number of product-free subsets of the set <imath>\\{1, 2, 3, 4,..., 7, 8, 9, 10\\}</imath>.",
+      "answerType": "integer",
+      "answerKey": "252",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "For every <math>m \\geq 2</math>, let <math>Q(m)</math> be the least positive integer with the following property: For every <math>n \\geq Q(m)</math>, there is always a perfect cube <math>k^3</math> in the range <math>n < k^3 \\leq m \\cdot n</math>. Find the remainder when <cmath>\\sum_{m = 2}^{2017} Q(m)</cmath>is divided by 1000.",
+      "answerType": "integer",
+      "answerKey": "059",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <imath>a > 1</imath> and <imath>x > 1</imath> satisfy <imath>\\log_a(\\log_a(\\log_a 2) + \\log_a 24 - 128) = 128</imath> and <imath>\\log_a(\\log_a x) = 256</imath>. Find the remainder when <imath>x</imath> is divided by <imath>1000</imath>.",
+      "answerType": "integer",
+      "answerKey": "896",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "The area of the smallest equilateral triangle with one vertex on each of the sides of the right triangle with side lengths <math>2\\sqrt{3},~5,</math> and <math>\\sqrt{37},</math> as shown, is <math>\\frac{m\\sqrt{p}}{n},</math> where <math>m,~n,</math> and <math>p</math> are positive integers, <math>m</math> and <math>n</math> are relatively prime, and <math>p</math> is not divisible by the square of any prime. Find <math>m+n+p.</math> <asy> size(5cm); pair C=(0,0),B=(0,2*sqrt(3)),A=(5,0); real t = .385, s = 3.5*t-1; pair R = A*t+B*(1-t), P=B*s; pair Q = dir(-60) * (R-P) + P; fill(P--Q--R--cycle,gray); draw(A--B--C--A^^P--Q--R--P); dot(A--B--C--P--Q--R); </asy>",
+      "answerType": "integer",
+      "answerKey": "145",
+      "points": 1
+    }
+  ]
+}

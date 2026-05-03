@@ -1,0 +1,118 @@
+{
+  "slug": "2013-aime-i",
+  "title": "2013 AIME I",
+  "description": "Converted from 2013_AIME_I_questions.txt and 2013_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "The AIME Triathlon consists of a half-mile swim, a 30-mile bicycle ride, and an eight-mile run. Tom swims, bicycles, and runs at constant rates. He runs fives times as fast as he swims, and he bicycles twice as fast as he runs. Tom completes the AIME Triathlon in four and a quarter hours. How many minutes does he spend bicycling?",
+      "answerType": "integer",
+      "answerKey": "150",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Find the number of five-digit positive integers, <math>n</math>, that satisfy the following conditions: <UL> (a) the number <math>n</math> is divisible by <math>5,</math> </UL> <UL> (b) the first and last digits of <math>n</math> are equal, and </UL> <UL> (c) the sum of the digits of <math>n</math> is divisible by <math>5.</math> </UL>",
+      "answerType": "integer",
+      "answerKey": "200",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Let <math>ABCD</math> be a square, and let <math>E</math> and <math>F</math> be points on <math>\\overline{AB}</math> and <math>\\overline{BC},</math> respectively. The line through <math>E</math> parallel to <math>\\overline{BC}</math> and the line through <math>F</math> parallel to <math>\\overline{AB}</math> divide <math>ABCD</math> into two squares and two nonsquare rectangles. The sum of the areas of the two squares is <math>\\frac{9}{10}</math> of the area of square <math>ABCD.</math> Find <math>\\frac{AE}{EB} + \\frac{EB}{AE}.</math>",
+      "answerType": "integer",
+      "answerKey": "018",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "In the array of 13 squares shown below, 8 squares are colored red, and the remaining 5 squares are colored blue. If one of all possible such colorings is chosen at random, the probability that the chosen colored array appears the same when rotated 90 degrees around the central square is <math>\\frac{1}{n}</math> , where ''n'' is a positive integer. Find ''n''. <asy> draw((0,0)--(1,0)--(1,1)--(0,1)--(0,0)); draw((2,0)--(2,2)--(3,2)--(3,0)--(3,1)--(2,1)--(4,1)--(4,0)--(2,0)); draw((1,2)--(1,4)--(0,4)--(0,2)--(0,3)--(1,3)--(-1,3)--(-1,2)--(1,2)); draw((-1,1)--(-3,1)--(-3,0)--(-1,0)--(-2,0)--(-2,1)--(-2,-1)--(-1,-1)--(-1,1)); draw((0,-1)--(0,-3)--(1,-3)--(1,-1)--(1,-2)--(0,-2)--(2,-2)--(2,-1)--(0,-1)); size(100);</asy>",
+      "answerType": "integer",
+      "answerKey": "429",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "The real root of the equation <math>8x^3 - 3x^2 - 3x - 1 = 0</math> can be written in the form <math>\\frac{\\sqrt[3]a + \\sqrt[3]b + 1}{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers. Find <math>a+b+c</math>.",
+      "answerType": "integer",
+      "answerKey": "98",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Melinda has three empty boxes and <imath>12</imath> textbooks, three of which are mathematics textbooks. One box will hold any three of her textbooks, one will hold any four of her textbooks, and one will hold any five of her textbooks. If Melinda packs her textbooks into these boxes in random order, the probability that all three mathematics textbooks end up in the same box can be written as <imath>\\frac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "44",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "A rectangular box has width <imath>12</imath> inches, length <imath>16</imath> inches, and height <imath>\\frac{m}{n}</imath> inches, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Three faces of the box meet at a corner of the box. The center points of those three faces are the vertices of a triangle with an area of <imath>30</imath> square inches. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "041",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "The domain of the function <math>f(x) = \\arcsin(\\log_{m}(nx))</math> is a closed interval of length <math>\\frac{1}{2013}</math> , where <math>m</math> and <math>n</math> are positive integers and <math>m>1</math>. Find the remainder when the smallest possible sum <math>m+n</math> is divided by 1000.",
+      "answerType": "integer",
+      "answerKey": "371",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "A paper equilateral triangle <imath>ABC</imath> has side length <imath>12</imath>. The paper triangle is folded so that vertex <imath>A</imath> touches a point on side <imath>\\overline{BC}</imath> a distance <imath>9</imath> from point <imath>B</imath>. The length of the line segment along which the triangle is folded can be written as <imath>\\frac{m\\sqrt{p}}{n}</imath>, where <imath>m</imath>, <imath>n</imath>, and <imath>p</imath> are positive integers, <imath>m</imath> and <imath>n</imath> are relatively prime, and <imath>p</imath> is not divisible by the square of any prime. Find <imath>m+n+p</imath>. <asy> import cse5; size(12cm); pen tpen = defaultpen + 1.337; real a = 39/5.0; real b = 39/7.0; pair B = MP(\"B\", (0,0), dir(200)); pair A = MP(\"A\", (9,0), dir(-80)); pair C = MP(\"C\", (12,0), dir(-20)); pair K = (6,10.392); pair M = (a*B+(12-a)*K) / 12; pair N = (b*C+(12-b)*K) / 12; draw(B--M--N--C--cycle, tpen); draw(M--A--N--cycle); fill(M--A--N--cycle, mediumgrey); pair shift = (-20.13, 0); pair B1 = MP(\"B\", B+shift, dir(200)); pair A1 = MP(\"A\", K+shift, dir(90)); pair C1 = MP(\"C\", C+shift, dir(-20)); draw(A1--B1--C1--cycle, tpen);</asy>",
+      "answerType": "integer",
+      "answerKey": "113",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "There are nonzero integers <math>a</math>, <math>b</math>, <math>r</math>, and <math>s</math> such that the complex number <math>r+si</math> is a zero of the polynomial <math>P(x)={x}^{3}-a{x}^{2}+bx-65</math>. For each possible combination of <math>a</math> and <math>b</math>, let <math>{p}_{a,b}</math> be the sum of the zeros of <math>P(x)</math>. Find the sum of the <math>{p}_{a,b}</math>'s for all possible combinations of <math>a</math> and <math>b</math>.",
+      "answerType": "integer",
+      "answerKey": "080",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Ms. Math's kindergarten class has <math>16</math> registered students. The classroom has a very large number, <math>N</math>, of play blocks which satisfies the conditions: (a) If <math>16</math>, <math>15</math>, or <math>14</math> students are present in the class, then in each case all the blocks can be distributed in equal numbers to each student, and (b) There are three integers <math>0 < x < y < z < 14</math> such that when <math>x</math>, <math>y</math>, or <math>z</math> students are present and the blocks are distributed in equal numbers to each student, there are exactly three blocks left over. Find the sum of the distinct prime divisors of the least possible value of <math>N</math> satisfying the above conditions.",
+      "answerType": "integer",
+      "answerKey": "148",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Let <math>\\bigtriangleup PQR</math> be a triangle with <math>\\angle P = 75^\\circ</math> and <math>\\angle Q = 60^\\circ</math>. A regular hexagon <math>ABCDEF</math> with side length 1 is drawn inside <math>\\triangle PQR</math> so that side <math>\\overline{AB}</math> lies on <math>\\overline{PQ}</math>, side <math>\\overline{CD}</math> lies on <math>\\overline{QR}</math>, and one of the remaining vertices lies on <math>\\overline{RP}</math>. There are positive integers <math>a, b, c, </math> and <math>d</math> such that the area of <math>\\triangle PQR</math> can be expressed in the form <math>\\frac{a+b\\sqrt{c}}{d}</math>, where <math>a</math> and <math>d</math> are relatively prime, and c is not divisible by the square of any prime. Find <math>a+b+c+d</math>.",
+      "answerType": "integer",
+      "answerKey": "021",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Triangle <math>AB_0C_0</math> has side lengths <math>AB_0 = 12</math>, <math>B_0C_0 = 17</math>, and <math>C_0A = 25</math>. For each positive integer <math>n</math>, points <math>B_n</math> and <math>C_n</math> are located on <math>\\overline{AB_{n-1}}</math> and <math>\\overline{AC_{n-1}}</math>, respectively, creating three similar triangles <math>\\triangle AB_nC_n \\sim \\triangle B_{n-1}C_nC_{n-1} \\sim \\triangle AB_{n-1}C_{n-1}</math>. The area of the union of all triangles <math>B_{n-1}C_nB_n</math> for <math>n\\geq1</math> can be expressed as <math>\\tfrac pq</math>, where <math>p</math> and <math>q</math> are relatively prime positive integers. Find <math>q</math>.",
+      "answerType": "integer",
+      "answerKey": "961",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "For <math>\\pi \\le \\theta < 2\\pi</math>, let <cmath>\\begin{align*} P &= \\frac12\\cos\\theta - \\frac14\\sin 2\\theta - \\frac18\\cos 3\\theta + \\frac{1}{16}\\sin 4\\theta + \\frac{1}{32} \\cos 5\\theta - \\frac{1}{64} \\sin 6\\theta - \\frac{1}{128} \\cos 7\\theta + \\cdots \\end{align*}</cmath> and <cmath>\\begin{align*} Q &= 1 - \\frac12\\sin\\theta -\\frac14\\cos 2\\theta + \\frac18 \\sin 3\\theta + \\frac{1}{16}\\cos 4\\theta - \\frac{1}{32}\\sin 5\\theta - \\frac{1}{64}\\cos 6\\theta +\\frac{1}{128}\\sin 7\\theta + \\cdots \\end{align*}</cmath> so that <math>\\frac{P}{Q} = \\frac{2\\sqrt2}{7}</math>. Then <math>\\sin\\theta = -\\frac{m}{n}</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "036",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>N</math> be the number of ordered triples <math>(A,B,C)</math> of integers satisfying the conditions (a) <math>0\\le A<B<C\\le99</math>, (b) there exist integers <math>a</math>, <math>b</math>, and <math>c</math>, and prime <math>p</math> where <math>0\\le b<a<c<p</math>, (c) <math>p</math> divides <math>A-a</math>, <math>B-b</math>, and <math>C-c</math>, and (d) each ordered triple <math>(A,B,C)</math> and each ordered triple <math>(b,a,c)</math> form arithmetic sequences. Find <math>N</math>.",
+      "answerType": "integer",
+      "answerKey": "272",
+      "points": 1
+    }
+  ]
+}

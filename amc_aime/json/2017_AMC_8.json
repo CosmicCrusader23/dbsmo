@@ -1,0 +1,263 @@
+{
+  "slug": "2017-amc-8",
+  "title": "2017 AMC 8",
+  "description": "Converted from 2017_AMC_8_questions.txt and 2017_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Which of the following values is largest? <math>\\textbf{(A) }2+0+1+7\\qquad\\textbf{(B) }2 \\times 0 +1+7\\qquad\\textbf{(C) }2+0 \\times 1 + 7\\qquad\\textbf{(D) }2+0+1 \\times 7\\qquad\\textbf{(E) }2 \\times 0 \\times 1 \\times 7</math>",
+      "answerType": "exact",
+      "answerKey": "2+0+1+7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Alicia, Brenda, and Colby were the candidates in a recent election for student president. The pie chart below shows how the votes were distributed among the three candidates. If Brenda received <math>36</math> votes, then how many votes were cast all together? <asy> draw((-1,0)--(0,0)--(0,1)); draw((0,0)--(0.309, -0.951)); filldraw(arc((0,0), (0,1), (-1,0))--(0,0)--cycle, lightgray); filldraw(arc((0,0), (0.309, -0.951), (0,1))--(0,0)--cycle, gray); draw(arc((0,0), (-1,0), (0.309, -0.951))); label(\"Colby\", (-0.5, 0.5)); label(\"25\\%\", (-0.5, 0.3)); label(\"Alicia\", (0.7, 0.2)); label(\"45\\%\", (0.7, 0)); label(\"Brenda\", (-0.5, -0.4)); label(\"30\\%\", (-0.5, -0.6)); </asy> <math>\\textbf{(A) }70 \\qquad \\textbf{(B) }84 \\qquad \\textbf{(C) }100 \\qquad \\textbf{(D) }106 \\qquad \\textbf{(E) }120</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 120",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "What is the value of the expression <imath>\\sqrt{16\\sqrt{8\\sqrt{4}}}</imath>? <imath>\\textbf{(A) }4\\qquad\\textbf{(B) }4\\sqrt{2}\\qquad\\textbf{(C) }8\\qquad\\textbf{(D) }8\\sqrt{2}\\qquad\\textbf{(E) }16</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "When <math>0.000315</math> is multiplied by <math>7,928,564</math> the product is closest to which of the following? <math>\\textbf{(A) }210\\qquad\\textbf{(B) }240\\qquad\\textbf{(C) }2100\\qquad\\textbf{(D) }2400\\qquad\\textbf{(E) }24000</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 2400",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "What is the value of the expression <math>\\frac{1 \\cdot 2 \\cdot 3 \\cdot 4 \\cdot 5 \\cdot 6 \\cdot 7 \\cdot 8}{1+2+3+4+5+6+7+8}</math>? <math>\\textbf{(A) }1020\\qquad\\textbf{(B) }1120\\qquad\\textbf{(C) }1220\\qquad\\textbf{(D) }2240\\qquad\\textbf{(E) }3360</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 1120",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "If the degree measures of the angles of a triangle are in the ratio <math>3:3:4</math>, what is the degree measure of the largest angle of the triangle? <math>\\textbf{(A) }18\\qquad\\textbf{(B) }36\\qquad\\textbf{(C) }60\\qquad\\textbf{(D) }72\\qquad\\textbf{(E) }90</math>",
+      "answerType": "integer",
+      "answerKey": "72",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Let <math>Z</math> be a 6-digit positive integer, such as 247247, whose first three digits are the same as its last three digits taken in the same order. Which of the following numbers must also be a factor of <math>Z</math>? <math>\\textbf{(A) }11\\qquad\\textbf{(B) }19\\qquad\\textbf{(C) }101\\qquad\\textbf{(D) }111\\qquad\\textbf{(E) }1111</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Malcolm wants to visit Isabella after school today and knows the street where she lives but doesn't know her house number. She tells him, \"My house number has two digits, and exactly three of the following four statements about it are true.\" (1) It is prime. (2) It is even. (3) It is divisible by 7. (4) One of its digits is 9. This information allows Malcolm to determine Isabella's house number. What is its units digit? <math>\\textbf{(A) }4\\qquad\\textbf{(B) }6\\qquad\\textbf{(C) }7\\qquad\\textbf{(D) }8\\qquad\\textbf{(E) }9</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "All of Marcy's marbles are blue, red, green, or yellow. One third of her marbles are blue, one fourth of them are red, and six of them are green. What is the smallest number of yellow marbles that Marcy could have? <imath>\\textbf{(A) }1\\qquad\\textbf{(B) }2\\qquad\\textbf{(C) }3\\qquad\\textbf{(D) }4\\qquad\\textbf{(E) }5</imath>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "A box contains five cards, numbered 1, 2, 3, 4, and 5. Three cards are selected randomly without replacement from the box. What is the probability that 4 is the largest value selected? <math>\\textbf{(A) }\\frac{1}{10}\\qquad\\textbf{(B) }\\frac{1}{5}\\qquad\\textbf{(C) }\\frac{3}{10}\\qquad\\textbf{(D) }\\frac{2}{5}\\qquad\\textbf{(E) }\\frac{1}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A square-shaped floor is covered with congruent square tiles. If the total number of tiles that lie on the two diagonals is 37, how many tiles cover the floor? <math>\\textbf{(A) }148\\qquad\\textbf{(B) }324\\qquad\\textbf{(C) }361\\qquad\\textbf{(D) }1296\\qquad\\textbf{(E) }1369</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 361",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The smallest positive integer greater than 1 that leaves a remainder of 1 when divided by 4, 5, and 6 lies between which of the following pairs of numbers? <math>\\textbf{(A) }2\\text{ and }19\\qquad\\textbf{(B) }20\\text{ and }39\\qquad\\textbf{(C) }40\\text{ and }59\\qquad\\textbf{(D) }60\\text{ and }79\\qquad\\textbf{(E) }80\\text{ and }124</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 60 and 79",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Peter, Emma, and Kyler played chess with each other. Peter won 4 games and lost 2 games. Emma won 3 games and lost 3 games. If Kyler lost 3 games, how many games did he win? <math>\\textbf{(A) }0\\quad\\textbf{(B) }1\\qquad\\textbf{(C) }2\\qquad\\textbf{(D) }3\\qquad\\textbf{(E) }4</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Chloe and Zoe are both students in Ms. Demeanor's math class. Last night, they each solved half of the problems in their homework assignment alone and then solved the other half together. Chloe had correct answers to only <math>80\\%</math> of the problems she solved alone, but overall <math>88\\%</math> of her answers were correct. Zoe had correct answers to <math>90\\%</math> of the problems she solved alone. What was Zoe's overall percentage of correct answers? <math>\\textbf{(A) }89\\qquad\\textbf{(B) }92\\qquad\\textbf{(C) }93\\qquad\\textbf{(D) }96\\qquad\\textbf{(E) }98</math>",
+      "answerType": "integer",
+      "answerKey": "93",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "In the arrangement of letters and numerals below, by how many different paths can one spell AMC8? Beginning at the A in the middle, a path only allows moves from one letter to an adjacent (above, below, left, or right, but not diagonal) letter. One example of such a path is traced in the picture. <asy> fill((0.5, 4.5)--(1.5,4.5)--(1.5,2.5)--(0.5,2.5)--cycle,lightgray); fill((1.5,3.5)--(2.5,3.5)--(2.5,1.5)--(1.5,1.5)--cycle,lightgray); label(\"$8$\", (1, 0)); label(\"$C$\", (2, 0)); label(\"$8$\", (3, 0)); label(\"$8$\", (0, 1)); label(\"$C$\", (1, 1)); label(\"$M$\", (2, 1)); label(\"$C$\", (3, 1)); label(\"$8$\", (4, 1)); label(\"$C$\", (0, 2)); label(\"$M$\", (1, 2)); label(\"$A$\", (2, 2)); label(\"$M$\", (3, 2)); label(\"$C$\", (4, 2)); label(\"$8$\", (0, 3)); label(\"$C$\", (1, 3)); label(\"$M$\", (2, 3)); label(\"$C$\", (3, 3)); label(\"$8$\", (4, 3)); label(\"$8$\", (1, 4)); label(\"$C$\", (2, 4)); label(\"$8$\", (3, 4));</asy> <math>\\textbf{(A) }8\\qquad\\textbf{(B) }9\\qquad\\textbf{(C) }12\\qquad\\textbf{(D) }24\\qquad\\textbf{(E) }36</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 24",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "In the figure below, choose point <imath>D</imath> on <imath>\\overline{BC}</imath> so that <imath>\\triangle ACD</imath> and <imath>\\triangle ABD</imath> have equal perimeters. What is the area of <imath>\\triangle ABD</imath>? <asy>draw((0,0)--(4,0)--(0,3)--(0,0)); label(\"$A$\", (0,0), SW); label(\"$B$\", (4,0), ESE); label(\"$C$\", (0, 3), N); label(\"$3$\", (0, 1.5), W); label(\"$4$\", (2, 0), S); label(\"$5$\", (2, 1.5), NE);</asy> <imath>\\textbf{(A) }\\frac{3}{4}\\qquad\\textbf{(B) }\\frac{3}{2}\\qquad\\textbf{(C) }2\\qquad\\textbf{(D) }\\frac{12}{5}\\qquad\\textbf{(E) }\\frac{5}{2}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 12 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Starting with some gold coins and some empty treasure chests, I tried to put <math>9</math> gold coins in each treasure chest, but that left <math>2</math> treasure chests empty. So instead I put <math>6</math> gold coins in each treasure chest, but then I had <math>3</math> gold coins left over. How many gold coins did I have? <math>\\textbf{(A) }9\\qquad\\textbf{(B) }27\\qquad\\textbf{(C) }45\\qquad\\textbf{(D) }63\\qquad\\textbf{(E) }81</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 45",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "In the non-convex quadrilateral <math>ABCD</math> shown below, <math>\\angle BCD</math> is a right angle, <math>AB=12</math>, <math>BC=4</math>, <math>CD=3</math>, and <math>AD=13</math>. What is the area of quadrilateral <math>ABCD</math>? <asy>draw((0,0)--(2.4,3.6)--(0,5)--(12,0)--(0,0)); label(\"$B$\", (0, 0), SW); label(\"$A$\", (12, 0), ESE); label(\"$C$\", (2.4, 3.6), SE); label(\"$D$\", (0, 5), N);</asy> <math>\\textbf{(A) }12 \\qquad \\textbf{(B) }24 \\qquad \\textbf{(C) }26 \\qquad \\textbf{(D) }30 \\qquad \\textbf{(E) }36</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 24",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "For any positive integer <imath>M</imath>, the notation <imath>M!</imath> denotes the product of the integers <imath>1</imath> through <imath>M</imath>. What is the largest integer <imath>n</imath> for which <imath>5^n</imath> is a factor of the sum <imath>98!+99!+100!</imath> ? <imath>\\textbf{(A) }23 \\qquad \\textbf{(B) }24 \\qquad \\textbf{(C) }25 \\qquad \\textbf{(D) }26 \\qquad \\textbf{(E) }27</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 26",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "An integer between 1000 and 9999, inclusive, is chosen at random. What is the probability that it is an odd integer whose digits are all distinct? <math>\\textbf{(A) }\\frac{14}{75} \\qquad \\textbf{(B) }\\frac{56}{225} \\qquad \\textbf{(C) }\\frac{107}{400} \\qquad \\textbf{(D) }\\frac{7}{25} \\qquad \\textbf{(E) }\\frac{9}{25}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 56 225",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Suppose <math>a</math>, <math>b</math>, and <math>c</math> are nonzero real numbers, and <math>a+b+c=0</math>. What are the possible value(s) for <math>\\frac{a}{|a|}+\\frac{b}{|b|}+\\frac{c}{|c|}+\\frac{abc}{|abc|}</math>? <math>\\textbf{(A) }0\\qquad\\textbf{(B) }1\\text{ and }-1\\qquad\\textbf{(C) }2\\text{ and }-2\\qquad\\textbf{(D) }0,2,\\text{ and }-2\\qquad\\textbf{(E) }0,1,\\text{ and }-1</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "In the right triangle <imath>ABC</imath>, <imath>AC=12</imath>, <imath>BC=5</imath>, and angle <imath>C</imath> is a right angle. A semicircle is inscribed in the triangle as shown. What is the radius of the semicircle? <asy> draw((0,0)--(12,0)--(12,5)--(0,0)); draw(arc((8.67,0),(12,0),(5.33,0))); label(\"$A$\", (0,0), W); label(\"$C$\", (12,0), E); label(\"$B$\", (12,5), NE); label(\"$12$\", (6, 0), S); label(\"$5$\", (12, 2.5), E);</asy> <imath>\\textbf{(A) }\\frac{7}{6}\\qquad\\textbf{(B) }\\frac{13}{5}\\qquad\\textbf{(C) }\\frac{59}{18}\\qquad\\textbf{(D) }\\frac{10}{3}\\qquad\\textbf{(E) }\\frac{60}{13}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 10 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Each day for four days, Linda traveled for one hour at a speed that resulted in her traveling one mile in an integer number of minutes. Each day after the first, her speed decreased so that the number of minutes to travel one mile increased by <math>5</math> minutes over the preceding day. Each of the four days, her distance traveled was also an integer number of miles. What was the total number of miles for the four trips? <math>\\textbf{(A) }10\\qquad\\textbf{(B) }15\\qquad\\textbf{(C) }25\\qquad\\textbf{(D) }50\\qquad\\textbf{(E) }82</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 25",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Mrs. Sanders has three grandchildren, who call her regularly. One calls her every three days, one calls her every four days, and one calls her every five days. All three called her on December 31, 2016. On how many days during the next year did she not receive a phone call from any of her grandchildren? <math>\\textbf{(A) }78\\qquad\\textbf{(B) }80\\qquad\\textbf{(C) }144\\qquad\\textbf{(D) }146\\qquad\\textbf{(E) }152</math>",
+      "answerType": "integer",
+      "answerKey": "146",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "In the figure shown, <math>\\overline{US}</math> and <math>\\overline{UT}</math> are line segments each of length 2, and <math>m\\angle TUS = 60^\\circ</math>. Arcs <math>\\overarc{TR}</math> and <math>\\overarc{SR}</math> are each one-sixth of a circle with radius 2. What is the area of the region shown? <asy>draw((1,1.732)--(2,3.464)--(3,1.732)); draw(arc((0,0),(2,0),(1,1.732))); draw(arc((4,0),(3,1.732),(2,0))); label(\"$U$\", (2,3.464), N); label(\"$S$\", (1,1.732), W); label(\"$T$\", (3,1.732), E); label(\"$R$\", (2,0), S);</asy> <math>\\textbf{(A) }3\\sqrt{3}-\\pi\\qquad\\textbf{(B) }4\\sqrt{3}-\\frac{4\\pi}{3}\\qquad\\textbf{(C) }2\\sqrt{3}\\qquad\\textbf{(D) }4\\sqrt{3}-\\frac{2\\pi}{3}\\qquad\\textbf{(E) }4+\\frac{4\\pi}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "4\\sqrt 3 -\\frac 4\\pi 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

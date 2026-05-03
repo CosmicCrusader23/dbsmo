@@ -1,0 +1,118 @@
+{
+  "slug": "2008-aime-ii",
+  "title": "2008 AIME II",
+  "description": "Converted from 2008_AIME_II_questions.txt and 2008_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Let <math>N = 100^2 + 99^2 - 98^2 - 97^2 + 96^2 + \\cdots + 4^2 + 3^2 - 2^2 - 1^2</math>, where the additions and subtractions alternate in pairs. Find the remainder when <math>N</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "100",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Rudolph bikes at a [[constant]] rate and stops for a five-minute break at the end of every mile. Jennifer bikes at a constant rate which is three-quarters the rate that Rudolph bikes, but Jennifer takes a five-minute break at the end of every two miles. Jennifer and Rudolph begin biking at the same time and arrive at the <math>50</math>-mile mark at exactly the same time. How many minutes has it taken them?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude>",
+      "answerType": "integer",
+      "answerKey": "620",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A block of cheese in the shape of a rectangular solid measures <math>10</math> cm by <math>13</math> cm by <math>14</math> cm. Ten slices are cut from the cheese. Each slice has a width of <math>1</math> cm and is cut parallel to one face of the cheese. The individual slices are not necessarily parallel to each other. What is the maximum possible volume in cubic cm of the remaining block of cheese after ten slices have been cut off?",
+      "answerType": "integer",
+      "answerKey": "729",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "There exist <imath>r</imath> unique nonnegative integers <imath>n_1 > n_2 > \\cdots > n_r</imath> and <imath>r</imath> unique integers <imath>a_k</imath> (<imath>1\\le k\\le r</imath>) with each <imath>a_k</imath> either <imath>1</imath> or <imath>- 1</imath> such that <cmath> a_13^{n_1} + a_23^{n_2} + \\cdots + a_r3^{n_r} = 2008. </cmath> Find <imath>n_1 + n_2 + \\cdots + n_r</imath>.",
+      "answerType": "integer",
+      "answerKey": "021",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "In [[trapezoid]] <math>ABCD</math> with <math>\\overline{BC}\\parallel\\overline{AD}</math>, let <math>BC = 1000</math> and <math>AD = 2008</math>. Let <math>\\angle A = 37^\\circ</math>, <math>\\angle D = 53^\\circ</math>, and <math>M</math> and <math>N</math> be the [[midpoint]]s of <math>\\overline{BC}</math> and <math>\\overline{AD}</math>, respectively. Find the length <math>MN</math>.",
+      "answerType": "integer",
+      "answerKey": "504",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "The sequence <math>\\{a_n\\}</math> is defined by <cmath> a_0 = 1,a_1 = 1, \\text{ and } a_n = a_{n - 1} + \\frac {a_{n - 1}^2}{a_{n - 2}}\\text{ for }n\\ge2. </cmath> The sequence <math>\\{b_n\\}</math> is defined by <cmath> b_0 = 1,b_1 = 3, \\text{ and } b_n = b_{n - 1} + \\frac {b_{n - 1}^2}{b_{n - 2}}\\text{ for }n\\ge2.</cmath> Find <math>\\frac {b_{32}}{a_{32}}</math>.",
+      "answerType": "integer",
+      "answerKey": "561",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Let <math>r</math>, <math>s</math>, and <math>t</math> be the three roots of the equation <cmath> 8x^3 + 1001x + 2008 = 0. </cmath> Find <math>(r + s)^3 + (s + t)^3 + (t + r)^3</math>.",
+      "answerType": "integer",
+      "answerKey": "753",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Let <math>a = \\pi/2008</math>. Find the smallest positive integer <math>n</math> such that <cmath> 2[\\cos(a)\\sin(a) + \\cos(4a)\\sin(2a) + \\cos(9a)\\sin(3a) + \\cdots + \\cos(n^2a)\\sin(na)] </cmath> is an integer.",
+      "answerType": "integer",
+      "answerKey": "251",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "A particle is located on the coordinate plane at <math>(5,0)</math>. Define a ''move'' for the particle as a counterclockwise rotation of <math>\\pi/4</math> radians about the origin followed by a translation of <math>10</math> units in the positive <math>x</math>-direction. Given that the particle's position after <math>150</math> moves is <math>(p,q)</math>, find the greatest integer less than or equal to <math>|p| + |q|</math>. == Solutions ==",
+      "answerType": "integer",
+      "answerKey": "019",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "The diagram below shows a <math>4\\times4</math> rectangular array of points, each of which is <math>1</math> unit away from its nearest neighbors. <center><asy> unitsize(0.25inch); defaultpen(linewidth(0.7)); int i, j; for(i = 0; i < 4; ++i) for(j = 0; j < 4; ++j) dot(((real)i, (real)j)); </asy></center> Define a ''growing path'' to be a sequence of distinct points of the array with the property that the distance between consecutive points of the sequence is strictly increasing. Let <math>m</math> be the maximum possible number of points in a growing path, and let <math>r</math> be the number of growing paths consisting of exactly <math>m</math> points. Find <math>mr</math>.",
+      "answerType": "integer",
+      "answerKey": "240",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "In triangle <math>ABC</math>, <math>AB = AC = 100</math>, and <math>BC = 56</math>. [[Circle]] <math>P</math> has [[radius]] <math>16</math> and is tangent to <math>\\overline{AC}</math> and <math>\\overline{BC}</math>. Circle <math>Q</math> is externally [[tangent]] to <math>P</math> and is tangent to <math>\\overline{AB}</math> and <math>\\overline{BC}</math>. No point of circle <math>Q</math> lies outside of <math>\\triangle ABC</math>. The radius of circle <math>Q</math> can be expressed in the form <math>m - n\\sqrt {k}</math>, where <math>m</math>, <math>n</math>, and <math>k</math> are positive integers and <math>k</math> is the product of distinct primes. Find <math>m + nk</math>.",
+      "answerType": "integer",
+      "answerKey": "254",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "There are two distinguishable flagpoles, and there are <math>19</math> flags, of which <math>10</math> are identical blue flags, and <math>9</math> are identical green flags. Let <math>N</math> be the number of distinguishable arrangements using all of the flags in which each flagpole has at least one flag and no two green flags on either pole are adjacent. Find the remainder when <math>N</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "310",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "A [[regular polygon|regular]] [[hexagon]] with center at the [[origin]] in the [[complex plane]] has opposite pairs of sides one unit apart. One pair of sides is parallel to the imaginary axis. Let <math>R</math> be the region outside the hexagon, and let <math>S = \\left\\lbrace\\frac{1}{z}|z \\in R\\right\\rbrace</math>. Then the area of <math>S</math> has the form <math>a\\pi + \\sqrt{b}</math>, where <math>a</math> and <math>b</math> are positive integers. Find <math>a + b</math>.",
+      "answerType": "integer",
+      "answerKey": "029",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>a</math> and <math>b</math> be positive real numbers with <math>a\\ge b</math>. Let <math>\\rho</math> be the maximum possible value of <math>\\frac {a}{b}</math> for which the system of equations <cmath> a^2 + y^2 = b^2 + x^2 = (a - x)^2 + (b - y)^2 </cmath> has a solution in <math>(x,y)</math> satisfying <math>0\\le x < a</math> and <math>0\\le y < b</math>. Then <math>\\rho^2</math> can be expressed as a fraction <math>\\frac {m}{n}</math>, where <math>m</math> and <math>n</math> are [[relatively prime]] positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "007",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Find the largest integer <math>n</math> satisfying the following conditions: :(i) <math>n^2</math> can be expressed as the difference of two consecutive cubes; :(ii) <math>2n + 79</math> is a perfect square.",
+      "answerType": "integer",
+      "answerKey": "181",
+      "points": 1
+    }
+  ]
+}

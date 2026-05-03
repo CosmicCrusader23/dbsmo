@@ -1,0 +1,104 @@
+{
+  "slug": "2016-aime-i",
+  "title": "2016 AIME I",
+  "description": "Converted from 2016_AIME_I_questions.txt and 2016_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "For <math>-1<r<1</math>, let <math>S(r)</math> denote the sum of the geometric series <cmath>12+12r+12r^2+12r^3+\\cdots .</cmath> Let <math>a</math> between <math>-1</math> and <math>1</math> satisfy <math>S(a)S(-a)=2016</math>. Find <math>S(a)+S(-a)</math>.",
+      "answerType": "integer",
+      "answerKey": "336",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Two dice appear to be normal dice with their faces numbered from <math>1</math> to <math>6</math>, but each die is weighted so that the probability of rolling the number <math>k</math> is directly proportional to <math>k</math>. The probability of rolling a <math>7</math> with this pair of dice is <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "071",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A ''regular icosahedron'' is a <math>20</math>-faced solid where each face is an equilateral triangle and five triangles meet at every vertex. The regular icosahedron shown below has one vertex at the top, one vertex at the bottom, an upper pentagon of five vertices all adjacent to the top vertex and all in the same horizontal plane, and a lower pentagon of five vertices all adjacent to the bottom vertex and all in another horizontal plane. Find the number of paths from the top vertex to the bottom vertex such that each part of a path goes downward or horizontally along an edge of the icosahedron, and no vertex is repeated. <asy> size(3cm); pair A=(0.05,0),B=(-.9,-0.6),C=(0,-0.45),D=(.9,-0.6),E=(.55,-0.85),F=(-0.55,-0.85),G=B-(0,1.1),H=F-(0,0.6),I=E-(0,0.6),J=D-(0,1.1),K=C-(0,1.4),L=C+K-A; draw(A--B--F--E--D--A--E--A--F--A^^B--G--F--K--G--L--J--K--E--J--D--J--L--K); draw(B--C--D--C--A--C--H--I--C--H--G^^H--L--I--J^^I--D^^H--B,dashed); dot(A^^B^^C^^D^^E^^F^^G^^H^^I^^J^^K^^L); </asy>",
+      "answerType": "integer",
+      "answerKey": "810",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Anh read a book. On the first day she read <math>n</math> pages in <math>t</math> minutes, where <math>n</math> and <math>t</math> are positive integers. On the second day Anh read <math>n + 1</math> pages in <math>t + 1</math> minutes. Each day thereafter Anh read one more page than she read on the previous day, and it took her one more minute than on the previous day until she completely read the <math>374</math> page book. It took her a total of <math>319</math> minutes to read the book. Find <math>n + t</math>.",
+      "answerType": "integer",
+      "answerKey": "053",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "In <imath>\\triangle ABC</imath> let <imath>I</imath> be the center of the inscribed circle, and let the bisector of <imath>\\angle ACB</imath> intersect <imath>AB</imath> at <imath>L</imath>. The line through <imath>C</imath> and <imath>L</imath> intersects the circumscribed circle of <imath>\\triangle ABC</imath> at the two points <imath>C</imath> and <imath>D</imath>. If <imath>LI=2</imath> and <imath>LD=3</imath>, then <imath>IC=\\tfrac{p}{q}</imath>, where <imath>p</imath> and <imath>q</imath> are relatively prime positive integers. Find <imath>p+q</imath>.",
+      "answerType": "integer",
+      "answerKey": "013",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "For a permutation <math>p = (a_1,a_2,\\ldots,a_9)</math> of the digits <math>1,2,\\ldots,9</math>, let <math>s(p)</math> denote the sum of the three <math>3</math>-digit numbers <math>a_1a_2a_3</math>, <math>a_4a_5a_6</math>, and <math>a_7a_8a_9</math>. Let <math>m</math> be the minimum value of <math>s(p)</math> subject to the condition that the units digit of <math>s(p)</math> is <math>0</math>. Let <math>n</math> denote the number of permutations <math>p</math> with <math>s(p) = m</math>. Find <math>|m - n|</math>.",
+      "answerType": "integer",
+      "answerKey": "162",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "It has been noted that this answer won't actually work. Let angle <math>QAB = m</math> and angle <math>CAS = n</math> as in Solution 1. Since we know (through that solution) that <math>m = n</math>, we can call them each <math>\\theta</math>. The height of the rectangle is <math>AS = 31\\cos\\theta</math>, and the distance <math>BQ = 40\\sin\\theta</math>. We know that, if the triangle is to be inscribed in a rectangle, <math>AS \\geq BQ</math>. <cmath>AS \\geq BQ</cmath> <cmath>31\\cos\\theta \\geq 40\\sin\\theta</cmath> <cmath>\\frac{31}{40} \\geq \\tan\\theta</cmath> However, <math>\\tan\\theta = \\tan(\\frac{90-A}{2}) = \\frac{\\sin(90-A)}{\\cos(90-A)+1} = \\frac{\\cos A}{\\sin A + 1} = \\frac{\\frac{2\\sqrt6}{5}}{\\frac{6}{5}} = \\frac{\\sqrt6}{3} > \\frac{31}{40}</math>, so the triangle does not actually fit in the rectangle: specifically, B is above R and thus in the line containing segment QR but not on the actual segment or in the rectangle. <asy> size(200); pair A,B,C,Q,R,S; real r = (pi/2 - asin(1/5))/2; A = (0,0); B = 40*dir(r*180/pi); C = 31*dir(90-r*180/pi); draw(A--B--C--cycle); Q = (40*cos(r),0); R = (40*cos(r),31*cos(r)); S = (0, 31*cos(r)); draw(A--Q--R--S--cycle); label(\"$A$\",A,SW); label(\"$B$\",B,NE); label(\"$C$\",C,N); label(\"$Q$\",Q,SE); label(\"$R$\",R,E); label(\"$S$\",S,NW); </asy> The actual answer is a radical near <math>728</math> (letting the triangle be inside the rectangle). The CAMC, however, has decided to accept only the answer <math>744</math> despite the invalid problem statement.",
+      "answerType": "integer",
+      "answerKey": "744",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "A strictly increasing sequence of positive integers <math>a_1</math>, <math>a_2</math>, <math>a_3</math>, <math>\\cdots</math> has the property that for every positive integer <math>k</math>, the subsequence <math>a_{2k-1}</math>, <math>a_{2k}</math>, <math>a_{2k+1}</math> is geometric and the subsequence <math>a_{2k}</math>, <math>a_{2k+1}</math>, <math>a_{2k+2}</math> is arithmetic. Suppose that <math>a_{13} = 2016</math>. Find <math>a_1</math>.",
+      "answerType": "integer",
+      "answerKey": "504",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Let <imath>P(x)</imath> be a nonzero polynomial such that <imath>(x-1)P(x+1)=(x+2)P(x)</imath> for every real <imath>x</imath>, and <imath>\\left(P(2)\\right)^2 = P(3)</imath>. Then <imath>P(\\tfrac72)=\\tfrac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m + n</imath>.",
+      "answerType": "integer",
+      "answerKey": "109",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Find the least positive integer <math>m</math> such that <math>m^2 - m + 11</math> is a product of at least four not necessarily distinct primes.",
+      "answerType": "integer",
+      "answerKey": "132",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Freddy the frog is jumping around the coordinate plane searching for a river, which lies on the horizontal line <math>y = 24</math>. A fence is located at the horizontal line <math>y = 0</math>. On each jump Freddy randomly chooses a direction parallel to one of the coordinate axes and moves one unit in that direction. When he is at a point where <math>y=0</math>, with equal likelihoods he chooses one of three directions where he either jumps parallel to the fence or jumps away from the fence, but he never chooses the direction that would have him cross over the fence to where <math>y < 0</math>. Freddy starts his search at the point <math>(0, 21)</math> and will stop once he reaches a point on the river. Find the expected number of jumps it will take Freddy to reach the river. ==Video solution by [https://artofproblemsolving.com/wiki/index.php/User:grogg007 grogg007]== https://www.youtube.com/watch?v=lDqHL-onoiw",
+      "answerType": "integer",
+      "answerKey": "273",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Centered at each lattice point in the coordinate plane are a circle radius <math>\\frac{1}{10}</math> and a square with sides of length <math>\\frac{1}{5}</math> whose sides are parallel to the coordinate axes. The line segment from <math>(0,0)</math> to <math>(1001, 429)</math> intersects <math>m</math> of the squares and <math>n</math> of the circles. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "574",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Circles <math>\\omega_1</math> and <math>\\omega_2</math> intersect at points <math>X</math> and <math>Y</math>. Line <math>\\ell</math> is tangent to <math>\\omega_1</math> and <math>\\omega_2</math> at <math>A</math> and <math>B</math>, respectively, with line <math>AB</math> closer to point <math>X</math> than to <math>Y</math>. Circle <math>\\omega</math> passes through <math>A</math> and <math>B</math> intersecting <math>\\omega_1</math> again at <math>D \\neq A</math> and intersecting <math>\\omega_2</math> again at <math>C \\neq B</math>. The three points <math>C</math>, <math>Y</math>, <math>D</math> are collinear, <math>XC = 67</math>, <math>XY = 47</math>, and <math>XD = 37</math>. Find <math>AB^2</math>.",
+      "answerType": "integer",
+      "answerKey": "270",
+      "points": 1
+    }
+  ]
+}

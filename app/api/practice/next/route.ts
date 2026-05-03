@@ -33,6 +33,7 @@ export async function GET(request: Request) {
     select: {
       id: true,
       statement: true,
+      contentFormat: true,
       topicTags: true,
       problemSet: {
         select: {

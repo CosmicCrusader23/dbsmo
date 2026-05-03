@@ -1,0 +1,145 @@
+{
+  "slug": "2010-amc-10a",
+  "title": "2010 AMC 10A",
+  "description": "Converted from 2010_AMC_10A_questions.txt and 2010_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Mary's top book shelf holds five books with the following widths, in centimeters: <math>6</math>, <math>\\dfrac{1}{2}</math>, <math>1</math>, <math>2.5</math>, and <math>10</math>. What is the average book width, in centimeters? <math> \\mathrm{(A)}\\ 1 \\qquad \\mathrm{(B)}\\ 2 \\qquad \\mathrm{(C)}\\ 3 \\qquad \\mathrm{(D)}\\ 4 \\qquad \\mathrm{(E)}\\ 5 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Four identical squares and one rectangle are placed together to form one large square as shown. The length of the rectangle is how many times as large as its width? <center><asy> unitsize(8mm); defaultpen(linewidth(.8pt)); draw((0,0)--(4,0)--(4,4)--(0,4)--cycle); draw((0,3)--(0,4)--(1,4)--(1,3)--cycle); draw((1,3)--(1,4)--(2,4)--(2,3)--cycle); draw((2,3)--(2,4)--(3,4)--(3,3)--cycle); draw((3,3)--(3,4)--(4,4)--(4,3)--cycle); </asy></center> <math> \\mathrm{(A)}\\ \\dfrac{5}{4} \\qquad \\mathrm{(B)}\\ \\dfrac{4}{3} \\qquad \\mathrm{(C)}\\ \\dfrac{3}{2} \\qquad \\mathrm{(D)}\\ 2 \\qquad \\mathrm{(E)}\\ 3 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Tyrone had <math>97</math> marbles and Eric had <math>11</math> marbles. Tyrone then gave some of his marbles to Eric so that Tyrone ended with twice as many marbles as Eric. How many marbles did Tyrone give to Eric? <math> \\mathrm{(A)}\\ 3 \\qquad \\mathrm{(B)}\\ 13 \\qquad \\mathrm{(C)}\\ 18 \\qquad \\mathrm{(D)}\\ 25 \\qquad \\mathrm{(E)}\\ 29 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "A book that is to be recorded onto compact discs takes <math>412</math> minutes to read aloud. Each disc can hold up to <math>56</math> minutes of reading. Assume that the smallest possible number of discs is used and that each disc contains the same length of reading. How many minutes of reading will each disc contain? <math> \\mathrm{(A)}\\ 50.2 \\qquad \\mathrm{(B)}\\ 51.5 \\qquad \\mathrm{(C)}\\ 52.4 \\qquad \\mathrm{(D)}\\ 53.8 \\qquad \\mathrm{(E)}\\ 55.2 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "The area of a circle whose circumference is <math>24\\pi</math> is <math>k\\pi</math>. What is the value of <math>k</math>? <math> \\mathrm{(A)}\\ 6 \\qquad \\mathrm{(B)}\\ 12 \\qquad \\mathrm{(C)}\\ 24 \\qquad \\mathrm{(D)}\\ 36 \\qquad \\mathrm{(E)}\\ 144 </math>",
+      "answerType": "integer",
+      "answerKey": "144",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "For positive numbers <math>x</math> and <math>y</math> the operation <math>\\spadesuit (x,y)</math> is defined as <cmath>\\spadesuit (x,y) = x-\\dfrac{1}{y}</cmath> What is <math>\\spadesuit (2,\\spadesuit (2,2))</math>? <math> \\mathrm{(A)}\\ \\dfrac{2}{3} \\qquad \\mathrm{(B)}\\ 1 \\qquad \\mathrm{(C)}\\ \\dfrac{4}{3} \\qquad \\mathrm{(D)}\\ \\dfrac{5}{3} \\qquad \\mathrm{(E)}\\ 2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 4 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Crystal has a running course marked out for her daily run. She starts this run by heading due north for one mile. She then runs northeast for one mile, then southeast for one mile. The last portion of her run takes her on a straight line back to where she started. How far, in miles is this last portion of her run? <math> \\mathrm{(A)}\\ 1 \\qquad \\mathrm{(B)}\\ \\sqrt{2} \\qquad \\mathrm{(C)}\\ \\sqrt{3} \\qquad \\mathrm{(D)}\\ 2 \\qquad \\mathrm{(E)}\\ 2\\sqrt{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Tony works <math>2</math> hours a day and is paid &#36;<math>0.50</math> per hour for each full year of his age. During a six month period Tony worked <math>50</math> days and earned &#36;<math>630</math>. How old was Tony at the end of the six month period? <math> \\mathrm{(A)}\\ 9 \\qquad \\mathrm{(B)}\\ 11 \\qquad \\mathrm{(C)}\\ 12 \\qquad \\mathrm{(D)}\\ 13 \\qquad \\mathrm{(E)}\\ 14 </math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Marvin had a birthday on Tuesday, May 27 in the leap year <math>2008</math>. In what year will his birthday next fall on a Saturday? <math> \\mathrm{(A)}\\ 2011 \\qquad \\mathrm{(B)}\\ 2012 \\qquad \\mathrm{(C)}\\ 2013 \\qquad \\mathrm{(D)}\\ 2015 \\qquad \\mathrm{(E)}\\ 2017 </math>",
+      "answerType": "integer",
+      "answerKey": "2017",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The length of the interval of solutions of the inequality <math>a \\le 2x + 3 \\le b</math> is <math>10</math>. What is <math>b - a</math>? <math> \\mathrm{(A)}\\ 6 \\qquad \\mathrm{(B)}\\ 10 \\qquad \\mathrm{(C)}\\ 15 \\qquad \\mathrm{(D)}\\ 20 \\qquad \\mathrm{(E)}\\ 30 </math>",
+      "answerType": "exact",
+      "answerKey": "20\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Angelina drove at an average rate of <math>80</math> kmh and then stopped <math>20</math> minutes for gas. After the stop, she drove at an average rate of <math>100</math> kmh. Altogether she drove <math>250</math> km in a total trip time of <math>3</math> hours including the stop. Which equation could be used to solve for the time <math>t</math> in hours that she drove before her stop? <math>\\textbf{(A)}\\ 80t+100\\left(\\frac{8}{3}-t\\right)=250 \\qquad \\textbf{(B)}\\ 80t=250 \\qquad \\textbf{(C)}\\ 100t=250 \\qquad \\textbf{(D)}\\ 90t=250 \\qquad \\textbf{(E)}\\ 80\\left(\\frac{8}{3}-t\\right)+100t=250</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "A fly trapped inside a cubical box with side length <math>1</math> meter decides to relieve its boredom by visiting each corner of the box. It will begin and end in the same corner and visit each of the other corners exactly once. To get from a corner to any other corner, it will either fly or crawl in a straight line. What is the maximum possible length, in meters, of its path? <math>\\textbf{(A)}\\ 4+4\\sqrt{2} \\qquad \\textbf{(B)}\\ 2+4\\sqrt{2}+2\\sqrt{3} \\qquad \\textbf{(C)}\\ 2+3\\sqrt{2}+3\\sqrt{3} \\qquad \\textbf{(D)}\\ 4\\sqrt{2}+4\\sqrt{3} \\qquad \\textbf{(E)}\\ 3\\sqrt{2}+5\\sqrt{3}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "The polynomial <math>x^3-ax^2+bx-2010</math> has three positive integer roots. What is the smallest possible value of <math>a</math>? <math>\\textbf{(A)}\\ 78 \\qquad \\textbf{(B)}\\ 88 \\qquad \\textbf{(C)}\\ 98 \\qquad \\textbf{(D)}\\ 108 \\qquad \\textbf{(E)}\\ 118</math>",
+      "answerType": "integer",
+      "answerKey": "78",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Eight points are chosen on a circle, and chords are drawn connecting every pair of points. No three chords intersect in a single point inside the circle. How many triangles with all three vertices in the interior of the circle are created? <imath>\\textbf{(A)}\\ 28 \\qquad \\textbf{(B)}\\ 56 \\qquad \\textbf{(C)}\\ 70 \\qquad \\textbf{(D)}\\ 84 \\qquad \\textbf{(E)}\\ 140</imath>",
+      "answerType": "integer",
+      "answerKey": "28",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Jim starts with a positive integer <math>n</math> and creates a sequence of numbers. Each successive number is obtained by subtracting the largest possible integer square less than or equal to the current number until zero is reached. For example, if Jim starts with <math>n = 55</math>, then his sequence contains <math>5</math> numbers: <cmath>\\begin{array}{ccccc} {}&{}&{}&{}&55\\\\ 55&-&7^2&=&6\\\\ 6&-&2^2&=&2\\\\ 2&-&1^2&=&1\\\\ 1&-&1^2&=&0\\\\ \\end{array}</cmath> Let <math>N</math> be the smallest number for which Jim’s sequence has <math>8</math> numbers. What is the units digit of <math>N</math>? <math> \\mathrm{(A)}\\ 1 \\qquad \\mathrm{(B)}\\ 3 \\qquad \\mathrm{(C)}\\ 5 \\qquad \\mathrm{(D)}\\ 7 \\qquad \\mathrm{(E)}\\ 9 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "2012-aime-ii",
+  "title": "2012 AIME II",
+  "description": "Converted from 2012_AIME_II_questions.txt and 2012_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the number of ordered pairs of positive integer solutions <math>(m, n)</math> to the equation <math>20m + 12n = 2012</math>.",
+      "answerType": "integer",
+      "answerKey": "034",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Two geometric sequences <math>a_1, a_2, a_3, \\ldots</math> and <math>b_1, b_2, b_3, \\ldots</math> have the same common ratio, with <math>a_1 = 27</math>, <math>b_1=99</math>, and <math>a_{15}=b_{11}</math>. Find <math>a_9</math>.<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude>",
+      "answerType": "integer",
+      "answerKey": "363",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "At a certain university, the division of mathematical sciences consists of the departments of mathematics, statistics, and computer science. There are two male and two female professors in each department. A committee of six professors is to contain three men and three women and must also contain two professors from each of the three departments. Find the number of possible committees that can be formed subject to these requirements.",
+      "answerType": "integer",
+      "answerKey": "088",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Ana, Bob, and Cao bike at constant rates of <math>8.6</math> meters per second, <math>6.2</math> meters per second, and <math>5</math> meters per second, respectively. They all begin biking at the same time from the northeast corner of a rectangular field whose longer side runs due west. Ana starts biking along the edge of the field, initially heading west, Bob starts biking along the edge of the field, initially heading south, and Cao bikes in a straight line across the field to a point <math>D</math> on the south edge of the field. Cao arrives at point <math>D</math> at the same time that Ana and Bob arrive at <math>D</math> for the first time. The ratio of the field's length to the field's width to the distance from point <math>D</math> to the southeast corner of the field can be represented as <math>p : q : r</math>, where <math>p</math>, <math>q</math>, and <math>r</math> are positive integers with <math>p</math> and <math>q</math> relatively prime. Find <math>p+q+r</math>.",
+      "answerType": "integer",
+      "answerKey": "061",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "In the accompanying figure, the outer square <math>S</math> has side length <math>40</math>. A second square <math>S'</math> of side length <math>15</math> is constructed inside <math>S</math> with the same center as <math>S</math> and with sides parallel to those of <math>S</math>. From each midpoint of a side of <math>S</math>, segments are drawn to the two closest vertices of <math>S'</math>. The result is a four-pointed starlike figure inscribed in <math>S</math>. The star figure is cut out and then folded to form a pyramid with base <math>S'</math>. Find the volume of this pyramid. <center><asy> pair S1 = (20, 20), S2 = (-20, 20), S3 = (-20, -20), S4 = (20, -20); pair M1 = (S1+S2)/2, M2 = (S2+S3)/2, M3=(S3+S4)/2, M4=(S4+S1)/2; pair Sp1 = (7.5, 7.5), Sp2=(-7.5, 7.5), Sp3 = (-7.5, -7.5), Sp4 = (7.5, -7.5); draw(S1--S2--S3--S4--cycle); draw(Sp1--Sp2--Sp3--Sp4--cycle); draw(Sp1--M1--Sp2--M2--Sp3--M3--Sp4--M4--cycle); </asy></center>",
+      "answerType": "integer",
+      "answerKey": "750",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Let <math>z=a+bi</math> be the complex number with <math>\\vert z \\vert = 5</math> and <math>b > 0</math> such that the distance between <math>(1+2i)z^3</math> and <math>z^5</math> is maximized, and let <math>z^4 = c+di</math>. Find <math>c+d</math>.",
+      "answerType": "integer",
+      "answerKey": "125",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Let <math>S</math> be the increasing sequence of positive integers whose binary representation has exactly <math>8</math> ones. Let <math>N</math> be the 1000th number in <math>S</math>. Find the remainder when <math>N</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "032",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "The complex numbers <math>z</math> and <math>w</math> satisfy the system <cmath> z + \\frac{20i}w = 5+i </cmath> <cmath> w+\\frac{12i}z = -4+10i </cmath> Find the smallest possible value of <math>\\vert zw\\vert^2</math>.",
+      "answerType": "integer",
+      "answerKey": "040",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>x</math> and <math>y</math> be real numbers such that <math>\\frac{\\sin x}{\\sin y} = 3</math> and <math>\\frac{\\cos x}{\\cos y} = \\frac12</math>. The value of <math>\\frac{\\sin 2x}{\\sin 2y} + \\frac{\\cos 2x}{\\cos 2y}</math> can be expressed in the form <math>\\frac pq</math>, where <math>p</math> and <math>q</math> are relatively prime positive integers. Find <math>p+q</math>.",
+      "answerType": "integer",
+      "answerKey": "107",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Find the number of positive integers <math>n</math> less than <math>1000</math> for which there exists a positive real number <math>x</math> such that <math>n=x\\lfloor x \\rfloor</math>. Note: <math>\\lfloor x \\rfloor</math> is the greatest integer less than or equal to <math>x</math>.",
+      "answerType": "integer",
+      "answerKey": "496",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Let <math>f_1(x) = \\frac23 - \\frac3{3x+1}</math>, and for <math>n \\ge 2</math>, define <math>f_n(x) = f_1(f_{n-1}(x))</math>. The value of <math>x</math> that satisfies <math>f_{1001}(x) = x-3</math> can be expressed in the form <math>\\frac mn</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "008",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "For a positive integer <math>p</math>, define the positive integer <math>n</math> to be <math>p</math>''-safe'' if <math>n</math> differs in absolute value by more than <math>2</math> from all multiples of <math>p</math>. For example, the set of <math>10</math>-safe numbers is <math>\\{ 3, 4, 5, 6, 7, 13, 14, 15, 16, 17, 23, \\ldots\\}</math>. Find the number of positive integers less than or equal to <math>10,000</math> which are simultaneously <math>7</math>-safe, <math>11</math>-safe, and <math>13</math>-safe.",
+      "answerType": "integer",
+      "answerKey": "958",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Equilateral <imath>\\triangle ABC</imath> has side length <imath>\\sqrt{111}</imath>. There are four distinct triangles <imath>AD_1E_1</imath>, <imath>AD_1E_2</imath>, <imath>AD_2E_3</imath>, and <imath>AD_2E_4</imath>, each congruent to <imath>\\triangle ABC</imath>, with <imath>BD_1 = BD_2 = \\sqrt{11}</imath>. Find <imath>\\sum_{k=1}^4(CE_k)^2</imath>.",
+      "answerType": "integer",
+      "answerKey": "677",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "2006 HMMT feb. combo #9.",
+      "answerType": "integer",
+      "answerKey": "016",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Triangle <math>ABC</math> is inscribed in circle <math>\\omega</math> with <math>AB=5</math>, <math>BC=7</math>, and <math>AC=3</math>. The bisector of angle <math>A</math> meets side <math>\\overline{BC}</math> at <math>D</math> and circle <math>\\omega</math> at a second point <math>E</math>. Let <math>\\gamma</math> be the circle with diameter <math>\\overline{DE}</math>. Circles <math>\\omega</math> and <math>\\gamma</math> meet at <math>E</math> and a second point <math>F</math>. Then <math>AF^2 = \\frac mn</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "919",
+      "points": 1
+    }
+  ]
+}

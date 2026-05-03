@@ -1,0 +1,168 @@
+{
+  "slug": "2008-amc-12b",
+  "title": "2008 AMC 12B",
+  "description": "Converted from 2008_AMC_12B_questions.txt and 2008_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 2,
+      "statement": "A <math>4\\times 4</math> block of calendar dates is shown. First, the order of the numbers in the second and the fourth rows are reversed. Then, the numbers on each diagonal are added. What will be the positive difference between the two diagonal sums? <math>\\begin{tabular}[t]{|c|c|c|c|} \\multicolumn{4}{c}{}\\\\\\hline 1&2&3&4\\\\\\hline 8&9&10&11\\\\\\hline 15&16&17&18\\\\\\hline 22&23&24&25\\\\\\hline \\end{tabular}</math> <math>\\textbf{(A)}\\ 2 \\qquad \\textbf{(B)}\\ 4 \\qquad \\textbf{(C)}\\ 6 \\qquad \\textbf{(D)}\\ 8 \\qquad \\textbf{(E)}\\ 10</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "A class collects <math>50</math> dollars to buy flowers for a classmate who is in the hospital. Roses cost <math>3</math> dollars each, and carnations cost <math>2</math> dollars each. No other flowers are to be used. How many different bouquets could be purchased for exactly <math>50</math> dollars? <math>\\textbf{(A)}\\ 1 \\qquad \\textbf{(B)}\\ 7 \\qquad \\textbf{(C)}\\ 9 \\qquad \\textbf{(D)}\\ 16 \\qquad \\textbf{(E)}\\ 17</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Postman Pete has a pedometer to count his steps. The pedometer records up to <math>99999</math> steps, then flips over to <math>00000</math> on the next step. Pete plans to determine his mileage for a year. On January <math>1</math> Pete sets the pedometer to <math>00000</math>. During the year, the pedometer flips from <math>99999</math> to <math>00000</math> forty-four times. On December <math>31</math> the pedometer reads <math>50000</math>. Pete takes <math>1800</math> steps per mile. Which of the following is closest to the number of miles Pete walked during the year? <math>\\textbf{(A)}\\ 2500 \\qquad \\textbf{(B)}\\ 3000 \\qquad \\textbf{(C)}\\ 3500 \\qquad \\textbf{(D)}\\ 4000 \\qquad \\textbf{(E)}\\ 4500</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "For real numbers <math>a</math> and <math>b</math>, define <math>a\\textdollar b = (a - b)^2</math>. What is <math>(x - y)^2\\textdollar(y - x)^2</math>? <math>\\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ x^2 + y^2 \\qquad \\textbf{(C)}\\ 2x^2 \\qquad \\textbf{(D)}\\ 2y^2 \\qquad \\textbf{(E)}\\ 4xy</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Points <math>A</math> and <math>B</math> are on a circle of radius <math>5</math> and <math>AB = 6</math>. Point <math>C</math> is the midpoint of the minor arc <math>AB</math>. What is the length of the line segment <math>AC</math>? <math>\\textbf{(A)}\\ \\sqrt {10} \\qquad \\textbf{(B)}\\ \\frac {7}{2} \\qquad \\textbf{(C)}\\ \\sqrt {14} \\qquad \\textbf{(D)}\\ \\sqrt {15} \\qquad \\textbf{(E)}\\ 4</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "A cone-shaped mountain has its base on the ocean floor and has a height of 8000 feet. The top <math>\\frac{1}{8}</math> of the volume of the mountain is above water. What is the depth of the ocean at the base of the mountain in feet? <math>\\textbf{(A)}\\ 4000 \\qquad \\textbf{(B)}\\ 2000(4-\\sqrt{2}) \\qquad \\textbf{(C)}\\ 6000 \\qquad \\textbf{(D)}\\ 6400 \\qquad \\textbf{(E)}\\ 7000</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "For each positive integer <math>n</math>, the mean of the first <math>n</math> terms of a sequence is <math>n</math>. What is the <math>2008</math>th term of the sequence? <math>\\textbf{(A)}\\ 2008 \\qquad \\textbf{(B)}\\ 4015 \\qquad \\textbf{(C)}\\ 4016 \\qquad \\textbf{(D)}\\ 4030056 \\qquad \\textbf{(E)}\\ 4032064</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Vertex <math>E</math> of equilateral <math>\\triangle{ABE}</math> is in the interior of unit square <math>ABCD</math>. Let <math>R</math> be the region consisting of all points inside <math>ABCD</math> and outside <math>\\triangle{ABE}</math> whose distance from <math>AD</math> is between <math>\\frac{1}{3}</math> and <math>\\frac{2}{3}</math>. What is the area of <math>R</math>? <math>\\textbf{(A)}\\ \\frac{12-5\\sqrt3}{72} \\qquad \\textbf{(B)}\\ \\frac{12-5\\sqrt3}{36} \\qquad \\textbf{(C)}\\ \\frac{\\sqrt3}{18} \\qquad \\textbf{(D)}\\ \\frac{3-\\sqrt3}{9} \\qquad \\textbf{(E)}\\ \\frac{\\sqrt3}{12}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 12-5\\sqrt3 36",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "A circle has a radius of <math>\\log_{10}{(a^2)}</math> and a circumference of <math>\\log_{10}{(b^4)}</math>. What is <math>\\log_{a}{b}</math>? <math>\\textbf{(A)}\\ \\frac{1}{4\\pi} \\qquad \\textbf{(B)}\\ \\frac{1}{\\pi} \\qquad \\textbf{(C)}\\ \\pi \\qquad \\textbf{(D)}\\ 2\\pi \\qquad \\textbf{(E)}\\ 10^{2\\pi}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "On each side of a unit square, an equilateral triangle of side length 1 is constructed. On each new side of each equilateral triangle, another equilateral triangle of side length 1 is constructed. The interiors of the square and the 12 triangles have no points in common. Let <math> R</math> be the region formed by the union of the square and all the triangles, and <math> S</math> be the smallest convex polygon that contains <math> R</math>. What is the area of the region that is inside <math> S</math> but outside <math> R</math>? <math> \\textbf{(A)} \\; \\frac{1}{4} \\qquad \\textbf{(B)} \\; \\frac{\\sqrt{2}}{4} \\qquad \\textbf{(C)} \\; 1 \\qquad \\textbf{(D)} \\; \\sqrt{3} \\qquad \\textbf{(E)} \\; 2 \\sqrt{3}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "A rectangular floor measures <math>a</math> by <math>b</math> feet, where <math>a</math> and <math>b</math> are positive integers with <math>b > a</math>. An artist paints a rectangle on the floor with the sides of the rectangle parallel to the sides of the floor. The unpainted part of the floor forms a border of width <math>1</math> foot around the painted rectangle and occupies half of the area of the entire floor. How many possibilities are there for the ordered pair <math>(a,b)</math>? <math>\\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 5</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>A</math>, <math>B</math> and <math>C</math> be three distinct points on the graph of <math>y=x^2</math> such that line <math>AB</math> is parallel to the <math>x</math>-axis and <math>\\triangle ABC</math> is a right triangle with area <math>2008</math>. What is the sum of the digits of the <math>y</math>-coordinate of <math>C</math>? <math>\\textbf{(A)}\\ 16\\qquad\\textbf{(B)}\\ 17\\qquad\\textbf{(C)}\\ 18\\qquad\\textbf{(D)}\\ 19\\qquad\\textbf{(E)}\\ 20</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "A pyramid has a square base <math>ABCD</math> and vertex <math>E</math>. The area of square <math>ABCD</math> is <math>196</math>, and the areas of <math>\\triangle ABE</math> and <math>\\triangle CDE</math> are <math>105</math> and <math>91</math>, respectively. What is the volume of the pyramid? <math>\\textbf{(A)}\\ 392 \\qquad \\textbf{(B)}\\ 196\\sqrt {6} \\qquad \\textbf{(C)}\\ 392\\sqrt {2} \\qquad \\textbf{(D)}\\ 392\\sqrt {3} \\qquad \\textbf{(E)}\\ 784</math>",
+      "answerType": "exact",
+      "answerKey": "784 \\Rightarrow E",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A function <math>f</math> is defined by <math>f(z) = (4 + i) z^2 + \\alpha z + \\gamma</math> for all complex numbers <math>z</math>, where <math>\\alpha</math> and <math>\\gamma</math> are complex numbers and <math>i^2 = - 1</math>. Suppose that <math>f(1)</math> and <math>f(i)</math> are both real. What is the smallest possible value of <math>| \\alpha | + |\\gamma |</math> ? <math>\\textbf{(A)} \\; 1 \\qquad \\textbf{(B)} \\; \\sqrt {2} \\qquad \\textbf{(C)} \\; 2 \\qquad \\textbf{(D)} \\; 2 \\sqrt {2} \\qquad \\textbf{(E)} \\; 4 \\qquad</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Michael walks at the rate of <math>5</math> feet per second on a long straight path. Trash pails are located every <math>200</math> feet along the path. A garbage truck traveling at <math>10</math> feet per second in the same direction as Michael stops for <math>30</math> seconds at each pail. As Michael passes a pail, he notices the truck ahead of him just leaving the next pail. How many times will Michael and the truck meet? <math>\\mathrm{(A)}\\ 4\\qquad\\mathrm{(B)}\\ 5\\qquad\\mathrm{(C)}\\ 6\\qquad\\mathrm{(D)}\\ 7\\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Two circles of radius 1 are to be constructed as follows. The center of circle <math>A</math> is chosen uniformly and at random from the line segment joining <math>(0,0)</math> and <math>(2,0)</math>. The center of circle <math>B</math> is chosen uniformly and at random, and independently of the first choice, from the line segment joining <math>(0,1)</math> to <math>(2,1)</math>. What is the probability that circles <math>A</math> and <math>B</math> intersect? <math>\\textbf{(A)} \\; \\frac {2 + \\sqrt {2}}{4} \\qquad \\textbf{(B)} \\; \\frac {3\\sqrt {3} + 2}{8} \\qquad \\textbf{(C)} \\; \\frac {2 \\sqrt {2} - 1}{2} \\qquad \\textbf{(D)} \\; \\frac {2 + \\sqrt {3}}{4} \\qquad \\textbf{(E)} \\; \\frac {4 \\sqrt {3} - 3}{4}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A parking lot has 16 spaces in a row. Twelve cars arrive, each of which requires one parking space, and their drivers chose spaces at random from among the available spaces. Auntie Em then arrives in her SUV, which requires 2 adjacent spaces. What is the probability that she is able to park? <math>\\textbf{(A)} \\; \\frac {11}{20} \\qquad \\textbf{(B)} \\; \\frac {4}{7} \\qquad \\textbf{(C)} \\; \\frac {81}{140} \\qquad \\textbf{(D)} \\; \\frac {3}{5} \\qquad \\textbf{(E)} \\; \\frac {17}{28}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "The sum of the base-<math>10</math> logarithms of the divisors of <math>10^n</math> is <math>792</math>. What is <math>n</math>? <math>\\text{(A)}\\ 11\\qquad \\text{(B)}\\ 12\\qquad \\text{(C)}\\ 13\\qquad \\text{(D)}\\ 14\\qquad \\text{(E)}\\ 15</math>",
+      "answerType": "exact",
+      "answerKey": "11\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <math>A_0=(0,0)</math>. Distinct points <math>A_1,A_2,\\dots</math> lie on the <math>x</math>-axis, and distinct points <math>B_1,B_2,\\dots</math> lie on the graph of <math>y=\\sqrt{x}</math>. For every positive integer <math>n,\\ A_{n-1}B_nA_n</math> is an equilateral triangle. What is the least <math>n</math> for which the length <math>A_0A_n\\geq100</math>? <math>\\textbf{(A)}\\ 13\\qquad \\textbf{(B)}\\ 15\\qquad \\textbf{(C)}\\ 17\\qquad \\textbf{(D)}\\ 19\\qquad \\textbf{(E)}\\ 21</math>",
+      "answerType": "exact",
+      "answerKey": "~17",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>ABCD</math> be a trapezoid with <math>AB||CD, AB=11, BC=5, CD=19,</math> and <math>DA=7</math>. Bisectors of <math>\\angle A</math> and <math>\\angle D</math> meet at <math>P</math>, and bisectors of <math>\\angle B</math> and <math>\\angle C</math> meet at <math>Q</math>. What is the area of hexagon <math>ABQCDP</math>? <math>\\textbf{(A)}\\ 28\\sqrt{3}\\qquad \\textbf{(B)}\\ 30\\sqrt{3}\\qquad \\textbf{(C)}\\ 32\\sqrt{3}\\qquad \\textbf{(D)}\\ 35\\sqrt{3}\\qquad \\textbf{(E)}\\ 36\\sqrt{3}</math>",
+      "answerType": "exact",
+      "answerKey": "30\\sqrt 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

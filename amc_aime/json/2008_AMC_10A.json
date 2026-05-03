@@ -1,0 +1,201 @@
+{
+  "slug": "2008-amc-10a",
+  "title": "2008 AMC 10A",
+  "description": "Converted from 2008_AMC_10A_questions.txt and 2008_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A bakery owner turns on his doughnut machine at <math>\\text{8:30}\\ {\\small\\text{AM}}</math>. At <math>\\text{11:10}\\ {\\small\\text{AM}}</math> the machine has completed one third of the day's job. At what time will the doughnut machine complete the job? <math>\\mathrm{(A)}\\ \\text{1:50}\\ {\\small\\text{PM}}\\qquad\\mathrm{(B)}\\ \\text{3:00}\\ {\\small\\text{PM}}\\qquad\\mathrm{(C)}\\ \\text{3:30}\\ {\\small\\text{PM}}\\qquad\\mathrm{(D)}\\ \\text{4:30}\\ {\\small\\text{PM}}\\qquad\\mathrm{(E)}\\ \\text{5:50}\\ {\\small\\text{PM}}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "A square is drawn inside a rectangle. The ratio of the width of the rectangle to a side of the square is <math>2:1</math>. The ratio of the rectangle's length to its width is <math>2:1</math>. What percent of the rectangle's area is inside the square? <math>\\mathrm{(A)}\\ 12.5\\qquad\\mathrm{(B)}\\ 25\\qquad\\mathrm{(C)}\\ 50\\qquad\\mathrm{(D)}\\ 75\\qquad\\mathrm{(E)}\\ 87.5</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "For the positive integer <math>n</math>, let <math>\\langle n\\rangle</math> denote the sum of all the positive divisors of <math>n</math> with the exception of <math>n</math> itself. For example, <math>\\langle 4\\rangle=1+2=3</math> and <math>\\langle 12 \\rangle =1+2+3+4+6=16</math>. What is <math>\\langle\\langle\\langle 6\\rangle\\rangle\\rangle</math>? <math>\\mathrm{(A)}\\ 6\\qquad\\mathrm{(B)}\\ 12\\qquad\\mathrm{(C)}\\ 24\\qquad\\mathrm{(D)}\\ 32\\qquad\\mathrm{(E)}\\ 36</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Which of the following is equal to the [[product]] <cmath>\\frac{8}{4}\\cdot\\frac{12}{8}\\cdot\\frac{16}{12}\\cdot\\cdots\\cdot\\frac{4n+4}{4n}\\cdot\\cdots\\cdot\\frac{2008}{2004}?</cmath> <math>\\textbf{(A)}\\ 251\\qquad\\textbf{(B)}\\ 502\\qquad\\textbf{(C)}\\ 1004\\qquad\\textbf{(D)}\\ 2008\\qquad\\textbf{(E)}\\ 4016</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A triathlete competes in a triathlon in which the swimming, biking, and running segments are all of the same length. The triathlete swims at a rate of 3 kilometers per hour, bikes at a rate of 20 kilometers per hour, and runs at a rate of 10 kilometers per hour. Which of the following is closest to the triathlete's average speed, in kilometers per hour, for the entire race? <math>\\mathrm{(A)}\\ 3\\qquad\\mathrm{(B)}\\ 4\\qquad\\mathrm{(C)}\\ 5\\qquad\\mathrm{(D)}\\ 6\\qquad\\mathrm{(E)}\\ 7</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The fraction <cmath>\\frac{\\left(3^{2008}\\right)^2-\\left(3^{2006}\\right)^2}{\\left(3^{2007}\\right)^2-\\left(3^{2005}\\right)^2}</cmath> simplifies to which of the following? <math>\\mathrm{(A)}\\ 1\\qquad\\mathrm{(B)}\\ \\frac{9}{4}\\qquad\\mathrm{(C)}\\ 3\\qquad\\mathrm{(D)}\\ \\frac{9}{2}\\qquad\\mathrm{(E)}\\ 9</math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Heather compares the price of a new computer at two different stores. Store <math>A</math> offers <math>15\\%</math> off the sticker price followed by a <math>\\$90</math> rebate, and store <math>B</math> offers <math>25\\%</math> off the same sticker price with no rebate. Heather saves <math>\\$15</math> by buying the computer at store <math>A</math> instead of store <math>B</math>. What is the sticker price of the computer, in dollars? <math>\\mathrm{(A)}\\ 750\\qquad\\mathrm{(B)}\\ 900\\qquad\\mathrm{(C)}\\ 1000\\qquad\\mathrm{(D)}\\ 1050\\qquad\\mathrm{(E)}\\ 1500</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Suppose that <cmath>\\frac{2x}{3}-\\frac{x}{6}</cmath> is an integer. Which of the following statements must be true about <math>x</math>? <math>\\mathrm{(A)}\\ \\text{It is negative.}\\\\\\mathrm{(B)}\\ \\text{It is even, but not necessarily a multiple of 3.}\\\\\\mathrm{(C)}\\ \\text{It is a multiple of 3, but not necessarily even.}\\\\\\mathrm{(D)}\\ \\text{It is a multiple of 6, but not necessarily a multiple of 12.}\\\\\\mathrm{(E)}\\ \\text{It is a multiple of 12.}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Each of the sides of a square <math>S_1</math> with area <math>16</math> is bisected, and a smaller square <math>S_2</math> is constructed using the bisection points as vertices. The same process is carried out on <math>S_2</math> to construct an even smaller square <math>S_3</math>. What is the area of <math>S_3</math>? <math>\\mathrm{(A)}\\ \\frac{1}{2}\\qquad\\mathrm{(B)}\\ 1\\qquad\\mathrm{(C)}\\ 2\\qquad\\mathrm{(D)}\\ 3\\qquad\\mathrm{(E)}\\ 4</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "While Steve and LeRoy are fishing 1 mile from shore, their boat springs a leak, and water comes in at a constant rate of 10 gallons per minute. The boat will sink if it takes in more than 30 gallons of water. Steve starts rowing towards the shore at a constant rate of 4 miles per hour while LeRoy bails water out of the boat. What is the slowest rate, in gallons per minute, at which LeRoy can bail if they are to reach the shore without sinking? <math>\\mathrm{(A)}\\ 2\\qquad\\mathrm{(B)}\\ 4\\qquad\\mathrm{(C)}\\ 6\\qquad\\mathrm{(D)}\\ 8\\qquad\\mathrm{(E)}\\ 10</math> ==Solution 1== It will take <math>\\frac{1}{4}</math> of an hour or <math>15</math> minutes to get to shore. Since only <math>30</math> gallons of water can enter the boat, only <math>\\frac{30}{15}=2</math> net gallons can enter the boat per minute. Since <math>10</math> gallons of water enter the boat each minute, LeRoy must bail <math>10-2=8</math> gallons per minute <math>\\Rightarrow\\mathrm{(D)}</math>.",
+      "answerType": "exact",
+      "answerKey": "8 , so the",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "In a collection of red, blue, and green marbles, there are <math>25\\%</math> more red marbles than blue marbles, and there are <math>60\\%</math> more green marbles than red marbles. Suppose that there are <math>r</math> red marbles. What is the total number of marbles in the collection? <math>\\mathrm{(A)}\\ 2.85r\\qquad\\mathrm{(B)}\\ 3r\\qquad\\mathrm{(C)}\\ 3.4r\\qquad\\mathrm{(D)}\\ 3.85r\\qquad\\mathrm{(E)}\\ 4.25r</math>",
+      "answerType": "decimal",
+      "answerKey": "3.4",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Doug can paint a room in <math>5</math> hours. Dave can paint the same room in <math>7</math> hours. Doug and Dave paint the room together and take a one-hour break for lunch. Let <math>t</math> be the total time, in hours, required for them to complete the job working together, including lunch. Which of the following equations is satisfied by <math>t</math>? <math>\\mathrm{(A)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)\\left(t+1\\right)=1\\qquad\\mathrm{(B)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)t+1=1\\qquad\\mathrm{(C)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)t=1\\\\\\mathrm{(D)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)\\left(t-1\\right)=1\\qquad\\mathrm{(E)}\\ \\left(5+7\\right)t=1</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Yesterday Han drove 1 hour longer than Ian at an average speed 5 miles per hour faster than Ian. Jan drove 2 hours longer than Ian at an average speed 10 miles per hour faster than Ian. Han drove 70 miles more than Ian. How many more miles did Jan drive than Ian? <math>\\mathrm{(A)}\\ 120\\qquad\\mathrm{(B)}\\ 130\\qquad\\mathrm{(C)}\\ 140\\qquad\\mathrm{(D)}\\ 150\\qquad\\mathrm{(E)}\\ 160</math>",
+      "answerType": "integer",
+      "answerKey": "150",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Points <math>A</math> and <math>B</math> lie on a [[circle]] centered at <math>O</math>, and <math>\\angle AOB = 60^\\circ</math>. A second circle is internally [[tangent]] to the first and tangent to both <math>\\overline{OA}</math> and <math>\\overline{OB}</math>. What is the ratio of the area of the smaller circle to that of the larger circle? <math>\\mathrm{(A)}\\ \\frac{1}{16}\\qquad\\mathrm{(B)}\\ \\frac{1}{9}\\qquad\\mathrm{(C)}\\ \\frac{1}{8}\\qquad\\mathrm{(D)}\\ \\frac{1}{6}\\qquad\\mathrm{(E)}\\ \\frac{1}{4}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "An [[equilateral triangle]] has side length <math>6</math>. What is the [[area]] of the region containing all points that are outside the triangle but not more than <math>3</math> units from a point of the triangle? <math>\\mathrm{(A)}\\ 36+24\\sqrt{3}\\qquad\\mathrm{(B)}\\ 54+9\\pi\\qquad\\mathrm{(C)}\\ 54+18\\sqrt{3}+6\\pi\\qquad\\mathrm{(D)}\\ \\left(2\\sqrt{3}+3\\right)^2\\pi\\\\\\mathrm{(E)}\\ 9\\left(\\sqrt{3}+1\\right)^2\\pi</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "A [[right triangle]] has [[perimeter]] <math>32</math> and area <math>20</math>. What is the length of its [[hypotenuse]]? <math>\\mathrm{(A)}\\ \\frac{57}{4}\\qquad\\mathrm{(B)}\\ \\frac{59}{4}\\qquad\\mathrm{(C)}\\ \\frac{61}{4}\\qquad\\mathrm{(D)}\\ \\frac{63}{4}\\qquad\\mathrm{(E)}\\ \\frac{65}{4}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 59 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "[[Rectangle]] <math>PQRS</math> lies in a plane with <math>PQ=RS=2</math> and <math>QR=SP=6</math>. The rectangle is rotated <math>90^\\circ</math> clockwise about <math>R</math>, then rotated <math>90^\\circ</math> clockwise about the point <math>S</math> moved to after the first rotation. What is the length of the path traveled by point <math>P</math>? <math>\\mathrm{(A)}\\ \\left(2\\sqrt{3}+\\sqrt{5}\\right)\\pi\\qquad\\mathrm{(B)}\\ 6\\pi\\qquad\\mathrm{(C)}\\ \\left(3+\\sqrt{10}\\right)\\pi\\qquad\\mathrm{(D)}\\ \\left(\\sqrt{3}+2\\sqrt{5}\\right)\\pi\\\\\\mathrm{(E)}\\ 2\\sqrt{10}\\pi</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "[[Trapezoid]] <math>ABCD</math> has bases <math>\\overline{AB}</math> and <math>\\overline{CD}</math> and diagonals intersecting at <math>K.</math> Suppose that <math>AB = 9</math>, <math>DC = 12</math>, and the area of <math>\\triangle AKD</math> is <math>24.</math> What is the area of trapezoid <math>ABCD</math>? <math>\\mathrm{(A)}\\ 92\\qquad\\mathrm{(B)}\\ 94\\qquad\\mathrm{(C)}\\ 96\\qquad\\mathrm{(D)}\\ 98 \\qquad\\mathrm{(E)}\\ 100</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "A [[cube]] with side length <math>1</math> is sliced by a plane that passes through two diagonally opposite vertices <math>A</math> and <math>C</math> and the [[midpoint]]s <math>B</math> and <math>D</math> of two opposite edges not containing <math>A</math> or <math>C</math>, as shown. What is the area of [[quadrilateral]] <math>ABCD</math>? <asy> import three; unitsize(3cm); defaultpen(fontsize(8)+linewidth(0.7)); currentprojection=obliqueX; draw((0.5,0,0)--(0,0,0)--(0,0,1)--(0,0,0)--(0,1,0),linetype(\"4 4\")); draw((0.5,0,1)--(0,0,1)--(0,1,1)--(0.5,1,1)--(0.5,0,1)--(0.5,0,0)--(0.5,1,0)--(0.5,1,1)); draw((0.5,1,0)--(0,1,0)--(0,1,1)); dot((0.5,0,0)); label(\"$A$\",(0.5,0,0),WSW); dot((0,1,1)); label(\"$C$\",(0,1,1),NE); dot((0.5,1,0.5)); label(\"$D$\",(0.5,1,0.5),ESE); dot((0,0,0.5)); label(\"$B$\",(0,0,0.5),NW);</asy> <math>\\mathrm{(A)}\\ \\frac{\\sqrt{6}}{2}\\qquad\\mathrm{(B)}\\ \\frac{5}{4}\\qquad\\mathrm{(C)}\\ \\sqrt{2}\\qquad\\mathrm{(D)}\\ \\frac{5}{8}\\qquad\\mathrm{(E)}\\ \\frac{3}{4}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Jacob uses the following procedure to write down a sequence of numbers. First he chooses the first term to be 6. To generate each succeeding term, he flips a fair coin. If it comes up heads, he doubles the previous term and subtracts 1. If it comes up tails, he takes half of the previous term and subtracts 1. What is the probability that the fourth term in Jacob's sequence is an [[integer]]? <math>\\mathrm{(A)}\\ \\frac{1}{6}\\qquad\\mathrm{(B)}\\ \\frac{1}{3}\\qquad\\mathrm{(C)}\\ \\frac{1}{2}\\qquad\\mathrm{(D)}\\ \\frac{5}{8}\\qquad\\mathrm{(E)}\\ \\frac{3}{4}</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 5 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Two subsets of the set <math>S=\\lbrace a,b,c,d,e\\rbrace</math> are to be chosen so that their union is <math>S</math> and their intersection contains exactly two elements. In how many ways can this be done, assuming that the order in which the subsets are chosen does not matter? <math>\\mathrm{(A)}\\ 20\\qquad\\mathrm{(B)}\\ 40\\qquad\\mathrm{(C)}\\ 60\\qquad\\mathrm{(D)}\\ 160\\qquad\\mathrm{(E)}\\ 320</math>",
+      "answerType": "integer",
+      "answerKey": "40",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <math>k={2008}^{2}+{2}^{2008}</math>. What is the units digit of <math>k^2+2^k</math>? <math>\\mathrm{(A)}\\ 0\\qquad\\mathrm{(B)}\\ 2\\qquad\\mathrm{(C)}\\ 4\\qquad\\mathrm{(D)}\\ 6\\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "A round table has radius <math>4</math>. Six rectangular place mats are placed on the table. Each place mat has width <math>1</math> and length <math>x</math> as shown. They are positioned so that each mat has two corners on the edge of the table, these two corners being end points of the same side of length <math>x</math>. Further, the mats are positioned so that the inner corners each touch an inner corner of an adjacent mat. What is <math>x</math>? <asy>unitsize(4mm); defaultpen(linewidth(.8)+fontsize(8)); draw(Circle((0,0),4)); path mat=(-2.687,-1.5513)--(-2.687,1.5513)--(-3.687,1.5513)--(-3.687,-1.5513)--cycle; draw(mat); draw(rotate(60)*mat); draw(rotate(120)*mat); draw(rotate(180)*mat); draw(rotate(240)*mat); draw(rotate(300)*mat); label(\"\\(x\\)\",(-1.55,2.1),E); label(\"\\(1\\)\",(-0.5,3.8),S);</asy> <math>\\mathrm{(A)}\\ 2\\sqrt{5}-\\sqrt{3}\\qquad\\mathrm{(B)}\\ 3\\qquad\\mathrm{(C)}\\ \\frac{3\\sqrt{7}-\\sqrt{3}}{2}\\qquad\\mathrm{(D)}\\ 2\\sqrt{3}\\qquad\\mathrm{(E)}\\ \\frac{5+2\\sqrt{3}}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3\\sqrt 7 -\\sqrt 3 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

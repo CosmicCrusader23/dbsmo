@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -18,12 +18,12 @@ import {
   FileText,
   Upload,
 } from "lucide-react";
-import katex from "katex";
 import {
   STANDARD_PROBLEM_SET_TAGS,
   normalizeProblemTag,
   normalizeTagList,
 } from "@/lib/problem-tags";
+import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 /* ── Types ─────────────────────────────────────────────── */
 
@@ -36,10 +36,13 @@ type AnswerType =
   | "MULTIPLE"
   | "EXPRESSION";
 
+type ContentFormat = "LATEX" | "HTML";
+
 interface ProblemEntry {
   id: string;
   number: number;
-  statement: string; // LaTeX
+  statement: string;
+  contentFormat: ContentFormat;
   answerType: AnswerType;
   answerKey: string;
   topicTags: string;
@@ -66,6 +69,7 @@ function emptyProblem(n: number): ProblemEntry {
     id: uid(),
     number: n,
     statement: "",
+    contentFormat: "LATEX",
     answerType: "INTEGER",
     answerKey: "",
     topicTags: "",
@@ -74,29 +78,24 @@ function emptyProblem(n: number): ProblemEntry {
   };
 }
 
-/* ── LaTeX preview component ──────────────────────────── */
+/* ── Statement preview component ──────────────────────── */
 
-function LatexPreview({ tex }: { tex: string }) {
-  const ref = useRef<HTMLDivElement>(null);
+function StatementPreview({ statement, format }: { statement: string; format: ContentFormat }) {
+  if (!statement.trim()) {
+    return (
+      <div className="latex-preview">
+        <span className="latex-placeholder">
+          {format === "HTML" ? "HTML preview…" : "LaTeX preview…"}
+        </span>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    if (!ref.current) return;
-    if (!tex.trim()) {
-      ref.current.innerHTML = '<span class="latex-placeholder">LaTeX preview…</span>';
-      return;
-    }
-    try {
-      ref.current.innerHTML = katex.renderToString(tex, {
-        throwOnError: false,
-        displayMode: true,
-        trust: true,
-      });
-    } catch {
-      ref.current.innerHTML = `<span class="latex-error">Invalid LaTeX</span>`;
-    }
-  }, [tex]);
-
-  return <div ref={ref} className="latex-preview" />;
+  return (
+    <div className="latex-preview">
+      <LatexStatement statement={statement} format={format} />
+    </div>
+  );
 }
 
 /* ── Slug generator ───────────────────────────────────── */
@@ -261,6 +260,7 @@ export default function CreateSetPage() {
           problems: problems.map((p) => ({
             number: p.number,
             statement: p.statement.trim(),
+            contentFormat: p.contentFormat,
             answerKey: p.answerKey.trim(),
             answerType: p.answerType,
             topicTags: p.topicTags
@@ -560,14 +560,40 @@ export default function CreateSetPage() {
 
             <div className="problem-card-body">
               <div className="form-field form-field-full">
-                <label>Problem statement (LaTeX)</label>
+                <label
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                >
+                  <span>Problem statement</span>
+                  <span style={{ display: "inline-flex", gap: 6 }}>
+                    <button
+                      type="button"
+                      className={`tag-chip ${p.contentFormat === "LATEX" ? "active" : ""}`}
+                      onClick={() => updateProblem(p.id, "contentFormat", "LATEX")}
+                    >
+                      LaTeX
+                    </button>
+                    <button
+                      type="button"
+                      className={`tag-chip ${p.contentFormat === "HTML" ? "active" : ""}`}
+                      onClick={() => updateProblem(p.id, "contentFormat", "HTML")}
+                    >
+                      HTML
+                    </button>
+                  </span>
+                </label>
                 <textarea
                   rows={3}
-                  placeholder="Solve for $x$: $2x + 5 = 17$"
+                  placeholder={
+                    p.contentFormat === "HTML"
+                      ? "Use HTML with <math>...</math> tags."
+                      : "Solve for $x$: $2x + 5 = 17$"
+                  }
                   value={p.statement}
                   onChange={(e) => updateProblem(p.id, "statement", e.target.value)}
                 />
-                {showPreview[p.id] && p.statement && <LatexPreview tex={p.statement} />}
+                {showPreview[p.id] && (
+                  <StatementPreview statement={p.statement} format={p.contentFormat} />
+                )}
               </div>
 
               <div className="problem-answer-row">

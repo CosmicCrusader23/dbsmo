@@ -1,0 +1,118 @@
+{
+  "slug": "2014-aime-ii",
+  "title": "2014 AIME II",
+  "description": "Converted from 2014_AIME_II_questions.txt and 2014_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Abe can paint the room in 15 hours, Bea can paint 50 percent faster than Abe, and Coe can paint twice as fast as Abe. Abe begins to paint the room and works alone for the first hour and a half. Then Bea joins Abe, and they work together until half the room is painted. Then Coe joins Abe and Bea, and they work together until the entire room is painted. Find the number of minutes after Abe begins for the three of them to finish painting the room.",
+      "answerType": "integer",
+      "answerKey": "334",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Arnold is studying the prevalence of three health risk factors, denoted by A, B, and C, within a population of men. For each of the three factors, the probability that a randomly selected man in the population has only this risk factor (and none of the others) is 0.1. For any two of the three factors, the probability that a randomly selected man has exactly these two risk factors (but not the third) is 0.14. The probability that a randomly selected man has all three risk factors, given that he has A and B is <math>\\frac{1}{3}</math>. The probability that a man has none of the three risk factors given that he does not have risk factor A is <math>\\frac{p}{q}</math>, where <math>p</math> and <math>q</math> are relatively prime positive integers. Find <math>p+q</math>.",
+      "answerType": "integer",
+      "answerKey": "076",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A rectangle has sides of length <math>a</math> and 36. A hinge is installed at each vertex of the rectangle, and at the midpoint of each side of length 36. The sides of length <math>a</math> can be pressed toward each other keeping those two sides parallel so the rectangle becomes a convex hexagon as shown. When the figure is a hexagon with the sides of length <math>a</math> parallel and separated by a distance of 24, the hexagon has the same area as the original rectangle. Find <math>a^2</math>. <asy> pair A,B,C,D,E,F,R,S,T,X,Y,Z; dotfactor = 2; unitsize(.1cm); A = (0,0); B = (0,18); C = (0,36); // don't look here D = (12*2.236, 36); E = (12*2.236, 18); F = (12*2.236, 0); draw(A--B--C--D--E--F--cycle); dot(\" \",A,NW); dot(\" \",B,NW); dot(\" \",C,NW); dot(\" \",D,NW); dot(\" \",E,NW); dot(\" \",F,NW); //don't look here R = (12*2.236 +22,0); S = (12*2.236 + 22 - 13.4164,12); T = (12*2.236 + 22,24); X = (12*4.472+ 22,24); Y = (12*4.472+ 22 + 13.4164,12); Z = (12*4.472+ 22,0); draw(R--S--T--X--Y--Z--cycle); dot(\" \",R,NW); dot(\" \",S,NW); dot(\" \",T,NW); dot(\" \",X,NW); dot(\" \",Y,NW); dot(\" \",Z,NW); // sqrt180 = 13.4164 // sqrt5 = 2.236</asy>",
+      "answerType": "integer",
+      "answerKey": "720",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "The repeating decimals <math>0.abab\\overline{ab}</math> and <math>0.abcabc\\overline{abc}</math> satisfy <cmath>0.abab\\overline{ab}+0.abcabc\\overline{abc}=\\frac{33}{37},</cmath> where <math>a</math>, <math>b</math>, and <math>c</math> are (not necessarily distinct) digits. Find the three digit number <math>abc</math>.",
+      "answerType": "integer",
+      "answerKey": "447",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Real numbers <math>r</math> and <math>s</math> are roots of <math>p(x)=x^3+ax+b</math>, and <math>r+4</math> and <math>s-3</math> are roots of <math>q(x)=x^3+ax+b+240</math>. Find the sum of all possible values of <math>|b|</math>.<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude>",
+      "answerType": "integer",
+      "answerKey": "420",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Charles has two six-sided die. One of the die is fair, and the other die is biased so that it comes up six with probability <math>\\frac{2}{3}</math> and each of the other five sides has probability <math>\\frac{1}{15}</math>. Charles chooses one of the two dice at random and rolls it three times. Given that the first two rolls are both sixes, the probability that the third roll will also be a six is <math>\\frac{p}{q}</math>, where <math>p</math> and <math>q</math> are relatively prime positive integers. Find <math>p+q</math>.",
+      "answerType": "integer",
+      "answerKey": "167",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Let <math>f(x)=(x^2+3x+2)^{\\cos(\\pi x)}</math>. Find the sum of all positive integers <math>n</math> for which <cmath>\\left |\\sum_{k=1}^n\\log_{10}f(k)\\right|=1.</cmath>",
+      "answerType": "integer",
+      "answerKey": "021",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Circle <math>C</math> with radius 2 has diameter <math>\\overline{AB}</math>. Circle D is internally tangent to circle <math>C</math> at <math>A</math>. Circle <math>E</math> is internally tangent to circle <math>C</math>, externally tangent to circle <math>D</math>, and tangent to <math>\\overline{AB}</math>. The radius of circle <math>D</math> is three times the radius of circle <math>E</math>, and can be written in the form <math>\\sqrt{m}-n</math>, where <math>m</math> and <math>n</math> are positive integers. Find <math>m+n</math>. ==Solution 1== <center> <asy> import graph; size(7.99cm); real labelscalefactor = 0.5; pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps); pen dotstyle = black; real xmin = 4.087153740193288, xmax = 11.08175859031552, ymin = -4.938019122704778, ymax = 1.194137062512079; draw(circle((7.780000000000009,-1.320000000000002), 2.000000000000000)); draw(circle((7.271934046987930,-1.319179731427737), 1.491933384829670)); draw(circle((9.198812158392690,-0.8249788848962227), 0.4973111282761416)); draw((5.780002606580324,-1.316771019595571)--(9.779997393419690,-1.323228980404432)); draw((9.198812158392690,-0.8249788848962227)--(9.198009254448635,-1.322289365031666)); draw((7.271934046987930,-1.319179731427737)--(9.198812158392690,-0.8249788848962227)); draw((9.198812158392690,-0.8249788848962227)--(7.780000000000009,-1.320000000000002)); dot((7.780000000000009,-1.320000000000002),dotstyle); label(\"$C$\", (7.707377218471464,-1.576266740352400), NE * labelscalefactor); dot((7.271934046987930,-1.319179731427737),dotstyle); label(\"$D$\", (7.303064016111554,-1.276266740352400), NE * labelscalefactor); dot((9.198812158392690,-0.8249788848962227),dotstyle); label(\"$E$\", (9.225301294671791,-0.7792624249832147), NE * labelscalefactor); dot((9.198009254448635,-1.322289365031666),dotstyle); label(\"$F$\", (9.225301294671791,-1.276266740352400), NE * labelscalefactor); dot((9.779997393419690,-1.323228980404432),dotstyle); label(\"$B$\", (9.810012253929656,-1.276266740352400), NE * labelscalefactor); dot((5.780002606580324,-1.316771019595571),dotstyle); label(\"$A$\", (5.812051070003994,-1.276266740352400), NE * labelscalefactor); clip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); </asy> </center> Using the diagram above, let the radius of <math>D</math> be <math>3r</math>, and the radius of <math>E</math> be <math>r</math>. Then, <math>EF=r</math>, and <math>CE=2-r</math>, so the Pythagorean theorem in <math>\\triangle CEF</math> gives <math>CF=\\sqrt{4-4r}</math>. Also, <math>CD=CA-AD=2-3r</math>, so <cmath>DF=DC+CF=2-3r+\\sqrt{4-4r}.</cmath> Noting that <math>DE=4r</math>, we can now use the Pythagorean theorem in <math>\\triangle DEF</math> to get <cmath>(2-3r+\\sqrt{4-4r})^2+r^2=16r^2.</cmath> Solving this quadratic is somewhat tedious, but the constant terms cancel, so the computation isn't terrible. Solving gives <math>3r=\\sqrt{240}-14</math> for a final answer of <math>\\boxed{254}</math>. *Notice that C, E and the point of tangency to circle C for circle E will be collinear because C and E intersect the tangent line at a right angle, implying they must be on the same line.",
+      "answerType": "integer",
+      "answerKey": "254",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Ten chairs are arranged in a circle. Find the number of subsets of this set of chairs that contain at least three adjacent chairs.",
+      "answerType": "integer",
+      "answerKey": "581",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <math>z</math> be a complex number with <math>|z|=2014</math>. Let <math>P</math> be the polygon in the complex plane whose vertices are <math>z</math> and every <math>w</math> such that <math>\\frac{1}{z+w}=\\frac{1}{z}+\\frac{1}{w}</math>. Then the area enclosed by <math>P</math> can be written in the form <math>n\\sqrt{3}</math>, where <math>n</math> is an integer. Find the remainder when <math>n</math> is divided by <math>1000</math>. ==Solution 1 (long but non-bashy)== Note that the given equality reduces to <cmath>\\frac{1}{w+z} = \\frac{w+z}{wz}</cmath> <cmath>wz = {(w+z)}^2</cmath> <cmath>w^2 + wz + z^2 = 0</cmath> <cmath>\\frac{w^3 - z^3}{w-z} = 0</cmath> <cmath>w^3 = z^3, w \\neq z</cmath> Now, let <math>w = r_w e^{i \\theta_w}</math> and likewise for <math>z</math>. Consider circle <math>O</math> with the origin as the center and radius 2014 on the complex plane. It is clear that <math>z</math> must be one of the points on this circle, as <math>|z| = 2014</math>. By DeMoivre's Theorem, the complex modulus of <math>w</math> is cubed when <math>w</math> is cubed. Thus <math>w</math> must lie on <math>O</math>, since its the cube of its modulus, and thus its modulus, must be equal to <math>z</math>'s modulus. Again, by DeMoivre's Theorem, <math>\\theta_w</math> is tripled when <math>w</math> is cubed and likewise for <math>z</math>. For <math>w</math>, <math>z</math>, and the origin to lie on the same line, <math>3 \\theta_w</math> must be some multiple of 360 degrees apart from <math>3 \\theta_z</math> , so <math>\\theta_w</math> must differ from <math>\\theta_z</math> by some multiple of 120 degrees. Now, without loss of generality, assume that <math>z</math> is on the real axis. (The circle can be rotated to put <math>z</math> in any other location.) Then there are precisely two possible distinct locations for <math>w</math>; one is obtained by going 120 degrees clockwise from <math>z</math> about the circle and the other by moving the same amount counter-clockwise. Moving along the circle with any other multiple of 120 degrees in any direction will result in these three points. Let the two possible locations for <math>w</math> be <math>W_1</math> and <math>W_2</math> and the location of <math>z</math> be point <math>Z</math>. Note that by symmetry, <math>W_1W_2Z</math> is equilateral, say, with side length <math>x</math>. We know that the circumradius of this equilateral triangle is <math>2014</math>, so using the formula <math>\\frac{abc}{4R} = [ABC]</math> and that the area of an equilateral triangle with side length <math>s</math> is <math>\\frac{s^2\\sqrt{3}}{4}</math>, so we have <cmath>\\frac{x^3}{4R} = \\frac{x^2\\sqrt{3}}{4}</cmath> <cmath>x = R \\sqrt{3}</cmath> <cmath>\\frac{x^2\\sqrt{3}}{4} = \\frac{3R^2 \\sqrt{3}}{4}</cmath> Since we're concerned with the non-radical part of this expression and <math>R = 2014</math>, <cmath>\\frac{3R^2}{4} \\equiv 3 \\cdot 1007^2 \\equiv 3 \\cdot 7^2 \\equiv \\boxed{147} \\pmod{1000}</cmath> and we are done. <math>\\blacksquare</math>",
+      "answerType": "integer",
+      "answerKey": "147",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "In <math>\\triangle RED</math>, <math>\\measuredangle DRE=75^{\\circ}</math> and <math>\\measuredangle RED=45^{\\circ}</math>. <math>RD=1</math>. Let <math>M</math> be the midpoint of segment <math>\\overline{RD}</math>. Point <math>C</math> lies on side <math>\\overline{ED}</math> such that <math>\\overline{RC}\\perp\\overline{EM}</math>. Extend segment <math>\\overline{DE}</math> through <math>E</math> to point <math>A</math> such that <math>CA=AR</math>. Then <math>AE=\\frac{a-\\sqrt{b}}{c}</math>, where <math>a</math> and <math>c</math> are relatively prime positive integers, and <math>b</math> is a positive integer. Find <math>a+b+c</math>.",
+      "answerType": "integer",
+      "answerKey": "056",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Suppose that the angles of <math>\\triangle ABC</math> satisfy <math>\\cos(3A)+\\cos(3B)+\\cos(3C)=1.</math> Two sides of the triangle have lengths 10 and 13. There is a positive integer <math>m</math> so that the maximum possible length for the remaining side of <math>\\triangle ABC</math> is <math>\\sqrt{m}.</math> Find <math>m.</math>",
+      "answerType": "integer",
+      "answerKey": "399",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Ten adults enter a room, remove their shoes, and toss their shoes into a pile. Later, a child randomly pairs each left shoe with a right shoe without regard to which shoes belong together. The probability that for every positive integer <math>k<5</math>, no collection of <math>k</math> pairs made by the child contains the shoes from exactly <math>k</math> of the adults is <math>\\frac{m}{n}</math>, where m and n are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "028",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "In <math>\\triangle{ABC}, AB=10, \\angle{A}=30^\\circ</math> , and <math>\\angle{C=45^\\circ}</math>. Let <math>H, D,</math> and <math>M</math> be points on the line <math>BC</math> such that <math>AH\\perp{BC}</math>, <math>\\angle{BAD}=\\angle{CAD}</math>, and <math>BM=CM</math>. Point <math>N</math> is the midpoint of the segment <math>HM</math>, and point <math>P</math> is on ray <math>AD</math> such that <math>PN\\perp{BC}</math>. Then <math>AP^2=\\dfrac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "077",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "For any integer <imath>k\\geq 1</imath>, let <imath>p(k)</imath> be the smallest prime which does not divide <imath>k.</imath> Define the integer function <imath>X(k)</imath> to be the product of all primes less than <imath>p(k)</imath> if <imath>p(k)>2</imath>, and <imath>X(k)=1</imath> if <imath>p(k)=2.</imath> Let <imath>\\{x_n\\}</imath> be the sequence defined by <imath>x_0=1</imath>, and <imath>x_{n+1}X(x_n)=x_np(x_n)</imath> for <imath>n\\geq 0.</imath> Find the smallest positive integer <imath>t</imath> such that <imath>x_t=2090.</imath>",
+      "answerType": "integer",
+      "answerKey": "149",
+      "points": 1
+    }
+  ]
+}

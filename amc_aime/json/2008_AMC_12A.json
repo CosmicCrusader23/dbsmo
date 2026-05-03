@@ -1,0 +1,195 @@
+{
+  "slug": "2008-amc-12a",
+  "title": "2008 AMC 12A",
+  "description": "Converted from 2008_AMC_12A_questions.txt and 2008_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A bakery owner turns on his doughnut machine at <math>\\text{8:30}\\ {\\small\\text{AM}}</math>. At <math>\\text{11:10}\\ {\\small\\text{AM}}</math> the machine has completed one third of the day's job. At what time will the doughnut machine complete the job? <math>\\mathrm{(A)}\\ \\text{1:50}\\ {\\small\\text{PM}}\\qquad\\mathrm{(B)}\\ \\text{3:00}\\ {\\small\\text{PM}}\\qquad\\mathrm{(C)}\\ \\text{3:30}\\ {\\small\\text{PM}}\\qquad\\mathrm{(D)}\\ \\text{4:30}\\ {\\small\\text{PM}}\\qquad\\mathrm{(E)}\\ \\text{5:50}\\ {\\small\\text{PM}}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "What is the [[reciprocal]] of <math>\\frac{1}{2}+\\frac{2}{3}</math>? <math>\\mathrm{(A)}\\ \\frac{6}{7}\\qquad\\mathrm{(B)}\\ \\frac{7}{6}\\qquad\\mathrm{(C)}\\ \\frac{5}{3}\\qquad\\mathrm{(D)}\\ 3\\qquad\\mathrm{(E)}\\ \\frac{7}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 6 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Which of the following is equal to the [[product]] <cmath>\\frac{8}{4}\\cdot\\frac{12}{8}\\cdot\\frac{16}{12}\\cdot\\cdots\\cdot\\frac{4n+4}{4n}\\cdot\\cdots\\cdot\\frac{2008}{2004}?</cmath> <math>\\textbf{(A)}\\ 251\\qquad\\textbf{(B)}\\ 502\\qquad\\textbf{(C)}\\ 1004\\qquad\\textbf{(D)}\\ 2008\\qquad\\textbf{(E)}\\ 4016</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Suppose that <cmath>\\frac{2x}{3}-\\frac{x}{6}</cmath> is an integer. Which of the following statements must be true about <math>x</math>? <math>\\mathrm{(A)}\\ \\text{It is negative.}\\\\\\mathrm{(B)}\\ \\text{It is even, but not necessarily a multiple of 3.}\\\\\\mathrm{(C)}\\ \\text{It is a multiple of 3, but not necessarily even.}\\\\\\mathrm{(D)}\\ \\text{It is a multiple of 6, but not necessarily a multiple of 12.}\\\\\\mathrm{(E)}\\ \\text{It is a multiple of 12.}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Heather compares the price of a new computer at two different stores. Store <math>A</math> offers <math>15\\%</math> off the sticker price followed by a <math>\\$90</math> rebate, and store <math>B</math> offers <math>25\\%</math> off the same sticker price with no rebate. Heather saves <math>\\$15</math> by buying the computer at store <math>A</math> instead of store <math>B</math>. What is the sticker price of the computer, in dollars? <math>\\mathrm{(A)}\\ 750\\qquad\\mathrm{(B)}\\ 900\\qquad\\mathrm{(C)}\\ 1000\\qquad\\mathrm{(D)}\\ 1050\\qquad\\mathrm{(E)}\\ 1500</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "While Steve and LeRoy are fishing 1 mile from shore, their boat springs a leak, and water comes in at a constant rate of 10 gallons per minute. The boat will sink if it takes in more than 30 gallons of water. Steve starts rowing towards the shore at a constant rate of 4 miles per hour while LeRoy bails water out of the boat. What is the slowest rate, in gallons per minute, at which LeRoy can bail if they are to reach the shore without sinking? <math>\\mathrm{(A)}\\ 2\\qquad\\mathrm{(B)}\\ 4\\qquad\\mathrm{(C)}\\ 6\\qquad\\mathrm{(D)}\\ 8\\qquad\\mathrm{(E)}\\ 10</math> ==Solution 1== It will take <math>\\frac{1}{4}</math> of an hour or <math>15</math> minutes to get to shore. Since only <math>30</math> gallons of water can enter the boat, only <math>\\frac{30}{15}=2</math> net gallons can enter the boat per minute. Since <math>10</math> gallons of water enter the boat each minute, LeRoy must bail <math>10-2=8</math> gallons per minute <math>\\Rightarrow\\mathrm{(D)}</math>.",
+      "answerType": "exact",
+      "answerKey": "8 , so the",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "What is the [[volume]] of a [[cube]] whose [[surface area]] is twice that of a cube with volume 1? <math>\\mathrm{(A)}\\ \\sqrt{2}\\qquad\\mathrm{(B)}\\ 2\\qquad\\mathrm{(C)}\\ 2\\sqrt{2}\\qquad\\mathrm{(D)}\\ 4\\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Doug can paint a room in <math>5</math> hours. Dave can paint the same room in <math>7</math> hours. Doug and Dave paint the room together and take a one-hour break for lunch. Let <math>t</math> be the total time, in hours, required for them to complete the job working together, including lunch. Which of the following equations is satisfied by <math>t</math>? <math>\\mathrm{(A)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)\\left(t+1\\right)=1\\qquad\\mathrm{(B)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)t+1=1\\qquad\\mathrm{(C)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)t=1\\\\\\mathrm{(D)}\\ \\left(\\frac{1}{5}+\\frac{1}{7}\\right)\\left(t-1\\right)=1\\qquad\\mathrm{(E)}\\ \\left(5+7\\right)t=1</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Three cubes are each formed from the pattern shown. They are then stacked on a table one on top of another so that the <math>13</math> visible numbers have the greatest possible sum. What is that sum? <asy> unitsize(.8cm); pen p = linewidth(1); draw(shift(-2,0)*unitsquare,p); label(\"1\",(-1.5,0.5)); draw(shift(-1,0)*unitsquare,p); label(\"2\",(-0.5,0.5)); draw(unitsquare,p); label(\"32\",(0.5,0.5)); draw(shift(1,0)*unitsquare,p); label(\"16\",(1.5,0.5)); draw(shift(0,1)*unitsquare,p); label(\"4\",(0.5,1.5)); draw(shift(0,-1)*unitsquare,p); label(\"8\",(0.5,-0.5)); </asy> <math>\\mathrm{(A)}\\ 154\\qquad\\mathrm{(B)}\\ 159\\qquad\\mathrm{(C)}\\ 164\\qquad\\mathrm{(D)}\\ 167\\qquad\\mathrm{(E)}\\ 189</math>",
+      "answerType": "integer",
+      "answerKey": "164",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "A [[function]] <math>f</math> has [[domain]] <math>[0,2]</math> and [[range]] <math>[0,1]</math>. (The notation <math>[a,b]</math> denotes <math>\\{x:a \\le x \\le b \\}</math>.) What are the domain and range, respectively, of the function <math>g</math> defined by <math>g(x)=1-f(x+1)</math>? <math>\\mathrm{(A)}\\ [-1,1],[-1,0]\\qquad\\mathrm{(B)}\\ [-1,1],[0,1]\\qquad\\textbf{(C)}\\ [0,2],[-1,0]\\qquad\\mathrm{(D)}\\ [1,3],[-1,0]\\qquad\\mathrm{(E)}\\ [1,3],[0,1]</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Points <math>A</math> and <math>B</math> lie on a [[circle]] centered at <math>O</math>, and <math>\\angle AOB = 60^\\circ</math>. A second circle is internally [[tangent]] to the first and tangent to both <math>\\overline{OA}</math> and <math>\\overline{OB}</math>. What is the ratio of the area of the smaller circle to that of the larger circle? <math>\\mathrm{(A)}\\ \\frac{1}{16}\\qquad\\mathrm{(B)}\\ \\frac{1}{9}\\qquad\\mathrm{(C)}\\ \\frac{1}{8}\\qquad\\mathrm{(D)}\\ \\frac{1}{6}\\qquad\\mathrm{(E)}\\ \\frac{1}{4}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "What is the area of the region defined by the [[inequality]] <math>|3x-18|+|2y+7|\\le3</math>? <math>\\mathrm{(A)}\\ 3\\qquad\\mathrm{(B)}\\ \\frac{7}{2}\\qquad\\mathrm{(C)}\\ 4\\qquad\\mathrm{(D)}\\ \\frac{9}{2}\\qquad\\mathrm{(E)}\\ 5</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>k={2008}^{2}+{2}^{2008}</math>. What is the units digit of <math>k^2+2^k</math>? <math>\\mathrm{(A)}\\ 0\\qquad\\mathrm{(B)}\\ 2\\qquad\\mathrm{(C)}\\ 4\\qquad\\mathrm{(D)}\\ 6\\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Problem text not found.",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>a_1,a_2,\\ldots</math> be a sequence determined by the rule <math>a_n=a_{n-1}/2</math> if <math>a_{n-1}</math> is even and <math>a_n=3a_{n-1}+1</math> if <math>a_{n-1}</math> is odd. For how many positive integers <math>a_1 \\le 2008</math> is it true that <math>a_1</math> is less than each of <math>a_2</math>, <math>a_3</math>, and <math>a_4</math>? <math>\\mathrm{(A)}\\ 250\\qquad\\mathrm{(B)}\\ 251\\qquad\\mathrm{(C)}\\ 501\\qquad\\mathrm{(D)}\\ 502\\qquad\\mathrm{(E)} 1004</math>",
+      "answerType": "exact",
+      "answerKey": "502 \\Rightarrow D",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Triangle <math>ABC</math>, with sides of length <math>5</math>, <math>6</math>, and <math>7</math>, has one [[vertex]] on the positive <math>x</math>-axis, one on the positive <math>y</math>-axis, and one on the positive <math>z</math>-axis. Let <math>O</math> be the [[origin]]. What is the volume of [[tetrahedron]] <math>OABC</math>? <math>\\mathrm{(A)}\\ \\sqrt{85}\\qquad\\mathrm{(B)}\\ \\sqrt{90}\\qquad\\mathrm{(C)}\\ \\sqrt{95}\\qquad\\mathrm{(D)}\\ 10\\qquad\\mathrm{(E)}\\ \\sqrt{105}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "In the expansion of <cmath>\\left(1 + x + x^2 + \\cdots + x^{27}\\right)\\left(1 + x + x^2 + \\cdots + x^{14}\\right)^2,</cmath> what is the [[coefficient]] of <math>x^{28}</math>? <math>\\mathrm{(A)}\\ 195\\qquad\\mathrm{(B)}\\ 196\\qquad\\mathrm{(C)}\\ 224\\qquad\\mathrm{(D)}\\ 378\\qquad\\mathrm{(E)}\\ 405</math> ==Solution 1 (easiest)== Let <math>A = \\left(1 + x + x^2 + \\cdots + x^{14}\\right)</math> and <math>B = \\left(1 + x + x^2 + \\cdots + x^{27}\\right)</math>. We are expanding <math>A \\cdot A \\cdot B</math>. Since there are <math>15</math> terms in <math>A</math>, there are <math>15^2 = 225</math> ways to choose one term from each <math>A</math>. The product of the selected terms is <math>x^n</math> for some integer <math>n</math> between <math>0</math> and <math>28</math> inclusive. For each <math>n \\neq 0</math>, there is one and only one <math>x^{28 - n}</math> in <math>B</math>. For example, if I choose <math>x^2</math> from <math>A</math> , then there is exactly one power of <math>x</math> in <math>B</math> that I can choose; in this case, it would be <math>x^{24}</math>. Since there is only one way to choose one term from each <math>A</math> to get a product of <math>x^0</math>, there are <math>225 - 1 = 224</math> ways to choose one term from each <math>A</math> and one term from <math>B</math> to get a product of <math>x^{28}</math>. Thus the coefficient of the <math>x^{28}</math> term is <math>224 \\Rightarrow \\boxed{C}</math>.",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Triangle <math>ABC</math> has <math>AC=3</math>, <math>BC=4</math>, and <math>AB=5</math>. Point <math>D</math> is on <math>\\overline{AB}</math>, and <math>\\overline{CD}</math> bisects the right angle. The inscribed circles of <math>\\triangle ADC</math> and <math>\\triangle BCD</math> have radii <math>r_a</math> and <math>r_b</math>, respectively. What is <math>r_a/r_b</math>? <math>\\mathrm{(A)}\\ \\frac{1}{28}\\left(10-\\sqrt{2}\\right)\\qquad\\mathrm{(B)}\\ \\frac{3}{56}\\left(10-\\sqrt{2}\\right)\\qquad\\mathrm{(C)}\\ \\frac{1}{14}\\left(10-\\sqrt{2}\\right)\\qquad\\mathrm{(D)}\\ \\frac{5}{56}\\left(10-\\sqrt{2}\\right)\\\\\\mathrm{(E)}\\ \\frac{3}{28}\\left(10-\\sqrt{2}\\right)</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "A permutation <math>(a_1,a_2,a_3,a_4,a_5)</math> of <math>(1,2,3,4,5)</math> is <u>heavy-tailed</u> if <math>a_1 + a_2 < a_4 + a_5</math>. What is the number of heavy-tailed permutations? <math>\\mathrm{(A)}\\ 36\\qquad\\mathrm{(B)}\\ 40\\qquad\\textbf{(C)}\\ 44\\qquad\\mathrm{(D)}\\ 48\\qquad\\mathrm{(E)}\\ 52</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A round table has radius <math>4</math>. Six rectangular place mats are placed on the table. Each place mat has width <math>1</math> and length <math>x</math> as shown. They are positioned so that each mat has two corners on the edge of the table, these two corners being end points of the same side of length <math>x</math>. Further, the mats are positioned so that the inner corners each touch an inner corner of an adjacent mat. What is <math>x</math>? <asy>unitsize(4mm); defaultpen(linewidth(.8)+fontsize(8)); draw(Circle((0,0),4)); path mat=(-2.687,-1.5513)--(-2.687,1.5513)--(-3.687,1.5513)--(-3.687,-1.5513)--cycle; draw(mat); draw(rotate(60)*mat); draw(rotate(120)*mat); draw(rotate(180)*mat); draw(rotate(240)*mat); draw(rotate(300)*mat); label(\"\\(x\\)\",(-1.55,2.1),E); label(\"\\(1\\)\",(-0.5,3.8),S);</asy> <math>\\mathrm{(A)}\\ 2\\sqrt{5}-\\sqrt{3}\\qquad\\mathrm{(B)}\\ 3\\qquad\\mathrm{(C)}\\ \\frac{3\\sqrt{7}-\\sqrt{3}}{2}\\qquad\\mathrm{(D)}\\ 2\\sqrt{3}\\qquad\\mathrm{(E)}\\ \\frac{5+2\\sqrt{3}}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3\\sqrt 7 -\\sqrt 3 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "The solutions of the equation <math>z^4+4z^3i-6z^2-4zi-i=0</math> are the vertices of a convex polygon in the complex plane. What is the area of the polygon? <math>\\mathrm{(A)}\\ 2^{\\frac{5}{8}}\\qquad\\mathrm{(B)}\\ 2^{\\frac{3}{4}}\\qquad\\mathrm{(C)}\\ 2\\qquad\\mathrm{(D)}\\ 2^{\\frac{5}{4}}\\qquad\\mathrm{(E)}\\ 2^{\\frac{3}{2}}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "Problem text not found.",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "A sequence <math>(a_1,b_1)</math>, <math>(a_2,b_2)</math>, <math>(a_3,b_3)</math>, <math>\\ldots</math> of points in the coordinate plane satisfies <math>(a_{n + 1}, b_{n + 1}) = (\\sqrt {3}a_n - b_n, \\sqrt {3}b_n + a_n)</math> for <math>n = 1,2,3,\\ldots</math>. Suppose that <math>(a_{100},b_{100}) = (2,4)</math>. What is <math>a_1 + b_1</math>? <math>\\mathrm{(A)}\\ -\\frac{1}{2^{97}}\\qquad\\mathrm{(B)}\\ -\\frac{1}{2^{99}}\\qquad\\mathrm{(C)}\\ 0\\qquad\\mathrm{(D)}\\ \\frac{1}{2^{98}}\\qquad\\mathrm{(E)}\\ \\frac{1}{2^{96}}</math> ==Solution 1== This sequence can also be expressed using matrix multiplication as follows: <math>\\left[ \\begin{array}{c} a_{n+1} \\\\ b_{n+1} \\end{array} \\right] = \\left[ \\begin{array}{cc} \\sqrt{3} & -1 \\\\ 1 & \\sqrt{3} \\end{array} \\right] \\left[ \\begin{array}{c} a_{n} \\\\ b_{n} \\end{array} \\right] = 2 \\left[ \\begin{array}{cc} \\cos 30^\\circ & -\\sin 30^\\circ \\\\ \\sin 30^\\circ & \\ \\cos 30^\\circ \\end{array} \\right] \\left[ \\begin{array}{c} a_{n} \\\\ b_{n} \\end{array} \\right]</math>. Thus, <math>(a_{n+1} , b_{n+1})</math> is formed by rotating <math>(a_n , b_n)</math> counter-clockwise about the origin by <math>30^\\circ</math> and dilating the point's position with respect to the origin by a factor of <math>2</math>. So, starting with <math>(a_{100},b_{100})</math> and performing the above operations <math>99</math> times in reverse yields <math>(a_1,b_1)</math>. Rotating <math>(2,4)</math> clockwise by <math>99 \\cdot 30^\\circ \\equiv 90^\\circ</math> yields <math>(4,-2)</math>. A dilation by a factor of <math>\\frac{1}{2^{99}}</math> yields the point <math>(a_1,b_1) = \\left(\\frac{4}{2^{99}}, -\\frac{2}{2^{99}} \\right) = \\left(\\frac{1}{2^{97}}, -\\frac{1}{2^{98}} \\right)</math>. Therefore, <math>a_1 + b_1 = \\frac{1}{2^{97}} - \\frac{1}{2^{98}} = \\frac{1}{2^{98}} \\Rightarrow D</math>. ==Solution 2 (algebra)== Let <math>(x,y)=(a_1,b_1)</math>. Then, we can begin to list out terms as follows: <math>(a_2,b_2)=(x\\sqrt{3}-y,y\\sqrt{3}+x)</math> <math>(a_3,b_3)=(2x-2y\\sqrt{3},2y+2x\\sqrt{3})</math> <math>(a_4,b_4)=(-8y,8x)</math> We notice that the sequence follows the rule <math>(a_{n+3},b_{n+3})=(-2^3b_n,2^3a_n)</math> We can now start listing out every third point, getting: <math>(a_1,b_1)=(x,y)</math> <math>(a_4,b_4)=(-2^3y,2^3x)</math> <math>(a_7,b_7)=(-2^6x,-2^6y)</math> <math>(a_{10},b_{10})=(2^9y,-2^9x)</math> <math>(a_{13},b_{13})=(2^{12}x,2^{12}y)</math> We can make two observations from this: (1) In <math>a_n</math>, the coefficient of <math>x</math> and <math>y</math> is <math>2^{n-1}</math> (2) The positioning of <math>x</math> and <math>y</math>, and their signs, cycle with every <math>12</math> terms. We know then that from (1), the coefficients of <math>x</math> and <math>y</math> in <math>(a_{100},b_{100})</math> are both <math>2^{99}</math> We can apply (2), finding <math>100 \\text{(mod }12)=4</math>, so the positions and signs of <math>x</math> and <math>y</math> are the same in <math>(a_{100},b_{100})</math> as they are in <math>(a_{4},b_{4})</math>. From this, we can get <math>(a_{100},b_{100})=(-2^{99}y,2^{99}x)</math>. We know that <math>(a_{100},b_{100})=(2,4)</math>, so we get the following: <math>-2^{99}y=2 \\Rightarrow y=-\\frac{1}{2^{98}}</math> <math>2^{99}x=4 \\Rightarrow x=\\frac{1}{2^{97}}</math> The answer is <math>x+y=\\frac{1}{2^{97}}-\\frac{1}{2^{98}}=\\boxed{\\textbf{(D) }\\frac{1}{2^{98}}}</math>..",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 2^ 98",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "slug": "2018-amc-12b",
+  "title": "2018 AMC 12B",
+  "description": "Converted from 2018_AMC_12B_questions.txt and 2018_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 3,
+      "statement": "A line with slope <math>2</math> intersects a line with slope <math>6</math> at the point <math>(40,30)</math>. What is the distance between the <math>x</math>-intercepts of these two lines? <math>\\textbf{(A) } 5 \\qquad \\textbf{(B) } 10 \\qquad \\textbf{(C) } 20 \\qquad \\textbf{(D) } 25 \\qquad \\textbf{(E) } 50</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "A circle has a chord of length <math>10</math>, and the distance from the center of the circle to the chord is <math>5</math>. What is the area of the circle? <math> \\textbf{(A) }25\\pi \\qquad \\textbf{(B) }50\\pi \\qquad \\textbf{(C) }75\\pi \\qquad \\textbf{(D) }100\\pi \\qquad \\textbf{(E) }125\\pi \\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "50\\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "How many subsets of <math>\\{2,3,4,5,6,7,8,9\\}</math> contain at least one prime number? <math> \\textbf{(A) } 128 \\qquad \\textbf{(B) } 192 \\qquad \\textbf{(C) } 224 \\qquad \\textbf{(D) } 240 \\qquad \\textbf{(E) } 256 </math>",
+      "answerType": "integer",
+      "answerKey": "240",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Suppose <math>S</math> cans of soda can be purchased from a vending machine for <math>Q</math> quarters. Which of the following expressions describes the number of cans of soda that can be purchased for <math>D</math> dollars, where <math>1</math> dollar is worth <math>4</math> quarters? <math>\\textbf{(A) } \\frac{4DQ}{S} \\qquad \\textbf{(B) } \\frac{4DS}{Q} \\qquad \\textbf{(C) } \\frac{4Q}{DS} \\qquad \\textbf{(D) } \\frac{DQ}{4S} \\qquad \\textbf{(E) } \\frac{DS}{4Q}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 4DS Q",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "What is the value of <cmath> \\log_37\\cdot\\log_59\\cdot\\log_711\\cdot\\log_913\\cdots\\log_{21}25\\cdot\\log_{23}27? </cmath> <math>\\textbf{(A) } 3 \\qquad \\textbf{(B) } 3\\log_{7}23 \\qquad \\textbf{(C) } 6 \\qquad \\textbf{(D) } 9 \\qquad \\textbf{(E) } 10 </math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "What is <cmath> \\sum^{100}_{i=1} \\sum^{100}_{j=1} (i+j) ? </cmath> <math> \\textbf{(A) }100{,}100 \\qquad \\textbf{(B) }500{,}500\\qquad \\textbf{(C) }505{,}000 \\qquad \\textbf{(D) }1{,}001{,}000 \\qquad \\textbf{(E) }1{,}010{,}000 \\qquad </math>",
+      "answerType": "exact",
+      "answerKey": "1 , 010 , 000",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "A list of <math>2018</math> positive integers has a unique mode, which occurs exactly <math>10</math> times. What is the least number of distinct values that can occur in the list? <math>\\textbf{(A)}\\ 202\\qquad\\textbf{(B)}\\ 223\\qquad\\textbf{(C)}\\ 224\\qquad\\textbf{(D)}\\ 225\\qquad\\textbf{(E)}\\ 234</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 225",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A closed box with a square base is to be wrapped with a square sheet of wrapping paper. The box is centered on the wrapping paper with the vertices of the base lying on the midlines of the square sheet of paper, as shown in the figure on the left. The four corners of the wrapping paper are to be folded up over the sides and brought together to meet at the center of the top of the box, point <math>A</math> in the figure on the right. The box has base length <math>w</math> and height <math>h</math>. What is the area of the sheet of wrapping paper? <asy> size(270pt); defaultpen(fontsize(10pt)); filldraw(((3,3)--(-3,3)--(-3,-3)--(3,-3)--cycle),lightgrey); dot((-3,3)); label(\"$A$\",(-3,3),NW); draw((1,3)--(-3,-1),dashed+linewidth(.5)); draw((-1,3)--(3,-1),dashed+linewidth(.5)); draw((-1,-3)--(3,1),dashed+linewidth(.5)); draw((1,-3)--(-3,1),dashed+linewidth(.5)); draw((0,2)--(2,0)--(0,-2)--(-2,0)--cycle,linewidth(.5)); draw((0,3)--(0,-3),linetype(\"2.5 2.5\")+linewidth(.5)); draw((3,0)--(-3,0),linetype(\"2.5 2.5\")+linewidth(.5)); label('$w$',(-1,-1),SW); label('$w$',(1,-1),SE); draw((4.5,0)--(6.5,2)--(8.5,0)--(6.5,-2)--cycle); draw((4.5,0)--(8.5,0)); draw((6.5,2)--(6.5,-2)); label(\"$A$\",(6.5,0),NW); dot((6.5,0)); </asy> <math>\\textbf{(A) } 2(w+h)^2 \\qquad \\textbf{(B) } \\frac{(w+h)^2}2 \\qquad \\textbf{(C) } 2w^2+4wh \\qquad \\textbf{(D) } 2w^2 \\qquad \\textbf{(E) } w^2h </math>",
+      "answerType": "exact",
+      "answerKey": "2(w+h)^2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Side <math>\\overline{AB}</math> of <math>\\triangle ABC</math> has length <math>10</math>. The bisector of angle <math>A</math> meets <math>\\overline{BC}</math> at <math>D</math>, and <math>CD = 3</math>. The set of all possible values of <math>AC</math> is an open interval <math>(m,n)</math>. What is <math>m+n</math>? <math>\\textbf{(A) }16 \\qquad \\textbf{(B) }17 \\qquad \\textbf{(C) }18 \\qquad \\textbf{(D) }19 \\qquad \\textbf{(E) }20 \\qquad</math>",
+      "answerType": "integer",
+      "answerKey": "18",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Square <math>ABCD</math> has side length <math>30</math>. Point <math>P</math> lies inside the square so that <math>AP = 12</math> and <math>BP = 26</math>. The centroids of <math>\\triangle{ABP}</math>, <math>\\triangle{BCP}</math>, <math>\\triangle{CDP}</math>, and <math>\\triangle{DAP}</math> are the vertices of a convex quadrilateral. What is the area of that quadrilateral? <asy> unitsize(120); pair B = (0, 0), A = (0, 1), D = (1, 1), C = (1, 0), P = (1/4, 2/3); draw(A--B--C--D--cycle); dot(P); defaultpen(fontsize(10pt)); draw(A--P--B); draw(C--P--D); label(\"$A$\", A, W); label(\"$B$\", B, W); label(\"$C$\", C, E); label(\"$D$\", D, E); label(\"$P$\", P, N*1.5+E*0.5); dot(A); dot(B); dot(C); dot(D); </asy> <math>\\textbf{(A) }100\\sqrt{2}\\qquad\\textbf{(B) }100\\sqrt{3}\\qquad\\textbf{(C) }200\\qquad\\textbf{(D) }200\\sqrt{2}\\qquad\\textbf{(E) }200\\sqrt{3}</math>",
+      "answerType": "integer",
+      "answerKey": "200",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "How many odd positive <math>3</math>-digit integers are divisible by <math>3</math> but do not contain the digit <math>3</math>? <math>\\textbf{(A) } 96 \\qquad \\textbf{(B) } 97 \\qquad \\textbf{(C) } 98 \\qquad \\textbf{(D) } 102 \\qquad \\textbf{(E) } 120 </math>",
+      "answerType": "integer",
+      "answerKey": "96",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "The solutions to the equation <math>(z+6)^8=81</math> are connected in the complex plane to form a convex regular polygon, three of whose vertices are labeled <math>A,B,</math> and <math>C</math>. What is the least possible area of <math>\\triangle ABC?</math> <math>\\textbf{(A) } \\frac{1}{6}\\sqrt{6} \\qquad \\textbf{(B) } \\frac{3}{2}\\sqrt{2}-\\frac{3}{2} \\qquad \\textbf{(C) } 2\\sqrt3-3\\sqrt2 \\qquad \\textbf{(D) } \\frac{1}{2}\\sqrt{2} \\qquad \\textbf{(E) } \\sqrt 3-1</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 2 \\sqrt 2 -\\frac 3 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>p</math> and <math>q</math> be positive integers such that <cmath>\\frac{5}{9} < \\frac{p}{q} < \\frac{4}{7}</cmath>and <math>q</math> is as small as possible. What is <math>q-p</math>? <math>\\textbf{(A) } 7 \\qquad \\textbf{(B) } 11 \\qquad \\textbf{(C) } 13 \\qquad \\textbf{(D) } 17 \\qquad \\textbf{(E) } 19 </math>",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "In <math>\\triangle{ABC}</math> with side lengths <math>AB = 13</math>, <math>AC = 12</math>, and <math>BC = 5</math>, let <math>O</math> and <math>I</math> denote the circumcenter and incenter, respectively. A circle with center <math>M</math> is tangent to the legs <math>AC</math> and <math>BC</math> and to the circumcircle of <math>\\triangle{ABC}</math>. What is the area of <math>\\triangle{MOI}</math>? <math>\\textbf{(A)}\\ \\frac52\\qquad\\textbf{(B)}\\ \\frac{11}{4}\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ \\frac{13}{4}\\qquad\\textbf{(E)}\\ \\frac72</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Consider polynomials <math>P(x)</math> of degree at most <math>3</math>, each of whose coefficients is an element of <math>\\{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\\}</math>. How many such polynomials satisfy <math>P(-1) = -9</math>? <math>\\textbf{(A) } 110 \\qquad \\textbf{(B) } 143 \\qquad \\textbf{(C) } 165 \\qquad \\textbf{(D) } 220 \\qquad \\textbf{(E) } 286 </math>",
+      "answerType": "integer",
+      "answerKey": "220",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Ajay is standing at point <math>A</math> near Pontianak, Indonesia, <math>0^\\circ</math> latitude and <math>110^\\circ \\text{ E}</math> longitude. Billy is standing at point <math>B</math> near Big Baldy Mountain, Idaho, USA, <math>45^\\circ \\text{ N}</math> latitude and <math>115^\\circ \\text{ W}</math> longitude. Assume that Earth is a perfect sphere with center <math>C.</math> What is the degree measure of <math>\\angle ACB?</math> <math>\\textbf{(A) }105 \\qquad \\textbf{(B) }112\\frac{1}{2} \\qquad \\textbf{(C) }120 \\qquad \\textbf{(D) }135 \\qquad \\textbf{(E) }150 \\qquad</math>",
+      "answerType": "exact",
+      "answerKey": "120^ \\circ",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Circles <math>\\omega_1</math>, <math>\\omega_2</math>, and <math>\\omega_3</math> each have radius <math>4</math> and are placed in the plane so that each circle is externally tangent to the other two. Points <math>P_1</math>, <math>P_2</math>, and <math>P_3</math> lie on <math>\\omega_1</math>, <math>\\omega_2</math>, and <math>\\omega_3</math> respectively such that <math>P_1P_2=P_2P_3=P_3P_1</math> and line <math>P_iP_{i+1}</math> is tangent to <math>\\omega_i</math> for each <math>i=1,2,3</math>, where <math>P_4 = P_1</math>. See the figure below. The area of <math>\\triangle P_1P_2P_3</math> can be written in the form <math>\\sqrt{a}+\\sqrt{b}</math> for positive integers <math>a</math> and <math>b</math>. What is <math>a+b</math>? <asy> unitsize(12); pair A = (0, 8/sqrt(3)), B = rotate(-120)*A, C = rotate(120)*A; real theta = 41.5; pair P1 = rotate(theta)*(2+2*sqrt(7/3), 0), P2 = rotate(-120)*P1, P3 = rotate(120)*P1; filldraw(P1--P2--P3--cycle, gray(0.9)); draw(Circle(A, 4)); draw(Circle(B, 4)); draw(Circle(C, 4)); dot(P1); dot(P2); dot(P3); defaultpen(fontsize(10pt)); label(\"$P_1$\", P1, E*1.5); label(\"$P_2$\", P2, SW*1.5); label(\"$P_3$\", P3, N); label(\"$\\omega_1$\", A, W*17); label(\"$\\omega_2$\", B, E*17); label(\"$\\omega_3$\", C, W*17); </asy> <math>\\textbf{(A) }546\\qquad\\textbf{(B) }548\\qquad\\textbf{(C) }550\\qquad\\textbf{(D) }552\\qquad\\textbf{(E) }554</math>",
+      "answerType": "integer",
+      "answerKey": "552",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    }
+  ]
+}

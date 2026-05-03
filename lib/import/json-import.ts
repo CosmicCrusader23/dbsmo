@@ -1,6 +1,10 @@
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import { z } from "zod";
 import { normalizeTagList } from "../problem-tags";
+import {
+  isSupportedProblemContentFormat,
+  normalizeProblemContentFormat,
+} from "../problem-content-format";
 import type { ImportIssue } from "./zip-dry-run";
 
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
@@ -25,6 +29,12 @@ const ANSWER_TYPE_MAP: Record<string, AnswerType> = {
 const jsonProblemSchema = z.object({
   number: z.coerce.number().int().positive().optional(),
   statement: z.string().optional().default(""),
+  statementFormat: z
+    .string()
+    .optional()
+    .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
+      message: "Invalid statementFormat. Use LATEX or HTML.",
+    }),
   answerType: z.string().optional().default("EXACT"),
   answerKey: z.string().optional(),
   answer: z.string().optional(),
@@ -40,6 +50,12 @@ const jsonProblemSetSchema = z.object({
   slug: z.string().min(1),
   title: z.string().min(1),
   description: z.string().optional().default(""),
+  statementFormat: z
+    .string()
+    .optional()
+    .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
+      message: "Invalid statementFormat. Use LATEX or HTML.",
+    }),
   order: z.coerce.number().int().optional().default(0),
   status: z.string().optional().default("DRAFT"),
   visibleFrom: z.string().datetime().nullable().optional(),
@@ -70,6 +86,7 @@ export type JsonDryRunResult = {
     difficulty: number;
     topicTags: string[];
     videoUrl: string | null;
+    statementFormat: string;
     answerTypeCounts: Record<string, number>;
     solutionCount: number;
   } | null;
@@ -189,6 +206,7 @@ export async function importProblemSetJson(
         create: data.problems.map((problem) => ({
           number: problem.number,
           statement: problem.statement,
+          contentFormat: problem.statementFormat,
           answerKey: problem.answerKey,
           answerType: problem.answerType,
           acceptedAnswers: problem.acceptedAnswers,
@@ -237,17 +255,24 @@ function parseJson(
 }
 
 function normalizeParsedJson(data: ParsedProblemSetJson) {
+  const defaultStatementFormat = normalizeProblemContentFormat(data.statementFormat);
+
   return {
     ...data,
     slug: data.slug.trim(),
     title: data.title.trim(),
     description: data.description.trim(),
+    statementFormat: defaultStatementFormat,
     status: normalizeStatus(data.status),
     topicTags: normalizeTagList(data.topicTags),
     videoUrl: data.videoUrl?.trim() || null,
     problems: data.problems.map((problem, index) => ({
       number: problem.number ?? index + 1,
       statement: problem.statement.trim(),
+      statementFormat: normalizeProblemContentFormat(
+        problem.statementFormat ?? data.statementFormat,
+        defaultStatementFormat,
+      ),
       answerKey: (problem.answerKey ?? problem.answer ?? "").trim(),
       answerType: normalizeAnswerType(problem.answerType),
       acceptedAnswers: normalizeAcceptedAnswers(problem.acceptedAnswers),
@@ -316,6 +341,7 @@ function buildPreview(data: ReturnType<typeof normalizeParsedJson>): JsonDryRunR
     difficulty: data.difficulty,
     topicTags: data.topicTags,
     videoUrl: data.videoUrl,
+    statementFormat: data.statementFormat,
     answerTypeCounts: data.problems.reduce<Record<string, number>>((counts, problem) => {
       counts[problem.answerType] = (counts[problem.answerType] ?? 0) + 1;
       return counts;

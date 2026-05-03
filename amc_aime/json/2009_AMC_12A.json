@@ -1,0 +1,202 @@
+{
+  "slug": "2009-amc-12a",
+  "title": "2009 AMC 12A",
+  "description": "Converted from 2009_AMC_12A_questions.txt and 2009_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Kim's flight took off from Newark at 10:34 AM and landed in Miami at 1:18 PM. Both cities are in the same time zone. If her flight took <math>h</math> hours and <math>m</math> minutes, with <math>0 < m < 60</math>, what is <math>h + m</math>? <math>\\textbf{(A)}\\ 46 \\qquad \\textbf{(B)}\\ 47 \\qquad \\textbf{(C)}\\ 50 \\qquad \\textbf{(D)}\\ 53 \\qquad \\textbf{(E)}\\ 54</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Which of the following is equal to <math>1 + \\frac {1}{1 + \\frac {1}{1 + 1}}</math>? <math>\\textbf{(A)}\\ \\frac {5}{4} \\qquad \\textbf{(B)}\\ \\frac {3}{2} \\qquad \\textbf{(C)}\\ \\frac {5}{3} \\qquad \\textbf{(D)}\\ 2 \\qquad \\textbf{(E)}\\ 3</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "What number is one third of the way from <math>\\frac14</math> to <math>\\frac34</math>? <math>\\textbf{(A)}\\ \\frac {1}{3} \\qquad \\textbf{(B)}\\ \\frac {5}{12} \\qquad \\textbf{(C)}\\ \\frac {1}{2} \\qquad \\textbf{(D)}\\ \\frac {7}{12} \\qquad \\textbf{(E)}\\ \\frac {2}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 5 12",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Four coins are picked out of a piggy bank that contains a collection of pennies, nickels, dimes, and quarters. Which of the following could <em>not</em> be the total value of the four coins, in cents? <math>\\textbf{(A)}\\ 15 \\qquad \\textbf{(B)}\\ 25 \\qquad \\textbf{(C)}\\ 35 \\qquad \\textbf{(D)}\\ 45 \\qquad \\textbf{(E)}\\ 55</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "One dimension of a cube is increased by <math>1</math>, another is decreased by <math>1</math>, and the third is left unchanged. The volume of the new rectangular solid is <math>5</math> less than that of the cube. What was the volume of the cube? <math>\\textbf{(A)}\\ 8 \\qquad \\textbf{(B)}\\ 27 \\qquad \\textbf{(C)}\\ 64 \\qquad \\textbf{(D)}\\ 125 \\qquad \\textbf{(E)}\\ 216</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "The first three terms of an arithmetic sequence are <math>2x - 3</math>, <math>5x - 11</math>, and <math>3x + 1</math> respectively. The <math>n</math>th term of the sequence is <math>2009</math>. What is <math>n</math>? <math>\\textbf{(A)}\\ 255 \\qquad \\textbf{(B)}\\ 502 \\qquad \\textbf{(C)}\\ 1004 \\qquad \\textbf{(D)}\\ 1506 \\qquad \\textbf{(E)}\\ 8037</math>",
+      "answerType": "integer",
+      "answerKey": "502",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Four congruent rectangles are placed as shown. The area of the outer square is <math>4</math> times that of the inner square. What is the ratio of the length of the longer side of each rectangle to the length of its shorter side? <center><asy> unitsize(6mm); defaultpen(linewidth(.8pt)); path p=(1,1)--(-2,1)--(-2,2)--(1,2); draw(p); draw(rotate(90)*p); draw(rotate(180)*p); draw(rotate(270)*p); </asy></center> <math>\\textbf{(A)}\\ 3 \\qquad \\textbf{(B)}\\ \\sqrt {10} \\qquad \\textbf{(C)}\\ 2 + \\sqrt2 \\qquad \\textbf{(D)}\\ 2\\sqrt3 \\qquad \\textbf{(E)}\\ 4</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Suppose that <math>f(x+3)=3x^2 + 7x + 4</math> and <math>f(x)=ax^2 + bx + c</math>. What is <math>a+b+c</math>? <math>\\textbf{(A)}\\ -1 \\qquad \\textbf{(B)}\\ 0 \\qquad \\textbf{(C)}\\ 1 \\qquad \\textbf{(D)}\\ 2 \\qquad \\textbf{(E)}\\ 3</math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "In quadrilateral <math>ABCD</math>, <math>AB = 5</math>, <math>BC = 17</math>, <math>CD = 5</math>, <math>DA = 9</math>, and <math>BD</math> is an integer. What is <math>BD</math>? <center><asy> unitsize(4mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); dotfactor=4; pair C=(0,0), B=(17,0); pair D=intersectionpoints(Circle(C,5),Circle(B,13))[0]; pair A=intersectionpoints(Circle(D,9),Circle(B,5))[0]; pair[] dotted={A,B,C,D}; draw(D--A--B--C--D--B); dot(dotted); label(\"$D$\",D,NW); label(\"$C$\",C,W); label(\"$B$\",B,E); label(\"$A$\",A,NE); </asy></center><math>\\textbf{(A)}\\ 11 \\qquad \\textbf{(B)}\\ 12 \\qquad \\textbf{(C)}\\ 13 \\qquad \\textbf{(D)}\\ 14 \\qquad \\textbf{(E)}\\ 15</math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "The figures <math>F_1</math>, <math>F_2</math>, <math>F_3</math>, and <math>F_4</math> shown are the first in a sequence of figures. For <math>n\\ge3</math>, <math>F_n</math> is constructed from <math>F_{n - 1}</math> by surrounding it with a square and placing one more diamond on each side of the new square than <math>F_{n - 1}</math> had on each side of its outside square. For example, figure <math>F_3</math> has <math>13</math> diamonds. How many diamonds are there in figure <math>F_{20}</math>? <center><asy> unitsize(3mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); path d=(1/2,0)--(0,sqrt(3)/2)--(-1/2,0)--(0,-sqrt(3)/2)--cycle; marker m=marker(scale(5)*d,Fill); path f1=(0,0); path f2=(0,0)--(-1,1)--(1,1)--(1,-1)--(-1,-1); path[] g2=(-1,1)--(-1,-1)--(0,0)^^(1,-1)--(0,0)--(1,1); path f3=f2--(-2,-2)--(-2,0)--(-2,2)--(0,2)--(2,2)--(2,0)--(2,-2)--(0,-2); path[] g3=g2^^(-2,-2)--(0,-2)^^(2,-2)--(1,-1)^^(1,1)--(2,2)^^(-1,1)--(-2,2); path[] f4=f3^^(-3,-3)--(-3,-1)--(-3,1)--(-3,3)--(-1,3)--(1,3)--(3,3)-- (3,1)--(3,-1)--(3,-3)--(1,-3)--(-1,-3); path[] g4=g3^^(-2,-2)--(-3,-3)--(-1,-3)^^(3,-3)--(2,-2)^^(2,2)--(3,3)^^ (-2,2)--(-3,3); draw(f1,m); draw(shift(5,0)*f2,m); draw(shift(5,0)*g2); draw(shift(12,0)*f3,m); draw(shift(12,0)*g3); draw(shift(21,0)*f4,m); draw(shift(21,0)*g4); label(\"$F_1$\",(0,-4)); label(\"$F_2$\",(5,-4)); label(\"$F_3$\",(12,-4)); label(\"$F_4$\",(21,-4)); </asy></center><math>\\textbf{(A)}\\ 401 \\qquad \\textbf{(B)}\\ 485 \\qquad \\textbf{(C)}\\ 585 \\qquad \\textbf{(D)}\\ 626 \\qquad \\textbf{(E)}\\ 761</math>",
+      "answerType": "integer",
+      "answerKey": "761",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "How many positive integers less than <math>1000</math> are <math>6</math> times the sum of their digits? <math>\\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ 1 \\qquad \\textbf{(C)}\\ 2 \\qquad \\textbf{(D)}\\ 4 \\qquad \\textbf{(E)}\\ 12</math>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "A ship sails <math>10</math> miles in a straight line from <math>A</math> to <math>B</math>, turns through an angle between <math>45^{\\circ}</math> and <math>60^{\\circ}</math>, and then sails another <math>20</math> miles to <math>C</math>. Let <math>AC</math> be measured in miles. Which of the following intervals contains <math>AC^2</math>? <asy> unitsize(2mm); defaultpen(linewidth(.8pt)+fontsize(10pt)); dotfactor=4; pair B=(0,0), A=(-10,0), C=20*dir(50); draw(A--B--C); draw(A--C,linetype(\"4 4\")); dot(A); dot(B); dot(C); label(\"$10$\",midpoint(A--B),S); label(\"$20$\",midpoint(B--C),SE); label(\"$A$\",A,SW); label(\"$B$\",B,SE); label(\"$C$\",C,NE); </asy> <math>\\textbf{(A)}\\ [400,500] \\qquad \\textbf{(B)}\\ [500,600] \\qquad \\textbf{(C)}\\ [600,700] \\qquad \\textbf{(D)}\\ [700,800]</math> <math>\\textbf{(E)}\\ [800,900]</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "A triangle has vertices <math>(0,0)</math>, <math>(1,1)</math>, and <math>(6m,0)</math>, and the line <math>y = mx</math> divides the triangle into two triangles of equal area. What is the sum of all possible values of <math>m</math>? <math>\\textbf{A} - \\!\\frac {1}{3} \\qquad \\textbf{(B)} - \\!\\frac {1}{6} \\qquad \\textbf{(C)}\\ \\frac {1}{6} \\qquad \\textbf{(D)}\\ \\frac {1}{3} \\qquad \\textbf{(E)}\\ \\frac {1}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "For what value of <math>n</math> is <math>i + 2i^2 + 3i^3 + \\cdots + ni^n = 48 + 49i</math>? Note: here <math>i = \\sqrt { - 1}</math>. <math>\\textbf{(A)}\\ 24 \\qquad \\textbf{(B)}\\ 48 \\qquad \\textbf{(C)}\\ 49 \\qquad \\textbf{(D)}\\ 97 \\qquad \\textbf{(E)}\\ 98</math> == Solution 1 == We know that <math>i^x</math> cycles every <math>4</math> powers so we group the sum in <math>4</math>s. <cmath>i+2i^2+3i^3+4i^4=2-2i</cmath> <cmath>5i^5+6i^6+7i^7+8i^8=2-2i</cmath> We can postulate that every group of <math>4</math> is equal to <math>2-2i</math>. For 24 groups we thus, get <math>48-48i</math> as our sum. We know the solution must lie near The next term is the <math>24*4+1=97</math>th term. This term is equal to <math>97i</math> (first in a group of <math>4</math> so <math>i^{97}=i</math>) and our sum is now <math>48+49i</math> so <math>n=97\\Rightarrow\\boxed{\\mathbf{D}}</math> is our answer",
+      "answerType": "exact",
+      "answerKey": "\\mathbf 97",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "A circle with center <math>C</math> is tangent to the positive <math>x</math> and <math>y</math>-axes and externally tangent to the circle centered at <math>(3,0)</math> with radius <math>1</math>. What is the sum of all possible radii of the circle with center <math>C</math>? <math>\\textbf{(A)}\\ 3 \\qquad \\textbf{(B)}\\ 4 \\qquad \\textbf{(C)}\\ 6 \\qquad \\textbf{(D)}\\ 8 \\qquad \\textbf{(E)}\\ 9</math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>a + ar_1 + ar_1^2 + ar_1^3 + \\cdots</math> and <math>a + ar_2 + ar_2^2 + ar_2^3 + \\cdots</math> be two different infinite geometric series of positive numbers with the same first term. The sum of the first series is <math>r_1</math>, and the sum of the second series is <math>r_2</math>. What is <math>r_1 + r_2</math>? <math>\\textbf{(A)}\\ 0\\qquad \\textbf{(B)}\\ \\frac {1}{2}\\qquad \\textbf{(C)}\\ 1\\qquad \\textbf{(D)}\\ \\frac {1 + \\sqrt {5}}{2}\\qquad \\textbf{(E)}\\ 2</math>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "For <math>k > 0</math>, let <math>I_k = 10\\ldots 064</math>, where there are <math>k</math> zeros between the <math>1</math> and the <math>6</math>. Let <math>N(k)</math> be the number of factors of <math>2</math> in the prime factorization of <math>I_k</math>. What is the maximum value of <math>N(k)</math>? <math>\\textbf{(A)}\\ 6\\qquad \\textbf{(B)}\\ 7\\qquad \\textbf{(C)}\\ 8\\qquad \\textbf{(D)}\\ 9\\qquad \\textbf{(E)}\\ 10</math>",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Andrea inscribed a circle inside a regular pentagon, circumscribed a circle around the pentagon, and calculated the area of the region between the two circles. Bethany did the same with a regular heptagon (7 sides). The areas of the two regions were <math>A</math> and <math>B</math>, respectively. Each polygon had a side length of <math>2</math>. Which of the following is true? <math>\\textbf{(A)}\\ A = \\frac {25}{49}B\\qquad \\textbf{(B)}\\ A = \\frac {5}{7}B\\qquad \\textbf{(C)}\\ A = B\\qquad \\textbf{(D)}\\ A </math> <math>= \\frac {7}{5}B\\qquad \\textbf{(E)}\\ A = \\frac {49}{25}B</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Convex quadrilateral <math>ABCD</math> has <math>AB = 9</math> and <math>CD = 12</math>. Diagonals <math>AC</math> and <math>BD</math> intersect at <math>E</math>, <math>AC = 14</math>, and <math>\\triangle AED</math> and <math>\\triangle BEC</math> have equal areas. What is <math>AE</math>? <math>\\textbf{(A)}\\ \\frac {9}{2}\\qquad \\textbf{(B)}\\ \\frac {50}{11}\\qquad \\textbf{(C)}\\ \\frac {21}{4}\\qquad \\textbf{(D)}\\ \\frac {17}{3}\\qquad \\textbf{(E)}\\ 6</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Let <math>p(x) = x^3 + ax^2 + bx + c</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are complex numbers. Suppose that <center><cmath>p(2009 + 9002\\pi i) = p(2009) = p(9002) = 0</cmath></center> What is the number of nonreal zeros of <math>x^{12} + ax^8 + bx^4 + c</math>? <math>\\textbf{(A)}\\ 4\\qquad \\textbf{(B)}\\ 6\\qquad \\textbf{(C)}\\ 8\\qquad \\textbf{(D)}\\ 10\\qquad \\textbf{(E)}\\ 12</math>",
+      "answerType": "exact",
+      "answerKey": "8\\ \\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "A regular [[octahedron]] has side length <math>1</math>. A [[plane]] [[parallel]] to two of its opposite faces cuts the octahedron into the two congruent solids. The [[polygon]] formed by the intersection of the plane and the octahedron has area <math>\\frac {a\\sqrt {b}}{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers, <math>a</math> and <math>c</math> are relatively prime, and <math>b</math> is not divisible by the square of any prime. What is <math>a + b + c</math>? <math>\\textbf{(A)}\\ 10\\qquad \\textbf{(B)}\\ 11\\qquad \\textbf{(C)}\\ 12\\qquad \\textbf{(D)}\\ 13\\qquad \\textbf{(E)}\\ 14</math>",
+      "answerType": "exact",
+      "answerKey": "14\\ \\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "[[Function]]s <imath>f</imath> and <imath>g</imath> are [[quadratic]], <imath>g(x) = - f(100 - x)</imath>, and the graph of <imath>g</imath> contains the [[vertex]] of the graph of <imath>f</imath>. The four <imath>x</imath>-intercepts on the two graphs have <imath>x</imath>-coordinates <imath>x_1</imath>, <imath>x_2</imath>, <imath>x_3</imath>, and <imath>x_4</imath>, in increasing order, and <imath>x_3 - x_2 = 150</imath>. Then <imath>x_4 - x_1 = m + n\\sqrt p</imath>, where <imath>m</imath>, <imath>n</imath>, and <imath>p</imath> are positive integers, and <imath>p</imath> is not divisible by the square of any prime. What is <imath>m + n + p</imath>? <imath>\\textbf{(A)}\\ 602\\qquad \\textbf{(B)}\\ 652\\qquad \\textbf{(C)}\\ 702\\qquad \\textbf{(D)}\\ 752 \\qquad \\textbf{(E)}\\ 802</imath>",
+      "answerType": "integer",
+      "answerKey": "752",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "The ''tower function of twos'' is defined recursively as follows: <math>T(1) = 2</math> and <math>T(n + 1) = 2^{T(n)}</math> for <math>n\\ge1</math>. Let <math>A = (T(2009))^{T(2009)}</math> and <math>B = (T(2009))^A</math>. What is the largest integer <math>k</math> for which <cmath>\\underbrace{\\log_2\\log_2\\log_2\\ldots\\log_2B}_{k\\text{ times}}</cmath> is defined? <math>\\textbf{(A)}\\ 2009\\qquad \\textbf{(B)}\\ 2010\\qquad \\textbf{(C)}\\ 2011\\qquad \\textbf{(D)}\\ 2012\\qquad \\textbf{(E)}\\ 2013</math>",
+      "answerType": "integer",
+      "answerKey": "2012",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "The first two terms of a sequence are <math>a_1 = 1</math> and <math>a_2 = \\frac {1}{\\sqrt3}</math>. For <math>n\\ge1</math>, <center><cmath>a_{n + 2} = \\frac {a_n + a_{n + 1}}{1 - a_na_{n + 1}}.</cmath></center> What is <math>|a_{2009}|</math>? <math>\\textbf{(A)}\\ 0\\qquad \\textbf{(B)}\\ 2 - \\sqrt3\\qquad \\textbf{(C)}\\ \\frac {1}{\\sqrt3}\\qquad \\textbf{(D)}\\ 1\\qquad \\textbf{(E)}\\ 2 + \\sqrt3</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "slug": "2012-amc-12a",
+  "title": "2012 AMC 12A",
+  "description": "Converted from 2012_AMC_12A_questions.txt and 2012_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A bug crawls along a number line, starting at <math>-2</math>. It crawls to <math>-6</math>, then turns around and crawls to <math>5</math>. How many units does the bug crawl altogether? <math> \\textbf{(A)}\\ 9\\qquad\\textbf{(B)}\\ 11\\qquad\\textbf{(C)}\\ 13\\qquad\\textbf{(D)}\\ 14\\qquad\\textbf{(E)}\\ 15 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 15",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Cagney can frost a cupcake every 20 seconds and Lacey can frost a cupcake every 30 seconds. Working together, how many cupcakes can they frost in 5 minutes? <math> \\textbf{(A)}\\ 10\\qquad\\textbf{(B)}\\ 15\\qquad\\textbf{(C)}\\ 20\\qquad\\textbf{(D)}\\ 25\\qquad\\textbf{(E)}\\ 30 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A box <math>2</math> centimeters high, <math>3</math> centimeters wide, and <math>5</math> centimeters long can hold <math>40</math> grams of clay. A second box with twice the height, three times the width, and the same length as the first box can hold <math>n</math> grams of clay. What is <math>n</math>? <math>\\textbf{(A)}\\ 120\\qquad\\textbf{(B)}\\ 160\\qquad\\textbf{(C)}\\ 200\\qquad\\textbf{(D)}\\ 240\\qquad\\textbf{(E)}\\ 280</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 240",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "In a bag of marbles, <math>\\frac{3}{5}</math> of the marbles are blue and the rest are red. If the number of red marbles is doubled and the number of blue marbles stays the same, what fraction of the marbles will be red? <math> \\textbf{(A)}\\ \\frac{2}{5}\\qquad\\textbf{(B)}\\ \\frac{3}{7}\\qquad\\textbf{(C)}\\ \\frac{4}{7}\\qquad\\textbf{(D)}\\ \\frac{3}{5}\\qquad\\textbf{(E)}\\ \\frac{4}{5} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 4 7",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "A fruit salad consists of blueberries, raspberries, grapes, and cherries. The fruit salad has a total of <math>280</math> pieces of fruit. There are twice as many raspberries as blueberries, three times as many grapes as cherries, and four times as many cherries as raspberries. How many cherries are there in the fruit salad? <math> \\textbf{(A)}\\ 8\\qquad\\textbf{(B)}\\ 16\\qquad\\textbf{(C)}\\ 25\\qquad\\textbf{(D)}\\ 64\\qquad\\textbf{(E)}\\ 96 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "The sums of three whole numbers taken in pairs are 12, 17, and 19. What is the middle number? <math> \\textbf{(A)}\\ 4\\qquad\\textbf{(B)}\\ 5\\qquad\\textbf{(C)}\\ 6\\qquad\\textbf{(D)}\\ 7\\qquad\\textbf{(E)}\\ 8 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Mary divides a circle into 12 sectors. The central angles of these sectors, measured in degrees, are all integers and they form an arithmetic sequence. What is the degree measure of the smallest possible sector angle? <math> \\textbf{(A)}\\ 5\\qquad\\textbf{(B)}\\ 6\\qquad\\textbf{(C)}\\ 8\\qquad\\textbf{(D)}\\ 10\\qquad\\textbf{(E)}\\ 12 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "An ''iterative average'' of the numbers 1, 2, 3, 4, and 5 is computed the following way. Arrange the five numbers in some order. Find the mean of the first two numbers, then find the mean of that with the third number, then the mean of that with the fourth number, and finally the mean of that with the fifth number. What is the difference between the largest and smallest possible values that can be obtained using this procedure? <math> \\textbf{(A)}\\ \\frac{31}{16}\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ \\frac{17}{8}\\qquad\\textbf{(D)}\\ 3\\qquad\\textbf{(E)}\\ \\frac{65}{16} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 17 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "A year is a leap year if and only if the year number is divisible by 400 (such as 2000) or is divisible by 4 but not 100 (such as 2012). The 200th anniversary of the birth of novelist Charles Dickens was celebrated on February 7, 2012, a Tuesday. On what day of the week was Dickens born? <math> \\textbf{(A)}\\ \\text{Friday}\\qquad\\textbf{(B)}\\ \\text{Saturday}\\qquad\\textbf{(C)}\\ \\text{Sunday}\\qquad\\textbf{(D)}\\ \\text{Monday}\\qquad\\textbf{(E)}\\ \\text{Tuesday} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ Friday",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "A triangle has area <math>30</math>, one side of length <math>10</math>, and the median to that side of length <math>9</math>. Let <math>\\theta</math> be the acute angle formed by that side and the median. What is <math>\\sin{\\theta}</math>? <math> \\textbf{(A)}\\ \\frac{3}{10}\\qquad\\textbf{(B)}\\ \\frac{1}{3}\\qquad\\textbf{(C)}\\ \\frac{9}{20}\\qquad\\textbf{(D)}\\ \\frac{2}{3}\\qquad\\textbf{(E)}\\ \\frac{9}{10} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Alex, Mel, and Chelsea play a game that has <math>6</math> rounds. In each round there is a single winner, and the outcomes of the rounds are independent. For each round the probability that Alex wins is <math>\\frac{1}{2}</math>, and Mel is twice as likely to win as Chelsea. What is the probability that Alex wins three rounds, Mel wins two rounds, and Chelsea wins one round? <math> \\textbf{(A)}\\ \\frac{5}{72}\\qquad\\textbf{(B)}\\ \\frac{5}{36}\\qquad\\textbf{(C)}\\ \\frac{1}{6}\\qquad\\textbf{(D)}\\ \\frac{1}{3}\\qquad\\textbf{(E)}\\ 1 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 5 36",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "A square region <math>ABCD</math> is externally tangent to the circle with equation <math>x^2+y^2=1</math> at the point <math>(0,1)</math> on the side <math>CD</math>. Vertices <math>A</math> and <math>B</math> are on the circle with equation <math>x^2+y^2=4</math>. What is the side length of this square? <math> \\textbf{(A)}\\ \\frac{\\sqrt{10}+5}{10}\\qquad\\textbf{(B)}\\ \\frac{2\\sqrt{5}}{5}\\qquad\\textbf{(C)}\\ \\frac{2\\sqrt{2}}{3}\\qquad\\textbf{(D)}\\ \\frac{2\\sqrt{19}-4}{5}\\qquad\\textbf{(E)}\\ \\frac{9-\\sqrt{17}}{5} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Paula the painter and her two helpers each paint at constant, but different, rates. They always start at 8:00 AM, and all three always take the same amount of time to eat lunch. On Monday the three of them painted 50% of a house, quitting at 4:00 PM. On Tuesday, when Paula wasn't there, the two helpers painted only 24% of the house and quit at 2:12 PM. On Wednesday Paula worked by herself and finished the house by working until 7:12 P.M. How long, in minutes, was each day's lunch break? <math> \\textbf{(A)}\\ 30\\qquad\\textbf{(B)}\\ 36\\qquad\\textbf{(C)}\\ 42\\qquad\\textbf{(D)}\\ 48\\qquad\\textbf{(E)}\\ 60 </math>",
+      "answerType": "integer",
+      "answerKey": "48",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The closed curve in the figure is made up of 9 congruent circular arcs each of length <math>\\frac{2\\pi}{3}</math>, where each of the centers of the corresponding circles is among the vertices of a regular hexagon of side 2. What is the area enclosed by the curve? <asy> unitsize(2cm); defaultpen(fontsize(6pt)); dotfactor=4; label(\"$\\circ$\",(0,1)); label(\"$\\circ$\",(0.865,0.5)); label(\"$\\circ$\",(-0.865,0.5)); label(\"$\\circ$\",(0.865,-0.5)); label(\"$\\circ$\",(-0.865,-0.5)); label(\"$\\circ$\",(0,-1)); dot((0,1.5)); dot((-0.4325,0.75)); dot((0.4325,0.75)); dot((-0.4325,-0.75)); dot((0.4325,-0.75)); dot((-0.865,0)); dot((0.865,0)); dot((-1.2975,-0.75)); dot((1.2975,-0.75)); draw(Arc((0,1),0.5,210,-30)); draw(Arc((0.865,0.5),0.5,150,270)); draw(Arc((0.865,-0.5),0.5,90,-150)); draw(Arc((0.865,-0.5),0.5,90,-150)); draw(Arc((0,-1),0.5,30,150)); draw(Arc((-0.865,-0.5),0.5,330,90)); draw(Arc((-0.865,0.5),0.5,-90,30)); </asy> <math>\\textbf{(A)}\\ 2\\pi+6\\qquad\\textbf{(B)}\\ 2\\pi+4\\sqrt{3}\\qquad\\textbf{(C)}\\ 3\\pi+4\\qquad\\textbf{(D)}\\ 2\\pi+3\\sqrt{3}+2\\qquad\\textbf{(E)}\\ \\pi+6\\sqrt{3}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "A <math>3 \\times 3</math> square is partitioned into <math>9</math> unit squares. Each unit square is painted either white or black with each color being equally likely, chosen independently and at random. The square is then rotated <math>90\\,^{\\circ}</math> clockwise about its center, and every white square in a position formerly occupied by a black square is painted black. The colors of all other squares are left unchanged. What is the probability the grid is now entirely black? <math> \\textbf{(A)}\\ \\frac{49}{512}\\qquad\\textbf{(B)}\\ \\frac{7}{64}\\qquad\\textbf{(C)}\\ \\frac{121}{1024}\\qquad\\textbf{(D)}\\ \\frac{81}{512}\\qquad\\textbf{(E)}\\ \\frac{9}{32} </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Circle <math>C_1</math> has its center <math>O</math> lying on circle <math>C_2</math>. The two circles meet at <math>X</math> and <math>Y</math>. Point <math>Z</math> in the exterior of <math>C_1</math> lies on circle <math>C_2</math> and <math>XZ=13</math>, <math>OZ=11</math>, and <math>YZ=7</math>. What is the radius of circle <math>C_1</math>? <math> \\textbf{(A)}\\ 5\\qquad\\textbf{(B)}\\ \\sqrt{26}\\qquad\\textbf{(C)}\\ 3\\sqrt{3}\\qquad\\textbf{(D)}\\ 2\\sqrt{7}\\qquad\\textbf{(E)}\\ \\sqrt{30} </math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 30",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>S</math> be a subset of <math>\\{1,2,3,\\dots,30\\}</math> with the property that no pair of distinct elements in <math>S</math> has a sum divisible by <math>5</math>. What is the largest possible size of <math>S</math>? <math> \\textbf{(A)}\\ 10\\qquad\\textbf{(B)}\\ 13\\qquad\\textbf{(C)}\\ 15\\qquad\\textbf{(D)}\\ 16\\qquad\\textbf{(E)}\\ 18 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 13",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Triangle <math>ABC</math> has <math>AB=27</math>, <math>AC=26</math>, and <math>BC=25</math>. Let <math>I</math> be the intersection of the internal angle bisectors of <math>\\triangle ABC</math>. What is <math>BI</math>? <math> \\textbf{(A)}\\ 15\\qquad\\textbf{(B)}\\ 5+\\sqrt{26}+3\\sqrt{3}\\qquad\\textbf{(C)}\\ 3\\sqrt{26}\\qquad\\textbf{(D)}\\ \\frac{2}{3}\\sqrt{546}\\qquad\\textbf{(E)}\\ 9\\sqrt{3} </math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Adam, Benin, Chiang, Deshawn, Esther, and Fiona have internet accounts. Some, but not all, of them are internet friends with each other, and none of them has an internet friend outside this group. Each of them has the same number of internet friends. In how many different ways can this happen? <math> \\text{(A)}\\ 60\\qquad\\text{(B)}\\ 170\\qquad\\text{(C)}\\ 290\\qquad\\text{(D)}\\ 320\\qquad\\text{(E)}\\ 660 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 170",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Consider the polynomial <cmath>P(x)=\\prod_{k=0}^{10}(x^{2^k}+2^k)=(x+1)(x^2+2)(x^4+4)\\cdots (x^{1024}+1024)</cmath> The coefficient of <math>x^{2012}</math> is equal to <math>2^a</math>. What is <math>a</math>? <cmath>\\textbf{(A)}\\ 5\\qquad\\textbf{(B)}\\ 6\\qquad\\textbf{(C)}\\ 7\\qquad\\textbf{(D)}\\ 10\\qquad\\textbf{(E)}\\ 24 </cmath>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Let <math>a</math>, <math>b</math>, and <math>c</math> be positive integers with <math>a\\ge</math> <math>b\\ge</math> <math>c</math> such that <math>a^2-b^2-c^2+ab=2011</math> and <math>a^2+3b^2+3c^2-3ab-2ac-2bc=-1997</math>. What is <math>a</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\textbf{(A)}\\ 249\\qquad\\textbf{(B)}\\ 250\\qquad\\textbf{(C)}\\ 251\\qquad\\textbf{(D)}\\ 252\\qquad\\textbf{(E)}\\ 253 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 253",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Let <math>S</math> be the square one of whose diagonals has endpoints <math>(1/10,7/10)</math> and <math>(-1/10,-7/10)</math>. A point <math>v=(x,y)</math> is chosen uniformly at random over all pairs of real numbers <math>x</math> and <math>y</math> such that <math>0 \\le x \\le 2012</math> and <math>0\\le y\\le 2012</math>. Let <math>T(v)</math> be a translated copy of <math>S</math> centered at <math>v</math>. What is the probability that the square region determined by <math>T(v)</math> contains exactly two points with integer coefficients in its interior? <math> \\textbf{(A)}\\ \\frac{1}{8}\\qquad\\textbf{(B) }\\frac{7}{50}\\qquad\\textbf{(C) }\\frac{4}{25}\\qquad\\textbf{(D) }\\frac{1}{4}\\qquad\\textbf{(E) }\\frac{8}{25} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 4 25",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <imath>\\{a_k\\}_{k=1}^{2011}</imath> be the sequence of real numbers defined by <imath>a_1=0.201,</imath> <imath>a_2=(0.2011)^{a_1},</imath> <imath>a_3=(0.20101)^{a_2},</imath> <imath>a_4=(0.201011)^{a_3}</imath>, and in general, <cmath>a_k=\\begin{cases}(0.\\underbrace{20101\\cdots 0101}_{k+2\\text{ digits}})^{a_{k-1}}\\qquad\\text{if }k\\text{ is odd,}\\\\(0.\\underbrace{20101\\cdots 01011}_{k+2\\text{ digits}})^{a_{k-1}}\\qquad\\text{if }k\\text{ is even.}\\end{cases}</cmath> Rearranging the numbers in the sequence <imath>\\{a_k\\}_{k=1}^{2011}</imath> in decreasing order produces a new sequence <imath>\\{b_k\\}_{k=1}^{2011}</imath>. What is the sum of all integers <imath>k</imath>, <imath>1\\le k \\le 2011</imath>, such that <imath>a_k=b_k?</imath> <imath> \\textbf{(A)}\\ 671\\qquad\\textbf{(B)}\\ 1006\\qquad\\textbf{(C)}\\ 1341\\qquad\\textbf{(D)}\\ 2011\\qquad\\textbf{(E)}\\ 2012 </imath>",
+      "answerType": "integer",
+      "answerKey": "1341",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>f(x)=|2\\{x\\}-1|</math> where <math>\\{x\\}</math> denotes the fractional part of <math>x</math>. The number <math>n</math> is the smallest positive integer such that the equation <cmath>nf(xf(x))=x</cmath> has at least <math>2012</math> real solutions. What is <math>n</math>? '''Note:''' the fractional part of <math>x</math> is a real number <math>y=\\{x\\}</math> such that <math>0\\le y<1</math> and <math>x-y</math> is an integer. <math> \\textbf{(A)}\\ 30\\qquad\\textbf{(B)}\\ 31\\qquad\\textbf{(C)}\\ 32\\qquad\\textbf{(D)}\\ 62\\qquad\\textbf{(E)}\\ 64 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "2020-aime-i",
+  "title": "2020 AIME I",
+  "description": "Converted from 2020_AIME_I_questions.txt and 2020_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "In <math>\\triangle ABC</math> with <math>AB=AC,</math> point <math>D</math> lies strictly between <math>A</math> and <math>C</math> on side <math>\\overline{AC},</math> and point <math>E</math> lies strictly between <math>A</math> and <math>B</math> on side <math>\\overline{AB}</math> such that <math>AE=ED=DB=BC.</math> The degree measure of <math>\\angle ABC</math> is <math>\\tfrac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "547",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "There is a unique positive real number <math>x</math> such that the three numbers <math>\\log_8{2x}</math>, <math>\\log_4{x}</math>, and <math>\\log_2{x}</math>, in that order, form a geometric progression with positive common ratio. The number <math>x</math> can be written as <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "017",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A positive integer <math>N</math> has base-eleven representation <math>\\underline{a}\\kern 0.1em\\underline{b}\\kern 0.1em\\underline{c}</math> and base-eight representation <math>\\underline1\\kern 0.1em\\underline{b}\\kern 0.1em\\underline{c}\\kern 0.1em\\underline{a},</math> where <math>a,b,</math> and <math>c</math> represent (not necessarily distinct) digits. Find the least such <math>N</math> expressed in base ten.",
+      "answerType": "integer",
+      "answerKey": "621",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Let <math>S</math> be the set of positive integers <math>N</math> with the property that the last four digits of <math>N</math> are <math>2020,</math> and when the last four digits are removed, the result is a divisor of <math>N.</math> For example, <math>42,020</math> is in <math>S</math> because <math>4</math> is a divisor of <math>42,020.</math> Find the sum of all the digits of all the numbers in <math>S.</math> For example, the number <math>42,020</math> contributes <math>4+2+0+2+0=8</math> to this total.",
+      "answerType": "integer",
+      "answerKey": "093",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Six cards numbered <math>1</math> through <math>6</math> are to be lined up in a row. Find the number of arrangements of these six cards where one of the cards can be removed leaving the remaining five cards in either ascending or descending order.",
+      "answerType": "integer",
+      "answerKey": "052",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A flat board has a circular hole with radius <math>1</math> and a circular hole with radius <math>2</math> such that the distance between the centers of the two holes is <math>7.</math> Two spheres with equal radii sit in the two holes such that the spheres are tangent to each other. The square of the radius of the spheres is <math>\\tfrac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "173",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "A club consisting of <math>11</math> men and <math>12</math> women needs to choose a committee from among its members so that the number of women on the committee is one more than the number of men on the committee. The committee could have as few as <math>1</math> member or as many as <math>23</math> members. Let <math>N</math> be the number of such committees that can be formed. Find the sum of the prime numbers that divide <math>N.</math>",
+      "answerType": "integer",
+      "answerKey": "081",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "A bug walks all day and sleeps all night. On the first day, it starts at point <imath>O</imath>, faces east, and walks a distance of <imath>5</imath> units due east. Each night the bug rotates <imath>60^\\circ</imath> counterclockwise. Each day it walks in this new direction half as far as it walked the previous day. The bug gets arbitrarily close to the point <imath>P</imath>. Then <imath>OP^2=\\tfrac{m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "103",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>S</math> be the set of positive integer divisors of <math>20^9.</math> Three numbers are chosen independently and at random with replacement from the set <math>S</math> and labeled <math>a_1,a_2,</math> and <math>a_3</math> in the order they are chosen. The probability that both <math>a_1</math> divides <math>a_2</math> and <math>a_2</math> divides <math>a_3</math> is <math>\\tfrac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m.</math>",
+      "answerType": "integer",
+      "answerKey": "077",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <imath>m</imath> and <imath>n</imath> be positive integers satisfying the conditions <imath>\\quad\\bullet\\ \\gcd(m+n,210)=1,</imath> <imath>\\quad\\bullet\\ m^m</imath> is a multiple of <imath>n^n,</imath> and <imath>\\quad\\bullet\\ m</imath> is not a multiple of <imath>n.</imath> Find the least possible value of <imath>m+n.</imath>",
+      "answerType": "integer",
+      "answerKey": "407",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "For integers <math>a,b,c</math> and <math>d,</math> let <math>f(x)=x^2+ax+b</math> and <math>g(x)=x^2+cx+d.</math> Find the number of ordered triples <math>(a,b,c)</math> of integers with absolute values not exceeding <math>10</math> for which there is an integer <math>d</math> such that <math>g(f(2))=g(f(4))=0.</math>",
+      "answerType": "integer",
+      "answerKey": "510",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Let <math>n</math> be the least positive integer for which <math>149^n-2^n</math> is divisible by <math>3^3\\cdot5^5\\cdot7^7.</math> Find the number of positive integer divisors of <math>n.</math>",
+      "answerType": "integer",
+      "answerKey": "270",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Point <math>D</math> lies on side <math>\\overline{BC}</math> of <math>\\triangle ABC</math> so that <math>\\overline{AD}</math> bisects <math>\\angle BAC.</math> The perpendicular bisector of <math>\\overline{AD}</math> intersects the bisectors of <math>\\angle ABC</math> and <math>\\angle ACB</math> in points <math>E</math> and <math>F,</math> respectively. Given that <math>AB=4,BC=5,</math> and <math>CA=6,</math> the area of <math>\\triangle AEF</math> can be written as <math>\\tfrac{m\\sqrt{n}}p,</math> where <math>m</math> and <math>p</math> are relatively prime positive integers, and <math>n</math> is a positive integer not divisible by the square of any prime. Find <math>m+n+p.</math>",
+      "answerType": "integer",
+      "answerKey": "036",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>P(x)</math> be a quadratic polynomial with complex coefficients whose <math>x^2</math> coefficient is <math>1.</math> Suppose the equation <math>P(P(x))=0</math> has four distinct solutions, <math>x=3,4,a,b.</math> Find the sum of all possible values of <math>(a+b)^2.</math>",
+      "answerType": "integer",
+      "answerKey": "085",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>\\triangle ABC</math> be an acute triangle with circumcircle <math>\\omega,</math> and let <math>H</math> be the intersection of the altitudes of <math>\\triangle ABC.</math> Suppose the tangent to the circumcircle of <math>\\triangle HBC</math> at <math>H</math> intersects <math>\\omega</math> at points <math>X</math> and <math>Y</math> with <math>HA=3,HX=2,</math> and <math>HY=6.</math> The area of <math>\\triangle ABC</math> can be written in the form <math>m\\sqrt{n},</math> where <math>m</math> and <math>n</math> are positive integers, and <math>n</math> is not divisible by the square of any prime. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "058",
+      "points": 1
+    }
+  ]
+}

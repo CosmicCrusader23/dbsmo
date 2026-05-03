@@ -1,0 +1,197 @@
+{
+  "slug": "2006-amc-12b",
+  "title": "2006 AMC 12B",
+  "description": "Converted from 2006_AMC_12B_questions.txt and 2006_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is <math>( - 1)^1 + ( - 1)^2 + \\cdots + ( - 1)^{2006}</math>? <math> \\text {(A) } - 2006 \\qquad \\text {(B) } - 1 \\qquad \\text {(C) } 0 \\qquad \\text {(D) } 1 \\qquad \\text {(E) } 2006 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "For real numbers <math>x</math> and <math>y</math>, define <math>x\\spadesuit y = (x + y)(x - y)</math>. What is <math>3\\spadesuit(4\\spadesuit 5)</math>? <math>\\text {(A) } - 72 \\qquad \\text {(B) } - 27 \\qquad \\text {(C) } - 24 \\qquad \\text {(D) } 24 \\qquad \\text {(E) } 72</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A football game was played between two teams, the Cougars and the Panthers. The two teams scored a total of 34 points, and the Cougars won by a margin of 14 points. How many points did the Panthers score? <math> \\text {(A) } 10 \\qquad \\text {(B) } 14 \\qquad \\text {(C) } 17 \\qquad \\text {(D) } 20 \\qquad \\text {(E) } 24 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Mary is about to pay for five items at the grocery store. The prices of the items are <math>7.99</math>, <math>4.99</math>, <math>2.99</math>, <math>1.99</math>, and <math>0.99</math>. Mary will pay with a twenty-dollar bill. Which of the following is closest to the percentage of the <math>20.00</math> that she will receive in change? <math> \\text {(A) } 5 \\qquad \\text {(B) } 10 \\qquad \\text {(C) } 15 \\qquad \\text {(D) } 20 \\qquad \\text {(E) } 25 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "John is walking east at a speed of 3 miles per hour, while Bob is also walking east, but at a speed of 5 miles per hour. If Bob is now 1 mile west of John, how many minutes will it take for Bob to catch up to John? <math> \\text {(A) } 30 \\qquad \\text {(B) } 50 \\qquad \\text {(C) } 60 \\qquad \\text {(D) } 90 \\qquad \\text {(E) } 120 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Francesca uses 100 grams of lemon juice, 100 grams of sugar, and 400 grams of water to make lemonade. There are 25 calories in 100 grams of lemon juice and 386 calories in 100 grams of sugar. Water contains no calories. How many calories are in 200 grams of her lemonade? <math> \\text {(A) } 129 \\qquad \\text {(B) } 137 \\qquad \\text {(C) } 174 \\qquad \\text {(D) } 223 \\qquad \\text {(E) } 411 </math>",
+      "answerType": "exact",
+      "answerKey": "( B )",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Mr. and Mrs. Lopez have two children. When they get into their family car, two people sit in the front, and the other two sit in the back. Either Mr. Lopez or Mrs. Lopez must sit in the driver's seat. How many seating arrangements are possible? <math> \\text {(A) } 4 \\qquad \\text {(B) } 12 \\qquad \\text {(C) } 16 \\qquad \\text {(D) } 24 \\qquad \\text {(E) } 48 </math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>The lines <math>x = \\frac 14y + a</math> and <math>y = \\frac 14x + b</math> intersect at the point <math>(1,2)</math>. What is <math>a + b</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\text {(A) } 0 \\qquad \\text {(B) } \\frac 34 \\qquad \\text {(C) } 1 \\qquad \\text {(D) } 2 \\qquad \\text {(E) } \\frac 94 </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "How many even three-digit integers have the property that their digits, all read from left to right, are in strictly increasing order? <math> \\text {(A) } 21 \\qquad \\text {(B) } 34 \\qquad \\text {(C) } 51 \\qquad \\text {(D) } 72 \\qquad \\text {(E) } 150 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "In a triangle with integer side lengths, one side is three times as long as a second side, and the length of the third side is 15. What is the greatest possible perimeter of the triangle? <math> \\text {(A) } 43 \\qquad \\text {(B) } 44 \\qquad \\text {(C) } 45 \\qquad \\text {(D) } 46 \\qquad \\text {(E) } 47 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Joe and JoAnn each bought 12 ounces of coffee in a 16-ounce cup. Joe drank 2 ounces of his coffee and then added 2 ounces of cream. JoAnn added 2 ounces of cream, stirred the coffee well, and then drank 2 ounces. What is the resulting ratio of the amount of cream in Joe's coffee to that in JoAnn's coffee? <math> \\text {(A) } \\frac 67 \\qquad \\text {(B) } \\frac {13}{14} \\qquad \\text {(C) } 1 \\qquad \\text {(D) } \\frac {14}{13} \\qquad \\text {(E) } \\frac 76 </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "The [[parabola]] <math>y=ax^2+bx+c</math> has [[vertex]] <math>(p,p)</math> and <math>y</math>-intercept <math>(0,-p)</math>, where <math>p\\ne 0</math>. What is <math>b</math>? <math>\\text {(A) } -p \\qquad \\text {(B) } 0 \\qquad \\text {(C) } 2 \\qquad \\text {(D) } 4 \\qquad \\text {(E) } p</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Rhombus <math> ABCD</math> is similar to rhombus <math> BFDE</math>. The area of rhombus <math> ABCD</math> is 24, and <math> \\angle BAD = 60^\\circ</math>. What is the area of rhombus <math> BFDE</math>? <asy> defaultpen(linewidth(0.7)+fontsize(11)); pair A=origin, B=(2,0), C=(3, sqrt(3)), D=(1, sqrt(3)), E=(1, 1/sqrt(3)), F=(2, 2/sqrt(3)); pair point=(3/2, sqrt(3)/2); draw(B--C--D--A--B--F--D--E--B); label(\"$A$\", A, dir(point--A)); label(\"$B$\", B, dir(point--B)); label(\"$C$\", C, dir(point--C)); label(\"$D$\", D, dir(point--D)); label(\"$E$\", E, dir(point--E)); label(\"$F$\", F, dir(point--F)); </asy> <math> \\textrm{(A) } 6 \\qquad \\textrm{(B) } 4\\sqrt {3} \\qquad \\textrm{(C) } 8 \\qquad \\textrm{(D) } 9 \\qquad \\textrm{(E) } 6\\sqrt {3}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Elmo makes <math>N</math> sandwiches for a fundraiser. For each sandwich he uses <math>B</math> globs of peanut butter at <math>4</math> cents per glob and <math>J</math> blobs of jam at <math>5</math> cents per glob. The cost of the peanut butter and jam to make all the sandwiches is <math> 2.53</math>. Assume that <math>B</math>, <math>J</math> and <math>N</math> are all positive integers with <math>N>1</math>. What is the cost of the jam Elmo uses to make the sandwiches? <math> \\mathrm{(A)}\\ 1.05 \\qquad \\mathrm{(B)}\\ 1.25 \\qquad \\mathrm{(C)}\\ 1.45 \\qquad \\mathrm{(D)}\\ 1.65 \\qquad \\mathrm{(E)}\\ 1.85 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Circles with centers <math> O</math> and <math> P</math> have radii 2 and 4, respectively, and are externally tangent. Points <math> A</math> and <math> B</math> are on the circle centered at <math> O</math>, and points <math> C</math> and <math> D</math> are on the circle centered at <math> P</math>, such that <math> \\overline{AD}</math> and <math> \\overline{BC}</math> are common external tangents to the circles. What is the area of hexagon <math> AOBCPD</math>? <asy> // from amc10 problem series unitsize(0.4 cm); defaultpen(linewidth(0.7) + fontsize(11)); pair A, B, C, D; pair[] O; O[1] = (6,0); O[2] = (12,0); A = (32/6,8*sqrt(2)/6); B = (32/6,-8*sqrt(2)/6); C = 2*B; D = 2*A; draw(Circle(O[1],2)); draw(Circle(O[2],4)); draw((0.7*A)--(1.2*D)); draw((0.7*B)--(1.2*C)); draw(O[1]--O[2]); draw(A--O[1]); draw(B--O[1]); draw(C--O[2]); draw(D--O[2]); label(\"$A$\", A, NW); label(\"$B$\", B, SW); label(\"$C$\", C, SW); label(\"$D$\", D, NW); dot(\"$O$\", O[1], SE); dot(\"$P$\", O[2], SE); label(\"$2$\", (A + O[1])/2, E); label(\"$4$\", (D + O[2])/2, E);</asy> <math> \\textbf{(A) } 18\\sqrt {3} \\qquad \\textbf{(B) } 24\\sqrt {2} \\qquad \\textbf{(C) } 36 \\qquad \\textbf{(D) } 24\\sqrt {3} \\qquad \\textbf{(E) } 32\\sqrt {2}</math>",
+      "answerType": "exact",
+      "answerKey": "24\\sqrt 2",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Regular hexagon <math>ABCDEF</math> has vertices <math>A</math> and <math>C</math> at <math>(0,0)</math> and <math>(7,1)</math>, respectively. What is its area? <math> \\mathrm{(A)}\\ 20\\sqrt {3} \\qquad \\mathrm{(B)}\\ 22\\sqrt {3} \\qquad \\mathrm{(C)}\\ 25\\sqrt {3} \\qquad \\mathrm{(D)}\\ 27\\sqrt {3} \\qquad \\mathrm{(E)}\\ 50 </math> <!-- ~mathbeast9 -->",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "For a particular peculiar pair of dice, the probabilities of rolling <math>1</math>, <math>2</math>, <math>3</math>, <math>4</math>, <math>5</math> and <math>6</math> on each die are in the ratio <math>1:2:3:4:5:6</math>. What is the probability of rolling a total of <math>7</math> on the two dice? <math> \\mathrm{(A)}\\ \\frac 4{63} \\qquad \\mathrm{(B)}\\ \\frac 18 \\qquad \\mathrm{(C)}\\ \\frac 8{63} \\qquad \\mathrm{(D)}\\ \\frac 16 \\qquad \\mathrm{(E)}\\ \\frac 27 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 8 63",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "An object in the plane moves from one lattice point to another. At each step, the object may move one unit to the right, one unit to the left, one unit up, or one unit down. If the object starts at the origin and takes a ten-step path, how many different points could be the final point? <math> \\mathrm{(A)}\\ 120 \\qquad \\mathrm{(B)}\\ 121 \\qquad \\mathrm{(C)}\\ 221 \\qquad \\mathrm{(D)}\\ 230 \\qquad \\mathrm{(E)}\\ 231 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "Mr. Jones has eight children of different ages. On a family trip his oldest child, who is 9, spots a license plate with a 4-digit number in which each of two digits appears two times. \"Look, daddy!\" she exclaims. \"That number is evenly divisible by the age of each of us kids!\" \"That's right,\" replies Mr. Jones, \"and the last two digits just happen to be my age.\" Which of the following is not the age of one of Mr. Jones's children? <math> \\mathrm{(A)}\\ 4\\qquad\\mathrm{(B)}\\ 5\\qquad\\mathrm{(C)}\\ 6\\qquad\\mathrm{(D)}\\ 7\\qquad\\mathrm{(E)}\\ 8 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Let <math>x</math> be chosen at random from the interval <math>(0,1)</math>. What is the probability that <math>\\lfloor\\log_{10}4x\\rfloor - \\lfloor\\log_{10}x\\rfloor = 0</math>? Here <math>\\lfloor x\\rfloor</math> denotes the greatest integer that is less than or equal to <math>x</math>. <math> \\mathrm{(A)}\\ \\frac 18 \\qquad \\mathrm{(B)}\\ \\frac 3{20} \\qquad \\mathrm{(C)}\\ \\frac 16 \\qquad \\mathrm{(D)}\\ \\frac 15 \\qquad \\mathrm{(E)}\\ \\frac 14 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 16",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Rectangle <math>ABCD</math> has area <math>2006</math>. An ellipse with area <math>2006\\pi</math> passes through <math>A</math> and <math>C</math> and has foci at <math>B</math> and <math>D</math>. What is the perimeter of the rectangle? (The area of an ellipse is <math>ab\\pi</math> where <math>2a</math> and <math>2b</math> are the lengths of the axes.) <math> \\mathrm{(A)}\\ \\frac {16\\sqrt {2006}}{\\pi} \\qquad \\mathrm{(B)}\\ \\frac {1003}4 \\qquad \\mathrm{(C)}\\ 8\\sqrt {1003} \\qquad \\mathrm{(D)}\\ 6\\sqrt {2006} \\qquad \\mathrm{(E)}\\ \\frac {32\\sqrt {1003}}\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "8\\sqrt 1003",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Suppose <math>a</math>, <math>b</math> and <math>c</math> are positive integers with <math>a+b+c=2006</math>, and <math>a!b!c!=m\\cdot 10^n</math>, where <math>m</math> and <math>n</math> are integers and <math>m</math> is not divisible by <math>10</math>. What is the smallest possible value of <math>n</math>? <math> \\mathrm{(A)}\\ 489 \\qquad \\mathrm{(B)}\\ 492 \\qquad \\mathrm{(C)}\\ 495 \\qquad \\mathrm{(D)}\\ 498 \\qquad \\mathrm{(E)}\\ 501 </math>",
+      "answerType": "integer",
+      "answerKey": "492",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "Isosceles <math>\\triangle ABC</math> has a right angle at <math>C</math>. Point <math>P</math> is inside <math>\\triangle ABC</math>, such that <math>PA=11</math>, <math>PB=7</math>, and <math>PC=6</math>. Legs <math>\\overline{AC}</math> and <math>\\overline{BC}</math> have length <math>s=\\sqrt{a+b\\sqrt{2}}</math>, where <math>a</math> and <math>b</math> are positive integers. What is <math>a+b</math>? <asy> pathpen = linewidth(0.7); pen f = fontsize(10); size(5cm); pair B = (0,sqrt(85+42*sqrt(2))); pair A = (B.y,0); pair C = (0,0); pair P = IP(arc(B,7,180,360),arc(C,6,0,90)); D(A--B--C--cycle); D(P--A); D(P--B); D(P--C); MP(\"A\",D(A),plain.E,f); MP(\"B\",D(B),plain.N,f); MP(\"C\",D(C),plain.SW,f); MP(\"P\",D(P),plain.NE,f); </asy> <math> \\mathrm{(A)}\\ 85 \\qquad \\mathrm{(B)}\\ 91 \\qquad \\mathrm{(C)}\\ 108 \\qquad \\mathrm{(D)}\\ 121 \\qquad \\mathrm{(E)}\\ 127 </math>",
+      "answerType": "integer",
+      "answerKey": "127",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "Let <math>S</math> be the set of all point <math>(x,y)</math> in the [[coordinate plane]] such that <math>0 \\le x \\le \\frac{\\pi}{2}</math> and <math>0 \\le y \\le \\frac{\\pi}{2}</math>. What is the area of the subset of <math>S</math> for which <cmath> \\sin^2x-\\sin x \\sin y + \\sin^2y \\le \\frac34? </cmath> <math> \\mathrm{(A)}\\ \\dfrac{\\pi^2}{9} \\qquad \\mathrm{(B)}\\ \\dfrac{\\pi^2}{8} \\qquad \\mathrm{(C)}\\ \\dfrac{\\pi^2}{6} \\qquad \\mathrm{(D)}\\ \\dfrac{3\\pi^2}{16} \\qquad \\mathrm{(E)}\\ \\dfrac{2\\pi^2}{9} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac \\pi^2 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "A sequence <math>a_1,a_2,\\dots</math> of non-negative integers is defined by the rule <math>a_{n+2}=|a_{n+1}-a_n|</math> for <math>n\\geq 1</math>. If <math>a_1=999</math>, <math>a_2<999</math> and <math>a_{2006}=1</math>, how many different values of <math>a_2</math> are possible? <math> \\mathrm{(A)}\\ 165 \\qquad \\mathrm{(B)}\\ 324 \\qquad \\mathrm{(C)}\\ 495 \\qquad \\mathrm{(D)}\\ 499 \\qquad \\mathrm{(E)}\\ 660 </math>",
+      "answerType": "integer",
+      "answerKey": "324",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

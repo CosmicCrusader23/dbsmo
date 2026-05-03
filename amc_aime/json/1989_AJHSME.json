@@ -1,0 +1,248 @@
+{
+  "slug": "1989-ajhsme",
+  "title": "1989 AJHSME",
+  "description": "Converted from 1989_AJHSME_questions.txt and 1989_AJHSME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "ajhsme"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "<imath>(1+11+21+31+41)+(9+19+29+39+49)=</imath> <imath>\\text{(A)}\\ 150 \\qquad \\text{(B)}\\ 199 \\qquad \\text{(C)}\\ 200 \\qquad \\text{(D)}\\ 249 \\qquad \\text{(E)}\\ 250</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 250",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "<math>\\frac{2}{10}+\\frac{4}{100}+\\frac{6}{1000}=</math> <math>\\text{(A)}\\ .012 \\qquad \\text{(B)}\\ .0246 \\qquad \\text{(C)}\\ .12 \\qquad \\text{(D)}\\ .246 \\qquad \\text{(E)}\\ 246</math>",
+      "answerType": "exact",
+      "answerKey": "\\ .246",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Which of the following numbers is the largest? <imath>\\text{(A)}\\ .99 \\qquad \\text{(B)}\\ .9099 \\qquad \\text{(C)}\\ .9 \\qquad \\text{(D)}\\ .909 \\qquad \\text{(E)}\\ .9009</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ .99",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Estimate to determine which of the following numbers is closest to <math>\\frac{401}{.205}</math>. <math>\\text{(A)}\\ .2 \\qquad \\text{(B)}\\ 2 \\qquad \\text{(C)}\\ 20 \\qquad \\text{(D)}\\ 200 \\qquad \\text{(E)}\\ 2000</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "<imath>-15+9\\times (6\\div 3) =</imath> <imath>\\text{(A)}\\ -48 \\qquad \\text{(B)}\\ -12 \\qquad \\text{(C)}\\ -3 \\qquad \\text{(D)}\\ 3 \\qquad \\text{(E)}\\ 12</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "If the markings on the number line are equally spaced, what is the number <imath>y</imath>? <asy> draw((-4,0)--(26,0),Arrows); for(int a=0; a<6; ++a) { draw((4a,-1)--(4a,1)); } label(\"0\",(0,-1),S); label(\"20\",(20,-1),S); label(\"y\",(12,-1),S); </asy> <imath>\\text{(A)}\\ 3 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 12 \\qquad \\text{(D)}\\ 15 \\qquad \\text{(E)}\\ 16</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "If the value of <imath>20</imath> quarters and <imath>10</imath> dimes equals the value of <imath>10</imath> quarters and <imath>n</imath> dimes, then <imath>n=</imath> <imath>\\text{(A)}\\ 10 \\qquad \\text{(B)}\\ 20 \\qquad \\text{(C)}\\ 30 \\qquad \\text{(D)}\\ 35 \\qquad \\text{(E)}\\ 45</imath>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "<imath>(2\\times 3\\times 4)\\left(\\frac{1}{2}+\\frac{1}{3}+\\frac{1}{4}\\right) =</imath> <imath>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 3 \\qquad \\text{(C)}\\ 9 \\qquad \\text{(D)}\\ 24 \\qquad \\text{(E)}\\ 26</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 26",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "There are <math>2</math> boys for every <math>3</math> girls in Ms. Johnson's math class. If there are <math>30</math> students in her class, what [[percent]] of them are boys? <math>\\text{(A)}\\ 12\\% \\qquad \\text{(B)}\\ 20\\% \\qquad \\text{(C)}\\ 40\\% \\qquad \\text{(D)}\\ 60\\% \\qquad \\text{(E)}\\ 66\\frac{2}{3}\\% </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "What is the number of degrees in the smaller angle between the hour hand and the minute hand on a clock that reads seven o'clock? <imath>\\text{(A)}\\ 50^\\circ \\qquad \\text{(B)}\\ 120^\\circ \\qquad \\text{(C)}\\ 135^\\circ \\qquad \\text{(D)}\\ 150^\\circ \\qquad \\text{(E)}\\ 165^\\circ</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 150^\\circ",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Which of the five \"T-like shapes\" would be symmetric to the one shown with respect to the dashed line? <asy> unitsize(48); for (int a=0; a<3; ++a) { fill((2a+1,1)--(2a+.8,1)--(2a+.8,.8)--(2a+1,.8)--cycle,black); } draw((.8,1)--(0,1)--(0,0)--(1,0)--(1,.8)); draw((2.8,1)--(2,1)--(2,0)--(3,0)--(3,.8)); draw((4.8,1)--(4,1)--(4,0)--(5,0)--(5,.8)); draw((.2,.4)--(.6,.8),linewidth(1)); draw((.4,.6)--(.8,.2),linewidth(1)); draw((2.4,.8)--(2.8,.4),linewidth(1)); draw((2.6,.6)--(2.2,.2),linewidth(1)); draw((4.4,.2)--(4.8,.6),linewidth(1)); draw((4.6,.4)--(4.2,.8),linewidth(1)); draw((7,.2)--(7,1)--(6,1)--(6,0)--(6.8,0)); fill((6.8,0)--(7,0)--(7,.2)--(6.8,.2)--cycle,black); draw((6.2,.6)--(6.6,.2),linewidth(1)); draw((6.4,.4)--(6.8,.8),linewidth(1)); draw((8,.8)--(8,0)--(9,0)--(9,1)--(8.2,1)); fill((8,1)--(8,.8)--(8.2,.8)--(8.2,1)--cycle,black); draw((8.4,.8)--(8.8,.8),linewidth(1)); draw((8.6,.8)--(8.6,.2),linewidth(1)); draw((6,1.2)--(6,1.4)); draw((6,1.6)--(6,1.8)); draw((6,2)--(6,2.2)); draw((6,2.4)--(6,2.6)); draw((6.4,2.2)--(6.4,1.4)--(7.4,1.4)--(7.4,2.4)--(6.6,2.4)); fill((6.4,2.4)--(6.4,2.2)--(6.6,2.2)--(6.6,2.4)--cycle,black); draw((6.6,1.8)--(7,2.2),linewidth(1)); draw((6.8,2)--(7.2,1.6),linewidth(1)); label(\"(A)\",(0,1),W); label(\"(B)\",(2,1),W); label(\"(C)\",(4,1),W); label(\"(D)\",(6,1),W); label(\"(E)\",(8,1),W); </asy>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "<math>\\frac{1-\\frac{1}{3}}{1-\\frac{1}{2}} =</math> <math>\\text{(A)}\\ \\frac{1}{3} \\qquad \\text{(B)}\\ \\frac{2}{3} \\qquad \\text{(C)}\\ \\frac{3}{4} \\qquad \\text{(D)}\\ \\frac{3}{2} \\qquad \\text{(E)}\\ \\frac{4}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 4 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "<imath>\\frac{9}{7\\times 53} =</imath> <imath>\\text{(A)}\\ \\frac{.9}{.7\\times 53} \\qquad \\text{(B)}\\ \\frac{.9}{.7\\times .53} \\qquad \\text{(C)}\\ \\frac{.9}{.7\\times 5.3} \\qquad \\text{(D)}\\ \\frac{.9}{7\\times .53} \\qquad \\text{(E)}\\ \\frac{.09}{.07\\times .53}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac .9 .7 \\times 53",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "When placing each of the digits <imath>2,4,5,6,9</imath> in exactly one of the boxes of this subtraction problem, what is the smallest difference that is possible? <cmath>\\begin{tabular}[t]{cccc} & \\boxed{} & \\boxed{} & \\boxed{} \\\\ - & & \\boxed{} & \\boxed{} \\\\ \\hline \\end{tabular}</cmath> <imath>\\text{(A)}\\ 58 \\qquad \\text{(B)}\\ 123 \\qquad \\text{(C)}\\ 149 \\qquad \\text{(D)}\\ 171 \\qquad \\text{(E)}\\ 176</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 149",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "The area of the shaded region <imath>BEDC</imath> in parallelogram <imath>ABCD</imath> is <asy> unitsize(10); pair A,B,C,D,E; A=origin; B=(4,8); C=(14,8); D=(10,0); E=(4,0); fill(B--E--D--C--cycle,gray); draw(A--B--C--D--cycle); draw(B--E); label(\"A\",A,SW); label(\"B\",B,NW); label(\"C\",C,NE); label(\"D\",D,SE); label(\"E\",E,S); label(\"$10$\",(9,8),N); label(\"$6$\",(7,0),S); label(\"$8$\",(4,4),W); draw((3,0)--(3,1)--(4,1)); </asy> <imath>\\text{(A)}\\ 24 \\qquad \\text{(B)}\\ 48 \\qquad \\text{(C)}\\ 60 \\qquad \\text{(D)}\\ 64 \\qquad \\text{(E)}\\ 80</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 64",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "In how many ways can <imath>47</imath> be written as the sum of two primes? <imath>\\text{(A)}\\ 0 \\qquad \\text{(B)}\\ 1 \\qquad \\text{(C)}\\ 2 \\qquad \\text{(D)}\\ 3 \\qquad \\text{(E)}\\ \\text{more than 3}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "The number <imath>N</imath> is between <imath>9</imath> and <imath>17</imath>. The average of <imath>6</imath>, <imath>10</imath>, and <imath>N</imath> could be <imath>\\text{(A)}\\ 8 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 12 \\qquad \\text{(D)}\\ 14 \\qquad \\text{(E)}\\ 16</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Many calculators have a [[reciprocal]] key <imath>\\boxed{\\frac{1}{x}}</imath> that replaces the current number displayed with its reciprocal. For example, if the display is <imath>\\boxed{00004}</imath> and the <imath>\\boxed{\\frac{1}{x}}</imath> key is depressed, then the display becomes <imath>\\boxed{000.25}</imath>. If <imath>\\boxed{00032}</imath> is currently displayed, what is the fewest number of times you must depress the <imath>\\boxed{\\frac{1}{x}}</imath> key so the display again reads <imath>\\boxed{00032}</imath>? <imath>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 2 \\qquad \\text{(C)}\\ 3 \\qquad \\text{(D)}\\ 4 \\qquad \\text{(E)}\\ 5</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "The graph below shows the total accumulated dollars (in millions) spent by the Surf City government during <imath>1988</imath>. For example, about <imath>.5</imath> million had been spent by the beginning of February and approximately <imath>2</imath> million by the end of April. Approximately how many millions of dollars were spent during the summer months of June, July, and August? <asy> unitsize(18); for (int a=1; a<13; ++a) { draw((a,0)--(a,.5)); } for (int b=1; b<6; ++b) { draw((-.5,2b)--(0,2b)); } draw((0,0)--(0,12)); draw((0,0)--(14,0)); draw((0,0)--(1,.9)--(2,1.9)--(3,2.6)--(4,4.3)--(5,4.5)--(6,5.7)--(7,8.2)--(8,9.4)--(9,9.8)--(10,10.1)--(11,10.2)--(12,10.5)); label(\"J\",(.5,0),S); label(\"F\",(1.5,0),S); label(\"M\",(2.5,0),S); label(\"A\",(3.5,0),S); label(\"M\",(4.5,0),S); label(\"J\",(5.5,0),S); label(\"J\",(6.5,0),S); label(\"A\",(7.5,0),S); label(\"S\",(8.5,0),S); label(\"O\",(9.5,0),S); label(\"N\",(10.5,0),S); label(\"D\",(11.5,0),S); label(\"month F=February\",(16,0),S); label(\"$1$\",(-.6,2),W); label(\"$2$\",(-.6,4),W); label(\"$3$\",(-.6,6),W); label(\"$4$\",(-.6,8),W); label(\"$5$\",(-.6,10),W); label(\"dollars in millions\",(0,11.9),N); </asy> <imath>\\text{(A)}\\ 1.5 \\qquad \\text{(B)}\\ 2.5 \\qquad \\text{(C)}\\ 3.5 \\qquad \\text{(D)}\\ 4.5 \\qquad \\text{(E)}\\ 5.5</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 2.5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "The figure may be folded along the lines shown to form a number cube. Three number faces come together at each corner of the cube. What is the largest sum of three numbers whose faces come together at a corner? <asy> draw((0,0)--(0,1)--(1,1)--(1,2)--(2,2)--(2,1)--(4,1)--(4,0)--(2,0)--(2,-1)--(1,-1)--(1,0)--cycle); draw((1,0)--(1,1)--(2,1)--(2,0)--cycle); draw((3,1)--(3,0)); label(\"$1$\",(1.5,1.25),N); label(\"$2$\",(1.5,.25),N); label(\"$3$\",(1.5,-.75),N); label(\"$4$\",(2.5,.25),N); label(\"$5$\",(3.5,.25),N); label(\"$6$\",(.5,.25),N); </asy> <imath>\\text{(A)}\\ 11 \\qquad \\text{(B)}\\ 12 \\qquad \\text{(C)}\\ 13 \\qquad \\text{(D)}\\ 14 \\qquad \\text{(E)}\\ 15</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 14",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Jack had a bag of <imath>128</imath> apples. He sold <imath>25\\% </imath> of them to Jill. Next he sold <imath>25\\% </imath> of those remaining to June. Of those apples still in his bag, he gave the shiniest one to his teacher. How many apples did Jack have then? <imath>\\text{(A)}\\ 7 \\qquad \\text{(B)}\\ 63 \\qquad \\text{(C)}\\ 65 \\qquad \\text{(D)}\\ 71 \\qquad \\text{(E)}\\ 111</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 71",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "The letters <math>\\text{A}</math>, <math>\\text{J}</math>, <math>\\text{H}</math>, <math>\\text{S}</math>, <math>\\text{M}</math>, <math>\\text{E}</math> and the digits <math>1</math>, <math>9</math>, <math>8</math>, <math>9</math> are \"cycled\" separately as follows and put together in a numbered list: <cmath>\\begin{tabular}[t]{lccc} & & AJHSME & 1989 \\\\ & & & \\\\ 1. & & JHSMEA & 9891 \\\\ 2. & & HSMEAJ & 8919 \\\\ 3. & & SMEAJH & 9198 \\\\ & & ........ & \\end{tabular}</cmath> What is the number of the line on which <math>\\text{AJHSME 1989}</math> will appear for the first time? <math>\\text{(A)}\\ 6 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 12 \\qquad \\text{(D)}\\ 18 \\qquad \\text{(E)}\\ 24</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "An artist has <imath>14</imath> cubes, each with an edge of <imath>1</imath> meter. She stands them on the ground to form a sculpture as shown. She then paints the exposed surface of the sculpture. How many square meters does she paint? <imath>\\text{(A)}\\ 21 \\qquad \\text{(B)}\\ 24 \\qquad \\text{(C)}\\ 33 \\qquad \\text{(D)}\\ 37 \\qquad \\text{(E)}\\ 42</imath> <asy> draw((0,0)--(2.35,-.15)--(2.44,.81)--(.09,.96)--cycle); draw((.783333333,-.05)--(.873333333,.91)--(1.135,1.135)); draw((1.566666667,-.1)--(1.656666667,.86)--(1.89,1.1)); draw((2.35,-.15)--(4.3,1.5)--(4.39,2.46)--(2.44,.81)); draw((3,.4)--(3.09,1.36)--(2.61,1.4)); draw((3.65,.95)--(3.74,1.91)--(3.29,1.94)); draw((.09,.96)--(.76,1.49)--(.71,1.17)--(2.2,1.1)--(3.6,2.2)--(3.62,2.52)--(4.39,2.46)); draw((.76,1.49)--(.82,1.96)--(2.28,1.89)--(2.2,1.1)); draw((2.28,1.89)--(3.68,2.99)--(3.62,2.52)); draw((1.455,1.135)--(1.55,1.925)--(1.89,2.26)); draw((2.5,2.48)--(2.98,2.44)--(2.9,1.65)); draw((.82,1.96)--(1.55,2.6)--(1.51,2.3)--(2.2,2.26)--(2.9,2.8)--(2.93,3.05)--(3.68,2.99)); draw((1.55,2.6)--(1.59,3.09)--(2.28,3.05)--(2.2,2.26)); draw((2.28,3.05)--(2.98,3.59)--(2.93,3.05)); draw((1.59,3.09)--(2.29,3.63)--(2.98,3.59)); </asy>",
+      "answerType": "exact",
+      "answerKey": "\\ 33",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Suppose a square piece of paper is folded in half vertically. The folded paper is then cut in half along the dashed line. Three rectangles are formed-a large one and two small ones. What is the ratio of the perimeter of one of the small rectangles to the perimeter of the large rectangle? <imath>\\text{(A)}\\ \\frac{1}{2} \\qquad \\text{(B)}\\ \\frac{2}{3} \\qquad \\text{(C)}\\ \\frac{3}{4} \\qquad \\text{(D)}\\ \\frac{4}{5} \\qquad \\text{(E)}\\ \\frac{5}{6}</imath> <asy> draw((0,0)--(0,8)--(6,8)--(6,0)--cycle); draw((0,8)--(5,9)--(5,8)); draw((3,-1.5)--(3,10.3),dashed); draw((0,5.5)..(-.75,4.75)..(0,4)); draw((0,4)--(1.5,4),EndArrow); </asy>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 5 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Every time these two wheels are spun, two numbers are selected by the pointers. What is the probability that the sum of the two selected numbers is even? <imath>\\text{(A)}\\ \\frac{1}{6} \\qquad \\text{(B)}\\ \\frac{3}{7} \\qquad \\text{(C)}\\ \\frac{1}{2} \\qquad \\text{(D)}\\ \\frac{2}{3} \\qquad \\text{(E)}\\ \\frac{5}{7}</imath> <asy> unitsize(36); draw(circle((-3,0),1)); draw(circle((0,0),1)); draw((0,0)--dir(30)); draw((0,0)--(0,-1)); draw((0,0)--dir(150)); draw((-2.293,.707)--(-3.707,-.707)); draw((-2.293,-.707)--(-3.707,.707)); fill((-2.9,1)--(-2.65,1.25)--(-2.65,1.6)--(-3.35,1.6)--(-3.35,1.25)--(-3.1,1)--cycle,black); fill((.1,1)--(.35,1.25)--(.35,1.6)--(-.35,1.6)--(-.35,1.25)--(-.1,1)--cycle,black); label(\"$5$\",(-3,.2),N); label(\"$3$\",(-3.2,0),W); label(\"$4$\",(-3,-.2),S); label(\"$8$\",(-2.8,0),E); label(\"$6$\",(0,.2),N); label(\"$9$\",(-.2,.1),SW); label(\"$7$\",(.2,.1),SE); </asy>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "slug": "2011-amc-10b",
+  "title": "2011 AMC 10B",
+  "description": "Converted from 2011_AMC_10B_questions.txt and 2011_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is <cmath>\\dfrac{2+4+6}{1+3+5} - \\dfrac{1+3+5}{2+4+6} ?</cmath> <math> \\textbf{(A)}\\ -1\\qquad\\textbf{(B)}\\ \\frac{5}{36}\\qquad\\textbf{(C)}\\ \\frac{7}{12}\\qquad\\textbf{(D)}\\ \\frac{147}{60}\\qquad\\textbf{(E)}\\ \\frac{43}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 7 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Josanna's test scores to date are <math>90, 80, 70, 60,</math> and <math>85</math>. Her goal is to raise here test average at least <math>3</math> points with her next test. What is the minimum test score she would need to accomplish this goal? <math> \\textbf{(A)}\\ 80 \\qquad\\textbf{(B)}\\ 82 \\qquad\\textbf{(C)}\\ 85 \\qquad\\textbf{(D)}\\ 90 \\qquad\\textbf{(E)}\\ 95 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 95",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "At a store, when a length is reported as <math>x</math> inches that means the length is at least <math>x - 0.5</math> inches and at most <math>x + 0.5</math> inches. Suppose the dimensions of a rectangular tile are reported as <math>2</math> inches by <math>3</math> inches. In square inches, what is the minimum area for the rectangle? <math> \\textbf{(A)}\\ 3.75 \\qquad\\textbf{(B)}\\ 4.5 \\qquad\\textbf{(C)}\\ 5 \\qquad\\textbf{(D)}\\ 6 \\qquad\\textbf{(E)}\\ 8.75 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3.75",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "LeRoy and Bernardo went on a week-long trip together and agreed to share the costs equally. Over the week, each of them paid for various joint expenses such as gasoline and car rental. At the end of the trip it turned out that LeRoy had paid <math>A</math> dollars and Bernardo had paid <math>B</math> dollars, where <math>A < B</math>. How many dollars must LeRoy give to Bernardo so that they share the costs equally? <math> \\textbf{(A)}\\ \\frac{A + B}{2} \\qquad\\textbf{(B)}\\ \\dfrac{A - B}{2}\\qquad\\textbf{(C)}\\ \\dfrac{B - A}{2}\\qquad\\textbf{(D)}\\ B - A \\qquad\\textbf{(E)}\\ A + B </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac B-A 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "In multiplying two positive integers <math>a</math> and <math>b</math>, Ron reversed the digits of the two-digit number <math>a</math>. His erroneous product was <math>161</math>. What is the correct value of the product of <math>a</math> and <math>b</math>? <math> \\textbf{(A)}\\ 116 \\qquad\\textbf{(B)}\\ 161 \\qquad\\textbf{(C)}\\ 204 \\qquad\\textbf{(D)}\\ 214 \\qquad\\textbf{(E)}\\ 224 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 224",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "On Halloween Casper ate <math>\\frac{1}{3}</math> of his candies and then gave <math>2</math> candies to his brother. The next day he ate <math>\\frac{1}{3}</math> of his remaining candies and then gave <math>4</math> candies to his sister. On the third day he ate his final <math>8</math> candies. How many candies did Casper have at the beginning? <math> \\textbf{(A)}\\ 30 \\qquad\\textbf{(B)}\\ 39 \\qquad\\textbf{(C)}\\ 48 \\qquad\\textbf{(D)}\\ 57 \\qquad\\textbf{(E)}\\ 66 </math>",
+      "answerType": "integer",
+      "answerKey": "30",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The sum of two angles of a triangle is <math>\\frac{6}{5}</math> of a right angle, and one of these two angles is <math>30^{\\circ}</math> larger than the other. What is the degree measure of the largest angle in the triangle? <math> \\textbf{(A)}\\ 69 \\qquad\\textbf{(B)}\\ 72 \\qquad\\textbf{(C)}\\ 90 \\qquad\\textbf{(D)}\\ 102 \\qquad\\textbf{(E)}\\ 108 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 72",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "At a certain beach if it is at least <math>80^{\\circ} F</math> and sunny, then the beach will be crowded. On June 10 the beach was not crowded. What can be concluded about the weather conditions on June 10? <math> \\textbf{(A)}\\ \\text{The temperature was cooler than } 80^{\\circ} \\text{F and it was not sunny.}</math> <math> \\textbf{(B)}\\ \\text{The temperature was cooler than } 80^{\\circ} \\text{F or it was not sunny.}</math> <math> \\textbf{(C)}\\ \\text{If the temperature was at least } 80^{\\circ} \\text{F, then it was sunny.}</math> <math> \\textbf{(D)}\\ \\text{If the temperature was cooler than } 80^{\\circ} \\text{F, then it was sunny.}</math> <math> \\textbf{(E)}\\ \\text{If the temperature was cooler than } 80^{\\circ} \\text{F, then it was not sunny.}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "The area of <math>\\triangle</math><math>EBD</math> is one third of the area of <math>\\triangle</math><math>ABC</math>. Segment <math>DE</math> is perpendicular to segment <math>AB</math>. What is <math>BD</math>? <p> <center><asy> unitsize(10mm); defaultpen(linewidth(.8pt)+fontsize(10pt)); dotfactor=4; pair A=(0,0), B=(5,0), C=(1.8,2.4), D=(5-4sqrt(3)/3,0), E=(5-4sqrt(3)/3,sqrt(3)); pair[] ps={A,B,C,D,E}; draw(A--B--C--cycle); draw(E--D); draw(rightanglemark(E,D,B)); dot(ps); label(\"$A$\",A,SW); label(\"$B$\",B,SE); label(\"$C$\",C,N); label(\"$D$\",D,S); label(\"$E$\",E,NE); label(\"$3$\",midpoint(A--C),NW); label(\"$4$\",midpoint(C--B),NE); label(\"$5$\",midpoint(A--B),SW); </asy> </center> <math> \\textbf{(A)}\\ \\frac{4}{3} \\qquad\\textbf{(B)}\\ \\sqrt{5} \\qquad\\textbf{(C)}\\ \\frac{9}{4} \\qquad\\textbf{(D)}\\ \\frac{4\\sqrt{3}}{3} \\qquad\\textbf{(E)}\\ \\frac{5}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 4\\sqrt 3 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Consider the set of numbers <math>\\{1, 10, 10^2, 10^3, \\ldots, 10^{10}\\}</math>. The ratio of the largest element of the set to the sum of the other ten elements of the set is closest to which integer? <math> \\textbf{(A)}\\ 1 \\qquad\\textbf{(B)}\\ 9 \\qquad\\textbf{(C)}\\ 10 \\qquad\\textbf{(D)}\\ 11 \\qquad\\textbf{(E)} 101 </math>",
+      "answerType": "exact",
+      "answerKey": "~9",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "There are <math>52</math> people in a room. what is the largest value of <math>n</math> such that the statement \"At least <math>n</math> people in this room have birthdays falling in the same month\" is always true? <math> \\textbf{(A)}\\ 2 \\qquad\\textbf{(B)}\\ 3 \\qquad\\textbf{(C)}\\ 4 \\qquad\\textbf{(D)}\\ 5 \\qquad\\textbf{(E)}\\ 12 </math>",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Keiko walks once around a track at exactly the same constant speed every day. The sides of the track are straight, and the ends are semicircles. The track has a width of <math>6</math> meters, and it takes her <math>36</math> seconds longer to walk around the outside edge of the track than around the inside edge. What is Keiko's speed in meters per second? <math> \\textbf{(A)}\\ \\frac{\\pi}{3} \\qquad\\textbf{(B)}\\ \\frac{2\\pi}{3} \\qquad\\textbf{(C)}\\ \\pi \\qquad\\textbf{(D)}\\ \\frac{4\\pi}{3} \\qquad\\textbf{(E)}\\ \\frac{5\\pi}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\pi 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Two real numbers are selected independently at random from the interval <math>[-20, 10]</math>. What is the probability that the product of those numbers is greater than zero? <math> \\textbf{(A)}\\ \\frac{1}{9} \\qquad\\textbf{(B)}\\ \\frac{1}{3} \\qquad\\textbf{(C)}\\ \\frac{4}{9} \\qquad\\textbf{(D)}\\ \\frac{5}{9} \\qquad\\textbf{(E)}\\ \\frac{2}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 5 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "A rectangular parking lot has a diagonal of <math>25</math> meters and an area of <math>168</math> square meters. In meters, what is the perimeter of the parking lot? <math> \\textbf{(A)}\\ 52 \\qquad\\textbf{(B)}\\ 58 \\qquad\\textbf{(C)}\\ 62 \\qquad\\textbf{(D)}\\ 68 \\qquad\\textbf{(E)}\\ 70</math>",
+      "answerType": "integer",
+      "answerKey": "62",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>@</math> denote the \"averaged with\" operation: <math>a @ b = \\frac{a+b}{2}</math>. Which of the following distributive laws hold for all numbers <math>x, y,</math> and <math>z</math>? <cmath>\\text{I. x @ (y + z) = (x @ y) + (x @ z)}</cmath> <cmath>\\text{II. x + (y @ z) = (x + y) @ (x + z)}</cmath> <cmath>\\text{III. x @ (y @ z) = (x @ y) @ (x @ z)}</cmath> <math> \\textbf{(A)}\\ \\text{I only} \\qquad\\textbf{(B)}\\ \\text{II only} \\qquad\\textbf{(C)}\\ \\text{III only} \\qquad\\textbf{(D)}\\ \\text{I and III only} \\qquad\\textbf{(E)}\\ \\text{II and III only}</math>",
+      "answerType": "exact",
+      "answerKey": "II and III only",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "A dart board is a regular octagon divided into regions as shown. Suppose that a dart thrown at the board is equally likely to land anywhere on the board. What is the probability that the dart lands within the center square? <center><asy> unitsize(10mm); defaultpen(linewidth(.8pt)+fontsize(10pt)); dotfactor=4; pair A=(0,1), B=(1,0), C=(1+sqrt(2),0), D=(2+sqrt(2),1), E=(2+sqrt(2),1+sqrt(2)), F=(1+sqrt(2),2+sqrt(2)), G=(1,2+sqrt(2)), H=(0,1+sqrt(2)); draw(A--B--C--D--E--F--G--H--cycle); draw(A--D); draw(B--G); draw(C--F); draw(E--H); </asy> </center> <math> \\textbf{(A)}\\ \\frac{\\sqrt{2} - 1}{2} \\qquad\\textbf{(B)}\\ \\frac{1}{4} \\qquad\\textbf{(C)}\\ \\frac{2 - \\sqrt{2}}{2} \\qquad\\textbf{(D)}\\ \\frac{\\sqrt{2}}{4} \\qquad\\textbf{(E)}\\ 2 - \\sqrt{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\sqrt 2 -1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "In the given circle, the diameter <math>\\overline{EB}</math> is parallel to <math>\\overline{DC}</math>, and <math>\\overline{AB}</math> is parallel to <math>\\overline{ED}</math>. The angles <math>AEB</math> and <math>ABE</math> are in the ratio <math>4 : 5</math>. What is the degree measure of angle <math>BCD</math>? <center><asy> unitsize(7mm); defaultpen(linewidth(.8pt)+fontsize(10pt)); dotfactor=4; real r=3; pair A=(-3cos(80),-3sin(80)); pair D=(3cos(80),3sin(80)), C=(-3cos(80),3sin(80)); pair O=(0,0), E=(-3,0), B=(3,0); path outer=Circle(O,r); draw(outer); draw(E--B); draw(E--A); draw(B--A); draw(E--D); draw(C--D); draw(B--C); pair[] ps={A,B,C,D,E,O}; dot(ps); label(\"$A$\",A,N); label(\"$B$\",B,NE); label(\"$C$\",C,S); label(\"$D$\",D,S); label(\"$E$\",E,NW); label(\"$$\",O,N); </asy></center> <math> \\textbf{(A)}\\ 120 \\qquad\\textbf{(B)}\\ 125 \\qquad\\textbf{(C)}\\ 130 \\qquad\\textbf{(D)}\\ 135 \\qquad\\textbf{(E)}\\ 140</math>",
+      "answerType": "integer",
+      "answerKey": "130",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Rectangle <math>ABCD</math> has <math>AB = 6</math> and <math>BC = 3</math>. Point <math>M</math> is chosen on side <math>AB</math> so that <math>\\angle AMD = \\angle CMD</math>. What is the degree measure of <math>\\angle AMD</math>? <math> \\textbf{(A)}\\ 15 \\qquad\\textbf{(B)}\\ 30 \\qquad\\textbf{(C)}\\ 45 \\qquad\\textbf{(D)}\\ 60 \\qquad\\textbf{(E)}\\ 75</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "What is the product of all the roots of the equation <cmath>\\sqrt{5 | x | + 8} = \\sqrt{x^2 - 16}.</cmath> <math> \\textbf{(A)}\\ -64 \\qquad\\textbf{(B)}\\ -24 \\qquad\\textbf{(C)}\\ -9 \\qquad\\textbf{(D)}\\ 24 \\qquad\\textbf{(E)}\\ 576</math>",
+      "answerType": "integer",
+      "answerKey": "64",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Rhombus <math>ABCD</math> has side length <math>2</math> and <math>\\angle B = 120</math>°. Region <math>R</math> consists of all points inside the rhombus that are closer to vertex <math>B</math> than any of the other three vertices. What is the area of <math>R</math>? <math> \\textbf{(A)}\\ \\frac{\\sqrt{3}}{3} \\qquad\\textbf{(B)}\\ \\frac{\\sqrt{3}}{2} \\qquad\\textbf{(C)}\\ \\frac{2\\sqrt{3}}{3} \\qquad\\textbf{(D)}\\ 1 + \\frac{\\sqrt{3}}{3} \\qquad\\textbf{(E)}\\ 2</math>",
+      "answerType": "exact",
+      "answerKey": "~\\dfrac 2\\sqrt 3 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Brian writes down four integers <math>w > x > y > z</math> whose sum is <math>44</math>. The pairwise positive differences of these numbers are <math>1, 3, 4, 5, 6,</math> and <math>9</math>. What is the sum of the possible values for <math>w</math>? <math>\\textbf{(A)}\\ 16 \\qquad\\textbf{(B)}\\ 31 \\qquad\\textbf{(C)}\\ 48 \\qquad\\textbf{(D)}\\ 62 \\qquad\\textbf{(E)}\\ 93</math>",
+      "answerType": "integer",
+      "answerKey": "31",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "A pyramid has a square base with sides of length <math>1</math> and has lateral faces that are equilateral triangles. A cube is placed within the pyramid so that one face is on the base of the pyramid and its opposite face has all its edges on the lateral faces of the pyramid. What is the volume of this cube? <math> \\textbf{(A)}\\ 5\\sqrt{2} - 7 \\qquad\\textbf{(B)}\\ 7 - 4\\sqrt{3} \\qquad\\textbf{(C)}\\ \\frac{2\\sqrt{2}}{27} \\qquad\\textbf{(D)}\\ \\frac{\\sqrt{2}}{9} \\qquad\\textbf{(E)}\\ \\frac{\\sqrt{3}}{9}</math>",
+      "answerType": "exact",
+      "answerKey": "5\\sqrt 2 -7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "What is the hundreds digit of <math>2011^{2011}?</math> <math>\\textbf{(A) } 1 \\qquad \\textbf{(B) } 4 \\qquad \\textbf{(C) }5 \\qquad \\textbf{(D) } 6 \\qquad \\textbf{(E) } 9</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "A lattice point in an <math>xy</math>-coordinate system is any point <math>(x, y)</math> where both <math>x</math> and <math>y</math> are integers. The graph of <math>y = mx +2</math> passes through no lattice point with <math>0 < x \\le 100</math> for all <math>m</math> such that <math>\\frac{1}{2} < m < a</math>. What is the maximum possible value of <math>a</math>? <math> \\textbf{(A)}\\ \\frac{51}{101} \\qquad\\textbf{(B)}\\ \\frac{50}{99} \\qquad\\textbf{(C)}\\ \\frac{51}{100} \\qquad\\textbf{(D)}\\ \\frac{52}{101} \\qquad\\textbf{(E)}\\ \\frac{13}{25}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Let <imath>T_1</imath> be a triangle with side lengths <imath>2011, 2012,</imath> and <imath>2013</imath>. For <imath>n \\ge 1</imath>, if <imath>T_n = \\triangle ABC</imath> and <imath>D, E,</imath> and <imath>F</imath> are the points of tangency of the incircle of <imath>\\triangle ABC</imath> to the sides <imath>AB, BC</imath>, and <imath>AC,</imath> respectively, then <imath>T_{n+1}</imath> is a triangle with side lengths <imath>AD, BE,</imath> and <imath>CF,</imath> if it exists. What is the perimeter of the last triangle in the sequence <imath>( T_n )</imath>? <imath> \\textbf{(A)}\\ \\frac{1509}{8} \\qquad\\textbf{(B)}\\ \\frac{1509}{32} \\qquad\\textbf{(C)}\\ \\frac{1509}{64} \\qquad\\textbf{(D)}\\ \\frac{1509}{128} \\qquad\\textbf{(E)}\\ \\frac{1509}{256}</imath>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "slug": "2003-amc-10a",
+  "title": "2003 AMC 10A",
+  "description": "Converted from 2003_AMC_10A_questions.txt and 2003_AMC_10A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is the difference between the sum of the first <math>2003</math> even counting numbers and the sum of the first <math>2003</math> odd counting numbers? <math> \\mathrm{(A) \\ } 0\\qquad \\mathrm{(B) \\ } 1\\qquad \\mathrm{(C) \\ } 2\\qquad \\mathrm{(D) \\ } 2003\\qquad \\mathrm{(E) \\ } 4006 </math>",
+      "answerType": "integer",
+      "answerKey": "2003",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Members of the Rockham Soccer League buy socks and T-shirts. Socks cost &#36;4 per pair and each T-shirt costs &#36;5 more than a pair of socks. Each member needs one pair of socks and a shirt for home games and another pair of socks and a shirt for away games. If the total cost is &#36;2366, how many members are in the League? <math> \\mathrm{(A) \\ } 77\\qquad \\mathrm{(B) \\ } 91\\qquad \\mathrm{(C) \\ } 143\\qquad \\mathrm{(D) \\ } 182\\qquad \\mathrm{(E) \\ } 286 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 91",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>A solid box is <math>15</math> cm by <math>10</math> cm by <math>8</math> cm. A new solid is formed by removing a cube <math>3</math> cm on a side from each corner of this box. What percent of the original volume is removed? <!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\mathrm{(A) \\ } 4.5\\%\\qquad \\mathrm{(B) \\ } 9\\%\\qquad \\mathrm{(C) \\ } 12\\%\\qquad \\mathrm{(D) \\ } 18\\%\\qquad \\mathrm{(E) \\ } 24\\% </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 18\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "It takes Anna <math>30</math> minutes to walk uphill <math>1</math> km from her home to school, but it takes her only <math>10</math> minutes to walk from school to her home along the same route. What is her average speed, in km/hr, for the round trip? <math> \\mathrm{(A) \\ } 3\\qquad \\mathrm{(B) \\ } 3.125\\qquad \\mathrm{(C) \\ } 3.5\\qquad \\mathrm{(D) \\ } 4\\qquad \\mathrm{(E) \\ } 4.5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Let <math>d</math> and <math>e</math> denote the solutions of <math>2x^{2}+3x-5=0</math>. What is the value of <math>(d-1)(e-1)</math>? <math> \\mathrm{(A) \\ } -\\frac{5}{2}\\qquad \\mathrm{(B) \\ } 0\\qquad \\mathrm{(C) \\ } 3\\qquad \\mathrm{(D) \\ } 5\\qquad \\mathrm{(E) \\ } 6 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Define <math>x \\heartsuit y</math> to be <math>|x-y|</math> for all real numbers <math>x</math> and <math>y</math>. Which of the following statements is not true? <math> \\mathrm{(A) \\ } x \\heartsuit y = y \\heartsuit x </math> for all <math>x</math> and <math>y</math> <math>\\mathrm{(B) \\ } 2(x \\heartsuit y) = (2x) \\heartsuit (2y) </math> for all <math>x</math> and <math>y</math> <math>\\mathrm{(C) \\ } x \\heartsuit 0 = x </math> for all <math>x</math> <math>\\mathrm{(D) \\ } x \\heartsuit x = 0 </math> for all <math>x</math> <math> \\mathrm{(E) \\ } x \\heartsuit y > 0 </math> if <math>x \\neq y</math>",
+      "answerType": "exact",
+      "answerKey": "x\\ for all \\ x",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "How many non-[[congruent (geometry) |congruent]] [[triangle]]s with [[perimeter]] <math>7</math> have [[integer]] side lengths? <math> \\mathrm{(A) \\ } 1\\qquad \\mathrm{(B) \\ } 2\\qquad \\mathrm{(C) \\ } 3\\qquad \\mathrm{(D) \\ } 4\\qquad \\mathrm{(E) \\ } 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "What is the probability that a randomly drawn positive factor of <math>60</math> is less than <math>7</math>? <math> \\mathrm{(A) \\ } \\frac{1}{10}\\qquad \\mathrm{(B) \\ } \\frac{1}{6}\\qquad \\mathrm{(C) \\ } \\frac{1}{4}\\qquad \\mathrm{(D) \\ } \\frac{1}{3}\\qquad \\mathrm{(E) \\ } \\frac{1}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Simplify <math>\\sqrt[3]{x\\sqrt[3]{x\\sqrt[3]{x\\sqrt{x}}}}</math>. <math> \\mathrm{(A) \\ } \\sqrt{x}\\qquad \\mathrm{(B) \\ } \\sqrt[3]{x^{2}}\\qquad \\mathrm{(C) \\ } \\sqrt[27]{x^{2}}\\qquad \\mathrm{(D) \\ } \\sqrt[54]{x}\\qquad \\mathrm{(E) \\ } \\sqrt[81]{x^{80}} </math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt x",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "The [[polygon]] enclosed by the solid lines in the figure consists of 4 [[congruent]] [[square (geometry) | squares]] joined [[edge]]-to-edge. One more congruent square is attached to an edge at one of the nine positions indicated. How many of the nine resulting polygons can be folded to form a [[cube (geometry) | cube]] with one face missing? [[Image:2003amc10a10.gif]] <math> \\mathrm{(A) \\ } 2\\qquad \\mathrm{(B) \\ } 3\\qquad \\mathrm{(C) \\ } 4\\qquad \\mathrm{(D) \\ } 5\\qquad \\mathrm{(E) \\ } 6 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The sum of the two 5-digit numbers <math>AMC10</math> and <math>AMC12</math> is <math>123422</math>. What is <math>A+M+C</math>? <math> \\mathrm{(A) \\ } 10\\qquad \\mathrm{(B) \\ } 11\\qquad \\mathrm{(C) \\ } 12\\qquad \\mathrm{(D) \\ } 13\\qquad \\mathrm{(E) \\ } 14 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 14",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "A point <math>(x,y)</math> is randomly picked from inside the rectangle with vertices <math>(0,0)</math>, <math>(4,0)</math>, <math>(4,1)</math>, and <math>(0,1)</math>. What is the probability that <math>x<y</math>? <math> \\mathrm{(A) \\ } \\frac{1}{8}\\qquad \\mathrm{(B) \\ } \\frac{1}{4}\\qquad \\mathrm{(C) \\ } \\frac{3}{8}\\qquad \\mathrm{(D) \\ } \\frac{1}{2}\\qquad \\mathrm{(E) \\ } \\frac{3}{4} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "The sum of three numbers is <math>20</math>. The first is four times the sum of the other two. The second is seven times the third. What is the product of all three? <math> \\mathrm{(A) \\ } 28\\qquad \\mathrm{(B) \\ } 40\\qquad \\mathrm{(C) \\ } 100\\qquad \\mathrm{(D) \\ } 400\\qquad \\mathrm{(E) \\ } 800 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 28",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>n</math> be the largest integer that is the product of exactly 3 distinct prime numbers <math>d</math>, <math>e</math>, and <math>10d+e</math>, where <math>d</math> and <math>e</math> are single digits. What is the sum of the digits of <math>n</math>? <math> \\mathrm{(A) \\ } 12\\qquad \\mathrm{(B) \\ } 15\\qquad \\mathrm{(C) \\ } 18\\qquad \\mathrm{(D) \\ } 21\\qquad \\mathrm{(E) \\ } 24 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "What is the probability that an integer in the set <math>\\{1,2,3,...,100\\}</math> is divisible by <math>2</math> and not divisible by <math>3</math>? <math> \\mathrm{(A) \\ } \\frac{1}{6}\\qquad \\mathrm{(B) \\ } \\frac{33}{100}\\qquad \\mathrm{(C) \\ } \\frac{17}{50}\\qquad \\mathrm{(D) \\ } \\frac{1}{2}\\qquad \\mathrm{(E) \\ } \\frac{18}{25} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 17 50",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "What is the units digit of <math>13^{2003}</math>? <math> \\mathrm{(A) \\ } 1\\qquad \\mathrm{(B) \\ } 3\\qquad \\mathrm{(C) \\ } 7\\qquad \\mathrm{(D) \\ } 8\\qquad \\mathrm{(E) \\ } 9 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>The number of inches in the perimeter of an equilateral triangle equals the number of square inches in the area of its circumscribed circle. What is the radius, in inches, of the circle? <!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\mathrm{(A) \\ } \\frac{3\\sqrt{2}}{\\pi}\\qquad \\mathrm{(B) \\ } \\frac{3\\sqrt{3}}{\\pi}\\qquad \\mathrm{(C) \\ } \\sqrt{3}\\qquad \\mathrm{(D) \\ } \\frac{6}{\\pi}\\qquad \\mathrm{(E) \\ } \\sqrt{3}\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 \\sqrt 3 \\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "What is the sum of the reciprocals of the roots of the equation <math>\\frac{2003}{2004}x+1+\\frac{1}{x}=0</math>? <math> \\mathrm{(A) \\ } -\\frac{2004}{2003}\\qquad \\mathrm{(B) \\ } -1\\qquad \\mathrm{(C) \\ } \\frac{2003}{2004}\\qquad \\mathrm{(D) \\ } 1\\qquad \\mathrm{(E) \\ } \\frac{2004}{2003} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ -1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A [[semicircle]] of [[diameter]] <math>1</math> sits at the top of a semicircle of diameter <math>2</math>, as shown. The shaded [[area]] inside the smaller semicircle and outside the larger semicircle is called a ''lune''. Determine the area of this lune. <asy> import graph; size(150); defaultpen(fontsize(8)); pair A=(-2,0), B=(2,0); filldraw(Arc((0,sqrt(3)),1,0,180)--cycle,mediumgray); filldraw(Arc((0,0),2,0,180)--cycle,white); draw(2*expi(2*pi/6)--2*expi(4*pi/6)); label(\"1\",(0,sqrt(3)),(0,-1)); label(\"2\",(0,0),(0,-1)); </asy> <math> \\mathrm{(A) \\ } \\frac{1}{6}\\pi-\\frac{\\sqrt{3}}{4}\\qquad \\mathrm{(B) \\ } \\frac{\\sqrt{3}}{4}-\\frac{1}{12}\\pi\\qquad \\mathrm{(C) \\ } \\frac{\\sqrt{3}}{4}-\\frac{1}{24}\\pi\\qquad \\mathrm{(D) \\ } \\frac{\\sqrt{3}}{4}+\\frac{1}{24}\\pi\\qquad \\mathrm{(E) \\ } \\frac{\\sqrt{3}}{4}+\\frac{1}{12}\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac \\sqrt 3 4 -\\frac 1 24 \\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "A base-10 three digit number <math>n</math> is selected at random. Which of the following is closest to the probability that the base-9 representation and the base-11 representation of <math>n</math> are both three-digit numerals? <math> \\mathrm{(A) \\ } 0.3\\qquad \\mathrm{(B) \\ } 0.4\\qquad \\mathrm{(C) \\ } 0.5\\qquad \\mathrm{(D) \\ } 0.6\\qquad \\mathrm{(E) \\ } 0.7 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0.7",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Pat is to select six cookies from a tray containing only chocolate chip, oatmeal, and peanut butter cookies. There are at least six of each of these three kinds of cookies on the tray. How many different assortments of six cookies can be selected? <math> \\mathrm{(A) \\ } 22\\qquad \\mathrm{(B) \\ } 25\\qquad \\mathrm{(C) \\ } 27\\qquad \\mathrm{(D) \\ } 28\\qquad \\mathrm{(E) \\ } 729 </math>",
+      "answerType": "integer",
+      "answerKey": "28",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "In rectangle <math>ABCD</math>, we have <math>AB=8</math>, <math>BC=9</math>, <math>H</math> is on <math>BC</math> with <math>BH=6</math>, <math>E</math> is on <math>AD</math> with <math>DE=4</math>, line <math>EC</math> intersects line <math>AH</math> at <math>G</math>, and <math>F</math> is on line <math>AD</math> with <math>GF \\perp AF</math>. Find the length of <math>GF</math>. <asy> unitsize(3mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); pair D=(0,0), Ep=(4,0), A=(9,0), B=(9,8), H=(3,8), C=(0,8), G=(-6,20), F=(-6,0); draw(D--A--B--C--D--F--G--Ep); draw(A--G); label(\"$F$\",F,W); label(\"$G$\",G,W); label(\"$C$\",C,WSW); label(\"$H$\",H,NNE); label(\"$6$\",(6,8),N); label(\"$B$\",B,NE); label(\"$A$\",A,SW); label(\"$E$\",Ep,S); label(\"$4$\",(2,0),S); label(\"$D$\",D,S);</asy> <math> \\mathrm{(A) \\ } 16\\qquad \\mathrm{(B) \\ } 20\\qquad \\mathrm{(C) \\ } 24\\qquad \\mathrm{(D) \\ } 28\\qquad \\mathrm{(E) \\ } 30 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 20",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "A large [[equilateral triangle]] is constructed by using toothpicks to create rows of small equilateral triangles. For example, in the figure, we have <imath>3</imath> rows of small congruent equilateral triangles, with <imath>5</imath> small triangles in the base row. How many toothpicks would be needed to construct a large equilateral triangle if the base row of the triangle consists of <imath>2003</imath> small equilateral triangles? <asy> unitsize(15mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); pair Ap=(0,0), Bp=(1,0), Cp=(2,0), Dp=(3,0), Gp=dir(60); pair Fp=shift(Gp)*Bp, Ep=shift(Gp)*Cp; pair Hp=shift(Gp)*Gp, Ip=shift(Gp)*Fp; pair Jp=shift(Gp)*Hp; pair[] points={Ap,Bp,Cp,Dp,Ep,Fp,Gp,Hp,Ip,Jp}; draw(Ap--Dp--Jp--cycle); draw(Gp--Bp--Ip--Hp--Cp--Ep--cycle); for(pair p : points) { fill(circle(p, 0.07),white); } pair[] Cn=new pair[5]; Cn[0]=centroid(Ap,Bp,Gp); Cn[1]=centroid(Gp,Bp,Fp); Cn[2]=centroid(Bp,Fp,Cp); Cn[3]=centroid(Cp,Fp,Ep); Cn[4]=centroid(Cp,Ep,Dp); label(\"$1$\",Cn[0]); label(\"$2$\",Cn[1]); label(\"$3$\",Cn[2]); label(\"$4$\",Cn[3]); label(\"$5$\",Cn[4]); for (pair p : Cn) { draw(circle(p,0.1)); }</asy> <imath> \\mathrm{(A) \\ } 1,004,004 \\qquad \\mathrm{(B) \\ } 1,005,006 \\qquad \\mathrm{(C) \\ } 1,507,509 \\qquad \\mathrm{(D) \\ } 3,015,018 \\qquad \\mathrm{(E) \\ } 6,021,018 </imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 1,507,509",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Sally has five red cards numbered <math>1</math> through <math>5</math> and four blue cards numbered <math>3</math> through <math>6</math>. She stacks the cards so that the colors alternate and so that the number on each red card divides evenly into the number on each neighboring blue card. What is the sum of the numbers on the middle three cards? <math> \\mathrm{(A) \\ } 8\\qquad \\mathrm{(B) \\ } 9\\qquad \\mathrm{(C) \\ } 10\\qquad \\mathrm{(D) \\ } 11\\qquad \\mathrm{(E) \\ } 12 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>n</math> be a <math>5</math>-digit number, and let <math>q</math> and <math>r</math> be the quotient and the remainder, respectively, when <math>n</math> is divided by <math>100</math>. For how many values of <math>n</math> is <math>q+r</math> divisible by <math>11</math>? <math> \\mathrm{(A) \\ } 8180\\qquad \\mathrm{(B) \\ } 8181\\qquad \\mathrm{(C) \\ } 8182\\qquad \\mathrm{(D) \\ } 9000\\qquad \\mathrm{(E) \\ } 9090 </math>",
+      "answerType": "exact",
+      "answerKey": "8181\\Rightarrow",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

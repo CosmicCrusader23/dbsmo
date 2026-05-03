@@ -1,0 +1,118 @@
+{
+  "slug": "2023-aime-i",
+  "title": "2023 AIME I",
+  "description": "Converted from 2023_AIME_I_questions.txt and 2023_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Five men and nine women stand equally spaced around a circle in random order. The probability that every man stands diametrically opposite a woman is <math>\\frac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "191",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Positive real numbers <imath>b \\not= 1</imath> and <imath>n</imath> satisfy the equations <cmath>\\sqrt{\\log_b n} = \\log_b \\sqrt{n} \\qquad \\text{and} \\qquad b \\cdot \\log_b n = \\log_b (bn).</cmath> The value of <imath>n</imath> is <imath>\\frac{j}{k},</imath> where <imath>j</imath> and <imath>k</imath> are relatively prime positive integers. Find <imath>j+k.</imath>",
+      "answerType": "integer",
+      "answerKey": "881",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A plane contains <math>40</math> lines, no <math>2</math> of which are parallel. Suppose that there are <math>3</math> points where exactly <math>3</math> lines intersect, <math>4</math> points where exactly <math>4</math> lines intersect, <math>5</math> points where exactly <math>5</math> lines intersect, <math>6</math> points where exactly <math>6</math> lines intersect, and no points where more than <math>6</math> lines intersect. Find the number of points where exactly <math>2</math> lines intersect.",
+      "answerType": "integer",
+      "answerKey": "607",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "The sum of all positive integers <math>m</math> such that <math>\\frac{13!}{m}</math> is a perfect square can be written as <math>2^a3^b5^c7^d11^e13^f,</math> where <math>a,b,c,d,e,</math> and <math>f</math> are positive integers. Find <math>a+b+c+d+e+f.</math>",
+      "answerType": "integer",
+      "answerKey": "012",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Let <math>P</math> be a point on the circle circumscribing square <math>ABCD</math> that satisfies <math>PA \\cdot PC = 56</math> and <math>PB \\cdot PD = 90.</math> Find the area of <math>ABCD.</math>",
+      "answerType": "integer",
+      "answerKey": "106",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Alice knows that <math>3</math> red cards and <math>3</math> black cards will be revealed to her one at a time in random order. Before each card is revealed, Alice must guess its color. If Alice plays optimally, the expected number of cards she will guess correctly is <math>\\frac{m}{n},</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "51",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Call a positive integer <math>n</math> extra-distinct if the remainders when <math>n</math> is divided by <math>2, 3, 4, 5,</math> and <math>6</math> are distinct. Find the number of extra-distinct positive integers less than <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "049",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Rhombus <math>ABCD</math> has <math>\\angle BAD < 90^\\circ.</math> There is a point <math>P</math> on the incircle of the rhombus such that the distances from <math>P</math> to the lines <math>DA,AB,</math> and <math>BC</math> are <math>9,</math> <math>5,</math> and <math>16,</math> respectively. Find the perimeter of <math>ABCD.</math>",
+      "answerType": "integer",
+      "answerKey": "125",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Find the number of cubic polynomials <math>p(x) = x^3 + ax^2 + bx + c,</math> where <math>a, b,</math> and <math>c</math> are integers in <math>\\{-20,-19,-18,\\ldots,18,19,20\\},</math> such that there is a unique integer <math>m \\not= 2</math> with <math>p(m) = p(2).</math>",
+      "answerType": "integer",
+      "answerKey": "738",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "There exists a unique positive integer <math>a</math> for which the sum <cmath>U=\\sum_{n=1}^{2023}\\left\\lfloor\\dfrac{n^{2}-na}{5}\\right\\rfloor</cmath> is an integer strictly between <math>-1000</math> and <math>1000</math>. For that unique <math>a</math>, find <math>a+U</math>. (Note that <math>\\lfloor x\\rfloor</math> denotes the greatest integer that is less than or equal to <math>x</math>.)",
+      "answerType": "integer",
+      "answerKey": "944",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Find the number of subsets of <math>\\{1,2,3,\\ldots,10\\}</math> that contain exactly one pair of consecutive integers. Examples of such subsets are <math>\\{\\mathbf{1},\\mathbf{2},5\\}</math> and <math>\\{1,3,\\mathbf{6},\\mathbf{7},10\\}.</math>",
+      "answerType": "integer",
+      "answerKey": "235",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Let <math>\\triangle ABC</math> be an equilateral triangle with side length <math>55.</math> Points <math>D,</math> <math>E,</math> and <math>F</math> lie on <math>\\overline{BC},</math> <math>\\overline{CA},</math> and <math>\\overline{AB},</math> respectively, with <math>BD = 7,</math> <math>CE=30,</math> and <math>AF=40.</math> Point <math>P</math> inside <math>\\triangle ABC</math> has the property that <cmath>\\angle AEP = \\angle BFP = \\angle CDP.</cmath> Find <math>\\tan^2(\\angle AEP).</math>",
+      "answerType": "integer",
+      "answerKey": "075",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Each face of two noncongruent parallelepipeds is a rhombus whose diagonals have lengths <math>\\sqrt{21}</math> and <math>\\sqrt{31}</math>. The ratio of the volume of the larger of the two polyhedra to the volume of the smaller is <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>. A parallelepiped is a solid with six parallelogram faces such as the one shown below. <asy> unitsize(2cm); pair o = (0, 0), u = (1, 0), v = 0.8*dir(40), w = dir(70); draw(o--u--(u+v)); draw(o--v--(u+v), dotted); draw(shift(w)*(o--u--(u+v)--v--cycle)); draw(o--w); draw(u--(u+w)); draw(v--(v+w), dotted); draw((u+v)--(u+v+w)); </asy>",
+      "answerType": "integer",
+      "answerKey": "125",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The following analog clock has two hands that can move independently of each other. <asy> unitsize(2cm); draw(unitcircle,black+linewidth(2)); for (int i = 0; i < 12; ++i) { draw(0.9*dir(30*i)--dir(30*i)); } for (int i = 0; i < 4; ++i) { draw(0.85*dir(90*i)--dir(90*i),black+linewidth(2)); } for (int i = 1; i < 13; ++i) { label(\"\\small\" + (string) i, dir(90 - i * 30) * 0.75); } draw((0,0)--0.6*dir(90),black+linewidth(2),Arrow(TeXHead,2bp)); draw((0,0)--0.4*dir(90),black+linewidth(2),Arrow(TeXHead,2bp)); </asy> Initially, both hands point to the number <imath>12</imath>. The clock performs a sequence of hand movements so that on each movement, one of the two hands moves clockwise to the next number on the clock face while the other hand does not move. Let <imath>N</imath> be the number of sequences of <imath>144</imath> hand movements such that during the sequence, every possible positioning of the hands appears exactly once, and at the end of the <imath>144</imath> movements, the hands have returned to their initial position. Find the remainder when <imath>N</imath> is divided by <imath>1000</imath>.",
+      "answerType": "exact",
+      "answerKey": "(608)",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Find the largest prime number <math>p<1000</math> for which there exists a complex number <math>z</math> satisfying * the real and imaginary part of <math>z</math> are both integers; * <math>|z|=\\sqrt{p},</math> and * there exists a triangle whose three side lengths are <math>p,</math> the real part of <math>z^{3},</math> and the imaginary part of <math>z^{3}.</math>",
+      "answerType": "integer",
+      "answerKey": "349",
+      "points": 1
+    }
+  ]
+}

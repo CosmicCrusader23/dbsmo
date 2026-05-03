@@ -1,0 +1,118 @@
+{
+  "slug": "2006-aime-i",
+  "title": "2006 AIME I",
+  "description": "Converted from 2006_AIME_I_questions.txt and 2006_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "In [[quadrilateral]] <imath>ABCD</imath>, <imath>\\angle B</imath> is a [[right angle]], [[diagonal]] <imath>\\overline{AC}</imath> is [[perpendicular]] to <imath>\\overline{CD}</imath>, <imath>AB=18</imath>, <imath>BC=21</imath>, and <imath>CD=14</imath>. Find the [[perimeter]] of <imath>ABCD</imath>.",
+      "answerType": "integer",
+      "answerKey": "084",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Let [[set]] <math> \\mathcal{A} </math> be a 90-[[element]] [[subset]] of <math> \\{1,2,3,\\ldots,100\\}, </math> and let <math> S </math> be the sum of the elements of <math> \\mathcal{A}. </math> Find the number of possible values of <math> S. </math>",
+      "answerType": "integer",
+      "answerKey": "901",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Find the least [[positive]] [[integer]] such that when its leftmost [[digit]] is deleted, the resulting integer is <math>\\frac{1}{29}</math> of the original integer.",
+      "answerType": "integer",
+      "answerKey": "725",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Let <math> N </math> be the number of consecutive <math>0</math>'s at the right end of the decimal representation of the product <math> 1!2!3!4!\\cdots99!100!. </math> Find the remainder when <math> N </math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "124",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "The number <math> \\sqrt{104\\sqrt{6}+468\\sqrt{10}+144\\sqrt{15}+2006}</math> can be written as <math> a\\sqrt{2}+b\\sqrt{3}+c\\sqrt{5}, </math> where <math> a, b, </math> and <math> c </math> are [[positive]] [[integer]]s. Find <math>abc</math>.",
+      "answerType": "integer",
+      "answerKey": "936",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Let <math> \\mathcal{S} </math> be the set of [[real number]]s that can be represented as repeating [[Decimal| decimals]] of the form <math> 0.\\overline{abc} </math> where <math> a, b, c </math> are distinct [[digit]]s. Find the sum of the elements of <math> \\mathcal{S}. </math>",
+      "answerType": "integer",
+      "answerKey": "360",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "An [[angle]] is drawn on a set of equally spaced [[parallel]] [[line]]s as shown. The [[ratio]] of the [[area]] of shaded region <math> C </math> to the area of shaded region <math> B </math> is 11/5. Find the ratio of shaded region <math> D </math> to the area of shaded region <math> A. </math> <asy> defaultpen(linewidth(0.7)+fontsize(10)); for(int i=0; i<4; i=i+1) { fill((2*i,0)--(2*i+1,0)--(2*i+1,6)--(2*i,6)--cycle, mediumgray); } pair A=(1/3,4), B=A+7.5*dir(-17), C=A+7*dir(10); draw(B--A--C); fill((7.3,0)--(7.8,0)--(7.8,6)--(7.3,6)--cycle, white); clip(B--A--C--cycle); for(int i=0; i<9; i=i+1) { draw((i,1)--(i,6)); } label(\"$\\mathcal{A}$\", A+0.2*dir(-17), S); label(\"$\\mathcal{B}$\", A+2.3*dir(-17), S); label(\"$\\mathcal{C}$\", A+4.4*dir(-17), S); label(\"$\\mathcal{D}$\", A+6.5*dir(-17), S);</asy>",
+      "answerType": "integer",
+      "answerKey": "408",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "[[Hexagon]] <math>ABCDEF</math> is divided into five [[rhombus]]es, <math>\\mathcal{P, Q, R, S,}</math> and <math>\\mathcal{T,}</math> as shown. Rhombuses <math>\\mathcal{P, Q, R,}</math> and <math>\\mathcal{S}</math> are [[congruent (geometry)|congruent]], and each has [[area]] <math>\\sqrt{2006}.</math> Let <math>K</math> be the area of rhombus <math>\\mathcal{T}</math>. Given that <math>K</math> is a [[positive integer]], find the number of possible values for <math>K</math>. <asy> //TheMathGuyd size(8cm); pair A=(0,0), B=(4.2,0), C=(5.85,-1.6), D=(4.2,-3.2), EE=(0,-3.2), F=(-1.65,-1.6), G=(0.45,-1.6), H=(3.75,-1.6), I=(2.1,0), J=(2.1,-3.2), K=(2.1,-1.6); draw(A--B--C--D--EE--F--cycle); draw(F--G--(2.1,0)); draw(C--H--(2.1,0)); draw(G--(2.1,-3.2)); draw(H--(2.1,-3.2)); label(\"$\\mathcal{T}$\",(2.1,-1.6)); label(\"$\\mathcal{P}$\",(0,-1),NE); label(\"$\\mathcal{Q}$\",(4.2,-1),NW); label(\"$\\mathcal{R}$\",(0,-2.2),SE); label(\"$\\mathcal{S}$\",(4.2,-2.2),SW); </asy>",
+      "answerType": "integer",
+      "answerKey": "089",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "The [[sequence]] <math> a_1, a_2, \\ldots </math> is [[geometric sequence|geometric]] with <math> a_1=a </math> and common [[ratio]] <math> r, </math> where <math> a </math> and <math> r </math> are positive integers. Given that <math> \\log_8 a_1+\\log_8 a_2+\\cdots+\\log_8 a_{12} = 2006, </math> find the number of possible ordered pairs <math> (a,r). </math>",
+      "answerType": "integer",
+      "answerKey": "046",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Eight [[circle]]s of [[diameter]] 1 are packed in the first [[quadrant]] of the [[coordinate plane]] as shown. Let region <math> \\mathcal{R} </math> be the union of the eight circular regions. Line <math> l, </math> with slope 3, divides <math> \\mathcal{R} </math> into two regions of equal area. Line <math> l </math>'s equation can be expressed in the form <math> ax=by+c, </math> where <math> a, b, </math> and <math> c </math> are positive integers whose [[greatest common divisor]] is 1. Find <math> a^2+b^2+c^2. </math> <asy> size(150);defaultpen(linewidth(0.7)); draw((6.5,0)--origin--(0,6.5), Arrows(5)); int[] array={3,3,2}; int i,j; for(i=0; i<3; i=i+1) { for(j=0; j<array[i]; j=j+1) { draw(Circle((1+2*i,1+2*j),1)); }} label(\"x\", (7,0)); label(\"y\", (0,7));</asy>",
+      "answerType": "integer",
+      "answerKey": "065",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "A collection of 8 [[cube (geometry) | cube]]s consists of one cube with [[edge]]-[[length]] <math> k </math> for each [[integer]] <math> k, 1 \\le k \\le 8. </math> A tower is to be built using all 8 cubes according to the rules: * Any cube may be the bottom cube in the tower. * The cube immediately on top of a cube with edge-length <math> k </math> must have edge-length at most <math> k+2. </math> Let <math> T </math> be the number of different towers than can be constructed. What is the [[remainder]] when <math> T </math> is divided by 1000?",
+      "answerType": "integer",
+      "answerKey": "458",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Find the sum of the values of <imath> x </imath> such that <imath> \\cos^3 3x+ \\cos^3 5x = 8 \\cos^3 4x \\cos^3 x </imath>, where <imath> x </imath> is measured in degrees and <imath> 100< x< 200. </imath>",
+      "answerType": "integer",
+      "answerKey": "906",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "For each [[even integer | even]] [[positive integer]] <math> x </math>, let <math> g(x) </math> denote the greatest power of 2 that [[divisor | divides]] <math> x. </math> For example, <math> g(20)=4 </math> and <math> g(16)=16. </math> For each positive integer <math> n, </math> let <math> S_n=\\sum_{k=1}^{2^{n-1}}g(2k). </math> Find the greatest integer <math> n </math> less than 1000 such that <math> S_n </math> is a [[perfect square]].",
+      "answerType": "integer",
+      "answerKey": "899",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "A tripod has three legs each of length <math>5</math> feet. When the tripod is set up, the [[angle]] between any pair of legs is equal to the angle between any other pair, and the top of the tripod is <math>4</math> feet from the ground. In setting up the tripod, the lower 1 foot of one leg breaks off. Let <math> h </math> be the height in feet of the top of the tripod from the ground when the broken tripod is set up. Then <math> h </math> can be written in the form <math> \\frac m{\\sqrt{n}}, </math> where <math> m </math> and <math> n </math> are positive integers and <math> n </math> is not divisible by the square of any prime. Find <math> \\lfloor m+\\sqrt{n}\\rfloor. </math> (The notation <math> \\lfloor x\\rfloor </math> denotes the greatest integer that is less than or equal to <math> x. </math>)",
+      "answerType": "integer",
+      "answerKey": "183",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Given that a sequence of real numbers satisfies <imath> x_0=0 </imath> and <imath> |x_k|=|x_{k-1}+3| </imath> for all integers <imath> k\\ge 1, </imath> find the minimum possible value of <imath> |x_1+x_2+\\cdots+x_{2006}|. </imath> __TOC__",
+      "answerType": "integer",
+      "answerKey": "027",
+      "points": 1
+    }
+  ]
+}

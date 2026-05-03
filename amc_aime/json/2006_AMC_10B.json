@@ -1,0 +1,245 @@
+{
+  "slug": "2006-amc-10b",
+  "title": "2006 AMC 10B",
+  "description": "Converted from 2006_AMC_10B_questions.txt and 2006_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is <math> (-1)^{1} + (-1)^{2} + ... + (-1)^{2006} </math> ? <math> \\textbf{(A)} -2006\\qquad \\textbf{(B)} -1\\qquad \\textbf{(C) } 0\\qquad \\textbf{(D) } 1\\qquad \\textbf{(E) } 2006 </math>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "For real numbers <math>x</math> and <math>y</math>, define <math> x \\spadesuit y = (x+y)(x-y) </math>. What is <math> 3 \\spadesuit (4 \\spadesuit 5) </math>? <math> \\mathrm{(A) \\ } -72\\qquad \\mathrm{(B) \\ } -27\\qquad \\mathrm{(C) \\ } -24\\qquad \\mathrm{(D) \\ } 24\\qquad \\mathrm{(E) \\ } 72 </math>",
+      "answerType": "integer",
+      "answerKey": "72",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "A football game was played between two teams, the Cougars and the Panthers. The two teams scored a total of <math>34</math> points, and the Cougars won by a margin of <math>14</math> points. How many points did the Panthers score? <math> \\textbf{(A) } 10\\qquad \\textbf{(B) } 14\\qquad \\textbf{(C) } 17\\qquad \\textbf{(D) } 20\\qquad \\textbf{(E) } 24 </math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Circles of diameter <math>1</math> inch and <math>3</math> inches have the same center. The smaller circle is painted red, and the portion outside the smaller circle and inside the larger circle is painted blue. What is the ratio of the blue-painted area to the red-painted area? [[Image:2006amc10b04.gif]] <math> \\textbf{(A) } 2\\qquad \\textbf{(B) } 3\\qquad \\textbf{(C) } 6\\qquad \\textbf{(D) } 8\\qquad \\textbf{(E) } 9 </math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "A <math> 2 \\times 3 </math> rectangle and a <math> 3 \\times 4 </math> rectangle are contained within a square without overlapping at any point, and the sides of the square are parallel to the sides of the two given rectangles. What is the smallest possible area of the square? <math> \\textbf{(A) } 16\\qquad \\textbf{(B) } 25\\qquad \\textbf{(C) } 36\\qquad \\textbf{(D) } 49\\qquad \\textbf{(E) } 64 </math>",
+      "answerType": "exact",
+      "answerKey": "B)25",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A region is bounded by semicircular arcs constructed on the side of a square whose sides measure <math> \\frac{2}{\\pi} </math>, as shown. What is the perimeter of this region? <asy> size(90); defaultpen(linewidth(0.7)); filldraw((0,0)--(2,0)--(2,2)--(0,2)--cycle,gray(0.5)); filldraw(arc((1,0),1,180,0, CCW)--cycle,gray(0.7)); filldraw(arc((0,1),1,90,270)--cycle,gray(0.7)); filldraw(arc((1,2),1,0,180)--cycle,gray(0.7)); filldraw(arc((2,1),1,270,90, CCW)--cycle,gray(0.7)); </asy> <math> \\textbf{(A) } \\frac{4}{\\pi}\\qquad \\textbf{(B) } 2\\qquad \\textbf{(C) } \\frac{8}{\\pi}\\qquad \\textbf{(D) } 4\\qquad \\textbf{(E) } \\frac{16}{\\pi} </math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Which of the following is equivalent to <math> \\sqrt{\\frac{x}{1-\\frac{x-1}{x}}} </math> when <math> x < 0 </math>? <math> \\mathrm{(A) \\ } -x\\qquad \\mathrm{(B) \\ } x\\qquad \\mathrm{(C) \\ } 1\\qquad \\mathrm{(D) \\ } \\sqrt{\\frac{x}{2}}\\qquad \\mathrm{(E) \\ } x\\sqrt{-1} </math>",
+      "answerType": "exact",
+      "answerKey": "x",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "A square of area 40 is inscribed in a semicircle as shown. What is the area of the semicircle? <asy> defaultpen(linewidth(0.8)); size(100); real r=sqrt(50), s=sqrt(10); draw(Arc(origin, r, 0, 180)); draw((r,0)--(-r,0), dashed); draw((-s,0)--(s,0)--(s,2*s)--(-s,2*s)--cycle); </asy> <math> \\textbf{(A) } 20\\pi\\qquad \\textbf{(B) } 25\\pi\\qquad \\textbf{(C) } 30\\pi\\qquad \\textbf{(D) } 40\\pi\\qquad \\textbf{(E) } 50\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "25\\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Francesca uses <math>100</math> grams of lemon juice, <math>100</math> grams of sugar, and <math>400</math> grams of water to make lemonade. There are <math>25</math> calories in <math>100</math> grams of lemon juice and <math>386</math> calories in <math>100</math> grams of sugar. Water contains no calories. How many calories are in <math>200</math> grams of her lemonade? <math> \\textbf{(A) } 129\\qquad \\textbf{(B) } 137\\qquad \\textbf{(C) } 174\\qquad \\textbf{(D) } 233\\qquad \\textbf{(E) } 411 </math>",
+      "answerType": "exact",
+      "answerKey": "137rm calories",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "In a triangle with integer side lengths, one side is three times as long as a second side, and the length of the third side is <math>15</math>. What is the greatest possible perimeter of the triangle? <math> \\textbf{(A) } 43\\qquad \\textbf{(B) } 44\\qquad \\textbf{(C) } 45\\qquad \\textbf{(D) } 46\\qquad \\textbf{(E) } 47 </math>",
+      "answerType": "integer",
+      "answerKey": "43",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "What is the tens digit in the sum <math> 7!+8!+9!+...+2006!</math> <math> \\textbf{(A) } 1\\qquad \\textbf{(B) } 3\\qquad \\textbf{(C) } 4\\qquad \\textbf{(D) } 6\\qquad \\textbf{(E) } 9 </math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The lines <math> x=\\frac{1}{4}y+a </math> and <math> y=\\frac{1}{4}x+b </math> intersect at the point <math> (1,2) </math>. What is <math> a+b </math>? <math> \\textbf{(A) } 0\\qquad \\textbf{(B) } \\frac{3}{4}\\qquad \\textbf{(C) } 1\\qquad \\textbf{(D) } 2\\qquad \\textbf{(E) } \\frac{9}{4} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 9 4",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Joe and JoAnn each bought <math>12</math> ounces of coffee in a <math>16</math> ounce cup. Joe drank <math>2</math> ounces of his coffee and then added <math>2</math> ounces of cream. JoAnn added <math>2</math> ounces of cream, stirred the coffee well, and then drank <math>2</math> ounces. What is the resulting ratio of the amount of cream in Joe's coffee to that in JoAnn's coffee? <math> \\textbf{(A) } \\frac{6}{7}\\qquad \\textbf{(B) } \\frac{13}{14}\\qquad \\textbf{(C) }1 \\qquad \\textbf{(D) \\ } \\frac{14}{13}\\qquad \\textbf{(E) } \\frac{7}{6} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>a</math> and <math>b</math> be the roots of the equation <math> x^2-mx+2=0 </math>. Suppose that <math> a+\\frac1b </math> and <math> b+\\frac1a </math> are the roots of the equation <math> x^2-px+q=0 </math>. What is <math>q</math>? <math>\\textbf{(A) } \\frac{5}{2}\\qquad \\textbf{(B) } \\frac{7}{2}\\qquad \\textbf{(C) } 4\\qquad \\textbf{(D) } \\frac{9}{2}\\qquad \\textbf{(E) } 8 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac92",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Rhombus <math>ABCD</math> is similar to rhombus <math>BFDE</math>. The area of rhombus <math>ABCD</math> is <math>24</math> and <math> \\angle BAD = 60^\\circ </math>. What is the area of rhombus <math>BFDE</math>? <asy> defaultpen(linewidth(0.7)+fontsize(10)); size(120); pair A=origin, B=(2,0), C=(3, sqrt(3)), D=(1, sqrt(3)), E=(1, 1/sqrt(3)), F=(2, 2/sqrt(3)); pair point=(3/2, sqrt(3)/2); draw(B--C--D--A--B--F--D--E--B); label(\"$A$\", A, dir(point--A)); label(\"$B$\", B, dir(point--B)); label(\"$C$\", C, dir(point--C)); label(\"$D$\", D, dir(point--D)); label(\"$E$\", E, dir(point--E)); label(\"$F$\", F, dir(point--F)); </asy> <math> \\textbf{(A) } 6\\qquad \\textbf{(B) } 4\\sqrt{3}\\qquad \\textbf{(C) } 8\\qquad \\textbf{(D) } 9\\qquad \\textbf{(E) } 6\\sqrt{3} </math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Leap Day, February <math>29</math>, <math>2004</math>, occurred on a Sunday. On what day of the week will Leap Day, February <math>29</math>, <math>2020</math>, occur? <math> \\textbf{(A) } \\textrm{Tuesday} \\qquad \\textbf{(B) } \\textrm{Wednesday} \\qquad \\textbf{(C) } \\textrm{Thursday} \\qquad \\textbf{(D) } \\textrm{Friday} \\qquad \\textbf{(E) } \\textrm{Saturday} </math>",
+      "answerType": "exact",
+      "answerKey": "rm Saturday",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Bob and Alice each have a bag that contains one ball of each of the colors blue, green, orange, red, and violet. Alice randomly selects one ball from her bag and puts it into Bob's bag. Bob then randomly selects one ball from his bag and puts it into Alice's bag. What is the probability that after this process the contents of the two bags are the same? <math> \\textbf{(A) } \\frac{1}{10}\\qquad \\textbf{(B) } \\frac{1}{6}\\qquad \\textbf{(C) } \\frac{1}{5}\\qquad \\textbf{(D) } \\frac{1}{3}\\qquad \\textbf{(E) } \\frac{1}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Let <math> a_1 , a_2 , ... </math> be a sequence for which <math> a_1=2 </math> , <math> a_2=3 </math>, and <math>a_n=\\frac{a_{n-1}}{a_{n-2}} </math> for each positive integer <math> n \\ge 3 </math>. What is <math> a_{2006} </math>? <math> \\mathrm{(A) \\ } \\frac{1}{2}\\qquad \\mathrm{(B) \\ } \\frac{2}{3}\\qquad \\mathrm{(C) \\ } \\frac{3}{2}\\qquad \\mathrm{(D) \\ } 2\\qquad \\mathrm{(E) \\ } 3 </math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A circle of radius <math>2</math> is centered at <math>O</math>. Square <math>OABC</math> has side length <math>1</math>. Sides <math>AB</math> and <math>CB</math> are extended past <math>B</math> to meet the circle at <math>D</math> and <math>E</math>, respectively. What is the area of the shaded region in the figure, which is bounded by <math>BD</math>, <math>BE</math>, and the minor arc connecting <math>D</math> and <math>E</math>? <asy> defaultpen(linewidth(0.8)); pair O=origin, A=(1,0), C=(0,1), B=(1,1), D=(1, sqrt(3)), E=(sqrt(3), 1), point=B; fill(Arc(O, 2, 0, 90)--O--cycle, mediumgray); clip(B--Arc(O, 2, 30, 60)--cycle); draw(Circle(origin, 2)); draw((-2,0)--(2,0)^^(0,-2)--(0,2)); draw(A--D^^C--E); label(\"$A$\", A, dir(point--A)); label(\"$C$\", C, dir(point--C)); label(\"$O$\", O, dir(point--O)); label(\"$D$\", D, dir(point--D)); label(\"$E$\", E, dir(point--E)); label(\"$B$\", B, SW); </asy> <math> \\mathrm{(A) \\ } \\frac{\\pi}{3}+1-\\sqrt{3}\\qquad \\mathrm{(B) \\ } \\frac{\\pi}{2}(2-\\sqrt{3}) \\qquad \\mathrm{(C) \\ } \\pi(2-\\sqrt{3})\\qquad \\mathrm{(D) \\ } \\frac{\\pi}{6}+\\frac{\\sqrt{3}+1}{2}\\qquad \\mathrm{(E) \\ } \\frac{\\pi}{3}-1+\\sqrt{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\pi 3 + 1 - \\sqrt 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "In rectangle <math>ABCD</math>, we have <math>A=(6,-22)</math>, <math>B=(2006,178)</math>, <math>D=(8,y)</math>, for some integer <math>y</math>. What is the area of rectangle <math>ABCD</math>? <math> \\mathrm{(A) \\ } 4000\\qquad \\mathrm{(B) \\ } 4040\\qquad \\mathrm{(C) \\ } 4400\\qquad \\mathrm{(D) \\ } 40,000\\qquad \\mathrm{(E) \\ } 40,400 </math>",
+      "answerType": "integer",
+      "answerKey": "40400",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "For a particular peculiar pair of dice, the probabilities of rolling <math>1</math>, <math>2</math>, <math>3</math>, <math>4</math>, <math>5</math>, and <math>6</math>, on each die are in the ratio <math>1:2:3:4:5:6</math>. What is the probability of rolling a total of <math>7</math> on the two dice? <math> \\mathrm{(A) \\ } \\frac{4}{63}\\qquad \\mathrm{(B) \\ } \\frac{1}{8}\\qquad \\mathrm{(C) \\ } \\frac{8}{63}\\qquad \\mathrm{(D) \\ } \\frac{1}{6}\\qquad \\mathrm{(E) \\ } \\frac{2}{7} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 8 63",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Elmo makes <math>N</math> sandwiches for a fundraiser. For each sandwich he uses <math>B</math> globs of peanut butter at <math>4\\cent</math> per glob and <math>J</math> blobs of jam at <math>5\\cent</math> per blob. The cost of the peanut butter and jam to make all the sandwiches is <math> \\$ 2.53</math>. Assume that <math>B</math>, <math>J</math>, and <math>N</math> are positive integers with <math>N>1</math>. What is the cost of the jam Elmo uses to make the sandwiches? <math> \\mathrm{(A) \\ } \\$ 1.05\\qquad \\mathrm{(B) \\ } \\$ 1.25\\qquad \\mathrm{(C) \\ } \\$ 1.45\\qquad \\mathrm{(D) \\ } \\$ 1.65\\qquad \\mathrm{(E) \\ } \\$ 1.85 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "A triangle is partitioned into three triangles and a quadrilateral by drawing two lines from vertices to their opposite sides. The areas of the three triangles are 3, 7, and 7, as shown. What is the area of the shaded quadrilateral? <asy> unitsize(1.5cm); defaultpen(.8); pair A = (0,0), B = (3,0), C = (1.4, 2), D = B + 0.4*(C-B), Ep = A + 0.3*(C-A); pair F = intersectionpoint( A--D, B--Ep ); draw( A -- B -- C -- cycle ); draw( A -- D ); draw( B -- Ep ); filldraw( D -- F -- Ep -- C -- cycle, mediumgray, black ); label(\"$7$\",(1.25,0.2)); label(\"$7$\",(2.2,0.45)); label(\"$3$\",(0.45,0.35)); </asy> <math> \\mathrm{(A) \\ } 15\\qquad \\mathrm{(B) \\ } 17\\qquad \\mathrm{(C) \\ } \\frac{35}{2}\\qquad \\mathrm{(D) \\ } 18\\qquad \\mathrm{(E) \\ } \\frac{55}{3} </math>",
+      "answerType": "integer",
+      "answerKey": "18",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "[[Circle]]s with centers <math>O</math> and <math>P</math> have radii <math>2</math> and <math>4</math>, respectively, and are externally tangent. Points <math>A</math> and <math>B</math> on the circle with center <math>O</math> and points <math>C</math> and <math>D</math> on the circle with center <math>P</math> are such that <math>AD</math> and <math>BC</math> are common external tangents to the circles. What is the area of the [[concave]] [[hexagon]] <math>AOBCPD</math>? <asy>size(200);defaultpen(linewidth(0.8)); pair X=(-6,0), O=origin, P=(6,0), B=tangent(X, O, 2, 1), A=tangent(X, O, 2, 2), C=tangent(X, P, 4, 1), D=tangent(X, P, 4, 2); pair top=X+15*dir(X--A), bottom=X+15*dir(X--B); draw(Circle(O, 2)^^Circle(P, 4)); draw(bottom--X--top); draw(A--O--B^^O--P^^D--P--C); pair point=X; label(\"$2$\", midpoint(O--A), dir(point--midpoint(O--A))); label(\"$4$\", midpoint(P--D), dir(point--midpoint(P--D))); label(\"$O$\", O, SE); label(\"$P$\", P, dir(point--P)); pair point=O; label(\"$A$\", A, dir(point--A)); label(\"$B$\", B, dir(point--B)); pair point=P; label(\"$C$\", C, dir(point--C)); label(\"$D$\", D, dir(point--D)); fill((-3,7)--(-3,-7)--(-7,-7)--(-7,7)--cycle, white);</asy> <math> \\mathrm{(A) \\ } 18\\sqrt{3}\\qquad \\mathrm{(B) \\ } 24\\sqrt{2}\\qquad \\mathrm{(C) \\ } 36\\qquad \\mathrm{(D) \\ } 24\\sqrt{3}\\qquad \\mathrm{(E) \\ } 32\\sqrt{2} </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Mr. Jones has eight children of different ages. On a family trip his oldest child, who is 9, spots a license plate with a 4-digit number in which each of two digits appears two times. \"Look, daddy!\" she exclaims. \"That number is evenly divisible by the age of each of us kids!\" \"That's right,\" replies Mr. Jones, \"and the last two digits just happen to be my age.\" Which of the following is <b><i>not</i></b> the age of one of Mr. Jones's children? <math> \\mathrm{(A) \\ } 4\\qquad \\mathrm{(B) \\ } 5\\qquad \\mathrm{(C) \\ } 6\\qquad \\mathrm{(D) \\ } 7\\qquad \\mathrm{(E) \\ } 8 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    }
+  ]
+}

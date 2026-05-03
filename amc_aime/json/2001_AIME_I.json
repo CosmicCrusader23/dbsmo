@@ -1,0 +1,118 @@
+{
+  "slug": "2001-aime-i",
+  "title": "2001 AIME I",
+  "description": "Converted from 2001_AIME_I_questions.txt and 2001_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the sum of all positive two-digit integers that are divisible by each of their digits.",
+      "answerType": "integer",
+      "answerKey": "630",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "A finite [[set]] <math>\\mathcal{S}</math> of distinct real numbers has the following properties: the [[arithmetic mean|mean]] of <math>\\mathcal{S}\\cup\\{1\\}</math> is <math>13</math> less than the mean of <math>\\mathcal{S}</math>, and the mean of <math>\\mathcal{S}\\cup\\{2001\\}</math> is <math>27</math> more than the mean of <math>\\mathcal{S}</math>. Find the mean of <math>\\mathcal{S}</math>.",
+      "answerType": "integer",
+      "answerKey": "651",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Find the sum of the [[root]]s, real and non-real, of the equation <math>x^{2001}+\\left(\\frac 12-x\\right)^{2001}=0</math>, given that there are no multiple roots.",
+      "answerType": "integer",
+      "answerKey": "500",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "In triangle <math>ABC</math>, angles <math>A</math> and <math>B</math> measure <math>60</math> degrees and <math>45</math> degrees, respectively. The bisector of angle <math>A</math> intersects <math>\\overline{BC}</math> at <math>T</math>, and <math>AT=24</math>. The area of triangle <math>ABC</math> can be written in the form <math>a+b\\sqrt{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers, and <math>c</math> is not divisible by the square of any prime. Find <math>a+b+c</math>.",
+      "answerType": "integer",
+      "answerKey": "291",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "An [[equilateral triangle]] is inscribed in the [[ellipse]] whose equation is <math>x^2+4y^2=4</math>. One vertex of the triangle is <math>(0,1)</math>, one altitude is contained in the y-axis, and the square of the length of each side is <math>\\sqrt{\\frac{m}{n}}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>. __TOC__",
+      "answerType": "integer",
+      "answerKey": "937",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A fair die is rolled four times. The [[probability]] that each of the final three rolls is at least as large as the roll preceding it may be expressed in the form <math>\\frac{m}{n}</math> where <math>m</math> and <math>n</math> are [[relatively prime]] [[positive]] [[integer]]s. Find <math>m + n</math>. __TOC__",
+      "answerType": "integer",
+      "answerKey": "079",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "[[Triangle]] <math>ABC</math> has <math>AB=21</math>, <math>AC=22</math> and <math>BC=20</math>. Points <math>D</math> and <math>E</math> are located on <math>\\overline{AB}</math> and <math>\\overline{AC}</math>, respectively, such that <math>\\overline{DE}</math> is [[parallel]] to <math>\\overline{BC}</math> and contains the center of the [[incircle|inscribed circle]] of triangle <math>ABC</math>. Then <math>DE=m/n</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>. __TOC__",
+      "answerType": "integer",
+      "answerKey": "923",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Call a positive integer <math>N</math> a ''7-10 double'' if the digits of the base-<math>7</math> representation of <math>N</math> form a base-<math>10</math> number that is twice <math>N</math>. For example, <math>51</math> is a 7-10 double because its base-<math>7</math> representation is <math>102</math>. What is the largest 7-10 double?",
+      "answerType": "integer",
+      "answerKey": "315",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "In [[triangle]] <math>ABC</math>, <math>AB=13</math>, <math>BC=15</math> and <math>CA=17</math>. Point <math>D</math> is on <math>\\overline{AB}</math>, <math>E</math> is on <math>\\overline{BC}</math>, and <math>F</math> is on <math>\\overline{CA}</math>. Let <math>AD=p\\cdot AB</math>, <math>BE=q\\cdot BC</math>, and <math>CF=r\\cdot CA</math>, where <math>p</math>, <math>q</math>, and <math>r</math> are positive and satisfy <math>p+q+r=2/3</math> and <math>p^2+q^2+r^2=2/5</math>. The ratio of the area of triangle <math>DEF</math> to the area of triangle <math>ABC</math> can be written in the form <math>m/n</math>, where <math>m</math> and <math>n</math> are [[relatively prime]] positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "061",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Let <math>S</math> be the [[set]] of points whose [[coordinate]]s <math>x,</math> <math>y,</math> and <math>z</math> are integers that satisfy <math>0\\le x\\le2,</math> <math>0\\le y\\le3,</math> and <math>0\\le z\\le4.</math> Two distinct points are randomly chosen from <math>S.</math> The [[probability]] that the [[midpoint]] of the segment they determine also belongs to <math>S</math> is <math>m/n,</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n.</math>",
+      "answerType": "integer",
+      "answerKey": "200",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "In a [[rectangle|rectangular]] array of points, with 5 rows and <math>N</math> columns, the points are numbered consecutively from left to right beginning with the top row. Thus the top row is numbered 1 through <math>N,</math> the second row is numbered <math>N + 1</math> through <math>2N,</math> and so forth. Five points, <math>P_1, P_2, P_3, P_4,</math> and <math>P_5,</math> are selected so that each <math>P_i</math> is in row <math>i.</math> Let <math>x_i</math> be the number associated with <math>P_i.</math> Now renumber the array consecutively from top to bottom, beginning with the first column. Let <math>y_i</math> be the number associated with <math>P_i</math> after the renumbering. It is found that <math>x_1 = y_2,</math> <math>x_2 = y_1,</math> <math>x_3 = y_4,</math> <math>x_4 = y_5,</math> and <math>x_5 = y_3.</math> Find the smallest possible value of <math>N.</math>",
+      "answerType": "integer",
+      "answerKey": "149",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A [[sphere]] is inscribed in the [[tetrahedron]] whose vertices are <math>A = (6,0,0), B = (0,4,0), C = (0,0,2),</math> and <math>D = (0,0,0).</math> The [[radius]] of the sphere is <math>m/n,</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n.</math>",
+      "answerType": "integer",
+      "answerKey": "005",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "In a certain [[circle]], the [[chord]] of a <math>d</math>-degree arc is <math>22</math> centimeters long, and the chord of a <math>2d</math>-degree arc is <math>20</math> centimeters longer than the chord of a <math>3d</math>-degree arc, where <math>d < 120.</math> The length of the chord of a <math>3d</math>-degree arc is <math>- m + \\sqrt {n}</math> centimeters, where <math>m</math> and <math>n</math> are positive integers. Find <math>m + n.</math>",
+      "answerType": "integer",
+      "answerKey": "174",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "A mail carrier delivers mail to the nineteen houses on the east side of Elm Street. The carrier notices that no two adjacent houses ever get mail on the same day, but that there are never more than two houses in a row that get no mail on the same day. How many different patterns of mail delivery are possible?",
+      "answerType": "integer",
+      "answerKey": "351",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "The numbers <math>1, 2, 3, 4, 5, 6, 7,</math> and <math>8</math> are randomly written on the faces of a regular [[octahedron]] so that each face contains a different number. The [[probability]] that no two consecutive numbers, where <math>8</math> and <math>1</math> are considered to be consecutive, are written on faces that share an edge is <math>m/n,</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n.</math>",
+      "answerType": "integer",
+      "answerKey": "085",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "1999-aime",
+  "title": "1999 AIME",
+  "description": "Converted from 1999_AIME_questions.txt and 1999_AIME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the smallest prime that is the fifth term of an increasing [[arithmetic sequence]], all four preceding terms also being [[prime number|prime]].",
+      "answerType": "integer",
+      "answerKey": "029",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Consider the [[parallelogram]] with [[vertex|vertices]] <math>(10,45)</math>, <math>(10,114)</math>, <math>(28,153)</math>, and <math>(28,84)</math>. A [[line]] through the [[origin]] cuts this figure into two [[congruent]] [[polygon]]s. The [[slope]] of the line is <math>m/n,</math> where <math>m_{}</math> and <math>n_{}</math> are [[relatively prime]] [[positive]] [[integer]]s. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "118",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Problem text not found.",
+      "answerType": "integer",
+      "answerKey": "38",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "The two [[square]]s shown share the same [[center]] <imath>O_{}</imath> and have sides of length 1. The length of <imath>\\overline{AB}</imath> is <imath>43/99</imath> and the [[area]] of octagon <imath>ABCDEFGH</imath> is <imath>m/n,</imath> where <imath>m_{}</imath> and <imath>n_{}</imath> are [[relatively prime]] [[positive]] [[integer]]s. Find <imath>m+n.</imath>",
+      "answerType": "integer",
+      "answerKey": "185",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "For any positive integer <math>x_{}</math>, let <math>S(x)</math> be the sum of the digits of <math>x_{}</math>, and let <math>T(x)</math> be <math>|S(x+2)-S(x)|.</math> For example, <math>T(199)=|S(201)-S(199)|=|3-19|=16.</math> How many values of <math>T(x)</math> do not exceed 1999?",
+      "answerType": "integer",
+      "answerKey": "223",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "A transformation of the first [[quadrant]] of the [[coordinate plane]] maps each point <math>(x,y)</math> to the point <math>(\\sqrt{x},\\sqrt{y}).</math> The [[vertex|vertices]] of [[quadrilateral]] <math>ABCD</math> are <math>A=(900,300), B=(1800,600), C=(600,1800),</math> and <math>D=(300,900).</math> Let <math>k_{}</math> be the area of the region enclosed by the image of quadrilateral <math>ABCD.</math> Find the greatest integer that does not exceed <math>k_{}.</math>",
+      "answerType": "integer",
+      "answerKey": "314",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "There is a set of 1000 switches, each of which has four positions, called <math>A, B, C</math>, and <math>D</math>. When the position of any switch changes, it is only from <math>A</math> to <math>B</math>, from <math>B</math> to <math>C</math>, from <math>C</math> to <math>D</math>, or from <math>D</math> to <math>A</math>. Initially each switch is in position <math>A</math>. The switches are labeled with the 1000 different integers <math>(2^{x})(3^{y})(5^{z})</math>, where <math>x, y</math>, and <math>z</math> take on the values <math>0, 1, \\ldots, 9</math>. At step i of a 1000-step process, the <math>i</math>-th switch is advanced one step, and so are all the other switches whose labels divide the label on the <math>i</math>-th switch. After step 1000 has been completed, how many switches will be in position <math>A</math>?",
+      "answerType": "integer",
+      "answerKey": "650",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Let <math>\\mathcal{T}</math> be the set of ordered triples <math>(x,y,z)</math> of nonnegative [[real number]]s that lie in the [[plane]] <math>x+y+z=1.</math> Let us say that <math>(x,y,z)</math> supports <math>(a,b,c)</math> when exactly two of the following are true: <math>x\\ge a, y\\ge b, z\\ge c.</math> Let <math>\\mathcal{S}</math> consist of those triples in <math>\\mathcal{T}</math> that support <math>\\left(\\frac 12,\\frac 13,\\frac 16\\right).</math> The area of <math>\\mathcal{S}</math> divided by the area of <math>\\mathcal{T}</math> is <math>m/n,</math> where <math>m_{}</math> and <math>n_{}</math> are relatively prime positive integers. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "025",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "A function <math>f</math> is defined on the [[complex number]]s by <math>f(z)=(a+bi)z,</math> where <math>a_{}</math> and <math>b_{}</math> are positive numbers. This [[function]] has the property that the image of each point in the complex plane is [[equidistant]] from that point and the [[origin]]. Given that <math>|a+bi|=8</math> and that <math>b^2=m/n,</math> where <math>m_{}</math> and <math>n_{}</math> are relatively prime positive integers, find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "259",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Ten [[point]]s in the plane are given, with no three [[collinear]]. Four distinct [[segment]]s joining pairs of these points are chosen at random, all such segments being equally likely. The [[probability]] that some three of the segments form a [[triangle]] whose vertices are among the ten given points is <math>m/n,</math> where <math>m_{}</math> and <math>n_{}</math> are [[relatively prime]] [[positive]] [[integer]]s. Find <math>m+n.</math>",
+      "answerType": "integer",
+      "answerKey": "489",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Given that <imath>\\sum_{k=1}^{35}\\sin 5k=\\tan \\frac mn,</imath> where angles are measured in degrees, and <imath>m_{}</imath> and <imath>n_{}</imath> are relatively prime positive integers that satisfy <imath>\\frac mn<90,</imath> find <imath>m+n.</imath>",
+      "answerType": "integer",
+      "answerKey": "177",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "The inscribed circle of triangle <imath>ABC</imath> is [[tangent]] to <imath>\\overline{AB}</imath> at <imath>P_{},</imath> and its [[radius]] is <imath>21</imath>. Given that <imath>AP=23</imath> and <imath>PB=27,</imath> find the [[perimeter]] of the triangle.",
+      "answerType": "integer",
+      "answerKey": "345",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Forty teams play a tournament in which every team plays every other team exactly once. No ties occur, and each team has a <math>50 \\%</math> chance of winning any game it plays. The [[probability]] that no two teams win the same number of games is <math>\\frac mn,</math> where <math>m_{}</math> and <math>n_{}</math> are [[relatively prime]] positive integers. Find <math>\\log_2 n.</math>",
+      "answerType": "integer",
+      "answerKey": "742",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "[[Point]] <imath>P_{}</imath> is located inside [[triangle]] <imath>ABC</imath> so that [[angle]]s <imath>PAB, PBC,</imath> and <imath>PCA</imath> are all congruent. The sides of the triangle have lengths <imath>AB=13, BC=14,</imath> and <imath>CA=15,</imath> and the [[tangent]] of angle <imath>PAB</imath> is <imath>m/n,</imath> where <imath>m_{}</imath> and <imath>n_{}</imath> are relatively [[prime]] positive integers. Find <imath>m+n.</imath>",
+      "answerType": "integer",
+      "answerKey": "463",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Consider the paper triangle whose vertices are <math>(0,0), (34,0),</math> and <math>(16,24).</math> The vertices of its midpoint triangle are the [[midpoint]]s of its sides. A triangular [[pyramid]] is formed by folding the triangle along the sides of its midpoint triangle. What is the volume of this pyramid?",
+      "answerType": "integer",
+      "answerKey": "408",
+      "points": 1
+    }
+  ]
+}

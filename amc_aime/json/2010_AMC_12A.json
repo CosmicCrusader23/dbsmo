@@ -1,0 +1,227 @@
+{
+  "slug": "2010-amc-12a",
+  "title": "2010 AMC 12A",
+  "description": "Converted from 2010_AMC_12A_questions.txt and 2010_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is <math>\\left(20-\\left(2010-201\\right)\\right)+\\left(2010-\\left(201-20\\right)\\right)</math>? <math>\\textbf{(A)}\\ -4020 \\qquad \\textbf{(B)}\\ 0 \\qquad \\textbf{(C)}\\ 40 \\qquad \\textbf{(D)}\\ 401 \\qquad \\textbf{(E)}\\ 4020</math>",
+      "answerType": "integer",
+      "answerKey": "40",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A ferry boat shuttles tourists to an island every hour starting at 10 AM until its last trip, which starts at 3 PM. One day the boat captain notes that on the 10 AM trip there were 100 tourists on the ferry boat, and that on each successive trip, the number of tourists was 1 fewer than on the previous trip. How many tourists did the ferry take to the island that day? <math>\\textbf{(A)}\\ 585 \\qquad \\textbf{(B)}\\ 594 \\qquad \\textbf{(C)}\\ 672 \\qquad \\textbf{(D)}\\ 679 \\qquad \\textbf{(E)}\\ 694</math>",
+      "answerType": "exact",
+      "answerKey": "585\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Rectangle <math>ABCD</math>, pictured below, shares <math>50\\%</math> of its area with square <math>EFGH</math>. Square <math>EFGH</math> shares <math>20\\%</math> of its area with rectangle <math>ABCD</math>. What is <math>\\frac{AB}{AD}</math>? <center><asy> unitsize(1mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); draw((0,0)--(0,25)--(25,25)--(25,0)--cycle); fill((0,20)--(0,15)--(25,15)--(25,20)--cycle,gray); draw((0,15)--(0,20)--(25,20)--(25,15)--cycle); draw((25,15)--(25,20)--(50,20)--(50,15)--cycle); label(\"$A$\",(0,20),W); label(\"$B$\",(50,20),E); label(\"$C$\",(50,15),E); label(\"$D$\",(0,15),W); label(\"$E$\",(0,25),NW); label(\"$F$\",(25,25),NE); label(\"$G$\",(25,0),SE); label(\"$H$\",(0,0),SW); </asy></center> <math>\\textbf{(A)}\\ 4 \\qquad \\textbf{(B)}\\ 5 \\qquad \\textbf{(C)}\\ 6 \\qquad \\textbf{(D)}\\ 8 \\qquad \\textbf{(E)}\\ 10</math>",
+      "answerType": "exact",
+      "answerKey": "\\bold 10",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "If <math>x<0</math>, then which of the following must be positive? <math>\\textbf{(A)}\\ \\frac{x}{\\left|x\\right|} \\qquad \\textbf{(B)}\\ -x^2 \\qquad \\textbf{(C)}\\ -2^x \\qquad \\textbf{(D)}\\ -x^{-1} \\qquad \\textbf{(E)}\\ \\sqrt[3]{x}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Halfway through a 100-shot archery tournament, Chelsea leads by 50 points. For each shot a bullseye scores 10 points, with other possible scores being 8, 4, 2, and 0 points. Chelsea always scores at least 4 points on each shot. If Chelsea's next <math>n</math> shots are bullseyes she will be guaranteed victory. What is the minimum value for <math>n</math>? <math>\\textbf{(A)}\\ 38 \\qquad \\textbf{(B)}\\ 40 \\qquad \\textbf{(C)}\\ 42 \\qquad \\textbf{(D)}\\ 44 \\qquad \\textbf{(E)}\\ 46</math>",
+      "answerType": "exact",
+      "answerKey": "42\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "A <math>\\text{palindrome}</math>, such as <math>83438</math>, is a number that remains the same when its digits are reversed. The numbers <math>x</math> and <math>x+32</math> are three-digit and four-digit palindromes, respectively. What is the sum of the digits of <math>x</math>? <math>\\textbf{(A)}\\ 20 \\qquad \\textbf{(B)}\\ 21 \\qquad \\textbf{(C)}\\ 22 \\qquad \\textbf{(D)}\\ 23 \\qquad \\textbf{(E)}\\ 24</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 24",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Logan is constructing a scaled model of his town. The city's water tower stands 40 meters high, and the top portion is a sphere that holds 100,000 liters of water. Logan's miniature water tower holds 0.1 liters. How tall, in meters, should Logan make his tower? <math>\\textbf{(A)}\\ 0.04 \\qquad \\textbf{(B)}\\ \\frac{0.4}{\\pi} \\qquad \\textbf{(C)}\\ 0.4 \\qquad \\textbf{(D)}\\ \\frac{4}{\\pi} \\qquad \\textbf{(E)}\\ 4</math>",
+      "answerType": "decimal",
+      "answerKey": "0.4",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Triangle <math>ABC</math> has <math>AB=2 \\cdot AC</math>. Let <math>D</math> and <math>E</math> be on <math>\\overline{AB}</math> and <math>\\overline{BC}</math>, respectively, such that <math>\\angle BAE = \\angle ACD</math>. Let <math>F</math> be the intersection of segments <math>AE</math> and <math>CD</math>, and suppose that <math>\\triangle CFE</math> is equilateral. What is <math>\\angle ACB</math>? <math>\\textbf{(A)}\\ 60^\\circ \\qquad \\textbf{(B)}\\ 75^\\circ \\qquad \\textbf{(C)}\\ 90^\\circ \\qquad \\textbf{(D)}\\ 105^\\circ \\qquad \\textbf{(E)}\\ 120^\\circ</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "A solid cube has side length 3 inches. A 2-inch by 2-inch square hole is cut into the center of each face. The edges of each cut are parallel to the edges of the cube, and each hole goes all the way through the cube. What is the volume, in cubic inches, of the remaining solid? <math>\\textbf{(A)}\\ 7 \\qquad \\textbf{(B)}\\ 8 \\qquad \\textbf{(C)}\\ 10 \\qquad \\textbf{(D)}\\ 12 \\qquad \\textbf{(E)}\\ 15</math>",
+      "answerType": "exact",
+      "answerKey": "7\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "The first four terms of an arithmetic sequence are <math>p</math>, <math>9</math>, <math>3p-q</math>, and <math>3p+q</math>. What is the <math>2010^\\text{th}</math> term of this sequence? <math>\\textbf{(A)}\\ 8041 \\qquad \\textbf{(B)}\\ 8043 \\qquad \\textbf{(C)}\\ 8045 \\qquad \\textbf{(D)}\\ 8047 \\qquad \\textbf{(E)}\\ 8049</math>",
+      "answerType": "integer",
+      "answerKey": "8041",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The solution of the equation <math>7^{x+7} = 8^x</math> can be expressed in the form <math>x = \\log_b 7^7</math>. What is <math>b</math>? <math>\\textbf{(A)}\\ \\frac{7}{15} \\qquad \\textbf{(B)}\\ \\frac{7}{8} \\qquad \\textbf{(C)}\\ \\frac{8}{7} \\qquad \\textbf{(D)}\\ \\frac{15}{8} \\qquad \\textbf{(E)}\\ \\frac{15}{7}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "In a magical swamp there are two species of talking amphibians: toads, whose statements are always true, and frogs, whose statements are always false. Four amphibians, Brian, Chris, LeRoy, and Mike live together in this swamp, and they make the following statements. Brian: \"Mike and I are different species.\" Chris: \"LeRoy is a frog.\" LeRoy: \"Chris is a frog.\" Mike: \"Of the four of us, at least two are toads.\" How many of these amphibians are frogs? <math>\\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ 1 \\qquad \\textbf{(C)}\\ 2 \\qquad \\textbf{(D)}\\ 3 \\qquad \\textbf{(E)}\\ 4</math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "For how many integer values of <math>k</math> do the graphs of <math>x^2+y^2=k^2</math> and <math>xy = k</math> not intersect? <math>\\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ 1 \\qquad \\textbf{(C)}\\ 2 \\qquad \\textbf{(D)}\\ 4 \\qquad \\textbf{(E)}\\ 8</math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Nondegenerate <math>\\triangle ABC</math> has integer side lengths, <math>\\overline{BD}</math> is an angle bisector, <math>AD = 3</math>, and <math>DC=8</math>. What is the smallest possible value of the perimeter? <math>\\textbf{(A)}\\ 30 \\qquad \\textbf{(B)}\\ 33 \\qquad \\textbf{(C)}\\ 35 \\qquad \\textbf{(D)}\\ 36 \\qquad \\textbf{(E)}\\ 37</math>",
+      "answerType": "integer",
+      "answerKey": "33",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "A coin is altered so that the probability that it lands on heads is less than <math>\\frac{1}{2}</math> and when the coin is flipped four times, the probability of an equal number of heads and tails is <math>\\frac{1}{6}</math>. What is the probability that the coin lands on heads? <math>\\textbf{(A)}\\ \\frac{\\sqrt{15}-3}{6} \\qquad \\textbf{(B)}\\ \\frac{6-\\sqrt{6\\sqrt{6}+2}}{12} \\qquad \\textbf{(C)}\\ \\frac{\\sqrt{2}-1}{2} \\qquad \\textbf{(D)}\\ \\frac{3-\\sqrt{3}}{6} \\qquad \\textbf{(E)}\\ \\frac{\\sqrt{3}-1}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 3-\\sqrt 3 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Bernardo randomly picks 3 distinct numbers from the set <math>\\{1,2,3,...,7,8,9\\}</math> and arranges them in descending order to form a 3-digit number. Silvia randomly picks 3 distinct numbers from the set <math>\\{1,2,3,...,6,7,8\\}</math> and also arranges them in descending order to form a 3-digit number. What is the probability that Bernardo's number is larger than Silvia's number? <math>\\textbf{(A)}\\ \\frac{47}{72} \\qquad \\textbf{(B)}\\ \\frac{37}{56} \\qquad \\textbf{(C)}\\ \\frac{2}{3} \\qquad \\textbf{(D)}\\ \\frac{49}{72} \\qquad \\textbf{(E)}\\ \\frac{39}{56}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 37 56 \\",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Equiangular hexagon <math>ABCDEF</math> has side lengths <math>AB=CD=EF=1</math> and <math>BC=DE=FA=r</math>. The area of <math>\\triangle ACE</math> is <math>70\\%</math> of the area of the hexagon. What is the sum of all possible values of <math>r</math>? <math>\\textbf{(A)}\\ \\frac{4\\sqrt{3}}{3} \\qquad \\textbf{(B)} \\frac{10}{3} \\qquad \\textbf{(C)}\\ 4 \\qquad \\textbf{(D)}\\ \\frac{17}{4} \\qquad \\textbf{(E)}\\ 6</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "A 16-step path is to go from <math>(-4,-4)</math> to <math>(4,4)</math> with each step increasing either the <math>x</math>-coordinate or the <math>y</math>-coordinate by 1. How many such paths stay outside or on the boundary of the square <math>-2 \\le x \\le 2</math>, <math>-2 \\le y \\le 2</math> at each step? <math>\\textbf{(A)}\\ 92 \\qquad \\textbf{(B)}\\ 144 \\qquad \\textbf{(C)}\\ 1568 \\qquad \\textbf{(D)}\\ 1698 \\qquad \\textbf{(E)}\\ 12,800</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "Each of <math>2010</math> boxes in a line contains a single red marble, and for <math>1 \\le k \\le 2010</math>, the box in the <math>k\\text{th}</math> position also contains <math>k</math> white marbles. Isabella begins at the first box and successively draws a single marble at random from each box, in order. She stops when she first draws a red marble. Let <math>P(n)</math> be the probability that Isabella stops after drawing exactly <math>n</math> marbles. What is the smallest value of <math>n</math> for which <math>P(n) < \\frac{1}{2010}</math>? <math>\\textbf{(A)}\\ 45 \\qquad \\textbf{(B)}\\ 63 \\qquad \\textbf{(C)}\\ 64 \\qquad \\textbf{(D)}\\ 201 \\qquad \\textbf{(E)}\\ 1005</math>",
+      "answerType": "integer",
+      "answerKey": "45",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Arithmetic sequences <math>\\left(a_n\\right)</math> and <math>\\left(b_n\\right)</math> have integer terms with <math>a_1=b_1=1<a_2 \\le b_2</math> and <math>a_n b_n = 2010</math> for some <math>n</math>. What is the largest possible value of <math>n</math>? <math>\\textbf{(A)}\\ 2 \\qquad \\textbf{(B)}\\ 3 \\qquad \\textbf{(C)}\\ 8 \\qquad \\textbf{(D)}\\ 288 \\qquad \\textbf{(E)}\\ 2009</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "The graph of <math>y=x^6-10x^5+29x^4-4x^3+ax^2</math> lies above the line <math>y=bx+c</math> except at three values of <math>x</math>, where the graph and the line intersect. What is the largest of these values? <math>\\textbf{(A)}\\ 4 \\qquad \\textbf{(B)}\\ 5 \\qquad \\textbf{(C)}\\ 6 \\qquad \\textbf{(D)}\\ 7 \\qquad \\textbf{(E)}\\ 8</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "What is the minimum value of <math>f(x)=\\left|x-1\\right| + \\left|2x-1\\right| + \\left|3x-1\\right| + \\cdots + \\left|119x - 1 \\right|</math>? <math>\\textbf{(A)}\\ 49 \\qquad \\textbf{(B)}\\ 50 \\qquad \\textbf{(C)}\\ 51 \\qquad \\textbf{(D)}\\ 52 \\qquad \\textbf{(E)}\\ 53</math>",
+      "answerType": "integer",
+      "answerKey": "49",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "The number obtained from the last two nonzero digits of <math>90!</math> is equal to <math>n</math>. What is <math>n</math>? <math>\\textbf{(A)}\\ 12 \\qquad \\textbf{(B)}\\ 32 \\qquad \\textbf{(C)}\\ 48 \\qquad \\textbf{(D)}\\ 52 \\qquad \\textbf{(E)}\\ 68</math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "Let <math>f(x) = \\log_{10} \\left(\\sin(\\pi x) \\cdot \\sin(2 \\pi x) \\cdot \\sin (3 \\pi x) \\cdots \\sin(8 \\pi x)\\right)</math>. The intersection of the domain of <math>f(x)</math> with the interval <math>[0,1]</math> is a union of <math>n</math> disjoint open intervals. What is <math>n</math>? <math>\\textbf{(A)}\\ 2 \\qquad \\textbf{(B)}\\ 12 \\qquad \\textbf{(C)}\\ 18 \\qquad \\textbf{(D)}\\ 22 \\qquad \\textbf{(E)}\\ 36</math>",
+      "answerType": "exact",
+      "answerKey": "12\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Two quadrilaterals are considered the same if one can be obtained from the other by a rotation and a translation. How many different convex cyclic quadrilaterals are there with integer sides and perimeter equal to 32? <math>\\textbf{(A)}\\ 560 \\qquad \\textbf{(B)}\\ 564 \\qquad \\textbf{(C)}\\ 568 \\qquad \\textbf{(D)}\\ 1498 \\qquad \\textbf{(E)}\\ 2255</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    }
+  ]
+}

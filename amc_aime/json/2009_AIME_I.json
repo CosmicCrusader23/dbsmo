@@ -1,0 +1,118 @@
+{
+  "slug": "2009-aime-i",
+  "title": "2009 AIME I",
+  "description": "Converted from 2009_AIME_I_questions.txt and 2009_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Call a <imath>3</imath>-digit number ''geometric'' if it has <imath>3</imath> distinct digits which, when read from left to right, form a geometric sequence. Find the difference between the largest and smallest geometric numbers.",
+      "answerType": "integer",
+      "answerKey": "840",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "There is a complex number <math>z</math> with imaginary part <math>164</math> and a positive integer <math>n</math> such that <cmath>\\frac {z}{z + n} = 4i.</cmath> Find <math>n</math>.",
+      "answerType": "integer",
+      "answerKey": "697",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "A coin that comes up heads with probability <math>p > 0</math> and tails with probability <math>1 - p > 0</math> independently on each flip is flipped <math>8</math> times. Suppose that the probability of three heads and five tails is equal to <math>\\frac {1}{25}</math> of the probability of five heads and three tails. Let <math>p = \\frac {m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "011",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "In parallelogram <math>ABCD</math>, point <math>M</math> is on <math>\\overline{AB}</math> so that <math>\\frac {AM}{AB} = \\frac {17}{1000}</math> and point <math>N</math> is on <math>\\overline{AD}</math> so that <math>\\frac {AN}{AD} = \\frac {17}{2009}</math>. Let <math>P</math> be the point of intersection of <math>\\overline{AC}</math> and <math>\\overline{MN}</math>. Find <math>\\frac {AC}{AP}</math>.",
+      "answerType": "integer",
+      "answerKey": "177",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Triangle <math>ABC</math> has <math>AC = 450</math> and <math>BC = 300</math>. Points <math>K</math> and <math>L</math> are located on <math>\\overline{AC}</math> and <math>\\overline{AB}</math> respectively so that <math>AK = CK</math>, and <math>\\overline{CL}</math> is the angle bisector of angle <math>C</math>. Let <math>P</math> be the point of intersection of <math>\\overline{BK}</math> and <math>\\overline{CL}</math>, and let <math>M</math> be the point on line <math>BK</math> for which <math>K</math> is the midpoint of <math>\\overline{PM}</math>. If <math>AM = 180</math>, find <math>LP</math>.",
+      "answerType": "integer",
+      "answerKey": "72",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "How many positive integers <math>N</math> less than <math>1000</math> are there such that the equation <math>x^{\\lfloor x\\rfloor} = N</math> has a solution for <math>x</math>?",
+      "answerType": "integer",
+      "answerKey": "412",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "The sequence <imath>(a_n)</imath> satisfies <imath>a_1 = 1</imath> and <cmath>5^{(a_{n + 1} - a_n)} - 1 = \\frac{1}{n + \\frac{2}{3}}</cmath> for <imath>n \\geq 1</imath>. Let <imath>k</imath> be the least integer greater than <imath>1</imath> for which <imath>a_k</imath> is an integer. Find <imath>k</imath>.",
+      "answerType": "integer",
+      "answerKey": "41",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Let <imath>S = \\{2^0,2^1,2^2,\\ldots,2^{10}\\}</imath>. Consider all possible positive differences of pairs of elements of <imath>S</imath>. Let <imath>N</imath> be the sum of all of these differences. Find the remainder when <imath>N</imath> is divided by <imath>1000</imath>.",
+      "answerType": "integer",
+      "answerKey": "398",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "A game show offers a contestant three prizes A, B and C, each of which is worth a whole number of dollars from <math>\\$ 1</math> to <math>\\$ 9999</math> inclusive. The contestant wins the prizes by correctly guessing the price of each prize in the order A, B, C. As a hint, the digits of the three prices are given. On a particular day, the digits given were <math>1, 1, 1, 1, 3, 3, 3</math>. Find the total number of possible guesses for all three prizes consistent with the hint.",
+      "answerType": "integer",
+      "answerKey": "420",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "The Annual Interplanetary Mathematics Examination (AIME) is written by a committee of five Martians, five Venusians, and five Earthlings. At meetings, committee members sit at a round table with chairs numbered from <math>1</math> to <math>15</math> in clockwise order. Committee rules state that a Martian must occupy chair <math>1</math> and an Earthling must occupy chair <math>15</math>, Furthermore, no Earthling can sit immediately to the left of a Martian, no Martian can sit immediately to the left of a Venusian, and no Venusian can sit immediately to the left of an Earthling. The number of possible seating arrangements for the committee is <math>N \\cdot (5!)^3</math>. Find <math>N</math>.",
+      "answerType": "integer",
+      "answerKey": "346",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Consider the set of all triangles <imath>OPQ</imath> where <imath>O</imath> is the origin and <imath>P</imath> and <imath>Q</imath> are distinct points in the plane with nonnegative integer coordinates <imath>(x,y)</imath> such that <imath>41x + y = 2009</imath>. Find the number of such distinct triangles whose area is a positive integer.",
+      "answerType": "integer",
+      "answerKey": "600",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "In right <imath>\\triangle ABC</imath> with hypotenuse <imath>\\overline{AB}</imath>, <imath>AC = 12</imath>, <imath>BC = 35</imath>, and <imath>\\overline{CD}</imath> is the altitude to <imath>\\overline{AB}</imath>. Let <imath>\\omega</imath> be the circle having <imath>\\overline{CD}</imath> as a diameter. Let <imath>I</imath> be a point outside <imath>\\triangle ABC</imath> such that <imath>\\overline{AI}</imath> and <imath>\\overline{BI}</imath> are both tangent to circle <imath>\\omega</imath>. The ratio of the perimeter of <imath>\\triangle ABI</imath> to the length <imath>AB</imath> can be expressed in the form <imath>\\frac {m}{n}</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m + n</imath>.",
+      "answerType": "integer",
+      "answerKey": "11",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "The terms of the sequence <math>(a_i)</math> defined by <math>a_{n + 2} = \\frac {a_n + 2009} {1 + a_{n + 1}}</math> for <math>n \\ge 1</math> are positive integers. Find the minimum possible value of <math>a_1 + a_2</math>.",
+      "answerType": "integer",
+      "answerKey": "90",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "For <math>t = 1, 2, 3, 4</math>, define <math>S_t = \\sum_{i = 1}^{350}a_i^t</math>, where <math>a_i \\in \\{1,2,3,4\\}</math>. If <math>S_1 = 513</math> and <math>S_4 = 4745</math>, find the minimum possible value for <math>S_2</math>.",
+      "answerType": "integer",
+      "answerKey": "905",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "In triangle <imath>ABC</imath>, <imath>AB = 10</imath>, <imath>BC = 14</imath>, and <imath>CA = 16</imath>. Let <imath>D</imath> be a point on segment <imath>\\overline{BC}</imath>. Let points <imath>I_B</imath> and <imath>I_C</imath> denote the incenters of triangles <imath>ABD</imath> and <imath>ACD</imath>, respectively. The circumcircles of triangles <imath>BI_BD</imath> and <imath>CI_CD</imath> meet at distinct points <imath>P</imath> and <imath>D</imath>. The maximum possible area of <imath>\\triangle BPC</imath> can be expressed in the form <imath>a - b\\sqrt {c}</imath>, where <imath>a</imath>, <imath>b</imath>, and <imath>c</imath> are positive integers and <imath>c</imath> is not divisible by the square of any prime. Find <imath>a + b + c</imath>.",
+      "answerType": "integer",
+      "answerKey": "150",
+      "points": 1
+    }
+  ]
+}

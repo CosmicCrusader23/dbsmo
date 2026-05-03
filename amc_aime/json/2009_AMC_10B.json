@@ -1,0 +1,215 @@
+{
+  "slug": "2009-amc-10b",
+  "title": "2009 AMC 10B",
+  "description": "Converted from 2009_AMC_10B_questions.txt and 2009_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Each morning of her five-day workweek, Jane bought either a <math>50</math>-cent muffin or a <math>75</math>-cent bagel. Her total cost for the week was a whole number of dollars. How many bagels did she buy? <math>\\textbf{(A) } 1\\qquad\\textbf{(B) } 2\\qquad\\textbf{(C) } 3\\qquad\\textbf{(D) } 4\\qquad\\textbf{(E) } 5</math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Which of the following is equal to <math>\\dfrac{\\frac{1}{3}-\\frac{1}{4}}{\\frac{1}{2}-\\frac{1}{3}}</math>? <math> \\text{(A) } \\frac 14 \\qquad \\text{(B) } \\frac 13 \\qquad \\text{(C) } \\frac 12 \\qquad \\text{(D) } \\frac 23 \\qquad \\text{(E) } \\frac 34 </math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Paula the painter had just enough paint for 30 identically sized rooms. Unfortunately, on the way to work, three cans of paint fell off her truck, so she had only enough paint for 25 rooms. How many cans of paint did she use for the 25 rooms? <math>\\mathrm{(A)}\\ 10\\qquad \\mathrm{(B)}\\ 12\\qquad \\mathrm{(C)}\\ 15\\qquad \\mathrm{(D)}\\ 18\\qquad \\mathrm{(E)}\\ 25</math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "A rectangular yard contains two flower beds in the shape of congruent isosceles right triangles. The remainder of the yard has a trapezoidal shape, as shown. The parallel sides of the trapezoid have lengths <math>15</math> and <math>25</math> meters. What fraction of the yard is occupied by the flower beds? <center><asy> unitsize(2mm); defaultpen(linewidth(.8pt)); fill((0,0)--(0,5)--(5,5)--cycle,gray); fill((25,0)--(25,5)--(20,5)--cycle,gray); draw((0,0)--(0,5)--(25,5)--(25,0)--cycle); draw((0,0)--(5,5)); draw((20,5)--(25,0)); </asy></center> <math>\\mathrm{(A)}\\frac {1}{8}\\qquad \\mathrm{(B)}\\frac {1}{6}\\qquad \\mathrm{(C)}\\frac {1}{5}\\qquad \\mathrm{(D)}\\frac {1}{4}\\qquad \\mathrm{(E)}\\frac {1}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac15",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Twenty percent less than 60 is one-third more than what number? <math>\\mathrm{(A)}\\ 16\\qquad \\mathrm{(B)}\\ 30\\qquad \\mathrm{(C)}\\ 32\\qquad \\mathrm{(D)}\\ 36\\qquad \\mathrm{(E)}\\ 48</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Kiana has two older twin brothers. The product of their three ages is 128. What is the sum of their three ages? <math>\\mathrm{(A)}\\ 10\\qquad \\mathrm{(B)}\\ 12\\qquad \\mathrm{(C)}\\ 16\\qquad \\mathrm{(D)}\\ 18\\qquad \\mathrm{(E)}\\ 24</math>",
+      "answerType": "integer",
+      "answerKey": "18",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "By inserting parentheses, it is possible to give the expression <cmath>2\\times3 + 4\\times5</cmath> several values. How many different values can be obtained? <math> \\text{(A) } 2 \\qquad \\text{(B) } 3 \\qquad \\text{(C) } 4 \\qquad \\text{(D) } 5 \\qquad \\text{(E) } 6 </math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "In a certain year the price of gasoline rose by <math>20\\%</math> during January, fell by <math>20\\%</math> during February, rose by <math>25\\%</math> during March, and fell by <math>x\\%</math> during April. The price of gasoline at the end of April was the same as it had been at the beginning of January. To the nearest integer, what is <math>x</math> <math>\\mathrm{(A)}\\ 12\\qquad \\mathrm{(B)}\\ 17\\qquad \\mathrm{(C)}\\ 20\\qquad \\mathrm{(D)}\\ 25\\qquad \\mathrm{(E)}\\ 35</math>",
+      "answerType": "integer",
+      "answerKey": "17",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Segment <math>BD</math> and <math>AE</math> intersect at <math>C</math>, as shown, <math>AB=BC=CD=CE</math>, and <math>\\angle A = \\frac 52 \\angle B</math>. What is the degree measure of <math>\\angle D</math>? <asy> unitsize(2cm); defaultpen(linewidth(.8pt)+fontsize(8pt)); dotfactor=4; pair C=(0,0), Ep=dir(35), D=dir(-35), B=dir(145); pair A=intersectionpoints(Circle(B,1),C--(-1*Ep))[0]; pair[] ds={A,B,C,D,Ep}; dot(ds); draw(A--Ep--D--B--cycle); label(\"$A$\",A,SW); label(\"$B$\",B,NW); label(\"$C$\",C,N); label(\"$E$\",Ep,E); label(\"$D$\",D,E); </asy> <math> \\text{(A) } 52.5 \\qquad \\text{(B) } 55 \\qquad \\text{(C) } 57.7 \\qquad \\text{(D) } 60 \\qquad \\text{(E) } 62.5 </math>",
+      "answerType": "decimal",
+      "answerKey": "52.5",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "A flagpole is originally <math>5</math> meters tall. A hurricane snaps the flagpole at a point <math>x</math> meters above the ground so that the upper part, still attached to the stump, touches the ground <math>1</math> meter away from the base. What is <math>x</math>? <math> \\text{(A) } 2.0 \\qquad \\text{(B) } 2.1 \\qquad \\text{(C) } 2.2 \\qquad \\text{(D) } 2.3 \\qquad \\text{(E) } 2.4 </math>",
+      "answerType": "decimal",
+      "answerKey": "2.4",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "How many <math>7</math>-digit palindromes (numbers that read the same backward as forward) can be formed using the digits <math>2</math>, <math>2</math>, <math>3</math>, <math>3</math>, <math>5</math>, <math>5</math>, <math>5</math>? <math> \\text{(A) } 6 \\qquad \\text{(B) } 12 \\qquad \\text{(C) } 24 \\qquad \\text{(D) } 36 \\qquad \\text{(E) } 48 </math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Distinct points <math>A</math>, <math>B</math>, <math>C</math>, and <math>D</math> lie on a line, with <math>AB=BC=CD=1</math>. Points <math>E</math> and <math>F</math> lie on a second line, parallel to the first, with <math>EF=1</math>. A triangle with positive area has three of the six points as its vertices. How many possible values are there for the area of the triangle? <math> \\text{(A) } 3 \\qquad \\text{(B) } 4 \\qquad \\text{(C) } 5 \\qquad \\text{(D) } 6 \\qquad \\text{(E) } 7 </math>",
+      "answerType": "integer",
+      "answerKey": "3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "As shown below, convex pentagon <math>ABCDE</math> has sides <math>AB=3</math>, <math>BC=4</math>, <math>CD=6</math>, <math>DE=3</math>, and <math>EA=7</math>. The pentagon is originally positioned in the plane with vertex <math>A</math> at the origin and vertex <math>B</math> on the positive <math>x</math>-axis. The pentagon is then rolled clockwise to the right along the <math>x</math>-axis. Which side will touch the point <math>x=2009</math> on the <math>x</math>-axis? <asy> unitsize(3mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); dotfactor=4; pair A=(0,0), Ep=7*dir(105), B=3*dir(0); pair D=Ep+B; pair C=intersectionpoints(Circle(D,6),Circle(B,4))[1]; pair[] ds={A,B,C,D,Ep}; dot(ds); draw(B--C--D--Ep--A); draw((6,6)..(8,4)..(8,3),EndArrow(3)); xaxis(\"$x$\",-8,14,EndArrow(3)); label(\"$E$\",Ep,NW); label(\"$D$\",D,NE); label(\"$C$\",C,E); label(\"$B$\",B,SE); label(\"$(0,0)=A$\",A,SW); label(\"$3$\",midpoint(A--B),N); label(\"$4$\",midpoint(B--C),NW); label(\"$6$\",midpoint(C--D),NE); label(\"$3$\",midpoint(D--Ep),S); label(\"$7$\",midpoint(Ep--A),W); </asy> <math> \\text{(A) } \\overline{AB} \\qquad \\text{(B) } \\overline{BC} \\qquad \\text{(C) } \\overline{CD} \\qquad \\text{(D) } \\overline{DE} \\qquad \\text{(E) } \\overline{EA} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "On Monday, Millie puts a quart of seeds, <math>25\\%</math> of which are millet, into a bird feeder. On each successive day she adds another quart of the same mix of seeds without removing any seeds that are left. Each day the birds eat only <math>25\\%</math> of the millet in the feeder, but they eat all of the other seeds. On which day, just after Millie has placed the seeds, will the birds find that more than half the seeds in the feeder are millet? <math>\\textbf{(A)}\\ \\text{Tuesday}\\qquad \\textbf{(B)}\\ \\text{Wednesday}\\qquad \\textbf{(C)}\\ \\text{Thursday}\\qquad \\textbf{(D)}\\ \\text{Friday}\\qquad \\textbf{(E)}\\ \\text{Saturday}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "When a bucket is two-thirds full of water, the bucket and water weigh <math>a</math> kilograms. When the bucket is one-half full of water the total weight is <math>b</math> kilograms. In terms of <math>a</math> and <math>b</math>, what is the total weight in kilograms when the bucket is full of water? <math>\\mathrm{(A)}\\ \\frac23a + \\frac13b\\qquad \\mathrm{(B)}\\ \\frac32a - \\frac12b\\qquad \\mathrm{(C)}\\ \\frac32a + b\\qquad \\mathrm{(D)}\\ \\frac32a + 2b\\qquad \\mathrm{(E)}\\ 3a - 2b</math>",
+      "answerType": "exact",
+      "answerKey": "3a-2b",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Points <math>A</math> and <math>C</math> lie on a circle centered at <math>O</math>, each of <math>\\overline{BA}</math> and <math>\\overline{BC}</math> are tangent to the circle, and <math>\\triangle ABC</math> is equilateral. The circle intersects <math>\\overline{BO}</math> at <math>D</math>. What is <math>\\frac{BD}{BO}</math>? <math> \\text{(A) } \\frac {\\sqrt2}{3} \\qquad \\text{(B) } \\frac {1}{2} \\qquad \\text{(C) } \\frac {\\sqrt3}{3} \\qquad \\text{(D) } \\frac {\\sqrt2}{2} \\qquad \\text{(E) } \\frac {\\sqrt3}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Five unit squares are arranged in the coordinate plane as shown, with the lower left corner at the origin. The slanted line, extending from <math>(c,0)</math> to <math>(3,3)</math>, divides the entire region into two regions of equal area. What is <math>c</math>? <asy> unitsize(0.2cm); defaultpen(linewidth(.8pt)+fontsize(8pt)); fill((2/3,0)--(3,3)--(3,1)--(2,1)--(2,0)--cycle,gray); xaxis(\"$x$\",-0.5,4,EndArrow(HookHead,4)); yaxis(\"$y$\",-0.5,4,EndArrow(4)); draw((0,1)--(3,1)--(3,3)--(2,3)--(2,0)); draw((1,0)--(1,2)--(3,2)); draw((2/3,0)--(3,3)); label(\"$(c,0)$\",(2/3,0),S); label(\"$(3,3)$\",(3,3),NE); </asy> <math>\\textbf{(A)}\\ \\frac12\\qquad \\textbf{(B)}\\ \\frac35\\qquad \\textbf{(C)}\\ \\frac23\\qquad \\textbf{(D)}\\ \\frac34\\qquad \\textbf{(E)}\\ \\frac45</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 23",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Rectangle <math>ABCD</math> has <math>AB=8</math> and <math>BC=6</math>. Point <math>M</math> is the midpoint of diagonal <math>\\overline{AC}</math>, and <math>E</math> is on <math>AB</math> with <math>\\overline{ME}\\perp\\overline{AC}</math>. What is the area of <math>\\triangle AME</math>? <math> \\text{(A) } \\frac{65}{8} \\qquad \\text{(B) } \\frac{25}{3} \\qquad \\text{(C) } 9 \\qquad \\text{(D) } \\frac{75}{8} \\qquad \\text{(E) } \\frac{85}{8} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A particular <math>12</math>-hour digital clock displays the hour and minute of a day. Unfortunately, whenever it is supposed to display a <math>1</math>, it mistakenly displays a <math>9</math>. For example, when it is 1:16 PM the clock incorrectly shows 9:96 PM. What fraction of the day will the clock show the correct time? <math>\\mathrm{(A)}\\ \\frac 12\\qquad \\mathrm{(B)}\\ \\frac 58\\qquad \\mathrm{(C)}\\ \\frac 34\\qquad \\mathrm{(D)}\\ \\frac 56\\qquad \\mathrm{(E)}\\ \\frac {9}{10}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Triangle <math>ABC</math> has a right angle at <math>B</math>, <math>AB=1</math>, and <math>BC=2</math>. The bisector of <math>\\angle BAC</math> meets <math>\\overline{BC}</math> at <math>D</math>. What is <math>BD</math>? <asy> unitsize(2cm); defaultpen(linewidth(.8pt)+fontsize(8pt)); dotfactor=4; pair A=(0,1), B=(0,0), C=(2,0); pair D=extension(A,bisectorpoint(B,A,C),B,C); pair[] ds={A,B,C,D}; dot(ds); draw(A--B--C--A--D); label(\"$1$\",midpoint(A--B),W); label(\"$B$\",B,SW); label(\"$D$\",D,S); label(\"$C$\",C,SE); label(\"$A$\",A,NW); draw(rightanglemark(C,B,A,2)); </asy> <math> \\text{(A) } \\frac {\\sqrt3 - 1}{2} \\qquad \\text{(B) } \\frac {\\sqrt5 - 1}{2} \\qquad \\text{(C) } \\frac {\\sqrt5 + 1}{2} \\qquad \\text{(D) } \\frac {\\sqrt6 + \\sqrt2}{2} \\qquad \\text{(E) } 2\\sqrt 3 - 1 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\sqrt5-1 2",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "What is the remainder when <math>3^0 + 3^1 + 3^2 + \\cdots + 3^{2009}</math> is divided by 8? <math>\\mathrm{(A)}\\ 0\\qquad \\mathrm{(B)}\\ 1\\qquad \\mathrm{(C)}\\ 2\\qquad \\mathrm{(D)}\\ 4\\qquad \\mathrm{(E)}\\ 6</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A cubical cake with edge length <math>2</math> inches is iced on the sides and the top. It is cut vertically into three pieces as shown in this top view, where <math>M</math> is the midpoint of a top edge. The piece whose top is triangle <math>B</math> contains <math>c</math> cubic inches of cake and <math>s</math> square inches of icing. What is <math>c+s</math>? <asy> unitsize(1cm); defaultpen(linewidth(.8pt)+fontsize(8pt)); draw((-1,-1)--(1,-1)--(1,1)--(-1,1)--cycle); draw((1,1)--(-1,0)); pair P=foot((1,-1),(1,1),(-1,0)); draw((1,-1)--P); draw(rightanglemark((-1,0),P,(1,-1),4)); label(\"$M$\",(-1,0),W); label(\"$C$\",(-0.1,-0.3)); label(\"$A$\",(-0.4,0.7)); label(\"$B$\",(0.7,0.4)); </asy> <math> \\text{(A) } \\frac{24}{5} \\qquad \\text{(B) } \\frac{32}{5} \\qquad \\text{(C) } 8+\\sqrt5 \\qquad \\text{(D) } 5+\\frac{16\\sqrt5}{5} \\qquad \\text{(E) } 10+5\\sqrt5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 32 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Rachel and Robert run on a circular track. Rachel runs counterclockwise and completes a lap every 90 seconds, and Robert runs clockwise and completes a lap every 80 seconds. Both start from the same line at the same time. At some random time between 10 minutes and 11 minutes after they begin to run, a photographer standing inside the track takes a picture that shows one-fourth of the track, centered on the starting line. What is the probability that both Rachel and Robert are in the picture? <math>\\mathrm{(A)}\\frac {1}{16}\\qquad \\mathrm{(B)}\\frac 18\\qquad \\mathrm{(C)}\\frac {3}{16}\\qquad \\mathrm{(D)}\\frac 14\\qquad \\mathrm{(E)}\\frac {5}{16}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 16",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "The keystone arch is an ancient architectural feature. It is composed of congruent isosceles trapezoids fitted together along the non-parallel sides, as shown. The bottom sides of the two end trapezoids are horizontal. In an arch made with <math>9</math> trapezoids, let <math>x</math> be the angle measure in degrees of the larger interior angle of the trapezoid. What is <math>x</math>? <asy> unitsize(4mm); defaultpen(linewidth(.8pt)); int i; real r=5, R=6; path t=r*dir(0)--r*dir(20)--R*dir(20)--R*dir(0); for(i=0; i<9; ++i) { draw(rotate(20*i)*t); } draw((-r,0)--(R+1,0)); draw((-R,0)--(-R-1,0)); </asy> <math> \\text{(A) } 100 \\qquad \\text{(B) } 102 \\qquad \\text{(C) } 104 \\qquad \\text{(D) } 106 \\qquad \\text{(E) } 108 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Each face of a cube is given a single narrow stripe painted from the center of one edge to the center of the opposite edge. The choice of the edge pairing is made at random and independently for each face. What is the probability that there is a continuous stripe encircling the cube? <math>\\mathrm{(A)}\\frac 18\\qquad \\mathrm{(B)}\\frac {3}{16}\\qquad \\mathrm{(C)}\\frac 14\\qquad \\mathrm{(D)}\\frac 38\\qquad \\mathrm{(E)}\\frac 12</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 16",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

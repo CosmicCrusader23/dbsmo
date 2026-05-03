@@ -1,0 +1,118 @@
+{
+  "slug": "2003-aime-ii",
+  "title": "2003 AIME II",
+  "description": "Converted from 2003_AIME_II_questions.txt and 2003_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "The [[product]] <math>N</math> of three [[positive integer]]s is <math>6</math> times their [[sum]], and one of the [[integer]]s is the sum of the other two. Find the sum of all possible values of <math>N</math>.",
+      "answerType": "integer",
+      "answerKey": "336",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Let <math>N</math> be the greatest integer multiple of 8, no two of whose digits are the same. What is the remainder when <math>N</math> is divided by 1000?",
+      "answerType": "integer",
+      "answerKey": "120",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Define a <math>\\text{good~word}</math> as a sequence of letters that consists only of the letters <math>A</math>, <math>B</math>, and <math>C</math> - some of these letters may not appear in the sequence - and in which <math>A</math> is never immediately followed by <math>B</math>, <math>B</math> is never immediately followed by <math>C</math>, and <math>C</math> is never immediately followed by <math>A</math>. How many seven-letter good words are there? == Solution 1 == There are three letters to make the first letter in the sequence. However, after the first letter (whatever it is), only two letters can follow it, since one of the letters is restricted. Therefore, the number of seven-letter good words is <math>3*2^6=192</math> Therefore, there are <math>\\boxed{192}</math> seven-letter good words.",
+      "answerType": "integer",
+      "answerKey": "192",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "In a regular tetrahedron the centers of the four faces are the vertices of a smaller tetrahedron. The ratio of the volume of the smaller tetrahedron to that of the larger is <imath>m/n</imath>, where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers. Find <imath>m+n</imath>.",
+      "answerType": "integer",
+      "answerKey": "028",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "A cylindrical log has diameter <math>12</math> inches. A wedge is cut from the log by making two planar cuts that go entirely through the log. The first is perpendicular to the axis of the cylinder, and the plane of the second cut forms a <math>45^\\circ</math> angle with the plane of the first cut. The intersection of these two planes has exactly one point in common with the log. The number of cubic inches in the wedge can be expressed as <math>n\\pi</math>, where n is a positive integer. Find <math>n</math>.",
+      "answerType": "integer",
+      "answerKey": "216",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "In triangle <math>ABC,</math> <math>AB = 13,</math> <math>BC = 14,</math> <math>AC = 15,</math> and point <math>G</math> is the intersection of the medians. Points <math>A',</math> <math>B',</math> and <math>C',</math> are the images of <math>A,</math> <math>B,</math> and <math>C,</math> respectively, after a <math>180^\\circ</math> rotation about <math>G.</math> What is the area of the union of the two regions enclosed by the triangles <math>ABC</math> and <math>A'B'C'?</math>",
+      "answerType": "integer",
+      "answerKey": "112",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Find the area of rhombus <math>ABCD</math> given that the circumradii of triangles <math>ABD</math> and <math>ACD</math> are <math>12.5</math> and <math>25</math>, respectively.",
+      "answerType": "integer",
+      "answerKey": "400",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Find the eighth term of the sequence <math>1440,</math> <math>1716,</math> <math>1848,\\ldots,</math> whose terms are formed by multiplying the corresponding terms of two arithmetic sequences.",
+      "answerType": "integer",
+      "answerKey": "348",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Consider the polynomials <imath>P(x) = x^{6} - x^{5} - x^{3} - x^{2} - x</imath> and <imath>Q(x) = x^{4} - x^{3} - x^{2} - 1.</imath> Given that <imath>z_{1},z_{2},z_{3},</imath> and <imath>z_{4}</imath> are the roots of <imath>Q(x) = 0,</imath> find <imath>P(z_{1}) + P(z_{2}) + P(z_{3}) + P(z_{4}).</imath>",
+      "answerType": "integer",
+      "answerKey": "006",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Two positive integers differ by <math>60</math>. The sum of their square roots is the square root of an integer that is not a perfect square. What is the maximum possible sum of the two integers?",
+      "answerType": "integer",
+      "answerKey": "156",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Triangle <math>ABC</math> is a right triangle with <math>AC = 7,</math> <math>BC = 24,</math> and right angle at <math>C.</math> Point <math>M</math> is the midpoint of <math>AB,</math> and <math>D</math> is on the same side of line <math>AB</math> as <math>C</math> so that <math>AD = BD = 15.</math> Given that the area of triangle <math>CDM</math> may be expressed as <math>\\frac {m\\sqrt {n}}{p},</math> where <math>m,</math> <math>n,</math> and <math>p</math> are positive integers, <math>m</math> and <math>p</math> are relatively prime, and <math>n</math> is not divisible by the square of any prime, find <math>m + n + p.</math>",
+      "answerType": "integer",
+      "answerKey": "578",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "The members of a distinguished committee were choosing a president, and each member gave one vote to one of the 27 candidates. For each candidate, the exact percentage of votes the candidate got was smaller by at least 1 than the number of votes for that candidate. What was the smallest possible number of members of the committee?",
+      "answerType": "integer",
+      "answerKey": "134",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "For the sake of this problem, we seek the top left element, which is <math>\\frac{1}{3} - \\frac{1}{3}(-1)^{1+n}(2)^{1-n}</math>. Substituting <math>n=10</math> readily gives the probability of the bug reaching it's starting position within 10 moves to be <math>\\frac{171}{512} \\implies m+n = \\boxed{683}</math> And we have also derived formulae for the bug reaching any state within <math>n</math> moves as a byproduct! ~RedFlame2112",
+      "answerType": "integer",
+      "answerKey": "683",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>A = (0,0)</math> and <math>B = (b,2)</math> be points on the coordinate plane. Let <math>ABCDEF</math> be a convex equilateral hexagon such that <math>\\angle FAB = 120^\\circ,</math> <math>\\overline{AB}\\parallel \\overline{DE},</math> <math>\\overline{BC}\\parallel \\overline{EF,}</math> <math>\\overline{CD}\\parallel \\overline{FA},</math> and the y-coordinates of its vertices are distinct elements of the set <math>\\{0,2,4,6,8,10\\}.</math> The area of the hexagon can be written in the form <math>m\\sqrt {n},</math> where <math>m</math> and <math>n</math> are positive integers and <math>n</math> is not divisible by the square of any prime. Find <math>m + n.</math>",
+      "answerType": "integer",
+      "answerKey": "051",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <cmath>P(x) = 24x^{24} + \\sum_{j = 1}^{23}(24 - j)(x^{24 - j} + x^{24 + j}).</cmath> Let <math>z_{1},z_{2},\\ldots,z_{r}</math> be the distinct zeros of <math>P(x),</math> and let <math>z_{k}^{2} = a_{k} + b_{k}i</math> for <math>k = 1,2,\\ldots,r,</math> where <math>a_{k}</math> and <math>b_{k}</math> are real numbers. Let <center><math>\\sum_{k = 1}^{r}|b_{k}| = m + n\\sqrt {p},</math></center> where <math>m, n,</math> and <math>p</math> are integers and <math>p</math> is not divisible by the square of any prime. Find <math>m + n + p.</math>",
+      "answerType": "integer",
+      "answerKey": "015",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "slug": "2007-amc-12b",
+  "title": "2007 AMC 12B",
+  "description": "Converted from 2007_AMC_12B_questions.txt and 2007_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Isabella's house has <math>3</math> bedrooms. Each bedroom is <math>12</math> feet long, <math>10</math> feet wide, and <math>8</math> feet high. Isabella must paint the walls of all the bedrooms. Doorways and windows, which will not be painted, occupy <math>60</math> square feet in each bedroom. How many square feet of walls must be painted? <math>\\mathrm{(A)}\\ 678 \\qquad \\mathrm{(B)}\\ 768 \\qquad \\mathrm{(C)}\\ 786 \\qquad \\mathrm{(D)}\\ 867 \\qquad \\mathrm{(E)}\\ 876</math>",
+      "answerType": "integer",
+      "answerKey": "876",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A college student drove his compact car <math>120</math> miles home for the weekend and averaged <math>30</math> miles per gallon. On the return trip the student drove his parents' SUV and averaged only <math>20</math> miles per gallon. What was the average gas mileage, in miles per gallon, for the round trip? <math>\\textbf{(A) } 22 \\qquad\\textbf{(B) } 24 \\qquad\\textbf{(C) } 25 \\qquad\\textbf{(D) } 26 \\qquad\\textbf{(E) } 28</math>",
+      "answerType": "integer",
+      "answerKey": "24",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "The point <math>O</math> is the center of the circle circumscribed about triangle <math>ABC</math>, with <math>\\angle BOC = 120^{\\circ}</math> and <math>\\angle AOB = 140^{\\circ}</math>, as shown. What is the degree measure of <math>\\angle ABC</math>? [[Image:2007_12B_AMC-3.png]] <math>\\mathrm {(A)} 35 \\qquad \\mathrm {(B)} 40 \\qquad \\mathrm {(C)} 45 \\qquad \\mathrm {(D)} 50 \\qquad \\mathrm {(E)} 60</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "At Frank's Fruit Market, <math>3</math> bananas cost as much as <math>2</math> apples, and <math>6</math> apples cost as much as <math>4</math> oranges. How many oranges cost as much as <math>18</math> bananas? <math>\\textbf{(A) } 6 \\qquad\\textbf{(B) } 8 \\qquad\\textbf{(C) } 9 \\qquad\\textbf{(D) } 12 \\qquad\\textbf{(E) } 18</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "The 2007 AMC 12 contests will be scored by awarding 6 points for each correct response, 0 points for each incorrect response, and 1.5 points for each problem left unanswered. After looking over the 25 problems, Sarah has decided to attempt the first 22 and leave the last 3 unanswered. How many of the first 22 problems must she solve correctly in order to score at least 100 points? <math>\\mathrm {(A)}\\ 13 \\qquad \\mathrm {(B)}\\ 14 \\qquad \\mathrm {(C)}\\ 15 \\qquad \\mathrm {(D)}\\ 16 \\qquad \\mathrm {(E)} 17</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Triangle <math>ABC</math> has side lengths <math>AB = 5</math>, <math>BC = 6</math>, and <math>AC = 7</math>. Two bugs start simultaneously from <math>A</math> and crawl along the sides of the triangle in opposite directions at the same speed. They meet at point <math>D</math>. What is <math>BD</math>? <math>\\mathrm {(A)}\\ 1 \\qquad \\mathrm {(B)}\\ 2 \\qquad \\mathrm {(C)}\\ 3 \\qquad \\mathrm {(D)}\\ 4 \\qquad \\mathrm {(E)}\\ 5</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "All sides of the [[convex polygon|convex]] [[pentagon]] <math>ABCDE</math> are of equal length, and <math>\\angle A = \\angle B = 90^{\\circ}</math>. What is the degree measure of <math>\\angle E</math>? <math>\\mathrm {(A)}\\ 90 \\qquad \\mathrm {(B)}\\ 108 \\qquad \\mathrm {(C)}\\ 120 \\qquad \\mathrm {(D)}\\ 144 \\qquad \\mathrm {(E)}\\ 150</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Tom's age is <math>T</math> years, which is also the sum of the ages of his three children. His age <math>N</math> years ago was twice the sum of their ages then. What is <math>T/N</math>? <math>\\textbf{(A) } 2 \\qquad\\textbf{(B) } 3 \\qquad\\textbf{(C) } 4 \\qquad\\textbf{(D) } 5 \\qquad\\textbf{(E) } 6</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "A function <math>f</math> has the property that <math>f(3x-1)=x^2+x+1</math> for all real numbers <math>x</math>. What is <math>f(5)</math>? <math>\\mathrm{(A)}\\ 7 \\qquad \\mathrm{(B)}\\ 13 \\qquad \\mathrm{(C)}\\ 31 \\qquad \\mathrm{(D)}\\ 111 \\qquad \\mathrm{(E)}\\ 211</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Some boys and girls are having a car wash to raise money for a class trip to China. Initially <math>40\\%</math> of the group are girls. Shortly thereafter two girls leave and two boys arrive, and then <math>30\\%</math> of the group are girls. How many girls were initially in the group? <math>\\textbf{(A) } 4 \\qquad\\textbf{(B) } 6 \\qquad\\textbf{(C) } 8 \\qquad\\textbf{(D) } 10 \\qquad\\textbf{(E) } 12</math>",
+      "answerType": "exact",
+      "answerKey": "8\\",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The angles of quadrilateral <math>ABCD</math> satisfy <math>\\angle A=2 \\angle B=3 \\angle C=4 \\angle D.</math> What is the degree measure of <math>\\angle A,</math> rounded to the nearest whole number? <math>\\textbf{(A) } 125 \\qquad\\textbf{(B) } 144 \\qquad\\textbf{(C) } 153 \\qquad\\textbf{(D) } 173 \\qquad\\textbf{(E) } 180</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 173",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "A teacher gave a test to a class in which <math>10\\%</math> of the students are juniors and <math>90\\%</math> are seniors. The average score on the test was <math>84.</math> The juniors all received the same score, and the average score of the seniors was <math>83.</math> What score did each of the juniors receive on the test? <math>\\textbf{(A) } 85 \\qquad\\textbf{(B) } 88 \\qquad\\textbf{(C) } 93 \\qquad\\textbf{(D) } 94 \\qquad\\textbf{(E) } 98</math>",
+      "answerType": "integer",
+      "answerKey": "93",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "A traffic light runs repeatedly through the following cycle: green for <math>30</math> seconds, then yellow for <math>3</math> seconds, and then red for <math>30</math> seconds. Leah picks a random three-second time interval to watch the light. What is the probability that the color changes while she is watching? <math>\\mathrm{(A)}\\ \\frac{1}{63} \\qquad \\mathrm{(B)}\\ \\frac{1}{21} \\qquad \\mathrm{(C)}\\ \\frac{1}{10} \\qquad \\mathrm{(D)}\\ \\frac{1}{7} \\qquad \\mathrm{(E)}\\ \\frac{1}{3}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Point <math>P</math> is inside equilateral <math>\\triangle ABC</math>. Points <math>Q</math>, <math>R</math>, and <math>S</math> are the feet of the perpendiculars from <math>P</math> to <math>\\overline{AB}</math>, <math>\\overline{BC}</math>, and <math>\\overline{CA}</math>, respectively. Given that <math>PQ=1</math>, <math>PR=2</math>, and <math>PS=3</math>, what is <math>AB</math>? <math>\\mathrm{(A)}\\ 4 \\qquad \\mathrm{(B)}\\ 3\\sqrt{3} \\qquad \\mathrm{(C)}\\ 6 \\qquad \\mathrm{(D)}\\ 4\\sqrt{3} \\qquad \\mathrm{(E)}\\ 9</math>",
+      "answerType": "exact",
+      "answerKey": "4\\sqrt 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "The geometric series <math>a+ar+ar^2\\ldots</math> has a sum of <math>7</math>, and the terms involving odd powers of <math>r</math> have a sum of <math>3</math>. What is <math>a+r</math>? <math> \\textbf{(A)}\\ \\frac{4}{3}\\qquad\\textbf{(B)}\\ \\frac{12}{7}\\qquad\\textbf{(C)}\\ \\frac{3}{2}\\qquad\\textbf{(D)}\\ \\frac{7}{3}\\qquad\\textbf{(E)}\\ \\frac{5}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 5 2",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Each face of a regular tetrahedron is painted either red, white, or blue. Two colorings are considered indistinguishable if two congruent tetrahedra with those colorings can be rotated so that their appearances are identical. How many distinguishable colorings are possible? <math>\\mathrm{(A)}\\ 15 \\qquad \\mathrm{(B)}\\ 18 \\qquad \\mathrm{(C)}\\ 27 \\qquad \\mathrm{(D)}\\ 54 \\qquad \\mathrm{(E)}\\ 81</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "If <math>a</math> is a nonzero integer and <math>b</math> is a positive number such that <math>ab^2=\\log_{10}b</math>, what is the median of the set <math>\\{0,1,a,b,1/b\\}</math>? <math>\\mathrm{(A)}\\ 0 \\qquad \\mathrm{(B)}\\ 1 \\qquad \\mathrm{(C)}\\ a \\qquad \\mathrm{(D)}\\ b \\qquad \\mathrm{(E)}\\ \\frac{1}{b}</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Let <math>a</math>, <math>b</math>, and <math>c</math> be digits with <math>a\\ne 0</math>. The three-digit integer <math>abc</math> lies one third of the way from the square of a positive integer to the square of the next larger integer. The integer <math>acb</math> lies two thirds of the way between the same two squares. What is <math>a+b+c</math>? <math>\\mathrm{(A)}\\ 10 \\qquad \\mathrm{(B)}\\ 13 \\qquad \\mathrm{(C)}\\ 16 \\qquad \\mathrm{(D)}\\ 18 \\qquad \\mathrm{(E)}\\ 21</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "Rhombus <math>ABCD</math>, with side length <math>6</math>, is rolled to form a cylinder of volume <math>6</math> by taping <math>\\overline{AB}</math> to <math>\\overline{DC}</math>. What is <math>\\sin(\\angle ABC)</math>? <math>\\mathrm{(A)}\\ \\frac{\\pi}{9} \\qquad \\mathrm{(B)}\\ \\frac{1}{2} \\qquad \\mathrm{(C)}\\ \\frac{\\pi}{6} \\qquad \\mathrm{(D)}\\ \\frac{\\pi}{4} \\qquad \\mathrm{(E)}\\ \\frac{\\sqrt{3}}{2}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "The parallelogram bounded by the lines <math>y=ax+c</math>, <math>y=ax+d</math>, <math>y=bx+c</math>, and <math>y=bx+d</math> has area <math>18</math>. The parallelogram bounded by the lines <math>y=ax+c</math>, <math>y=ax-d</math>, <math>y=bx+c</math>, and <math>y=bx-d</math> has area <math>72</math>. Given that <math>a</math>, <math>b</math>, <math>c</math>, and <math>d</math> are positive integers, what is the smallest possible value of <math>a+b+c+d</math>? <math>\\mathrm {(A)} 13\\qquad \\mathrm {(B)} 14\\qquad \\mathrm {(C)} 15\\qquad \\mathrm {(D)} 16\\qquad \\mathrm {(E)} 17</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "The first <math>2007</math> positive integers are each written in base <math>3</math>. How many of these base-<math>3</math> representations are palindromes? (A palindrome is a number that reads the same forward and backward.) <math>\\mathrm {(A)}\\ 100 \\qquad \\mathrm {(B)}\\ 101 \\qquad \\mathrm {(C)}\\ 102 \\qquad \\mathrm {(D)}\\ 103 \\qquad \\mathrm {(E)}\\ 104</math>",
+      "answerType": "integer",
+      "answerKey": "100",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Two particles move along the edges of equilateral <math>\\triangle ABC</math> in the direction <cmath>A\\Rightarrow B\\Rightarrow C\\Rightarrow A,</cmath> starting simultaneously and moving at the same speed. One starts at <math>A</math>, and the other starts at the midpoint of <math>\\overline{BC}</math>. The midpoint of the line segment joining the two particles traces out a path that encloses a region <math>R</math>. What is the ratio of the area of <math>R</math> to the area of <math>\\triangle ABC</math>? <math>\\mathrm {(A)} \\frac{1}{16}\\qquad \\mathrm {(B)} \\frac{1}{12}\\qquad \\mathrm {(C)} \\frac{1}{9}\\qquad \\mathrm {(D)} \\frac{1}{6}\\qquad \\mathrm {(E)} \\frac{1}{4}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "How many non-congruent right triangles with positive integer leg lengths have areas that are numerically equal to <math>3</math> times their perimeters? <math>\\mathrm {(A)} 6\\qquad \\mathrm {(B)} 7\\qquad \\mathrm {(C)} 8\\qquad \\mathrm {(D)} 10\\qquad \\mathrm {(E)} 12</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "How many pairs of positive integers <math>(a,b)</math> are there such that <math>\\text{gcd}(a,b)=1</math> and <math>\\frac{a}{b} + \\frac{14b}{9a}</math> is an integer? <math>\\mathrm {(A)}\\ 4\\quad\\mathrm {(B)}\\ 6\\quad\\mathrm {(C)}\\ 9\\quad\\mathrm {(D)}\\ 12\\quad\\mathrm {(E)}\\ \\text{infinitely many}</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Points <math>A,B,C,D</math> and <math>E</math> are located in 3-dimensional space with <math>AB=BC=CD=DE=EA=2</math> and <math>\\angle ABC=\\angle CDE=\\angle DEA=90^o</math>. The plane of <math>\\triangle ABC</math> is parallel to <math>\\overline{DE}</math>. What is the area of <math>\\triangle BDE</math>? <math>\\mathrm {(A)} \\sqrt{2}\\qquad \\mathrm {(B)} \\sqrt{3}\\qquad \\mathrm {(C)} 2\\qquad \\mathrm {(D)} \\sqrt{5}\\qquad \\mathrm {(E)} \\sqrt{6}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    }
+  ]
+}

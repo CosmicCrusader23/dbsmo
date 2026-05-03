@@ -1,0 +1,242 @@
+{
+  "slug": "2013-amc-12b",
+  "title": "2013 AMC 12B",
+  "description": "Converted from 2013_AMC_12B_questions.txt and 2013_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "On a particular January day, the high temperature in Lincoln, Nebraska, was <math>16</math> degrees higher than the low temperature, and the average of the high and low temperatures was <math>3</math>. In degrees, what was the low temperature in Lincoln that day? <math>\\textbf{(A)}\\ -13 \\qquad \\textbf{(B)}\\ -8 \\qquad \\textbf{(C)}\\ -5 \\qquad \\textbf{(D)}\\ -3 \\qquad \\textbf{(E)}\\ 11</math>",
+      "answerType": "exact",
+      "answerKey": "\\ -5",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Mr. Green measures his rectangular garden by walking two of the sides and finds that it is <math>15</math> steps by <math>20</math> steps. Each of Mr. Green's steps is <math>2</math> feet long. Mr. Green expects a half a pound of potatoes per square foot from his garden. How many pounds of potatoes does Mr. Green expect from his garden? <math>\\textbf{(A)}\\ 600 \\qquad \\textbf{(B)}\\ 800 \\qquad \\textbf{(C)}\\ 1000 \\qquad \\textbf{(D)}\\ 1200 \\qquad \\textbf{(E)}\\ 1400</math>",
+      "answerType": "integer",
+      "answerKey": "600",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "When counting from <math>3</math> to <math>201</math>, <math>53</math> is the <math>51^{\\text{st}}</math> number counted. When counting backwards from <math>201</math> to <math>3</math>, <math>53</math> is the <math>n^{\\text{th}}</math> number counted. What is <math>n</math>? <math>\\textbf{(A)}\\ 146 \\qquad \\textbf{(B)}\\ 147 \\qquad \\textbf{(C)}\\ 148 \\qquad \\textbf{(D)}\\ 149 \\qquad \\textbf{(E)}\\ 150</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 149",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Ray's car averages <math>40</math> miles per gallon of gasoline, and Tom's car averages <math>10</math> miles per gallon of gasoline. Ray and Tom each drive the same number of miles. What is the cars' combined rate of miles per gallon of gasoline?<br \\> <math>\\textbf{(A)}\\ 10 \\qquad \\textbf{(B)}\\ 16 \\qquad \\textbf{(C)}\\ 25 \\qquad \\textbf{(D)}\\ 30 \\qquad \\textbf{(E)}\\ 40</math>",
+      "answerType": "integer",
+      "answerKey": "16",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "The average age of <math>33</math> fifth-graders is <math>11</math>. The average age of <math>55</math> of their parents is <math>33</math>. What is the average age of all of these parents and fifth-graders? <math>\\textbf{(A)}\\ 22 \\qquad \\textbf{(B)}\\ 23.25 \\qquad \\textbf{(C)}\\ 24.75 \\qquad \\textbf{(D)}\\ 26.25 \\qquad \\textbf{(E)}\\ 28</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 24.75",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Real numbers <math>x</math> and <math>y</math> satisfy the equation <math>x^2+y^2=10x-6y-34</math>. What is <math>x+y</math>? <math>\\text{(A)}\\ 1 \\qquad \\text{(B)}\\ 2 \\qquad \\text{(C)}\\ 3 \\qquad \\text{(D)}\\ 6 \\qquad \\text{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Jo and Blair take turns counting from <math>1</math> to one more than the last number said by the other person. Jo starts by saying <math>``1\"</math>, so Blair follows by saying <math>``1, 2\"</math>. Jo then says <math>``1, 2, 3\"</math>, and so on. What is the <math>53^{\\text{rd}}</math> number said?<br \\> <math>\\textbf{(A)}\\ 2 \\qquad \\textbf{(B)}\\ 3 \\qquad \\textbf{(C)}\\ 5 \\qquad \\textbf{(D)}\\ 6 \\qquad \\textbf{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Line <math>l_1</math> has equation <math>3x - 2y = 1</math> and goes through <math>A = (-1, -2)</math>. Line <math>l_2</math> has equation <math>y = 1</math> and meets line <math>l_1</math> at point <math>B</math>. Line <math>l_3</math> has positive slope, goes through point <math>A</math>, and meets <math>l_2</math> at point <math>C</math>. The area of <math>\\triangle ABC</math> is <math>3</math>. What is the slope of <math>l_3</math>? <math>\\textbf{(A)}\\ \\frac{2}{3} \\qquad \\textbf{(B)}\\ \\frac{3}{4} \\qquad \\textbf{(C)}\\ 1 \\qquad \\textbf{(D)}\\ \\frac{4}{3} \\qquad \\textbf{(E)}\\ \\frac{3}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "What is the sum of the exponents of the prime factors of the square root of the largest perfect square that divides <math>12!</math>? <math>\\textbf{(A)}\\ 5 \\qquad \\textbf{(B)}\\ 7 \\qquad \\textbf{(C)}\\ 8 \\qquad \\textbf{(D)}\\ 10 \\qquad \\textbf{(E)}\\ 12 </math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Alex has <math>75</math> red tokens and <math>75</math> blue tokens. There is a booth where Alex can give two red tokens and receive in return a silver token and a blue token and another booth where Alex can give three blue tokens and receive in return a silver token and a red token. Alex continues to exchange tokens until no more exchanges are possible. How many silver tokens will Alex have at the end? <math>\\textbf{(A)}\\ 62 \\qquad \\textbf{(B)}\\ 82 \\qquad \\textbf{(C)}\\ 83 \\qquad \\textbf{(D)}\\ 102 \\qquad \\textbf{(E)}\\ 103</math>",
+      "answerType": "integer",
+      "answerKey": "103",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Two bees start at the same spot and fly at the same rate in the following directions. Bee <math>A</math> travels <math>1</math> foot north, then <math>1</math> foot east, then <math>1</math> foot upwards, and then continues to repeat this pattern. Bee <math>B</math> travels <math>1</math> foot south, then <math>1</math> foot west, and then continues to repeat this pattern. In what directions are the bees traveling when they are exactly <math>10</math> feet away from each other? <math>\\textbf{(A) } A\\ \\text{east, } B\\ \\text{west} \\qquad \\textbf{(B) } A\\ \\text{north, } B\\ \\text{south} \\qquad \\textbf{(C) } A\\ \\text{north, } B\\ \\text{west} \\qquad \\textbf{(D) } A\\ \\text{up, } B\\ \\text{south} \\qquad \\textbf{(E) } A\\ \\text{up, } B\\ \\text{west}</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Cities <math>A</math>, <math>B</math>, <math>C</math>, <math>D</math>, and <math>E</math> are connected by roads <math>\\widetilde{AB}</math>, <math>\\widetilde{AD}</math>, <math>\\widetilde{AE}</math>, <math>\\widetilde{BC}</math>, <math>\\widetilde{BD}</math>, <math>\\widetilde{CD}</math>, and <math>\\widetilde{DE}</math>. How many different routes are there from <math>A</math> to <math>B</math> that use each road exactly once? (Such a route will necessarily visit some cities more than once.) <asy> unitsize(10mm); defaultpen(linewidth(1.2pt)+fontsize(10pt)); dotfactor=4; pair A=(1,0), B=(4.24,0), C=(5.24,3.08), D=(2.62,4.98), E=(0,3.08); dot (A); dot (B); dot (C); dot (D); dot (E); label(\"$A$\",A,S); label(\"$B$\",B,SE); label(\"$C$\",C,E); label(\"$D$\",D,N); label(\"$E$\",E,W); guide squiggly(path g, real stepsize, real slope=45) { real len = arclength(g); real step = len / round(len / stepsize); guide squig; for (real u = 0; u < len; u += step){ real a = arctime(g, u); real b = arctime(g, u + step / 2); pair p = point(g, a); pair q = point(g, b); pair np = unit( rotate(slope) * dir(g,a)); pair nq = unit( rotate(0 - slope) * dir(g,b)); squig = squig .. p{np} .. q{nq}; } squig = squig .. point(g, length(g)){unit(rotate(slope)*dir(g,length(g)))}; return squig; } pen pp = defaultpen + 2.718; draw(squiggly(A--B, 4.04, 30), pp); draw(squiggly(A--D, 7.777, 20), pp); draw(squiggly(A--E, 5.050, 15), pp); draw(squiggly(B--C, 5.050, 15), pp); draw(squiggly(B--D, 4.04, 20), pp); draw(squiggly(C--D, 2.718, 20), pp); draw(squiggly(D--E, 2.718, -60), pp); </asy> <math>\\textbf{(A)}\\ 7 \\qquad \\textbf{(B)}\\ 9 \\qquad \\textbf{(C)}\\ 12 \\qquad \\textbf{(D)}\\ 16 \\qquad \\textbf{(E)}\\ 18</math>",
+      "answerType": "integer",
+      "answerKey": "16",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "The internal angles of quadrilateral <math>ABCD</math> form an arithmetic progression. Triangles <math>ABD</math> and <math>DCB</math> are similar with <math>\\angle DBA = \\angle DCB</math> and <math>\\angle ADB = \\angle CBD</math>. Moreover, the angles in each of these two triangles also form an arithmetic progression. In degrees, what is the largest possible sum of the two largest angles of <math>ABCD</math>? <math>\\textbf{(A)}\\ 210 \\qquad \\textbf{(B)}\\ 220 \\qquad \\textbf{(C)}\\ 230 \\qquad \\textbf{(D)}\\ 240 \\qquad \\textbf{(E)}\\ 250</math>",
+      "answerType": "integer",
+      "answerKey": "230",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Two non-decreasing sequences of nonnegative integers have different first terms. Each sequence has the property that each term beginning with the third is the sum of the previous two terms, and the seventh term of each sequence is <math>N</math>. What is the smallest possible value of <math>N</math>? <math>\\textbf{(A)}\\ 55 \\qquad \\textbf{(B)}\\ 89 \\qquad \\textbf{(C)}\\ 104 \\qquad \\textbf{(D)}\\ 144 \\qquad \\textbf{(E)}\\ 273</math>",
+      "answerType": "integer",
+      "answerKey": "104",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "The number <math>2013</math> is expressed in the form <br \\> <center> <math>2013 = \\frac {a_1!a_2!...a_m!}{b_1!b_2!...b_n!}</math>,</center><br />where <math>a_1 \\ge a_2 \\ge \\cdots \\ge a_m</math> and <math>b_1 \\ge b_2 \\ge \\cdots \\ge b_n</math> are positive integers and <math>a_1 + b_1</math> is as small as possible. What is <math>|a_1 - b_1|</math>?",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Let <math>ABCDE</math> be an equiangular convex pentagon of perimeter <math>1</math>. The pairwise intersections of the lines that extend the sides of the pentagon determine a five-pointed star polygon. Let <math>s</math> be the perimeter of this star. What is the difference between the maximum and the minimum possible values of <math>s</math>? <math>\\textbf{(A)}\\ 0 \\qquad \\textbf{(B)}\\ \\frac{1}{2} \\qquad \\textbf{(C)}\\ \\frac{\\sqrt{5}-1}{2} \\qquad \\textbf{(D)}\\ \\frac{\\sqrt{5}+1}{2} \\qquad \\textbf{(E)}\\ \\sqrt{5}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>a,b,</math> and <math>c</math> be real numbers such that <cmath>a+b+c=2, \\text{ and} </cmath> <cmath> a^2+b^2+c^2=12 </cmath> What is the difference between the maximum and minimum possible values of <math>c</math>? <math> \\text{(A) }2\\qquad \\text{ (B) }\\frac{10}{3}\\qquad \\text{ (C) }4 \\qquad \\text{ (D) }\\frac{16}{3}\\qquad \\text{ (E) }\\frac{20}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 16 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Barbara and Jenna play the following game, in which they take turns. A number of coins lie on a table. When it is Barbara’s turn, she must remove <math>2</math> or <math>4</math> coins, unless only one coin remains, in which case she loses her turn. When it is Jenna’s turn, she must remove <math>1</math> or <math>3</math> coins. A coin flip determines who goes first. Whoever removes the last coin wins the game. Assume both players use their best strategy. Who will win when the game starts with <math>2013</math> coins and when the game starts with <math>2014</math> coins? <math> \\textbf{(A)}</math> Barbara will win with <math>2013</math> coins and Jenna will win with <math>2014</math> coins. <math>\\textbf{(B)}</math> Jenna will win with <math>2013</math> coins, and whoever goes first will win with <math>2014</math> coins. <math>\\textbf{(C)}</math> Barbara will win with <math>2013</math> coins, and whoever goes second will win with <math>2014</math> coins. <math>\\textbf{(D)}</math> Jenna will win with <math>2013</math> coins, and Barbara will win with <math>2014</math> coins. <math>\\textbf{(E)}</math> Whoever goes first will win with <math>2013</math> coins, and whoever goes second will win with <math>2014</math> coins.",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "In triangle <math>ABC</math>, <math>AB=13</math>, <math>BC=14</math>, and <math>CA=15</math>. Distinct points <math>D</math>, <math>E</math>, and <math>F</math> lie on segments <math>\\overline{BC}</math>, <math>\\overline{CA}</math>, and <math>\\overline{DE}</math>, respectively, such that <math>\\overline{AD}\\perp\\overline{BC}</math>, <math>\\overline{DE}\\perp\\overline{AC}</math>, and <math>\\overline{AF}\\perp\\overline{BF}</math>. The length of segment <math>\\overline{DF}</math> can be written as <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. What is <math>m+n</math>? <math> \\textbf{(A)}\\ 18\\qquad\\textbf{(B)}\\ 21\\qquad\\textbf{(C)}\\ 24\\qquad\\textbf{(D)}\\ 27\\qquad\\textbf{(E)}\\ 30</math>",
+      "answerType": "integer",
+      "answerKey": "21",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "For <math>135^\\circ < x < 180^\\circ</math>, points <math>P=(\\cos x, \\cos^2 x), Q=(\\cot x, \\cot^2 x), R=(\\sin x, \\sin^2 x)</math> and <math>S =(\\tan x, \\tan^2 x)</math> are the vertices of a trapezoid. What is <math>\\sin(2x)</math>? <math>\\textbf{(A)} \\ 2-2\\sqrt{2}\\qquad\\textbf{(B)}\\ 3\\sqrt{3}-6\\qquad\\textbf{(C)}\\ 3\\sqrt{2}-5\\qquad\\textbf{(D)}\\ -\\frac{3}{4}\\qquad\\textbf{(E)}\\ 1-\\sqrt{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 2 - 2\\sqrt 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Consider the set of 30 parabolas defined as follows: all parabolas have as focus the point (0,0) and the directrix lines have the form <math>y=ax+b</math> with <math>a</math> and <math>b</math> integers such that <math>a\\in \\{-2,-1,0,1,2\\}</math> and <math>b\\in \\{-3,-2,-1,1,2,3\\}</math>. No three of these parabolas have a common point. How many points in the plane are on two of these parabolas? <math> \\textbf{(A)}\\ 720\\qquad\\textbf{(B)}\\ 760\\qquad\\textbf{(C)}\\ 810\\qquad\\textbf{(D)}\\ 840\\qquad\\textbf{(E)}\\ 870 </math>",
+      "answerType": "integer",
+      "answerKey": "810",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Let <math>m>1</math> and <math>n>1</math> be integers. Suppose that the product of the solutions for <math>x</math> of the equation <cmath> 8(\\log_n x)(\\log_m x)-7\\log_n x-6 \\log_m x-2013 = 0 </cmath> is the smallest possible integer. What is <math>m+n</math>? <math> \\textbf{(A)}\\ 12\\qquad\\textbf{(B)}\\ 20\\qquad\\textbf{(C)}\\ 24\\qquad\\textbf{(D)}\\ 48\\qquad\\textbf{(E)}\\ 272 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Bernardo chooses a three-digit positive integer <math>N</math> and writes both its base-5 and base-6 representations on a blackboard. Later LeRoy sees the two numbers Bernardo has written. Treating the two numbers as base-10 integers, he adds them to obtain an integer <math>S</math>. For example, if <math>N = 749</math>, Bernardo writes the numbers <math>10,\\!444</math> and <math>3,\\!245</math>, and LeRoy obtains the sum <math>S = 13,\\!689</math>. For how many choices of <math>N</math> are the two rightmost digits of <math>S</math>, in order, the same as those of <math>2N</math>? <math> \\textbf{(A)}\\ 5 \\qquad\\textbf{(B)}\\ 10 \\qquad\\textbf{(C)}\\ 15 \\qquad\\textbf{(D)}\\ 20 \\qquad\\textbf{(E)}\\ 25</math>",
+      "answerType": "integer",
+      "answerKey": "25",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <imath>ABC</imath> be a triangle where <imath>M</imath> is the midpoint of <imath>\\overline{AC}</imath>, and <imath>\\overline{CN}</imath> is the angle bisector of <imath>\\angle{ACB}</imath> with <imath>N</imath> on <imath>\\overline{AB}</imath>. Let <imath>X</imath> be the intersection of the median <imath>\\overline{BM}</imath> and the bisector <imath>\\overline{CN}</imath>. In addition <imath>\\triangle BXN</imath> is equilateral with <imath>AC=2</imath>. What is <imath>BN^2</imath>? <imath>\\textbf{(A)}\\ \\frac{10-6\\sqrt{2}}{7} \\qquad \\textbf{(B)}\\ \\frac{2}{9} \\qquad \\textbf{(C)}\\ \\frac{5\\sqrt{2}-3\\sqrt{3}}{8} \\qquad \\textbf{(D)}\\ \\frac{\\sqrt{2}}{6} \\qquad \\textbf{(E)}\\ \\frac{3\\sqrt{3}-4}{5}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 10-6\\sqrt 2 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>G</math> be the set of polynomials of the form <cmath> P(z)=z^n+c_{n-1}z^{n-1}+\\cdots+c_2z^2+c_1z+50, </cmath> where <math> c_1,c_2,\\cdots, c_{n-1} </math> are integers and <math>P(z)</math> has distinct roots of the form <math>a+ib</math> with <math>a</math> and <math>b</math> integers. How many polynomials are in <math>G</math>? <math> \\textbf{(A)}\\ 288\\qquad\\textbf{(B)}\\ 528\\qquad\\textbf{(C)}\\ 576\\qquad\\textbf{(D)}\\ 992\\qquad\\textbf{(E)}\\ 1056 </math>",
+      "answerType": "integer",
+      "answerKey": "528",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "slug": "2002-amc-12b",
+  "title": "2002 AMC 12B",
+  "description": "Converted from 2002_AMC_12B_questions.txt and 2002_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "The [[arithmetic mean]] of the nine numbers in the set <math>\\{9, 99, 999, 9999, \\ldots, 999999999\\}</math> is a <math>9</math>-digit number <math>M</math>, all of whose digits are distinct. The number <math>M</math> doesn't contain the digit <math>\\mathrm{(A)}\\ 0 \\qquad\\mathrm{(B)}\\ 2 \\qquad\\mathrm{(C)}\\ 4 \\qquad\\mathrm{(D)}\\ 6 \\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "What is the value of <imath>(3x - 2)(4x + 1) - (3x - 2)4x + 1</imath> when <imath>x=4</imath>? <imath>\\mathrm{(A)}\\ 0 \\qquad\\mathrm{(B)}\\ 1 \\qquad\\mathrm{(C)}\\ 10 \\qquad\\mathrm{(D)}\\ 11 \\qquad\\mathrm{(E)}\\ 12</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "For how many positive integers <math>n</math> is <math>n^2 - 3n + 2</math> a [[prime]] number? <math>\\mathrm{(A)}\\ \\text{none} \\qquad\\mathrm{(B)}\\ \\text{one} \\qquad\\mathrm{(C)}\\ \\text{two} \\qquad\\mathrm{(D)}\\ \\text{more\\ than\\ two,\\ but\\ finitely\\ many} \\qquad\\mathrm{(E)}\\ \\text{infinitely\\ many}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ one",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Let <math>n</math> be a positive [[integer]] such that <math>\\frac 12 + \\frac 13 + \\frac 17 + \\frac 1n</math> is an integer. Which of the following statements is '''not ''' true: <math>\\mathrm{(A)}\\ 2\\ \\text{divides\\ }n \\qquad\\mathrm{(B)}\\ 3\\ \\text{divides\\ }n \\qquad\\mathrm{(C)}</math> <math>\\ 6\\ \\text{divides\\ }n \\qquad\\mathrm{(D)}\\ 7\\ \\text{divides\\ }n \\qquad\\mathrm{(E)}\\ n > 84</math>",
+      "answerType": "exact",
+      "answerKey": "\\ n>84",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Let <math>v, w, x, y, </math> and <math>z</math> be the degree measures of the five angles of a [[pentagon]]. Suppose that <math>v < w < x < y < z</math> and <math>v, w, x, y, </math> and <math>z</math> form an [[arithmetic sequence]]. Find the value of <math>x</math>. <math>\\mathrm{(A)}\\ 72 \\qquad\\mathrm{(B)}\\ 84 \\qquad\\mathrm{(C)}\\ 90 \\qquad\\mathrm{(D)}\\ 108 \\qquad\\mathrm{(E)}\\ 120</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Suppose that <math>a</math> and <math>b</math> are nonzero real numbers, and that the [[equation]] <math>x^2 + ax + b = 0</math> has solutions <math>a</math> and <math>b</math>. Then the pair <math>(a,b)</math> is <math>\\mathrm{(A)}\\ (-2,1) \\qquad\\mathrm{(B)}\\ (-1,2) \\qquad\\mathrm{(C)}\\ (1,-2) \\qquad\\mathrm{(D)}\\ (2,-1) \\qquad\\mathrm{(E)}\\ (4,4)</math>",
+      "answerType": "exact",
+      "answerKey": "\\ (1,-2)",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The product of three consecutive positive integers is <math>8</math> times their sum. What is the sum of their [[perfect square|squares]]? <math>\\mathrm{(A)}\\ 50 \\qquad\\mathrm{(B)}\\ 77 \\qquad\\mathrm{(C)}\\ 110 \\qquad\\mathrm{(D)}\\ 149 \\qquad\\mathrm{(E)}\\ 194</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 77",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Suppose July of year <math>N</math> has five Mondays. Which of the following must occur five times in the August of year <math>N</math>? (Note: Both months have <math>31</math> days.) <math>\\textrm{(A)}\\ \\text{Monday} \\qquad \\textrm{(B)}\\ \\text{Tuesday} \\qquad \\textrm{(C)}\\ \\text{Wednesday} \\qquad \\textrm{(D)}\\ \\text{Thursday} \\qquad \\textrm{(E)}\\ \\text{Friday}</math>",
+      "answerType": "exact",
+      "answerKey": "rm \\ Thursday",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "If <math>a,b,c,d</math> are positive real numbers such that <math>a,b,c,d</math> form an increasing arithmetic sequence and <math>a,b,d</math> form a geometric sequence, then <math>\\frac ad</math> is <math>\\mathrm{(A)}\\ \\frac 1{12} \\qquad\\mathrm{(B)}\\ \\frac 16 \\qquad\\mathrm{(C)}\\ \\frac 14 \\qquad\\mathrm{(D)}\\ \\frac 13 \\qquad\\mathrm{(E)}\\ \\frac 12</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 4",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "How many different integers can be expressed as the sum of three distinct members of the set <math>\\{1,4,7,10,13,16,19\\}</math>? <math>\\text{(A)}\\ 13 \\qquad \\text{(B)}\\ 16 \\qquad \\text{(C)}\\ 24 \\qquad \\text{(D)}\\ 30 \\qquad \\text{(E)}\\ 35</math>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The positive integers <math>A, B, A-B, </math> and <math>A+B</math> are all prime numbers. The sum of these four primes is <math>\\mathrm{(A)}\\ \\mathrm{even} \\qquad\\mathrm{(B)}\\ \\mathrm{divisible\\ by\\ }3 \\qquad\\mathrm{(C)}\\ \\mathrm{divisible\\ by\\ }5 \\qquad\\mathrm{(D)}\\ \\mathrm{divisible\\ by\\ }7 \\qquad\\mathrm{(E)}\\ \\mathrm{prime}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ prime",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "For how many integers <math>n</math> is <math>\\dfrac n{20-n}</math> the [[perfect square|square]] of an integer? <math>\\mathrm{(A)}\\ 1 \\qquad\\mathrm{(B)}\\ 2 \\qquad\\mathrm{(C)}\\ 3 \\qquad\\mathrm{(D)}\\ 4 \\qquad\\mathrm{(E)}\\ 10</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "The sum of <math>18</math> consecutive positive integers is a [[perfect square]]. The smallest possible value of this sum is <math>\\mathrm{(A)}\\ 169 \\qquad\\mathrm{(B)}\\ 225 \\qquad\\mathrm{(C)}\\ 289 \\qquad\\mathrm{(D)}\\ 361 \\qquad\\mathrm{(E)}\\ 441</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Four distinct [[circle]]s are drawn in a [[plane]]. What is the maximum number of points where at least two of the circles intersect?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math>\\mathrm{(A)}\\ 8 \\qquad\\mathrm{(B)}\\ 9 \\qquad\\mathrm{(C)}\\ 10 \\qquad\\mathrm{(D)}\\ 12 \\qquad\\mathrm{(E)}\\ 16</math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "How many four-digit numbers <math>N</math> have the property that the three-digit number obtained by removing the leftmost digit is one ninth of <math>N</math>? <math>\\mathrm{(A)}\\ 4 \\qquad\\mathrm{(B)}\\ 5 \\qquad\\mathrm{(C)}\\ 6 \\qquad\\mathrm{(D)}\\ 7 \\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "exact",
+      "answerKey": "D)7",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Juan rolls a fair regular [[octahedron|octahedral]] die marked with the numbers <math>1</math> through <math>8</math>. Then Amal rolls a fair six-sided die. What is the [[probability]] that the product of the two rolls is a multiple of 3? <math>\\mathrm{(A)}\\ \\frac 1{12} \\qquad\\mathrm{(B)}\\ \\frac 13 \\qquad\\mathrm{(C)}\\ \\frac 12 \\qquad\\mathrm{(D)}\\ \\frac 7{12} \\qquad\\mathrm{(E)}\\ \\frac 23</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 2",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Andy's lawn has twice as much area as Beth's lawn and three times as much area as Carlos' lawn. Carlos' lawn mower cuts half as fast as Beth's mower and one third as fast as Andy's mower. If they all start to mow their lawns at the same time, who will finish first? <imath>\\mathrm{(A)}\\ \\text{Andy} \\qquad\\mathrm{(B)}\\ \\text{Beth} \\qquad\\mathrm{(C)}\\ \\text{Carlos} \\qquad\\mathrm{(D)}\\ \\text{Andy\\ and \\ Carlos\\ tie\\ for\\ first.} \\qquad\\mathrm{(E)}\\ \\text{All\\ three\\ tie.}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ Beth",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "A point <math>P</math> is randomly selected from the [[rectangle|rectangular]] region with vertices <math>(0,0),(2,0),(2,1),(0,1)</math>. What is the [[probability]] that <math>P</math> is closer to the [[origin]] than it is to the point <math>(3,1)</math>? <math>\\mathrm{(A)}\\ \\frac 12 \\qquad\\mathrm{(B)}\\ \\frac 23 \\qquad\\mathrm{(C)}\\ \\frac 34 \\qquad\\mathrm{(D)}\\ \\frac 45 \\qquad\\mathrm{(E)}\\ 1</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 4",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "If <math>a,b,</math> and <math>c</math> are positive [[real number]]s such that <math>a(b+c) = 152, b(c+a) = 162,</math> and <math>c(a+b) = 170</math>, then <math>abc</math> is <math>\\mathrm{(A)}\\ 672 \\qquad\\mathrm{(B)}\\ 688 \\qquad\\mathrm{(C)}\\ 704 \\qquad\\mathrm{(D)}\\ 720 \\qquad\\mathrm{(E)}\\ 750</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Let <math>\\triangle XOY</math> be a [[right triangle|right-angled triangle]] with <math>m\\angle XOY = 90^{\\circ}</math>. Let <math>M</math> and <math>N</math> be the [[midpoint]]s of legs <math>OX</math> and <math>OY</math>, respectively. Given that <math>XN = 19</math> and <math>YM = 22</math>, find <math>XY</math>. <math>\\mathrm{(A)}\\ 24 \\qquad\\mathrm{(B)}\\ 26 \\qquad\\mathrm{(C)}\\ 28 \\qquad\\mathrm{(D)}\\ 30 \\qquad\\mathrm{(E)}\\ 32</math> == Solution 1 == [[Image:2002_12B_AMC-20.png]] Let <math>OM = x</math>, <math>ON = y</math>. By the [[Pythagorean Theorem]] on <math>\\triangle XON, MOY</math> respectively, <cmath>\\begin{align*} (2x)^2 + y^2 &= 19^2\\\\ x^2 + (2y)^2 &= 22^2\\end{align*} </cmath> Summing these gives <math>5x^2 + 5y^2 = 845 \\Longrightarrow x^2 + y^2 = 169</math>. By the Pythagorean Theorem again, we have <cmath>(2x)^2 + (2y)^2 = XY^2 \\Longrightarrow XY = \\sqrt{4(x^2 + y^2)} = \\sqrt{4(169)} = \\sqrt{676} = \\boxed{\\mathrm{(B)}\\ 26}.</cmath> Alternatively, we could note that since we found <math>x^2 + y^2 = 169</math>, segment <math>MN=13</math>. Right triangles <math>\\triangle MON</math> and <math>\\triangle XOY</math> are similar by Leg-Leg with a ratio of <math>\\frac{1}{2}</math>, so <math>XY=2(MN)=\\boxed{\\mathrm{(B)}\\ 26}</math>. == Solution 2 == Let <math>XO=x</math> and <math>YO=y.</math> Then, <math>XY=\\sqrt{x^2+y^2}.</math> Since <math>XN=19</math> and <math>YM=22,</math> <cmath>XN^2=19^2=x^2+(\\dfrac{y}{2})^2)=\\dfrac{x^2}{4}+y^2</cmath> <cmath>YM^2=22^2=(\\dfrac{x}{2})^2+y^2=\\dfrac{x^2}{4}+y^2.</cmath> Adding these up: <cmath>19^2+22^2=\\dfrac{4x^2+y^2}{4}+\\dfrac{x^2+4y^2}{4}</cmath> <cmath>845=\\dfrac{5x^2+5y^2}{4}</cmath> <cmath>3380=5x^2+5y^2</cmath> <cmath>676=x^2+y^2.</cmath> Then, we substitute: <math>XY=\\sqrt{x^2+y^2}=\\sqrt{676}=\\boxed{26}.</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 26",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "For all positive [[integer]]s <math>n</math> less than <math>2002</math>, let <cmath>\\begin{eqnarray*} a_n =\\left\\{ \\begin{array}{lr} 11, & \\text{if\\ }n\\ \\text{is\\ divisible\\ by\\ }13\\ \\text{and\\ }14;\\\\ 13, & \\text{if\\ }n\\ \\text{is\\ divisible\\ by\\ }14\\ \\text{and\\ }11;\\\\ 14, & \\text{if\\ }n\\ \\text{is\\ divisible\\ by\\ }11\\ \\text{and\\ }13;\\\\ 0, & \\text{otherwise}. \\end{array} \\right. \\end{eqnarray*}</cmath> Calculate <math>\\sum_{n=1}^{2001} a_n</math>. <math>\\mathrm{(A)}\\ 448 \\qquad\\mathrm{(B)}\\ 486 \\qquad\\mathrm{(C)}\\ 1560 \\qquad\\mathrm{(D)}\\ 2001 \\qquad\\mathrm{(E)}\\ 2002</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "For all [[integer]]s <imath>n</imath> greater than <imath>1</imath>, define <imath>a_n = \\frac{1}{\\log_n 2002}</imath>. Let <imath>b = a_2 + a_3 + a_4 + a_5</imath> and <imath>c = a_{10} + a_{11} + a_{12} + a_{13} + a_{14}</imath>. Then <imath>b- c</imath> equals <imath>\\mathrm{(A)}\\ -2 \\qquad\\mathrm{(B)}\\ -1 \\qquad\\mathrm{(C)}\\ \\frac{1}{2002} \\qquad\\mathrm{(D)}\\ \\frac{1}{1001} \\qquad\\mathrm{(E)}\\ \\frac 12</imath>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "In <math>\\triangle ABC</math>, we have <math>AB = 1</math> and <math>AC = 2</math>. Side <math>\\overline{BC}</math> and the [[Median of a triangle|median]] from <math>A</math> to <math>\\overline{BC}</math> have the same length. What is <math>BC</math>? <math>\\mathrm{(A)}\\ \\frac{1+\\sqrt{2}}{2} \\qquad\\mathrm{(B)}\\ \\frac{1+\\sqrt{3}}2 \\qquad\\mathrm{(C)}\\ \\sqrt{2} \\qquad\\mathrm{(D)}\\ \\frac 32 \\qquad\\mathrm{(E)}\\ \\sqrt{3}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "A [[convex polygon|convex]] [[quadrilateral]] <math>ABCD</math> with area <math>2002</math> contains a point <math>P</math> in its interior such that <math>PA = 24, PB = 32, PC = 28, PD = 45</math>. Find the perimeter of <math>ABCD</math>. <math>\\mathrm{(A)}\\ 4\\sqrt{2002} \\qquad \\mathrm{(B)}\\ 2\\sqrt{8465} \\qquad \\mathrm{(C)}\\ 2</math> <math>(48+\\sqrt{2002}) \\qquad \\mathrm{(D)}\\ 2\\sqrt{8633} \\qquad \\mathrm{(E)}\\ 4(36 + \\sqrt{113})</math>",
+      "answerType": "exact",
+      "answerKey": "4(36+\\sqrt 113 )",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <imath>f(x) = x^2 + 6x + 1</imath>, and let <imath>R</imath> denote the [[set]] of [[point]]s <imath>(x,y)</imath> in the [[coordinate plane]] such that <cmath>f(x) + f(y) \\le 0 \\qquad \\text{and} \\qquad f(x)-f(y) \\le 0</cmath> The area of <imath>R</imath> is closest to <imath>\\textbf{(A) } 21 \\qquad\\textbf{(B)}\\ 22 \\qquad\\textbf{(C)}\\ 23 \\qquad\\textbf{(D)}\\ 24 \\qquad\\textbf{(E)}\\ 25</imath>",
+      "answerType": "integer",
+      "answerKey": "25",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    }
+  ]
+}

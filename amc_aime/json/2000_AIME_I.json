@@ -1,0 +1,118 @@
+{
+  "slug": "2000-aime-i",
+  "title": "2000 AIME I",
+  "description": "Converted from 2000_AIME_I_questions.txt and 2000_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the least positive integer <math>n</math> such that no matter how <math>10^{n}</math> is expressed as the product of any two positive integers, at least one of these two integers contains the digit <math>0</math>.",
+      "answerType": "integer",
+      "answerKey": "008",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Let <math>u</math> and <math>v</math> be [[integer]]s satisfying <math>0 < v < u</math>. Let <math>A = (u,v)</math>, let <math>B</math> be the [[reflection]] of <math>A</math> across the line <math>y = x</math>, let <math>C</math> be the reflection of <math>B</math> across the y-axis, let <math>D</math> be the reflection of <math>C</math> across the x-axis, and let <math>E</math> be the reflection of <math>D</math> across the y-axis. The area of [[pentagon]] <math>ABCDE</math> is <math>451</math>. Find <math>u + v</math>.",
+      "answerType": "integer",
+      "answerKey": "021",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "In the expansion of <math>(ax + b)^{2000},</math> where <math>a</math> and <math>b</math> are [[relatively prime]] positive integers, the [[coefficient]]s of <math>x^{2}</math> and <math>x^{3}</math> are equal. Find <math>a + b</math>.",
+      "answerType": "integer",
+      "answerKey": "667",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "The diagram shows a [[rectangle]] that has been dissected into nine non-overlapping [[square]]s. Given that the width and the height of the rectangle are relatively prime positive integers, find the [[perimeter]] of the rectangle. <asy>draw((0,0)--(69,0)--(69,61)--(0,61)--(0,0));draw((36,0)--(36,36)--(0,36)); draw((36,33)--(69,33));draw((41,33)--(41,61));draw((25,36)--(25,61)); draw((34,36)--(34,45)--(25,45)); draw((36,36)--(36,38)--(34,38)); draw((36,38)--(41,38)); draw((34,45)--(41,45));</asy>",
+      "answerType": "integer",
+      "answerKey": "260",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Each of two boxes contains both black and white marbles, and the total number of marbles in the two boxes is <math>25.</math> One marble is taken out of each box randomly. The [[probability]] that both marbles are black is <math>27/50,</math> and the probability that both marbles are white is <math>m/n,</math> where <math>m</math> and <math>n</math> are [[relatively prime]] positive integers. What is <math>m + n</math>?",
+      "answerType": "integer",
+      "answerKey": "026",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "For how many [[ordered pair]]s <math>(x,y)</math> of [[integer]]s is it true that <math>0 < x < y < 10^6</math> and that the [[arithmetic mean]] of <math>x</math> and <math>y</math> is exactly <math>2</math> more than the [[geometric mean]] of <math>x</math> and <math>y</math>?",
+      "answerType": "integer",
+      "answerKey": "997",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Suppose that <imath>x,</imath> <imath>y,</imath> and <imath>z</imath> are three positive numbers that satisfy the equations <imath>xyz = 1,</imath> <imath>x + \\frac {1}{z} = 5,</imath> and <imath>y + \\frac {1}{x} = 29.</imath> Then <imath>z + \\frac {1}{y} = \\frac {m}{n},</imath> where <imath>m</imath> and <imath>n</imath> are [[relatively prime]] positive integers. Find <imath>m + n</imath>.",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "A container in the shape of a right circular [[cone]] is <math>12</math> inches tall and its base has a <math>5</math>-inch [[radius]]. The liquid that is sealed inside is <math>9</math> inches deep when the cone is held with its [[point]] down and its base horizontal. When the liquid is held with its point up and its base horizontal, the height of the liquid is <math>m - n\\sqrt [3]{p},</math> from the base where <math>m,</math> <math>n,</math> and <math>p</math> are positive integers and <math>p</math> is not divisible by the cube of any prime number. Find <math>m + n + p</math>. __TOC__",
+      "answerType": "integer",
+      "answerKey": "52",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "The system of equations <cmath>\\begin{eqnarray*}\\log_{10}(2000xy) - (\\log_{10}x)(\\log_{10}y) & = & 4 \\\\ \\log_{10}(2yz) - (\\log_{10}y)(\\log_{10}z) & = & 1 \\\\ \\log_{10}(zx) - (\\log_{10}z)(\\log_{10}x) & = & 0 \\\\ \\end{eqnarray*}</cmath> has two solutions <math>(x_{1},y_{1},z_{1})</math> and <math>(x_{2},y_{2},z_{2})</math>. Find <math>y_{1} + y_{2}</math>.",
+      "answerType": "integer",
+      "answerKey": "025",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "A [[sequence]] of numbers <imath>x_{1},x_{2},x_{3},\\ldots,x_{100}</imath> has the property that, for every [[integer]] <imath>k</imath> between <imath>1</imath> and <imath>100,</imath> inclusive, the number <imath>x_{k}</imath> is <imath>k</imath> less than the sum of the other <imath>99</imath> numbers. Given that <imath>x_{50} = m/n,</imath> where <imath>m</imath> and <imath>n</imath> are relatively prime positive integers, find <imath>m + n</imath>.",
+      "answerType": "integer",
+      "answerKey": "173",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Let <math>S</math> be the sum of all numbers of the form <math>a/b,</math> where <math>a</math> and <math>b</math> are [[relatively prime]] positive [[divisor]]s of <math>1000.</math> What is the [[floor function|greatest integer]] that does not exceed <math>S/10</math>?",
+      "answerType": "integer",
+      "answerKey": "248",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Given a [[function]] <math>f</math> for which <cmath> f(x) = f(398 - x) = f(2158 - x) = f(3214 - x)</cmath> holds for all real <math>x,</math> what is the largest number of different values that can appear in the list <math>f(0),f(1),f(2),\\ldots,f(999)?</math>",
+      "answerType": "integer",
+      "answerKey": "177",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "In the middle of a vast prairie, a firetruck is stationed at the intersection of two [[perpendicular]] straight highways. The truck travels at <math>50</math> miles per hour along the highways and at <math>14</math> miles per hour across the prairie. Consider the set of points that can be reached by the firetruck within six minutes. The area of this region is <math>m/n</math> square miles, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "731",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "In triangle <math>ABC,</math> it is given that angles <math>B</math> and <math>C</math> are [[congruent (geometry)|congruent]]. Points <math>P</math> and <math>Q</math> lie on <math>\\overline{AC}</math> and <math>\\overline{AB},</math> respectively, so that <math>AP = PQ = QB = BC.</math> Angle <math>ACB</math> is <math>r</math> times as large as angle <math>APQ,</math> where <math>r</math> is a positive real number. Find <math>\\lfloor 1000r \\rfloor</math>. __TOC__",
+      "answerType": "integer",
+      "answerKey": "571",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "A stack of <math>2000</math> cards is labelled with the integers from <math>1</math> to <math>2000,</math> with different integers on different cards. The cards in the stack are not in numerical order. The top card is removed from the stack and placed on the table, and the next card is moved to the bottom of the stack. The new top card is removed from the stack and placed on the table, to the right of the card already there, and the next card in the stack is moved to the bottom of the stack. The process - placing the top card to the right of the cards already on the table and moving the next card in the stack to the bottom of the stack - is repeated until all cards are on the table. It is found that, reading from left to right, the labels on the cards are now in ascending order: <math>1,2,3,\\ldots,1999,2000.</math> In the original stack of cards, how many cards were above the card labeled <math>1999</math>?",
+      "answerType": "integer",
+      "answerKey": "927",
+      "points": 1
+    }
+  ]
+}

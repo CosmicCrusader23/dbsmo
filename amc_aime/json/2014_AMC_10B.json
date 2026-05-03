@@ -1,0 +1,220 @@
+{
+  "slug": "2014-amc-10b",
+  "title": "2014 AMC 10B",
+  "description": "Converted from 2014_AMC_10B_questions.txt and 2014_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Leah has <math>13</math> coins, all of which are pennies and nickels. If she had one more nickel than she has now, then she would have the same number of pennies and nickels. In cents, how much are Leah's coins worth? <math> \\textbf {(A) } 33 \\qquad \\textbf {(B) } 35 \\qquad \\textbf {(C) } 37 \\qquad \\textbf {(D) } 39 \\qquad \\textbf {(E) } 41 </math>",
+      "answerType": "exact",
+      "answerKey": "37 ( C )",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "What is <math>\\frac{2^3 + 2^3}{2^{-3} + 2^{-3}}</math>? <math> \\textbf {(A) } 16 \\qquad \\textbf {(B) } 24 \\qquad \\textbf {(C) } 32 \\qquad \\textbf {(D) } 48 \\qquad \\textbf {(E) } 64 </math>",
+      "answerType": "exact",
+      "answerKey": "( E) 64",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Randy drove the first third of his trip on a gravel road, the next <math>20</math> miles on pavement, and the remaining one-fifth on a dirt road. In miles, how long was Randy's trip? <math> \\textbf {(A) } 30 \\qquad \\textbf {(B) } \\frac{400}{11} \\qquad \\textbf {(C) } \\frac{75}{2} \\qquad \\textbf {(D) } 40 \\qquad \\textbf {(E) } \\frac{300}{7}</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 300 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Susie pays for <math>4</math> muffins and <math>3</math> bananas. Calvin spends twice as much paying for <math>2</math> muffins and <math>16</math> bananas. A muffin is how many times as expensive as a banana? <math> \\textbf {(A) } \\frac{3}{2} \\qquad \\textbf {(B) } \\frac{5}{3} \\qquad \\textbf {(C) } \\frac{7}{4} \\qquad \\textbf {(D) } 2 \\qquad \\textbf {(E) } \\frac{13}{4}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 5 3 \\rightarrow",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Doug constructs a square window using <math> 8 </math> equal-size panes of glass, as shown. The ratio of the height to width for each pane is <math> 5 : 2 </math>, and the borders around and between the panes are <math> 2 </math> inches wide. In inches, what is the side length of the square window? <asy> fill((0,0)--(2,0)--(2,26)--(0,26)--cycle,gray); fill((6,0)--(8,0)--(8,26)--(6,26)--cycle,gray); fill((12,0)--(14,0)--(14,26)--(12,26)--cycle,gray); fill((18,0)--(20,0)--(20,26)--(18,26)--cycle,gray); fill((24,0)--(26,0)--(26,26)--(24,26)--cycle,gray); fill((0,0)--(26,0)--(26,2)--(0,2)--cycle,gray); fill((0,12)--(26,12)--(26,14)--(0,14)--cycle,gray); fill((0,24)--(26,24)--(26,26)--(0,26)--cycle,gray); </asy> <math> \\textbf{(A)}\\ 26\\qquad\\textbf{(B)}\\ 28\\qquad\\textbf{(C)}\\ 30\\qquad\\textbf{(D)}\\ 32\\qquad\\textbf{(E)}\\ 34 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Orvin went to the store with just enough money to buy <math>30</math> balloons. When he arrived, he discovered that the store had a special sale on balloons: buy <math>1</math> balloon at the regular price and get a second at <math>\\frac{1}{3}</math> off the regular price. What is the greatest number of balloons Orvin could buy? <math> \\textbf {(A) } 33 \\qquad \\textbf {(B) } 34 \\qquad \\textbf {(C) } 36 \\qquad \\textbf {(D) } 38 \\qquad \\textbf {(E) } 39</math>",
+      "answerType": "integer",
+      "answerKey": "36",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Suppose <math>A>B>0</math> and A is <math>x</math>% greater than <math>B</math>. What is <math>x</math>? <math> \\textbf {(A) } 100\\left(\\frac{A-B}{B}\\right) \\qquad \\textbf {(B) } 100\\left(\\frac{A+B}{B}\\right) \\qquad \\textbf {(C) } 100\\left(\\frac{A+B}{A}\\right)\\qquad \\textbf {(D) } 100\\left(\\frac{A-B}{A}\\right) \\qquad \\textbf {(E) } 100\\left(\\frac{A}{B}\\right)</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "A truck travels <math>\\dfrac{b}{6}</math> feet every <math>t</math> seconds. There are <math>3</math> feet in a yard. How many yards does the truck travel in <math>3</math> minutes? <math> \\textbf {(A) } \\frac{b}{1080t} \\qquad \\textbf {(B) } \\frac{30t}{b} \\qquad \\textbf {(C) } \\frac{30b}{t}\\qquad \\textbf {(D) } \\frac{10t}{b} \\qquad \\textbf {(E) } \\frac{10b}{t}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "For real numbers <math> w </math> and <math> z </math>, <cmath> \\cfrac{\\frac{1}{w} + \\frac{1}{z}}{\\frac{1}{w} - \\frac{1}{z}} = 2014. </cmath> What is <math> \\frac{w+z}{w-z} </math>? <math> \\textbf{(A) }-2014\\qquad\\textbf{(B) }\\frac{-1}{2014}\\qquad\\textbf{(C) }\\frac{1}{2014}\\qquad\\textbf{(D) }1\\qquad\\textbf{(E) }2014 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "In the addition shown below <math>A</math>, <math>B</math>, <math>C</math>, and <math>D</math> are distinct digits. How many different values are possible for <math>D</math>? <cmath>\\begin{array}[t]{r} ABBCB \\\\ + \\ BCADA \\\\ \\hline DBDDD \\end{array}</cmath> <math> \\textbf {(A) } 2 \\qquad \\textbf {(B) } 4 \\qquad \\textbf {(C) } 7 \\qquad \\textbf {(D) } 8 \\qquad \\textbf {(E) } 9 </math>",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "For the consumer, a single discount of <math>n\\%</math> is more advantageous than any of the following discounts: (1) two successive <math>15\\%</math> discounts (2) three successive <math>10\\%</math> discounts (3) a <math>25\\%</math> discount followed by a <math>5\\%</math> discount What is the smallest possible positive integer value of <math>n</math>? <math> \\textbf{(A)}\\ \\ 27\\qquad\\textbf{(B)}\\ 28\\qquad\\textbf{(C)}\\ 29\\qquad\\textbf{(D)}\\ 31\\qquad\\textbf{(E)}\\ 33 </math>",
+      "answerType": "integer",
+      "answerKey": "29",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "The largest divisor of <math>2,014,000,000</math> is itself. What is its fifth-largest divisor? <math> \\textbf {(A) } 125, 875, 000 \\qquad \\textbf {(B) } 201, 400, 000 \\qquad \\textbf {(C) } 251, 750, 000 \\qquad \\textbf {(D) } 402, 800, 000 \\qquad \\textbf {(E) } 503, 500, 000 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Six regular hexagons surround a regular hexagon of side length <math>1</math> as shown. What is the area of <math>\\triangle{ABC}</math>? <asy> draw((0,0)--(-5,8.66025404)--(0, 17.3205081)--(10, 17.3205081)--(15,8.66025404)--(10, 0)--(0, 0)); draw((30,0)--(25,8.66025404)--(30, 17.3205081)--(40, 17.3205081)--(45, 8.66025404)--(40, 0)--(30, 0)); draw((30,0)--(25,-8.66025404)--(30, -17.3205081)--(40, -17.3205081)--(45, -8.66025404)--(40, 0)--(30, 0)); draw((0,0)--(-5, -8.66025404)--(0, -17.3205081)--(10, -17.3205081)--(15, -8.66025404)--(10, 0)--(0, 0)); draw((15,8.66025404)--(10, 17.3205081)--(15, 25.9807621)--(25, 25.9807621)--(30, 17.3205081)--(25, 8.66025404)--(15, 8.66025404)); draw((15,-8.66025404)--(10, -17.3205081)--(15, -25.9807621)--(25, -25.9807621)--(30, -17.3205081)--(25, -8.66025404)--(15, -8.66025404)); label(\"A\", (0,0), W); label(\"B\", (30, 17.3205081), NE); label(\"C\", (30, -17.3205081), SE); draw((0,0)--(30, 17.3205081)--(30, -17.3205081)--(0, 0)); //(Diagram Creds-DivideBy0) </asy> <math> \\textbf {(A) } 2\\sqrt{3} \\qquad \\textbf {(B) } 3\\sqrt{3} \\qquad \\textbf {(C) } 1+3\\sqrt{2} \\qquad \\textbf {(D) } 2+2\\sqrt{3} \\qquad \\textbf {(E) } 3+2\\sqrt{3} </math>",
+      "answerType": "exact",
+      "answerKey": "3\\sqrt 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Danica drove her new car on a trip for a whole number of hours, averaging <math>55</math> miles per hour. At the beginning of the trip, <math>abc</math> miles was displayed on the odometer, where <math>abc</math> is a <math>3</math>-digit number with <math>a\\ge1</math> and <math>a+b+c\\le7</math>. At the end of the trip, the odometer showed <math>cba</math> miles. What is <math>a^2+b^2+c^2</math>? <math> \\textbf {(A) } 26 \\qquad \\textbf {(B) } 27 \\qquad \\textbf {(C) } 36 \\qquad \\textbf {(D) } 37 \\qquad \\textbf {(E) } 41</math>",
+      "answerType": "integer",
+      "answerKey": "37",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "In rectangle <math>ABCD</math>, <math>DC = 2 \\cdot CB</math> and points <math>E</math> and <math>F</math> lie on <math>\\overline{AB}</math> so that <math>\\overline{ED}</math> and <math>\\overline{FD}</math> trisect <math>\\angle ADC</math> as shown. What is the ratio of the area of <math>\\triangle DEF</math> to the area of rectangle <math>ABCD</math>? <asy> draw((0, 0)--(0, 1)--(2, 1)--(2, 0)--cycle); draw((0, 0)--(sqrt(3)/3, 1)); draw((0, 0)--(sqrt(3), 1)); label(\"A\", (0, 1), N); label(\"B\", (2, 1), N); label(\"C\", (2, 0), S); label(\"D\", (0, 0), S); label(\"E\", (sqrt(3)/3, 1), N); label(\"F\", (sqrt(3), 1), N); </asy> <math> \\textbf{(A)}\\ \\ \\frac{\\sqrt{3}}{6}\\qquad\\textbf{(B)}\\ \\frac{\\sqrt{6}}{8}\\qquad\\textbf{(C)}\\ \\frac{3\\sqrt{3}}{16}\\qquad\\textbf{(D)}\\ \\frac{1}{3}\\qquad\\textbf{(E)}\\ \\frac{\\sqrt{2}}{4}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac \\sqrt 3 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Four fair six-sided dice are rolled. What is the probability that at least three of the four dice show the same value? <math> \\textbf {(A) } \\frac{1}{36} \\qquad \\textbf {(B) } \\frac{7}{72} \\qquad \\textbf {(C) } \\frac{1}{9} \\qquad \\textbf {(D) } \\frac{5}{36} \\qquad \\textbf {(E) } \\frac{1}{6}</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "What is the greatest power of <math>2</math> that is a factor of <math>10^{1002} - 4^{501}</math>? <math>\\textbf{(A) } 2^{1002} \\qquad\\textbf{(B) } 2^{1003} \\qquad\\textbf{(C) } 2^{1004} \\qquad\\textbf{(D) } 2^{1005} \\qquad\\textbf{(E) }2^{1006}</math>",
+      "answerType": "exact",
+      "answerKey": "2^ 1005",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "A list of <math>11</math> positive integers has a mean of <math>10</math>, a median of <math>9</math>, and a unique mode of <math>8</math>. What is the largest possible value of an integer in the list? <math> \\textbf {(A) } 24 \\qquad \\textbf {(B) } 30 \\qquad \\textbf {(C) } 31\\qquad \\textbf {(D) } 33 \\qquad \\textbf {(E) } 35</math>",
+      "answerType": "integer",
+      "answerKey": "35",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Two concentric circles have radii <math>1</math> and <math>2</math>. Two points on the outer circle are chosen independently and uniformly at random. What is the probability that the chord joining the two points intersects the inner circle? <math> \\textbf{(A)}\\ \\frac{1}{6}\\qquad \\textbf{(B)}\\ \\frac{1}{4}\\qquad \\textbf{(C)}\\ \\frac{2-\\sqrt{2}}{2}\\qquad \\textbf{(D)}\\ \\frac{1}{3}\\qquad \\textbf{(E)}\\ \\frac{1}{2}\\qquad</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac13",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "For how many integers <math>x</math> is the number <math>x^4-51x^2+50</math> negative? <math> \\textbf {(A) } 8 \\qquad \\textbf {(B) } 10 \\qquad \\textbf {(C) } 12 \\qquad \\textbf {(D) } 14 \\qquad \\textbf {(E) } 16</math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Trapezoid <math> ABCD </math> has parallel sides <math> \\overline{AB} </math> of length <math> 33 </math> and <math> \\overline {CD} </math> of length <math> 21 </math>. The other two sides are of lengths <math> 10 </math> and <math> 14 </math>. The angles <math> A </math> and <math> B </math> are acute. What is the length of the shorter diagonal of <math> ABCD </math>? <math> \\textbf{(A) }10\\sqrt{6}\\qquad\\textbf{(B) }25\\qquad\\textbf{(C) }8\\sqrt{10}\\qquad\\textbf{(D) }18\\sqrt{2}\\qquad\\textbf{(E) }26 </math>",
+      "answerType": "integer",
+      "answerKey": "25",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "A sphere is inscribed in a truncated right circular cone as shown. The volume of the truncated cone is twice that of the sphere. What is the ratio of the radius of the bottom base of the truncated cone to the radius of the top base of the truncated cone? <math>\\text{(A) } \\dfrac32 \\quad \\text{(B) } \\dfrac{1+\\sqrt5}2 \\quad \\text{(C) } \\sqrt3 \\quad \\text{(D) } 2 \\quad \\text{(E) } \\dfrac{3+\\sqrt5}2</math> <asy> real r=(3+sqrt(5))/2; real s=sqrt(r); real Brad=r; real brad=1; real Fht = 2*s; import graph3; import solids; currentprojection=orthographic(1,0,.2); currentlight=(10,10,5); revolution sph=sphere((0,0,Fht/2),Fht/2); //draw(surface(sph),green+white+opacity(0.5)); //triple f(pair t) {return (t.x*cos(t.y),t.x*sin(t.y),t.x^(1/n)*sin(t.y/n));} triple f(pair t) { triple v0 = Brad*(cos(t.x),sin(t.x),0); triple v1 = brad*(cos(t.x),sin(t.x),0)+(0,0,Fht); return (v0 + t.y*(v1-v0)); } triple g(pair t) { return (t.y*cos(t.x),t.y*sin(t.x),0); } surface sback=surface(f,(3pi/4,0),(7pi/4,1),80,2); surface sfront=surface(f,(7pi/4,0),(11pi/4,1),80,2); surface base = surface(g,(0,0),(2pi,Brad),80,2); draw(sback,gray(0.3)); draw(sfront,gray(0.5)); draw(base,gray(0.9)); draw(surface(sph),gray(0.4));</asy>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "The numbers <math>1, 2, 3, 4, 5</math> are to be arranged in a circle. An arrangement is <math>\\textit{bad}</math> if it is not true that for every <math>n</math> from <math>1</math> to <math>15</math> one can find a subset of the numbers that appear consecutively on the circle that sum to <math>n</math>. Arrangements that differ only by a rotation or a reflection are considered the same. How many different bad arrangements are there? <math> \\textbf {(A) } 1 \\qquad \\textbf {(B) } 2 \\qquad \\textbf {(C) } 3 \\qquad \\textbf {(D) } 4 \\qquad \\textbf {(E) } 5 </math> .",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "In a small pond there are eleven lily pads in a row labeled 0 through 10. A frog is sitting on pad 1. When the frog is on pad <math>N</math>, <math>0<N<10</math>, it will jump to pad <math>N-1</math> with probability <math>\\frac{N}{10}</math> and to pad <math>N+1</math> with probability <math>1-\\frac{N}{10}</math>. Each jump is independent of the previous jumps. If the frog reaches pad 0 it will be eaten by a patiently waiting snake. If the frog reaches pad 10 it will exit the pond, never to return. What is the probability that the frog will escape without being eaten by the snake? <math>\\textbf{(A) }\\frac{32}{79}\\qquad \\textbf{(B) }\\frac{161}{384}\\qquad \\textbf{(C) }\\frac{63}{146}\\qquad \\textbf{(D) }\\frac{7}{16}\\qquad \\textbf{(E) }\\frac{1}{2}\\qquad</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,242 @@
+{
+  "slug": "2003-amc-10b",
+  "title": "2003 AMC 10B",
+  "description": "Converted from 2003_AMC_10B_questions.txt and 2003_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Which of the following is the same as <cmath>\\frac{2-4+6-8+10-12+14}{3-6+9-12+15-18+21}?</cmath> <math> \\text {(A) } -1 \\qquad \\text {(B) } -\\frac{2}{3} \\qquad \\text {(C) } \\frac{2}{3} \\qquad \\text {(D) } 1 \\qquad \\text {(E) } \\frac{14}{3} </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Al gets the disease algebritis and must take one green pill and one pink pill each day for two weeks. A green pill costs <math> \\ </math><math>1</math> more than a pink pill, and Al's pills cost a total of <math>\\textdollar 546</math> for the two weeks. How much does one green pill cost? <math> \\textbf{(A)}\\ \\textdollar 7 \\qquad\\textbf{(B) }\\textdollar 14 \\qquad\\textbf{(C) }\\textdollar 19\\qquad\\textbf{(D) }\\textdollar 20\\qquad\\textbf{(E) }\\textdollar 39 </math>",
+      "answerType": "exact",
+      "answerKey": "dollar 20",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "The sum of <math>5</math> consecutive even integers is <math>4</math> less than the sum of the first <math>8</math> consecutive odd counting numbers. What is the smallest of the even integers? <math>\\textbf{(A) } 6 \\qquad\\textbf{(B) } 8 \\qquad\\textbf{(C) } 10 \\qquad\\textbf{(D) } 12 \\qquad\\textbf{(E) } 14</math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Rose fills each of the rectangular regions of her rectangular flower bed with a different type of flower. The lengths, in feet, of the rectangular regions in her flower bed are as shown in the figure. She plants one flower per square foot in each region. Asters cost <math> \\ </math><math>1</math> each, begonias <math> \\ </math><math>1.50</math> each, cannas <math> \\ </math><math>2</math> each, dahlias <math> \\ </math><math>2.50</math> each, and Easter lilies <math> \\ </math><math>3</math> each. What is the least possible cost, in dollars, for her garden? <asy> unitsize(5mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); draw((6,0)--(0,0)--(0,1)--(6,1)); draw((0,1)--(0,6)--(4,6)--(4,1)); draw((4,6)--(11,6)--(11,3)--(4,3)); draw((11,3)--(11,0)--(6,0)--(6,3)); label(\"1\",(0,0.5),W); label(\"5\",(0,3.5),W); label(\"3\",(11,1.5),E); label(\"3\",(11,4.5),E); label(\"4\",(2,6),N); label(\"7\",(7.5,6),N); label(\"6\",(3,0),S); label(\"5\",(8.5,0),S);</asy> <math>\\textbf{(A) } 108 \\qquad\\textbf{(B) } 115 \\qquad\\textbf{(C) } 132 \\qquad\\textbf{(D) } 144 \\qquad\\textbf{(E) } 156 </math>",
+      "answerType": "integer",
+      "answerKey": "108",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Moe uses a mower to cut his rectangular <imath>90</imath>-foot by <imath>150</imath>-foot lawn. The swath he cuts is <imath>28</imath> inches wide, but he overlaps each cut by <imath>4</imath> inches to make sure that no grass is missed. He walks at the rate of <imath>5000</imath> feet per hour while pushing the mower. Which of the following is closest to the number of hours it will take Moe to mow the lawn? <imath>\\textbf{(A) } 0.75 \\qquad\\textbf{(B) } 0.8 \\qquad\\textbf{(C) } 1.35 \\qquad\\textbf{(D) } 1.5 \\qquad\\textbf{(E) } 3 </imath>",
+      "answerType": "decimal",
+      "answerKey": "1.35",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Many television screens are rectangles that are measured by the length of their diagonals. The ratio of the horizontal length to the height in a standard television screen is <math>4:3</math>. The horizontal length of a \"<math>27</math>-inch\" television screen is closest, in inches, to which of the following? <math>\\textbf{(A) } 20 \\qquad\\textbf{(B) } 20.5 \\qquad\\textbf{(C) } 21 \\qquad\\textbf{(D) } 21.5 \\qquad\\textbf{(E) } 22 </math>",
+      "answerType": "decimal",
+      "answerKey": "21.5",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The symbolism <math>\\lfloor x \\rfloor</math> denotes the largest integer not exceeding <math>x</math>. For example, <math>\\lfloor 3 \\rfloor = 3,</math> and <math>\\lfloor 9/2 \\rfloor = 4</math>. Compute <cmath> \\lfloor \\sqrt{1} \\rfloor + \\lfloor \\sqrt{2} \\rfloor + \\lfloor \\sqrt{3} \\rfloor + \\cdots + \\lfloor \\sqrt{16} \\rfloor. </cmath> <math>\\textbf{(A) } 35 \\qquad\\textbf{(B) } 38 \\qquad\\textbf{(C) } 40 \\qquad\\textbf{(D) } 42 \\qquad\\textbf{(E) } 136</math>",
+      "answerType": "integer",
+      "answerKey": "38",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "The second and fourth terms of a geometric sequence are <math>2</math> and <math>6</math>. Which of the following is a possible first term? <math>\\textbf{(A) } -\\sqrt{3} \\qquad\\textbf{(B) } -\\frac{2\\sqrt{3}}{3} \\qquad\\textbf{(C) } -\\frac{\\sqrt{3}}{3} \\qquad\\textbf{(D) } \\sqrt{3} \\qquad\\textbf{(E) } 3</math>",
+      "answerType": "exact",
+      "answerKey": "\\ -\\frac 2\\sqrt 3 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Find the value of <math>x</math> that satisfies the equation <math>25^{-2} = \\frac{5^{48/x}}{5^{26/x} \\cdot 25^{17/x}}.</math> <math>\\textbf{(A) } 2 \\qquad\\textbf{(B) } 3 \\qquad\\textbf{(C) } 5 \\qquad\\textbf{(D) } 6 \\qquad\\textbf{(E) } 9 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Nebraska, the home of the AMC, changed its license plate scheme. Each old license plate consisted of a letter followed by four digits. Each new license plate consists of three letters followed by three digits. By how many times has the number of possible license plates increased? <math>\\textbf{(A) } \\frac{26}{10} \\qquad\\textbf{(B) } \\frac{26^2}{10^2} \\qquad\\textbf{(C) } \\frac{26^2}{10} \\qquad\\textbf{(D) } \\frac{26^3}{10^3} \\qquad\\textbf{(E) } \\frac{26^3}{10^2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 26^2 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A line with slope <math>3</math> intersects a line with slope <math>5</math> at point <math>(10,15)</math>. What is the distance between the <math>x</math>-intercepts of these two lines? <math>\\textbf{(A) } 2 \\qquad\\textbf{(B) } 5 \\qquad\\textbf{(C) } 7 \\qquad\\textbf{(D) } 12 \\qquad\\textbf{(E) } 20</math>",
+      "answerType": "exact",
+      "answerKey": "2\\implies A",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Al, Betty, and Clare split <math>\\textdollar 1000</math> among them to be invested in different ways. Each begins with a different amount. At the end of one year, they have a total of <math>\\textdollar 1500</math> dollars. Betty and Clare have both doubled their money, whereas Al has managed to lose <math>\\textdollar100</math> dollars. What was Al's original portion? <math>\\textbf{(A)}\\ \\textdollar 250 \\qquad \\textbf{(B)}\\ \\textdollar 350 \\qquad \\textbf{(C)}\\ \\textdollar 400 \\qquad \\textbf{(D)}\\ \\textdollar 450 \\qquad \\textbf{(E)}\\ \\textdollar 500</math>",
+      "answerType": "exact",
+      "answerKey": "\\ dollar 400",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Let <math>\\clubsuit(x)</math> denote the sum of the digits of the positive integer <math>x</math>. For example, <math>\\clubsuit(8)=8</math> and <math>\\clubsuit(123)=1+2+3=6</math>. For how many two-digit values of <math>x</math> is <math>\\clubsuit(\\clubsuit(x))=3</math>? <math>\\textbf{(A) } 3 \\qquad\\textbf{(B) } 4 \\qquad\\textbf{(C) } 6 \\qquad\\textbf{(D) } 9 \\qquad\\textbf{(E) } 10 </math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Given that <math>3^8\\cdot5^2=a^b,</math> where both <math>a</math> and <math>b</math> are positive integers, find the smallest possible value for <math>a+b</math>. <math>\\textbf{(A) } 25 \\qquad\\textbf{(B) } 34 \\qquad\\textbf{(C) } 351 \\qquad\\textbf{(D) } 407 \\qquad\\textbf{(E) } 900 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 407",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "There are <math>100</math> players in a single tennis tournament. The tournament is single elimination, meaning that a player who loses a match is eliminated. In the first round, the strongest <math>28</math> players are given a bye, and the remaining <math>72</math> players are paired off to play. After each round, the remaining players play in the next round. The match continues until only one player remains unbeaten. The total number of matches played is <math>\\qquad\\textbf{(A) } \\text{a prime number}</math> <math>\\qquad\\textbf{(B) } \\text{divisible by 2} </math> <math>\\qquad\\textbf{(C) } \\text{divisible by 5} </math> <math>\\qquad\\textbf{(D) } \\text{divisible by 7} </math> <math>\\qquad\\textbf{(E) } \\text{divisible by 11}</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>A restaurant offers three desserts, and exactly twice as many appetizers as main courses. A dinner consists of an appetizer, a main course, and a dessert. What is the least number of main courses that a restaurant should offer so that a customer could have a different dinner each night in the year <math>2003</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math>\\textbf{(A) } 4 \\qquad\\textbf{(B) } 5 \\qquad\\textbf{(C) } 6 \\qquad\\textbf{(D) } 7 \\qquad\\textbf{(E) } 8</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "An ice cream cone consists of a sphere of vanilla ice cream and a right circular cone that has the same diameter as the sphere. If the ice cream melts, it will exactly fill the cone. Assume that the melted ice cream occupies <math>75\\%</math> of the volume of the frozen ice cream. What is the ratio of the cone's height to its radius? (Note: a cone with radius <math>r</math> and height <math>h</math> has volume <math>\\pi r^2 h / 3</math> and a sphere with radius <math>r</math> has volume <math>4 \\pi r^3 / 3</math>.) <math>\\textbf{(A) } 2:1 \\qquad\\textbf{(B) } 3:1 \\qquad\\textbf{(C) } 4:1 \\qquad\\textbf{(D) } 16:3 \\qquad\\textbf{(E) } 6:1 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3:1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "What is the largest integer that is a divisor of <cmath>(n+1)(n+3)(n+5)(n+7)(n+9)</cmath> for all positive even integers <math>n</math>? <math> \\text {(A) } 3 \\qquad \\text {(B) } 5 \\qquad \\text {(C) } 11 \\qquad \\text {(D) } 15 \\qquad \\text {(E) } 165 </math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Three semicircles of radius <math>1</math> are constructed on diameter <math>\\overline{AB}</math> of a semicircle of radius <math>2</math>. The centers of the small semicircles divide <math>\\overline{AB}</math> into four line segments of equal length, as shown. What is the area of the shaded region that lies within the large semicircle but outside the smaller semicircles? <asy> import graph; unitsize(14mm); defaultpen(linewidth(.8pt)+fontsize(8pt)); dashed=linetype(\"4 4\"); dotfactor=3; pair A=(-2,0), B=(2,0); fill(Arc((0,0),2,0,180)--cycle,mediumgray); fill(Arc((-1,0),1,0,180)--cycle,white); fill(Arc((0,0),1,0,180)--cycle,white); fill(Arc((1,0),1,0,180)--cycle,white); draw(Arc((-1,0),1,60,180)); draw(Arc((0,0),1,0,60),dashed); draw(Arc((0,0),1,60,120)); draw(Arc((0,0),1,120,180),dashed); draw(Arc((1,0),1,0,120)); draw(Arc((0,0),2,0,180)--cycle); dot((0,0)); dot((-1,0)); dot((1,0)); draw((-2,-0.1)--(-2,-0.3),gray); draw((-1,-0.1)--(-1,-0.3),gray); draw((1,-0.1)--(1,-0.3),gray); draw((2,-0.1)--(2,-0.3),gray); label(\"$A$\",A,W); label(\"$B$\",B,E); label(\"1\",(-1.5,-0.1),S); label(\"2\",(0,-0.1),S); label(\"1\",(1.5,-0.1),S);</asy> <math>\\textbf{(A) } \\pi - \\sqrt{3} \\qquad\\textbf{(B) } \\pi - \\sqrt{2} \\qquad\\textbf{(C) } \\frac{\\pi + \\sqrt{2}}{2} \\qquad\\textbf{(D) } \\frac{\\pi +\\sqrt{3}}{2} \\qquad\\textbf{(E) } \\frac{7}{6}\\pi - \\frac{\\sqrt{3}}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 7 6 \\pi-\\frac \\sqrt3 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "In rectangle <math>ABCD, AB=5</math> and <math>BC=3</math>. Points <math>F</math> and <math>G</math> are on <math>\\overline{CD}</math> so that <math>DF=1</math> and <math>GC=2</math>. Lines <math>AF</math> and <math>BG</math> intersect at <math>E</math>. Find the area of <math>\\triangle AEB</math>. <center><asy> unitsize(8mm); defaultpen(linewidth(.8pt)+fontsize(10pt)); dotfactor=0; pair A=(0,0), B=(5,0), C=(5,3), D=(0,3); pair F=(1,3), G=(3,3); pair E=(5/3,5); draw(A--B--C--D--cycle); draw(A--E); draw(B--E); pair[] ps={A,B,C,D,E,F,G}; dot(ps); label(\"$A$\",A,SW); label(\"$B$\",B,SE); label(\"$C$\",C,NE); label(\"$D$\",D,NW); label(\"$E$\",E,N); label(\"$F$\",F,SE); label(\"$G$\",G,SW); label(\"$1$\",midpoint(D--F),N); label(\"$2$\",midpoint(G--C),N); label(\"$5$\",midpoint(A--B),S); label(\"$3$\",midpoint(A--D),W); </asy></center> <math>\\textbf{(A) } 10 \\qquad\\textbf{(B) } \\frac{21}{2} \\qquad\\textbf{(C) } 12 \\qquad\\textbf{(D) } \\frac{25}{2} \\qquad\\textbf{(E) } 15</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 25 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "A bag contains two red beads and two green beads. You reach into the bag and pull out a bead, replacing it with a red bead regardless of the color you pulled out. What is the probability that all beads in the bag are red after three such replacements? <imath>\\textbf{(A) } \\frac{1}{8} \\qquad\\textbf{(B) } \\frac{5}{32} \\qquad\\textbf{(C) } \\frac{9}{32} \\qquad\\textbf{(D) } \\frac{3}{8} \\qquad\\textbf{(E) } \\frac{7}{16}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 9 32",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A clock chimes once at <math>30</math> minutes past each hour and chimes on the hour according to the hour. For example, at <math>1 \\text{PM}</math> there is one chime and at noon and midnight there are twelve chimes. Starting at <math>11:15 \\text{AM}</math> on <math>\\text{February 26, 2003},</math> on what date will the <math>2003^{\\text{rd}}</math> chime occur? <math>\\textbf{(A) } \\text{March 8} \\qquad\\textbf{(B) } \\text{March 9} \\qquad\\textbf{(C) } \\text{March 10} \\qquad\\textbf{(D) } \\text{March 20} \\qquad\\textbf{(E) } \\text{March 21}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ March 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "A regular octagon <math> ABCDEFGH </math> has an area of one square unit. What is the area of the rectangle <math> ABEF </math>? <asy> unitsize(1cm); defaultpen(linewidth(.8pt)+fontsize(8pt)); pair C=dir(22.5), B=dir(67.5), A=dir(112.5), H=dir(157.5), G=dir(202.5), F=dir(247.5), E=dir(292.5), D=dir(337.5); draw(A--B--C--D--E--F--G--H--cycle); label(\"$A$\",A,NNW); label(\"$B$\",B,NNE); label(\"$C$\",C,ENE); label(\"$D$\",D,ESE); label(\"$E$\",E,SSE); label(\"$F$\",F,SSW); label(\"$G$\",G,WSW); label(\"$H$\",H,WNW);</asy> <math> \\textbf{(A)}\\ 1-\\frac{\\sqrt2}{2}\\qquad\\textbf{(B)}\\ \\frac{\\sqrt2}{4}\\qquad\\textbf{(C)}\\ \\sqrt2-1\\qquad\\textbf{(D)}\\ \\frac{1}2\\qquad\\textbf{(E)}\\ \\frac{1+\\sqrt2}{4} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "The first four terms in an arithmetic sequence are <math>x+y</math>, <math>x-y</math>, <math>xy</math>, and <math>\\frac{x}{y}</math>, in that order. What is the fifth term? <math> \\textbf{(A)}\\ -\\frac{15}{8}\\qquad\\textbf{(B)}\\ -\\frac{6}{5}\\qquad\\textbf{(C)}\\ 0\\qquad\\textbf{(D)}\\ \\frac{27}{20}\\qquad\\textbf{(E)}\\ \\frac{123}{40} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 123 40",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "How many distinct four-digit numbers are divisible by <math>3</math> and have <math>23</math> as their last two digits? <math>\\textbf{(A) } 27 \\qquad\\textbf{(B) } 30 \\qquad\\textbf{(C) } 33 \\qquad\\textbf{(D) } 81 \\qquad\\textbf{(E) } 90</math>",
+      "answerType": "integer",
+      "answerKey": "30",
+      "points": 1
+    }
+  ]
+}

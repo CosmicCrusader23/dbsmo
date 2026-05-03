@@ -27,6 +27,7 @@ type DryRunResult = {
     slug: string;
     title: string;
     status: string;
+    statementFormat: string;
     problemCount: number;
     totalPoints: number;
     difficulty: number;
@@ -179,7 +180,7 @@ export function ZipImportPanel() {
         <span>
           {file
             ? `${formatBytes(file.size)} selected`
-            : "LaTeX statements, answer keys, answer types, tags, and solution notes"}
+            : "LaTeX/HTML statements, answer keys, answer types, tags, and solution notes"}
         </span>
       </label>
 
@@ -306,6 +307,10 @@ export function ZipImportPanel() {
                 <div>
                   <dt>Status</dt>
                   <dd>{dryRunResult.preview.status}</dd>
+                </div>
+                <div>
+                  <dt>Format</dt>
+                  <dd>{dryRunResult.preview.statementFormat}</dd>
                 </div>
                 <div>
                   <dt>Solutions</dt>

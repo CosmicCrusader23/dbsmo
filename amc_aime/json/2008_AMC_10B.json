@@ -1,0 +1,223 @@
+{
+  "slug": "2008-amc-10b",
+  "title": "2008 AMC 10B",
+  "description": "Converted from 2008_AMC_10B_questions.txt and 2008_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "A basketball player made 5 baskets during a game. Each basket was worth either 2 or 3 points. How many different numbers could represent the total points scored by the player? <math>\\mathrm{(A)}\\ 2\\qquad\\mathrm{(B)}\\ 3\\qquad\\mathrm{(C)}\\ 4\\qquad\\mathrm{(D)}\\ 5\\qquad\\mathrm{(E)}\\ 6</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "A <math>4\\times 4</math> block of calendar dates is shown. First, the order of the numbers in the second and the fourth rows are reversed. Then, the numbers on each diagonal are added. What will be the positive difference between the two diagonal sums? <math>\\begin{tabular}[t]{|c|c|c|c|} \\multicolumn{4}{c}{}\\\\\\hline 1&2&3&4\\\\\\hline 8&9&10&11\\\\\\hline 15&16&17&18\\\\\\hline 22&23&24&25\\\\\\hline \\end{tabular}</math> <math>\\textbf{(A)}\\ 2 \\qquad \\textbf{(B)}\\ 4 \\qquad \\textbf{(C)}\\ 6 \\qquad \\textbf{(D)}\\ 8 \\qquad \\textbf{(E)}\\ 10</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Assume that <math>x</math> is a [[positive]] [[real number]]. Which is equivalent to <math>\\sqrt[3]{x\\sqrt{x}}</math>? <math>\\mathrm{(A)}\\ x^{1/6}\\qquad\\mathrm{(B)}\\ x^{1/4}\\qquad\\mathrm{(C)}\\ x^{3/8}\\qquad\\mathrm{(D)}\\ x^{1/2}\\qquad\\mathrm{(E)}\\ x</math>",
+      "answerType": "exact",
+      "answerKey": "\\ x^\\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "For [[real number]]s <math>a</math> and <math>b</math>, define <math>a * b=(a-b)^2</math>. What is <math>(x-y)^2*(y-x)^2</math>? <math>\\mathrm{(A)}\\ 0\\qquad\\mathrm{(B)}\\ x^2+y^2\\qquad\\mathrm{(C)}\\ 2x^2\\qquad\\mathrm{(D)}\\ 2y^2\\qquad\\mathrm{(E)}\\ 4xy</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Points <math>B</math> and <math>C</math> lie on <math>\\overline{AD}</math>. The length of <math>\\overline{AB}</math> is <math>4</math> times the length of <math>\\overline{BD}</math>, and the length of <math>\\overline{AC}</math> is <math>9</math> times the length of <math>\\overline{CD}</math>. The length of <math>\\overline{BC}</math> is what fraction of the length of <math>\\overline{AD}</math>? <math> \\textbf{(A)}\\ \\frac{1}{36}\\qquad\\textbf{(B)}\\ \\frac{1}{13}\\qquad\\textbf{(C)}\\ \\frac{1}{10}\\qquad\\textbf{(D)}\\ \\frac{5}{36}\\qquad\\textbf{(E)}\\ \\frac{1}{5} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "An equilateral triangle of side length <math>10</math> is completely filled in by non-overlapping equilateral triangles of side length <math>1</math>. How many small triangles are required? <math>\\mathrm{(A)}\\ 10\\qquad\\mathrm{(B)}\\ 25\\qquad\\mathrm{(C)}\\ 100\\qquad\\mathrm{(D)}\\ 250\\qquad\\mathrm{(E)}\\ 1000</math>",
+      "answerType": "integer",
+      "answerKey": "100",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "A class collects 50 dollars to buy flowers for a classmate who is in the hospital. Roses cost 3 dollars each, and carnations cost 2 dollars each. No other flowers are to be used. How many different bouquets could be purchased for exactly 50 dollars? <math> \\mathrm{(A)}\\ 1 \\qquad \\mathrm{(B)}\\ 7 \\qquad \\mathrm{(C)}\\ 9 \\qquad \\mathrm{(D)}\\ 16 \\qquad \\mathrm{(E)}\\ 17 </math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "A quadratic equation <math>ax^2 - 2ax + b = 0</math> has two real solutions. What is the average of these two solutions? <math>\\mathrm{(A)}\\ 1\\qquad\\mathrm{(B)}\\ 2\\qquad\\mathrm{(C)}\\ \\frac ba\\qquad\\mathrm{(D)}\\ \\frac{2b}a\\qquad\\mathrm{(E)}\\ \\sqrt{2b-a}</math>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Points <math>A</math> and <math>B</math> are on a circle of radius <math>5</math> and <math>AB=6</math>. Point <math>C</math> is the [[midpoint]] of the minor arc <math>AB</math>. What is the length of the line segment <math>AC</math>? <math>\\mathrm{(A)}\\ \\sqrt{10}\\qquad\\mathrm{(B)}\\ \\frac{7}{2}\\qquad\\mathrm{(C)}\\ \\sqrt{14}\\qquad\\mathrm{(D)}\\ \\sqrt{15}\\qquad\\mathrm{(E)}\\ 4</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Suppose that <math>(u_n)</math> is a [[sequence]] of real numbers satifying <math>u_{n+2}=2u_{n+1}+u_n</math>, and that <math>u_3=9</math> and <math>u_6=128</math>. What is <math>u_5</math>? <math>\\mathrm{(A)}\\ 40\\qquad\\mathrm{(B)}\\ 53\\qquad\\mathrm{(C)}\\ 68\\qquad\\mathrm{(D)}\\ 88\\qquad\\mathrm{(E)}\\ 104</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Postman Pete has a pedometer to count his steps. The pedometer records up to 99999 steps, then flips over to 00000 on the next step. Pete plans to determine his mileage for a year. On January 1 Pete sets the pedometer to 00000. During the year, the pedometer flips from 99999 to 00000 forty-four times. On December 31 the pedometer reads 50000. Pete takes 1800 steps per mile. Which of the following is closest to the number of miles Pete walked during the year? <math>\\mathrm{(A)}\\ 2500\\qquad\\mathrm{(B)}\\ 3000\\qquad\\mathrm{(C)}\\ 3500\\qquad\\mathrm{(D)}\\ 4000\\qquad\\mathrm{(E)}\\ 4500</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "For each positive integer <math>n</math>, the mean of the first <math>n</math> terms of a sequence is <math>n</math>. What is the <math>2008^{\\text{th}}</math> term of the sequence? <math>\\mathrm{(A)}\\ {{{2008}}} \\qquad \\mathrm{(B)}\\ {{{4015}}} \\qquad \\mathrm{(C)}\\ {{{4016}}} \\qquad \\mathrm{(D)}\\ {{{4,030,056}}} \\qquad \\mathrm{(E)}\\ {{{4,032,064}}}</math>",
+      "answerType": "integer",
+      "answerKey": "4015",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Triangle [katex]OAB[/katex] has [katex]O=(0,0)[/katex], [katex]B=(5,0)[/katex], and [katex]A[/katex] in the first quadrant. In addition, [katex]\\angle ABO=90^\\circ[/katex] and [katex]\\angle AOB=30^\\circ[/katex]. Suppose that [katex]OA[/katex] is rotated [katex]90^\\circ[/katex] counterclockwise about [katex]O[/katex]. What are the coordinates of the image of [katex]A[/katex]? <!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\mathrm{(A)}\\ \\left( - \\frac {10}{3}\\sqrt {3},5\\right) \\qquad \\mathrm{(B)}\\ \\left( - \\frac {5}{3}\\sqrt {3},5\\right) \\qquad \\mathrm{(C)}\\ \\left(\\sqrt {3},5\\right) \\qquad \\mathrm{(D)}\\ \\left(\\frac {5}{3}\\sqrt {3},5\\right) \\qquad \\mathrm{(E)}\\ \\left(\\frac {10}{3}\\sqrt {3},5\\right) </math>",
+      "answerType": "exact",
+      "answerKey": "\\left( - \\frac 5 3 \\sqrt 3 ,5\\right)",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "How many right triangles have integer leg lengths <math>a</math> and <math>b</math> and a hypotenuse of length <math>b+1</math>, where <math>b<100</math>? <math>\\mathrm{(A)}\\ 6\\qquad\\mathrm{(B)}\\ 7\\qquad\\mathrm{(C)}\\ 8\\qquad\\mathrm{(D)}\\ 9\\qquad\\mathrm{(E)}\\ 10</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Two fair coins are to be tossed once. For each head that results, one fair die is to be rolled. What is the probability that the sum of the die rolls is odd? (Note that if no die is rolled, the sum is 0.) <math>\\mathrm{(A)}\\ {{{\\frac{3} {8}}}} \\qquad \\mathrm{(B)}\\ {{{\\frac{1} {2}}}} \\qquad \\mathrm{(C)}\\ {{{\\frac{43} {72}}}} \\qquad \\mathrm{(D)}\\ {{{\\frac{5} {8}}}} \\qquad \\mathrm{(E)}\\ {{{\\frac{2} {3}}}}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 3 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "A poll shows that <math>70\\%</math> of all voters approve of the mayor's work. On three separate occasions a pollster selects a voter at random. What is the probability that on exactly one of these three occasions the voter approves of the mayor's work? <math>\\mathrm{(A)}\\ {{{0.063}}} \\qquad \\mathrm{(B)}\\ {{{0.189}}} \\qquad \\mathrm{(C)}\\ {{{0.233}}} \\qquad \\mathrm{(D)}\\ {{{0.333}}} \\qquad \\mathrm{(E)}\\ {{{0.441}}}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0.189",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Bricklayer Brenda takes <math>9</math> hours to build a chimney alone, and bricklayer Brandon takes <math>10</math> hours to build it alone. When they work together, they talk a lot, and their combined output decreases by <math>10</math> bricks per hour. Working together, they build the chimney in <math>5</math> hours. How many bricks are in the chimney? <math>\\mathrm{(A)}\\ 500\\qquad\\mathrm{(B)}\\ 900\\qquad\\mathrm{(C)}\\ 950\\qquad\\mathrm{(D)}\\ 1000\\qquad\\mathrm{(E)}\\ 1900</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A cylindrical tank with radius <math>4</math> feet and height <math>9</math> feet is lying on its side. The tank is filled with water to a depth of <math>2</math> feet. What is the volume of water, in cubic feet? <math> \\mathrm{(A)}\\ 24\\pi - 36 \\sqrt {2} \\qquad \\mathrm{(B)}\\ 24\\pi - 24 \\sqrt {3} \\qquad \\mathrm{(C)}\\ 36\\pi - 36 \\sqrt {3} \\qquad \\mathrm{(D)}\\ 36\\pi - 24 \\sqrt {2} \\qquad \\mathrm{(E)}\\ 48\\pi - 36 \\sqrt {3} </math>",
+      "answerType": "exact",
+      "answerKey": "48\\pi - 36\\sqrt 3",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "The faces of a cubical die are marked with the numbers <math>1</math>, <math>2</math>, <math>2</math>, <math>3</math>, <math>3</math>, and <math>4</math>. The faces of another die are marked with the numbers <math>1</math>, <math>3</math>, <math>4</math>, <math>5</math>, <math>6</math>, and <math>8</math>. What is the probability that the sum of the top two numbers will be <math>5</math>, <math>7</math>, or <math>9</math>? <math>\\mathrm{(A)}\\ 5/18\\qquad\\mathrm{(B)}\\ 7/18\\qquad\\mathrm{(C)}\\ 11/18\\qquad\\mathrm{(D)}\\ 3/4\\qquad\\mathrm{(E)}\\ 8/9</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 7 18",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Ten chairs are evenly spaced around a round table and numbered clockwise from <math>1</math> through <math>10</math>. Five married couples are to sit in the chairs with men and women alternating, and no one is to sit either next to or across from his/her spouse. How many seating arrangements are possible? <math>\\mathrm{(A)}\\ 240\\qquad\\mathrm{(B)}\\ 360\\qquad\\mathrm{(C)}\\ 480\\qquad\\mathrm{(D)}\\ 540\\qquad\\mathrm{(E)}\\ 720</math>",
+      "answerType": "exact",
+      "answerKey": "( C ) 480",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Three red beads, two white beads, and one blue bead are placed in line in random order. What is the probability that no two neighboring beads are the same color? <math>\\mathrm{(A)}\\ 1/12\\qquad\\mathrm{(B)}\\ 1/10\\qquad\\mathrm{(C)}\\ 1/6\\qquad\\mathrm{(D)}\\ 1/3\\qquad\\mathrm{(E)}\\ 1/2</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac16",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "A rectangular floor measures <math>a</math> by <math>b</math> feet, where <math>a</math> and <math>b</math> are positive integers and <math>b > a</math>. An artist paints a rectangle on the floor with the sides of the rectangle parallel to the floor. The unpainted part of the floor forms a border of width <math>1</math> foot around the painted rectangle and occupies half the area of the whole floor. How many possibilities are there for the ordered pair <math>(a,b)</math>? <math>\\textbf{(A)}\\ 1\\qquad\\textbf{(B)}\\ 2\\qquad\\textbf{(C)}\\ 3\\qquad\\textbf{(D)}\\ 4\\qquad\\textbf{(E)}\\ 5</math>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Quadrilateral <math>ABCD</math> has <math>AB = BC = CD</math>, <math>m\\angle ABC = 70^\\circ</math> and <math>m\\angle BCD = 170^\\circ</math>. What is the degree measure of <math>\\angle BAD</math>? <math>\\mathrm{(A)}\\ 75\\qquad\\mathrm{(B)}\\ 80\\qquad\\mathrm{(C)}\\ 85\\qquad\\mathrm{(D)}\\ 90\\qquad\\mathrm{(E)}\\ 95</math>",
+      "answerType": "integer",
+      "answerKey": "85",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Michael walks at the rate of <math>5</math> feet per second on a long straight path. Trash pails are located every <math>200</math> feet along the path. A garbage truck traveling at <math>10</math> feet per second in the same direction as Michael stops for <math>30</math> seconds at each pail. As Michael passes a pail, he notices the truck ahead of him just leaving the next pail. How many times will Michael and the truck meet? <math>\\mathrm{(A)}\\ 4\\qquad\\mathrm{(B)}\\ 5\\qquad\\mathrm{(C)}\\ 6\\qquad\\mathrm{(D)}\\ 7\\qquad\\mathrm{(E)}\\ 8</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    }
+  ]
+}

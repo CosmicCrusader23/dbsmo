@@ -1,0 +1,233 @@
+{
+  "slug": "2026-amc-8",
+  "title": "2026 AMC 8",
+  "description": "Converted from 2026_AMC_8_questions.txt and 2026_AMC_8_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-8"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Notice that we can break this up into chunks of 3 numbers. <imath>1+2-3=0</imath>, <imath>4+5-6=3</imath>, <imath>7+8-9=6</imath>, and <imath>10+11-12=9</imath>, these are all multiples of 3 so we get <imath>3+6+9=3 \\times 1 + 3\\times2+3\\times3= 3\\times(1+2+3) = 3 \\times 6 =\\boxed{18}</imath> ~Shaarav14 from Carnage MS",
+      "answerType": "integer",
+      "answerKey": "18",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "In the array shown below, three 3s are surrounded by 2s, which are in turn surrounded by a border of 1s. What is the sum of the numbers in the array? <cmath>\\begin{array}{ccccccc} 1 & 1 & 1 & 1 & 1 & 1 & 1 \\\\ 1 & 2 & 2 & 2 & 2 & 2 & 1 \\\\ 1 & 2 & 3 & 3 & 3 & 2 & 1 \\\\ 1 & 2 & 2 & 2 & 2 & 2 & 1 \\\\ 1 & 1 & 1 & 1 & 1 & 1 & 1 \\end{array}</cmath> <imath>\\textbf{(A)}\\ 49 \\qquad \\textbf{(B)}\\ 51 \\qquad \\textbf{(C)}\\ 53 \\qquad \\textbf{(D)}\\ 55 \\qquad \\textbf{(E)}\\ 57</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 53",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "Haruki has a piece of wire that is <imath>24</imath> centimeters long. He wants to bend it to form each of the following shapes, one at a time: A regular hexagon with side length <imath>5</imath> cm. A square with area <imath>36 \\hspace{3pt} \\text{cm}^2</imath>. A right triangle whose legs are <imath>6</imath> and <imath>8</imath> cm long. Which of the shapes can Haruki make? <imath>\\textbf{(A)} \\hspace{3pt} \\text{Triangle only} \\\\ \\textbf{(B)} \\hspace{3pt} \\text{Hexagon and square only} \\\\ \\textbf{(C)} \\hspace{3pt} \\text{Hexagon and triangle only} \\\\ \\textbf{(D)} \\hspace{3pt} \\text{Square and triangle only} \\\\ \\textbf{(E)} \\hspace{3pt} \\text{Hexagon, triangle, and square}</imath>",
+      "answerType": "exact",
+      "answerKey": "Square and triangle only",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Brynn's savings decreased by <imath>20 \\%</imath> in July, then increased by <imath>50 \\%</imath> in August. Brynn's savings are now what percent of the original amount? <imath>\\textbf{(A)}\\ 80 \\qquad \\textbf{(B)}\\ 90 \\qquad \\textbf{(C)}\\ 100 \\qquad \\textbf{(D)}\\ 110 \\qquad \\textbf{(E)}\\ 120</imath>",
+      "answerType": "integer",
+      "answerKey": "120",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Casey went on a road trip that covered <imath>100</imath> miles, stopping only for a lunch break along the way. The trip took <imath>3</imath> hours in total and her average speed while driving was <imath>40</imath> miles per hour. In minutes, how long was the lunch break? <imath>\\textbf{(A) }15 \\qquad \\textbf{(B) }30 \\qquad \\textbf{(C) }40 \\qquad \\textbf{(D) }45 \\qquad \\textbf{(E) }60</imath>",
+      "answerType": "integer",
+      "answerKey": "30",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Peter lives near a rectangular field that is filled with blackberry bushes. The field is 10 meters long and 8 meters wide, and Peter can reach any blackberries that are within 1 meter of an edge of the field. The portion of the field he can reach is shaded in the figure below. What fraction of the area of the field can Peter reach? [[File:2026 amc 8 q6.png | center | 650px]] <imath>\\textbf{(A) } \\frac{1}{6}\\qquad\\textbf{(B) } \\frac{1}{4}\\qquad\\textbf{(C) } \\frac{1}{3}\\qquad\\textbf{(D) } \\frac{3}{8}\\qquad\\textbf{(E) } \\frac{2}{5}\\qquad</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Mika would like to estimate how far she can ride a new model of electric bike on a fully charged battery. She completed two trips totaling <imath>40</imath> miles. The first trip used <imath>\\frac{1}{2}</imath> of the total battery power, while the second trip used <imath>\\frac{3}{10}</imath> of the total battery power. How many miles can this electric bike go on a fully charged battery? <imath>\\textbf{(A) } 45\\qquad\\textbf{(B) } 48\\qquad\\textbf{(C) } 50\\qquad\\textbf{(D) } 52\\qquad\\textbf{(E) } 55\\qquad</imath>",
+      "answerType": "integer",
+      "answerKey": "50",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "A poll asked a number of people if they liked solving mathematics problems. Exactly <imath>74\\%</imath> answered \"yes.\" What is the fewest possible number of people who could have been asked the question? <imath>\\textbf{(A)}\\ 10 \\qquad \\textbf{(B)}\\ 20 \\qquad \\textbf{(C)}\\ 25 \\qquad \\textbf{(D)}\\ 50 \\qquad \\textbf{(E)}\\ 100</imath>",
+      "answerType": "integer",
+      "answerKey": "50",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "What is the value of this expression? <cmath>\\frac{\\sqrt{16\\sqrt{81}}}{\\sqrt{81\\sqrt{16}}}</cmath> <cmath>\\textbf{(A)} \\hspace{3pt} \\frac{4}{9} \\hspace{19pt} \\textbf{(B)} \\hspace{3pt} \\frac{2}{3} \\hspace{19pt} \\textbf{(C)} \\hspace{3pt} 1 \\hspace{19pt} \\textbf{(D)} \\hspace{3pt} \\frac{3}{2} \\hspace{19pt} \\textbf{(E)} \\hspace{3pt} \\frac{9}{4}</cmath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Five runners completed the grueling Xmarathon: Luke, Melina, Nico, Olympia, and Pedro. Nico finished <imath>11</imath> minutes behind Pedro. Olympia finished <imath>2</imath> minutes ahead of Melina, but <imath>3</imath> minutes behind Pedro. Olympia finished <imath>6</imath> minutes ahead of Luke. Which runner finished fourth? <imath>\\textbf{(A) }\\text{Luke} \\qquad \\textbf{(B) }\\text{Melina} \\qquad \\textbf{(C) }\\text{Nico} \\qquad \\textbf{(D) }\\text{Olympia}\\qquad \\textbf{(E) }\\text{Pedro}</imath>",
+      "answerType": "exact",
+      "answerKey": "Luke",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Squares of side length <imath>1, 1, 2, 3,</imath> and <imath>5</imath> are arranged to form the rectangle shown below. A curve is drawn by inscribing a quarter circle in each square and joining the quarter circles in order, from shortest to longest. What is the length of the curve? [[File:2026 amc 8 q11.png | center | 650px]] <imath>\\textbf{(A) } 4 \\pi \\qquad \\textbf{(B) } 6 \\pi \\qquad \\textbf{(C) } \\frac{13}{2} \\pi \\qquad \\textbf{(D) } 8 \\pi \\qquad \\textbf{(E) } 13 \\pi</imath>",
+      "answerType": "exact",
+      "answerKey": "6\\pi",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "In the figure below, each circle will be filled with a digit from 1 to 6. Each digit must appear exactly once. The sum of the digits in neighboring circles is shown in the box between them. What digit must be placed in the top circle? [[File:2026 amc 8 q12.png | 650px]] <imath>\\textbf{(A) } 2\\qquad\\textbf{(B) } 3\\qquad\\textbf{(C) } 4\\qquad\\textbf{(D) } 5\\qquad\\textbf{(E) } \\text{it is impossible to fill the circles}</imath>",
+      "answerType": "integer",
+      "answerKey": "5",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "The figure below shows a tiling of <imath> 1 \\times 1 </imath> unit squares. Each row of unit squares is shifted horizontally by half a unit relative to the row above it. A shaded square is drawn on top of the tiling. Each vertex of the shaded square is a vertex of one of the unit squares. In square units, what is the area of the shaded square? [[File:2026 amc 8 q13.png | 650px]] <cmath>\\textbf{A. } 10 \\quad \\textbf{B. } \\frac{21}{2} \\quad \\textbf{C. } \\frac{32}{3} \\quad \\textbf{D. } 11 \\quad \\textbf{E. } \\frac{34}{3} </cmath>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Jami picked three equally spaced integer numbers on the number line. The sum of the first and the second numbers is 40, while the sum of the second and third numbers is 60. What is the sum of all three numbers? <imath>\\textbf{(A)}\\ 70\\qquad \\textbf{(B)}\\ 75\\qquad \\textbf{(C)}\\ 80\\qquad \\textbf{(D)}\\ 85\\qquad \\textbf{(E)}\\ 90</imath>",
+      "answerType": "integer",
+      "answerKey": "75",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Elijah has a large collection of identical wooden cubes which are white on 4 faces and gray on 2 faces that share an edge. He glues some cubes together face-to-face. The figure below shows 2 cubes being glued together, leaving 3 gray faces visible. What is the fewest number of cubes that he could glue together to ensure that no gray faces are visible, no matter how he rotates the figure? [[File:2026 amc 8 q15.png | 650px]] <imath>\\textbf{(A)}\\ 4 \\qquad\\textbf{(B)}\\ 6 \\qquad\\textbf{(C)}\\ 8 \\qquad\\textbf{(D)}\\ 9 \\qquad\\textbf{(E)}\\ 27</imath>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1
+    },
+    {
+      "number": 16,
+      "statement": "Consider all positive four-digit integers consisting of only even digits. What fraction of these integers are divisible by <imath>4</imath>? <imath>\\textbf{(A) }\\frac{1}{4}\\qquad\\textbf{(B) }\\frac{2}{5}\\qquad\\textbf{(C) }\\frac{1}{2}\\qquad\\textbf{(D) }\\frac{3}{5}\\qquad\\textbf{(E) }\\frac{3}{4}</imath>",
+      "answerType": "fraction",
+      "answerKey": "3/5",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "Four students are seated in a row. They chat with the people sitting next to them, then rearrange themselves so that they are no longer seated next to any of the same people. How many rearrangements are possible? [[File:2026 amc 8 q17.png | 650px]] <imath>\\textbf{(A)}\\ 2 \\qquad\\textbf{(B)}\\ 4 \\qquad\\textbf{(C)}\\ 9 \\qquad\\textbf{(D)}\\ 12 \\qquad\\textbf{(E)}\\ 24</imath>",
+      "answerType": "integer",
+      "answerKey": "2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "In how many ways can <imath>60</imath> be written as the sum of two or more consecutive odd positive integers that are arranged in increasing order? <imath>\\textbf{(A) }1\\qquad\\textbf{(B) }2\\qquad\\textbf{(C) }3\\qquad\\textbf{(D) }4\\qquad\\textbf{(E) }5</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Miguel is walking with his dog, Luna. When they reach the entrance to a park, Miguel throws a ball straight ahead and continues to walk at a steady pace. Luna sprints toward the ball, which stops by a tree. As soon as the dog reaches the ball, she brings it back to Miguel. Luna runs 5 times faster than Miguel walks. What fraction of the distance between the entrance and the tree does Miguel cover by the time Luna brings him the ball? [[File:Amc 8 2026 q19.png | 650px]] <imath>\\textbf{(A) } \\frac{1}{6}\\qquad\\textbf{(B) } \\frac{1}{5}\\qquad\\textbf{(C) } \\frac{1}{4}\\qquad\\textbf{(D) } \\frac{1}{3}\\qquad\\textbf{(E) } \\frac{2}{5}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "The land of Catania uses gold coins and silver coins. Gold coins are <imath>1</imath> mm thick and silver coins are <imath>3</imath> mm thick. In how many ways can Taylor make a stack of coins that is <imath>8</imath> mm tall using any arrangement of gold and silver coins, assuming order matters? <imath>\\textbf{(A) }3\\qquad\\textbf{(B) }7\\qquad\\textbf{(C) }10\\qquad\\textbf{(D) }13\\qquad\\textbf{(E) }16</imath>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Charlotte the spider is walking along a web shaped like a <imath>5</imath>-pointed star, shown in the figure below. The web has <imath>5</imath> outer points and <imath>5</imath> inner points. Each time Charlotte reaches a point, she randomly chooses a neighboring point and moves to that point. Charlotte starts at one of the outer points and makes <imath>3</imath> moves (re-visiting points is allowed). What is the probability she is now at one of the outer points of the star? [[File:2026 amc 8 q21.png | 450px]] <imath>\\textbf{(A) } \\frac{1}{5}\\qquad\\textbf{(B) } \\frac{1}{4}\\qquad\\textbf{(C) } \\frac{2}{5}\\qquad\\textbf{(D) } \\frac{1}{2}\\qquad\\textbf{(E) } \\frac{3}{5}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac14",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "The integers from <imath> 1 </imath> through <imath> 25 </imath> are arbitrarily separated into five groups of <imath> 5 </imath> numbers each. The median of each group is identified. Let <imath> M </imath> equal the median of the five medians. What is the least possible value of <imath> M </imath>? <imath>\\textbf{(A) }9 \\qquad \\textbf{(B) }10 \\qquad \\textbf{(C) }12 \\qquad \\textbf{(D) }13 \\qquad \\textbf{(E) }14</imath>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Lakshmi has <imath>5</imath> round coins of diameter <imath>4</imath> centimeters. She arranges the coins in <imath>2</imath> rows on a table top, as shown below, and wraps an elastic band tightly around them. In centimeters, what will be the length of the band? [[File:2026 amc 8 q23.png | 450px]] <imath>\\textbf{(A) } 2\\pi + 20 \\qquad \\textbf{(B) } \\frac{5}{2}\\pi + 20 \\qquad \\textbf{(C) } 4\\pi + 20 \\qquad \\textbf{(D) } \\frac{9}{2}\\pi + 20 \\qquad \\textbf{(E) } 5\\pi + 20</imath>",
+      "answerType": "exact",
+      "answerKey": "4\\pi+20",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "The notation <imath>n!</imath> (read \"n factorial\") is defined as the product of the first <imath>n</imath> positive integers. (For example, <imath>3!=1 \\cdot 2 \\cdot 3 = 6</imath>). Define the superfactorial of a positive integer, denoted by <imath>n^!</imath>, to be the product of the factorials of the first <imath>n</imath> integers. (For example, <imath>3^!=1! \\cdot 2! \\cdot 3! = 12</imath>). How many factors of <imath>7</imath> appear in the prime factorization of <imath>51^!</imath>, the superfactorial of <imath>51</imath>? <imath>\\textbf{(A)}\\ 147 \\qquad \\textbf{(B)}\\ 150 \\qquad \\textbf{(C)}\\ 156 \\qquad \\textbf{(D)}\\ 168 \\qquad \\textbf{(E)}\\ 171</imath>",
+      "answerType": "integer",
+      "answerKey": "171",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "In an equiangular hexagon, all interior angles measure <imath>120^\\circ</imath>. An example of such a hexagon with side lengths <imath>2</imath>, <imath>3</imath>, <imath>1</imath>, <imath>3</imath>, <imath>2</imath>, and <imath>2</imath> is shown below, inscribed in equilateral triangle <imath>ABC</imath>. Consider all equiangular hexagons with positive integer side lengths that can be inscribed in <imath>\\triangle ABC</imath>, with all six vertices on the sides of the triangle. What is the total number of such hexagons? Hexagons that differ only by a rotation or a reflection are considered the same. <asy> defaultpen(linewidth(0.8)); size(5cm); dotfactor = 5.5; pair A = 6 * dir(210), B = 6 * dir(330), C = 6 * dir(90), U = (2C + A)/3, V = (5A + C)/6, W = (5A + B)/6, X = (2B + A)/3, Y = (2B + C)/3, Z = (2C + B)/3; fill(U--V--W--X--Y--Z--cycle, gray(0.8)); draw(A--B--C--cycle^^U--Z^^V--W^^X--Y); label(\"$A$\", A, dir(A)); label(\"$B$\", B, dir(B)); label(\"$C$\", C, dir(C)); label(\"$1$\", (V + W)/2, dir(195)/2); label(\"$3$\", (W + X)/2, dir(270)/2); label(\"$2$\", (X + Y)/2, dir(330)/2); label(\"$2$\", (Y + Z)/2, dir(30)/2); label(\"$2$\", (Z + U)/2, dir(90)/2); label(\"$3$\", (U + V)/2, dir(150)/2); dot(U); dot(V); dot(W); dot(X); dot(Y); dot(Z); </asy> <imath>\\textbf{(A) } 4\\qquad\\textbf{(B) } 5\\qquad\\textbf{(C) } 6\\qquad\\textbf{(D) } 7\\qquad\\textbf{(E) } 8</imath>",
+      "answerType": "exact",
+      "answerKey": "E)\\ 8",
+      "points": 1
+    }
+  ]
+}

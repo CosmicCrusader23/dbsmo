@@ -1,0 +1,118 @@
+{
+  "slug": "2002-aime-ii",
+  "title": "2002 AIME II",
+  "description": "Converted from 2002_AIME_II_questions.txt and 2002_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Given that<br> <cmath>\\begin{eqnarray*}&(1)& x\\text{ and }y\\text{ are both integers between 100 and 999, inclusive;}\\qquad \\qquad \\qquad \\qquad \\qquad \\\\ &(2)& y\\text{ is the number formed by reversing the digits of }x\\text{; and}\\\\ &(3)& z=|x-y|. \\end{eqnarray*}</cmath> How many distinct values of <math>z</math> are possible?",
+      "answerType": "integer",
+      "answerKey": "009",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Three [[vertex|vertices]] of a [[cube]] are <math>P=(7,12,10)</math>, <math>Q=(8,8,1)</math>, and <math>R=(11,3,9)</math>. What is the [[surface area]] of the cube?",
+      "answerType": "integer",
+      "answerKey": "294",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "It is given that <math>\\log_{6}a + \\log_{6}b + \\log_{6}c = 6,</math> where <math>a,</math> <math>b,</math> and <math>c</math> are [[positive]] [[integer]]s that form an increasing [[geometric sequence]] and <math>b - a</math> is the [[Perfect square|square]] of an integer. Find <math>a + b + c.</math>",
+      "answerType": "integer",
+      "answerKey": "111",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Patio blocks that are hexagons <math>1</math> unit on a side are used to outline a garden by placing the blocks edge to edge with <math>n</math> on each side. The diagram indicates the path of blocks around the garden when <math>n=5</math>. [[Image:AIME 2002 II Problem 4.gif]] If <math>n=202</math>, then the area of the garden enclosed by the path, not including the path itself, is <math>m\\left(\\sqrt3/2\\right)</math> square units, where <math>m</math> is a positive integer. Find the remainder when <math>m</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "803",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "Find the sum of all positive integers <math>a=2^n3^m</math> where <math>n</math> and <math>m</math> are non-negative integers, for which <math>a^6</math> is not a divisor of <math>6^a</math>.",
+      "answerType": "integer",
+      "answerKey": "42",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Find the integer that is closest to <math>1000\\sum_{n=3}^{10000}\\frac1{n^2-4}</math>.",
+      "answerType": "integer",
+      "answerKey": "521",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "It is known that, for all positive integers <math>k</math>, <center><math>1^2+2^2+3^2+\\ldots+k^{2}=\\frac{k(k+1)(2k+1)}6</math>.</center> Find the smallest positive integer <math>k</math> such that <math>1^2+2^2+3^2+\\ldots+k^2</math> is a multiple of <math>200</math>.",
+      "answerType": "integer",
+      "answerKey": "112",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Find the least positive integer <math>k</math> for which the equation <math>\\left\\lfloor\\frac{2002}{n}\\right\\rfloor=k</math> has no integer solutions for <math>n</math>. (The notation <math>\\lfloor x\\rfloor</math> means the greatest integer less than or equal to <math>x</math>.)",
+      "answerType": "integer",
+      "answerKey": "049",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Let <math>\\mathcal{S}</math> be the [[set]] <math>\\lbrace1,2,3,\\ldots,10\\rbrace</math>. Let <math>n</math> be the number of sets of two non-empty disjoint subsets of <math>\\mathcal{S}</math>. (Disjoint sets are defined as sets that have no common elements.) Find the remainder obtained when <math>n</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "501",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "While finding the sine of a certain angle, an absent-minded professor failed to notice that his calculator was not in the correct angular mode. He was lucky to get the right answer. The two least positive real values of <math>x</math> for which the sine of <math>x</math> degrees is the same as the sine of <math>x</math> radians are <math>\\frac{m\\pi}{n-\\pi}</math> and <math>\\frac{p\\pi}{q+\\pi}</math>, where <math>m</math>, <math>n</math>, <math>p</math>, and <math>q</math> are positive integers. Find <math>m+n+p+q</math>.",
+      "answerType": "integer",
+      "answerKey": "900",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Two distinct, real, infinite geometric series each have a sum of <math>1</math> and have the same second term. The third term of one of the series is <math>1/8</math>, and the second term of both series can be written in the form <math>\\frac{\\sqrt{m}-n}p</math>, where <math>m</math>, <math>n</math>, and <math>p</math> are positive integers and <math>m</math> is not divisible by the square of any prime. Find <math>100m+10n+p</math>.",
+      "answerType": "integer",
+      "answerKey": "518",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A basketball player has a constant probability of <math>.4</math> of making any given shot, independent of previous shots. Let <math>a_n</math> be the ratio of shots made to shots attempted after <math>n</math> shots. The probability that <math>a_{10} = .4</math> and <math>a_n\\le.4</math> for all <math>n</math> such that <math>1\\le n\\le9</math> is given to be <math>p^aq^br/\\left(s^c\\right)</math> where <math>p</math>, <math>q</math>, <math>r</math>, and <math>s</math> are primes, and <math>a</math>, <math>b</math>, and <math>c</math> are positive integers. Find <math>\\left(p+q+r+s\\right)\\left(a+b+c\\right)</math>.",
+      "answerType": "integer",
+      "answerKey": "660",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "In triangle <math>ABC,</math> point <math>D</math> is on <math>\\overline{BC}</math> with <math>CD = 2</math> and <math>DB = 5,</math> point <math>E</math> is on <math>\\overline{AC}</math> with <math>CE = 1</math> and <math>EA = 3,</math> <math>AB = 8,</math> and <math>\\overline{AD}</math> and <math>\\overline{BE}</math> intersect at <math>P.</math> Points <math>Q</math> and <math>R</math> lie on <math>\\overline{AB}</math> so that <math>\\overline{PQ}</math> is parallel to <math>\\overline{CA}</math> and <math>\\overline{PR}</math> is parallel to <math>\\overline{CB}.</math> It is given that the ratio of the area of triangle <math>PQR</math> to the area of triangle <math>ABC</math> is <math>m/n,</math> where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "901",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "The [[perimeter]] of triangle <math>APM</math> is <math>152</math>, and the angle <math>PAM</math> is a [[right angle]]. A [[circle]] of [[radius]] <math>19</math> with center <math>O</math> on <math>\\overline{AP}</math> is drawn so that it is [[Tangent (geometry)|tangent]] to <math>\\overline{AM}</math> and <math>\\overline{PM}</math>. Given that <math>OP=m/n</math> where <math>m</math> and <math>n</math> are [[relatively prime]] positive integers, find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "098",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Circles <math>\\mathcal{C}_{1}</math> and <math>\\mathcal{C}_{2}</math> intersect at two points, one of which is <math>(9,6)</math>, and the product of the radii is <math>68</math>. The x-axis and the line <math>y = mx</math>, where <math>m > 0</math>, are tangent to both circles. It is given that <math>m</math> can be written in the form <math>a\\sqrt {b}/c</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers, <math>b</math> is not divisible by the square of any prime, and <math>a</math> and <math>c</math> are relatively prime. Find <math>a + b + c</math>.",
+      "answerType": "integer",
+      "answerKey": "282",
+      "points": 1
+    }
+  ]
+}

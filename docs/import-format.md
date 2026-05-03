@@ -16,6 +16,7 @@ Practice mode only shows tags that belong to more than 10 published questions.
   "slug": "mo-set-001",
   "title": "MO Set 001 - Algebra Basics",
   "description": "Introductory answer-only algebra practice.",
+  "statementFormat": "LATEX",
   "order": 1,
   "status": "PUBLISHED",
   "topicTags": ["algebra", "starter"],
@@ -62,6 +63,7 @@ In the example above:
 | `slug` | string | Yes | - | Unique URL-friendly identifier, e.g. `algebra-01`. |
 | `title` | string | Yes | - | Display name of the set. |
 | `description` | string | No | `""` | Optional set description. |
+| `statementFormat` | string | No | `"LATEX"` | Statement format for all problems unless overridden per problem. One of `"LATEX"` or `"HTML"`. |
 | `order` | integer | No | next free order | Controls sort order. If omitted or `0`, the system assigns the next available order. |
 | `status` | string | No | `"DRAFT"` | One of `"DRAFT"`, `"PUBLISHED"`, `"ARCHIVED"`. |
 | `visibleFrom` | ISO datetime string | No | `null` | Set release time. |
@@ -79,6 +81,7 @@ Each entry in `problems` defines one question.
 | :--- | :--- | :--- | :--- | :--- |
 | `number` | integer | No | array index + 1 | Question number. |
 | `statement` | string | No | `""` | Problem statement. LaTeX is allowed. |
+| `statementFormat` | string | No | inherits top-level `statementFormat` | One of `"LATEX"` or `"HTML"`. Use `"HTML"` for content containing tags like `<math>...</math>`. |
 | `answerKey` | string | Yes* | - | Primary correct answer. |
 | `answer` | string | Yes* | - | Alias for `answerKey`. |
 | `answerType` | string | No | `"EXACT"` | One of `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. Lowercase values are also accepted by the importer. |
@@ -90,6 +93,11 @@ Each entry in `problems` defines one question.
 | `explanationNote` | string | No | `null` | Alias for `solution`. |
 
 \* Each problem must provide either `answerKey` or `answer`.
+
+## Statement Format
+
+- `LATEX` (default): the statement is interpreted as normal text with LaTeX delimiters (`$...$`, `$$...$$`, `\(...\)`, `\[...\]`).
+- `HTML`: the renderer accepts HTML-like source and converts `<math>...</math>`, `<imath>...</imath>`, and `<cmath>...</cmath>` math tags to KaTeX output.
 
 ## Practice Tag Behavior
 

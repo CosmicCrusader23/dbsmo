@@ -1,0 +1,201 @@
+{
+  "slug": "2005-amc-12a",
+  "title": "2005 AMC 12A",
+  "description": "Converted from 2005_AMC_12A_questions.txt and 2005_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Two is <math>10 \\%</math> of <math>x</math> and <math>20 \\%</math> of <math>y</math>. What is <math>x - y</math>? <math> (\\mathrm {A}) \\ 1 \\qquad (\\mathrm {B}) \\ 2 \\qquad (\\mathrm {C})\\ 5 \\qquad (\\mathrm {D}) \\ 10 \\qquad (\\mathrm {E})\\ 20 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "The equations <math>2x + 7 = 3</math> and <math>bx - 10 = -2</math> have the same solution <math>x</math>. What is the value of <math>b</math>? <math> \\textbf{(A) } -8 \\qquad \\textbf{(B) } -4 \\qquad \\textbf{(C) } -2 \\qquad \\textbf{(D) } 4 \\qquad \\textbf{(E) } 8 </math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "A [[rectangle]] with a diagonal of length <math>x</math> is twice as long as it is wide. What is the area of the rectangle? <math> (\\mathrm {A}) \\ \\frac 14x^2 \\qquad (\\mathrm {B}) \\ \\frac 25x^2 \\qquad (\\mathrm {C})\\ \\frac 12x^2 \\qquad (\\mathrm {D}) \\ x^2 \\qquad (\\mathrm {E})\\ \\frac 32x^2 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "A store normally sells windows at <math>\\$100</math> each. This week the store is offering one free window for each purchase of four. Dave needs seven windows and Doug needs eight windows. How many dollars will they save if they purchase the windows together rather than separately? <math> (\\mathrm {A}) \\ 100 \\qquad (\\mathrm {B}) \\ 200 \\qquad (\\mathrm {C})\\ 300 \\qquad (\\mathrm {D}) \\ 400 \\qquad (\\mathrm {E})\\ 500 </math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "The average (mean) of <math>20</math> numbers is <math>30</math>, and the average of <math>30</math> other numbers is <math>20</math>. What is the average of all <math>50</math> numbers? <math> (\\mathrm {A}) \\ 23 \\qquad (\\mathrm {B}) \\ 24 \\qquad (\\mathrm {C})\\ 25 \\qquad (\\mathrm {D}) \\ 10 \\qquad (\\mathrm {E})\\ 27 </math>",
+      "answerType": "exact",
+      "answerKey": "24 \\",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Josh and Mike live <math>13</math> miles apart. Yesterday Josh started to ride his bicycle toward Mike's house. A little later Mike started to ride his bicycle toward Josh's house. When they met, Josh had ridden for twice the length of time as Mike and at four-fifths of Mike's rate. How many miles had Mike ridden when they met? <math> (\\mathrm {A}) \\ 4 \\qquad (\\mathrm {B}) \\ 5 \\qquad (\\mathrm {C})\\ 6 \\qquad (\\mathrm {D}) \\ 7 \\qquad (\\mathrm {E})\\ 8 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Square <math>EFGH</math> is inside square <math>ABCD</math> so that each side of <math>EFGH</math> can be extended to pass through a vertex of <math>ABCD</math>. Square <math>ABCD</math> has side length <math>\\sqrt{50}</math>, <math>E</math> is between <math>B</math> and <math>H</math>, and <math>BE = 1</math>. What is the area of the inner square <math>EFGH</math>? <asy> unitsize(4cm); defaultpen(linewidth(.8pt)+fontsize(10pt)); pair D=(0,0), C=(1,0), B=(1,1), A=(0,1); pair F=intersectionpoints(Circle(D,2/sqrt(5)),Circle(A,1))[0]; pair G=foot(A,D,F), H=foot(B,A,G), E=foot(C,B,H); draw(A--B--C--D--cycle); draw(D--F); draw(C--E); draw(B--H); draw(A--G); label(\"$A$\",A,NW); label(\"$B$\",B,NE); label(\"$C$\",C,SE); label(\"$D$\",D,SW); label(\"$E$\",E,NNW); label(\"$F$\",F,ENE); label(\"$G$\",G,SSE); label(\"$H$\",H,WSW); </asy> <math> (\\mathrm {A}) \\ 25 \\qquad (\\mathrm {B}) \\ 32 \\qquad (\\mathrm {C})\\ 36 \\qquad (\\mathrm {D}) \\ 40 \\qquad (\\mathrm {E})\\ 42 </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Let <math>A,M</math>, and <math>C</math> be digits with <cmath>(100A+10M+C)(A+M+C) = 2005.</cmath> What is <math>A</math>? <math> (\\mathrm {A}) \\ 1 \\qquad (\\mathrm {B}) \\ 2 \\qquad (\\mathrm {C})\\ 3 \\qquad (\\mathrm {D}) \\ 4 \\qquad (\\mathrm {E})\\ 5 </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "There are two values of <math>a</math> for which the equation <math>4x^2 + ax + 8x + 9 = 0</math> has only one solution for <math>x</math>. What is the sum of those values of <math>a</math>? <math>(\\mathrm {A}) \\ -16 \\qquad (\\mathrm {B}) \\ -8 \\qquad (\\mathrm {C})\\ 0 \\qquad (\\mathrm {D}) \\ 8 \\qquad (\\mathrm {E})\\ 20</math>",
+      "answerType": "integer",
+      "answerKey": "16",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "How many three-digit numbers satisfy the property that the middle digit is the average of the first and the last digits? <math>(\\mathrm {A}) \\ 41 \\qquad (\\mathrm {B}) \\ 42 \\qquad (\\mathrm {C})\\ 43 \\qquad (\\mathrm {D}) \\ 44 \\qquad (\\mathrm {E})\\ 45</math>",
+      "answerType": "exact",
+      "answerKey": "45 \\Longrightarrow",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "A line passes through <math>A(1,1)</math> and <math>B(100,1000)</math>. How many other points with integer coordinates are on the line and strictly between <math>A</math> and <math>B</math>? <math> (\\mathrm {A}) \\ 0 \\qquad (\\mathrm {B}) \\ 2 \\qquad (\\mathrm {C})\\ 3 \\qquad (\\mathrm {D}) \\ 8 \\qquad (\\mathrm {E})\\ 9 </math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "In the five-sided star shown, the letters <math>A</math>, <math>B</math>, <math>C</math>, <math>D</math> and <math>E</math> are replaced by the numbers <math>3</math>, <math>5</math>, <math>6</math>, <math>7</math> and <math>9</math>, although not necessarily in that order. The sums of the numbers at the ends of the line segments <math>\\overline{AB}</math>, <math>\\overline{BC}</math>, <math>\\overline{CD}</math>, <math>\\overline{DE}</math> and <math>\\overline{EA}</math> form an arithmetic sequence, although not necessarily in that order. What is the middle term of the arithmetic sequence? <asy> size(150); defaultpen(linewidth(0.8)); string[] strng = {'A','D','B','E','C'}; pair A=dir(90),B=dir(306),C=dir(162),D=dir(18),E=dir(234); draw(A--B--C--D--E--cycle); for(int i=0;i<=4;i=i+1) { path circ=circle(dir(90-72*i),0.125); unfill(circ); draw(circ); label(\"$\"+strng[i]+\"$\",dir(90-72*i)); } </asy> <math> (\\mathrm {A}) \\ 9 \\qquad (\\mathrm {B}) \\ 10 \\qquad (\\mathrm {C})\\ 11 \\qquad (\\mathrm {D}) \\ 12 \\qquad (\\mathrm {E})\\ 13 </math>",
+      "answerType": "integer",
+      "answerKey": "12",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "On a standard die one of the dots is removed at random with each dot equally likely to be chosen. The die is then rolled. What is the probability that the top face has an odd number of dots? <math> (\\mathrm {A}) \\ \\frac{5}{11} \\qquad (\\mathrm {B}) \\ \\frac{10}{21} \\qquad (\\mathrm {C})\\ \\frac{1}{2} \\qquad (\\mathrm {D}) \\ \\frac{11}{21} \\qquad (\\mathrm {E})\\ \\frac{6}{11} </math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 11 21",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>\\overline{AB}</math> be a diameter of a circle and <math>C</math> be a point on <math>\\overline{AB}</math> with <math>2 \\cdot AC = BC</math>. Let <math>D</math> and <math>E</math> be points on the circle such that <math>\\overline{DC} \\perp \\overline{AB}</math> and <math>\\overline{DE}</math> is a second diameter. What is the ratio of the area of <math>\\triangle DCE</math> to the area of <math>\\triangle ABD</math>? <asy> unitsize(2.5cm); defaultpen(fontsize(10pt)+linewidth(.8pt)); dotfactor=3; pair O=(0,0), C=(-1/3.0), B=(1,0), A=(-1,0); pair D=dir(aCos(C.x)), E=(-D.x,-D.y); draw(A--B--D--cycle); draw(D--E--C); draw(unitcircle,white); drawline(D,C); dot(O); clip(unitcircle); draw(unitcircle); label(\"$E$\",E,SSE); label(\"$B$\",B,E); label(\"$A$\",A,W); label(\"$D$\",D,NNW); label(\"$C$\",C,SW); draw(rightanglemark(D,C,B,2));</asy> <math>(\\text {A}) \\ \\frac {1}{6} \\qquad (\\text {B}) \\ \\frac {1}{4} \\qquad (\\text {C})\\ \\frac {1}{3} \\qquad (\\text {D}) \\ \\frac {1}{2} \\qquad (\\text {E})\\ \\frac {2}{3}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "A unit cube is cut twice to form three triangular prisms, two of which are congruent, as shown in Figure <math>1</math>. The cube is then cut in the same manner along the dashed lines shown in Figure <math>2</math>. This creates nine pieces. What is the volume of the piece that contains vertex <math>W</math>? [[Image:2005 AMC 12A Problem 17.png]] <math> (\\mathrm {A}) \\ \\frac{1}{12} \\qquad (\\mathrm {B}) \\ \\frac{1}{9} \\qquad (\\mathrm {C})\\ \\frac{1}{8} \\qquad (\\mathrm {D}) \\ \\frac{1}{6} \\qquad (\\mathrm {E})\\ \\frac{1}{4} </math>",
+      "answerType": "exact",
+      "answerKey": "( A )",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Call a number \"prime-looking\" if it is composite but not divisible by <math>2</math>, <math>3</math>, or <math>5</math>. The three smallest prime-looking numbers are <math>49</math>, <math>77</math>, and <math>91</math>. There are <math>168</math> prime numbers less than <math>1000</math>. How many prime-looking numbers are there less than <math>1000</math>? <math> (\\mathrm {A}) \\ 100 \\qquad (\\mathrm {B}) \\ 102 \\qquad (\\mathrm {C})\\ 104 \\qquad (\\mathrm {D}) \\ 106 \\qquad (\\mathrm {E})\\ 108 </math>",
+      "answerType": "exact",
+      "answerKey": "100 \\Longrightarrow",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A faulty car odometer proceeds from digit <math>3</math> to digit <math>5</math>, always skipping the digit <math>4</math>, regardless of position. For example, after traveling one mile the odometer changed from <math>000039</math> to <math>000050</math>. If the odometer now reads <math>002005</math>, how many miles has the car actually traveled? <math> (\\mathrm {A}) \\ 1404 \\qquad (\\mathrm {B}) \\ 1462 \\qquad (\\mathrm {C})\\ 1604 \\qquad (\\mathrm {D}) \\ 1605 \\qquad (\\mathrm {E})\\ 1804 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "For each <math>x</math> in <math>[0,1]</math>, define <cmath>f(x) = \\begin{cases} 2x, \\qquad\\qquad \\mathrm{if} \\quad 0 \\leq x \\leq \\frac{1}{2}\\\\ 2-2x, \\qquad \\mathrm{if} \\quad \\frac{1}{2} < x \\leq 1. \\end{cases}</cmath> Let <math>f^{[2]}(x) = f(f(x))</math>, and <math>f^{[n + 1]}(x) = f^{[n]}(f(x))</math> for each integer <math>n \\geq 2</math>. For how many values of <math>x</math> in <math>[0,1]</math> is <math>f^{[2005]}(x) = 1/2</math>? <math> (\\mathrm {A}) \\ 0 \\qquad (\\mathrm {B}) \\ 2005 \\qquad (\\mathrm {C})\\ 4010 \\qquad (\\mathrm {D}) \\ 2005^2 \\qquad (\\mathrm {E})\\ 2^{2005} </math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "How many ordered triples of integers <math>(a,b,c)</math>, with <math>a \\geq 2</math>, <math>b \\geq 1</math>, and <math>c \\geq 0</math>, satisfy both <math>\\log_{a}b = c^{2005}</math> and <math>a + b + c = 2005</math>? <math>\\mathrm{(A)} \\ 0 \\qquad \\mathrm{(B)} \\ 1 \\qquad \\mathrm{(C)} \\ 2 \\qquad \\mathrm{(D)} \\ 3 \\qquad \\mathrm{(E)} \\ 4</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "A rectangular box <math>P</math> is inscribed in a sphere of radius <math>r</math>. The surface area of <math>P</math> is 384, and the sum of the lengths of its <math>12</math> edges is <math>112</math>. What is <math>r</math>? <math>\\mathrm{(A)}\\ 8\\qquad \\mathrm{(B)}\\ 10\\qquad \\mathrm{(C)}\\ 12\\qquad \\mathrm{(D)}\\ 14\\qquad \\mathrm{(E)}\\ 16</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Two distinct numbers <math>a</math> and <math>b</math> are chosen randomly from the set <math>\\{2, 2^2, 2^3, \\ldots, 2^{25}\\}</math>. What is the probability that <math>\\log_{a}b</math> is an integer? <math>\\mathrm{(A)}\\ \\frac{2}{25}\\qquad \\mathrm{(B)}\\ \\frac{31}{300}\\qquad \\mathrm{(C)}\\ \\frac{13}{100}\\qquad \\mathrm{(D)}\\ \\frac{7}{50}\\qquad \\mathrm{(E)}\\ \\frac{1}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 31 300",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Let <math>P(x)=(x-1)(x-2)(x-3)</math>. For how many polynomials <math>Q(x)</math> does there exist a polynomial <math>R(x)</math> of degree <math>3</math> such that <math>P(Q(x)) = P(x) \\cdot R(x)</math>? <math>\\mathrm {(A) } \\ 19 \\qquad \\mathrm {(B) } \\ 22 \\qquad \\mathrm {(C) } \\ 24 \\qquad \\mathrm {(D) } \\ 27 \\qquad \\mathrm {(E) } \\ 32</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>S</math> be the set of all points with coordinates <math>(x,y,z)</math>, where <math>x</math>, <math>y</math>, and <math>z</math> are each chosen from the set <math>\\{0,1,2\\}</math>. How many equilateral triangles all have their vertices in <math>S</math>? <math>(\\mathrm {A}) \\ 72\\qquad (\\mathrm {B}) \\ 76 \\qquad (\\mathrm {C})\\ 80 \\qquad (\\mathrm {D}) \\ 84 \\qquad (\\mathrm {E})\\ 88</math>",
+      "answerType": "integer",
+      "answerKey": "80",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

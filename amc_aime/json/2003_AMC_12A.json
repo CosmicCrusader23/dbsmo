@@ -1,0 +1,248 @@
+{
+  "slug": "2003-amc-12a",
+  "title": "2003 AMC 12A",
+  "description": "Converted from 2003_AMC_12A_questions.txt and 2003_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is the difference between the sum of the first <math>2003</math> even counting numbers and the sum of the first <math>2003</math> odd counting numbers? <math> \\mathrm{(A) \\ } 0\\qquad \\mathrm{(B) \\ } 1\\qquad \\mathrm{(C) \\ } 2\\qquad \\mathrm{(D) \\ } 2003\\qquad \\mathrm{(E) \\ } 4006 </math>",
+      "answerType": "integer",
+      "answerKey": "2003",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Members of the Rockham Soccer League buy socks and T-shirts. Socks cost &#36;4 per pair and each T-shirt costs &#36;5 more than a pair of socks. Each member needs one pair of socks and a shirt for home games and another pair of socks and a shirt for away games. If the total cost is &#36;2366, how many members are in the League? <math> \\mathrm{(A) \\ } 77\\qquad \\mathrm{(B) \\ } 91\\qquad \\mathrm{(C) \\ } 143\\qquad \\mathrm{(D) \\ } 182\\qquad \\mathrm{(E) \\ } 286 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 91",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>A solid box is <math>15</math> cm by <math>10</math> cm by <math>8</math> cm. A new solid is formed by removing a cube <math>3</math> cm on a side from each corner of this box. What percent of the original volume is removed? <!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\mathrm{(A) \\ } 4.5\\%\\qquad \\mathrm{(B) \\ } 9\\%\\qquad \\mathrm{(C) \\ } 12\\%\\qquad \\mathrm{(D) \\ } 18\\%\\qquad \\mathrm{(E) \\ } 24\\% </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 18\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "It takes Anna <math>30</math> minutes to walk uphill <math>1</math> km from her home to school, but it takes her only <math>10</math> minutes to walk from school to her home along the same route. What is her average speed, in km/hr, for the round trip? <math> \\mathrm{(A) \\ } 3\\qquad \\mathrm{(B) \\ } 3.125\\qquad \\mathrm{(C) \\ } 3.5\\qquad \\mathrm{(D) \\ } 4\\qquad \\mathrm{(E) \\ } 4.5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "The sum of the two 5-digit numbers <math>AMC10</math> and <math>AMC12</math> is <math>123422</math>. What is <math>A+M+C</math>? <math> \\mathrm{(A) \\ } 10\\qquad \\mathrm{(B) \\ } 11\\qquad \\mathrm{(C) \\ } 12\\qquad \\mathrm{(D) \\ } 13\\qquad \\mathrm{(E) \\ } 14 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 14",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Define <math>x \\heartsuit y</math> to be <math>|x-y|</math> for all real numbers <math>x</math> and <math>y</math>. Which of the following statements is not true? <math> \\mathrm{(A) \\ } x \\heartsuit y = y \\heartsuit x </math> for all <math>x</math> and <math>y</math> <math>\\mathrm{(B) \\ } 2(x \\heartsuit y) = (2x) \\heartsuit (2y) </math> for all <math>x</math> and <math>y</math> <math>\\mathrm{(C) \\ } x \\heartsuit 0 = x </math> for all <math>x</math> <math>\\mathrm{(D) \\ } x \\heartsuit x = 0 </math> for all <math>x</math> <math> \\mathrm{(E) \\ } x \\heartsuit y > 0 </math> if <math>x \\neq y</math>",
+      "answerType": "exact",
+      "answerKey": "x\\ for all \\ x",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "How many non-[[congruent (geometry) |congruent]] [[triangle]]s with [[perimeter]] <math>7</math> have [[integer]] side lengths? <math> \\mathrm{(A) \\ } 1\\qquad \\mathrm{(B) \\ } 2\\qquad \\mathrm{(C) \\ } 3\\qquad \\mathrm{(D) \\ } 4\\qquad \\mathrm{(E) \\ } 5 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "What is the probability that a randomly drawn positive factor of <math>60</math> is less than <math>7</math>? <math> \\mathrm{(A) \\ } \\frac{1}{10}\\qquad \\mathrm{(B) \\ } \\frac{1}{6}\\qquad \\mathrm{(C) \\ } \\frac{1}{4}\\qquad \\mathrm{(D) \\ } \\frac{1}{3}\\qquad \\mathrm{(E) \\ } \\frac{1}{2} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "A set <math>S</math> of points in the <math>xy</math>-plane is symmetric about the origin, both coordinate axes, and the line <math>y=x</math>. If <math>(2,3)</math> is in <math>S</math>, what is the smallest number of points in <math>S</math>? <math> \\mathrm{(A) \\ } 1\\qquad \\mathrm{(B) \\ } 2\\qquad \\mathrm{(C) \\ } 4\\qquad \\mathrm{(D) \\ } 8\\qquad \\mathrm{(E) \\ } 16 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Al, Bert, and Carl are the winners of a school drawing for a pile of Halloween candy, which they are to divide in a ratio of <math>3:2:1</math>, respectively. Due to some confusion they come at different times to claim their prizes, and each assumes he is the first to arrive. If each takes what he believes to be the correct share of candy, what fraction of the candy goes unclaimed? <math> \\mathrm{(A) \\ } \\frac{1}{18}\\qquad \\mathrm{(B) \\ } \\frac{1}{6}\\qquad \\mathrm{(C) \\ } \\frac{2}{9}\\qquad \\mathrm{(D) \\ } \\frac{5}{18}\\qquad \\mathrm{(E) \\ } \\frac{5}{12} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\dfrac 5 18",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "A square and an equilateral triangle have the same perimeter. Let <math>A</math> be the area of the circle circumscribed about the square and <math>B</math> the area of the circle circumscribed around the triangle. Find <math>A/B</math>. <math> \\mathrm{(A) \\ } \\frac{9}{16}\\qquad \\mathrm{(B) \\ } \\frac{3}{4}\\qquad \\mathrm{(C) \\ } \\frac{27}{32}\\qquad \\mathrm{(D) \\ } \\frac{3\\sqrt{6}}{8}\\qquad \\mathrm{(E) \\ } 1 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 27 32",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Sally has five red cards numbered <math>1</math> through <math>5</math> and four blue cards numbered <math>3</math> through <math>6</math>. She stacks the cards so that the colors alternate and so that the number on each red card divides evenly into the number on each neighboring blue card. What is the sum of the numbers on the middle three cards? <math> \\mathrm{(A) \\ } 8\\qquad \\mathrm{(B) \\ } 9\\qquad \\mathrm{(C) \\ } 10\\qquad \\mathrm{(D) \\ } 11\\qquad \\mathrm{(E) \\ } 12 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "The [[polygon]] enclosed by the solid lines in the figure consists of 4 [[congruent]] [[square (geometry) | squares]] joined [[edge]]-to-edge. One more congruent square is attached to an edge at one of the nine positions indicated. How many of the nine resulting polygons can be folded to form a [[cube (geometry) | cube]] with one face missing? [[Image:2003amc10a10.gif]] <math> \\mathrm{(A) \\ } 2\\qquad \\mathrm{(B) \\ } 3\\qquad \\mathrm{(C) \\ } 4\\qquad \\mathrm{(D) \\ } 5\\qquad \\mathrm{(E) \\ } 6 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 6",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Points <math>K, L, M,</math> and <math>N</math> lie in the plane of the square <math>ABCD</math> such that <math>AKB</math>, <math>BLC</math>, <math>CMD</math>, and <math>DNA</math> are equilateral triangles. If <math>ABCD</math> has an area of 16, find the area of <math>KLMN</math>. <asy> unitsize(2cm); defaultpen(fontsize(8)+linewidth(0.8)); pair A=(-0.5,0.5), B=(0.5,0.5), C=(0.5,-0.5), D=(-0.5,-0.5); pair K=(0,1.366), L=(1.366,0), M=(0,-1.366), N=(-1.366,0); draw(A--N--K--A--B--K--L--B--C--L--M--C--D--M--N--D--A); label(\"$A$\",A,SE); label(\"$B$\",B,SW); label(\"$C$\",C,NW); label(\"$D$\",D,NE); label(\"$K$\",K,NNW); label(\"$L$\",L,E); label(\"$M$\",M,S); label(\"$N$\",N,W); </asy> <math> \\textrm{(A)}\\ 32\\qquad\\textrm{(B)}\\ 16+16\\sqrt{3}\\qquad\\textrm{(C)}\\ 48\\qquad\\textrm{(D)}\\ 32+16\\sqrt{3}\\qquad\\textrm{(E)}\\ 64 </math>",
+      "answerType": "exact",
+      "answerKey": "32+16\\sqrt 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "A [[semicircle]] of [[diameter]] <math>1</math> sits at the top of a semicircle of diameter <math>2</math>, as shown. The shaded [[area]] inside the smaller semicircle and outside the larger semicircle is called a ''lune''. Determine the area of this lune. <asy> import graph; size(150); defaultpen(fontsize(8)); pair A=(-2,0), B=(2,0); filldraw(Arc((0,sqrt(3)),1,0,180)--cycle,mediumgray); filldraw(Arc((0,0),2,0,180)--cycle,white); draw(2*expi(2*pi/6)--2*expi(4*pi/6)); label(\"1\",(0,sqrt(3)),(0,-1)); label(\"2\",(0,0),(0,-1)); </asy> <math> \\mathrm{(A) \\ } \\frac{1}{6}\\pi-\\frac{\\sqrt{3}}{4}\\qquad \\mathrm{(B) \\ } \\frac{\\sqrt{3}}{4}-\\frac{1}{12}\\pi\\qquad \\mathrm{(C) \\ } \\frac{\\sqrt{3}}{4}-\\frac{1}{24}\\pi\\qquad \\mathrm{(D) \\ } \\frac{\\sqrt{3}}{4}+\\frac{1}{24}\\pi\\qquad \\mathrm{(E) \\ } \\frac{\\sqrt{3}}{4}+\\frac{1}{12}\\pi </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac \\sqrt 3 4 -\\frac 1 24 \\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>A point P is chosen at random in the interior of equilateral triangle <math>ABC</math>. What is the probability that <math>\\triangle ABP</math> has a greater area than each of <math>\\triangle ACP</math> and <math>\\triangle BCP</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <math> \\textbf{(A)}\\ \\frac{1}{6}\\qquad\\textbf{(B)}\\ \\frac{1}{4}\\qquad\\textbf{(C)}\\ \\frac{1}{3}\\qquad\\textbf{(D)}\\ \\frac{1}{2}\\qquad\\textbf{(E)}\\ \\frac{2}{3} </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\dfrac 1 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Square <math>ABCD</math> has sides of length <math>4</math>, and <math>M</math> is the midpoint of <math>\\overline{CD}</math>. A circle with radius <math>2</math> and center <math>M</math> intersects a circle with radius <math>4</math> and center <math>A</math> at points <math>P</math> and <math>D</math>. What is the distance from <math>P</math> to <math>\\overline{AD}</math>? <asy> pair A,B,C,D,M,P; D=(0,0); C=(10,0); B=(10,10); A=(0,10); M=(5,0); P=(8,4); dot(M); dot(P); draw(A--B--C--D--cycle,linewidth(0.7)); draw((5,5)..D--C..cycle,linewidth(0.7)); draw((7.07,2.93)..B--A--D..cycle,linewidth(0.7)); label(\"$A$\",A,NW); label(\"$B$\",B,NE); label(\"$C$\",C,SE); label(\"$D$\",D,SW); label(\"$M$\",M,S); label(\"$P$\",P,N); </asy> <math>\\textbf{(A)}\\ 3 \\qquad \\textbf{(B)}\\ \\frac {16}{5} \\qquad \\textbf{(C)}\\ \\frac {13}{4} \\qquad \\textbf{(D)}\\ 2\\sqrt {3} \\qquad \\textbf{(E)}\\ \\frac {7}{2}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 16 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Let <math>n</math> be a <math>5</math>-digit number, and let <math>q</math> and <math>r</math> be the quotient and the remainder, respectively, when <math>n</math> is divided by <math>100</math>. For how many values of <math>n</math> is <math>q+r</math> divisible by <math>11</math>? <math> \\mathrm{(A) \\ } 8180\\qquad \\mathrm{(B) \\ } 8181\\qquad \\mathrm{(C) \\ } 8182\\qquad \\mathrm{(D) \\ } 9000\\qquad \\mathrm{(E) \\ } 9090 </math>",
+      "answerType": "integer",
+      "answerKey": "8181",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "A parabola with equation <math>y=ax^2+bx+c</math> is reflected about the <math>x</math>-axis. The parabola and its reflection are translated horizontally five units in opposite directions to become the graphs of <math>y=f(x)</math> and <math>y=g(x)</math>, respectively. Which of the following describes the graph of <math>y=(f+g)(x)?</math> <math> \\textbf{(A)}\\ \\text{a parabola tangent to the }x\\text{-axis} </math> <math> \\textbf{(B)}\\ \\text{a parabola not tangent to the }x\\text{-axis}\\qquad\\textbf{(C)}\\ \\text{a horizontal line} </math> <math> \\textbf{(D)}\\ \\text{a non-horizontal line}\\qquad\\textbf{(E)}\\ \\text{the graph of a cubic function} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "How many <math>15</math>-letter arrangements of <math>5</math> A's, <math>5</math> B's, and <math>5</math> C's have no A's in the first <math>5</math> letters, no B's in the next <math>5</math> letters, and no C's in the last <math>5</math> letters? <math> \\textrm{(A)}\\ \\sum_{k=0}^{5}\\binom{5}{k}^{3}\\qquad\\textrm{(B)}\\ 3^{5}\\cdot 2^{5}\\qquad\\textrm{(C)}\\ 2^{15}\\qquad\\textrm{(D)}\\ \\frac{15!}{(5!)^{3}}\\qquad\\textrm{(E)}\\ 3^{15} </math>",
+      "answerType": "exact",
+      "answerKey": "rm",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "The graph of the [[polynomial]] <cmath>P(x) = x^5 + ax^4 + bx^3 + cx^2 + dx + e</cmath> has five distinct <math>x</math>-intercepts, one of which is at <math>(0,0)</math>. Which of the following [[coefficient]]s cannot be zero? <math>\\text{(A)}\\ a \\qquad \\text{(B)}\\ b \\qquad \\text{(C)}\\ c \\qquad \\text{(D)}\\ d \\qquad \\text{(E)}\\ e</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "Objects <math>A</math> and <math>B</math> move simultaneously in the coordinate plane via a sequence of steps, each of length one. Object <math>A</math> starts at <math>(0,0)</math> and each of its steps is either right or up, both equally likely. Object <math>B</math> starts at <math>(5,7)</math> and each of its steps is either to the left or down, both equally likely. Which of the following is closest to the probability that the objects meet? <math> \\mathrm{(A)} \\ 0.10 \\qquad \\mathrm{(B)} \\ 0.15 \\qquad \\mathrm{(C)} \\ 0.20 \\qquad \\mathrm{(D)} \\ 0.25 \\qquad \\mathrm{(E)} \\ 0.30 \\qquad </math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "How many perfect squares are divisors of the product <math>1! \\cdot 2! \\cdot 3! \\cdot \\hdots \\cdot 9!</math>? <math> \\textbf{(A)}\\ 504\\qquad\\textbf{(B)}\\ 672\\qquad\\textbf{(C)}\\ 864\\qquad\\textbf{(D)}\\ 936\\qquad\\textbf{(E)}\\ 1008 </math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 24,
+      "statement": "If <math>a\\geq b > 1,</math> what is the largest possible value of <math>\\log_{a}(a/b) + \\log_{b}(b/a)?</math> <math> \\mathrm{(A)}\\ -2 \\qquad \\mathrm{(B)}\\ 0 \\qquad \\mathrm{(C)}\\ 2 \\qquad \\mathrm{(D)}\\ 3 \\qquad \\mathrm{(E)}\\ 4 </math>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>f(x)= \\sqrt{ax^2+bx} </math>. For how many [[real number | real]] values of <math>a</math> is there at least one [[positive number | positive]] value of <math> b </math> for which the [[domain]] of <math>f </math> and the [[range]] of <math> f </math> are the same [[set]]? <math> \\mathrm{(A) \\ 0 } \\qquad \\mathrm{(B) \\ 1 } \\qquad \\mathrm{(C) \\ 2 } \\qquad \\mathrm{(D) \\ 3 } \\qquad \\mathrm{(E) \\ \\mathrm{infinitely \\ many} } </math>",
+      "answerType": "exact",
+      "answerKey": "\\mathbf",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    }
+  ]
+}

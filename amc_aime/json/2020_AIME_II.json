@@ -1,0 +1,118 @@
+{
+  "slug": "2020-aime-ii",
+  "title": "2020 AIME II",
+  "description": "Converted from 2020_AIME_II_questions.txt and 2020_AIME_II_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-ii"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the number of ordered pairs of positive integers <math>(m,n)</math> such that <math>{m^2n = 20 ^{20}}</math>.",
+      "answerType": "integer",
+      "answerKey": "231",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "Let <math>P</math> be a point chosen uniformly at random in the interior of the unit square with vertices at <math>(0,0), (1,0), (1,1)</math>, and <math>(0,1)</math>. The probability that the slope of the line determined by <math>P</math> and the point <math>\\left(\\frac58, \\frac38 \\right)</math> is greater than or equal to <math>\\frac12</math> can be written as <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "171",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "The value of <math>x</math> that satisfies <math>\\log_{2^x} 3^{20} = \\log_{2^{x+3}} 3^{2020}</math> can be written as <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "103",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "Triangles <math>\\triangle ABC</math> and <math>\\triangle A'B'C'</math> lie in the coordinate plane with vertices <math>A(0,0)</math>, <math>B(0,12)</math>, <math>C(16,0)</math>, <math>A'(24,18)</math>, <math>B'(36,18)</math>, <math>C'(24,2)</math>. A rotation of <math>m</math> degrees clockwise around the point <math>(x,y)</math> where <math>0<m<180</math>, will transform <math>\\triangle ABC</math> to <math>\\triangle A'B'C'</math>. Find <math>m+x+y</math>.",
+      "answerType": "integer",
+      "answerKey": "108",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "For each positive integer <math>n</math>, let <math>f(n)</math> be the sum of the digits in the base-four representation of <math>n</math> and let <math>g(n)</math> be the sum of the digits in the base-eight representation of <math>f(n)</math>. For example, <math>f(2020) = f(133210_{\\text{4}}) = 10 = 12_{\\text{8}}</math>, and <math>g(2020) = \\text{the digit sum of }12_{\\text{8}} = 3</math>. Let <math>N</math> be the least value of <math>n</math> such that the base-sixteen representation of <math>g(n)</math> cannot be expressed using only the digits <math>0</math> through <math>9</math>. Find the remainder when <math>N</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "151",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Define a sequence recursively by <imath>t_1 = 20</imath>, <imath>t_2 = 21</imath>, and<cmath>t_n = \\frac{5t_{n-1}+1}{25t_{n-2}}</cmath>for all <imath>n \\ge 3</imath>. Then <imath>t_{2020}</imath> can be expressed as <imath>\\frac{p}{q}</imath>, where <imath>p</imath> and <imath>q</imath> are relatively prime positive integers. Find <imath>p+q</imath>.",
+      "answerType": "integer",
+      "answerKey": "626",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Two congruent right circular cones each with base radius <math>3</math> and height <math>8</math> have the axes of symmetry that intersect at right angles at a point in the interior of the cones a distance <math>3</math> from the base of each cone. A sphere with radius <math>r</math> lies within both cones. The maximum possible value of <math>r^2</math> is <math>\\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m+n</math>.",
+      "answerType": "integer",
+      "answerKey": "298",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Define a sequence recursively by <math>f_1(x)=|x-1|</math> and <math>f_n(x)=f_{n-1}(|x-n|)</math> for integers <math>n>1</math>. Find the least value of <math>n</math> such that the sum of the zeros of <math>f_n</math> exceeds <math>500,000</math>.",
+      "answerType": "integer",
+      "answerKey": "101",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "While watching a show, Ayako, Billy, Carlos, Dahlia, Ehuang, and Frank sat in that order in a row of six chairs. During the break, they went to the kitchen for a snack. When they came back, they sat on those six chairs in such a way that if two of them sat next to each other before the break, then they did not sit next to each other after the break. Find the number of possible seating orders they could have chosen after the break.",
+      "answerType": "integer",
+      "answerKey": "090",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "Find the sum of all positive integers <math>n</math> such that when <math>1^3+2^3+3^3+\\cdots +n^3</math> is divided by <math>n+5</math>, the remainder is <math>17</math>.",
+      "answerType": "integer",
+      "answerKey": "239",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Let <math>P(x) = x^2 - 3x - 7</math>, and let <math>Q(x)</math> and <math>R(x)</math> be two quadratic polynomials also with the coefficient of <math>x^2</math> equal to <math>1</math>. David computes each of the three sums <math>P + Q</math>, <math>P + R</math>, and <math>Q + R</math> and is surprised to find that each pair of these sums has a common root, and these three common roots are distinct. If <math>Q(0) = 2</math>, then <math>R(0) = \\frac{m}{n}</math>, where <math>m</math> and <math>n</math> are relatively prime positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "071",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Let <math>m</math> and <math>n</math> be odd integers greater than <math>1.</math> An <math>m\\times n</math> rectangle is made up of unit squares where the squares in the top row are numbered left to right with the integers <math>1</math> through <math>n</math>, those in the second row are numbered left to right with the integers <math>n + 1</math> through <math>2n</math>, and so on. Square <math>200</math> is in the top row, and square <math>2000</math> is in the bottom row. Find the number of ordered pairs <math>(m,n)</math> of odd integers greater than <math>1</math> with the property that, in the <math>m\\times n</math> rectangle, the line through the centers of squares <math>200</math> and <math>2000</math> intersects the interior of square <math>1099</math>.",
+      "answerType": "integer",
+      "answerKey": "248",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Convex pentagon <math>ABCDE</math> has side lengths <math>AB=5</math>, <math>BC=CD=DE=6</math>, and <math>EA=7</math>. Moreover, the pentagon has an inscribed circle (a circle tangent to each side of the pentagon). Find the area of <math>ABCDE</math>.",
+      "answerType": "integer",
+      "answerKey": "60",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "For a real number <math>x</math> let <math>\\lfloor x\\rfloor</math> be the greatest integer less than or equal to <math>x</math>, and define <math>\\{x\\} = x - \\lfloor x \\rfloor</math> to be the fractional part of <math>x</math>. For example, <math>\\{3\\} = 0</math> and <math>\\{4.56\\} = 0.56</math>. Define <math>f(x)=x\\{x\\}</math>, and let <math>N</math> be the number of real-valued solutions to the equation <math>f(f(f(x)))=17</math> for <math>0\\leq x\\leq 2020</math>. Find the remainder when <math>N</math> is divided by <math>1000</math>.",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>\\triangle ABC</math> be an acute scalene triangle with circumcircle <math>\\omega</math>. The tangents to <math>\\omega</math> at <math>B</math> and <math>C</math> intersect at <math>T</math>. Let <math>X</math> and <math>Y</math> be the projections of <math>T</math> onto lines <math>AB</math> and <math>AC</math>, respectively. Suppose <math>BT = CT = 16</math>, <math>BC = 22</math>, and <math>TX^2 + TY^2 + XY^2 = 1143</math>. Find <math>XY^2</math>.",
+      "answerType": "integer",
+      "answerKey": "717",
+      "points": 1
+    }
+  ]
+}

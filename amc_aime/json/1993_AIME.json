@@ -1,0 +1,118 @@
+{
+  "slug": "1993-aime",
+  "title": "1993 AIME",
+  "description": "Converted from 1993_AIME_questions.txt and 1993_AIME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "How many even [[integer]]s between 4000 and 7000 have four different digits?",
+      "answerType": "integer",
+      "answerKey": "728",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "During a recent campaign for office, a candidate made a tour of a country which we assume lies in a plane. On the first day of the tour he went east, on the second day he went north, on the third day west, on the fourth day south, on the fifth day east, etc. If the candidate went <math>n^{2}_{}/2</math> miles on the <math>n^{\\mbox{th}}_{}</math> day of this tour, how many miles was he from his starting point at the end of the <math>40^{\\mbox{th}}_{}</math> day?",
+      "answerType": "integer",
+      "answerKey": "580",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "The table below displays some of the results of last summer's Frostbite Falls Fishing Festival, showing how many contestants caught <math>n\\,</math> fish for various values of <math>n\\,</math>. <center><math>\\begin{array}{|c|c|c|c|c|c|c|c|c|} \\hline n & 0 & 1 & 2 & 3 & \\dots & 13 & 14 & 15 \\\\ \\hline \\text{number of contestants who caught} \\ n \\ \\text{fish} & 9 & 5 & 7 & 23 & \\dots & 5 & 2 & 1 \\\\ \\hline \\end{array}</math></center> In the newspaper story covering the event, it was reported that :(a) the winner caught <math>15</math> fish; :(b) those who caught <math>3</math> or more fish averaged <math>6</math> fish each; :(c) those who caught <math>12</math> or fewer fish averaged <math>5</math> fish each. What was the total number of fish caught during the festival?",
+      "answerType": "integer",
+      "answerKey": "943",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "How many ordered four-tuples of integers <math>(a,b,c,d)\\,</math> with <math>0 < a < b < c < d < 500\\,</math> satisfy <math>a + d = b + c\\,</math> and <math>bc - ad = 93\\,</math>?",
+      "answerType": "integer",
+      "answerKey": "870",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>Let <math>P_0(x) = x^3 + 313x^2 - 77x - 8\\,</math>. For [[integer]]s <math>n \\ge 1\\,</math>, define <math>P_n(x) = P_{n - 1}(x - n)\\,</math>. What is the [[coefficient]] of <math>x\\,</math> in <math>P_{20}(x)\\,</math>?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude>",
+      "answerType": "integer",
+      "answerKey": "763",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "What is the smallest [[positive]] [[integer]] that can be expressed as the sum of nine consecutive integers, the sum of ten consecutive integers, and the sum of eleven consecutive integers?",
+      "answerType": "integer",
+      "answerKey": "495",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "Three numbers, <imath>a_1, a_2, a_3</imath>, are drawn randomly and without replacement from the set <imath>\\{1, 2, 3,\\ldots, 1000\\}</imath>. Three other numbers, <imath>b_1, b_2, b_3</imath>, are then drawn randomly and without replacement from the remaining set of <imath>997</imath> numbers. Let <imath>p</imath> be the probability that, after suitable rotation, a brick of dimensions <imath>a_1 \\times a_2 \\times a_3</imath> can be enclosed in a box of dimension <imath>b_1 \\times b_2 \\times b_3</imath>, with the sides of the brick parallel to the sides of the box. If <imath>p</imath> is written as a fraction in lowest terms, what is the sum of the numerator and denominator?",
+      "answerType": "integer",
+      "answerKey": "005",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "Let <math>S\\,</math> be a set with six elements. In how many different ways can one select two not necessarily distinct subsets of <math>S\\,</math> so that the union of the two subsets is <math>S\\,</math>? The order of selection does not matter; for example, the pair of subsets <math>\\{a, c\\},\\{b, c, d, e, f\\}</math> represents the same selection as the pair <math>\\{b, c, d, e, f\\},\\{a, c\\}.</math>",
+      "answerType": "integer",
+      "answerKey": "365",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Two thousand points are given on a [[circle]]. Label one of the points <math>1</math>. From this point, count <math>2</math> points in the clockwise direction and label this point <math>2</math>. From the point labeled <math>2</math>, count <math>3</math> points in the clockwise direction and label this point <math>3</math>. (See figure.) Continue this process until the labels <math>1,2,3\\dots,1993\\,</math> are all used. Some of the points on the circle will have more than one label and some points will not have a label. What is the smallest integer that labels the same point as <math>1993</math>? [[Image:AIME_1993_Problem_9.png]]",
+      "answerType": "integer",
+      "answerKey": "118",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "[[Euler's formula]] states that for a [[convex polyhedron]] with <math>V</math> [[vertex|vertices]], <math>E</math> [[edge]]s, and <math>F</math> [[face]]s, <math>V-E+F=2</math>. A particular convex polyhedron has 32 faces, each of which is either a [[triangle]] or a [[pentagon]]. At each of its <math>V</math> vertices, <math>T</math> triangular faces and <math>P</math> pentagonal faces meet. What is the value of <math>100P+10T+V</math>?",
+      "answerType": "integer",
+      "answerKey": "250",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Alfred and Bonnie play a game in which they take turns tossing a fair coin. The winner of a game is the first person to obtain a head. Alfred and Bonnie play this game several times with the stipulation that the loser of a game goes first in the next game. Suppose that Alfred goes first in the first game, and that the probability that he wins the sixth game is <imath>m/n\\,</imath>, where <imath>m\\,</imath> and <imath>n\\,</imath> are relatively prime positive integers. What are the last three digits of <imath>m+n\\,</imath>?",
+      "answerType": "integer",
+      "answerKey": "093",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "The vertices of <math>\\triangle ABC</math> are <math>A = (0,0)\\,</math>, <math>B = (0,420)\\,</math>, and <math>C = (560,0)\\,</math>. The six faces of a die are labeled with two <math>A\\,</math>'s, two <math>B\\,</math>'s, and two <math>C\\,</math>'s. Point <math>P_1 = (k,m)\\,</math> is chosen in the interior of <math>\\triangle ABC</math>, and points <math>P_2\\,</math>, <math>P_3\\,</math>, <math>P_4, \\dots</math> are generated by rolling the die repeatedly and applying the rule: If the die shows label <math>L\\,</math>, where <math>L \\in \\{A, B, C\\}</math>, and <math>P_n\\,</math> is the most recently obtained point, then <math>P_{n + 1}^{}</math> is the midpoint of <math>\\overline{P_n L}</math>. Given that <math>P_7 = (14,92)\\,</math>, what is <math>k + m\\,</math>?",
+      "answerType": "integer",
+      "answerKey": "344",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "Jenny and Kenny are walking in the same direction, Kenny at 3 feet per second and Jenny at 1 foot per second, on parallel paths that are 200 feet apart. A tall circular building 100 feet in diameter is centered midway between the paths. At the instant when the building first blocks the line of sight between Jenny and Kenny, they are 200 feet apart. Let <math>t\\,</math> be the amount of time, in seconds, before Jenny and Kenny can see each other again. If <math>t\\,</math> is written as a fraction in lowest terms, what is the sum of the numerator and denominator? __TOC__",
+      "answerType": "integer",
+      "answerKey": "163",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "A rectangle that is inscribed in a larger rectangle (with one vertex on each side) is called unstuck if it is possible to rotate (however slightly) the smaller rectangle about its center within the confines of the larger. Of all the rectangles that can be inscribed unstuck in a 6 by 8 rectangle, the smallest perimeter has the form <math>\\sqrt{N}\\,</math>, for a positive integer <math>N\\,</math>. Find <math>N\\,</math>.",
+      "answerType": "integer",
+      "answerKey": "448",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "Let <math>\\overline{CH}</math> be an altitude of <math>\\triangle ABC</math>. Let <math>R\\,</math> and <math>S\\,</math> be the points where the circles inscribed in the triangles <math>ACH\\,</math> and <math>BCH^{}_{}</math> are tangent to <math>\\overline{CH}</math>. If <math>AB = 1995\\,</math>, <math>AC = 1994\\,</math>, and <math>BC = 1993\\,</math>, then <math>RS\\,</math> can be expressed as <math>m/n\\,</math>, where <math>m\\,</math> and <math>n\\,</math> are relatively prime integers. Find <math>m + n\\,</math>.",
+      "answerType": "integer",
+      "answerKey": "997",
+      "points": 1
+    }
+  ]
+}

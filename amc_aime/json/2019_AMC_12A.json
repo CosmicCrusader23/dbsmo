@@ -1,0 +1,127 @@
+{
+  "slug": "2019-amc-12a",
+  "title": "2019 AMC 12A",
+  "description": "Converted from 2019_AMC_12A_questions.txt and 2019_AMC_12A_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12a"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "The area of a pizza with radius <math>4</math> is <math>N</math> percent larger than the area of a pizza with radius <math>3</math> inches. What is the integer closest to <math>N</math>? <math>\\textbf{(A) } 25 \\qquad\\textbf{(B) } 33 \\qquad\\textbf{(C) } 44\\qquad\\textbf{(D) } 66 \\qquad\\textbf{(E) } 78</math>",
+      "answerType": "integer",
+      "answerKey": "78",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "Suppose <math>a</math> is <math>150\\%</math> of <math>b</math>. What percent of <math>a</math> is <math>3b</math>? <math>\\textbf{(A) } 50 \\qquad \\textbf{(B) } 66+\\frac{2}{3} \\qquad \\textbf{(C) } 150 \\qquad \\textbf{(D) } 200 \\qquad \\textbf{(E) } 450</math>",
+      "answerType": "exact",
+      "answerKey": "200\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "Positive real numbers <imath>x \\neq 1</imath> and <imath>y \\neq 1</imath> satisfy <imath>\\log_2{x} = \\log_y{16}</imath> and <imath>xy = 64</imath>. What is <imath>(\\log_2{\\tfrac{x}{y}})^2</imath>? <imath>\\textbf{(A) } \\frac{25}{2} \\qquad\\textbf{(B) } 20 \\qquad\\textbf{(C) } \\frac{45}{2} \\qquad\\textbf{(D) } 25 \\qquad\\textbf{(E) } 32</imath>",
+      "answerType": "integer",
+      "answerKey": "20",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "How many ways are there to paint each of the integers <math>2, 3, \\cdots , 9</math> either red, green, or blue so that each number has a different color from each of its proper divisors? <math>\\textbf{(A)}~144\\qquad\\textbf{(B)}~216\\qquad\\textbf{(C)}~256\\qquad\\textbf{(D)}~384\\qquad\\textbf{(E)}~432</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "For a certain complex number <math>c</math>, the polynomial <cmath> P(x) = (x^2 - 2x + 2)(x^2 - cx + 4)(x^2 - 4x + 8)</cmath>has exactly 4 distinct roots. What is <math>|c|</math>? <math>\\textbf{(A) } 2 \\qquad \\textbf{(B) } \\sqrt{6} \\qquad \\textbf{(C) } 2\\sqrt{2} \\qquad \\textbf{(D) } 3 \\qquad \\textbf{(E) } \\sqrt{10}</math>",
+      "answerType": "exact",
+      "answerKey": "\\sqrt 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Positive real numbers <math>a</math> and <math>b</math> have the property that <cmath>\\sqrt{\\log{a}} + \\sqrt{\\log{b}} + \\log \\sqrt{a} + \\log \\sqrt{b} = 100</cmath> and all four terms on the left are positive integers, where log denotes the base 10 logarithm. What is <math>ab</math>? <math>\\textbf{(A) } 10^{52} \\qquad \\textbf{(B) } 10^{100} \\qquad \\textbf{(C) } 10^{144} \\qquad \\textbf{(D) } 10^{164} \\qquad \\textbf{(E) } 10^{200} </math>",
+      "answerType": "exact",
+      "answerKey": "10^ 164",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Let <math>s_k</math> denote the sum of the <math>\\textit{k}</math>th powers of the roots of the polynomial <math>x^3-5x^2+8x-13</math>. In particular, <math>s_0=3</math>, <math>s_1=5</math>, and <math>s_2=9</math>. Let <math>a</math>, <math>b</math>, and <math>c</math> be real numbers such that <math>s_{k+1} = a \\, s_k + b \\, s_{k-1} + c \\, s_{k-2}</math> for <math>k = 2</math>, <math>3</math>, <math>....</math> What is <math>a+b+c</math>? <math>\\textbf{(A)} \\; -6 \\qquad \\textbf{(B)} \\; 0 \\qquad \\textbf{(C)} \\; 6 \\qquad \\textbf{(D)} \\; 10 \\qquad \\textbf{(E)} \\; 26</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "In <math>\\triangle ABC</math> with integer side lengths, <math>\\cos A = \\frac{11}{16}</math>, <math>\\cos B = \\frac{7}{8}</math>, and <math>\\cos C = -\\frac{1}{4}</math>. What is the least possible perimeter for <math>\\triangle ABC</math>? <math>\\textbf{(A) } 9 \\qquad \\textbf{(B) } 12 \\qquad \\textbf{(C) } 23 \\qquad \\textbf{(D) } 27 \\qquad \\textbf{(E) } 44</math>",
+      "answerType": "integer",
+      "answerKey": "9",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Let <cmath>z=\\frac{1+i}{\\sqrt{2}}.</cmath>What is <cmath>\\left(z^{1^2}+z^{2^2}+z^{3^2}+\\dots+z^{{12}^2}\\right) \\cdot \\left(\\frac{1}{z^{1^2}}+\\frac{1}{z^{2^2}}+\\frac{1}{z^{3^2}}+\\dots+\\frac{1}{z^{{12}^2}}\\right)?</cmath> <math>\\textbf{(A) } 18 \\qquad \\textbf{(B) } 72-36\\sqrt2 \\qquad \\textbf{(C) } 36 \\qquad \\textbf{(D) } 72 \\qquad \\textbf{(E) } 72+36\\sqrt2</math>",
+      "answerType": "integer",
+      "answerKey": "36",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Circles <math>\\omega</math> and <math>\\gamma</math>, both centered at <math>O</math>, have radii <math>20</math> and <math>17</math>, respectively. Equilateral triangle <math>ABC</math>, whose interior lies in the interior of <math>\\omega</math> but in the exterior of <math>\\gamma</math>, has vertex <math>A</math> on <math>\\omega</math>, and the line containing side <math>\\overline{BC}</math> is tangent to <math>\\gamma</math>. Segments <math>\\overline{AO}</math> and <math>\\overline{BC}</math> intersect at <math>P</math>, and <math>\\dfrac{BP}{CP} = 3</math>. Then <math>AB</math> can be written in the form <math>\\dfrac{m}{\\sqrt{n}} - \\dfrac{p}{\\sqrt{q}}</math> for positive integers <math>m</math>, <math>n</math>, <math>p</math>, <math>q</math> with <math>\\text{gcd}(m,n) = \\text{gcd}(p,q) = 1</math>. What is <math>m+n+p+q</math>? <math>\\phantom{}</math> <math>\\textbf{(A) } 42 \\qquad \\textbf{(B) }86 \\qquad \\textbf{(C) } 92 \\qquad \\textbf{(D) } 114 \\qquad \\textbf{(E) } 130</math>",
+      "answerType": "integer",
+      "answerKey": "130",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Define binary operations <math>\\diamondsuit</math> and <math>\\heartsuit</math> by <cmath>a \\, \\diamondsuit \\, b = a^{\\log_{7}(b)} \\qquad \\text{and} \\qquad a \\, \\heartsuit \\, b = a^{\\frac{1}{\\log_{7}(b)}}</cmath>for all real numbers <math>a</math> and <math>b</math> for which these expressions are defined. The sequence <math>(a_n)</math> is defined recursively by <math>a_3 = 3\\, \\heartsuit\\, 2</math> and <cmath>a_n = (n\\, \\heartsuit\\, (n-1)) \\,\\diamondsuit\\, a_{n-1}</cmath>for all integers <math>n \\geq 4</math>. To the nearest integer, what is <math>\\log_{7}(a_{2019})</math>? <math>\\textbf{(A) } 8 \\qquad \\textbf{(B) } 9 \\qquad \\textbf{(C) } 10 \\qquad \\textbf{(D) } 11 \\qquad \\textbf{(E) } 12</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>\\triangle A_0B_0C_0</math> be a triangle whose angle measures are exactly <math>59.999^\\circ</math>, <math>60^\\circ</math>, and <math>60.001^\\circ</math>. For each positive integer <math>n</math>, define <math>A_n</math> to be the foot of the altitude from <math>A_{n-1}</math> to line <math>B_{n-1}C_{n-1}</math>. Likewise, define <math>B_n</math> to be the foot of the altitude from <math>B_{n-1}</math> to line <math>A_{n-1}C_{n-1}</math>, and <math>C_n</math> to be the foot of the altitude from <math>C_{n-1}</math> to line <math>A_{n-1}B_{n-1}</math>. What is the least positive integer <math>n</math> for which <math>\\triangle A_nB_nC_n</math> is obtuse? <math>\\textbf{(A) } 10 \\qquad \\textbf{(B) }11 \\qquad \\textbf{(C) } 13\\qquad \\textbf{(D) } 14 \\qquad \\textbf{(E) } 15</math>",
+      "answerType": "integer",
+      "answerKey": "15",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    }
+  ]
+}

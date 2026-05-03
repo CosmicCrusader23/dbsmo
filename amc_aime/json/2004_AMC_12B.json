@@ -1,0 +1,230 @@
+{
+  "slug": "2004-amc-12b",
+  "title": "2004 AMC 12B",
+  "description": "Converted from 2004_AMC_12B_questions.txt and 2004_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "At each basketball practice last week, Jenny made twice as many free throws as she made at the previous practice. At her fifth practice she made 48 free throws. How many free throws did she make at the first practice? <math>(\\mathrm {A}) 3\\qquad (\\mathrm {B}) 6 \\qquad (\\mathrm {C}) 9 \\qquad (\\mathrm {D}) 12 \\qquad (\\mathrm {E}) 15</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "In the expression <imath>c\\cdot a^b-d</imath>, the values of <imath>a</imath>, <imath>b</imath>, <imath>c</imath>, and <imath>d</imath> are <imath>0</imath>, <imath>1</imath>, <imath>2</imath>, and <imath>3</imath>, although not necessarily in that order. What is the maximum possible value of the result? <imath>\\mathrm{(A)\\ }5\\qquad\\mathrm{(B)\\ }6\\qquad\\mathrm{(C)\\ }8\\qquad\\mathrm{(D)\\ }9\\qquad\\mathrm{(E)\\ }10</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "If <math>x</math> and <math>y</math> are positive integers for which <math>2^x3^y=1296</math>, what is the value of <math>x+y</math>? <math>(\\mathrm {A})\\ 8 \\qquad (\\mathrm {B})\\ 9 \\qquad (\\mathrm {C})\\ 10 \\qquad (\\mathrm {D})\\ 11 \\qquad (\\mathrm {E})\\ 12</math>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "An integer <math>x</math>, with <math>10\\leq x\\leq 99</math>, is to be chosen. If all choices are equally likely, what is the probability that at least one digit of <math>x</math> is a 7? <math>(\\mathrm {A}) \\dfrac{1}{9} \\qquad (\\mathrm {B}) \\dfrac{1}{5} \\qquad (\\mathrm {C}) \\dfrac{19}{90} \\qquad (\\mathrm {D}) \\dfrac{2}{9} \\qquad (\\mathrm {E}) \\dfrac{1}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 1 5",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "On a trip from the United States to Canada, Isabella took <imath>d</imath> U.S. dollars. At the border she exchanged them all, receiving <imath>10</imath> Canadian dollars for every <imath>7</imath> U.S. dollars. After spending <imath>60</imath> Canadian dollars, she had <imath>d</imath> Canadian dollars left. What is the sum of the digits of <imath>d</imath>? <imath>\\mathrm{(A)\\ }5\\qquad\\mathrm{(B)\\ }6\\qquad\\mathrm{(C)\\ }7\\qquad\\mathrm{(D)\\ }8\\qquad\\mathrm{(E)\\ }9</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "Minneapolis-St. Paul International Airport is <math>8</math> miles southwest of downtown St. Paul and <math>10</math> miles southeast of downtown Minneapolis. Which of the following is closest to the number of miles between downtown St. Paul and downtown Minneapolis? <math>\\mathrm{(A)\\ }13\\qquad\\mathrm{(B)\\ }14\\qquad\\mathrm{(C)\\ }15\\qquad\\mathrm{(D)\\ }16\\qquad\\mathrm{(E)\\ }17</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 13",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "A square has sides of length <math>10</math>, and a circle centered at one of its vertices has radius <math>10</math>. What is the area of the union of the regions enclosed by the square and the circle? <math>\\mathrm{(A)\\ }200+25\\pi\\quad\\mathrm{(B)\\ }100+75\\pi\\quad\\mathrm{(C)\\ }75+100\\pi\\quad\\mathrm{(D)\\ }100+100\\pi\\quad\\mathrm{(E)\\ }100+125\\pi</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 100+75\\pi",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "A grocer makes a display of cans in which the top row has one can and each lower row has two more cans than the row above it. If the display contains <math>100</math> cans, how many rows does it contain? <math>\\mathrm{(A)\\ }5\\qquad\\mathrm{(B)\\ }8\\qquad\\mathrm{(C)\\ }9\\qquad\\mathrm{(D)\\ }10\\qquad\\mathrm{(E)\\ }11</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 10",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "The point <math>(-3,2)</math> is rotated <math>90^\\circ</math> clockwise around the origin to point <math>B</math>. Point <math>B</math> is then reflected over the line <math>x=y</math> to point <math>C</math>. What are the coordinates of <math>C</math>? <math> \\mathrm{(A)}\\ (-3,-2) \\qquad \\mathrm{(B)}\\ (-2,-3) \\qquad \\mathrm{(C)}\\ (2,-3) \\qquad \\mathrm{(D)}\\ (2,3) \\qquad \\mathrm{(E)}\\ (3,2) </math>",
+      "answerType": "exact",
+      "answerKey": "\\ (3,2)",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "An annulus is the region between two concentric circles. The concentric circles in the figure have radii <math>b</math> and <math>c</math>, with <math>b>c</math>. Let <math>OX</math> be a radius of the larger circle, let <math>XZ</math> be tangent to the smaller circle at <math>Z</math>, and let <math>OY</math> be the radius of the larger circle that contains <math>Z</math>. Let <math>a=XZ</math>, <math>d=YZ</math>, and <math>e=XY</math>. What is the area of the annulus? <asy> unitsize(1.5cm); defaultpen(0.8); real r1=1.5, r2=2.5; pair O=(0,0); path inner=Circle(O,r1), outer=Circle(O,r2); pair Y=(0,r2), Z=(0,r1), X=intersectionpoint( Z--(Z+(10,0)), outer ); filldraw(outer,lightgray,black); filldraw(inner,white,black); draw(X--O--Y); draw(Y--X--Z); label(\"$O$\",O,SW); label(\"$X$\",X,E); label(\"$Y$\",Y,N); label(\"$Z$\",Z,SW); label(\"$a$\",X--Z,N); label(\"$b$\",0.25*X,SE); label(\"$c$\",O--Z,E); label(\"$d$\",Y--Z,W); label(\"$e$\",Y*0.65 + X*0.35,SW); defaultpen(0.5); dot(O); dot(X); dot(Z); dot(Y); </asy> <math> \\mathrm{(A) \\ } \\pi a^2 \\qquad \\mathrm{(B) \\ } \\pi b^2 \\qquad \\mathrm{(C) \\ } \\pi c^2 \\qquad \\mathrm{(D) \\ } \\pi d^2 \\qquad \\mathrm{(E) \\ } \\pi e^2 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\pi a^2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "All the students in an algebra class took a <math>100</math>-point test. Five students scored <math>100</math>, each student scored at least <math>60</math>, and the mean score was <math>76</math>. What is the smallest possible number of students in the class? <math> \\mathrm{(A)}\\ 10 \\qquad \\mathrm{(B)}\\ 11 \\qquad \\mathrm{(C)}\\ 12 \\qquad \\mathrm{(D)}\\ 13 \\qquad \\mathrm{(E)}\\ 14 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 13",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "In the sequence <math>2001</math>, <math>2002</math>, <math>2003</math>, <math>\\ldots</math> , each term after the third is found by subtracting the previous term from the sum of the two terms that precede that term. For example, the fourth term is <math>2001 + 2002 - 2003 = 2000</math>. What is the <math>2004^\\textrm{th}</math> term in this sequence? <math> \\mathrm{(A) \\ } -2004 \\qquad \\mathrm{(B) \\ } -2 \\qquad \\mathrm{(C) \\ } 0 \\qquad \\mathrm{(D) \\ } 4003 \\qquad \\mathrm{(E) \\ } 6007 </math>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "If <math>f(x) = ax+b</math> and <math>f^{-1}(x) = bx+a</math> with <math>a</math> and <math>b</math> real, what is the value of <math>a+b</math>? <math>\\mathrm{(A)}\\ -2 \\qquad\\mathrm{(B)}\\ -1 \\qquad\\mathrm{(C)}\\ 0 \\qquad\\mathrm{(D)}\\ 1 \\qquad\\mathrm{(E)}\\ 2</math>",
+      "answerType": "exact",
+      "answerKey": "\\ -2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "In <math>\\triangle ABC</math>, <math>AB=13</math>, <math>AC=5</math>, and <math>BC=12</math>. Points <math>M</math> and <math>N</math> lie on <math>AC</math> and <math>BC</math>, respectively, with <math>CM=CN=4</math>. Points <math>J</math> and <math>K</math> are on <math>AB</math> so that <math>MJ</math> and <math>NK</math> are perpendicular to <math>AB</math>. What is the area of pentagon <math>CMJKN</math>? <asy> unitsize(0.5cm); defaultpen(0.8); pair C=(0,0), A=(0,5), B=(12,0), M=(0,4), N=(4,0); pair J=intersectionpoint(A--B, M--(M+rotate(90)*(B-A)) ); pair K=intersectionpoint(A--B, N--(N+rotate(90)*(B-A)) ); draw( A--B--C--cycle ); draw( M--J ); draw( N--K ); label(\"$A$\",A,NW); label(\"$B$\",B,SE); label(\"$C$\",C,SW); label(\"$M$\",M,SW); label(\"$N$\",N,S); label(\"$J$\",J,NE); label(\"$K$\",K,NE); </asy> <math> \\mathrm{(A)}\\ 15 \\qquad \\mathrm{(B)}\\ \\frac{81}{5} \\qquad \\mathrm{(C)}\\ \\frac{205}{12} \\qquad \\mathrm{(D)}\\ \\frac{240}{13} \\qquad \\mathrm{(E)}\\ 20 </math>",
+      "answerType": "exact",
+      "answerKey": "\\mathbf 240/13",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "The two digits in Jack's age are the same as the digits in Bill's age, but in reverse order. In five years Jack will be twice as old as Bill will be then. What is the difference in their current ages? <math> \\mathrm{(A) \\ } 9 \\qquad \\mathrm{(B) \\ } 18 \\qquad \\mathrm{(C) \\ } 27 \\qquad \\mathrm{(D) \\ } 36\\qquad \\mathrm{(E) \\ } 45 </math>",
+      "answerType": "exact",
+      "answerKey": "\\ 18",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "A function <imath>f</imath> is defined by <imath>f(z) = i\\overline{z}</imath>, where <imath>i=\\sqrt{-1}</imath> and <imath>\\overline{z}</imath> is the complex conjugate of <imath>z</imath>. How many values of <imath>z</imath> satisfy both <imath>|z| = 5</imath> and <imath>f(z) = z</imath>? <imath>\\mathrm{(A)}\\ 0 \\qquad\\mathrm{(B)}\\ 1 \\qquad\\mathrm{(C)}\\ 2 \\qquad\\mathrm{(D)}\\ 4 \\qquad\\mathrm{(E)}\\ 8</imath>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "For some real numbers <math>a</math> and <math>b</math>, the [[equation]] <cmath>8x^3 + 4ax^2 + 2bx + a = 0</cmath> has three distinct positive roots. If the sum of the base-<math>2</math> [[logarithm]]s of the roots is <math>5</math>, what is the value of <math>a</math>? <math>\\mathrm{(A)}\\ -256 \\qquad\\mathrm{(B)}\\ -64 \\qquad\\mathrm{(C)}\\ -8 \\qquad\\mathrm{(D)}\\ 64 \\qquad\\mathrm{(E)}\\ 256</math>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Points <math>A</math> and <math>B</math> are on the parabola <math>y=4x^2+7x-1</math>, and the origin is the midpoint of <math>AB</math>. What is the length of <math>AB</math>? <math> \\mathrm{(A)}\\ 2\\sqrt5 \\qquad \\mathrm{(B)}\\ 5+\\frac{\\sqrt2}{2} \\qquad \\mathrm{(C)}\\ 5+\\sqrt2 \\qquad \\mathrm{(D)}\\ 7 \\qquad \\mathrm{(E)}\\ 5\\sqrt2 </math>",
+      "answerType": "exact",
+      "answerKey": "5\\sqrt 2",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A truncated cone has horizontal bases with radii <math>18</math> and <math>2</math>. A sphere is tangent to the top, bottom, and lateral surface of the truncated cone. What is the radius of the sphere? <math>\\mathrm{(A)}\\ 6 \\qquad\\mathrm{(B)}\\ 4\\sqrt{5} \\qquad\\mathrm{(C)}\\ 9 \\qquad\\mathrm{(D)}\\ 10 \\qquad\\mathrm{(E)}\\ 6\\sqrt{3}</math>",
+      "answerType": "exact",
+      "answerKey": "A (6)",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "Each face of a [[cube]] is painted either red or blue, each with probability <math>1/2</math>. The color of each face is determined independently. What is the probability that the painted cube can be placed on a horizontal surface so that the four vertical faces are all the same color? <math>\\textbf{(A)}\\ \\frac14 \\qquad \\textbf{(B)}\\ \\frac {5}{16} \\qquad \\textbf{(C)}\\ \\frac38 \\qquad \\textbf{(D)}\\ \\frac {7}{16} \\qquad \\textbf{(E)}\\ \\frac12</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "The graph of <math>2x^2 + xy + 3y^2 - 11x - 20y + 40 = 0</math> is an ellipse in the first quadrant of the <math>xy</math>-plane. Let <math>a</math> and <math>b</math> be the maximum and minimum values of <math>\\frac yx</math> over all points <math>(x,y)</math> on the ellipse. What is the value of <math>a+b</math>? <math>\\mathrm{(A)}\\ 3 \\qquad\\mathrm{(B)}\\ \\sqrt{10} \\qquad\\mathrm{(C)}\\ \\frac 72 \\qquad\\mathrm{(D)}\\ \\frac 92 \\qquad\\mathrm{(E)}\\ 2\\sqrt{14}</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 22,
+      "statement": "The square <center><math> \\begin{tabular}{|c|c|c|} \\hline 50 & \\textit{b} & \\textit{c} \\\\ \\hline \\textit{d} & \\textit{e} & \\textit{f} \\\\ \\hline \\textit{g} & \\textit{h} & 2 \\\\ \\hline \\end{tabular} </math></center> is a multiplicative magic square. That is, the product of the numbers in each row, column, and diagonal is the same. If all the entries are positive integers, what is the sum of the possible values of <math>g</math>? <math>\\textbf{(A)}\\ 10 \\qquad \\textbf{(B)}\\ 25 \\qquad \\textbf{(C)}\\ 35 \\qquad \\textbf{(D)}\\ 62 \\qquad \\textbf{(E)}\\ 136</math>",
+      "answerType": "exact",
+      "answerKey": "\\mathbf 35",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "The [[polynomial]] <math>x^3 - 2004 x^2 + mx + n</math> has [[integer]] coefficients and three distinct positive zeros. Exactly one of these is an integer, and it is the sum of the other two. How many values of <math>n</math> are possible? <math>\\mathrm{(A)}\\ 250,\\!000 \\qquad\\mathrm{(B)}\\ 250,\\!250 \\qquad\\mathrm{(C)}\\ 250,\\!500 \\qquad\\mathrm{(D)}\\ 250,\\!750 \\qquad\\mathrm{(E)}\\ 251,\\!000</math>",
+      "answerType": "exact",
+      "answerKey": "250,500",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "In <math>\\triangle ABC</math>, <math>AB = BC</math>, and <math>\\overline{BD}</math> is an [[altitude]]. Point <math>E</math> is on the extension of <math>\\overline{AC}</math> such that <math>BE = 10</math>. The values of <math>\\tan \\angle CBE</math>, <math>\\tan \\angle DBE</math>, and <math>\\tan \\angle ABE</math> form a [[geometric progression]], and the values of <math>\\cot \\angle DBE,</math> <math>\\cot \\angle CBE,</math> <math>\\cot \\angle DBC</math> form an [[arithmetic progression]]. What is the area of <math>\\triangle ABC</math>? <center><asy> size(120); defaultpen(0.7); pair A = (0,0), D = (5*2^.5/3,0), C = (10*2^.5/3,0), B = (5*2^.5/3,5*2^.5), E = (13*2^.5/3,0); draw(A--D--C--E--B--C--D--B--cycle); label(\"\\(A\\)\",A,S); label(\"\\(B\\)\",B,N); label(\"\\(C\\)\",C,S); label(\"\\(D\\)\",D,S); label(\"\\(E\\)\",E,S); </asy></center> <math>\\mathrm{(A)}\\ 16 \\qquad\\mathrm{(B)}\\ \\frac {50}3 \\qquad\\mathrm{(C)}\\ 10\\sqrt{3} \\qquad\\mathrm{(D)}\\ 8\\sqrt{5} \\qquad\\mathrm{(E)}\\ 18</math>",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 25,
+      "statement": "Given that <math>2^{2004}</math> is a <math>604</math>-[[digit]] number whose first digit is <math>1</math>, how many [[element]]s of the [[set]] <math>S = \\{2^0,2^1,2^2,\\ldots ,2^{2003}\\}</math> have a first digit of <math>4</math>? <math>\\mathrm{(A)}\\ 194 \\qquad \\mathrm{(B)}\\ 195 \\qquad \\mathrm{(C)}\\ 196 \\qquad \\mathrm{(D)}\\ 197 \\qquad \\mathrm{(E)}\\ 198</math>",
+      "answerType": "integer",
+      "answerKey": "195",
+      "points": 1
+    }
+  ]
+}

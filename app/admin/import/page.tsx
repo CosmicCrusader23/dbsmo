@@ -37,6 +37,7 @@ export default function ImportPage() {
             <pre aria-label="Expected JSON structure">{`{
   "slug": "mo-set-001",
   "title": "Algebra Basics",
+  "statementFormat": "LATEX",
   "status": "DRAFT",
   "topicTags": ["Algebra"],
   "problems": [
@@ -52,7 +53,7 @@ export default function ImportPage() {
 }`}</pre>
             <div className="check-list">
               <span>Schema validation</span>
-              <span>LaTeX statements</span>
+              <span>LaTeX or HTML statements</span>
               <span>Answer type preview</span>
               <span>Draft before publish</span>
               <span>Solutions stored as notes</span>

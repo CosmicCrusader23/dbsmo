@@ -1,0 +1,251 @@
+{
+  "slug": "2021-fall-amc-12b",
+  "title": "2021 Fall AMC 12B",
+  "description": "Converted from 2021_Fall_AMC_12B_questions.txt and 2021_Fall_AMC_12B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "fall-amc-12b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "What is the value of <math>1234 + 2341 + 3412 + 4123</math> <math>\\textbf{(A)}\\: 10{,}000\\qquad\\textbf{(B)} \\: 10{,}010\\qquad\\textbf{(C)} \\: 10{,}110\\qquad\\textbf{(D)} \\: 11{,}000\\qquad\\textbf{(E)} \\: 11{,}110</math>",
+      "answerType": "exact",
+      "answerKey": "11 , 110",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "What is the area of the shaded figure shown below? <asy> size(200); defaultpen(linewidth(0.4)+fontsize(12)); pen s = linewidth(0.8)+fontsize(8); pair O,X,Y; O = origin; X = (6,0); Y = (0,5); fill((1,0)--(3,5)--(5,0)--(3,2)--cycle, palegray+opacity(0.2)); for (int i=1; i<7; ++i) { draw((i,0)--(i,5), gray+dashed); label(\"${\"+string(i)+\"}$\", (i,0), 2*S); if (i<6) { draw((0,i)--(6,i), gray+dashed); label(\"${\"+string(i)+\"}$\", (0,i), 2*W); } } label(\"$0$\", O, 2*SW); draw(O--X+(0.35,0), black+1.5, EndArrow(10)); draw(O--Y+(0,0.35), black+1.5, EndArrow(10)); draw((1,0)--(3,5)--(5,0)--(3,2)--(1,0), black+1.5); </asy> <math>\\textbf{(A)}\\: 4\\qquad\\textbf{(B)} \\: 6\\qquad\\textbf{(C)} \\: 8\\qquad\\textbf{(D)} \\: 10\\qquad\\textbf{(E)} \\: 12</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "At noon on a certain day, Minneapolis is <math>N</math> degrees warmer than St. Louis. At <math>4{:}00</math> the temperature in Minneapolis has fallen by <math>5</math> degrees while the temperature in St. Louis has risen by <math>3</math> degrees, at which time the temperatures in the two cities differ by <math>2</math> degrees. What is the product of all possible values of <math>N?</math> <math>\\textbf{(A)}\\: 10\\qquad\\textbf{(B)} \\: 30\\qquad\\textbf{(C)} \\: 60\\qquad\\textbf{(D)} \\: 100\\qquad\\textbf{(E)} \\: 120</math>",
+      "answerType": "integer",
+      "answerKey": "60",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Let <math>n=8^{2022}</math>. Which of the following is equal to <math>\\frac{n}{4}?</math> <math>\\textbf{(A)}\\: 4^{1010}\\qquad\\textbf{(B)} \\: 2^{2022}\\qquad\\textbf{(C)} \\: 8^{2018}\\qquad\\textbf{(D)} \\: 4^{3031}\\qquad\\textbf{(E)} \\: 4^{3032}</math>",
+      "answerType": "exact",
+      "answerKey": "4^ 3032",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "Call a fraction <math>\\frac{a}{b}</math>, not necessarily in the simplest form, ''special'' if <math>a</math> and <math>b</math> are positive integers whose sum is <math>15</math>. How many distinct integers can be written as the sum of two, not necessarily different, special fractions? <math>\\textbf{(A)}\\ 9 \\qquad\\textbf{(B)}\\ 10 \\qquad\\textbf{(C)}\\ 11 \\qquad\\textbf{(D)}\\ 12 \\qquad\\textbf{(E)}\\ 13</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "The greatest prime number that is a divisor of <math>16{,}384</math> is <math>2</math> because <math>16{,}384 = 2^{14}</math>. What is the sum of the digits of the greatest prime number that is a divisor of <math>16{,}383</math>? <math>\\textbf{(A)} \\: 3\\qquad\\textbf{(B)} \\: 7\\qquad\\textbf{(C)} \\: 10\\qquad\\textbf{(D)} \\: 16\\qquad\\textbf{(E)} \\: 22</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "Which of the following conditions is sufficient to guarantee that integers <math>x</math>, <math>y</math>, and <math>z</math> satisfy the equation <cmath>x(x-y)+y(y-z)+z(z-x) = 1?</cmath> <math>\\textbf{(A)} \\: x>y</math> and <math>y=z</math> <math>\\textbf{(B)} \\: x=y-1</math> and <math>y=z-1</math> <math>\\textbf{(C)} \\: x=z+1</math> and <math>y=x+1</math> <math>\\textbf{(D)} \\: x=z</math> and <math>y-1=x</math> <math>\\textbf{(E)} \\: x+y+z=1</math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "The product of the lengths of the two congruent sides of an obtuse isosceles triangle is equal to the product of the base and twice the triangle's height to the base. What is the measure, in degrees, of the vertex angle of this triangle? <math>\\textbf{(A)} \\: 105 \\qquad\\textbf{(B)} \\: 120 \\qquad\\textbf{(C)} \\: 135 \\qquad\\textbf{(D)} \\: 150 \\qquad\\textbf{(E)} \\: 165</math>",
+      "answerType": "integer",
+      "answerKey": "150",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "Triangle <math>ABC</math> is equilateral with side length <math>6</math>. Suppose that <math>O</math> is the center of the inscribed circle of this triangle. What is the area of the circle passing through <math>A</math>, <math>O</math>, and <math>C</math>? <math>\\textbf{(A)} \\: 9\\pi \\qquad\\textbf{(B)} \\: 12\\pi \\qquad\\textbf{(C)} \\: 18\\pi \\qquad\\textbf{(D)} \\: 24\\pi \\qquad\\textbf{(E)} \\: 27\\pi</math>",
+      "answerType": "exact",
+      "answerKey": "12\\pi",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "What is the sum of all possible values of <math>t</math> between <math>0</math> and <math>360</math> such that the triangle in the coordinate plane whose vertices are <cmath>(\\cos 40^\\circ,\\sin 40^\\circ), (\\cos 60^\\circ,\\sin 60^\\circ), \\text{ and } (\\cos t^\\circ,\\sin t^\\circ)</cmath> is isosceles? <math>\\textbf{(A)} \\: 100 \\qquad\\textbf{(B)} \\: 150 \\qquad\\textbf{(C)} \\: 330 \\qquad\\textbf{(D)} \\: 360 \\qquad\\textbf{(E)} \\: 380</math>",
+      "answerType": "integer",
+      "answerKey": "380",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "Una rolls <math>6</math> standard <math>6</math>-sided dice simultaneously and calculates the product of the <math>6{ }</math> numbers obtained. What is the probability that the product is divisible by <math>4?</math> <math>\\textbf{(A)}\\: \\frac34\\qquad\\textbf{(B)} \\: \\frac{57}{64}\\qquad\\textbf{(C)} \\: \\frac{59}{64}\\qquad\\textbf{(D)} \\: \\frac{187}{192}\\qquad\\textbf{(E)} \\: \\frac{63}{64}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 59 64",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "For <math>n</math> a positive integer, let <math>f(n)</math> be the quotient obtained when the sum of all positive divisors of <math>n</math> is divided by <math>n.</math> For example, <cmath>f(14)=(1+2+7+14)\\div 14=\\frac{12}{7}</cmath> What is <math>f(768)-f(384)?</math> <math>\\textbf{(A)}\\ \\frac{1}{768} \\qquad\\textbf{(B)}\\ \\frac{1}{192} \\qquad\\textbf{(C)}\\ 1 \\qquad\\textbf{(D)}\\ \\frac{4}{3} \\qquad\\textbf{(E)}\\ \\frac{8}{3}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 1 192",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Let <math>c = \\frac{2\\pi}{11}.</math> What is the value of <cmath>\\frac{\\sin 3c \\cdot \\sin 6c \\cdot \\sin 9c \\cdot \\sin 12c \\cdot \\sin 15c}{\\sin c \\cdot \\sin 2c \\cdot \\sin 3c \\cdot \\sin 4c \\cdot \\sin 5c}?</cmath> <math>\\textbf{(A)}\\ {-}1 \\qquad\\textbf{(B)}\\ {-}\\frac{\\sqrt{11}}{5} \\qquad\\textbf{(C)}\\ \\frac{\\sqrt{11}}{5} \\qquad\\textbf{(D)}\\ \\frac{10}{11} \\qquad\\textbf{(E)}\\ 1</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 1",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "Suppose that <math>P(z), Q(z)</math>, and <math>R(z)</math> are polynomials with real coefficients, having degrees <math>2</math>, <math>3</math>, and <math>6</math>, respectively, and constant terms <math>1</math>, <math>2</math>, and <math>3</math>, respectively. Let <math>N</math> be the number of distinct complex numbers <math>z</math> that satisfy the equation <math>P(z) \\cdot Q(z)=R(z)</math>. What is the minimum possible value of <math>N</math>? <math>\\textbf{(A)}\\: 0\\qquad\\textbf{(B)} \\: 1\\qquad\\textbf{(C)} \\: 2\\qquad\\textbf{(D)} \\: 3\\qquad\\textbf{(E)} \\: 5</math>",
+      "answerType": "integer",
+      "answerKey": "1",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Three identical square sheets of paper each with side length <math>6</math> are stacked on top of each other. The middle sheet is rotated clockwise <math>30^\\circ</math> about its center and the top sheet is rotated clockwise <math>60^\\circ</math> about its center, resulting in the <math>24</math>-sided polygon shown in the figure below. The area of this polygon can be expressed in the form <math>a-b\\sqrt{c}</math>, where <math>a</math>, <math>b</math>, and <math>c</math> are positive integers, and <math>c</math> is not divisible by the square of any prime. What is <math>a+b+c</math>? <center><asy> defaultpen(fontsize(8)+0.8); size(150); pair O,A1,B1,C1,A2,B2,C2,A3,B3,C3,A4,B4,C4; real x=45, y=90, z=60; O=origin; A1=dir(x); A2=dir(x+y); A3=dir(x+2y); A4=dir(x+3y); B1=dir(x-z); B2=dir(x+y-z); B3=dir(x+2y-z); B4=dir(x+3y-z); C1=dir(x-2z); C2=dir(x+y-2z); C3=dir(x+2y-2z); C4=dir(x+3y-2z); draw(A1--A2--A3--A4--A1, gray+0.25+dashed); filldraw(B1--B2--B3--B4--cycle, white, gray+dashed+linewidth(0.25)); filldraw(C1--C2--C3--C4--cycle, white, gray+dashed+linewidth(0.25)); dot(O); pair P1,P2,P3,P4,Q1,Q2,Q3,Q4,R1,R2,R3,R4; P1=extension(A1,A2,B1,B2); Q1=extension(A1,A2,C3,C4); P2=extension(A2,A3,B2,B3); Q2=extension(A2,A3,C4,C1); P3=extension(A3,A4,B3,B4); Q3=extension(A3,A4,C1,C2); P4=extension(A4,A1,B4,B1); Q4=extension(A4,A1,C2,C3); R1=extension(C2,C3,B2,B3); R2=extension(C3,C4,B3,B4); R3=extension(C4,C1,B4,B1); R4=extension(C1,C2,B1,B2); draw(A1--P1--B2--R1--C3--Q1--A2); draw(A2--P2--B3--R2--C4--Q2--A3); draw(A3--P3--B4--R3--C1--Q3--A4); draw(A4--P4--B1--R4--C2--Q4--A1); </asy></center> <math>(\\textbf{A})\\: 75\\qquad(\\textbf{B}) \\: 93\\qquad(\\textbf{C}) \\: 96\\qquad(\\textbf{D}) \\: 129\\qquad(\\textbf{E}) \\: 147</math>",
+      "answerType": "integer",
+      "answerKey": "147",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Suppose <math>a</math>, <math>b</math>, <math>c</math> are positive integers such that <cmath>a+b+c=23</cmath> and <cmath>\\gcd(a,b)+\\gcd(b,c)+\\gcd(c,a)=9.</cmath> What is the sum of all possible distinct values of <math>a^2+b^2+c^2</math>? <math>\\textbf{(A)}\\: 259\\qquad\\textbf{(B)} \\: 438\\qquad\\textbf{(C)} \\: 516\\qquad\\textbf{(D)} \\: 625\\qquad\\textbf{(E)} \\: 687</math>",
+      "answerType": "integer",
+      "answerKey": "438",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "A bug starts at a vertex of a grid made of equilateral triangles of side length <math>1</math>. At each step the bug moves in one of the <math>6</math> possible directions along the grid lines randomly and independently with equal probability. What is the probability that after <math>5</math> moves the bug never will have been more than <math>1</math> unit away from the starting position? <math>\\textbf{(A)}\\ \\frac{13}{108} \\qquad\\textbf{(B)}\\ \\frac{7}{54} \\qquad\\textbf{(C)}\\ \\frac{29}{216} \\qquad\\textbf{(D)}\\ \\frac{4}{27} \\qquad\\textbf{(E)}\\ \\frac{1}{16}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 13 108",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Set <math>u_0 = \\frac{1}{4}</math>, and for <math>k \\ge 0</math> let <math>u_{k+1}</math> be determined by the recurrence <cmath>u_{k+1} = 2u_k - 2u_k^2.</cmath> This sequence tends to a limit; call it <math>L</math>. What is the least value of <math>k</math> such that <cmath>|u_k-L| \\le \\frac{1}{2^{1000}}?</cmath> <math>\\textbf{(A)}\\: 10\\qquad\\textbf{(B)}\\: 87\\qquad\\textbf{(C)}\\: 123\\qquad\\textbf{(D)}\\: 329\\qquad\\textbf{(E)}\\: 401</math>",
+      "answerType": "integer",
+      "answerKey": "10",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Regular polygons with <math>5,6,7,</math> and <math>8</math> sides are inscribed in the same circle. No two of the polygons share a vertex, and no three of their sides intersect at a common point. At how many points inside the circle do two of their sides intersect? <math>(\\textbf{A})\\: 52\\qquad(\\textbf{B}) \\: 56\\qquad(\\textbf{C}) \\: 60\\qquad(\\textbf{D}) \\: 64\\qquad(\\textbf{E}) \\: 68</math>",
+      "answerType": "exact",
+      "answerKey": "( E ) 68",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "A cube is constructed from <math>4</math> white unit cubes and <math>4</math> blue unit cubes. How many different ways are there to construct the <math>2 \\times 2 \\times 2</math> cube using these smaller cubes? (Two constructions are considered the same if one can be rotated to match the other.) <math>\\textbf{(A)}\\ 7 \\qquad\\textbf{(B)}\\ 8 \\qquad\\textbf{(C)}\\ 9 \\qquad\\textbf{(D)}\\ 10 \\qquad\\textbf{(E)}\\ 11</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 7",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "For real numbers <math>x</math>, let <cmath>P(x)=1+\\cos(x)+i\\sin(x)-\\cos(2x)-i\\sin(2x)+\\cos(3x)+i\\sin(3x)</cmath> where <math>i = \\sqrt{-1}</math>. For how many values of <math>x</math> with <math>0\\leq x<2\\pi</math> does <cmath>P(x)=0?</cmath> <math>\\textbf{(A)}\\ 0 \\qquad\\textbf{(B)}\\ 1 \\qquad\\textbf{(C)}\\ 2 \\qquad\\textbf{(D)}\\ 3 \\qquad\\textbf{(E)}\\ 4</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Right triangle <math>ABC</math> has side lengths <math>BC=6</math>, <math>AC=8</math>, and <math>AB=10</math>. A circle centered at <math>O</math> is tangent to line <math>BC</math> at <math>B</math> and passes through <math>A</math>. A circle centered at <math>P</math> is tangent to line <math>AC</math> at <math>A</math> and passes through <math>B</math>. What is <math>OP</math>? <math>\\textbf{(A)}\\ \\frac{23}{8} \\qquad\\textbf{(B)}\\ \\frac{29}{10} \\qquad\\textbf{(C)}\\ \\frac{35}{12} \\qquad\\textbf{(D)}\\ \\frac{73}{25} \\qquad\\textbf{(E)}\\ 3</math>",
+      "answerType": "exact",
+      "answerKey": "\\dfrac 35 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "What is the average number of pairs of consecutive integers in a randomly selected subset of <math>5</math> distinct integers chosen from the set <math>\\{ 1, 2, 3, …, 30\\}</math>? (For example the set <math>\\{1, 17, 18, 19, 30\\}</math> has <math>2</math> pairs of consecutive integers.) <math>\\textbf{(A)}\\ \\frac{2}{3} \\qquad\\textbf{(B)}\\ \\frac{29}{36} \\qquad\\textbf{(C)}\\ \\frac{5}{6} \\qquad\\textbf{(D)}\\ \\frac{29}{30} \\qquad\\textbf{(E)}\\ 1</math>",
+      "answerType": "exact",
+      "answerKey": "~\\frac 2 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Triangle <math>ABC</math> has side lengths <math>AB = 11, BC=24</math>, and <math>CA = 20</math>. The bisector of <math>\\angle{BAC}</math> intersects <math>\\overline{BC}</math> in point <math>D</math>, and intersects the circumcircle of <math>\\triangle{ABC}</math> in point <math>E \\ne A</math>. The circumcircle of <math>\\triangle{BED}</math> intersects the line <math>AB</math> in points <math>F \\ne B</math>. What is <math>CF</math>? <math>\\textbf{(A) } 28 \\qquad \\textbf{(B) } 20\\sqrt{2} \\qquad \\textbf{(C) } 30 \\qquad \\textbf{(D) } 32 \\qquad \\textbf{(E) } 20\\sqrt{3}</math>",
+      "answerType": "integer",
+      "answerKey": "30",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "For <math>n</math> a positive integer, let <math>R(n)</math> be the sum of the remainders when <math>n</math> is divided by <math>2</math>, <math>3</math>, <math>4</math>, <math>5</math>, <math>6</math>, <math>7</math>, <math>8</math>, <math>9</math>, and <math>10</math>. For example, <math>R(15) = 1+0+3+0+3+1+7+6+5=26</math>. How many two-digit positive integers <math>n</math> satisfy <math>R(n) = R(n+1)\\,?</math> <math>\\textbf{(A) }0\\qquad\\textbf{(B) }1\\qquad\\textbf{(C) }2\\qquad\\textbf{(D) }3\\qquad\\textbf{(E) }4</math>",
+      "answerType": "exact",
+      "answerKey": "C) 2",
+      "points": 1
+    }
+  ]
+}

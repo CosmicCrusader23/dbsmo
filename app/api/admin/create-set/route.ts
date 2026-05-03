@@ -4,6 +4,10 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import { normalizeTagList } from "@/lib/problem-tags";
+import {
+  isSupportedProblemContentFormat,
+  normalizeProblemContentFormat,
+} from "@/lib/problem-content-format";
 import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
 
 export async function POST(req: Request) {
@@ -61,6 +65,12 @@ export async function POST(req: Request) {
           { status: 400 },
         );
       }
+      if (p.contentFormat !== undefined && !isSupportedProblemContentFormat(p.contentFormat)) {
+        return NextResponse.json(
+          { error: `Invalid statement format "${p.contentFormat}" for problem ${p.number}.` },
+          { status: 400 },
+        );
+      }
     }
 
     const validStatuses = Object.values(ProblemSetStatus);
@@ -112,11 +122,13 @@ export async function POST(req: Request) {
               topicTags?: string[];
               points?: number;
               explanationNote?: string;
+              contentFormat?: string;
             }) => {
               const parts = p.answerKey.split(";").map((s) => s.trim()).filter(Boolean);
               return {
                 number: p.number,
                 statement: p.statement?.trim() || "",
+                contentFormat: normalizeProblemContentFormat(p.contentFormat),
                 answerKey: parts[0] || p.answerKey.trim(),
                 acceptedAnswers: parts.slice(1),
                 answerType: p.answerType,

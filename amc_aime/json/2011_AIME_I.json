@@ -1,0 +1,118 @@
+{
+  "slug": "2011-aime-i",
+  "title": "2011 AIME I",
+  "description": "Converted from 2011_AIME_I_questions.txt and 2011_AIME_I_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "aime-i"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Jar A contains four liters of a solution that is 45% acid. Jar B contains five liters of a solution that is 48% acid. Jar C contains one liter of a solution that is <math>k\\%</math> acid. From jar C, <math>\\frac{m}{n}</math> liters of the solution is added to jar A, and the remainder of the solution in jar C is added to jar B. At the end both jar A and jar B contain solutions that are 50% acid. Given that <math>m</math> and <math>n</math> are relatively prime positive integers, find <math>k + m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "085",
+      "points": 1
+    },
+    {
+      "number": 2,
+      "statement": "In rectangle <math>ABCD</math>, <math>AB = 12</math> and <math>BC = 10</math>. Points <math>E</math> and <math>F</math> lie inside rectangle <math>ABCD</math> so that <math>BE = 9</math>, <math>DF = 8</math>, <math>\\overline{BE} \\parallel \\overline{DF}</math>, <math>\\overline{EF} \\parallel \\overline{AB}</math>, and line <math>BE</math> intersects segment <math>\\overline{AD}</math>. The length <math>EF</math> can be expressed in the form <math>m \\sqrt{n} - p</math>, where <math>m</math>, <math>n</math>, and <math>p</math> are positive integers and <math>n</math> is not divisible by the square of any prime. Find <math>m + n + p</math>.",
+      "answerType": "integer",
+      "answerKey": "036",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "Let <math>L</math> be the line with slope <math>\\frac{5}{12}</math> that contains the point <math>A=(24,-1)</math>, and let <math>M</math> be the line perpendicular to line <math>L</math> that contains the point <math>B=(5,6)</math>. The original coordinate axes are erased, and line <math>L</math> is made the <math>x</math>-axis and line <math>M</math> the <math>y</math>-axis. In the new coordinate system, point <math>A</math> is on the positive <math>x</math>-axis, and point <math>B</math> is on the positive <math>y</math>-axis. The point <math>P</math> with coordinates <math>(-14,27)</math> in the original system has coordinates <math>(\\alpha,\\beta)</math> in the new coordinate system. Find <math>\\alpha+\\beta</math>.",
+      "answerType": "integer",
+      "answerKey": "031",
+      "points": 1
+    },
+    {
+      "number": 4,
+      "statement": "In triangle <math>ABC</math>, <math>AB=125</math>, <math>AC=117</math> and <math>BC=120</math>. The angle bisector of angle <math>A</math> intersects <math> \\overline{BC} </math> at point <math>L</math>, and the angle bisector of angle <math>B</math> intersects <math> \\overline{AC} </math> at point <math>K</math>. Let <math>M</math> and <math>N</math> be the feet of the perpendiculars from <math>C</math> to <math> \\overline{BK}</math> and <math> \\overline{AL}</math>, respectively. Find <math>MN</math>. == Solution 1 == Extend <math>{CM}</math> and <math>{CN}</math> such that they intersect line <math>{AB}</math> at points <math>P</math> and <math>Q</math>, respectively. <asy> defaultpen(fontsize(10)+0.8); size(200); pen p=fontsize(9)+linewidth(3); pair A,B,C,D,K,L,M,N,P,Q; A=origin; B=(125,0); C=IP(CR(A,117),CR(B,120)); L=extension(B,C,A,bisectorpoint(B,A,C)); K=extension(A,C,B,bisectorpoint(C,B,A)); M=foot(C,B,K); N=foot(C,A,L); draw(A--B--C--A); draw(A--L^^B--K, gray+dashed+0.5); draw(M--C--N^^N--extension(A,B,C,N)^^M--extension(A,B,C,M), gray+0.5); dot(\"$A$\",A,dir(200),p); dot(\"$B$\",B,right,p); dot(\"$C$\",C,up,p); dot(\"$L$\",L,2*dir(70),p); dot(\"$N$\",N,2*dir(-90),p); dot(\"$M$\",M,2*dir(-90),p); dot(\"$P$\",extension(A,B,C,M),2*down,p); dot(\"$Q$\",extension(A,B,C,N),2*down,p); label(\"$125$\",A--B,down,fontsize(10)); label(\"$117$\",A--C,2*dir(130),fontsize(10)); label(\"$120$\",B--C,1.5*dir(30),fontsize(10)); </asy> Since <math>{BM}</math> is the angle bisector of angle <math>B</math> and <math>{CM}</math> is perpendicular to <math>{BM}</math>, <math>\\triangle BCP</math> must be an isoceles triangle, so <math>BP=BC=120</math>, and <math>M</math> is the midpoint of <math>{CP}</math>. For the same reason, <math>AQ=AC=117</math>, and <math>N</math> is the midpoint of <math>{CQ}</math>. Hence <math>MN=\\tfrac 12 PQ</math>. Since <cmath>PQ=BP+AQ-AB=120+117-125=112,</cmath> so <math>MN=\\boxed{056}</math>.",
+      "answerType": "integer",
+      "answerKey": "056",
+      "points": 1
+    },
+    {
+      "number": 5,
+      "statement": "The vertices of a regular nonagon (9-sided polygon) are to be labeled with the digits 1 through 9 in such a way that the sum of the numbers on every three consecutive vertices is a multiple of 3. Two acceptable arrangements are considered to be indistinguishable if one can be obtained from the other by rotating the nonagon in the plane. Find the number of distinguishable acceptable arrangements.",
+      "answerType": "integer",
+      "answerKey": "144",
+      "points": 1
+    },
+    {
+      "number": 6,
+      "statement": "Suppose that a parabola has vertex <imath>\\left(\\frac{1}{4},-\\frac{9}{8}\\right)</imath> and equation <imath>y = ax^2 + bx + c</imath>, where <imath>a > 0</imath> and <imath>a + b + c</imath> is an integer. The minimum possible value of <imath>a</imath> can be written in the form <imath>\\frac{p}{q}</imath>, where <imath>p</imath> and <imath>q</imath> are relatively prime positive integers. Find <imath>p + q</imath>.",
+      "answerType": "integer",
+      "answerKey": "11",
+      "points": 1
+    },
+    {
+      "number": 7,
+      "statement": "https://artofproblemsolving.com/community/c6h84155p486903 2001 Austrian-Polish Math Individual Competition #1 ~MSC",
+      "answerType": "integer",
+      "answerKey": "016",
+      "points": 1
+    },
+    {
+      "number": 8,
+      "statement": "In triangle <math>ABC</math>, <math>BC = 23</math>, <math>CA = 27</math>, and <math>AB = 30</math>. Points <math>V</math> and <math>W</math> are on <math>\\overline{AC}</math> with <math>V</math> on <math> \\overline{AW} </math>, points <math>X</math> and <math>Y</math> are on <math> \\overline{BC} </math> with <math>X</math> on <math> \\overline{CY} </math>, and points <math>Z</math> and <math>U</math> are on <math> \\overline{AB} </math> with <math>Z</math> on <math> \\overline{BU} </math>. In addition, the points are positioned so that <math> \\overline{UV}\\parallel\\overline{BC} </math>, <math> \\overline{WX}\\parallel\\overline{AB} </math>, and <math> \\overline{YZ}\\parallel\\overline{CA} </math>. Right angle folds are then made along <math> \\overline{UV} </math>, <math> \\overline{WX} </math>, and <math> \\overline{YZ} </math>. The resulting figure is placed on a leveled floor to make a table with triangular legs. Let <math>h</math> be the maximum possible height of a table constructed from triangle <math>ABC</math> whose top is parallel to the floor. Then <math>h</math> can be written in the form <math> \\frac{k\\sqrt{m}}{n} </math>, where <math>k</math> and <math>n</math> are relatively prime positive integers and <math>m</math> is a positive integer that is not divisible by the square of any prime. Find <math>k+m+n</math>. <center><asy> unitsize(1 cm); pair translate; pair[] A, B, C, U, V, W, X, Y, Z; A[0] = (1.5,2.8); B[0] = (3.2,0); C[0] = (0,0); U[0] = (0.69*A[0] + 0.31*B[0]); V[0] = (0.69*A[0] + 0.31*C[0]); W[0] = (0.69*C[0] + 0.31*A[0]); X[0] = (0.69*C[0] + 0.31*B[0]); Y[0] = (0.69*B[0] + 0.31*C[0]); Z[0] = (0.69*B[0] + 0.31*A[0]); translate = (7,0); A[1] = (1.3,1.1) + translate; B[1] = (2.4,-0.7) + translate; C[1] = (0.6,-0.7) + translate; U[1] = U[0] + translate; V[1] = V[0] + translate; W[1] = W[0] + translate; X[1] = X[0] + translate; Y[1] = Y[0] + translate; Z[1] = Z[0] + translate; draw (A[0]--B[0]--C[0]--cycle); draw (U[0]--V[0],dashed); draw (W[0]--X[0],dashed); draw (Y[0]--Z[0],dashed); draw (U[1]--V[1]--W[1]--X[1]--Y[1]--Z[1]--cycle); draw (U[1]--A[1]--V[1],dashed); draw (W[1]--C[1]--X[1]); draw (Y[1]--B[1]--Z[1]); dot(\"$A$\",A[0],N); dot(\"$B$\",B[0],SE); dot(\"$C$\",C[0],SW); dot(\"$U$\",U[0],NE); dot(\"$V$\",V[0],NW); dot(\"$W$\",W[0],NW); dot(\"$X$\",X[0],S); dot(\"$Y$\",Y[0],S); dot(\"$Z$\",Z[0],NE); dot(A[1]); dot(B[1]); dot(C[1]); dot(\"$U$\",U[1],NE); dot(\"$V$\",V[1],NW); dot(\"$W$\",W[1],NW); dot(\"$X$\",X[1],dir(-70)); dot(\"$Y$\",Y[1],dir(250)); dot(\"$Z$\",Z[1],NE);</asy></center>",
+      "answerType": "integer",
+      "answerKey": "318",
+      "points": 1
+    },
+    {
+      "number": 9,
+      "statement": "Suppose <math>x</math> is in the interval <math>[0, \\pi/2]</math> and <math>\\log_{24\\sin x} (24\\cos x)=\\frac{3}{2}</math>. Find <math>24\\cot^2 x</math>.",
+      "answerType": "integer",
+      "answerKey": "192",
+      "points": 1
+    },
+    {
+      "number": 10,
+      "statement": "The probability that a set of three distinct vertices chosen at random from among the vertices of a regular n-gon determine an obtuse triangle is <imath>\\frac{93}{125}</imath> . Find the sum of all possible values of <imath>n</imath>.",
+      "answerType": "integer",
+      "answerKey": "503",
+      "points": 1
+    },
+    {
+      "number": 11,
+      "statement": "Let <math>R</math> be the set of all possible remainders when a number of the form <math>2^n</math>, <math>n</math> a nonnegative integer, is divided by 1000. Let <math>S</math> be the sum of the elements in <math>R</math>. Find the remainder when <math>S</math> is divided by 1000.",
+      "answerType": "integer",
+      "answerKey": "7",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "Six men and some number of women stand in a line in random order. Let <math>p</math> be the probability that a group of at least four men stand together in the line, given that every man stands next to at least one other man. Find the least number of women in the line such that <math>p</math> does not exceed 1 percent.",
+      "answerType": "integer",
+      "answerKey": "594",
+      "points": 1
+    },
+    {
+      "number": 13,
+      "statement": "A cube with side length 10 is suspended above a plane. The vertex closest to the plane is labeled <imath>A</imath>. The three vertices adjacent to vertex <imath>A</imath> are at heights 10, 11, and 12 above the plane. The distance from vertex <imath>A</imath> to the plane can be expressed as <imath> \\frac{r-\\sqrt{s}}{t}</imath>, where <imath>r</imath>, <imath>s</imath>, and <imath>t</imath> are positive integers. Find <imath>r+s+t</imath>.",
+      "answerType": "integer",
+      "answerKey": "330",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Let <math>A_1 A_2 A_3 A_4 A_5 A_6 A_7 A_8</math> be a regular octagon. Let <math>M_1</math>, <math>M_3</math>, <math>M_5</math>, and <math>M_7</math> be the midpoints of sides <math>\\overline{A_1 A_2}</math>, <math>\\overline{A_3 A_4}</math>, <math>\\overline{A_5 A_6}</math>, and <math>\\overline{A_7 A_8}</math>, respectively. For <math>i = 1, 3, 5, 7</math>, ray <math>R_i</math> is constructed from <math>M_i</math> towards the interior of the octagon such that <math>R_1 \\perp R_3</math>, <math>R_3 \\perp R_5</math>, <math>R_5 \\perp R_7</math>, and <math>R_7 \\perp R_1</math>. Pairs of rays <math>R_1</math> and <math>R_3</math>, <math>R_3</math> and <math>R_5</math>, <math>R_5</math> and <math>R_7</math>, and <math>R_7</math> and <math>R_1</math> meet at <math>B_1</math>, <math>B_3</math>, <math>B_5</math>, <math>B_7</math> respectively. If <math>B_1 B_3 = A_1 A_2</math>, then <math>\\cos 2 \\angle A_3 M_3 B_1</math> can be written in the form <math>m - \\sqrt{n}</math>, where <math>m</math> and <math>n</math> are positive integers. Find <math>m + n</math>.",
+      "answerType": "integer",
+      "answerKey": "037",
+      "points": 1
+    },
+    {
+      "number": 15,
+      "statement": "For some integer <imath>m</imath>, the polynomial <imath>x^3 - 2011x + m</imath> has the three integer roots <imath>a</imath>, <imath>b</imath>, and <imath>c</imath>. Find <imath>|a| + |b| + |c|</imath>.",
+      "answerType": "integer",
+      "answerKey": "98",
+      "points": 1
+    }
+  ]
+}

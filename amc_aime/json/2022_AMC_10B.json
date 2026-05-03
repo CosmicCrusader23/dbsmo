@@ -1,0 +1,242 @@
+{
+  "slug": "2022-amc-10b",
+  "title": "2022 AMC 10B",
+  "description": "Converted from 2022_AMC_10B_questions.txt and 2022_AMC_10B_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "amc-10b"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Define <math>x\\diamond y</math> to be <math>|x-y|</math> for all real numbers <math>x</math> and <math>y.</math> What is the value of <cmath>(1\\diamond(2\\diamond3))-((1\\diamond2)\\diamond3)?</cmath> <math> \\textbf{(A)}\\ {-}2 \\qquad \\textbf{(B)}\\ {-}1 \\qquad \\textbf{(C)}\\ 0 \\qquad \\textbf{(D)}\\ 1 \\qquad \\textbf{(E)}\\ 2</math> == Solution 1 == We have <cmath>\\begin{align*} (1\\diamond(2\\diamond3))-((1\\diamond2)\\diamond3) &= |1-|2-3|| - ||1-2|-3| \\\\ &= |1-1| - |1-3| \\\\ &= 0-2 \\\\ &= \\boxed{\\textbf{(A)}\\ {-}2}. \\end{align*}</cmath> ~MRENTHUSIASM",
+      "answerType": "exact",
+      "answerKey": "\\ - 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "In rhombus <imath>ABCD</imath>, point <imath>P</imath> lies on segment <imath>\\overline{AD}</imath> so that <imath>\\overline{BP}</imath> <imath>\\perp</imath> <imath>\\overline{AD}</imath>, <imath>AP = 3</imath>, and <imath>PD = 2</imath>. What is the area of <imath>ABCD</imath>? (Note: The figure is not drawn to scale.) <asy> import olympiad; size(180); real r = 3, s = 5, t = sqrt(r*r+s*s); defaultpen(linewidth(0.6) + fontsize(10)); pair A = (0,0), B = (r,s), C = (r+t,s), D = (t,0), P = (r,0); draw(A--B--C--D--A^^B--P^^rightanglemark(B,P,D)); label(\"$A$\",A,SW); label(\"$B$\", B, NW); label(\"$C$\",C,NE); label(\"$D$\",D,SE); label(\"$P$\",P,S); </asy> <imath>\\textbf{(A) }3\\sqrt 5 \\qquad \\textbf{(B) }10 \\qquad \\textbf{(C) }6\\sqrt 5 \\qquad \\textbf{(D) }20\\qquad \\textbf{(E) }25</imath>",
+      "answerType": "exact",
+      "answerKey": "D 20",
+      "points": 1
+    },
+    {
+      "number": 3,
+      "statement": "How many three-digit positive integers have an odd number of even digits? <imath>\\textbf{(A) }150\\qquad\\textbf{(B) }250\\qquad\\textbf{(C) }350\\qquad\\textbf{(D) }450\\qquad\\textbf{(E) }550</imath>",
+      "answerType": "exact",
+      "answerKey": "~ 450",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "A donkey suffers an attack of hiccups and the first hiccup happens at <math>4:00</math> one afternoon. Suppose that the donkey hiccups regularly every <math>5</math> seconds. At what time does the donkey’s <math>700</math>th hiccup occur? <math>\\textbf{(A) }15 \\text{ seconds after } 4:58</math> <math>\\textbf{(B) }20 \\text{ seconds after } 4:58</math> <math>\\textbf{(C) }25 \\text{ seconds after } 4:58</math> <math>\\textbf{(D) }30 \\text{ seconds after } 4:58</math> <math>\\textbf{(E) }35 \\text{ seconds after } 4:58</math>",
+      "answerType": "exact",
+      "answerKey": "15 seconds after 4:58",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "What is the value of <cmath>\\frac{\\left(1+\\frac13\\right)\\left(1+\\frac15\\right)\\left(1+\\frac17\\right)}{\\sqrt{\\left(1-\\frac{1}{3^2}\\right)\\left(1-\\frac{1}{5^2}\\right)\\left(1-\\frac{1}{7^2}\\right)}}?</cmath> <math>\\textbf{(A)}\\ \\sqrt3 \\qquad\\textbf{(B)}\\ 2 \\qquad\\textbf{(C)}\\ \\sqrt{15} \\qquad\\textbf{(D)}\\ 4 \\qquad\\textbf{(E)}\\ \\sqrt{105}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "How many of the first ten numbers of the sequence <math>121, 11211, 1112111, \\ldots</math> are prime numbers? <math>\\textbf{(A) } 0 \\qquad \\textbf{(B) }1 \\qquad \\textbf{(C) }2 \\qquad \\textbf{(D) }3 \\qquad \\textbf{(E) }4</math>",
+      "answerType": "integer",
+      "answerKey": "0",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "For how many values of the constant <imath>k</imath> will the polynomial <imath>x^{2}+kx+36</imath> have two distinct integer roots? <imath>\\textbf{(A)}\\ 6 \\qquad\\textbf{(B)}\\ 8 \\qquad\\textbf{(C)}\\ 9 \\qquad\\textbf{(D)}\\ 14 \\qquad\\textbf{(E)}\\ 16</imath>",
+      "answerType": "integer",
+      "answerKey": "8",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "Consider the following <imath>100</imath> sets of <imath>10</imath> elements each: <cmath>\\begin{align*} &\\{1,2,3,\\ldots,10\\}, \\\\ &\\{11,12,13,\\ldots,20\\},\\\\ &\\{21,22,23,\\ldots,30\\},\\\\ &\\vdots\\\\ &\\{991,992,993,\\ldots,1000\\}. \\end{align*}</cmath> How many of these sets contain exactly two multiples of <imath>7</imath>? <imath>\\textbf{(A)}\\ 40\\qquad\\textbf{(B)}\\ 42\\qquad\\textbf{(C)}\\ 43\\qquad\\textbf{(D)}\\ 49\\qquad\\textbf{(E)}\\ 50</imath>",
+      "answerType": "integer",
+      "answerKey": "42",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "The sum <cmath>\\frac{1}{2!}+\\frac{2}{3!}+\\frac{3}{4!}+\\cdots+\\frac{2021}{2022!}</cmath> can be expressed as <math>a-\\frac{1}{b!}</math>, where <math>a</math> and <math>b</math> are positive integers. What is <math>a+b</math>? <math> \\textbf{(A)}\\ 2020 \\qquad\\textbf{(B)}\\ 2021 \\qquad\\textbf{(C)}\\ 2022 \\qquad\\textbf{(D)}\\ 2023 \\qquad\\textbf{(E)}\\ 2024</math>",
+      "answerType": "integer",
+      "answerKey": "2023",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "Camila writes down five positive integers. The unique mode of these integers is <math>2</math> greater than their median, and the median is <math>2</math> greater than their arithmetic mean. What is the least possible value for the mode? <math>\\textbf{(A)}\\ 5 \\qquad\\textbf{(B)}\\ 7 \\qquad\\textbf{(C)}\\ 9 \\qquad\\textbf{(D)}\\ 11 \\qquad\\textbf{(E)}\\ 13</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "All the high schools in a large school district are involved in a fundraiser selling T-shirts. Which of the choices below is logically equivalent to the statement \"No school bigger than Euclid HS sold more T-shirts than Euclid HS\"? <imath>\\textbf{(A) }</imath> All schools smaller than Euclid HS sold fewer T-shirts than Euclid HS. <imath>\\textbf{(B) }</imath> No school that sold more T-shirts than Euclid HS is bigger than Euclid HS. <imath>\\textbf{(C) }</imath> All schools bigger than Euclid HS sold fewer T-shirts than Euclid HS. <imath>\\textbf{(D) }</imath> All schools that sold fewer T-shirts than Euclid HS are smaller than Euclid HS. <imath>\\textbf{(E) }</imath> All schools smaller than Euclid HS sold more T-shirts than Euclid HS.",
+      "answerType": "multiple",
+      "answerKey": "B",
+      "points": 1
+    },
+    {
+      "number": 12,
+      "statement": "A pair of fair <math>6</math>-sided dice is rolled <math>n</math> times. What is the least value of <math>n</math> such that the probability that the sum of the numbers face up on a roll equals <math>7</math> at least once is greater than <math>\\frac{1}{2}</math>? <math>\\textbf{(A) } 2 \\qquad \\textbf{(B) } 3 \\qquad \\textbf{(C) } 4 \\qquad \\textbf{(D) } 5 \\qquad \\textbf{(E) } 6</math>",
+      "answerType": "integer",
+      "answerKey": "4",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "The positive difference between a pair of primes is equal to <math>2</math>, and the positive difference between the cubes of the two primes is <math>31106</math>. What is the sum of the digits of the least prime that is greater than those two primes? <math>\\textbf{(A)}\\ 8 \\qquad\\textbf{(B)}\\ 10 \\qquad\\textbf{(C)}\\ 11 \\qquad\\textbf{(D)}\\ 13 \\qquad\\textbf{(E)}\\ 16</math>",
+      "answerType": "integer",
+      "answerKey": "16",
+      "points": 1
+    },
+    {
+      "number": 14,
+      "statement": "Suppose that <imath>S</imath> is a subset of <imath>\\left\\{ 1, 2, 3, \\ldots , 25 \\right\\}</imath> such that the sum of any two (not necessarily distinct) elements of <imath>S</imath> is never an element of <imath>S.</imath> What is the maximum number of elements <imath>S</imath> may contain? <imath>\\textbf{(A)}\\ 12 \\qquad\\textbf{(B)}\\ 13 \\qquad\\textbf{(C)}\\ 14 \\qquad\\textbf{(D)}\\ 15 \\qquad\\textbf{(E)}\\ 16</imath>",
+      "answerType": "integer",
+      "answerKey": "13",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "Let <imath>S_n</imath> be the sum of the first <imath>n</imath> terms of an arithmetic sequence that has a common difference of <imath>2</imath>. The quotient <imath>\\frac{S_{3n}}{S_n}</imath> does not depend on <imath>n</imath>. What is <imath>S_{20}</imath>? <imath>\\textbf{(A) } 340 \\qquad \\textbf{(B) } 360 \\qquad \\textbf{(C) } 380 \\qquad \\textbf{(D) } 400 \\qquad \\textbf{(E) } 420</imath>",
+      "answerType": "integer",
+      "answerKey": "400",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "The diagram below shows a rectangle with side lengths <math>4</math> and <math>8</math> and a square with side length <math>5</math>. Three vertices of the square lie on three different sides of the rectangle, as shown. What is the area of the region inside both the square and the rectangle? <asy> size(5cm); filldraw((4,0)--(8,3)--(8-3/4,4)--(1,4)--cycle,mediumgray); draw((0,0)--(8,0)--(8,4)--(0,4)--cycle,linewidth(1.1)); draw((1,0)--(1,4)--(4,0)--(8,3)--(5,7)--(1,4),linewidth(1.1)); label(\"$4$\", (8,2), E); label(\"$8$\", (4,0), S); label(\"$5$\", (3,11/2), NW); draw((1,.35)--(1.35,.35)--(1.35,0),linewidth(1.1)); </asy> <math>\\textbf{(A) }15\\dfrac{1}{8} \\qquad \\textbf{(B) }15\\dfrac{3}{8} \\qquad \\textbf{(C) }15\\dfrac{1}{2} \\qquad \\textbf{(D) }15\\dfrac{5}{8} \\qquad \\textbf{(E) }15\\dfrac{7}{8} </math>",
+      "answerType": "multiple",
+      "answerKey": "D",
+      "points": 1
+    },
+    {
+      "number": 17,
+      "statement": "One of the following numbers is not divisible by any prime number less than <imath>10.</imath> Which is it? <imath>\\textbf{(A) } 2^{606}-1 \\qquad\\textbf{(B) } 2^{606}+1 \\qquad\\textbf{(C) } 2^{607}-1 \\qquad\\textbf{(D) } 2^{607}+1\\qquad\\textbf{(E) } 2^{607}+3^{607}</imath>",
+      "answerType": "exact",
+      "answerKey": "( C )",
+      "points": 1
+    },
+    {
+      "number": 18,
+      "statement": "Consider systems of three linear equations with unknowns <math>x</math>, <math>y</math>, and <math>z</math>, <cmath> \\begin{align*} a_1 x + b_1 y + c_1 z & = 0 \\\\ a_2 x + b_2 y + c_2 z & = 0 \\\\ a_3 x + b_3 y + c_3 z & = 0 \\end{align*} </cmath> where each of the coefficients is either <math>0</math> or <math>1</math> and the system has a solution other than <math>x=y=z=0</math>. For example, one such system is <cmath>\\{ 1x + 1y + 0z = 0, 0x + 1y + 1z = 0, 0x + 0y + 0z = 0 \\}</cmath> with a nonzero solution of <math>\\{x,y,z\\} = \\{1, -1, 1\\}</math>. How many such systems of equations are there? (The equations in a system need not be distinct, and two systems containing the same equations in a different order are considered different.) <math>\\textbf{(A)}\\ 302 \\qquad\\textbf{(B)}\\ 338 \\qquad\\textbf{(C)}\\ 340 \\qquad\\textbf{(D)}\\ 343 \\qquad\\textbf{(E)}\\ 344</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 338",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 19,
+      "statement": "Each square in a <math>5 \\times 5</math> grid is either filled or empty, and has up to eight adjacent neighboring squares, where neighboring squares share either a side or a corner. The grid is transformed by the following rules: * Any filled square with two or three filled neighbors remains filled. * Any empty square with exactly three filled neighbors becomes a filled square. * All other squares remain empty or become empty. A sample transformation is shown in the figure below. <asy> import geometry; unitsize(0.6cm); void ds(pair x) { filldraw(x -- (1,0) + x -- (1,1) + x -- (0,1)+x -- cycle,mediumgray,invisible); } ds((1,1)); ds((2,1)); ds((3,1)); ds((1,3)); for (int i = 0; i <= 5; ++i) { draw((0,i)--(5,i)); draw((i,0)--(i,5)); } label(\"Initial\", (2.5,-1)); draw((6,2.5)--(8,2.5),Arrow); ds((10,2)); ds((11,1)); ds((11,0)); for (int i = 0; i <= 5; ++i) { draw((9,i)--(14,i)); draw((i+9,0)--(i+9,5)); } label(\"Transformed\", (11.5,-1)); </asy> Suppose the <math>5 \\times 5</math> grid has a border of empty squares surrounding a <math>3 \\times 3</math> subgrid. How many initial configurations will lead to a transformed grid consisting of a single filled square in the center after a single transformation? (Rotations and reflections of the same configuration are considered different.) <asy> import geometry; unitsize(0.6cm); void ds(pair x) { filldraw(x -- (1,0) + x -- (1,1) + x -- (0,1)+x -- cycle,mediumgray,invisible); } for (int i = 1; i < 4; ++ i) { for (int j = 1; j < 4; ++j) { label(\"?\",(i + 0.5, j + 0.5)); } } for (int i = 0; i <= 5; ++i) { draw((0,i)--(5,i)); draw((i,0)--(i,5)); } label(\"Initial\", (2.5,-1)); draw((6,2.5)--(8,2.5),Arrow); ds((11,2)); for (int i = 0; i <= 5; ++i) { draw((9,i)--(14,i)); draw((i+9,0)--(i+9,5)); } label(\"Transformed\", (11.5,-1)); </asy> <math>\\textbf{(A)}\\ 14 \\qquad\\textbf{(B)}\\ 18 \\qquad\\textbf{(C)}\\ 22 \\qquad\\textbf{(D)}\\ 26 \\qquad\\textbf{(E)}\\ 30</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 22",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 20,
+      "statement": "Let <math>ABCD</math> be a rhombus with <math>\\angle ADC = 46^\\circ</math>. Let <math>E</math> be the midpoint of <math>\\overline{CD}</math>, and let <math>F</math> be the point on <math>\\overline{BE}</math> such that <math>\\overline{AF}</math> is perpendicular to <math>\\overline{BE}</math>. What is the degree measure of <math>\\angle BFC</math>? <math>\\textbf{(A)}\\ 110 \\qquad\\textbf{(B)}\\ 111 \\qquad\\textbf{(C)}\\ 112 \\qquad\\textbf{(D)}\\ 113 \\qquad\\textbf{(E)}\\ 114</math>",
+      "answerType": "integer",
+      "answerKey": "113",
+      "points": 1
+    },
+    {
+      "number": 21,
+      "statement": "Let <math>P(x)</math> be a polynomial with rational coefficients such that when <math>P(x)</math> is divided by the polynomial <math>x^2 + x + 1</math>, the remainder is <math>x+2</math>, and when <math>P(x)</math> is divided by the polynomial <math>x^2+1</math>, the remainder is <math>2x+1</math>. There is a unique polynomial of least degree with these two properties. What is the sum of the squares of the coefficients of that polynomial? <math>\\textbf{(A)}\\ 10 \\qquad\\textbf{(B)}\\ 13 \\qquad\\textbf{(C)}\\ 19 \\qquad\\textbf{(D)}\\ 20 \\qquad\\textbf{(E)}\\ 23</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 23",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "Let <math>S</math> be the set of circles in the coordinate plane that are tangent to each of the three circles with equations <math>x^{2}+y^{2}=4</math>, <math>x^{2}+y^{2}=64</math>, and <math>(x-5)^{2}+y^{2}=3</math>. What is the sum of the areas of all circles in <math>S</math>? <math>\\textbf{(A)}~48\\pi\\qquad\\textbf{(B)}~68\\pi\\qquad\\textbf{(C)}~96\\pi\\qquad\\textbf{(D)}~102\\pi\\qquad\\textbf{(E)}~136\\pi\\qquad</math>",
+      "answerType": "multiple",
+      "answerKey": "E",
+      "points": 1
+    },
+    {
+      "number": 23,
+      "statement": "Ant Amelia starts on the number line at <math>0</math> and crawls in the following manner. For <math>n=1,2,3,</math> Amelia chooses a time duration <math>t_n</math> and an increment <math>x_n</math> independently and uniformly at random from the interval <math>(0,1).</math> During the <math>n</math>th step of the process, Amelia moves <math>x_n</math> units in the positive direction, using up <math>t_n</math> minutes. If the total elapsed time has exceeded <math>1</math> minute during the <math>n</math>th step, she stops at the end of that step; otherwise, she continues with the next step, taking at most <math>3</math> steps in all. What is the probability that Amelia’s position when she stops will be greater than <math>1</math>? <math>\\textbf{(A) }\\frac{1}{3} \\qquad \\textbf{(B) }\\frac{1}{2} \\qquad \\textbf{(C) }\\frac{2}{3} \\qquad \\textbf{(D) }\\frac{3}{4} \\qquad \\textbf{(E) }\\frac{5}{6}</math>",
+      "answerType": "exact",
+      "answerKey": "\\frac 2 3",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "Consider functions <math>f</math> that satisfy <cmath>|f(x)-f(y)|\\leq \\frac{1}{2}|x-y|</cmath> for all real numbers <math>x</math> and <math>y</math>. Of all such functions that also satisfy the equation <math>f(300) = f(900)</math>, what is the greatest possible value of <cmath>f(f(800))-f(f(400))?</cmath> <math>\\textbf{(A)}\\ 25 \\qquad\\textbf{(B)}\\ 50 \\qquad\\textbf{(C)}\\ 100 \\qquad\\textbf{(D)}\\ 150 \\qquad\\textbf{(E)}\\ 200</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 50",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Let <math>x_0,x_1,x_2,\\dotsc</math> be a sequence of numbers, where each <math>x_k</math> is either <math>0</math> or <math>1</math>. For each positive integer <math>n</math>, define <cmath>S_n = \\sum_{k=0}^{n-1} x_k 2^k</cmath> Suppose <math>7S_n \\equiv 1 \\pmod{2^n}</math> for all <math>n \\geq 1</math>. What is the value of the sum <cmath>x_{2019} + 2x_{2020} + 4x_{2021} + 8x_{2022}?</cmath> <math>\\textbf{(A) } 6 \\qquad \\textbf{(B) } 7 \\qquad \\textbf{(C) }12\\qquad \\textbf{(D) } 14\\qquad \\textbf{(E) }15</math>",
+      "answerType": "integer",
+      "answerKey": "6",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    }
+  ]
+}

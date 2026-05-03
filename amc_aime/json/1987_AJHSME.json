@@ -1,0 +1,257 @@
+{
+  "slug": "1987-ajhsme",
+  "title": "1987 AJHSME",
+  "description": "Converted from 1987_AJHSME_questions.txt and 1987_AJHSME_solutions.txt.",
+  "statementFormat": "HTML",
+  "order": 0,
+  "status": "DRAFT",
+  "topicTags": [
+    "ajhsme"
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "<math>.4+.02+.006=</math> <math>\\text{(A)}\\ .012 \\qquad \\text{(B)}\\ .066 \\qquad \\text{(C)}\\ .12 \\qquad \\text{(D)}\\ .24 \\qquad \\text{(E)} .426</math>",
+      "answerType": "exact",
+      "answerKey": "\\ .426",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 2,
+      "statement": "<math>\\frac{2}{25}=</math> <math>\\text{(A)}\\ .008 \\qquad \\text{(B)}\\ .08 \\qquad \\text{(C)}\\ .8 \\qquad \\text{(D)}\\ 1.25 \\qquad \\text{(E)}\\ 12.5</math>",
+      "answerType": "exact",
+      "answerKey": "\\ .08",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 3,
+      "statement": "<imath>2(81+83+85+87+89+91+93+95+97+99)=</imath> <imath>\\text{(A)}\\ 1600 \\qquad \\text{(B)}\\ 1650 \\qquad \\text{(C)}\\ 1700 \\qquad \\text{(D)}\\ 1750 \\qquad \\text{(E)}\\ 1800</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 1800",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 4,
+      "statement": "Martians measure angles in clerts. There are <math>500</math> clerts in a full circle. How many clerts are there in a right angle? <math>\\text{(A)}\\ 90 \\qquad \\text{(B)}\\ 100 \\qquad \\text{(C)}\\ 125 \\qquad \\text{(D)}\\ 180 \\qquad \\text{(E)}\\ 250</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 125",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 5,
+      "statement": "The area of the rectangular region is <asy> draw((0,0)--(4,0)--(4,2.2)--(0,2.2)--cycle,linewidth(.5 mm)); label(\".22 m\",(4,1.1),E); label(\".4 m\",(2,0),S); </asy> <math>\\text{(A)}\\ \\text{.088 m}^2 \\qquad \\text{(B)}\\ \\text{.62 m}^2 \\qquad \\text{(C)}\\ \\text{.88 m}^2 \\qquad \\text{(D)}\\ \\text{1.24 m}^2 \\qquad \\text{(E)}\\ \\text{4.22 m}^2</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 0.088",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 6,
+      "statement": "The smallest product one could obtain by multiplying two numbers in the set <math>\\{ -7,-5,-1,1,3 \\}</math> is <math>\\text{(A)}\\ -35 \\qquad \\text{(B)}\\ -21 \\qquad \\text{(C)}\\ -15 \\qquad \\text{(D)}\\ -1 \\qquad \\text{(E)}\\ 3</math>",
+      "answerType": "exact",
+      "answerKey": "\\ -21",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 7,
+      "statement": "The large cube shown is made up of <imath>27</imath> identical sized smaller cubes. For each face of the large cube, the opposite face is shaded the same way. The total number of smaller cubes that must have at least one face shaded is <imath>\\text{(A)}\\ 10 \\qquad \\text{(B)}\\ 16 \\qquad \\text{(C)}\\ 20 \\qquad \\text{(D)}\\ 22 \\qquad \\text{(E)}\\ 24</imath> <asy> unitsize(36); draw((0,0)--(3,0)--(3,3)--(0,3)--cycle); draw((3,0)--(5.2,1.4)--(5.2,4.4)--(3,3)); draw((0,3)--(2.2,4.4)--(5.2,4.4)); fill((0,0)--(0,1)--(1,1)--(1,0)--cycle,black); fill((0,2)--(0,3)--(1,3)--(1,2)--cycle,black); fill((1,1)--(1,2)--(2,2)--(2,1)--cycle,black); fill((2,0)--(3,0)--(3,1)--(2,1)--cycle,black); fill((2,2)--(3,2)--(3,3)--(2,3)--cycle,black); draw((1,3)--(3.2,4.4)); draw((2,3)--(4.2,4.4)); draw((.733333333,3.4666666666)--(3.73333333333,3.466666666666)); draw((1.466666666,3.9333333333)--(4.466666666,3.9333333333)); fill((1.73333333,3.46666666666)--(2.7333333333,3.46666666666)--(3.46666666666,3.93333333333)--(2.46666666666,3.93333333333)--cycle,black); fill((3,1)--(3.733333333333,1.466666666666)--(3.73333333333,2.46666666666)--(3,2)--cycle,black); fill((3.73333333333,.466666666666)--(4.466666666666,.93333333333)--(4.46666666666,1.93333333333)--(3.733333333333,1.46666666666)--cycle,black); fill((3.73333333333,2.466666666666)--(4.466666666666,2.93333333333)--(4.46666666666,3.93333333333)--(3.733333333333,3.46666666666)--cycle,black); fill((4.466666666666,1.9333333333333)--(5.2,2.4)--(5.2,3.4)--(4.4666666666666,2.9333333333333)--cycle,black); </asy>",
+      "answerType": "exact",
+      "answerKey": "\\ 20",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 8,
+      "statement": "If <imath>\\text{A}</imath> and <imath>\\text{B}</imath> are nonzero digits, then the number of digits (not necessarily different) in the sum of the three whole numbers is <cmath>\\begin{tabular}[t]{cccc} 9 & 8 & 7 & 6 \\\\ & A & 3 & 2 \\\\ & & B & 1 \\\\ \\hline \\end{tabular}</cmath> <imath>\\text{(A)}\\ 4 \\qquad \\text{(B)}\\ 5 \\qquad \\text{(C)}\\ 6 \\qquad \\text{(D)}\\ 9 \\qquad \\text{(E)}\\ \\text{depends on the values of A and B}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 5",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 9,
+      "statement": "When finding the sum <imath>\\frac{1}{2}+\\frac{1}{3}+\\frac{1}{4}+\\frac{1}{5}+\\frac{1}{6}+\\frac{1}{7}</imath>, the least common denominator used is <imath>\\text{(A)}\\ 120 \\qquad \\text{(B)}\\ 210 \\qquad \\text{(C)}\\ 420 \\qquad \\text{(D)}\\ 840 \\qquad \\text{(E)}\\ 5040</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 420",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 10,
+      "statement": "<math>4(299)+3(299)+2(299)+298=</math> <math>\\text{(A)}\\ 2889 \\qquad \\text{(B)}\\ 2989 \\qquad \\text{(C)}\\ 2991 \\qquad \\text{(D)}\\ 2999 \\qquad \\text{(E)}\\ 3009</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 2989",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 11,
+      "statement": "The [[sum]] <math>2\\frac17+3\\frac12+5\\frac{1}{19}</math> is between <math>\\text{(A)}\\ 10\\text{ and }10\\frac12 \\qquad \\text{(B)}\\ 10\\frac12 \\text{ and } 11 \\qquad \\text{(C)}\\ 11\\text{ and }11\\frac12 \\qquad \\text{(D)}\\ 11\\frac12 \\text{ and }12 \\qquad \\text{(E)}\\ 12\\text{ and }12\\frac12</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 10\\frac 1 2 and 11",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 12,
+      "statement": "What [[fraction]] of the large <imath>12</imath> by <imath>18</imath> [[rectangle|rectangular]] region is shaded? <asy> fill((15,0)--(18,0)--(18,6)--(15,6)--cycle,grey); draw((0,0)--(18,0)--(18,12)--(0,12)--cycle); draw((0,6)--(18,6)); for(int a=6; a<12; ++a) { draw((1.5a,0)--(1.5a,6)); } label(\"0\",(0,0),W); label(\"9\",(9,0),S); label(\"18\",(18,0),S); label(\"6\",(0,6),W); label(\"12\",(0,12),W); </asy> <imath>\\text{(A)}\\ \\frac{1}{108} \\qquad \\text{(B)}\\ \\frac{1}{18} \\qquad \\text{(C)}\\ \\frac{1}{12} \\qquad \\text{(D)}\\ \\frac29 \\qquad \\text{(E)}\\ \\frac13</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 1 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 13,
+      "statement": "Which of the following [[fraction|fractions]] has the largest value? <math>\\text{(A)}\\ \\frac{3}{7} \\qquad \\text{(B)}\\ \\frac{4}{9} \\qquad \\text{(C)}\\ \\frac{17}{35} \\qquad \\text{(D)}\\ \\frac{100}{201} \\qquad \\text{(E)}\\ \\frac{151}{301}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ \\frac 151 301",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 14,
+      "statement": "A computer can do <math>10,000</math> additions per second. How many additions can it do in one hour? <math>\\text{(A)}\\ 6\\text{ million} \\qquad \\text{(B)}\\ 36\\text{ million} \\qquad \\text{(C)}\\ 60\\text{ million} \\qquad \\text{(D)}\\ 216\\text{ million} \\qquad \\text{(E)}\\ 360\\text{ million}</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 36 million",
+      "points": 1,
+      "acceptedAnswers": [
+        "B"
+      ]
+    },
+    {
+      "number": 15,
+      "statement": "The sale ad read: \"Buy three tires at the regular price and get the fourth tire for <imath>\\$3.</imath>\" Sam paid <imath>\\$240</imath> for a set of four tires at the sale. What was the regular price of one tire? <imath>\\text{(A)}\\ \\$59.25 \\qquad \\text{(B)}\\ \\$60 \\qquad \\text{(C)}\\ \\$70 \\qquad \\text{(D)}\\ \\$79 \\qquad \\text{(E)}\\ \\$80</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ \\$79",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 16,
+      "statement": "Joyce made <math>12</math> of her first <math>30</math> shots in the first three games of this basketball season, so her seasonal shooting [[average]] was <math>40\\% </math>. In her next game, she took <math>10</math> shots and raised her seasonal shooting average to <math>50\\% </math>. How many of these <math>10</math> shots did she make? <math>\\text{(A)}\\ 2 \\qquad \\text{(B)}\\ 3 \\qquad \\text{(C)}\\ 5 \\qquad \\text{(D)}\\ 6 \\qquad \\text{(E)}\\ 8</math>",
+      "answerType": "exact",
+      "answerKey": "\\ 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "E"
+      ]
+    },
+    {
+      "number": 17,
+      "statement": "Abby, Bret, Carl, and Dana are seated in a row of four seats numbered <imath>\\#1</imath> to <imath>\\#4</imath>. Joe looks at them and says: <imath>\\hspace{2em}</imath>\"Bret is next to Carl.\" <imath>\\hspace{2em}</imath>\"Abby is between Bret and Carl.\" However each one of Joe's statements is false. Bret is actually sitting in seat <imath>\\#3</imath>. Who is sitting in seat <imath>\\#2</imath>? <imath>\\text{(A)}\\ \\text{Abby} \\qquad \\text{(B)}\\ \\text{Bret} \\qquad \\text{(C)}\\ \\text{Carl} \\qquad \\text{(D)}\\ \\text{Dana} \\qquad \\text{(E)}\\ \\text{There is not enough information to be sure.}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ Dana",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 18,
+      "statement": "Half the people in a room left. One third of those remaining started to dance. There were then <math>12</math> people who were not dancing. The original number of people in the room was <math>\\text{(A)}\\ 24 \\qquad \\text{(B)}\\ 30 \\qquad \\text{(C)}\\ 36 \\qquad \\text{(D)}\\ 42 \\qquad \\text{(E)}\\ 72</math>",
+      "answerType": "multiple",
+      "answerKey": "C",
+      "points": 1
+    },
+    {
+      "number": 19,
+      "statement": "A calculator has a squaring key <imath>\\boxed{x^2}</imath> which replaces the current number displayed with its [[Perfect square|square]]. For example, if the display is <imath>\\boxed{\\ \\ \\ \\ \\ \\ \\ \\ \\ 3}</imath> and the <imath>\\boxed{x^2}</imath> key is depressed, then the display becomes <imath>\\boxed{\\ \\ \\ \\ \\ \\ \\ \\ \\ 9}</imath>. If the display reads <imath>\\boxed{\\ \\ \\ \\ \\ \\ \\ \\ \\ 2}</imath>, how many times must you depress the <imath>\\boxed{x^2}</imath> key to produce a displayed number greater than <imath>500</imath>? <imath>\\text{(A)}\\ 4 \\qquad \\text{(B)}\\ 5 \\qquad \\text{(C)}\\ 8 \\qquad \\text{(D)}\\ 9 \\qquad \\text{(E)}\\ 250</imath>",
+      "answerType": "multiple",
+      "answerKey": "A",
+      "points": 1
+    },
+    {
+      "number": 20,
+      "statement": "\"If a whole number <imath>n</imath> is not prime, then the whole number <imath>n-2</imath> is not prime.\" A value of <imath>n</imath> which shows this statement to be false is <imath>\\textbf{(A)}\\ 9 \\qquad \\textbf{(B)}\\ 12 \\qquad \\textbf{(C)}\\ 13 \\qquad \\textbf{(D)}\\ 16 \\qquad \\textbf{(E)}\\ 23</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    },
+    {
+      "number": 21,
+      "statement": "Suppose <imath>n^{*}</imath> means <imath>\\frac{1}{n}</imath>, the reciprocal of <imath>n</imath>. For example, <imath>5^{*}=\\frac{1}{5}</imath>. How many of the following statements are true? <imath>\\hspace{2em}</imath>i) <imath>3^*+6^*=9^*</imath> <imath>\\hspace{2em}</imath>ii) <imath>6^*-4^*=2^*</imath> <imath>\\hspace{2em}</imath>iii) <imath>2^*\\cdot 6^*=12^*</imath> <imath>\\hspace{2em}</imath>iv) <imath>10^*\\div 2^* =5^*</imath> <imath>\\text{(A)}\\ 0 \\qquad \\text{(B)}\\ 1 \\qquad \\text{(C)}\\ 2 \\qquad \\text{(D)}\\ 3 \\qquad \\text{(E)}\\ 4</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 2",
+      "points": 1,
+      "acceptedAnswers": [
+        "C"
+      ]
+    },
+    {
+      "number": 22,
+      "statement": "<imath>ABCD</imath> is a rectangle, <imath>D</imath> is the center of the circle, and <imath>B</imath> is on the circle. If <imath>AD=4</imath> and <imath>CD=3</imath>, then the area of the shaded region is between <asy> pair A,B,C,D; A=(0,4); B=(3,4); C=(3,0); D=origin; draw(circle(D,5)); fill((0,5)..(1.5,4.7697)..B--A--cycle,black); fill(B..(4,3)..(5,0)--C--cycle,black); draw((0,5)--D--(5,0)); label(\"A\",A,NW); label(\"B\",B,NE); label(\"C\",C,S); label(\"D\",D,SW); </asy> <imath>\\text{(A)}\\ 4\\text{ and }5 \\qquad \\text{(B)}\\ 5\\text{ and }6 \\qquad \\text{(C)}\\ 6\\text{ and }7 \\qquad \\text{(D)}\\ 7\\text{ and }8 \\qquad \\text{(E)}\\ 8\\text{ and }9</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 7 and 8",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 23,
+      "statement": "Assume the adjoining chart shows the <imath>1980</imath> U.S. population, in millions, for each region by ethnic group. To the nearest [[percent]], what percent of the U.S. Black population lived in the South? <cmath>\\begin{tabular}[t]{c|cccc} & NE & MW & South & West \\\\ \\hline White & 42 & 52 & 57 & 35 \\\\ Black & 5 & 5 & 15 & 2 \\\\ Asian & 1 & 1 & 1 & 3 \\\\ Other & 1 & 1 & 2 & 4 \\end{tabular}</cmath> <imath>\\text{(A)}\\ 20\\% \\qquad \\text{(B)}\\ 25\\% \\qquad \\text{(C)}\\ 40\\% \\qquad \\text{(D)}\\ 56\\% \\qquad \\text{(E)}\\ 80\\% </imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 56\\%",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 24,
+      "statement": "<!-- don't remove the following tag, for PoTW on the Wiki front page--><onlyinclude>A multiple choice examination consists of <imath>20</imath> questions. The scoring is <imath>+5</imath> for each correct answer, <imath>-2</imath> for each incorrect answer, and <imath>0</imath> for each unanswered question. John's score on the examination is <imath>48</imath>. What is the maximum number of questions he could have answered correctly?<!-- don't remove the following tag, for PoTW on the Wiki front page--></onlyinclude> <imath>\\text{(A)}\\ 9 \\qquad \\text{(B)}\\ 10 \\qquad \\text{(C)}\\ 11 \\qquad \\text{(D)}\\ 12 \\qquad \\text{(E)}\\ 16</imath>",
+      "answerType": "exact",
+      "answerKey": "\\ 12",
+      "points": 1,
+      "acceptedAnswers": [
+        "D"
+      ]
+    },
+    {
+      "number": 25,
+      "statement": "Ten balls numbered <imath>1</imath> to <imath>10</imath> are in a jar. Jack reaches into the jar and randomly removes one of the balls. Then Jill reaches into the jar and randomly removes a different ball. The probability that the sum of the two numbers on the balls removed is even is <imath>\\text{(A)}\\ \\frac{4}{9} \\qquad \\text{(B)}\\ \\frac{9}{19} \\qquad \\text{(C)}\\ \\frac{1}{2} \\qquad \\text{(D)}\\ \\frac{10}{19} \\qquad \\text{(E)}\\ \\frac{5}{9}</imath>",
+      "answerType": "exact",
+      "answerKey": "\\frac 4 9",
+      "points": 1,
+      "acceptedAnswers": [
+        "A"
+      ]
+    }
+  ]
+}

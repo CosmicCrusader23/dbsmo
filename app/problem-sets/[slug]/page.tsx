@@ -143,11 +143,14 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                   <section className="problem-statement-card" key={problem.id}>
                     <span className="statement-number">Q{problem.number}</span>
                     <div className="statement-text">
-                      <LatexStatement statement={problem.statement} />
+                      <LatexStatement statement={problem.statement} format={problem.contentFormat} />
                       {problem.explanationNote ? (
                         <details className="solution-note">
                           <summary>Solution</summary>
-                          <LatexStatement statement={problem.explanationNote} />
+                          <LatexStatement
+                            statement={problem.explanationNote}
+                            format={problem.contentFormat}
+                          />
                         </details>
                       ) : null}
                     </div>
