@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
+import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
@@ -9,6 +10,45 @@ import {
   normalizeProblemContentFormat,
 } from "@/lib/problem-content-format";
 import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
+
+const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+const createProblemSchema = z.object({
+  number: z.coerce.number().int().positive(),
+  statement: z.string().optional().default(""),
+  contentFormat: z
+    .string()
+    .optional()
+    .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
+      message: "Invalid statement format.",
+    }),
+  answerKey: z.string().trim().min(1),
+  answerType: z.nativeEnum(AnswerType),
+  topicTags: z.array(z.string()).optional().default([]),
+  points: z.coerce.number().int().positive().optional().default(1),
+  explanationNote: z.string().nullable().optional(),
+});
+
+const createSetSchema = z.object({
+  title: z.string().trim().min(1),
+  slug: z.string().trim().min(1).regex(PROBLEM_SET_SLUG_PATTERN, {
+    message: "Slug must use lowercase letters, numbers, and single hyphens.",
+  }),
+  description: z.string().optional().default(""),
+  order: z.coerce.number().int().positive().optional(),
+  difficulty: z.coerce.number().int().min(1).max(5).optional().default(1),
+  status: z.nativeEnum(ProblemSetStatus).optional().default("DRAFT"),
+  topicTags: z.array(z.string()).optional().default([]),
+  videoUrl: z.string().url().nullable().optional(),
+  problemPdf: z
+    .object({
+      name: z.string().min(1),
+      dataUrl: z.string().min(1),
+    })
+    .nullable()
+    .optional(),
+  problems: z.array(createProblemSchema).min(1),
+});
 
 export async function POST(req: Request) {
   try {
@@ -20,7 +60,21 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const body = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+    }
+
+    const parsed = createSetSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Validation failed.", details: parsed.error.flatten() },
+        { status: 422 },
+      );
+    }
+
     const {
       title,
       slug,
@@ -32,16 +86,18 @@ export async function POST(req: Request) {
       videoUrl,
       problemPdf,
       problems,
-    } = body;
+    } = parsed.data;
 
-    if (!title || !slug || !problems || !Array.isArray(problems) || problems.length === 0) {
+    const duplicateNumber = problems
+      .map((problem) => problem.number)
+      .find((number, index, numbers) => numbers.indexOf(number) !== index);
+    if (duplicateNumber) {
       return NextResponse.json(
-        { error: "Title, slug, and at least one problem are required." },
-        { status: 400 },
+        { error: `Problem number ${duplicateNumber} is duplicated.` },
+        { status: 422 },
       );
     }
 
-    // Check for slug collision
     const existing = await prisma.problemSet.findUnique({ where: { slug } });
     if (existing) {
       return NextResponse.json(
@@ -50,34 +106,8 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validate answer types
-    const validTypes = Object.values(AnswerType);
-    for (const p of problems) {
-      if (!validTypes.includes(p.answerType)) {
-        return NextResponse.json(
-          { error: `Invalid answer type "${p.answerType}" for problem ${p.number}.` },
-          { status: 400 },
-        );
-      }
-      if (!p.answerKey || p.answerKey.trim() === "") {
-        return NextResponse.json(
-          { error: `Problem ${p.number} is missing an answer.` },
-          { status: 400 },
-        );
-      }
-      if (p.contentFormat !== undefined && !isSupportedProblemContentFormat(p.contentFormat)) {
-        return NextResponse.json(
-          { error: `Invalid statement format "${p.contentFormat}" for problem ${p.number}.` },
-          { status: 400 },
-        );
-      }
-    }
-
-    const validStatuses = Object.values(ProblemSetStatus);
-    const finalStatus = validStatuses.includes(status) ? status : "DRAFT";
-
     let finalOrder = order;
-    if (typeof order !== "number" || order <= 0) {
+    if (!finalOrder) {
       const maxOrderResult = await prisma.problemSet.aggregate({ _max: { order: true } });
       finalOrder = (maxOrderResult._max.order ?? 0) + 1;
     }
@@ -105,8 +135,8 @@ export async function POST(req: Request) {
         slug,
         description: description || "",
         order: finalOrder,
-        difficulty: difficulty || 1,
-        status: finalStatus,
+        difficulty,
+        status,
         topicTags: normalizeTagList(topicTags || []),
         allowedGroups: [],
         videoUrl: videoUrl || null,
@@ -116,15 +146,18 @@ export async function POST(req: Request) {
           create: problems.map(
             (p: {
               number: number;
-              statement?: string;
               answerKey: string;
               answerType: AnswerType;
+              statement?: string;
               topicTags?: string[];
               points?: number;
-              explanationNote?: string;
+              explanationNote?: string | null;
               contentFormat?: string;
             }) => {
-              const parts = p.answerKey.split(";").map((s) => s.trim()).filter(Boolean);
+              const parts = p.answerKey
+                .split(";")
+                .map((s) => s.trim())
+                .filter(Boolean);
               return {
                 number: p.number,
                 statement: p.statement?.trim() || "",

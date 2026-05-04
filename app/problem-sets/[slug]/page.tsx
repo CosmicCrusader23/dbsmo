@@ -88,7 +88,9 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
       <div className="page-frame">
         <header className="topbar standalone">
           <div>
-            <p className="eyebrow">{problemSet.slug} • Uploaded by {problemSet.createdBy?.name || "Admin"}</p>
+            <p className="eyebrow">
+              {problemSet.slug} • Uploaded by {problemSet.createdBy?.name || "Admin"}
+            </p>
             <h1 className="problem-title-row">
               <span>{problemSet.title}</span>
               <BookmarkButton
@@ -143,7 +145,10 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                   <section className="problem-statement-card" key={problem.id}>
                     <span className="statement-number">Q{problem.number}</span>
                     <div className="statement-text">
-                      <LatexStatement statement={problem.statement} format={problem.contentFormat} />
+                      <LatexStatement
+                        statement={problem.statement}
+                        format={problem.contentFormat}
+                      />
                       {problem.explanationNote ? (
                         <details className="solution-note">
                           <summary>Solution</summary>
@@ -199,7 +204,14 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
             <AnswerGrid
               lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
               problemCount={problemCount}
+              problemSummaries={problemSet.problems.map((problem) => ({
+                number: problem.number,
+                topicTags: problem.topicTags,
+                explanationNote: problem.explanationNote,
+                contentFormat: problem.contentFormat,
+              }))}
               problemSetId={problemSet.id}
+              videoUrl={problemSet.videoUrl}
             />
           </article>
         </section>

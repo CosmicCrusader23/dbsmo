@@ -38,10 +38,43 @@ export async function GET() {
         avatarUrl: true,
         role: true,
         group: true,
+        attempts: {
+          select: { score: true, maxScore: true, problemSetId: true },
+        },
+        _count: {
+          select: { practiceSolves: true },
+        },
       },
     });
 
-    return NextResponse.json({ user });
+    if (!user) {
+      return NextResponse.json({ user: null });
+    }
+
+    const attemptedSets = new Set(user.attempts.map((attempt) => attempt.problemSetId));
+    const averageScore =
+      user.attempts.length > 0
+        ? Math.round(
+            user.attempts.reduce(
+              (sum, attempt) =>
+                sum + (attempt.maxScore > 0 ? (attempt.score / attempt.maxScore) * 100 : 0),
+              0,
+            ) / user.attempts.length,
+          )
+        : 0;
+    const { attempts, _count, ...profile } = user;
+
+    return NextResponse.json({
+      user: {
+        ...profile,
+        stats: {
+          attemptedSets: attemptedSets.size,
+          totalAttempts: attempts.length,
+          averageScore,
+          practiceScore: _count.practiceSolves,
+        },
+      },
+    });
   } catch (error) {
     console.error("Failed to fetch settings:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -55,7 +88,12 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = (await req.json()) as { displayName?: unknown; avatarUrl?: unknown };
+    let body: { displayName?: unknown; avatarUrl?: unknown };
+    try {
+      body = (await req.json()) as { displayName?: unknown; avatarUrl?: unknown };
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+    }
     const { displayName, avatarUrl } = body;
     const normalizedAvatarUrl = normalizeAvatarUrl(avatarUrl);
 

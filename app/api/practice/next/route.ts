@@ -18,11 +18,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Tag is required" }, { status: 400 });
   }
 
+  const now = new Date();
   // Find problems matching the tag from published sets, excluding those already solved in practice by this user
   const problems = await prisma.problem.findMany({
     where: {
       problemSet: {
         status: "PUBLISHED",
+        AND: [
+          { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
+          { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
+        ],
       },
       practiceSolves: {
         none: {
@@ -44,11 +49,14 @@ export async function GET(request: Request) {
   });
 
   const matchingProblems = problems.filter((p) =>
-    p.topicTags.some((t) => t.trim().toLowerCase() === tag)
+    p.topicTags.some((t) => t.trim().toLowerCase() === tag),
   );
 
   if (matchingProblems.length === 0) {
-    return NextResponse.json({ problem: null, message: "No more unsolved problems for this category!" });
+    return NextResponse.json({
+      problem: null,
+      message: "No more unsolved problems for this category!",
+    });
   }
 
   // Pick a random problem

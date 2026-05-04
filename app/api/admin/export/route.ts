@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { toCsvRow, computeBestAverageScore } from "@/lib/analytics";
 import { authOptions } from "@/lib/auth";
+import { hasPermission } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export async function GET(req: NextRequest) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
-  if (session.user.role !== "ADMIN") {
+  if (!hasPermission(session.user.role, "admin:export")) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
@@ -58,6 +59,8 @@ async function exportStudents() {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
       "Content-Disposition": 'attachment; filename="students.csv"',
+      "Cache-Control": "private, no-store",
+      "X-Content-Type-Options": "nosniff",
     },
   });
 }
@@ -99,6 +102,8 @@ async function exportAttempts() {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
       "Content-Disposition": 'attachment; filename="attempts.csv"',
+      "Cache-Control": "private, no-store",
+      "X-Content-Type-Options": "nosniff",
     },
   });
 }

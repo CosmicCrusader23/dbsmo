@@ -49,6 +49,12 @@ interface UserProfile {
   avatarUrl: string | null;
   role: string;
   group: string | null;
+  stats?: {
+    attemptedSets: number;
+    totalAttempts: number;
+    averageScore: number;
+    practiceScore: number;
+  };
 }
 
 export default function SettingsPage() {
@@ -132,7 +138,10 @@ export default function SettingsPage() {
         return;
       }
 
-      setUser(data.user);
+      setUser((currentUser) => ({
+        ...data.user,
+        stats: currentUser?.stats,
+      }));
       setSuccess("Settings saved!");
       setTimeout(() => setSuccess(null), 3000);
     } catch {
@@ -206,6 +215,25 @@ export default function SettingsPage() {
           <div className="settings-avatar-info">
             <h3>{previewName || "MO Student"}</h3>
             <p className="settings-role-badge">{user.role}</p>
+          </div>
+        </div>
+
+        <div className="settings-stats-row">
+          <div>
+            <strong>{user.stats?.attemptedSets ?? 0}</strong>
+            <span>Sets tried</span>
+          </div>
+          <div>
+            <strong>{user.stats?.averageScore ?? 0}%</strong>
+            <span>Average</span>
+          </div>
+          <div>
+            <strong>{user.stats?.practiceScore ?? 0}</strong>
+            <span>Practice</span>
+          </div>
+          <div>
+            <strong>{user.stats?.totalAttempts ?? 0}</strong>
+            <span>Attempts</span>
           </div>
         </div>
 

@@ -31,4 +31,21 @@ describe("dryRunProblemSetJson", () => {
     expect(result.preview?.answerTypeCounts.INTEGER).toBe(1);
     expect(result.preview?.solutionCount).toBe(1);
   });
+
+  it("rejects slugs that are unsafe for problem-set URLs", async () => {
+    const text = JSON.stringify({
+      slug: "../draft-set",
+      title: "Bad Slug",
+      problems: [{ answerKey: "1" }],
+    });
+
+    const result = await dryRunProblemSetJson({
+      fileName: "bad-slug.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.message.includes("Slug must use"))).toBe(true);
+  });
 });

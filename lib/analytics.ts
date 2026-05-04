@@ -1,3 +1,5 @@
+import { normalizeTagList } from "./problem-tags";
+
 export type TopicAccuracy = {
   topic: string;
   total: number;
@@ -27,7 +29,8 @@ export function computeTopicAccuracy(
   const map = new Map<string, { total: number; correct: number }>();
 
   for (const r of responses) {
-    for (const tag of r.problem.topicTags) {
+    const tags = normalizeTagList(r.problem.topicTags);
+    for (const tag of tags) {
       const entry = map.get(tag) ?? { total: 0, correct: 0 };
       entry.total++;
       if (r.isCorrect) entry.correct++;
@@ -105,10 +108,11 @@ export function accuracyLevel(accuracy: number): "success" | "warning" | "danger
 }
 
 export function escapeCsvField(value: string): string {
-  if (value.includes(",") || value.includes('"') || value.includes("\n")) {
-    return `"${value.replace(/"/g, '""')}"`;
+  const safeValue = /^[=+\-@]/.test(value) ? `'${value}` : value;
+  if (safeValue.includes(",") || safeValue.includes('"') || safeValue.includes("\n")) {
+    return `"${safeValue.replace(/"/g, '""')}"`;
   }
-  return value;
+  return safeValue;
 }
 
 export function toCsvRow(fields: string[]): string {

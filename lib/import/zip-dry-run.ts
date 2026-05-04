@@ -2,8 +2,10 @@ import { parse } from "csv-parse/sync";
 import yaml from "js-yaml";
 import JSZip from "jszip";
 import { z } from "zod";
+import { normalizeTagList } from "../problem-tags";
 import { answerRowSchema, type AnswerRow } from "./answer-schema";
 import { manifestSchema, type ProblemSetManifest } from "./manifest-schema";
+import { isSafeZipPath, normalizeZipPath } from "./zip-path";
 
 const MAX_ZIP_BYTES = 50 * 1024 * 1024;
 const REQUIRED_COLUMNS = [
@@ -71,6 +73,14 @@ export async function dryRunProblemSetZip(input: ZipDryRunInput): Promise<ZipDry
   }
 
   const files = Object.values(zip.files).filter((entry) => !entry.dir);
+  const unsafeFiles = files.filter((entry) => !isSafeZipPath(originalZipEntryName(entry)));
+  for (const entry of unsafeFiles) {
+    issues.push({
+      level: "error",
+      message: `ZIP contains an unsafe path: ${originalZipEntryName(entry)}.`,
+    });
+  }
+
   const fileNames = new Set(files.map((entry) => normalizeZipPath(entry.name)));
   const manifestEntry = findEntry(zip, "manifest.yml") ?? findEntry(zip, "manifest.yaml");
 
@@ -225,7 +235,7 @@ function buildPreview(
     problemCount: answers.length,
     totalPoints: answers.reduce((sum, answer) => sum + answer.points, 0),
     difficulty: manifest.difficulty,
-    topicTags: manifest.topicTags,
+    topicTags: normalizeTagList(manifest.topicTags),
     allowedGroups: manifest.allowedGroups,
     problemFile: manifest.problemFile,
     solutionFile: manifest.solutionFile ?? null,
@@ -243,8 +253,10 @@ function findEntry(zip: JSZip, path: string) {
   return zip.file(normalizeZipPath(path));
 }
 
-function normalizeZipPath(path: string) {
-  return path.replace(/^\/+/, "").replace(/\\/g, "/");
+function originalZipEntryName(entry: JSZip.JSZipObject) {
+  return (
+    (entry as JSZip.JSZipObject & { unsafeOriginalName?: string }).unsafeOriginalName ?? entry.name
+  );
 }
 
 function zodIssues(label: string, error: z.ZodError): ImportIssue[] {

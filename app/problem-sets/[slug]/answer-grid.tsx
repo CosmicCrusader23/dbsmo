@@ -3,6 +3,7 @@
 import type { CSSProperties, FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CheckCircle2, Loader2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
+import { LatexStatement } from "./latex-statement";
 
 type SubmitResult = {
   ok: boolean;
@@ -21,14 +22,29 @@ type SubmitResult = {
 type Props = {
   problemSetId: string;
   problemCount: number;
+  problemSummaries?: Array<{
+    number: number;
+    topicTags: string[];
+    explanationNote: string | null;
+    contentFormat: "LATEX" | "HTML";
+  }>;
+  videoUrl?: string | null;
   lockedAttemptNumber?: number | null;
 };
 
 const AUTOSAVE_KEY_PREFIX = "mo-draft-";
+const REVIEW_KEY_PREFIX = "mo-review-";
 
-export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = null }: Props) {
+export function AnswerGrid({
+  problemSetId,
+  problemCount,
+  problemSummaries = [],
+  videoUrl = null,
+  lockedAttemptNumber = null,
+}: Props) {
   const problemNumbers = Array.from({ length: problemCount }, (_, i) => i + 1);
   const autosaveKey = `${AUTOSAVE_KEY_PREFIX}${problemSetId}`;
+  const reviewKey = `${REVIEW_KEY_PREFIX}${problemSetId}`;
 
   const [answers, setAnswers] = useState<Record<string, string>>(() => {
     if (typeof window === "undefined") return {};
@@ -43,6 +59,15 @@ export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = n
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<SubmitResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [reviewLater, setReviewLater] = useState<Set<number>>(() => {
+    if (typeof window === "undefined") return new Set();
+    try {
+      const saved = localStorage.getItem(reviewKey);
+      return new Set(saved ? (JSON.parse(saved) as number[]) : []);
+    } catch {
+      return new Set();
+    }
+  });
 
   const [showReportDialog, setShowReportDialog] = useState(false);
   const [reportSubmitting, setReportSubmitting] = useState(false);
@@ -124,6 +149,25 @@ export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = n
     setSubmitResult(null);
     setSubmitError(null);
     startTime.current = Date.now();
+  }
+
+  function toggleReviewLater(problemNumber: number) {
+    setReviewLater((current) => {
+      const next = new Set(current);
+      if (next.has(problemNumber)) {
+        next.delete(problemNumber);
+      } else {
+        next.add(problemNumber);
+      }
+
+      try {
+        localStorage.setItem(reviewKey, JSON.stringify(Array.from(next)));
+      } catch {
+        /* ignore */
+      }
+
+      return next;
+    });
   }
 
   async function onReportSubmit(e: FormEvent<HTMLFormElement>) {
@@ -260,6 +304,27 @@ export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = n
     const resultMap = new Map(submitResult.results.map((r) => [r.number, r]));
     const scorePercent = Math.max(0, Math.min(100, submitResult.percentage));
     const scoreRingStyle = { "--score-percent": `${scorePercent}%` } as CSSProperties;
+    const problemSummaryMap = new Map(problemSummaries.map((problem) => [problem.number, problem]));
+    const missedResults = submitResult.results.filter((result) => !result.isCorrect);
+    const missedTopicCounts = new Map<string, number>();
+    for (const result of missedResults) {
+      const summary = problemSummaryMap.get(result.number);
+      const topics = summary?.topicTags.length ? summary.topicTags : ["General"];
+      for (const topic of topics) {
+        missedTopicCounts.set(topic, (missedTopicCounts.get(topic) ?? 0) + 1);
+      }
+    }
+    const missedTopics = Array.from(missedTopicCounts.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 3);
+    const primaryMissedTopic = missedTopics[0]?.[0] ?? null;
+    const nextAction = isPerfectResult
+      ? "Move to the next set or keep this one as solved."
+      : primaryMissedTopic
+        ? `Review ${primaryMissedTopic}, then retry this set.`
+        : videoUrl
+          ? "Watch the teaching video, then retry this set."
+          : "Retry this set while the questions are fresh.";
 
     return (
       <>
@@ -282,6 +347,22 @@ export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = n
           </div>
         </div>
 
+        <div className="submit-coaching-panel">
+          <div>
+            <p className="eyebrow">Next step</p>
+            <strong>{nextAction}</strong>
+          </div>
+          {missedTopics.length > 0 ? (
+            <div className="missed-topic-list">
+              {missedTopics.map(([topic, count]) => (
+                <span key={topic}>
+                  {topic}: {count}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </div>
+
         <div className="answer-grid">
           {problemNumbers.map((number) => {
             const r = resultMap.get(number);
@@ -301,6 +382,44 @@ export function AnswerGrid({ problemSetId, problemCount, lockedAttemptNumber = n
             );
           })}
         </div>
+
+        {missedResults.length > 0 ? (
+          <div className="review-list">
+            {missedResults.map((result) => {
+              const summary = problemSummaryMap.get(result.number);
+              return (
+                <article className="review-card" key={result.number}>
+                  <div className="review-card-head">
+                    <strong>Problem {result.number}</strong>
+                    <button
+                      className="secondary-action compact"
+                      type="button"
+                      onClick={() => toggleReviewLater(result.number)}
+                    >
+                      {reviewLater.has(result.number) ? "Review saved" : "Review later"}
+                    </button>
+                  </div>
+                  {summary?.topicTags.length ? (
+                    <div className="missed-topic-list">
+                      {summary.topicTags.map((topic) => (
+                        <span key={topic}>{topic}</span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {summary?.explanationNote ? (
+                    <details className="solution-note">
+                      <summary>Explanation</summary>
+                      <LatexStatement
+                        statement={summary.explanationNote}
+                        format={summary.contentFormat}
+                      />
+                    </details>
+                  ) : null}
+                </article>
+              );
+            })}
+          </div>
+        ) : null}
 
         <div className="problem-actions">
           <button

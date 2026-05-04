@@ -129,6 +129,26 @@ export async function PATCH(request: Request, context: RouteContext) {
     topicTags: setPatch.topicTags ? normalizeTagList(setPatch.topicTags) : undefined,
   };
 
+  if (problems) {
+    const numbers = problems.map((problem, index) => problem.number ?? index + 1);
+    const duplicateNumber = numbers.find((number, index) => numbers.indexOf(number) !== index);
+    if (duplicateNumber) {
+      return NextResponse.json(
+        { error: `Problem number ${duplicateNumber} is duplicated.` },
+        { status: 422 },
+      );
+    }
+
+    const ids = problems.map((problem) => problem.id).filter(Boolean);
+    const duplicateId = ids.find((problemId, index) => ids.indexOf(problemId) !== index);
+    if (duplicateId) {
+      return NextResponse.json(
+        { error: "Problem update payload contains duplicate problem IDs." },
+        { status: 422 },
+      );
+    }
+  }
+
   let uploadedPdfId: string | null | undefined;
   if (problemPdf) {
     try {
@@ -168,15 +188,6 @@ export async function PATCH(request: Request, context: RouteContext) {
             Boolean(problemId && existingIds.has(problemId)),
           ),
       );
-
-      const duplicateExistingIds = problems
-        .map((problem) => problem.id)
-        .filter((problemId): problemId is string => Boolean(problemId))
-        .filter((problemId, index, ids) => ids.indexOf(problemId) !== index);
-
-      if (duplicateExistingIds.length > 0) {
-        throw new Error("Problem update payload contains duplicate problem IDs.");
-      }
 
       await tx.problem.deleteMany({
         where: {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, FileJson, Plus, Search } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink, FileJson, Plus, Search } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { DeleteSetButton } from "./delete-set-button";
@@ -146,11 +146,15 @@ export default async function AdminSetsPage({
                             <ExternalLink size={14} />
                             View
                           </Link>
-                          <DeleteSetButton
-                            setId={set.id}
-                            title={set.title}
-                            status={set.status}
-                          />
+                          <a
+                            className="secondary-action compact"
+                            href={`/api/admin/sets/${set.id}/export`}
+                            download
+                          >
+                            <Download size={14} />
+                            JSON
+                          </a>
+                          <DeleteSetButton setId={set.id} title={set.title} status={set.status} />
                         </div>
                       </td>
                     </tr>

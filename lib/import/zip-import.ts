@@ -2,9 +2,11 @@ import { createHash } from "node:crypto";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import JSZip from "jszip";
 import { prisma } from "@/lib/db";
+import { normalizeTagList } from "@/lib/problem-tags";
 import { saveFile } from "@/lib/storage";
 import type { ImportIssue } from "./zip-dry-run";
 import { dryRunProblemSetZip, type ZipDryRunInput } from "./zip-dry-run";
+import { safeZipPath } from "./zip-path";
 
 export type ImportResult = {
   ok: boolean;
@@ -92,13 +94,14 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
     checksum: string;
     sizeBytes: number;
   }> {
-    const entry = zip.file(fileName) ?? zip.file(fileName.replace(/^\/+/, ""));
+    const normalizedFileName = safeZipPath(fileName);
+    const entry = zip.file(normalizedFileName);
     if (!entry) {
       throw new Error(`File not found in ZIP: ${fileName}`);
     }
 
     const buf = Buffer.from(await entry.async("nodebuffer"));
-    const storageKey = `imports/${preview.slug}/${fileName}`;
+    const storageKey = `imports/${preview.slug}/${normalizedFileName}`;
     const checksum = createHash("sha256").update(buf).digest("hex");
 
     await saveFile(storageKey, buf);
@@ -170,7 +173,7 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
         order: manifest.order,
         status: STATUS_MAP[preview.status] ?? "DRAFT",
         allowedGroups: [],
-        topicTags: preview.topicTags,
+        topicTags: normalizeTagList(preview.topicTags),
         difficulty: preview.difficulty,
         videoUrl: preview.videoUrl,
         problemFileId: problemFile.id,
@@ -186,7 +189,7 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
         answerKey: answer.answer,
         answerType: ANSWER_TYPE_MAP[answer.answerType] ?? "EXACT",
         acceptedAnswers: answer.acceptedAnswers,
-        topicTags: answer.topicTags,
+        topicTags: normalizeTagList(answer.topicTags),
         points: answer.points,
       })),
     });

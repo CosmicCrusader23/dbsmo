@@ -21,6 +21,7 @@ type SetRow = {
   slug: string;
   title: string;
   order: number;
+  createdAt: Date;
   categories: string[];
   tags: string[];
   problemCount: number;
@@ -28,6 +29,8 @@ type SetRow = {
   attempts: number;
   solvedCount: number;
   isBookmarked: boolean;
+  hasPdf: boolean;
+  hasVideo: boolean;
 };
 
 const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
@@ -35,8 +38,10 @@ const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
 type ProblemSetsSearchParams = Promise<{
   category?: string;
   hideSolved?: string;
+  media?: string;
   q?: string;
   sort?: string;
+  status?: string;
   view?: string;
 }>;
 
@@ -52,8 +57,21 @@ export default async function ProblemSetsPage({
 
   const params = (await searchParams) ?? {};
   const sortMode =
-    params.sort === "solved" ? "solved" : params.sort === "name" ? "name" : "default";
+    params.sort === "solved"
+      ? "solved"
+      : params.sort === "name"
+        ? "name"
+        : params.sort === "latest"
+          ? "latest"
+          : "default";
   const activeView = params.view === "bookmarked" ? "bookmarked" : "recommended";
+  const statusFilter =
+    params.status === "not-started" ||
+    params.status === "in-progress" ||
+    params.status === "completed"
+      ? params.status
+      : "all";
+  const mediaFilter = params.media === "video" ? "video" : params.media === "pdf" ? "pdf" : "all";
   const hideSolved = params.hideSolved === "1";
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
@@ -66,12 +84,16 @@ export default async function ProblemSetsPage({
     category?: string | null;
     hideSolved?: boolean;
     q?: string;
-    sort?: "default" | "solved" | "name";
+    sort?: "default" | "solved" | "name" | "latest";
+    media?: "all" | "video" | "pdf";
+    status?: "all" | "not-started" | "in-progress" | "completed";
     view?: "recommended" | "bookmarked";
   }) {
     const nextSort = next.sort ?? sortMode;
     const nextView = next.view ?? activeView;
     const nextCategory = next.category === undefined ? activeCategory : next.category;
+    const nextMedia = next.media ?? mediaFilter;
+    const nextStatus = next.status ?? statusFilter;
     const nextHideSolved = next.hideSolved ?? hideSolved;
     const nextQuery = next.q === undefined ? query : next.q;
     const urlParams = new URLSearchParams();
@@ -84,6 +106,12 @@ export default async function ProblemSetsPage({
     }
     if (nextCategory) {
       urlParams.set("category", nextCategory);
+    }
+    if (nextStatus !== "all") {
+      urlParams.set("status", nextStatus);
+    }
+    if (nextMedia !== "all") {
+      urlParams.set("media", nextMedia);
     }
     if (nextHideSolved) {
       urlParams.set("hideSolved", "1");
@@ -124,9 +152,7 @@ export default async function ProblemSetsPage({
   }
 
   const visibleSets =
-    currentUser.role === "ADMIN"
-      ? allSets
-      : allSets.filter((set) => isVisibleToStudent(set));
+    currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
 
   const attemptMap = new Map<string, { bestScore: number; attempts: number }>();
   for (const attempt of attempts) {
@@ -154,6 +180,7 @@ export default async function ProblemSetsPage({
       slug: set.slug,
       title: set.title,
       order: set.order,
+      createdAt: set.createdAt,
       categories: categorizeProblemSetTags(allTags),
       tags: allTags,
       problemCount: set._count.problems,
@@ -161,6 +188,8 @@ export default async function ProblemSetsPage({
       attempts: progress.attempts,
       solvedCount: solvedUsers.size,
       isBookmarked: set.bookmarks.length > 0,
+      hasPdf: Boolean(set.problemFileId),
+      hasVideo: Boolean(set.videoUrl),
     };
   });
 
@@ -173,12 +202,27 @@ export default async function ProblemSetsPage({
       return a.title.localeCompare(b.title) || a.order - b.order;
     }
 
+    if (sortMode === "latest") {
+      return b.createdAt.getTime() - a.createdAt.getTime() || a.title.localeCompare(b.title);
+    }
+
     return a.order - b.order || a.title.localeCompare(b.title);
   });
 
   const viewRows =
     activeView === "bookmarked" ? orderedRows.filter((set) => set.isBookmarked) : orderedRows;
-  const filteredRows = hideSolved ? viewRows.filter((set) => set.bestScore < 100) : viewRows;
+  const statusRows = viewRows.filter((set) => {
+    if (statusFilter === "not-started") return set.attempts === 0;
+    if (statusFilter === "in-progress") return set.attempts > 0 && set.bestScore < 100;
+    if (statusFilter === "completed") return set.bestScore >= 100;
+    return true;
+  });
+  const mediaRows = statusRows.filter((set) => {
+    if (mediaFilter === "video") return set.hasVideo;
+    if (mediaFilter === "pdf") return set.hasPdf;
+    return true;
+  });
+  const filteredRows = hideSolved ? mediaRows.filter((set) => set.bestScore < 100) : mediaRows;
 
   const groupedRows = new Map<string, SetRow[]>(
     CATEGORY_ORDER.map((category) => [
@@ -265,20 +309,59 @@ export default async function ProblemSetsPage({
           >
             Name
           </Link>
+          <Link
+            className={`segmented-button${sortMode === "latest" ? " active" : ""}`}
+            href={problemSetsHref({ sort: "latest" })}
+          >
+            Latest
+          </Link>
         </div>
-        <span className="leaderboard-control-label">Solved</span>
+        <span className="leaderboard-control-label">Status</span>
         <div className="segmented-control">
           <Link
-            className={`segmented-button${!hideSolved ? " active" : ""}`}
-            href={problemSetsHref({ hideSolved: false })}
+            className={`segmented-button${statusFilter === "all" ? " active" : ""}`}
+            href={problemSetsHref({ status: "all", hideSolved: false })}
           >
-            Show all
+            All
           </Link>
           <Link
-            className={`segmented-button${hideSolved ? " active" : ""}`}
-            href={problemSetsHref({ hideSolved: true })}
+            className={`segmented-button${statusFilter === "not-started" ? " active" : ""}`}
+            href={problemSetsHref({ status: "not-started", hideSolved: false })}
           >
-            Hide solved
+            Not started
+          </Link>
+          <Link
+            className={`segmented-button${statusFilter === "in-progress" ? " active" : ""}`}
+            href={problemSetsHref({ status: "in-progress", hideSolved: false })}
+          >
+            In progress
+          </Link>
+          <Link
+            className={`segmented-button${statusFilter === "completed" ? " active" : ""}`}
+            href={problemSetsHref({ status: "completed", hideSolved: false })}
+          >
+            Completed
+          </Link>
+        </div>
+        <span className="leaderboard-control-label">Media</span>
+        <div className="segmented-control">
+          <Link
+            className={`segmented-button${mediaFilter === "all" ? " active" : ""}`}
+            href={problemSetsHref({ media: "all" })}
+          >
+            All
+          </Link>
+          <Link
+            className={`segmented-button${mediaFilter === "video" ? " active" : ""}`}
+            href={problemSetsHref({ media: "video" })}
+          >
+            Video
+          </Link>
+          <Link
+            className={`segmented-button${mediaFilter === "pdf" ? " active" : ""}`}
+            href={problemSetsHref({ media: "pdf" })}
+          >
+            PDF
           </Link>
         </div>
       </section>
@@ -295,15 +378,27 @@ export default async function ProblemSetsPage({
         {activeView === "bookmarked" ? (
           <input name="view" type="hidden" value="bookmarked" />
         ) : null}
+        {statusFilter !== "all" ? <input name="status" type="hidden" value={statusFilter} /> : null}
+        {mediaFilter !== "all" ? <input name="media" type="hidden" value={mediaFilter} /> : null}
         {hideSolved ? <input name="hideSolved" type="hidden" value="1" /> : null}
         {activeCategory ? <input name="category" type="hidden" value={activeCategory} /> : null}
         <button className="secondary-action compact" type="submit">
           Search
         </button>
-        {query || activeCategory || hideSolved ? (
+        {query ||
+        activeCategory ||
+        hideSolved ||
+        statusFilter !== "all" ||
+        mediaFilter !== "all" ? (
           <Link
             className="text-link"
-            href={problemSetsHref({ category: null, q: "", hideSolved: false })}
+            href={problemSetsHref({
+              category: null,
+              q: "",
+              hideSolved: false,
+              media: "all",
+              status: "all",
+            })}
           >
             Clear
           </Link>
@@ -376,12 +471,18 @@ export default async function ProblemSetsPage({
                       </Link>
                     </td>
                     <td>
-                      <Link className="problem-set-row-link problem-set-title-link" href={`/problem-sets/${set.slug}`}>
+                      <Link
+                        className="problem-set-row-link problem-set-title-link"
+                        href={`/problem-sets/${set.slug}`}
+                      >
                         <strong>{set.title}</strong>
                       </Link>
                     </td>
                     <td>
-                      <Link className="problem-set-row-link problem-set-categories-link" href={`/problem-sets/${set.slug}`}>
+                      <Link
+                        className="problem-set-row-link problem-set-categories-link"
+                        href={`/problem-sets/${set.slug}`}
+                      >
                         {set.categories.join(" · ")}
                       </Link>
                     </td>

@@ -5,6 +5,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { type AnswerType, gradeAnswer } from "@/lib/grading";
+import { isVisibleToStudent } from "@/lib/visibility";
 
 export const runtime = "nodejs";
 
@@ -29,7 +30,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const body = await request.json();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+  }
+
   const result = submitSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json({ error: "Validation failed." }, { status: 422 });
@@ -37,12 +44,35 @@ export async function POST(request: Request) {
 
   const { problemId, answer } = result.data;
 
-  const problem = await prisma.problem.findUnique({
-    where: { id: problemId },
-  });
+  const [currentUser, problem] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { role: true },
+    }),
+    prisma.problem.findUnique({
+      where: { id: problemId },
+      include: {
+        problemSet: {
+          select: {
+            status: true,
+            visibleFrom: true,
+            visibleTo: true,
+          },
+        },
+      },
+    }),
+  ]);
+
+  if (!currentUser) {
+    return NextResponse.json({ error: "User record not found." }, { status: 401 });
+  }
 
   if (!problem) {
     return NextResponse.json({ error: "Problem not found." }, { status: 404 });
+  }
+
+  if (currentUser.role !== "ADMIN" && !isVisibleToStudent(problem.problemSet)) {
+    return NextResponse.json({ error: "Problem is not available." }, { status: 403 });
   }
 
   const { isCorrect } = gradeAnswer({

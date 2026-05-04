@@ -8,6 +8,7 @@ import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { computeBestAverageScore } from "@/lib/analytics";
+import { normalizeTagList } from "@/lib/problem-tags";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { FriendButton } from "./friend-button";
@@ -92,6 +93,7 @@ export default async function UserProfilePage({
                   number: true,
                   problemSetId: true,
                   points: true,
+                  topicTags: true,
                 },
               },
             },
@@ -99,6 +101,13 @@ export default async function UserProfilePage({
           problemSet: { select: { title: true, slug: true } },
         },
         orderBy: { submittedAt: "desc" },
+      },
+      problemSetBookmarks: {
+        select: {
+          problemSet: { select: { title: true, slug: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
       },
     },
   });
@@ -179,6 +188,28 @@ export default async function UserProfilePage({
     }
   }
   const solvedSets = [...setScores.values()].filter((s) => s.best >= 80);
+  const recentCompletions = solvedSets.slice(0, 5);
+  const topicStats = new Map<string, { correct: number; total: number }>();
+  for (const attempt of user.attempts) {
+    for (const response of attempt.responses) {
+      const canonicalTopics = normalizeTagList(response.problem.topicTags);
+      const topics = canonicalTopics.length > 0 ? canonicalTopics : ["General"];
+      for (const topic of topics) {
+        const stats = topicStats.get(topic) ?? { correct: 0, total: 0 };
+        stats.total += 1;
+        if (response.isCorrect) stats.correct += 1;
+        topicStats.set(topic, stats);
+      }
+    }
+  }
+  const strongestTopics = Array.from(topicStats.entries())
+    .map(([topic, stats]) => ({
+      topic,
+      score: stats.total > 0 ? Math.round((stats.correct / stats.total) * 100) : 0,
+      total: stats.total,
+    }))
+    .sort((a, b) => b.score - a.score || b.total - a.total)
+    .slice(0, 4);
   const visibleSets =
     session.user.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
   const setGridRows = visibleSets.map((set) => {
@@ -212,7 +243,7 @@ export default async function UserProfilePage({
       slug: set.slug,
       label: `${set.order}-${problem.number}`,
       title: `${set.title} - Problem ${problem.number}`,
-      best: problemProgress.has(problem.id) ? problemProgress.get(problem.id) ?? 0 : null,
+      best: problemProgress.has(problem.id) ? (problemProgress.get(problem.id) ?? 0) : null,
     })),
   );
 
@@ -236,7 +267,10 @@ export default async function UserProfilePage({
       const bestPerSet = new Map<string, number>();
       for (const attempt of entry.attempts) {
         const pct = attempt.maxScore > 0 ? (attempt.score / attempt.maxScore) * 100 : 0;
-        bestPerSet.set(attempt.problemSetId, Math.max(bestPerSet.get(attempt.problemSetId) ?? 0, pct));
+        bestPerSet.set(
+          attempt.problemSetId,
+          Math.max(bestPerSet.get(attempt.problemSetId) ?? 0, pct),
+        );
       }
 
       return {
@@ -261,8 +295,7 @@ export default async function UserProfilePage({
       practiceScore: entry._count.practiceSolves,
     }))
     .sort(
-      (a, b) =>
-        b.practiceScore - a.practiceScore || a.displayLabel.localeCompare(b.displayLabel),
+      (a, b) => b.practiceScore - a.practiceScore || a.displayLabel.localeCompare(b.displayLabel),
     )
     .map((entry, index) => ({ ...entry, rank: index + 1 }));
 
@@ -358,6 +391,61 @@ export default async function UserProfilePage({
           <span className="profile-stat-label">Practice rank</span>
         </div>
       </div>
+
+      <section className="profile-section profile-summary-grid">
+        <article className="profile-grid-panel">
+          <h3>Strongest topics</h3>
+          {strongestTopics.length === 0 ? (
+            <p className="profile-muted">No topic data yet.</p>
+          ) : (
+            <div className="topic-stack">
+              {strongestTopics.map((topic) => (
+                <div className="topic-bar" key={topic.topic}>
+                  <div className="topic-label">
+                    <span>{topic.topic}</span>
+                    <strong>{topic.score}%</strong>
+                  </div>
+                  <div className="meter">
+                    <span className="meter-fill fill-cyan" style={{ width: `${topic.score}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </article>
+        <article className="profile-grid-panel">
+          <h3>Recent completions</h3>
+          {recentCompletions.length === 0 ? (
+            <p className="profile-muted">No completed sets yet.</p>
+          ) : (
+            <div className="profile-link-list">
+              {recentCompletions.map((set) => (
+                <Link href={`/problem-sets/${set.slug}`} key={set.slug}>
+                  {set.title}
+                  <span>{Math.round(set.best)}%</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </article>
+        <article className="profile-grid-panel">
+          <h3>Bookmarked sets</h3>
+          {user.problemSetBookmarks.length === 0 ? (
+            <p className="profile-muted">No public bookmarks yet.</p>
+          ) : (
+            <div className="profile-link-list">
+              {user.problemSetBookmarks.map((bookmark) => (
+                <Link
+                  href={`/problem-sets/${bookmark.problemSet.slug}`}
+                  key={bookmark.problemSet.slug}
+                >
+                  {bookmark.problemSet.title}
+                </Link>
+              ))}
+            </div>
+          )}
+        </article>
+      </section>
 
       <section className="profile-section">
         <div className="profile-grid-header">

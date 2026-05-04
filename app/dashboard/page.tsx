@@ -28,6 +28,7 @@ import { TypewriterGreeting } from "@/app/typewriter-greeting";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
+import { normalizeTagList } from "@/lib/problem-tags";
 
 export const dynamic = "force-dynamic";
 
@@ -101,9 +102,7 @@ export default async function DashboardPage() {
   }
 
   const visibleSets =
-    currentUser.role === "ADMIN"
-      ? allSets
-      : allSets.filter((set) => isVisibleToStudent(set));
+    currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
 
   const attemptsBySet = new Map<
     string,
@@ -142,10 +141,12 @@ export default async function DashboardPage() {
       }
     }
 
+    const topics = normalizeTagList(set.topicTags);
+
     return {
       slug: set.slug,
       title: set.title,
-      topics: set.topicTags.length > 0 ? set.topicTags : ["General"],
+      topics: topics.length > 0 ? topics : ["General"],
       status,
       bestScore,
       sortPriority: setAttempts.length > 0 ? 0 : 1,
@@ -171,11 +172,14 @@ export default async function DashboardPage() {
     currentUser.role === "ADMIN"
       ? visibleSets.reduce((sum, set) => sum + set._count.feedback, 0)
       : 0;
-  const nextSet =
-    setRows.find((row) => row.status === "Not started") ??
+  const nextUnstartedSet = setRows.find((row) => row.status === "Not started") ?? null;
+  const nextRetrySet =
     setRows
       .filter((row) => row.status === "Attempted" && row.bestScore < 80)
-      .sort((a, b) => a.bestScore - b.bestScore)[0] ??
+      .sort((a, b) => a.bestScore - b.bestScore)[0] ?? null;
+  const nextSet =
+    nextUnstartedSet ??
+    nextRetrySet ??
     setRows.find((row) => row.status === "Attempted") ??
     setRows[0] ??
     null;
@@ -192,8 +196,8 @@ export default async function DashboardPage() {
   const topicMap = new Map<string, { correct: number; total: number }>();
   for (const attempt of attempts) {
     for (const response of attempt.responses) {
-      const topics =
-        response.problem.topicTags.length > 0 ? response.problem.topicTags : ["General"];
+      const canonicalTopics = normalizeTagList(response.problem.topicTags);
+      const topics = canonicalTopics.length > 0 ? canonicalTopics : ["General"];
       for (const topic of topics) {
         const stats = topicMap.get(topic) ?? { correct: 0, total: 0 };
         stats.total += 1;
@@ -211,6 +215,14 @@ export default async function DashboardPage() {
     }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 4);
+  const weakestTopic = [...topicScores].sort((a, b) => a.score - b.score)[0]?.topic ?? null;
+  const nextSetReason = nextUnstartedSet
+    ? "new release"
+    : nextRetrySet
+      ? `retry: scored ${nextRetrySet.bestScore}%`
+      : weakestTopic
+        ? `weak topic: ${weakestTopic}`
+        : "keep momentum";
 
   const adminRows =
     currentUser.role === "ADMIN"
@@ -359,6 +371,7 @@ export default async function DashboardPage() {
             <h2>
               <TypewriterGreeting name={currentUser.displayName || currentUser.name || "there"} />
             </h2>
+            {nextSet ? <span className="next-step-reason">{nextSetReason}</span> : null}
             <div className="hero-actions">
               <Link className="primary-action" href={continueHref}>
                 {nextSet ? "Open current set" : "Import first set"}
@@ -402,6 +415,7 @@ export default async function DashboardPage() {
         </section>
 
         <section className="metric-grid" aria-label="Student progress metrics">
+          <MetricCard label="Today" value={nextSet ? "Next step" : "setup"} accent="orange" />
           <MetricCard
             label="Attempted"
             value={`${completedSets}/${totalSets || 0}`}

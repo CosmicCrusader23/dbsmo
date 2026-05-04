@@ -11,11 +11,16 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
+  const now = new Date();
   const [problems, practiceScore] = await Promise.all([
     prisma.problem.findMany({
       where: {
         problemSet: {
           status: "PUBLISHED",
+          AND: [
+            { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
+            { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
+          ],
         },
         practiceSolves: {
           none: {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { gradeAnswer, normalizeAnswer } from "../lib/grading";
+import { escapeCsvField } from "../lib/analytics";
 
 describe("normalizeAnswer", () => {
   it("normalizes integer answers", () => {
@@ -67,5 +68,11 @@ describe("gradeAnswer", () => {
     });
 
     expect(result.isCorrect).toBe(false);
+  });
+});
+
+describe("escapeCsvField", () => {
+  it("guards CSV formula values", () => {
+    expect(escapeCsvField("=IMPORTXML(1)")).toBe("'=IMPORTXML(1)");
   });
 });

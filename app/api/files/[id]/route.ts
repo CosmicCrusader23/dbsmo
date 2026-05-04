@@ -12,6 +12,14 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
+function contentDispositionFilename(name: string): string {
+  const cleaned = name
+    .replace(/[\r\n"]/g, "")
+    .replace(/[\\/]+/g, "-")
+    .trim();
+  return cleaned || "file";
+}
+
 export async function GET(_request: Request, context: RouteContext) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -40,21 +48,27 @@ export async function GET(_request: Request, context: RouteContext) {
 
   const relatedSets = [...file.problemFileFor, ...file.solutionFileFor];
   const canRead =
-    currentUser.role === "ADMIN" ||
-    relatedSets.some((set) => isVisibleToStudent(set));
+    currentUser.role === "ADMIN" || relatedSets.some((set) => isVisibleToStudent(set));
 
   if (!canRead) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  const bytes = await readFile(getFilePath(file.storageKey));
+  let bytes: Buffer;
+  try {
+    bytes = await readFile(getFilePath(file.storageKey));
+  } catch (error) {
+    console.error("Failed to read imported file:", error);
+    return NextResponse.json({ error: "Not found." }, { status: 404 });
+  }
 
-  return new NextResponse(bytes, {
+  return new NextResponse(new Blob([new Uint8Array(bytes)]), {
     headers: {
       "Content-Type": file.mimeType,
       "Content-Length": String(file.sizeBytes),
-      "Content-Disposition": `inline; filename="${file.originalName.replace(/"/g, "")}"`,
+      "Content-Disposition": `inline; filename="${contentDispositionFilename(file.originalName)}"`,
       "Cache-Control": "private, max-age=300",
+      "X-Content-Type-Options": "nosniff",
     },
   });
 }

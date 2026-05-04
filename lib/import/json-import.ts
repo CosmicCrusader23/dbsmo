@@ -8,6 +8,7 @@ import {
 import type { ImportIssue } from "./zip-dry-run";
 
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
+const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const STATUS_MAP: Record<string, ProblemSetStatus> = {
   archived: "ARCHIVED",
@@ -47,7 +48,9 @@ const jsonProblemSchema = z.object({
 });
 
 const jsonProblemSetSchema = z.object({
-  slug: z.string().min(1),
+  slug: z.string().trim().min(1).regex(PROBLEM_SET_SLUG_PATTERN, {
+    message: "Slug must use lowercase letters, numbers, and single hyphens.",
+  }),
   title: z.string().min(1),
   description: z.string().optional().default(""),
   statementFormat: z
@@ -125,11 +128,7 @@ export async function dryRunProblemSetJson(input: JsonDryRunInput): Promise<Json
   const normalized = normalizeParsedJson(parsed.data);
   const issues = validateNormalizedJson(normalized);
 
-  const { prisma } = await import("../db");
-  const existing = await prisma.problemSet.findUnique({
-    where: { slug: normalized.slug },
-    select: { id: true },
-  });
+  const existing = await findExistingProblemSet(normalized.slug);
 
   if (existing) {
     issues.push({
@@ -181,7 +180,7 @@ export async function importProblemSetJson(
   }
 
   const warnings = dryRun.issues.filter((issue) => issue.level === "warning");
-  
+
   let finalOrder = data.order;
   if (typeof finalOrder !== "number" || finalOrder <= 0) {
     const maxOrderResult = await prisma.problemSet.aggregate({ _max: { order: true } });
@@ -252,6 +251,18 @@ function parseJson(
   }
 
   return { ok: true, data: result.data };
+}
+
+async function findExistingProblemSet(slug: string): Promise<{ id: string } | null> {
+  if (!process.env.DATABASE_URL) {
+    return null;
+  }
+
+  const { prisma } = await import("../db");
+  return prisma.problemSet.findUnique({
+    where: { slug },
+    select: { id: true },
+  });
 }
 
 function normalizeParsedJson(data: ParsedProblemSetJson) {
