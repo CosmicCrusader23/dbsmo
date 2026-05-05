@@ -5,11 +5,18 @@ import { ArrowLeft, MessageSquareWarning } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { ThemeToggle } from "@/app/theme-toggle";
+import { hasPermission } from "@/lib/permissions";
 import { FeedbackActions } from "./feedback-actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminFeedbackPage() {
+type FeedbackSearchParams = Promise<{ page?: string }>;
+
+export default async function AdminFeedbackPage({
+  searchParams,
+}: {
+  searchParams?: FeedbackSearchParams;
+}) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/");
 
@@ -17,7 +24,7 @@ export default async function AdminFeedbackPage() {
     where: { id: session.user.id },
     select: { role: true },
   });
-  if (!user || user.role !== "ADMIN") {
+  if (!user || !hasPermission(user.role, "admin:feedback")) {
     return (
       <main className="single-page">
         <div className="page-frame">
@@ -32,6 +39,10 @@ export default async function AdminFeedbackPage() {
       </main>
     );
   }
+
+  const params = (await searchParams) ?? {};
+  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const pageSize = 25;
 
   const reports = await prisma.feedbackReport.findMany({
     orderBy: { createdAt: "desc" },
@@ -49,6 +60,9 @@ export default async function AdminFeedbackPage() {
     resolved: reports.filter((r) => r.status === "RESOLVED").length,
     rejected: reports.filter((r) => r.status === "REJECTED").length,
   };
+  const totalPages = Math.max(1, Math.ceil(reports.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedReports = reports.slice((safePage - 1) * pageSize, safePage * pageSize);
 
   return (
     <main className="single-page">
@@ -114,7 +128,7 @@ export default async function AdminFeedbackPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {reports.map((report) => (
+                  {paginatedReports.map((report) => (
                     <tr key={report.id}>
                       <td>{report.user.name ?? report.user.email}</td>
                       <td>
@@ -162,6 +176,25 @@ export default async function AdminFeedbackPage() {
                 </tbody>
               </table>
             </div>
+            {totalPages > 1 ? (
+              <div className="pagination-row">
+                <Link
+                  className="secondary-action compact"
+                  href={`/admin/feedback${safePage > 2 ? `?page=${safePage - 1}` : ""}`}
+                >
+                  Previous
+                </Link>
+                <span>
+                  Page {safePage} of {totalPages}
+                </span>
+                <Link
+                  className="secondary-action compact"
+                  href={`/admin/feedback?page=${Math.min(totalPages, safePage + 1)}`}
+                >
+                  Next
+                </Link>
+              </div>
+            ) : null}
           </section>
         )}
       </div>

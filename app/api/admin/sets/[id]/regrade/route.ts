@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { gradeAnswer, AnswerType } from "@/lib/grading";
 import { authOptions } from "@/lib/auth";
+import { recordAuditLog } from "@/lib/audit";
+import { hasPermission } from "@/lib/permissions";
 
 export const runtime = "nodejs";
 
@@ -10,7 +12,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   try {
     const { id: problemSetId } = await params;
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id || session.user.role !== "ADMIN") {
+    if (!session?.user?.id || !hasPermission(session.user.role, "admin:content")) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
@@ -75,6 +77,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
           updatedAttempts++;
         }
       }
+    });
+
+    await recordAuditLog({
+      actorId: session.user.id,
+      action: "problem_set.regrade",
+      targetType: "ProblemSet",
+      targetId: problemSetId,
+      metadata: { updatedAttempts, totalAttempts: attempts.length },
     });
 
     return NextResponse.json({ ok: true, updatedAttempts, totalAttempts: attempts.length });

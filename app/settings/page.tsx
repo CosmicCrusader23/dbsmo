@@ -49,6 +49,8 @@ interface UserProfile {
   avatarUrl: string | null;
   role: string;
   group: string | null;
+  profileVisible: boolean;
+  leaderboardVisible: boolean;
   stats?: {
     attemptedSets: number;
     totalAttempts: number;
@@ -61,6 +63,8 @@ export default function SettingsPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [displayName, setDisplayName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [profileVisible, setProfileVisible] = useState(true);
+  const [leaderboardVisible, setLeaderboardVisible] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -103,6 +107,8 @@ export default function SettingsPage() {
           setUser(data.user);
           setDisplayName(data.user.displayName || "");
           setAvatarUrl(data.user.avatarUrl || "");
+          setProfileVisible(data.user.profileVisible ?? true);
+          setLeaderboardVisible(data.user.leaderboardVisible ?? true);
         }
       })
       .catch(() => setError("Failed to load profile."))
@@ -129,6 +135,8 @@ export default function SettingsPage() {
         body: JSON.stringify({
           displayName: displayName.trim() || null,
           avatarUrl: avatarUrl.trim() || null,
+          profileVisible,
+          leaderboardVisible,
         }),
       });
 
@@ -318,6 +326,31 @@ export default function SettingsPage() {
               </button>
             </div>
             <small className="form-hint">Saved on this browser.</small>
+          </div>
+
+          <div className="settings-row">
+            <label>Privacy</label>
+            <div className="settings-toggle-list">
+              <label className="settings-toggle-row">
+                <input
+                  checked={profileVisible}
+                  type="checkbox"
+                  onChange={(event) => setProfileVisible(event.target.checked)}
+                />
+                <span>Show my public profile to other students</span>
+              </label>
+              <label className="settings-toggle-row">
+                <input
+                  checked={leaderboardVisible}
+                  type="checkbox"
+                  onChange={(event) => setLeaderboardVisible(event.target.checked)}
+                />
+                <span>Include me on leaderboards</span>
+              </label>
+            </div>
+            <small className="form-hint">
+              Teachers can still view training records for class management.
+            </small>
           </div>
 
           {avatarUrl ? (

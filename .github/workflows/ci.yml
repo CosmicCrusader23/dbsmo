@@ -9,13 +9,70 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: dbsmo
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      AUTH_DEV_BYPASS: "true"
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dbsmo?schema=public
+      GOOGLE_CLIENT_ID: ""
+      GOOGLE_CLIENT_SECRET: ""
+      LOCAL_STORAGE_ROOT: ./storage
+      NEXTAUTH_SECRET: ci-only-nextauth-secret
+      NEXTAUTH_URL: http://localhost:3001
+      SCHOOL_EMAIL_DOMAINS: g.dbs.edu.hk
+      STORAGE_DRIVER: local
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+      - uses: astral-sh/setup-uv@v5
       - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: npm run db:seed
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test
+      - run: npm run build
+      - run: python3 -m py_compile tests/browser_harness_smoke.py
+      - name: Browser harness E2E
+        run: |
+          git clone https://github.com/browser-use/browser-harness /tmp/browser-harness
+          uv tool install -e /tmp/browser-harness
+          export PATH="$HOME/.local/bin:$PATH"
+
+          npm run dev -- --port 3001 > /tmp/dbsmo-next.log 2>&1 &
+          SERVER_PID=$!
+
+          CHROME_BIN="$(command -v google-chrome || command -v chromium-browser || command -v chromium)"
+          "$CHROME_BIN" --headless=new --no-sandbox --disable-gpu --remote-debugging-port=9222 --user-data-dir=/tmp/dbsmo-chrome about:blank > /tmp/dbsmo-chrome.log 2>&1 &
+          CHROME_PID=$!
+
+          cleanup() {
+            kill "$SERVER_PID" "$CHROME_PID" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          for _ in {1..90}; do
+            if curl -fsS http://localhost:3001 >/dev/null 2>&1; then
+              break
+            fi
+            sleep 1
+          done
+          curl -fsS http://localhost:3001 >/dev/null
+
+          BU_NAME=dbsmo-ci BU_CDP_URL=http://127.0.0.1:9222 BASE_URL=http://localhost:3001 browser-harness -c 'exec(open("tests/browser_harness_smoke.py").read())'
+          fi

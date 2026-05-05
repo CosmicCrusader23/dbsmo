@@ -38,6 +38,8 @@ export async function GET() {
         avatarUrl: true,
         role: true,
         group: true,
+        profileVisible: true,
+        leaderboardVisible: true,
         attempts: {
           select: { score: true, maxScore: true, problemSetId: true },
         },
@@ -88,13 +90,18 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    let body: { displayName?: unknown; avatarUrl?: unknown };
+    let body: {
+      avatarUrl?: unknown;
+      displayName?: unknown;
+      leaderboardVisible?: unknown;
+      profileVisible?: unknown;
+    };
     try {
-      body = (await req.json()) as { displayName?: unknown; avatarUrl?: unknown };
+      body = (await req.json()) as typeof body;
     } catch {
       return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
     }
-    const { displayName, avatarUrl } = body;
+    const { displayName, avatarUrl, profileVisible, leaderboardVisible } = body;
     const normalizedAvatarUrl = normalizeAvatarUrl(avatarUrl);
 
     if (displayName !== undefined && displayName !== null) {
@@ -127,6 +134,9 @@ export async function PATCH(req: Request) {
       data: {
         displayName: displayName !== undefined ? String(displayName).trim() || null : undefined,
         avatarUrl: normalizedAvatarUrl,
+        profileVisible: typeof profileVisible === "boolean" ? profileVisible : undefined,
+        leaderboardVisible:
+          typeof leaderboardVisible === "boolean" ? leaderboardVisible : undefined,
       },
       select: {
         id: true,
@@ -136,6 +146,8 @@ export async function PATCH(req: Request) {
         avatarUrl: true,
         role: true,
         group: true,
+        profileVisible: true,
+        leaderboardVisible: true,
       },
     });
 

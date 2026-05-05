@@ -11,6 +11,7 @@ import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { isStaffRole } from "@/lib/permissions";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
 
@@ -71,6 +72,8 @@ export default async function UserProfilePage({
       avatarUrl: true,
       role: true,
       group: true,
+      profileVisible: true,
+      leaderboardVisible: true,
       createdAt: true,
       practiceSolves: {
         select: {
@@ -135,6 +138,31 @@ export default async function UserProfilePage({
   });
 
   const isOwnProfile = user.id === session.user.id;
+  const canViewPrivateProfile = isOwnProfile || isStaffRole(session.user.role);
+  if (!user.profileVisible && !canViewPrivateProfile) {
+    return (
+      <main className="profile-shell">
+        <header className="profile-header">
+          <div className="topbar-actions">
+            <Link className="secondary-action" href="/users">
+              <ArrowLeft size={16} />
+              All users
+            </Link>
+            <Link className="secondary-action" href="/dashboard">
+              <ArrowLeft size={16} />
+              Dashboard
+            </Link>
+          </div>
+        </header>
+        <section className="profile-section">
+          <div className="profile-grid-panel">
+            <h1>Profile hidden</h1>
+            <p className="profile-muted">This user has chosen not to show their public profile.</p>
+          </div>
+        </section>
+      </main>
+    );
+  }
   const [friendRequesterId, friendReceiverId] = [session.user.id, user.id].sort() as [
     string,
     string,
@@ -253,6 +281,7 @@ export default async function UserProfilePage({
       email: true,
       name: true,
       displayName: true,
+      leaderboardVisible: true,
       attempts: {
         select: { score: true, maxScore: true, problemSetId: true },
       },
@@ -263,6 +292,10 @@ export default async function UserProfilePage({
   });
 
   const standardRows = leaderboardUsers
+    .filter(
+      (entry) =>
+        entry.leaderboardVisible || entry.id === session.user.id || isStaffRole(session.user.role),
+    )
     .map((entry) => {
       const bestPerSet = new Map<string, number>();
       for (const attempt of entry.attempts) {
@@ -289,6 +322,10 @@ export default async function UserProfilePage({
     .map((entry, index) => ({ ...entry, rank: index + 1 }));
 
   const practiceRows = leaderboardUsers
+    .filter(
+      (entry) =>
+        entry.leaderboardVisible || entry.id === session.user.id || isStaffRole(session.user.role),
+    )
     .map((entry) => ({
       id: entry.id,
       displayLabel: entry.displayName || entry.name || "Anonymous",

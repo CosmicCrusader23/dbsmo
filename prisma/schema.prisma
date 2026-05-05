@@ -8,7 +8,23 @@ datasource db {
 
 enum UserRole {
   STUDENT
+  TEACHER
+  CONTENT_EDITOR
+  ANALYST
   ADMIN
+}
+
+enum ExportJobStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum ExportJobType {
+  ATTEMPTS_CSV
+  STUDENTS_CSV
+  BACKUP_JSON
 }
 
 enum ProblemSetStatus {
@@ -57,6 +73,8 @@ model User {
   avatarUrl           String?
   role                UserRole             @default(STUDENT)
   group               String?
+  profileVisible      Boolean              @default(true)
+  leaderboardVisible  Boolean              @default(true)
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   lastLoginAt         DateTime?
@@ -70,6 +88,8 @@ model User {
   sentFriendships     Friendship[]         @relation("FriendshipRequester")
   receivedFriendships Friendship[]         @relation("FriendshipReceiver")
   practiceSolves      PracticeSolve[]
+  auditLogs           AuditLog[]           @relation("AuditLogActor")
+  exportJobs          ExportJob[]          @relation("ExportJobRequester")
 }
 
 model Friendship {
@@ -224,6 +244,37 @@ model ImportedFile {
   uploadedBy      User         @relation(fields: [uploadedById], references: [id])
   problemFileFor  ProblemSet[] @relation("ProblemFile")
   solutionFileFor ProblemSet[] @relation("SolutionFile")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  targetType String?
+  targetId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+  actor      User?    @relation("AuditLogActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+}
+
+model ExportJob {
+  id            String          @id @default(cuid())
+  type          ExportJobType
+  status        ExportJobStatus @default(PENDING)
+  requestedById String
+  fileName      String?
+  mimeType      String?
+  payload       Json?
+  error         String?
+  createdAt     DateTime        @default(now())
+  completedAt   DateTime?
+  requestedBy   User            @relation("ExportJobRequester", fields: [requestedById], references: [id], onDelete: Cascade)
+
+  @@index([requestedById, createdAt])
+  @@index([status, createdAt])
 }
 
 model Account {

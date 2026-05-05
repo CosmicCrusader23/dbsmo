@@ -35,9 +35,7 @@ export default async function LandingPage() {
           <section className="login-copy">
             <p className="eyebrow">Diocesan Boys&apos; School Mathematics Olympiad</p>
             <h1>sign in to proceed.</h1>
-            <p className="login-copy-text">
-              math olympiad training platform.
-            </p>
+            <p className="login-copy-text">math olympiad training platform.</p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
@@ -46,12 +44,7 @@ export default async function LandingPage() {
               <h2>with your school gmail</h2>
             </div>
 
-            <AuthButton
-              canUseGoogle={googleAuthEnabled}
-              mode="stacked"
-              session={session}
-            />
-
+            <AuthButton canUseGoogle={googleAuthEnabled} mode="stacked" session={session} />
           </aside>
         </div>
 

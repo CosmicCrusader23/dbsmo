@@ -2,20 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ShieldAlert, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 
-export function PromoteUserButton({
-  userId,
-  currentRole,
-}: {
-  userId: string;
-  currentRole: "ADMIN" | "STUDENT";
-}) {
+type Role = "STUDENT" | "TEACHER" | "CONTENT_EDITOR" | "ANALYST" | "ADMIN";
+
+const ROLE_OPTIONS: Role[] = ["STUDENT", "TEACHER", "CONTENT_EDITOR", "ANALYST", "ADMIN"];
+
+export function PromoteUserButton({ userId, currentRole }: { userId: string; currentRole: Role }) {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function updateRole(role: "ADMIN" | "STUDENT") {
+  async function updateRole(role: Role) {
     setIsSaving(true);
     setError(null);
 
@@ -28,9 +26,7 @@ export function PromoteUserButton({
 
       if (!response.ok) {
         const body = await response.json();
-        setError(
-          body.error ?? (role === "ADMIN" ? "Could not promote user." : "Could not demote user."),
-        );
+        setError(body.error ?? "Could not update role.");
         return;
       }
 
@@ -44,27 +40,21 @@ export function PromoteUserButton({
 
   return (
     <div className="profile-admin-actions">
-      {currentRole === "STUDENT" ? (
-        <button
-          className="primary-action"
-          type="button"
+      <label className="role-select-control">
+        <span>Role</span>
+        <select
           disabled={isSaving}
-          onClick={() => updateRole("ADMIN")}
+          value={currentRole}
+          onChange={(event) => updateRole(event.target.value as Role)}
         >
-          <ShieldCheck size={16} />
-          {isSaving ? "Promoting..." : "Promote to admin"}
-        </button>
-      ) : (
-        <button
-          className="secondary-action"
-          type="button"
-          disabled={isSaving}
-          onClick={() => updateRole("STUDENT")}
-        >
-          <ShieldAlert size={16} />
-          {isSaving ? "Demoting..." : "Demote admin"}
-        </button>
-      )}
+          {ROLE_OPTIONS.map((role) => (
+            <option key={role} value={role}>
+              {role.replace(/_/g, " ")}
+            </option>
+          ))}
+        </select>
+      </label>
+      <ShieldCheck size={16} />
       {error ? <span className="form-error">{error}</span> : null}
     </div>
   );

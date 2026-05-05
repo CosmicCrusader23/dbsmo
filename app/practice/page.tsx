@@ -29,15 +29,15 @@ export default function PracticePage() {
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [loadingTags, setLoadingTags] = useState(true);
-  
+
   const [problem, setProblem] = useState<Problem | null>(null);
   const [loadingProblem, setLoadingProblem] = useState(false);
   const [problemMessage, setProblemMessage] = useState<string | null>(null);
-  
+
   const [answer, setAnswer] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  
+
   const [practiceScore, setPracticeScore] = useState(0);
 
   async function refreshPracticeTags() {
@@ -81,7 +81,7 @@ export default function PracticePage() {
     setProblemMessage(null);
     setAnswer("");
     setIsCorrect(null);
-    
+
     fetch(`/api/practice/next?tag=${encodeURIComponent(tag)}`)
       .then((res) => res.json())
       .then((data) => {
@@ -115,7 +115,7 @@ export default function PracticePage() {
     if (!problem || !answer.trim() || isSubmitting || isCorrect) return;
 
     setIsSubmitting(true);
-    
+
     try {
       const res = await fetch("/api/practice/submit", {
         method: "POST",
@@ -123,7 +123,7 @@ export default function PracticePage() {
         body: JSON.stringify({ problemId: problem.id, answer }),
       });
       const data = await res.json();
-      
+
       if (data.isCorrect) {
         setIsCorrect(true);
         if (typeof data.practiceScore === "number") {
@@ -182,9 +182,10 @@ export default function PracticePage() {
             <Target size={48} style={{ margin: "0 auto 20px", color: "var(--color-pink)" }} />
             <h2 style={{ fontSize: "1.8rem", marginBottom: 10 }}>Select a Category</h2>
             <p style={{ color: "var(--color-muted)", marginBottom: 30 }}>
-              Focus your training on specific topics. Only tags with more than 10 questions are shown.
+              Focus your training on specific topics. Only tags with more than 10 questions are
+              shown.
             </p>
-            
+
             {loadingTags ? (
               <div style={{ display: "flex", justifyContent: "center", padding: 40 }}>
                 <Loader2 className="spin-icon" size={32} color="var(--color-muted)" />
@@ -226,7 +227,7 @@ export default function PracticePage() {
         ) : (
           <div>
             <div style={{ marginBottom: 20 }}>
-              <button 
+              <button
                 onClick={() => {
                   setSelectedTag(null);
                   void refreshPracticeTags();
@@ -236,9 +237,18 @@ export default function PracticePage() {
                 ← Back to categories
               </button>
             </div>
-            
+
             <section className="panel" style={{ padding: 30 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, borderBottom: "1px solid var(--color-border)", paddingBottom: 15 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: 20,
+                  borderBottom: "1px solid var(--color-border)",
+                  paddingBottom: 15,
+                }}
+              >
                 <div>
                   <p className="eyebrow">Category</p>
                   <h2 style={{ textTransform: "capitalize" }}>{selectedTag}</h2>
@@ -246,11 +256,13 @@ export default function PracticePage() {
                 {problem && (
                   <div style={{ textAlign: "right" }}>
                     <p className="eyebrow">Source</p>
-                    <p style={{ fontWeight: 800, color: "var(--color-muted)" }}>{problem.problemSet.title}</p>
+                    <p style={{ fontWeight: 800, color: "var(--color-muted)" }}>
+                      {problem.problemSet.title}
+                    </p>
                   </div>
                 )}
               </div>
-              
+
               {loadingProblem ? (
                 <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
                   <Loader2 className="spin-icon" size={40} color="var(--color-muted)" />
@@ -276,8 +288,11 @@ export default function PracticePage() {
                   <div className="statement-text" style={{ fontSize: "1.2rem", marginBottom: 30 }}>
                     <LatexStatement statement={problem.statement} format={problem.contentFormat} />
                   </div>
-                  
-                  <form onSubmit={submitAnswer} style={{ display: "flex", gap: 15, alignItems: "center", flexWrap: "wrap" }}>
+
+                  <form
+                    onSubmit={submitAnswer}
+                    style={{ display: "flex", gap: 15, alignItems: "center", flexWrap: "wrap" }}
+                  >
                     <input
                       type="text"
                       className="form-input"
@@ -290,12 +305,16 @@ export default function PracticePage() {
                     />
                     {isCorrect !== true ? (
                       <>
-                        <button 
-                          type="submit" 
-                          className="primary-action" 
+                        <button
+                          type="submit"
+                          className="primary-action"
                           disabled={!answer.trim() || isSubmitting}
                         >
-                          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <Crosshair size={18} />}
+                          {isSubmitting ? (
+                            <Loader2 size={18} className="spin-icon" />
+                          ) : (
+                            <Crosshair size={18} />
+                          )}
                           Submit
                         </button>
                         <button
@@ -319,15 +338,41 @@ export default function PracticePage() {
                       </button>
                     )}
                   </form>
-                  
+
                   {isCorrect === true && (
-                    <div style={{ marginTop: 20, padding: 15, background: "rgba(0, 210, 180, 0.15)", border: "1px solid var(--color-success)", borderRadius: 12, color: "var(--color-success)", display: "flex", alignItems: "center", gap: 10, fontWeight: 800 }}>
+                    <div
+                      style={{
+                        marginTop: 20,
+                        padding: 15,
+                        background: "rgba(0, 210, 180, 0.15)",
+                        border: "1px solid var(--color-success)",
+                        borderRadius: 12,
+                        color: "var(--color-success)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        fontWeight: 800,
+                      }}
+                    >
                       <CheckCircle2 size={24} />
                       Correct! Great job.
                     </div>
                   )}
                   {isCorrect === false && (
-                    <div style={{ marginTop: 20, padding: 15, background: "rgba(255, 80, 100, 0.15)", border: "1px solid var(--color-danger)", borderRadius: 12, color: "var(--color-danger)", display: "flex", alignItems: "center", gap: 10, fontWeight: 800 }}>
+                    <div
+                      style={{
+                        marginTop: 20,
+                        padding: 15,
+                        background: "rgba(255, 80, 100, 0.15)",
+                        border: "1px solid var(--color-danger)",
+                        borderRadius: 12,
+                        color: "var(--color-danger)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 10,
+                        fontWeight: 800,
+                      }}
+                    >
                       <XCircle size={24} />
                       Incorrect. Try again!
                     </div>

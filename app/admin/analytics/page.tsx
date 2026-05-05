@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { ArrowLeft, Download, Flame } from "lucide-react";
 import { Prisma } from "@prisma/client";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { authOptions } from "@/lib/auth";
 import { computeTopicAccuracy, computeQuestionStats, accuracyLevel } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
+import { hasPermission } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
 type AnalyticsSearchParams = Promise<{
   from?: string;
+  group?: string;
   set?: string;
   student?: string;
   to?: string;
@@ -30,6 +35,10 @@ export default async function AnalyticsOverviewPage({
 }: {
   searchParams?: AnalyticsSearchParams;
 }) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:analytics")) redirect("/dashboard");
+
   const params = (await searchParams) ?? {};
   const fromDate = parseDateParam(params.from);
   const toDate = parseDateParam(params.to, true);
@@ -38,7 +47,7 @@ export default async function AnalyticsOverviewPage({
     prisma.problemSet.findMany({ select: { id: true, title: true, slug: true } }),
     prisma.user.findMany({
       where: { role: "STUDENT" },
-      select: { id: true, name: true, email: true, displayName: true },
+      select: { id: true, name: true, email: true, displayName: true, group: true },
       orderBy: { name: "asc" },
     }),
     prisma.problem.findMany({ select: { topicTags: true } }),
@@ -46,7 +55,13 @@ export default async function AnalyticsOverviewPage({
 
   const selectedSet = problemSets.find((set) => set.slug === params.set) ?? null;
   const selectedTopic = params.topic?.trim() || "";
+  const selectedGroup = params.group?.trim() || "";
   const selectedStudent = students.find((student) => student.id === params.student) ?? null;
+  const groupOptions = Array.from(
+    new Set(
+      students.map((student) => student.group).filter((group): group is string => Boolean(group)),
+    ),
+  ).sort((a, b) => a.localeCompare(b));
   const topicOptions = normalizeTagList(allProblems.flatMap((problem) => problem.topicTags)).sort(
     (a, b) => a.localeCompare(b),
   );
@@ -58,10 +73,11 @@ export default async function AnalyticsOverviewPage({
 
   const responseWhere: Prisma.ResponseWhereInput = {
     ...(Object.keys(problemWhere).length > 0 ? { problem: problemWhere } : {}),
-    ...(selectedStudent || fromDate || toDate
+    ...(selectedStudent || selectedGroup || fromDate || toDate
       ? {
           attempt: {
             ...(selectedStudent ? { userId: selectedStudent.id } : {}),
+            ...(selectedGroup ? { user: { group: selectedGroup } } : {}),
             ...(fromDate || toDate
               ? {
                   submittedAt: {
@@ -78,6 +94,7 @@ export default async function AnalyticsOverviewPage({
   const attemptWhere: Prisma.AttemptWhereInput = {
     ...(selectedSet ? { problemSetId: selectedSet.id } : {}),
     ...(selectedStudent ? { userId: selectedStudent.id } : {}),
+    ...(selectedGroup ? { user: { group: selectedGroup } } : {}),
     ...(fromDate || toDate
       ? {
           submittedAt: {
@@ -186,6 +203,31 @@ export default async function AnalyticsOverviewPage({
     })
     .filter((question) => question.reasons.length > 0)
     .slice(0, 6);
+  const trendBuckets = new Map<string, { attempts: number; completions: number }>();
+  const trendNow = new Date();
+  for (let offset = 5; offset >= 0; offset--) {
+    const start = new Date(trendNow);
+    start.setDate(start.getDate() - offset * 7);
+    const key = `${start.getMonth() + 1}/${start.getDate()}`;
+    trendBuckets.set(key, { attempts: 0, completions: 0 });
+  }
+  for (const attempt of attempts) {
+    const ageDays = Math.floor((trendNow.getTime() - attempt.submittedAt.getTime()) / 86_400_000);
+    if (ageDays < 0 || ageDays > 41) continue;
+    const bucketStart = new Date(trendNow);
+    bucketStart.setDate(bucketStart.getDate() - Math.floor(ageDays / 7) * 7);
+    const key = `${bucketStart.getMonth() + 1}/${bucketStart.getDate()}`;
+    const bucket = trendBuckets.get(key) ?? { attempts: 0, completions: 0 };
+    bucket.attempts += 1;
+    if (attempt.maxScore > 0 && attempt.score / attempt.maxScore >= 0.8) {
+      bucket.completions += 1;
+    }
+    trendBuckets.set(key, bucket);
+  }
+  const trendRows = Array.from(trendBuckets.entries()).map(([label, bucket]) => ({
+    label,
+    ...bucket,
+  }));
 
   return (
     <main className="single-page">
@@ -231,6 +273,14 @@ export default async function AnalyticsOverviewPage({
               </option>
             ))}
           </select>
+          <select aria-label="Filter by cohort" name="group" defaultValue={selectedGroup}>
+            <option value="">All cohorts</option>
+            {groupOptions.map((group) => (
+              <option key={group} value={group}>
+                {group}
+              </option>
+            ))}
+          </select>
           <select aria-label="Filter by topic" name="topic" defaultValue={selectedTopic}>
             <option value="">All topics</option>
             {topicOptions.map((topic) => (
@@ -244,7 +294,12 @@ export default async function AnalyticsOverviewPage({
           <button className="secondary-action compact" type="submit">
             Filter
           </button>
-          {selectedSet || selectedStudent || selectedTopic || params.from || params.to ? (
+          {selectedSet ||
+          selectedStudent ||
+          selectedGroup ||
+          selectedTopic ||
+          params.from ||
+          params.to ? (
             <Link className="text-link" href="/admin/analytics">
               Clear
             </Link>
@@ -280,6 +335,28 @@ export default async function AnalyticsOverviewPage({
             <small>Last 7 days</small>
             <strong>{recentAttemptCount}</strong>
           </article>
+        </section>
+
+        <section className="panel table-panel">
+          <div className="panel-header">
+            <div>
+              <p className="eyebrow">Completion trends</p>
+              <h2>Last 6 weeks</h2>
+            </div>
+          </div>
+          <div className="trend-strip">
+            {trendRows.map((row) => (
+              <div className="trend-bar" key={row.label}>
+                <span
+                  style={{
+                    height: `${Math.max(8, Math.min(100, row.attempts * 14))}%`,
+                  }}
+                />
+                <strong>{row.completions}</strong>
+                <small>{row.label}</small>
+              </div>
+            ))}
+          </div>
         </section>
         <section className="heatmap-section">
           <div className="panel-header">

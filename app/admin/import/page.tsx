@@ -1,9 +1,17 @@
 import Link from "next/link";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 import { ArrowLeft, FileJson } from "lucide-react";
+import { authOptions } from "@/lib/auth";
+import { hasPermission } from "@/lib/permissions";
 import { JsonZipImportPanel } from "./json-zip-import-panel";
 import { ZipImportPanel } from "./zip-import-panel";
 
-export default function ImportPage() {
+export default async function ImportPage() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:content")) redirect("/dashboard");
+
   return (
     <main className="single-page">
       <div className="background-layers" aria-hidden="true">

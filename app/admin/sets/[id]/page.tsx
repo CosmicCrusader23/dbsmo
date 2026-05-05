@@ -1,5 +1,8 @@
-import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { notFound, redirect } from "next/navigation";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { hasPermission } from "@/lib/permissions";
 import { SetEditForm } from "./set-edit-form";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +12,10 @@ type SetDetailPageProps = {
 };
 
 export default async function SetDetailPage({ params }: SetDetailPageProps) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:content")) redirect("/dashboard");
+
   const { id } = await params;
 
   const set = await prisma.problemSet.findUnique({

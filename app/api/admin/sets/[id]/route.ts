@@ -1,61 +1,18 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
-import {
-  isSupportedProblemContentFormat,
-  normalizeProblemContentFormat,
-} from "@/lib/problem-content-format";
 import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
+import { recordAuditLog } from "@/lib/audit";
+import {
+  assertUniqueProblemNumbers,
+  normalizeAuthoringProblem,
+  patchProblemSetAuthoringSchema,
+} from "@/lib/problem-set-authoring";
+import { hasPermission } from "@/lib/permissions";
 
 export const runtime = "nodejs";
-
-const answerTypeSchema = z.enum([
-  "EXACT",
-  "INTEGER",
-  "DECIMAL",
-  "FRACTION",
-  "SET",
-  "MULTIPLE",
-  "EXPRESSION",
-]);
-
-const problemPatchSchema = z.object({
-  id: z.string().min(1).optional(),
-  number: z.number().int().positive().optional(),
-  statement: z.string().optional(),
-  contentFormat: z
-    .string()
-    .optional()
-    .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
-      message: "Invalid contentFormat. Use LATEX or HTML.",
-    }),
-  answerKey: z.string().min(1),
-  answerType: answerTypeSchema,
-  topicTags: z.array(z.string().min(1)).optional(),
-  points: z.number().int().positive().optional(),
-  explanationNote: z.string().nullable().optional(),
-});
-
-const patchSchema = z.object({
-  title: z.string().min(1).optional(),
-  description: z.string().optional(),
-  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
-  order: z.number().int().positive().optional(),
-  difficulty: z.number().int().min(1).max(5).optional(),
-  topicTags: z.array(z.string().min(1)).optional(),
-  videoUrl: z.string().url().nullable().optional(),
-  problemPdf: z
-    .object({
-      name: z.string().min(1),
-      dataUrl: z.string().min(1),
-    })
-    .nullable()
-    .optional(),
-  problems: z.array(problemPatchSchema).min(1).optional(),
-});
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -66,7 +23,7 @@ export async function GET(_request: Request, context: RouteContext) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
-  if (session.user.role !== "ADMIN") {
+  if (!hasPermission(session.user.role, "admin:content")) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
@@ -93,7 +50,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
-  if (session.user.role !== "ADMIN") {
+  if (!hasPermission(session.user.role, "admin:content")) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
@@ -101,7 +58,7 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   const existing = await prisma.problemSet.findUnique({
     where: { id },
-    select: { id: true },
+    select: { id: true, status: true, slug: true },
   });
 
   if (!existing) {
@@ -115,7 +72,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
 
-  const result = patchSchema.safeParse(body);
+  const result = patchProblemSetAuthoringSchema.safeParse(body);
   if (!result.success) {
     return NextResponse.json(
       { error: "Validation failed.", details: result.error.flatten() },
@@ -130,13 +87,9 @@ export async function PATCH(request: Request, context: RouteContext) {
   };
 
   if (problems) {
-    const numbers = problems.map((problem, index) => problem.number ?? index + 1);
-    const duplicateNumber = numbers.find((number, index) => numbers.indexOf(number) !== index);
-    if (duplicateNumber) {
-      return NextResponse.json(
-        { error: `Problem number ${duplicateNumber} is duplicated.` },
-        { status: 422 },
-      );
+    const duplicateNumberError = assertUniqueProblemNumbers(problems);
+    if (duplicateNumberError) {
+      return NextResponse.json({ error: duplicateNumberError }, { status: 422 });
     }
 
     const ids = problems.map((problem) => problem.id).filter(Boolean);
@@ -197,16 +150,7 @@ export async function PATCH(request: Request, context: RouteContext) {
       });
 
       for (const [index, problem] of problems.entries()) {
-        const data = {
-          number: problem.number ?? index + 1,
-          statement: problem.statement?.trim() ?? "",
-          contentFormat: normalizeProblemContentFormat(problem.contentFormat),
-          answerKey: problem.answerKey.trim(),
-          answerType: problem.answerType,
-          topicTags: normalizeTagList(problem.topicTags ?? []),
-          points: problem.points ?? 1,
-          explanationNote: problem.explanationNote?.trim() ?? null,
-        };
+        const data = normalizeAuthoringProblem(problem, index);
 
         if (problem.id && existingIds.has(problem.id)) {
           await tx.problem.update({
@@ -227,6 +171,14 @@ export async function PATCH(request: Request, context: RouteContext) {
     return updatedSet;
   });
 
+  await recordAuditLog({
+    actorId: session.user.id,
+    action: existing.status !== updated.status ? "problem_set.publish_state" : "problem_set.update",
+    targetType: "ProblemSet",
+    targetId: updated.id,
+    metadata: { slug: existing.slug, fromStatus: existing.status, toStatus: updated.status },
+  });
+
   return NextResponse.json(updated);
 }
 
@@ -235,7 +187,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
-  if (session.user.role !== "ADMIN") {
+  if (!hasPermission(session.user.role, "admin:content")) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
@@ -259,6 +211,14 @@ export async function DELETE(_request: Request, context: RouteContext) {
 
   await prisma.problemSet.delete({
     where: { id },
+  });
+
+  await recordAuditLog({
+    actorId: session.user.id,
+    action: "problem_set.delete",
+    targetType: "ProblemSet",
+    targetId: existing.id,
+    metadata: { title: existing.title, status: existing.status },
   });
 
   return NextResponse.json({

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { dryRunProblemSetJson } from "@/lib/import/json-import";
 import { authOptions } from "@/lib/auth";
+import { hasPermission } from "@/lib/permissions";
 
 export const runtime = "nodejs";
 
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
-  if (session.user.role !== "ADMIN") {
+  if (!hasPermission(session.user.role, "admin:content")) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 

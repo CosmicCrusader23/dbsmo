@@ -1,0 +1,30 @@
+{
+  "slug": "e2e-browser-harness-set",
+  "title": "E2E Browser Harness Set",
+  "description": "Seed fixture for browser-harness smoke coverage.",
+  "statementFormat": "LATEX",
+  "order": 9901,
+  "status": "PUBLISHED",
+  "topicTags": ["algebra", "number_theory"],
+  "difficulty": 2,
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Compute $20+26$.",
+      "answerType": "INTEGER",
+      "answerKey": "46",
+      "topicTags": ["algebra"],
+      "points": 1,
+      "solution": "Add the two integers directly."
+    },
+    {
+      "number": 2,
+      "statement": "Find the remainder when $29$ is divided by $5$.",
+      "answerType": "INTEGER",
+      "answerKey": "4",
+      "topicTags": ["number_theory"],
+      "points": 1,
+      "solution": "$29=5\\cdot 5+4$."
+    }
+  ]
+}

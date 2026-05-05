@@ -18,23 +18,12 @@ import {
   FileText,
   Upload,
 } from "lucide-react";
-import {
-  STANDARD_PROBLEM_SET_TAGS,
-  normalizeProblemTag,
-  normalizeTagList,
-} from "@/lib/problem-tags";
+import { CANONICAL_TAGS, normalizeProblemTag, normalizeTagList } from "@/lib/problem-tags";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 /* ── Types ─────────────────────────────────────────────── */
 
-type AnswerType =
-  | "INTEGER"
-  | "DECIMAL"
-  | "FRACTION"
-  | "EXACT"
-  | "SET"
-  | "MULTIPLE"
-  | "EXPRESSION";
+type AnswerType = "INTEGER" | "DECIMAL" | "FRACTION" | "EXACT" | "SET" | "MULTIPLE" | "EXPRESSION";
 
 type ContentFormat = "LATEX" | "HTML";
 
@@ -59,6 +48,7 @@ const ANSWER_TYPE_OPTIONS: { value: AnswerType; label: string; hint: string }[] 
   { value: "MULTIPLE", label: "Multiple accepted", hint: "Use semicolons (e.g. 3/7; 0.4286)" },
   { value: "EXPRESSION", label: "Expression", hint: "e.g. sqrt(2), 2^0.5, pi/3" },
 ];
+const TAG_OPTIONS = CANONICAL_TAGS.filter((tag) => tag.kind === "problem_set_category");
 
 function uid() {
   return Math.random().toString(36).slice(2, 10);
@@ -428,18 +418,21 @@ export default function CreateSetPage() {
               onChange={(e) => setTopicTags(e.target.value)}
             />
             <small className="form-hint">
-              These describe the whole set. Practice pools are built from the optional question
-              tags on each problem below.
+              These describe the whole set. Practice pools are built from the optional question tags
+              on each problem below.
             </small>
             <div className="tag-chip-group">
-              {STANDARD_PROBLEM_SET_TAGS.map((tag) => (
+              {TAG_OPTIONS.map((option) => (
                 <button
-                  className={`tag-chip ${hasTag(topicTags, tag) ? "active" : ""}`}
-                  key={tag}
+                  className={`tag-chip ${hasTag(topicTags, option.label) ? "active" : ""}`}
+                  key={option.slug}
+                  title={
+                    option.aliases.length ? `Aliases: ${option.aliases.join(", ")}` : option.label
+                  }
                   type="button"
-                  onClick={() => setTopicTags((prev) => toggleTagInCsv(prev, tag))}
+                  onClick={() => setTopicTags((prev) => toggleTagInCsv(prev, option.label))}
                 >
-                  {tag}
+                  {option.label}
                 </button>
               ))}
             </div>
@@ -521,7 +514,11 @@ export default function CreateSetPage() {
           <h2>Problems ({problems.length})</h2>
           <div style={{ display: "flex", gap: "0.5rem" }}>
             <button className="secondary-action" onClick={toggleAllPreviews} type="button">
-              {problems.length > 0 && problems.every((p) => showPreview[p.id]) ? <EyeOff size={16} /> : <Eye size={16} />}
+              {problems.length > 0 && problems.every((p) => showPreview[p.id]) ? (
+                <EyeOff size={16} />
+              ) : (
+                <Eye size={16} />
+              )}
               Toggle Previews
             </button>
             <button className="secondary-action" onClick={addProblem} type="button">
@@ -649,16 +646,25 @@ export default function CreateSetPage() {
                     after more than 10 published questions use it.
                   </small>
                   <div className="tag-chip-group">
-                    {STANDARD_PROBLEM_SET_TAGS.map((tag) => (
+                    {TAG_OPTIONS.map((option) => (
                       <button
-                        className={`tag-chip ${hasTag(p.topicTags, tag) ? "active" : ""}`}
-                        key={`${p.id}-${tag}`}
+                        className={`tag-chip ${hasTag(p.topicTags, option.label) ? "active" : ""}`}
+                        key={`${p.id}-${option.slug}`}
+                        title={
+                          option.aliases.length
+                            ? `Aliases: ${option.aliases.join(", ")}`
+                            : option.label
+                        }
                         type="button"
                         onClick={() =>
-                          updateProblem(p.id, "topicTags", toggleTagInCsv(p.topicTags, tag))
+                          updateProblem(
+                            p.id,
+                            "topicTags",
+                            toggleTagInCsv(p.topicTags, option.label),
+                          )
                         }
                       >
-                        {tag}
+                        {option.label}
                       </button>
                     ))}
                   </div>

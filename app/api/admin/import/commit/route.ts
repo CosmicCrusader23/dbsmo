@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { importProblemSetJson } from "@/lib/import/json-import";
 import { authOptions } from "@/lib/auth";
+import { recordAuditLog } from "@/lib/audit";
+import { hasPermission } from "@/lib/permissions";
 
 export const runtime = "nodejs";
 
@@ -10,7 +12,7 @@ export async function POST(request: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
-  if (session.user.role !== "ADMIN") {
+  if (!hasPermission(session.user.role, "admin:content")) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
@@ -46,6 +48,16 @@ export async function POST(request: Request) {
     text: await upload.text(),
     uploadedById: session.user.id,
   });
+
+  if (result.ok && result.created) {
+    await recordAuditLog({
+      actorId: session.user.id,
+      action: "problem_set.import_json",
+      targetType: "ProblemSet",
+      targetId: result.created.problemSetId,
+      metadata: { slug: result.created.slug, fileName: upload.name },
+    });
+  }
 
   return NextResponse.json(result, { status: result.ok ? 200 : 422 });
 }

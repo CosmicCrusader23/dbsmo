@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { normalizeTagList } from "@/lib/problem-tags";
 
 export const runtime = "nodejs";
 
@@ -12,7 +13,7 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const tag = searchParams.get("tag")?.toLowerCase();
+  const [tag] = normalizeTagList([searchParams.get("tag") ?? ""]);
 
   if (!tag) {
     return NextResponse.json({ error: "Tag is required" }, { status: 400 });
@@ -34,6 +35,9 @@ export async function GET(request: Request) {
           userId: session.user.id,
         },
       },
+      topicTags: {
+        has: tag,
+      },
     },
     select: {
       id: true,
@@ -48,11 +52,7 @@ export async function GET(request: Request) {
     },
   });
 
-  const matchingProblems = problems.filter((p) =>
-    p.topicTags.some((t) => t.trim().toLowerCase() === tag),
-  );
-
-  if (matchingProblems.length === 0) {
+  if (problems.length === 0) {
     return NextResponse.json({
       problem: null,
       message: "No more unsolved problems for this category!",
@@ -60,7 +60,7 @@ export async function GET(request: Request) {
   }
 
   // Pick a random problem
-  const randomProblem = matchingProblems[Math.floor(Math.random() * matchingProblems.length)];
+  const randomProblem = problems[Math.floor(Math.random() * problems.length)];
 
   return NextResponse.json({ problem: randomProblem });
 }

@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { ArrowLeft, Download, ExternalLink, FileJson, Plus, Search } from "lucide-react";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { authOptions } from "@/lib/auth";
+import { hasPermission } from "@/lib/permissions";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { DeleteSetButton } from "./delete-set-button";
 
 export const dynamic = "force-dynamic";
 
 type AdminSetsSearchParams = Promise<{
+  page?: string;
   q?: string;
 }>;
 
@@ -15,9 +20,15 @@ export default async function AdminSetsPage({
 }: {
   searchParams?: AdminSetsSearchParams;
 }) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:content")) redirect("/dashboard");
+
   const params = (await searchParams) ?? {};
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
+  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const pageSize = 25;
 
   const sets = await prisma.problemSet.findMany({
     orderBy: { order: "asc" },
@@ -33,6 +44,17 @@ export default async function AdminSetsPage({
       .toLowerCase()
       .includes(normalizedQuery);
   });
+  const totalPages = Math.max(1, Math.ceil(visibleSets.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedSets = visibleSets.slice((safePage - 1) * pageSize, safePage * pageSize);
+
+  function setsHref(page: number) {
+    const urlParams = new URLSearchParams();
+    if (query) urlParams.set("q", query);
+    if (page > 1) urlParams.set("page", String(page));
+    const suffix = urlParams.toString();
+    return suffix ? `/admin/sets?${suffix}` : "/admin/sets";
+  }
 
   return (
     <main className="single-page">
@@ -123,7 +145,7 @@ export default async function AdminSetsPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {visibleSets.map((set) => (
+                  {paginatedSets.map((set) => (
                     <tr key={set.id}>
                       <td>{set.order}</td>
                       <td>
@@ -162,6 +184,25 @@ export default async function AdminSetsPage({
                 </tbody>
               </table>
             </div>
+            {totalPages > 1 ? (
+              <div className="pagination-row">
+                <Link
+                  className="secondary-action compact"
+                  href={setsHref(Math.max(1, safePage - 1))}
+                >
+                  Previous
+                </Link>
+                <span>
+                  Page {safePage} of {totalPages}
+                </span>
+                <Link
+                  className="secondary-action compact"
+                  href={setsHref(Math.min(totalPages, safePage + 1))}
+                >
+                  Next
+                </Link>
+              </div>
+            ) : null}
           </section>
         )}
       </div>

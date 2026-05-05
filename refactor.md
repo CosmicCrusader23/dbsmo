@@ -31,6 +31,7 @@
 
 - [x] `npm run lint` passes with the existing two `<img>` warnings.
 - [x] `npm run typecheck` passes.
-- [x] `npm test` passes: 5 files, 29 tests.
+- [x] `npm test` passes: 6 files, 32 tests.
 - [x] `npm run build` passes after allowing the Google Fonts fetch.
 - [x] browser-harness verified landing page, dev credentials login, dashboard, admin import, problem sets, practice tags API, admin export API, and hardened 4xx API responses on `http://localhost:3001`.
+- [x] browser-harness verified the completed `suggestions.md` work: seeded fixture import, study-planner tabs, weakest-topic sorting, cohort/trend analytics, privacy controls, profile sections, post-submit coaching, CSV export, and async backup export jobs.

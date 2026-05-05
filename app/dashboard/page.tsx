@@ -29,6 +29,7 @@ import { isVisibleToStudent } from "@/lib/visibility";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
+import { hasPermission } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -103,6 +104,11 @@ export default async function DashboardPage() {
 
   const visibleSets =
     currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
+  const canManageContent = hasPermission(currentUser.role, "admin:content");
+  const canViewStudents = hasPermission(currentUser.role, "admin:users");
+  const canViewAnalytics = hasPermission(currentUser.role, "admin:analytics");
+  const canManageFeedback = hasPermission(currentUser.role, "admin:feedback");
+  const canViewAudit = hasPermission(currentUser.role, "admin:audit");
 
   const attemptsBySet = new Map<
     string,
@@ -282,32 +288,48 @@ export default async function DashboardPage() {
             <Target size={18} />
             Practice
           </Link>
-          {currentUser.role === "ADMIN" ? (
+          {hasPermission(currentUser.role, "admin:view") ? (
             <>
-              <Link className="nav-item" href="/admin/sets">
-                <ListChecks size={18} />
-                Manage Sets
-              </Link>
-              <Link className="nav-item" href="/admin/create">
-                <PenLine size={18} />
-                Create Set
-              </Link>
-              <Link className="nav-item" href="/admin/import">
-                <FileJson size={18} />
-                JSON Import
-              </Link>
-              <Link className="nav-item" href="/admin/students">
-                <Users size={18} />
-                Students
-              </Link>
-              <Link className="nav-item" href="/admin/analytics">
-                <BarChart3 size={18} />
-                Analytics
-              </Link>
-              <Link className="nav-item" href="/admin/feedback">
-                <MessageSquareWarning size={18} />
-                Feedback
-              </Link>
+              {canManageContent ? (
+                <>
+                  <Link className="nav-item" href="/admin/sets">
+                    <ListChecks size={18} />
+                    Manage Sets
+                  </Link>
+                  <Link className="nav-item" href="/admin/create">
+                    <PenLine size={18} />
+                    Create Set
+                  </Link>
+                  <Link className="nav-item" href="/admin/import">
+                    <FileJson size={18} />
+                    JSON Import
+                  </Link>
+                </>
+              ) : null}
+              {canViewStudents ? (
+                <Link className="nav-item" href="/admin/students">
+                  <Users size={18} />
+                  Students
+                </Link>
+              ) : null}
+              {canViewAnalytics ? (
+                <Link className="nav-item" href="/admin/analytics">
+                  <BarChart3 size={18} />
+                  Analytics
+                </Link>
+              ) : null}
+              {canManageFeedback ? (
+                <Link className="nav-item" href="/admin/feedback">
+                  <MessageSquareWarning size={18} />
+                  Feedback
+                </Link>
+              ) : null}
+              {canViewAudit ? (
+                <Link className="nav-item" href="/admin/audit">
+                  <CheckCircle2 size={18} />
+                  Audit
+                </Link>
+              ) : null}
             </>
           ) : null}
           <Link className="nav-item" href="/users">

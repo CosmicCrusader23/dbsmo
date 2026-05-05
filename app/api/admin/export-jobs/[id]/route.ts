@@ -1,19 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { problemSetToImportJson } from "@/lib/import/problem-set-json-export";
+import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
-
-export const runtime = "nodejs";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
-
-function exportFileName(slug: string) {
-  return `${slug.replace(/[^a-z0-9-]+/gi, "-") || "problem-set"}.json`;
-}
 
 export async function GET(_request: Request, context: RouteContext) {
   const session = await getServerSession(authOptions);
@@ -25,20 +18,22 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
-  const set = await prisma.problemSet.findUnique({
-    where: { id },
-    include: {
-      problems: { orderBy: { number: "asc" } },
-    },
+  const job = await prisma.exportJob.findFirst({
+    where: { id, requestedById: session.user.id },
   });
 
-  if (!set) {
+  if (!job) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
+  if (job.status !== "COMPLETED" || !job.payload || typeof job.payload !== "object") {
+    return NextResponse.json({ error: "Export is not complete." }, { status: 409 });
+  }
 
-  return NextResponse.json(problemSetToImportJson(set), {
+  const content = "content" in job.payload ? String(job.payload.content ?? "") : "";
+  return new NextResponse(content, {
     headers: {
-      "Content-Disposition": `attachment; filename="${exportFileName(set.slug)}"`,
+      "Content-Type": job.mimeType ?? "application/octet-stream",
+      "Content-Disposition": `attachment; filename="${job.fileName ?? "export.txt"}"`,
       "Cache-Control": "private, no-store",
       "X-Content-Type-Options": "nosniff",
     },

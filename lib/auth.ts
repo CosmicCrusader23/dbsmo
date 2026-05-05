@@ -41,11 +41,16 @@ if (devBypassEnabled) {
     CredentialsProvider({
       name: "Developer Bypass",
       credentials: {
-        role: { label: "Role (STUDENT or ADMIN)", type: "text", placeholder: "STUDENT" },
+        role: { label: "Role", type: "text", placeholder: "STUDENT" },
       },
       async authorize(credentials) {
-        const role = credentials?.role === "ADMIN" ? "ADMIN" : "STUDENT";
-        const id = role === "ADMIN" ? "bypass-admin" : "bypass-student";
+        const requestedRole = String(credentials?.role ?? "STUDENT").toUpperCase();
+        const validRoles: UserRole[] = ["STUDENT", "TEACHER", "CONTENT_EDITOR", "ANALYST", "ADMIN"];
+        const role = validRoles.includes(requestedRole as UserRole)
+          ? (requestedRole as UserRole)
+          : "STUDENT";
+        const id =
+          role === "STUDENT" ? "bypass-student" : `bypass-${role.toLowerCase().replace(/_/g, "-")}`;
 
         const user = await prisma.user.upsert({
           where: { email: `${id}${SCHOOL_EMAIL_SUFFIX}` },

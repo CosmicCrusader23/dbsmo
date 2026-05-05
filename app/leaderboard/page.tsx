@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
+import { isStaffRole } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -48,7 +49,11 @@ export default async function LeaderboardPage({
   const scope = params.scope === "friends" ? "friends" : "all";
   const sortMode = params.sort === "average" ? "average" : "solved";
 
-  function leaderboardHref(next: { mode?: "standard" | "practice"; scope?: "all" | "friends"; sort?: "solved" | "average" }) {
+  function leaderboardHref(next: {
+    mode?: "standard" | "practice";
+    scope?: "all" | "friends";
+    sort?: "solved" | "average";
+  }) {
     const query = new URLSearchParams({
       mode: next.mode ?? mode,
       scope: next.scope ?? scope,
@@ -66,6 +71,7 @@ export default async function LeaderboardPage({
         displayName: true,
         avatarUrl: true,
         role: true,
+        leaderboardVisible: true,
         attempts: {
           select: { score: true, maxScore: true, problemSetId: true },
         },
@@ -111,6 +117,7 @@ export default async function LeaderboardPage({
         displayLabel: u.displayName || u.name || "Anonymous",
         avatarUrl: u.avatarUrl,
         role: u.role,
+        leaderboardVisible: u.leaderboardVisible,
         solvedSets,
         uniqueSets,
         avgScore,
@@ -118,6 +125,9 @@ export default async function LeaderboardPage({
         practiceScore: u._count.practiceSolves,
       };
     })
+    .filter(
+      (u) => u.leaderboardVisible || u.id === session.user.id || isStaffRole(session.user.role),
+    )
     .filter((u) => scope === "all" || friendIds.has(u.id))
     .sort((a, b) => {
       if (mode === "practice") {

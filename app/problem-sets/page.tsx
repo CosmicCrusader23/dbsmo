@@ -31,6 +31,8 @@ type SetRow = {
   isBookmarked: boolean;
   hasPdf: boolean;
   hasVideo: boolean;
+  weakMatch: number;
+  recommendationScore: number;
 };
 
 const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
@@ -39,6 +41,7 @@ type ProblemSetsSearchParams = Promise<{
   category?: string;
   hideSolved?: string;
   media?: string;
+  page?: string;
   q?: string;
   sort?: string;
   status?: string;
@@ -63,8 +66,23 @@ export default async function ProblemSetsPage({
         ? "name"
         : params.sort === "latest"
           ? "latest"
-          : "default";
-  const activeView = params.view === "bookmarked" ? "bookmarked" : "recommended";
+          : params.sort === "weakest"
+            ? "weakest"
+            : params.sort === "recommended"
+              ? "recommended"
+              : "default";
+  const activeView =
+    params.view === "bookmarked"
+      ? "bookmarked"
+      : params.view === "assigned"
+        ? "assigned"
+        : params.view === "completed"
+          ? "completed"
+          : params.view === "practice"
+            ? "practice"
+            : "recommended";
+  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const pageSize = 20;
   const statusFilter =
     params.status === "not-started" ||
     params.status === "in-progress" ||
@@ -84,10 +102,11 @@ export default async function ProblemSetsPage({
     category?: string | null;
     hideSolved?: boolean;
     q?: string;
-    sort?: "default" | "solved" | "name" | "latest";
+    sort?: "default" | "solved" | "name" | "latest" | "weakest" | "recommended";
     media?: "all" | "video" | "pdf";
     status?: "all" | "not-started" | "in-progress" | "completed";
-    view?: "recommended" | "bookmarked";
+    page?: number;
+    view?: "recommended" | "bookmarked" | "assigned" | "completed" | "practice";
   }) {
     const nextSort = next.sort ?? sortMode;
     const nextView = next.view ?? activeView;
@@ -96,6 +115,7 @@ export default async function ProblemSetsPage({
     const nextStatus = next.status ?? statusFilter;
     const nextHideSolved = next.hideSolved ?? hideSolved;
     const nextQuery = next.q === undefined ? query : next.q;
+    const nextPage = next.page ?? 1;
     const urlParams = new URLSearchParams();
 
     if (nextView === "bookmarked") {
@@ -118,6 +138,9 @@ export default async function ProblemSetsPage({
     }
     if (nextQuery.trim()) {
       urlParams.set("q", nextQuery.trim());
+    }
+    if (nextPage > 1) {
+      urlParams.set("page", String(nextPage));
     }
 
     const suffix = urlParams.toString();
@@ -143,7 +166,17 @@ export default async function ProblemSetsPage({
     }),
     prisma.attempt.findMany({
       where: { userId: session.user.id },
-      select: { score: true, maxScore: true, problemSetId: true },
+      select: {
+        score: true,
+        maxScore: true,
+        problemSetId: true,
+        responses: {
+          select: {
+            isCorrect: true,
+            problem: { select: { topicTags: true } },
+          },
+        },
+      },
     }),
   ]);
 
@@ -155,6 +188,7 @@ export default async function ProblemSetsPage({
     currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
 
   const attemptMap = new Map<string, { bestScore: number; attempts: number }>();
+  const topicStats = new Map<string, { correct: number; total: number }>();
   for (const attempt of attempts) {
     const existing = attemptMap.get(attempt.problemSetId) ?? { bestScore: 0, attempts: 0 };
     const percentage =
@@ -162,7 +196,23 @@ export default async function ProblemSetsPage({
     existing.bestScore = Math.max(existing.bestScore, percentage);
     existing.attempts += 1;
     attemptMap.set(attempt.problemSetId, existing);
+    for (const response of attempt.responses) {
+      const topics = normalizeTagList(response.problem.topicTags);
+      for (const topic of topics.length > 0 ? topics : ["General"]) {
+        const stats = topicStats.get(topic) ?? { correct: 0, total: 0 };
+        stats.total += 1;
+        if (response.isCorrect) stats.correct += 1;
+        topicStats.set(topic, stats);
+      }
+    }
   }
+
+  const weakTopicScores = new Map(
+    Array.from(topicStats.entries()).map(([topic, stats]) => [
+      topic,
+      stats.total > 0 ? 1 - stats.correct / stats.total : 0,
+    ]),
+  );
 
   const setRows: SetRow[] = visibleSets.map((set) => {
     const progress = attemptMap.get(set.id) ?? { bestScore: 0, attempts: 0 };
@@ -190,6 +240,11 @@ export default async function ProblemSetsPage({
       isBookmarked: set.bookmarks.length > 0,
       hasPdf: Boolean(set.problemFileId),
       hasVideo: Boolean(set.videoUrl),
+      weakMatch: allTags.reduce((sum, tag) => sum + (weakTopicScores.get(tag) ?? 0), 0),
+      recommendationScore:
+        (progress.attempts === 0 ? 40 : Math.max(0, 100 - progress.bestScore)) +
+        set.difficulty * 3 +
+        (set.videoUrl ? 5 : 0),
     };
   });
 
@@ -206,11 +261,28 @@ export default async function ProblemSetsPage({
       return b.createdAt.getTime() - a.createdAt.getTime() || a.title.localeCompare(b.title);
     }
 
+    if (sortMode === "weakest") {
+      return b.weakMatch - a.weakMatch || a.order - b.order || a.title.localeCompare(b.title);
+    }
+
+    if (sortMode === "recommended") {
+      return (
+        b.recommendationScore - a.recommendationScore ||
+        b.weakMatch - a.weakMatch ||
+        a.order - b.order
+      );
+    }
+
     return a.order - b.order || a.title.localeCompare(b.title);
   });
 
-  const viewRows =
-    activeView === "bookmarked" ? orderedRows.filter((set) => set.isBookmarked) : orderedRows;
+  const viewRows = orderedRows.filter((set) => {
+    if (activeView === "bookmarked") return set.isBookmarked;
+    if (activeView === "assigned") return set.bestScore < 100;
+    if (activeView === "completed") return set.bestScore >= 100;
+    if (activeView === "practice") return set.weakMatch > 0 || set.attempts > 0;
+    return true;
+  });
   const statusRows = viewRows.filter((set) => {
     if (statusFilter === "not-started") return set.attempts === 0;
     if (statusFilter === "in-progress") return set.attempts > 0 && set.bestScore < 100;
@@ -248,6 +320,9 @@ export default async function ProblemSetsPage({
         .includes(normalizedQuery);
     return matchesCategory && matchesSearch;
   });
+  const totalPages = Math.max(1, Math.ceil(tableRows.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedRows = tableRows.slice((safePage - 1) * pageSize, safePage * pageSize);
   const profileHref = profilePathFromEmail(currentUser.email);
 
   return (
@@ -284,7 +359,24 @@ export default async function ProblemSetsPage({
         >
           Bookmarked
         </Link>
-        <span className="problem-hub-tab">School Hosted</span>
+        <Link
+          className={`problem-hub-tab${activeView === "assigned" ? " active" : ""}`}
+          href={problemSetsHref({ category: null, view: "assigned" })}
+        >
+          Assigned
+        </Link>
+        <Link
+          className={`problem-hub-tab${activeView === "practice" ? " active" : ""}`}
+          href={problemSetsHref({ category: null, view: "practice", sort: "weakest" })}
+        >
+          Self-practice
+        </Link>
+        <Link
+          className={`problem-hub-tab${activeView === "completed" ? " active" : ""}`}
+          href={problemSetsHref({ category: null, view: "completed", status: "completed" })}
+        >
+          Completed archive
+        </Link>
         <span className="problem-hub-tab tag-tab">Tags</span>
       </nav>
 
@@ -314,6 +406,18 @@ export default async function ProblemSetsPage({
             href={problemSetsHref({ sort: "latest" })}
           >
             Latest
+          </Link>
+          <Link
+            className={`segmented-button${sortMode === "weakest" ? " active" : ""}`}
+            href={problemSetsHref({ sort: "weakest" })}
+          >
+            Weakest topic
+          </Link>
+          <Link
+            className={`segmented-button${sortMode === "recommended" ? " active" : ""}`}
+            href={problemSetsHref({ sort: "recommended" })}
+          >
+            Teacher recommended
           </Link>
         </div>
         <span className="leaderboard-control-label">Status</span>
@@ -463,7 +567,7 @@ export default async function ProblemSetsPage({
                   </td>
                 </tr>
               ) : (
-                tableRows.map((set) => (
+                paginatedRows.map((set) => (
                   <tr key={set.id} className="problem-set-row">
                     <td>
                       <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
@@ -508,6 +612,25 @@ export default async function ProblemSetsPage({
             </tbody>
           </table>
         </div>
+        {totalPages > 1 ? (
+          <div className="pagination-row">
+            <Link
+              className={`secondary-action compact${safePage <= 1 ? " disabled" : ""}`}
+              href={problemSetsHref({ page: Math.max(1, safePage - 1) })}
+            >
+              Previous
+            </Link>
+            <span>
+              Page {safePage} of {totalPages}
+            </span>
+            <Link
+              className={`secondary-action compact${safePage >= totalPages ? " disabled" : ""}`}
+              href={problemSetsHref({ page: Math.min(totalPages, safePage + 1) })}
+            >
+              Next
+            </Link>
+          </div>
+        ) : null}
       </section>
     </main>
   );

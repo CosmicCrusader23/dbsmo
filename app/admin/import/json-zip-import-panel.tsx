@@ -87,8 +87,7 @@ export function JsonZipImportPanel() {
       ];
     }
 
-    const isZip =
-      zipFile.name.toLowerCase().endsWith(".zip") || zipFile.type === "application/zip";
+    const isZip = zipFile.name.toLowerCase().endsWith(".zip") || zipFile.type === "application/zip";
     const hasOnlyJson = entries.length > 0 && !zipError;
 
     return [
@@ -112,8 +111,7 @@ export function JsonZipImportPanel() {
       return;
     }
 
-    const isZip =
-      nextZip.name.toLowerCase().endsWith(".zip") || nextZip.type === "application/zip";
+    const isZip = nextZip.name.toLowerCase().endsWith(".zip") || nextZip.type === "application/zip";
     if (!isZip) {
       setZipError("Please upload a .zip archive.");
       return;
@@ -371,7 +369,10 @@ export function JsonZipImportPanel() {
                     {dryRunResult?.issues.length ? (
                       <div className="issue-list">
                         {dryRunResult.issues.map((issue) => (
-                          <div className={`issue-row ${issue.level}`} key={`${entry.name}-${issue.message}`}>
+                          <div
+                            className={`issue-row ${issue.level}`}
+                            key={`${entry.name}-${issue.message}`}
+                          >
                             {issue.level === "error" ? (
                               <XCircle size={16} />
                             ) : (

@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { ArrowLeft, Download, ExternalLink, Search, Users } from "lucide-react";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { authOptions } from "@/lib/auth";
 import { computeBestAverageScore } from "@/lib/analytics";
+import { hasPermission } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
 type AdminStudentsSearchParams = Promise<{
+  page?: string;
   q?: string;
 }>;
 
@@ -14,9 +19,15 @@ export default async function AdminStudentsPage({
 }: {
   searchParams?: AdminStudentsSearchParams;
 }) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:users")) redirect("/dashboard");
+
   const params = (await searchParams) ?? {};
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
+  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const pageSize = 25;
 
   const students = await prisma.user.findMany({
     where: { role: "STUDENT" },
@@ -44,8 +55,22 @@ export default async function AdminStudentsPage({
     })
     .filter((row) => {
       if (!normalizedQuery) return true;
-      return [row.name ?? "", row.email, row.group ?? ""].join(" ").toLowerCase().includes(normalizedQuery);
+      return [row.name ?? "", row.email, row.group ?? ""]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalizedQuery);
     });
+  const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedRows = rows.slice((safePage - 1) * pageSize, safePage * pageSize);
+
+  function studentsHref(page: number) {
+    const urlParams = new URLSearchParams();
+    if (query) urlParams.set("q", query);
+    if (page > 1) urlParams.set("page", String(page));
+    const suffix = urlParams.toString();
+    return suffix ? `/admin/students?${suffix}` : "/admin/students";
+  }
 
   return (
     <main className="single-page">
@@ -128,7 +153,7 @@ export default async function AdminStudentsPage({
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((row) => (
+                  {paginatedRows.map((row) => (
                     <tr key={row.id}>
                       <td>
                         <strong>{row.name ?? "—"}</strong>
@@ -154,6 +179,25 @@ export default async function AdminStudentsPage({
                 </tbody>
               </table>
             </div>
+            {totalPages > 1 ? (
+              <div className="pagination-row">
+                <Link
+                  className="secondary-action compact"
+                  href={studentsHref(Math.max(1, safePage - 1))}
+                >
+                  Previous
+                </Link>
+                <span>
+                  Page {safePage} of {totalPages}
+                </span>
+                <Link
+                  className="secondary-action compact"
+                  href={studentsHref(Math.min(totalPages, safePage + 1))}
+                >
+                  Next
+                </Link>
+              </div>
+            ) : null}
           </section>
         )}
       </div>

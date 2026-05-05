@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { prisma } from "@/lib/db";
+import { authOptions } from "@/lib/auth";
 import { computeTopicAccuracy, accuracyLevel, computeBestAverageScore } from "@/lib/analytics";
+import { hasPermission } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ id: string }>; searchParams?: Promise<{ page?: string }> };
 
 const ACCENT = ["cyan", "purple", "pink", "orange"] as const;
 
@@ -14,8 +17,15 @@ function pct(a: { score: number; maxScore: number }) {
   return a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0;
 }
 
-export default async function StudentDetailPage({ params }: Props) {
+export default async function StudentDetailPage({ params, searchParams }: Props) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:users")) redirect("/dashboard");
+
   const { id } = await params;
+  const query = (await searchParams) ?? {};
+  const currentPage = Math.max(1, Number(query.page ?? "1") || 1);
+  const pageSize = 20;
   const student = await prisma.user.findUnique({
     where: { id },
     include: {
@@ -35,6 +45,9 @@ export default async function StudentDetailPage({ params }: Props) {
   const avg = computeBestAverageScore(student.attempts);
   const best = n > 0 ? Math.round(Math.max(...student.attempts.map(pct))) : 0;
   const topics = computeTopicAccuracy(student.attempts.flatMap((a) => a.responses));
+  const totalPages = Math.max(1, Math.ceil(student.attempts.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedAttempts = student.attempts.slice((safePage - 1) * pageSize, safePage * pageSize);
 
   return (
     <main className="single-page">
@@ -102,7 +115,7 @@ export default async function StudentDetailPage({ params }: Props) {
                     </tr>
                   </thead>
                   <tbody>
-                    {student.attempts.map((a) => (
+                    {paginatedAttempts.map((a) => (
                       <tr key={a.id}>
                         <td>
                           <Link href={`/admin/sets/${a.problemSetId}`} className="text-link">
@@ -120,6 +133,25 @@ export default async function StudentDetailPage({ params }: Props) {
                 </table>
               )}
             </div>
+            {totalPages > 1 ? (
+              <div className="pagination-row">
+                <Link
+                  className="secondary-action compact"
+                  href={`/admin/students/${student.id}${safePage > 2 ? `?page=${safePage - 1}` : ""}`}
+                >
+                  Previous
+                </Link>
+                <span>
+                  Page {safePage} of {totalPages}
+                </span>
+                <Link
+                  className="secondary-action compact"
+                  href={`/admin/students/${student.id}?page=${Math.min(totalPages, safePage + 1)}`}
+                >
+                  Next
+                </Link>
+              </div>
+            ) : null}
           </article>
           <article className="panel">
             <div className="panel-header">

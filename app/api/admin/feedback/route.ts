@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { FeedbackStatus } from "@prisma/client";
+import { recordAuditLog } from "@/lib/audit";
+import { hasPermission } from "@/lib/permissions";
 
 export async function PATCH(req: Request) {
   try {
@@ -16,7 +18,7 @@ export async function PATCH(req: Request) {
       select: { role: true },
     });
 
-    if (!user || user.role !== "ADMIN") {
+    if (!user || !hasPermission(user.role, "admin:feedback")) {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
     }
 
@@ -40,6 +42,14 @@ export async function PATCH(req: Request) {
     const report = await prisma.feedbackReport.update({
       where: { id: reportId },
       data: update,
+    });
+
+    await recordAuditLog({
+      actorId: session.user.id,
+      action: "feedback.update",
+      targetType: "FeedbackReport",
+      targetId: report.id,
+      metadata: { status: report.status },
     });
 
     return NextResponse.json({ ok: true, report });

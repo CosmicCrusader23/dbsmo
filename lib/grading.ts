@@ -55,7 +55,8 @@ export function gradeAnswer(input: GradeInput): GradeResult {
     const isCorrect =
       Number.isFinite(answerNumber) &&
       evaluatedCandidates.some(
-        (candidate) => Number.isFinite(candidate) && numbersMatch(answerNumber, candidate, tolerance),
+        (candidate) =>
+          Number.isFinite(candidate) && numbersMatch(answerNumber, candidate, tolerance),
       );
 
     return {
@@ -214,7 +215,9 @@ function evaluateMathExpression(rawExpression: string): number {
   }
 
   try {
-    const parser = new MathExpressionParser(insertImplicitMultiplication(tokenizeExpression(normalized)));
+    const parser = new MathExpressionParser(
+      insertImplicitMultiplication(tokenizeExpression(normalized)),
+    );
     const value = parser.parse();
     return Number.isFinite(value) ? value : Number.NaN;
   } catch {
@@ -291,9 +294,7 @@ function shouldInsertMultiplication(
     previous.type === "rightParen" ||
     (previous.type === "identifier" && previous.value in MATH_CONSTANTS);
   const currentCanStartValue =
-    current.type === "number" ||
-    current.type === "leftParen" ||
-    current.type === "identifier";
+    current.type === "number" || current.type === "leftParen" || current.type === "identifier";
 
   if (!previousCanEndValue || !currentCanStartValue) {
     return false;

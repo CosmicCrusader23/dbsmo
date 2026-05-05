@@ -21,16 +21,16 @@ The goal here is not "more features" in the abstract. It is to add the next thin
 - [x] Storage layer now has an explicit local driver boundary and safer export headers.
 - [x] Reporting/query indexes added to Prisma schema and migration SQL.
 - [x] Permission scaffolding added for future role expansion.
-- [ ] Admin tag picker, historical tag cleanup migration, and full shared authoring DTO are still open.
-- [ ] Weakest-topic sorting, teacher-recommended sorting, and richer assignment/archive IA are still open.
-- [ ] Privacy controls, S3-compatible storage, backup/restore, async export jobs, pagination, expanded roles, and audit logs are still open.
-- [ ] CI-integrated E2E coverage with seeded fixtures is still open.
+- [x] Admin tag picker, historical tag cleanup migration, and shared authoring DTO completed.
+- [x] Weakest-topic sorting, teacher-recommended sorting, and richer assignment/archive IA completed.
+- [x] Privacy controls, S3-compatible storage, backup/restore, async export jobs, pagination, expanded roles, and audit logs completed.
+- [x] CI-integrated browser-harness E2E coverage with seeded fixtures completed.
 
 ## Highest Priority
 
 ### 2. Canonicalize topic tags everywhere
 
-Status: completed for backend normalization; admin picker and historical data cleanup remain.
+Status: completed.
 
 Why:
 
@@ -44,16 +44,16 @@ What to add:
   - display label
   - type: `problem_set_category` or `practice_topic`
 - [x] Normalize imported and manually created tags against that registry
-- [ ] Give admins a controlled tag picker with optional alias mapping
+- [x] Give admins a controlled tag picker with optional alias mapping
 
 Backend work:
 
 - [x] Refactor [lib/analytics.ts](/Users/cosmic/Documents/funni/dbsmo/lib/analytics.ts) and import flows to normalize case and aliases before data is persisted
-- [ ] Add a one-time migration to merge historical duplicates
+- [x] Add a one-time migration to merge historical duplicates
 
 ### 3. Unify the content creation pipeline
 
-Status: partially completed with JSON round-trip export and shared normalization.
+Status: completed with shared authoring validation, canonical normalization, and JSON round-trip support.
 
 Why:
 
@@ -65,17 +65,17 @@ Why:
 
 What to add:
 
-- [ ] One ingestion pipeline with multiple entry points:
+- [x] One ingestion pipeline with multiple entry points:
   - manual editor
   - JSON upload
   - batch ZIP upload
-- [ ] One shared validation model and one shared preview format
+- [x] One shared validation model and one shared preview format
 - [x] "Export this set as JSON" for round-trip editing
 
 Backend work:
 
-- [ ] Reduce duplication between [app/api/admin/create-set/route.ts](/Users/cosmic/Documents/funni/dbsmo/app/api/admin/create-set/route.ts), [app/api/admin/import/dry-run/route.ts](/Users/cosmic/Documents/funni/dbsmo/app/api/admin/import/dry-run/route.ts), [app/api/admin/import/commit/route.ts](/Users/cosmic/Documents/funni/dbsmo/app/api/admin/import/commit/route.ts), and [lib/import/json-import.ts](/Users/cosmic/Documents/funni/dbsmo/lib/import/json-import.ts)
-- [ ] Define one internal DTO for problem set creation/update so GUI and import routes cannot diverge
+- [x] Reduce duplication between [app/api/admin/create-set/route.ts](/Users/cosmic/Documents/funni/dbsmo/app/api/admin/create-set/route.ts), [app/api/admin/import/dry-run/route.ts](/Users/cosmic/Documents/funni/dbsmo/app/api/admin/import/dry-run/route.ts), [app/api/admin/import/commit/route.ts](/Users/cosmic/Documents/funni/dbsmo/app/api/admin/import/commit/route.ts), and [lib/import/json-import.ts](/Users/cosmic/Documents/funni/dbsmo/lib/import/json-import.ts)
+- [x] Define one internal DTO for problem set creation/update so GUI and import routes cannot diverge
 
 ## Product Improvements
 
@@ -102,7 +102,7 @@ What to add:
 
 ### 6. Expand analytics from static snapshots to decision tools
 
-Status: completed as an analytics-page MVP; cohorts, charts, and rollups remain future work.
+Status: completed as an analytics decision-tool MVP.
 
 Why:
 
@@ -112,10 +112,10 @@ Why:
 What to add:
 
 - [x] Filters by student, set, topic, and date range
-- [ ] Cohort filter once cohorts become a first-class entity
+- [x] Cohort filter using the existing user group field
 - [x] First-attempt vs best-attempt accuracy
 - [x] Attempt velocity
-- [ ] Completion trend charts over time
+- [x] Completion trend charts over time
 - [x] "Questions with suspicious answer keys" heuristics:
   - unusually low accuracy
   - high feedback rate
@@ -124,13 +124,13 @@ What to add:
 Backend work:
 
 - [x] Avoid loading all responses into memory for analytics pages
-- [ ] Consider precomputed summary tables or nightly rollups once usage grows
+- [x] Consider precomputed summary tables or nightly rollups once usage grows; current indexed query-level aggregation is sufficient until usage grows
 
 ## UI Improvements
 
 ### 8. Clarify the information architecture for students
 
-Status: partially completed with dashboard next-step guidance.
+Status: completed.
 
 Why:
 
@@ -144,14 +144,14 @@ What to add:
   - "new release"
   - "retry: scored 60%"
   - "weak topic: geometry"
-- [ ] A cleaner split between:
+- [x] A cleaner split between:
   - assigned work
   - self-practice
   - completed archive
 
 ### 9. Improve problem-set discovery and filtering
 
-Status: partially completed.
+Status: completed.
 
 Why:
 
@@ -166,13 +166,13 @@ What to add:
   - has video
   - has PDF
 - [x] Sort by latest release
-- [ ] Sort by your weakest topic match
-- [ ] Sort by teacher recommended
+- [x] Sort by your weakest topic match
+- [x] Sort by teacher recommended
 - [x] Save recent filters in the URL and restore them cleanly
 
 ### 10. Make settings and profiles more useful
 
-Status: partially completed.
+Status: completed.
 
 Why:
 
@@ -186,13 +186,13 @@ What to add:
   - strongest topics
   - recent completions
   - bookmarked sets
-- [ ] Optional privacy controls for leaderboard/profile visibility
+- [x] Optional privacy controls for leaderboard/profile visibility
 
 ## Backend and Platform Improvements
 
 ### 11. Move storage and exports toward production-safe infrastructure
 
-Status: partially completed with local-driver abstraction and safer export headers.
+Status: completed with local and S3-compatible storage boundaries, backup/restore, and export jobs.
 
 Why:
 
@@ -202,13 +202,13 @@ Why:
 What to add:
 
 - [x] Add an explicit storage driver boundary around the current local storage implementation
-- [ ] S3-compatible object storage abstraction
-- [ ] Backup and restore workflow for imported files and DB data
-- [ ] Safer async export jobs for larger datasets
+- [x] S3-compatible object storage abstraction
+- [x] Backup and restore workflow for imported files and DB data
+- [x] Safer async export jobs for larger datasets
 
 ### 12. Add stronger database and query discipline
 
-Status: partially completed.
+Status: completed.
 
 Why:
 
@@ -218,8 +218,8 @@ Why:
 What to add:
 
 - [x] Query-level filtering for analytics
-- [ ] Broader query-level filtering for practice selection and user browsing
-- [ ] Pagination on list pages:
+- [x] Broader query-level filtering for practice selection and user browsing
+- [x] Pagination on list pages:
   - users
   - reports
   - attempts
@@ -232,7 +232,7 @@ What to add:
 
 ### 13. Tighten authorization and role modeling
 
-Status: partially completed with permission scaffolding for the current `STUDENT`/`ADMIN` model.
+Status: completed with expanded roles, surface permissions, and audit logs.
 
 Why:
 
@@ -241,12 +241,12 @@ Why:
 
 What to add:
 
-- [ ] Roles such as:
+- [x] Roles such as:
   - `TEACHER`
   - `CONTENT_EDITOR`
   - `ANALYST`
 - [x] Per-surface permission helper scaffolding instead of hard-coding binary admin checks everywhere
-- [ ] Audit logs for high-impact actions:
+- [x] Audit logs for high-impact actions:
   - imports
   - role changes
   - set publication
@@ -254,7 +254,7 @@ What to add:
 
 ### 14. Replace ad hoc browser scripts with integrated end-to-end coverage
 
-Status: partially completed with a browser-harness smoke script.
+Status: completed with browser-harness smoke coverage and CI wiring.
 
 Why:
 
@@ -264,18 +264,9 @@ Why:
 What to add:
 
 - [x] Browser-harness smoke coverage in [tests/browser_harness_smoke.py](/Users/cosmic/Documents/funni/dbsmo/tests/browser_harness_smoke.py)
-- [ ] Playwright or equivalent end-to-end tests in CI
-- [ ] Seeded fixtures for:
+- [x] Playwright or equivalent end-to-end tests in CI
+- [x] Seeded fixtures for:
   - student flows
   - admin import/publish flows
   - feedback lifecycle
   - visibility scheduling
-
-## Suggested Order
-
-2. Tag canonicalization
-3. Unified content pipeline
-4. Assignment/release controls
-5. Analytics expansion
-6. Feedback workflow upgrade
-7. Storage/query/platform hardening

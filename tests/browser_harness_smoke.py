@@ -1,9 +1,11 @@
 import os
+from pathlib import Path
 
 from browser_harness import *
 
 
 BASE_URL = os.environ.get("BASE_URL", "http://localhost:3001")
+FIXTURE_JSON = Path("tests/fixtures/e2e-problem-set.json").read_text()
 
 
 def check(name, condition):
@@ -37,6 +39,21 @@ login = js(
 )
 check("admin dev login succeeds", login == 200)
 
+seed = js(
+    f"""
+(async () => {{
+  const existing = await fetch("/problem-sets/e2e-browser-harness-set");
+  if (existing.status === 200) return {{ status: "exists" }};
+  const file = new File([{FIXTURE_JSON!r}], "e2e-problem-set.json", {{ type: "application/json" }});
+  const form = new FormData();
+  form.set("file", file);
+  const response = await fetch("/api/admin/import/commit", {{ method: "POST", body: form }});
+  return {{ status: response.status, body: await response.json().catch(() => null) }};
+}})()
+"""
+)
+check("seeded E2E fixture is available", seed["status"] == "exists" or seed["status"] == 200)
+
 for path, expected in [
     ("/dashboard", "Training Dashboard"),
     ("/problem-sets", "Problem Sets"),
@@ -67,6 +84,14 @@ check(
 )
 check("problem-set filters persist in URL", "status=not-started" in js("location.href"))
 
+new_tab(f"{BASE_URL}/problem-sets?view=practice&sort=weakest")
+wait_for_load()
+planner_text = js("document.body.innerText").lower()
+check(
+    "study-planner views and weakest sort render",
+    "self-practice" in planner_text and "weakest topic" in planner_text,
+)
+
 new_tab(f"{BASE_URL}/admin/analytics")
 wait_for_load()
 analytics_text = js("document.body.innerText")
@@ -76,6 +101,7 @@ check(
     and "best attempt avg" in analytics_text.lower()
     and "suspicious answer keys" in analytics_text.lower(),
 )
+check("analytics cohort and trend controls render", "all cohorts" in analytics_text.lower() and "last 6 weeks" in analytics_text.lower())
 
 new_tab(f"{BASE_URL}/admin/sets")
 wait_for_load()
@@ -112,9 +138,16 @@ new_tab(f"{BASE_URL}/settings")
 wait_for_load()
 wait(0.5)
 settings_text = js("document.body.innerText")
+settings_text_lower = settings_text.lower()
 check(
     "settings training stats render",
     "Sets tried" in settings_text and "Practice" in settings_text and "Attempts" in settings_text,
+)
+check(
+    "settings privacy controls render",
+    "privacy" in settings_text_lower
+    and "public profile" in settings_text_lower
+    and "leaderboard" in settings_text_lower,
 )
 
 new_tab(f"{BASE_URL}/users/bypass-admin")
@@ -194,3 +227,30 @@ api = js(
 """
 )
 check("students CSV export works", api["exportStatus"] == 200 and "text/csv" in api["exportType"])
+
+job_api = js(
+    """
+(async () => {
+  const response = await fetch("/api/admin/export-jobs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type: "BACKUP_JSON" })
+  });
+  const body = await response.json();
+  const download = body.job?.id ? await fetch(`/api/admin/export-jobs/${body.job.id}`) : null;
+  return {
+    status: response.status,
+    jobStatus: body.job?.status,
+    downloadStatus: download?.status ?? 0,
+    downloadType: download?.headers.get("content-type") || "",
+  };
+})()
+"""
+)
+check(
+    "async backup export job works",
+    job_api["status"] == 201
+    and job_api["jobStatus"] == "COMPLETED"
+    and job_api["downloadStatus"] == 200
+    and "application/json" in job_api["downloadType"],
+)

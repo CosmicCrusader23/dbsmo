@@ -1,9 +1,8 @@
-import { readFile } from "node:fs/promises";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { getFilePath } from "@/lib/storage";
+import { readFileBuffer } from "@/lib/storage";
 import { isVisibleToStudent } from "@/lib/visibility";
 
 export const runtime = "nodejs";
@@ -56,7 +55,7 @@ export async function GET(_request: Request, context: RouteContext) {
 
   let bytes: Buffer;
   try {
-    bytes = await readFile(getFilePath(file.storageKey));
+    bytes = await readFileBuffer(file.storageKey);
   } catch (error) {
     console.error("Failed to read imported file:", error);
     return NextResponse.json({ error: "Not found." }, { status: 404 });

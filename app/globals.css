@@ -3192,8 +3192,6 @@ html.dark .confetti-triangles span {
   border-bottom: 1px solid var(--color-border);
 }
 
-
-
 .grip-icon {
   color: var(--color-muted);
   cursor: grab;
@@ -4661,6 +4659,87 @@ html.dark .theme-choice-button.active {
   color: var(--color-danger);
   font-size: 0.78rem;
   font-weight: 800;
+}
+
+.settings-toggle-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.settings-toggle-row,
+.role-select-control {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: var(--color-text-strong);
+  font-weight: 800;
+}
+
+.settings-toggle-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary);
+}
+
+.role-select-control select {
+  min-width: 180px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  background: var(--color-card-bg);
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.pagination-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  padding: 14px 18px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.pagination-row .disabled {
+  pointer-events: none;
+  opacity: 0.46;
+}
+
+.trend-strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(54px, 1fr));
+  align-items: end;
+  gap: 0.8rem;
+  min-height: 180px;
+  padding: 18px;
+}
+
+.trend-bar {
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  align-items: end;
+  justify-items: center;
+  gap: 0.35rem;
+  height: 150px;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.trend-bar span {
+  display: block;
+  width: 100%;
+  max-width: 42px;
+  min-height: 8px;
+  border-radius: 6px 6px 2px 2px;
+  background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
+}
+
+.trend-bar strong {
+  color: var(--color-text-strong);
 }
 
 @media (max-width: 640px) {
