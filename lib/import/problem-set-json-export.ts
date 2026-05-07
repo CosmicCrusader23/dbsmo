@@ -4,7 +4,7 @@ type ExportableProblemSet = {
   slug: string;
   title: string;
   description: string;
-  order: number;
+  order: string;
   status: ProblemSetStatus;
   visibleFrom: Date | null;
   visibleTo: Date | null;

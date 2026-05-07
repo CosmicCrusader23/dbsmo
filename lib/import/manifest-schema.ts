@@ -12,7 +12,7 @@ export const manifestSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().min(1),
   description: z.string().default(""),
-  order: z.number().int().positive(),
+  order: z.coerce.string().trim(),
   status: z.enum(["draft", "published", "archived"]).default("draft"),
   allowedGroups: z.array(z.string().min(1)).default([]),
   topicTags: z.array(z.string().min(1)).default([]),

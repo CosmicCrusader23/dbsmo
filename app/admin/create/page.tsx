@@ -131,7 +131,7 @@ export default function CreateSetPage() {
   const [slug, setSlug] = useState("");
   const [slugManual, setSlugManual] = useState(false);
   const [description, setDescription] = useState("");
-  const [order, setOrder] = useState(1);
+  const [order, setOrder] = useState("1");
   const [difficulty, setDifficulty] = useState(1);
   const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
   const [topicTags, setTopicTags] = useState("");
@@ -376,10 +376,9 @@ export default function CreateSetPage() {
             <label htmlFor="set-order">Order</label>
             <input
               id="set-order"
-              type="number"
-              min={0}
+              type="text"
               value={order}
-              onChange={(e) => setOrder(Number(e.target.value))}
+              onChange={(e) => setOrder(e.target.value)}
             />
           </div>
 

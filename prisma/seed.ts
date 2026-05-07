@@ -48,7 +48,7 @@ async function main() {
       slug: "demo-set-001",
       title: "Demo Algebra Set",
       description: "A set of algebra practice problems for demo purposes.",
-      order: 1,
+      order: "1",
       status: "PUBLISHED",
       difficulty: 2,
       topicTags: ["Algebra"],

@@ -17,7 +17,7 @@ Practice mode only shows tags that belong to more than 10 published questions.
   "title": "MO Set 001 - Algebra Basics",
   "description": "Introductory answer-only algebra practice.",
   "statementFormat": "LATEX",
-  "order": 1,
+  "order": "1",
   "status": "PUBLISHED",
   "topicTags": ["algebra", "starter"],
   "difficulty": 2,
@@ -64,7 +64,7 @@ In the example above:
 | `title` | string | Yes | - | Display name of the set. |
 | `description` | string | No | `""` | Optional set description. |
 | `statementFormat` | string | No | `"LATEX"` | Statement format for all problems unless overridden per problem. One of `"LATEX"` or `"HTML"`. |
-| `order` | integer | No | next free order | Controls sort order. If omitted or `0`, the system assigns the next available order. |
+| `order` | string | No | next free order | Controls sort order. Supports any string value (sorted by ASCII). If omitted or empty, the system assigns the next available numeric order. Integer values are also accepted and coerced to strings. |
 | `status` | string | No | `"DRAFT"` | One of `"DRAFT"`, `"PUBLISHED"`, `"ARCHIVED"`. |
 | `visibleFrom` | ISO datetime string | No | `null` | Set release time. |
 | `visibleTo` | ISO datetime string | No | `null` | Set close time. |

@@ -63,10 +63,16 @@ export async function POST(req: Request) {
       );
     }
 
-    let finalOrder = order;
+    let finalOrder = order ?? "";
     if (!finalOrder) {
-      const maxOrderResult = await prisma.problemSet.aggregate({ _max: { order: true } });
-      finalOrder = (maxOrderResult._max.order ?? 0) + 1;
+      const existingSets = await prisma.problemSet.findMany({
+        select: { order: true },
+        orderBy: { order: "desc" },
+        take: 1,
+      });
+      const maxOrder = existingSets[0]?.order ?? "0";
+      const parsed = parseInt(maxOrder, 10);
+      finalOrder = String((Number.isFinite(parsed) ? parsed : 0) + 1);
     }
 
     let problemFileId: string | null = null;

@@ -39,7 +39,7 @@ type SetData = {
   title: string;
   slug: string;
   description: string;
-  order: number;
+  order: string;
   status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
   difficulty: number;
   topicTags: string[];
@@ -454,10 +454,9 @@ export function SetEditForm({ set }: { set: SetData }) {
                 <span className="form-label">Order</span>
                 <input
                   className="form-input"
-                  type="number"
-                  min={1}
+                  type="text"
                   value={order}
-                  onChange={(e) => setOrder(Number(e.target.value))}
+                  onChange={(e) => setOrder(e.target.value)}
                 />
               </label>
 

@@ -20,7 +20,7 @@ type SetRow = {
   id: string;
   slug: string;
   title: string;
-  order: number;
+  order: string;
   createdAt: Date;
   categories: string[];
   tags: string[];
@@ -250,11 +250,11 @@ export default async function ProblemSetsPage({
 
   const orderedRows = [...setRows].sort((a, b) => {
     if (sortMode === "solved") {
-      return b.solvedCount - a.solvedCount || a.order - b.order || a.title.localeCompare(b.title);
+      return b.solvedCount - a.solvedCount || a.order.localeCompare(b.order) || a.title.localeCompare(b.title);
     }
 
     if (sortMode === "name") {
-      return a.title.localeCompare(b.title) || a.order - b.order;
+      return a.title.localeCompare(b.title) || a.order.localeCompare(b.order);
     }
 
     if (sortMode === "latest") {
@@ -262,18 +262,18 @@ export default async function ProblemSetsPage({
     }
 
     if (sortMode === "weakest") {
-      return b.weakMatch - a.weakMatch || a.order - b.order || a.title.localeCompare(b.title);
+      return b.weakMatch - a.weakMatch || a.order.localeCompare(b.order) || a.title.localeCompare(b.title);
     }
 
     if (sortMode === "recommended") {
       return (
         b.recommendationScore - a.recommendationScore ||
         b.weakMatch - a.weakMatch ||
-        a.order - b.order
+        a.order.localeCompare(b.order)
       );
     }
 
-    return a.order - b.order || a.title.localeCompare(b.title);
+    return a.order.localeCompare(b.order) || a.title.localeCompare(b.title);
   });
 
   const viewRows = orderedRows.filter((set) => {

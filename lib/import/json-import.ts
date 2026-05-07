@@ -59,7 +59,7 @@ const jsonProblemSetSchema = z.object({
     .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
       message: "Invalid statementFormat. Use LATEX or HTML.",
     }),
-  order: z.coerce.number().int().optional().default(0),
+  order: z.coerce.string().trim().optional().default(""),
   status: z.string().optional().default("DRAFT"),
   visibleFrom: z.string().datetime().nullable().optional(),
   visibleTo: z.string().datetime().nullable().optional(),
@@ -182,9 +182,15 @@ export async function importProblemSetJson(
   const warnings = dryRun.issues.filter((issue) => issue.level === "warning");
 
   let finalOrder = data.order;
-  if (typeof finalOrder !== "number" || finalOrder <= 0) {
-    const maxOrderResult = await prisma.problemSet.aggregate({ _max: { order: true } });
-    finalOrder = (maxOrderResult._max.order ?? 0) + 1;
+  if (!finalOrder) {
+    const existingSets = await prisma.problemSet.findMany({
+      select: { order: true },
+      orderBy: { order: "desc" },
+      take: 1,
+    });
+    const maxOrder = existingSets[0]?.order ?? "0";
+    const parsed = parseInt(maxOrder, 10);
+    finalOrder = String((Number.isFinite(parsed) ? parsed : 0) + 1);
   }
 
   const problemSet = await prisma.problemSet.create({

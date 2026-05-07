@@ -109,7 +109,7 @@ model ProblemSet {
   slug           String               @unique
   title          String
   description    String               @default("")
-  order          Int
+  order          String               @default("")
   status         ProblemSetStatus     @default(DRAFT)
   visibleFrom    DateTime?
   visibleTo      DateTime?
