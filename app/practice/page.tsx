@@ -195,34 +195,37 @@ export default function PracticePage() {
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
                 {tags.map((tag) => {
                   const isEndless = tag.toLowerCase() === "endless";
-                  return (
+                  return isEndless ? (
+                    <button
+                      key={tag}
+                      onClick={() => handleTagSelect(tag)}
+                      className="hologram-btn"
+                    >
+                      <div className="hologram-scan-line" />
+                      <span data-text={tag}>{tag}</span>
+                    </button>
+                  ) : (
                     <button
                       key={tag}
                       onClick={() => handleTagSelect(tag)}
                       style={{
                         padding: "12px 24px",
                         borderRadius: 100,
-                        background: isEndless
-                          ? "linear-gradient(135deg, var(--color-pink), var(--color-purple))"
-                          : "var(--color-surface)",
-                        border: isEndless ? "none" : "1px solid var(--color-border)",
-                        color: isEndless ? "white" : "var(--color-text-strong)",
+                        background: "var(--color-surface)",
+                        border: "1px solid var(--color-border)",
+                        color: "var(--color-text-strong)",
                         fontSize: "1.1rem",
                         fontWeight: 700,
                         cursor: "pointer",
                         transition: "all 0.2s",
-                        boxShadow: isEndless ? "0 4px 15px rgba(255, 0, 150, 0.3)" : "none",
+                        boxShadow: "none",
                       }}
                       onMouseOver={(e) => {
-                        if (!isEndless) {
-                          e.currentTarget.style.borderColor = "var(--color-pink)";
-                        }
+                        e.currentTarget.style.borderColor = "var(--color-pink)";
                         e.currentTarget.style.transform = "translateY(-2px)";
                       }}
                       onMouseOut={(e) => {
-                        if (!isEndless) {
-                          e.currentTarget.style.borderColor = "var(--color-border)";
-                        }
+                        e.currentTarget.style.borderColor = "var(--color-border)";
                         e.currentTarget.style.transform = "none";
                       }}
                     >
