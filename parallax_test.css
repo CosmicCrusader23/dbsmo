@@ -1,0 +1,13 @@
+@keyframes parallax-bg {
+  0% { background-position: 50% 0%; }
+  100% { background-position: 50% 100%; }
+}
+@supports (animation-timeline: scroll()) {
+  html {
+    background-image: url("https://colorfulstage.com/img/bg_lottie_pc.jpg");
+    background-size: cover;
+    background-attachment: scroll;
+    animation: parallax-bg linear both;
+    animation-timeline: scroll(root block);
+  }
+}
