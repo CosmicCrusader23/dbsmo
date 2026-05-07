@@ -35,7 +35,7 @@ MAX_ZIP_UPLOAD_MB="50"
 
 1. Connect your GitHub repository to Vercel.
 2. In the Vercel dashboard, go to the project settings and configure the Environment Variables.
-3. Ensure the build command is `npm run build` or `npm run prisma:generate && next build`.
+3. Ensure the build command is `npm run build` or `npx prisma generate && next build`.
 4. Deploy the application.
 
 _Note on File Storage on Vercel:_
@@ -46,9 +46,9 @@ Vercel's file system is ephemeral. If you use `STORAGE_DRIVER="local"`, uploaded
 If deploying to a VPS (e.g., DigitalOcean, Hetzner, AWS EC2), you can use PM2 or Docker to persist the local storage folder.
 
 1. Clone the repository onto your server.
-2. Run `npm install` and `npm run prisma:generate`.
+2. Run `npm install` and `npx prisma generate`.
 3. Set your `.env` variables.
-4. Run `npm run prisma:migrate deploy` to apply migrations.
+4. Run `npx prisma migrate deploy` to apply migrations.
 5. Run `npm run build`.
 6. Start the server with `pm2 start npm --name "dbsmo" -- run start`.
 

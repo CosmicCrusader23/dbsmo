@@ -11,6 +11,7 @@
 2. Fill out the set title, slug, topic tags, and settings.
    - **Order ID:** The identifier shown in the set grid (e.g. `1`, `2`, `20212`, `A1`). Accepts any text and uses natural sorting, so `2` appears before `10`. If left blank, the system assigns the next available number.
 3. Add problems one-by-one, including statement, answer type, and answer key.
+   - **Problem Number:** A positive integer (e.g. 1, 2, 3). If you leave it as-is, new problems default to sequential numbers.
 4. For each problem, use the **LaTeX / HTML** toggle next to the statement field.
    - Use **LaTeX** for `$...$`/`$$...$$` style input.
    - Use **HTML** for content that includes tags like `<math>...</math>`.
@@ -29,11 +30,13 @@
 
 See [import-format.md](./import-format.md) for the JSON format specification.
 
-## Publishing a Set
+## Managing Sets
 
 1. Go to **Manage Sets** in the sidebar.
+   - Use the **Search bar** to find sets by title, slug, order, tag, or status.
+   - Use the **Status filter** to view All, Published, Draft, or Archived sets.
    - **Shortcut:** Admins also see a "Manage Set" gear icon directly on the public problem set page, next to the bookmark button.
-2. Click **View** on the set you want to publish.
+2. Click **View** on the set you want to edit or publish.
 3. In the set detail page, change the **Status** dropdown from `Draft` to `Published`.
 4. Click **Save changes**.
 5. The set is now visible to students. It will display "Uploaded by [Your Name]".
