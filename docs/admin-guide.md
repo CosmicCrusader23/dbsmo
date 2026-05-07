@@ -11,6 +11,8 @@
 2. Fill out the set title, slug, topic tags, and settings.
    - **Order ID:** If you leave the `order` as `0` or blank, the system automatically assigns the next available number.
 3. Add problems one-by-one, including statement, answer type, and answer key.
+   - Each problem has an **ID** field (the short label shown to students, e.g. `1`, `2a`, `A1`). It accepts any text — letters, digits, or a mix. Problems are sorted by ASCII order of their ID.
+   - If you leave it as-is, new problems default to sequential numbers (`1`, `2`, `3`, …).
 4. For each problem, use the **LaTeX / HTML** toggle next to the statement field.
    - Use **LaTeX** for `$...$`/`$$...$$` style input.
    - Use **HTML** for content that includes tags like `<math>...</math>`.
