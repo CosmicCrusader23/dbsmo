@@ -49,6 +49,7 @@
 
 html {
   color: var(--color-text);
+  background: url("https://colorfulstage.com/img/bg_lottie_pc.jpg") center/cover fixed;
   font-family: var(--font-inter), "Inter", "Avenir Next", "Segoe UI", sans-serif;
   letter-spacing: 0;
 }
@@ -56,35 +57,6 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  top: -10vh;
-  left: 0;
-  width: 100vw;
-  height: 120vh;
-  background: url("https://colorfulstage.com/img/bg_lottie_pc.jpg") center/cover;
-  z-index: -2;
-  pointer-events: none;
-  will-change: transform;
-}
-
-@supports (animation-timeline: scroll()) {
-  @keyframes bg-parallax {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-8vh);
-    }
-  }
-  
-  body::before {
-    animation: bg-parallax linear both;
-    animation-timeline: scroll();
-  }
 }
 
 a {
@@ -2739,7 +2711,7 @@ html.dark .judge-field span {
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
 }
 
 .confetti-triangles span {
@@ -4825,8 +4797,8 @@ html.dark .theme-choice-button.active {
   border: none;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(0, 255, 255, 0.5);
+  transition: all 0.2s;
+  border: 2px solid rgba(0, 255, 255, 0.5);
   background: rgba(0, 255, 255, 0.1);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
   backdrop-filter: blur(5px);
@@ -4835,6 +4807,7 @@ html.dark .theme-choice-button.active {
 
 .hologram-btn:hover {
   transform: translateY(-2px);
+  border-color: var(--color-pink, #ff66aa);
 }
 
 .hologram-btn span {
