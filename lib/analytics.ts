@@ -17,7 +17,7 @@ export type ScoreBucket = {
 export type QuestionStat = {
   problemSetTitle: string;
   problemSetSlug: string;
-  problemNumber: number;
+  problemNumber: string;
   total: number;
   correct: number;
   accuracy: number;
@@ -71,7 +71,7 @@ export function computeScoreBuckets(
 export function computeQuestionStats(
   responses: Array<{
     isCorrect: boolean;
-    problem: { number: number; problemSetId: string };
+    problem: { number: string; problemSetId: string };
   }>,
   setMap: Map<string, { title: string; slug: string }>,
 ): QuestionStat[] {

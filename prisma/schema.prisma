@@ -146,7 +146,7 @@ model ProblemSetBookmark {
 model Problem {
   id              String               @id @default(cuid())
   problemSetId    String
-  number          Int
+  number          String
   statement       String               @default("")
   contentFormat   ProblemContentFormat @default(LATEX)
   answerKey       String

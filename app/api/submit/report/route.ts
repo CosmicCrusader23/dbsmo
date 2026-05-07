@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     let problemId = null;
     if (problemNumber) {
       const problem = await prisma.problem.findUnique({
-        where: { problemSetId_number: { problemSetId, number: Number(problemNumber) } },
+        where: { problemSetId_number: { problemSetId, number: String(problemNumber) } },
       });
       if (problem) {
         problemId = problem.id;

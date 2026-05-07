@@ -35,9 +35,7 @@ export async function GET(request: Request) {
           userId: session.user.id,
         },
       },
-      topicTags: {
-        has: tag,
-      },
+      ...(tag.toLowerCase() === "endless" ? {} : { topicTags: { has: tag } }),
     },
     select: {
       id: true,

@@ -9,15 +9,19 @@ const BETWEEN_GREETING_MS = 280;
 
 const GREETINGS = [
   (name: string) => `Hello, ${name}!`,
-  (name: string) => `Ready for another set, ${name}?`,
-  (name: string) => `Get on, ${name}.`,
+  (name: string) => `Eat more curry, ${name}!`,
+  (name: string) => `Subscribe to Let's Think Critically, ${name}!`,
   (name: string) => `Welcome back, ${name}.`,
-  (name: string) => `Wassup, ${name}.`,
+  (name: string) => `Wassup :), ${name}.`,
   (name: string) => `Good to see you, ${name}.`,
-  (name: string) => `A little progress today, ${name}?`,
   (name: string) => `Make me proud, ${name}.`,
   (name: string) => `Be Culver Kwan, ${name}.`,
   (name: string) => `Time to lock in, ${name}.`,
+  (name: string) => `Be Marcoroni :3, ${name}.`,
+  (name: string) => `Marcoroni is typing..., ${name}.`,
+  (name: string) => `Search Marco The Dog, ${name}.`,
+  (name: string) => `Solve these problems if you're not gay, ${name}.`
+
 ];
 
 function GreetingTyper({ name }: { name: string }) {

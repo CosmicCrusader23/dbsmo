@@ -12,7 +12,7 @@ type SubmitResult = {
   maxScore: number;
   percentage: number;
   results: Array<{
-    number: number;
+    number: string;
     rawAnswer: string;
     isCorrect: boolean;
     pointsAwarded: number;
@@ -21,9 +21,9 @@ type SubmitResult = {
 
 type Props = {
   problemSetId: string;
-  problemCount: number;
+  problemNumbers: string[];
   problemSummaries?: Array<{
-    number: number;
+    number: string;
     topicTags: string[];
     explanationNote: string | null;
     contentFormat: "LATEX" | "HTML";
@@ -37,12 +37,11 @@ const REVIEW_KEY_PREFIX = "mo-review-";
 
 export function AnswerGrid({
   problemSetId,
-  problemCount,
+  problemNumbers,
   problemSummaries = [],
   videoUrl = null,
   lockedAttemptNumber = null,
 }: Props) {
-  const problemNumbers = Array.from({ length: problemCount }, (_, i) => i + 1);
   const autosaveKey = `${AUTOSAVE_KEY_PREFIX}${problemSetId}`;
   const reviewKey = `${REVIEW_KEY_PREFIX}${problemSetId}`;
 
@@ -59,11 +58,11 @@ export function AnswerGrid({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<SubmitResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [reviewLater, setReviewLater] = useState<Set<number>>(() => {
+  const [reviewLater, setReviewLater] = useState<Set<string>>(() => {
     if (typeof window === "undefined") return new Set();
     try {
       const saved = localStorage.getItem(reviewKey);
-      return new Set(saved ? (JSON.parse(saved) as number[]) : []);
+      return new Set(saved ? (JSON.parse(saved) as string[]) : []);
     } catch {
       return new Set();
     }
@@ -93,9 +92,9 @@ export function AnswerGrid({
     [autosaveKey],
   );
 
-  function onAnswerChange(number: number, value: string) {
+  function onAnswerChange(number: string, value: string) {
     setAnswers((prev) => {
-      const next = { ...prev, [String(number)]: value };
+      const next = { ...prev, [number]: value };
       debouncedSave(next);
       return next;
     });
@@ -151,7 +150,7 @@ export function AnswerGrid({
     startTime.current = Date.now();
   }
 
-  function toggleReviewLater(problemNumber: number) {
+  function toggleReviewLater(problemNumber: string) {
     setReviewLater((current) => {
       const next = new Set(current);
       if (next.has(problemNumber)) {
@@ -187,7 +186,7 @@ export function AnswerGrid({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           problemSetId,
-          problemNumber: problemNumber ? Number(problemNumber) : null,
+          problemNumber: problemNumber ? problemNumber : null,
           type,
           message,
         }),
@@ -453,7 +452,7 @@ export function AnswerGrid({
               aria-label={`Answer ${number}`}
               name={`answer-${number}`}
               placeholder="answer"
-              value={answers[String(number)] ?? ""}
+              value={answers[number] ?? ""}
               onChange={(e) => onAnswerChange(number, e.target.value)}
             />
           </label>
@@ -462,7 +461,7 @@ export function AnswerGrid({
 
       <div className="problem-actions">
         <span className="fill-count">
-          {filledCount}/{problemCount} answered
+          {filledCount}/{problemNumbers.length} answered
         </span>
         <button
           className="secondary-action"

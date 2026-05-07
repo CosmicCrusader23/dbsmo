@@ -182,8 +182,7 @@ export default function PracticePage() {
             <Target size={48} style={{ margin: "0 auto 20px", color: "var(--color-pink)" }} />
             <h2 style={{ fontSize: "1.8rem", marginBottom: 10 }}>Select a Category</h2>
             <p style={{ color: "var(--color-muted)", marginBottom: 30 }}>
-              Focus your training on specific topics. Only tags with more than 10 questions are
-              shown.
+              Focus your training on specific topics (10+ questions) or try the Endless mode.
             </p>
 
             {loadingTags ? (
@@ -194,33 +193,43 @@ export default function PracticePage() {
               <p>No categories available with enough questions.</p>
             ) : (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
-                {tags.map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => handleTagSelect(tag)}
-                    style={{
-                      padding: "12px 24px",
-                      borderRadius: 100,
-                      background: "var(--color-surface)",
-                      border: "1px solid var(--color-border)",
-                      color: "var(--color-text-strong)",
-                      fontSize: "1.1rem",
-                      fontWeight: 700,
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.borderColor = "var(--color-pink)";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.borderColor = "var(--color-border)";
-                      e.currentTarget.style.transform = "none";
-                    }}
-                  >
-                    {tag}
-                  </button>
-                ))}
+                {tags.map((tag) => {
+                  const isEndless = tag.toLowerCase() === "endless";
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => handleTagSelect(tag)}
+                      style={{
+                        padding: "12px 24px",
+                        borderRadius: 100,
+                        background: isEndless
+                          ? "linear-gradient(135deg, var(--color-pink), var(--color-purple))"
+                          : "var(--color-surface)",
+                        border: isEndless ? "none" : "1px solid var(--color-border)",
+                        color: isEndless ? "white" : "var(--color-text-strong)",
+                        fontSize: "1.1rem",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        boxShadow: isEndless ? "0 4px 15px rgba(255, 0, 150, 0.3)" : "none",
+                      }}
+                      onMouseOver={(e) => {
+                        if (!isEndless) {
+                          e.currentTarget.style.borderColor = "var(--color-pink)";
+                        }
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                      }}
+                      onMouseOut={(e) => {
+                        if (!isEndless) {
+                          e.currentTarget.style.borderColor = "var(--color-border)";
+                        }
+                        e.currentTarget.style.transform = "none";
+                      }}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </section>

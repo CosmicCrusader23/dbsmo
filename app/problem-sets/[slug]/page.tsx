@@ -203,7 +203,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
             </div>
             <AnswerGrid
               lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
-              problemCount={problemCount}
+              problemNumbers={problemSet.problems.map((p) => p.number)}
               problemSummaries={problemSet.problems.map((problem) => ({
                 number: problem.number,
                 topicTags: problem.topicTags,

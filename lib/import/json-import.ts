@@ -28,7 +28,7 @@ const ANSWER_TYPE_MAP: Record<string, AnswerType> = {
 };
 
 const jsonProblemSchema = z.object({
-  number: z.coerce.number().int().positive().optional(),
+  number: z.coerce.string().trim().min(1).optional(),
   statement: z.string().optional().default(""),
   statementFormat: z
     .string()
@@ -278,7 +278,7 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
     topicTags: normalizeTagList(data.topicTags),
     videoUrl: data.videoUrl?.trim() || null,
     problems: data.problems.map((problem, index) => ({
-      number: problem.number ?? index + 1,
+      number: problem.number ?? String(index + 1),
       statement: problem.statement.trim(),
       statementFormat: normalizeProblemContentFormat(
         problem.statementFormat ?? data.statementFormat,
@@ -297,8 +297,8 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
 
 function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): ImportIssue[] {
   const issues: ImportIssue[] = [];
-  const seenNumbers = new Set<number>();
-  const duplicateNumbers = new Set<number>();
+  const seenNumbers = new Set<string>();
+  const duplicateNumbers = new Set<string>();
 
   if (!Object.values(ProblemSetStatus).includes(data.status)) {
     issues.push({ level: "error", message: `Invalid status: ${data.status}.` });
@@ -329,9 +329,9 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
     issues.push({ level: "error", message: `Duplicate problem number: ${duplicate}.` });
   }
 
-  const sortedNumbers = [...seenNumbers].sort((a, b) => a - b);
+  const sortedNumbers = [...seenNumbers].sort((a, b) => a.localeCompare(b));
   sortedNumbers.forEach((number, index) => {
-    if (number !== index + 1) {
+    if (number !== String(index + 1)) {
       issues.push({
         level: "warning",
         message: "Problem numbers are not sequential from 1. Import can continue.",

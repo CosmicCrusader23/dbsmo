@@ -55,5 +55,5 @@ export async function GET() {
     .map(([tag]) => tag)
     .sort();
 
-  return NextResponse.json({ tags: validTags, practiceScore });
+  return NextResponse.json({ tags: ["Endless", ...validTags], practiceScore });
 }

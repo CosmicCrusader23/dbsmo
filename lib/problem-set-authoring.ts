@@ -18,7 +18,7 @@ export const uploadedPdfSchema = z
 
 export const authoringProblemSchema = z.object({
   id: z.string().min(1).optional(),
-  number: z.coerce.number().int().positive().optional(),
+  number: z.string().trim().min(1).optional(),
   statement: z.string().optional().default(""),
   contentFormat: z
     .string()
@@ -78,7 +78,7 @@ export function splitAnswerKey(answerKey: string) {
 export function normalizeAuthoringProblem(problem: AuthoringProblemInput, index = 0) {
   const answer = splitAnswerKey(problem.answerKey);
   return {
-    number: problem.number ?? index + 1,
+    number: problem.number ?? String(index + 1),
     statement: problem.statement?.trim() ?? "",
     contentFormat: normalizeProblemContentFormat(problem.contentFormat),
     answerKey: answer.answerKey,
@@ -90,8 +90,8 @@ export function normalizeAuthoringProblem(problem: AuthoringProblemInput, index 
   };
 }
 
-export function assertUniqueProblemNumbers(problems: Array<{ number?: number }>): string | null {
-  const numbers = problems.map((problem, index) => problem.number ?? index + 1);
+export function assertUniqueProblemNumbers(problems: Array<{ number?: string }>): string | null {
+  const numbers = problems.map((problem, index) => problem.number ?? String(index + 1));
   const duplicate = numbers.find((number, index) => numbers.indexOf(number) !== index);
   return duplicate ? `Problem number ${duplicate} is duplicated.` : null;
 }

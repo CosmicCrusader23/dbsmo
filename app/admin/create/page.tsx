@@ -29,7 +29,7 @@ type ContentFormat = "LATEX" | "HTML";
 
 interface ProblemEntry {
   id: string;
-  number: number;
+  number: string;
   statement: string;
   contentFormat: ContentFormat;
   answerType: AnswerType;
@@ -54,10 +54,10 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-function emptyProblem(n: number): ProblemEntry {
+function emptyProblem(n: number | string): ProblemEntry {
   return {
     id: uid(),
-    number: n,
+    number: String(n),
     statement: "",
     contentFormat: "LATEX",
     answerType: "INTEGER",
@@ -157,7 +157,7 @@ export default function CreateSetPage() {
     setProblems((prev) =>
       Array.from({ length: safeCount }, (_, index) => {
         const existing = prev[index];
-        return existing ? { ...existing, number: index + 1 } : emptyProblem(index + 1);
+        return existing ? existing : emptyProblem(index + 1);
       }),
     );
   }
@@ -184,8 +184,7 @@ export default function CreateSetPage() {
 
   function removeProblem(id: string) {
     setProblems((prev) => {
-      const next = prev.filter((p) => p.id !== id);
-      return next.map((p, i) => ({ ...p, number: i + 1 }));
+      return prev.filter((p) => p.id !== id);
     });
   }
 
@@ -531,9 +530,23 @@ export default function CreateSetPage() {
         {problems.map((p) => (
           <div key={p.id} className="problem-card">
             <div className="problem-card-head">
-              <div className="problem-number">
+              <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <GripVertical size={14} className="grip-icon" />
-                <span>Q{p.number}</span>
+                <input
+                  type="text"
+                  value={p.number}
+                  onChange={(e) => updateProblem(p.id, "number", e.target.value)}
+                  style={{
+                    width: 60,
+                    padding: "4px 8px",
+                    borderRadius: 4,
+                    border: "1px solid var(--color-border)",
+                    background: "var(--color-surface)",
+                    color: "var(--color-text-strong)",
+                    fontWeight: 700,
+                  }}
+                  placeholder="ID"
+                />
               </div>
               <div className="problem-card-actions">
                 <button

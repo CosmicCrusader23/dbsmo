@@ -24,7 +24,7 @@ import { DeleteSetButton } from "../delete-set-button";
 
 type ProblemData = {
   id: string;
-  number: number;
+  number: string;
   statement: string;
   contentFormat: "LATEX" | "HTML";
   answerKey: string;
@@ -81,10 +81,10 @@ function toggleTagInCsv(csv: string, tag: string): string {
   return next.join(", ");
 }
 
-function newProblem(number: number) {
+function newProblem(number: number | string) {
   return {
     id: `new-${Math.random().toString(36).slice(2, 10)}`,
-    number,
+    number: String(number),
     statement: "",
     contentFormat: "LATEX" as const,
     answerKey: "",
@@ -179,6 +179,7 @@ export function SetEditForm({ set }: { set: SetData }) {
       | "answerKey"
       | "answerType"
       | "points"
+      | "number"
       | "topicTagsInput"
       | "explanationNoteInput",
     value: string | number,
@@ -197,9 +198,7 @@ export function SetEditForm({ set }: { set: SetData }) {
   function removeProblem(problemId: string) {
     setProblems((prev) => {
       if (prev.length <= 1) return prev;
-      return prev
-        .filter((problem) => problem.id !== problemId)
-        .map((problem, index) => ({ ...problem, number: index + 1 }));
+      return prev.filter((problem) => problem.id !== problemId);
     });
   }
 
@@ -208,7 +207,7 @@ export function SetEditForm({ set }: { set: SetData }) {
     setProblems((prev) =>
       Array.from({ length: safeCount }, (_, index) => {
         const existing = prev[index];
-        return existing ? { ...existing, number: index + 1 } : newProblem(index + 1);
+        return existing ? existing : newProblem(index + 1);
       }),
     );
   }
@@ -572,8 +571,23 @@ export function SetEditForm({ set }: { set: SetData }) {
                     ) : (
                       <ChevronRight size={18} />
                     )}
-                    <div className="problem-number">
-                      <span>Q{problem.number}</span>
+                    <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <input
+                        type="text"
+                        value={problem.number}
+                        onChange={(e) => updateProblem(problem.id, "number", e.target.value)}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          width: 60,
+                          padding: "2px 6px",
+                          borderRadius: 4,
+                          border: "1px solid var(--color-border)",
+                          background: "var(--color-surface)",
+                          color: "var(--color-text-strong)",
+                          fontWeight: 700,
+                        }}
+                        placeholder="ID"
+                      />
                     </div>
                     {!expandedProblems.has(problem.id) && (
                       <small
