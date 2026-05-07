@@ -13,6 +13,7 @@ import {
 } from "@/lib/problem-tags";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { compareProblemSetOrder, compareProblemSetRecords } from "@/lib/problem-set-order";
 
 export const dynamic = "force-dynamic";
 
@@ -118,7 +119,7 @@ export default async function ProblemSetsPage({
     const nextPage = next.page ?? 1;
     const urlParams = new URLSearchParams();
 
-    if (nextView === "bookmarked") {
+    if (nextView !== "recommended") {
       urlParams.set("view", nextView);
     }
     if (nextSort !== "default") {
@@ -153,7 +154,7 @@ export default async function ProblemSetsPage({
       select: { id: true, role: true, email: true },
     }),
     prisma.problemSet.findMany({
-      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+      orderBy: { createdAt: "asc" },
       include: {
         _count: { select: { problems: true } },
         problems: { select: { topicTags: true } },
@@ -250,11 +251,15 @@ export default async function ProblemSetsPage({
 
   const orderedRows = [...setRows].sort((a, b) => {
     if (sortMode === "solved") {
-      return b.solvedCount - a.solvedCount || a.order.localeCompare(b.order) || a.title.localeCompare(b.title);
+      return (
+        b.solvedCount - a.solvedCount ||
+        compareProblemSetOrder(a.order, b.order) ||
+        a.title.localeCompare(b.title)
+      );
     }
 
     if (sortMode === "name") {
-      return a.title.localeCompare(b.title) || a.order.localeCompare(b.order);
+      return a.title.localeCompare(b.title) || compareProblemSetOrder(a.order, b.order);
     }
 
     if (sortMode === "latest") {
@@ -262,18 +267,22 @@ export default async function ProblemSetsPage({
     }
 
     if (sortMode === "weakest") {
-      return b.weakMatch - a.weakMatch || a.order.localeCompare(b.order) || a.title.localeCompare(b.title);
+      return (
+        b.weakMatch - a.weakMatch ||
+        compareProblemSetOrder(a.order, b.order) ||
+        a.title.localeCompare(b.title)
+      );
     }
 
     if (sortMode === "recommended") {
       return (
         b.recommendationScore - a.recommendationScore ||
         b.weakMatch - a.weakMatch ||
-        a.order.localeCompare(b.order)
+        compareProblemSetOrder(a.order, b.order)
       );
     }
 
-    return a.order.localeCompare(b.order) || a.title.localeCompare(b.title);
+    return compareProblemSetRecords(a, b);
   });
 
   const viewRows = orderedRows.filter((set) => {
@@ -479,8 +488,8 @@ export default async function ProblemSetsPage({
           placeholder="Search tasks by title, slug, or tag"
         />
         {sortMode !== "default" ? <input name="sort" type="hidden" value={sortMode} /> : null}
-        {activeView === "bookmarked" ? (
-          <input name="view" type="hidden" value="bookmarked" />
+        {activeView !== "recommended" ? (
+          <input name="view" type="hidden" value={activeView} />
         ) : null}
         {statusFilter !== "all" ? <input name="status" type="hidden" value={statusFilter} /> : null}
         {mediaFilter !== "all" ? <input name="media" type="hidden" value={mediaFilter} /> : null}

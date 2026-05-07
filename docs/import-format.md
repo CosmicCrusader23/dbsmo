@@ -24,7 +24,7 @@ Practice mode only shows tags that belong to more than 10 published questions.
   "videoUrl": "https://example.com/video",
   "problems": [
     {
-      "number": "1",
+      "number": 1,
       "statement": "Solve for x: 2x = 4",
       "answerType": "integer",
       "answerKey": "2",
@@ -32,7 +32,7 @@ Practice mode only shows tags that belong to more than 10 published questions.
       "topicTags": ["algebra", "linear-equations"]
     },
     {
-      "number": "2",
+      "number": 2,
       "statement": "Give the exact value of sqrt(2).",
       "answerType": "expression",
       "answerKey": "sqrt(2)",
@@ -40,7 +40,7 @@ Practice mode only shows tags that belong to more than 10 published questions.
       "topicTags": ["surds"]
     },
     {
-      "number": "3",
+      "number": 3,
       "statement": "State the parity of 17.",
       "answerType": "exact",
       "answerKey": "odd"
@@ -58,39 +58,39 @@ In the example above:
 
 ## Top-Level Fields
 
-| Field | Type | Required | Default | Notes |
-| :--- | :--- | :--- | :--- | :--- |
-| `slug` | string | Yes | - | Unique URL-friendly identifier, e.g. `algebra-01`. |
-| `title` | string | Yes | - | Display name of the set. |
-| `description` | string | No | `""` | Optional set description. |
-| `statementFormat` | string | No | `"LATEX"` | Statement format for all problems unless overridden per problem. One of `"LATEX"` or `"HTML"`. |
-| `order` | string | No | next free order | Controls sort order. Supports any string value (sorted by ASCII). If omitted or empty, the system assigns the next available numeric order. Integer values are also accepted and coerced to strings. |
-| `status` | string | No | `"DRAFT"` | One of `"DRAFT"`, `"PUBLISHED"`, `"ARCHIVED"`. |
-| `visibleFrom` | ISO datetime string | No | `null` | Set release time. |
-| `visibleTo` | ISO datetime string | No | `null` | Set close time. |
-| `topicTags` | string[] | No | `[]` | Tags for the set as a whole. These do not by themselves place questions into Practice pools. |
-| `difficulty` | integer | No | `1` | Difficulty from 1 to 10. |
-| `videoUrl` | URL string | No | `null` | Optional video link. |
-| `problems` | object[] | Yes | - | At least one problem is required. |
+| Field             | Type                | Required | Default         | Notes                                                                                                                                                                                                                                                  |
+| :---------------- | :------------------ | :------- | :-------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slug`            | string              | Yes      | -               | Unique URL-friendly identifier, e.g. `algebra-01`.                                                                                                                                                                                                     |
+| `title`           | string              | Yes      | -               | Display name of the set.                                                                                                                                                                                                                               |
+| `description`     | string              | No       | `""`            | Optional set description.                                                                                                                                                                                                                              |
+| `statementFormat` | string              | No       | `"LATEX"`       | Statement format for all problems unless overridden per problem. One of `"LATEX"` or `"HTML"`.                                                                                                                                                         |
+| `order`           | string              | No       | next free order | Problem set ID shown in set tables. Supports any string value and sorts with natural ordering, so `2` comes before `10`. If omitted or empty, the system assigns the next available numeric order. Integer values are accepted and coerced to strings. |
+| `status`          | string              | No       | `"DRAFT"`       | One of `"DRAFT"`, `"PUBLISHED"`, `"ARCHIVED"`.                                                                                                                                                                                                         |
+| `visibleFrom`     | ISO datetime string | No       | `null`          | Set release time.                                                                                                                                                                                                                                      |
+| `visibleTo`       | ISO datetime string | No       | `null`          | Set close time.                                                                                                                                                                                                                                        |
+| `topicTags`       | string[]            | No       | `[]`            | Tags for the set as a whole. These do not by themselves place questions into Practice pools.                                                                                                                                                           |
+| `difficulty`      | integer             | No       | `1`             | Difficulty from 1 to 10.                                                                                                                                                                                                                               |
+| `videoUrl`        | URL string          | No       | `null`          | Optional video link.                                                                                                                                                                                                                                   |
+| `problems`        | object[]            | Yes      | -               | At least one problem is required.                                                                                                                                                                                                                      |
 
 ## Problem Fields
 
 Each entry in `problems` defines one question.
 
-| Field | Type | Required | Default | Notes |
-| :--- | :--- | :--- | :--- | :--- |
-| `number` | string | No | array index + 1 | Question identifier. Supports alphanumeric values like `"1"`, `"1a"`, `"A1"`, `"Q3b"`. Integer values are also accepted and coerced to strings. Ordered by ASCII value. |
-| `statement` | string | No | `""` | Problem statement. LaTeX is allowed. |
-| `statementFormat` | string | No | inherits top-level `statementFormat` | One of `"LATEX"` or `"HTML"`. Use `"HTML"` for content containing tags like `<math>...</math>`. |
-| `answerKey` | string | Yes* | - | Primary correct answer. |
-| `answer` | string | Yes* | - | Alias for `answerKey`. |
-| `answerType` | string | No | `"EXACT"` | One of `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. Lowercase values are also accepted by the importer. |
-| `acceptedAnswers` | string[] or string | No | `[]` | Alternative correct answers. A string value may use `;` as a separator. |
-| `caseSensitive` | boolean | No | `false` | Enables case-sensitive grading. |
-| `points` | integer | No | `1` | Points awarded for the problem. |
-| `topicTags` | string[] | No | `[]` | Optional question tags. These are the tags used by Practice mode. |
-| `solution` | string | No | `null` | Optional explanation shown after completion. |
-| `explanationNote` | string | No | `null` | Alias for `solution`. |
+| Field             | Type               | Required | Default                              | Notes                                                                                                                                                |
+| :---------------- | :----------------- | :------- | :----------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `number`          | integer            | No       | array index + 1                      | Question identifier. Must be a positive integer.                                                                                                     |
+| `statement`       | string             | No       | `""`                                 | Problem statement. LaTeX is allowed.                                                                                                                 |
+| `statementFormat` | string             | No       | inherits top-level `statementFormat` | One of `"LATEX"` or `"HTML"`. Use `"HTML"` for content containing tags like `<math>...</math>`.                                                      |
+| `answerKey`       | string             | Yes\*    | -                                    | Primary correct answer.                                                                                                                              |
+| `answer`          | string             | Yes\*    | -                                    | Alias for `answerKey`.                                                                                                                               |
+| `answerType`      | string             | No       | `"EXACT"`                            | One of `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. Lowercase values are also accepted by the importer. |
+| `acceptedAnswers` | string[] or string | No       | `[]`                                 | Alternative correct answers. A string value may use `;` as a separator.                                                                              |
+| `caseSensitive`   | boolean            | No       | `false`                              | Enables case-sensitive grading.                                                                                                                      |
+| `points`          | integer            | No       | `1`                                  | Points awarded for the problem.                                                                                                                      |
+| `topicTags`       | string[]           | No       | `[]`                                 | Optional question tags. These are the tags used by Practice mode.                                                                                    |
+| `solution`        | string             | No       | `null`                               | Optional explanation shown after completion.                                                                                                         |
+| `explanationNote` | string             | No       | `null`                               | Alias for `solution`.                                                                                                                                |
 
 \* Each problem must provide either `answerKey` or `answer`.
 
@@ -129,9 +129,6 @@ Per-problem `topicTags` drive Practice mode.
 
 - File size limit: 5 MB
 - The uploaded file must be valid JSON.
-- Duplicate problem numbers (IDs) are rejected.
-- Problem IDs can be any non-empty string — letters, digits, or a mix (e.g. `"1a"`, `"A1"`, `"Q3b"`).
-- When problem IDs are omitted, they default to `"1"`, `"2"`, `"3"`, etc.
-- Problems are sorted by ASCII value of their ID string.
+- Duplicate problem numbers are rejected.
 - Each problem must include an answer.
 - Invalid answer types are rejected.

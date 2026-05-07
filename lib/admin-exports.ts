@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { computeBestAverageScore, toCsvRow } from "@/lib/analytics";
 import { problemSetToImportJson } from "@/lib/import/problem-set-json-export";
 import { readFileBuffer } from "@/lib/storage";
+import { compareProblemSetRecords } from "@/lib/problem-set-order";
 
 export async function buildStudentsCsv() {
   const students = await prisma.user.findMany({
@@ -74,7 +75,7 @@ export async function buildAttemptsCsv() {
 export async function buildBackupJson() {
   const [problemSets, importedFiles] = await Promise.all([
     prisma.problemSet.findMany({
-      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+      orderBy: { createdAt: "asc" },
       include: { problems: { orderBy: { number: "asc" } } },
     }),
     prisma.importedFile.findMany({
@@ -105,7 +106,7 @@ export async function buildBackupJson() {
     {
       exportedAt: new Date().toISOString(),
       schema: "dbsmo-backup-v1",
-      problemSets: problemSets.map(problemSetToImportJson),
+      problemSets: problemSets.sort(compareProblemSetRecords).map(problemSetToImportJson),
       importedFiles: importedFileBackups,
     },
     null,

@@ -48,4 +48,21 @@ describe("dryRunProblemSetJson", () => {
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.message.includes("Slug must use"))).toBe(true);
   });
+
+  it("requires JSON problem numbers to be integers, not string IDs", async () => {
+    const text = JSON.stringify({
+      slug: "json-string-question-id",
+      title: "String Question ID",
+      problems: [{ number: "1", answerKey: "1" }],
+    });
+
+    const result = await dryRunProblemSetJson({
+      fileName: "json-string-question-id.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.message.includes("number"))).toBe(true);
+  });
 });

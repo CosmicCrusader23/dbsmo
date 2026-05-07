@@ -56,16 +56,16 @@ async function main() {
       createdById: admin.id,
       problems: {
         create: [
-          { number: "1", answerKey: "42", answerType: "INTEGER", points: 1, topicTags: ["Algebra"] },
+          { number: 1, answerKey: "42", answerType: "INTEGER", points: 1, topicTags: ["Algebra"] },
           {
-            number: "2",
+            number: 2,
             answerKey: "1/2",
             answerType: "FRACTION",
             acceptedAnswers: ["0.5"],
             points: 1,
             topicTags: ["Fractions"],
           },
-          { number: "3", answerKey: "x=2", answerType: "EXACT", points: 1, topicTags: ["Equations"] },
+          { number: 3, answerKey: "x=2", answerType: "EXACT", points: 1, topicTags: ["Equations"] },
         ],
       },
     },

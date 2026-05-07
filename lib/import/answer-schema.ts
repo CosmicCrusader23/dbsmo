@@ -12,7 +12,7 @@ export const answerTypeSchema = z.enum([
 ]);
 
 export const answerRowSchema = z.object({
-  number: z.coerce.string().trim().min(1),
+  number: z.coerce.number().int().positive(),
   answerType: answerTypeSchema,
   answer: z.string().trim().min(1),
   acceptedAnswers: z

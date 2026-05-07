@@ -1,0 +1,7 @@
+ALTER TABLE "ProblemSet"
+ALTER COLUMN "order" DROP DEFAULT,
+ALTER COLUMN "order" TYPE TEXT USING "order"::text,
+ALTER COLUMN "order" SET DEFAULT '';
+
+ALTER TABLE "Problem"
+ALTER COLUMN "number" TYPE INTEGER USING "number"::integer;

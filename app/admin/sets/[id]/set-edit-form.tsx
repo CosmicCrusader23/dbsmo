@@ -24,7 +24,7 @@ import { DeleteSetButton } from "../delete-set-button";
 
 type ProblemData = {
   id: string;
-  number: string;
+  number: number;
   statement: string;
   contentFormat: "LATEX" | "HTML";
   answerKey: string;
@@ -84,7 +84,7 @@ function toggleTagInCsv(csv: string, tag: string): string {
 function newProblem(number: number | string) {
   return {
     id: `new-${Math.random().toString(36).slice(2, 10)}`,
-    number: String(number),
+    number: typeof number === "number" ? number : Number(number) || 1,
     statement: "",
     contentFormat: "LATEX" as const,
     answerKey: "",
@@ -572,9 +572,10 @@ export function SetEditForm({ set }: { set: SetData }) {
                     )}
                     <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <input
-                        type="text"
+                        type="number"
+                        min={1}
                         value={problem.number}
-                        onChange={(e) => updateProblem(problem.id, "number", e.target.value)}
+                        onChange={(e) => updateProblem(problem.id, "number", Number(e.target.value))}
                         onClick={(e) => e.stopPropagation()}
                         style={{
                           width: 60,

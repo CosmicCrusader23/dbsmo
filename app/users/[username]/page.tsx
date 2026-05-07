@@ -12,6 +12,7 @@ import { normalizeTagList } from "@/lib/problem-tags";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { isStaffRole } from "@/lib/permissions";
+import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
 
@@ -117,25 +118,27 @@ export default async function UserProfilePage({
 
   if (!user) notFound();
 
-  const allSets = await prisma.problemSet.findMany({
-    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      order: true,
-      status: true,
-      visibleFrom: true,
-      visibleTo: true,
-      problems: {
-        orderBy: { number: "asc" },
-        select: {
-          id: true,
-          number: true,
+  const allSets = await prisma.problemSet
+    .findMany({
+      orderBy: { createdAt: "asc" },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        order: true,
+        status: true,
+        visibleFrom: true,
+        visibleTo: true,
+        problems: {
+          orderBy: { number: "asc" },
+          select: {
+            id: true,
+            number: true,
+          },
         },
       },
-    },
-  });
+    })
+    .then((sets) => sets.sort(compareProblemSetRecords));
 
   const isOwnProfile = user.id === session.user.id;
   const canViewPrivateProfile = isOwnProfile || isStaffRole(session.user.role);

@@ -190,8 +190,8 @@ function validateReferencedFile(
 }
 
 function validateProblemNumbers(answers: AnswerRow[], issues: ImportIssue[]) {
-  const seen = new Set<string>();
-  const duplicates = new Set<string>();
+  const seen = new Set<number>();
+  const duplicates = new Set<number>();
   for (const answer of answers) {
     if (seen.has(answer.number)) {
       duplicates.add(answer.number);
@@ -206,9 +206,9 @@ function validateProblemNumbers(answers: AnswerRow[], issues: ImportIssue[]) {
     });
   }
 
-  const sorted = [...seen].sort((a, b) => a.localeCompare(b));
+  const sorted = [...seen].sort((a, b) => a - b);
   sorted.forEach((number, index) => {
-    if (number !== String(index + 1)) {
+    if (number !== index + 1) {
       issues.push({
         level: "warning",
         message:

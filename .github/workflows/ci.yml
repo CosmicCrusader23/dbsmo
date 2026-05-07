@@ -41,7 +41,7 @@ jobs:
           cache: npm
       - uses: astral-sh/setup-uv@v5
       - run: npm ci
-      - run: npx prisma migrate deploy
+      - run: npx prisma db push
       - run: npm run db:seed
       - run: npm run lint
       - run: npm run typecheck
@@ -75,4 +75,3 @@ jobs:
           curl -fsS http://localhost:3001 >/dev/null
 
           BU_NAME=dbsmo-ci BU_CDP_URL=http://127.0.0.1:9222 BASE_URL=http://localhost:3001 browser-harness -c 'exec(open("tests/browser_harness_smoke.py").read())'
-          fi

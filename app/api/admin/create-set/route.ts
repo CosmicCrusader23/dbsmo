@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
 import { recordAuditLog } from "@/lib/audit";
+import { nextProblemSetOrder } from "@/lib/problem-set-order";
 import {
   assertUniqueProblemNumbers,
   createProblemSetAuthoringSchema,
@@ -67,12 +68,8 @@ export async function POST(req: Request) {
     if (!finalOrder) {
       const existingSets = await prisma.problemSet.findMany({
         select: { order: true },
-        orderBy: { order: "desc" },
-        take: 1,
       });
-      const maxOrder = existingSets[0]?.order ?? "0";
-      const parsed = parseInt(maxOrder, 10);
-      finalOrder = String((Number.isFinite(parsed) ? parsed : 0) + 1);
+      finalOrder = nextProblemSetOrder(existingSets.map((set) => set.order));
     }
 
     let problemFileId: string | null = null;

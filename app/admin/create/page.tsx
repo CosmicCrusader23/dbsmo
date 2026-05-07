@@ -29,7 +29,7 @@ type ContentFormat = "LATEX" | "HTML";
 
 interface ProblemEntry {
   id: string;
-  number: string;
+  number: number;
   statement: string;
   contentFormat: ContentFormat;
   answerType: AnswerType;
@@ -57,7 +57,7 @@ function uid() {
 function emptyProblem(n: number | string): ProblemEntry {
   return {
     id: uid(),
-    number: String(n),
+    number: typeof n === "number" ? n : Number(n) || 1,
     statement: "",
     contentFormat: "LATEX",
     answerType: "INTEGER",
@@ -532,9 +532,10 @@ export default function CreateSetPage() {
               <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <GripVertical size={14} className="grip-icon" />
                 <input
-                  type="text"
+                  type="number"
+                  min={1}
                   value={p.number}
-                  onChange={(e) => updateProblem(p.id, "number", e.target.value)}
+                  onChange={(e) => updateProblem(p.id, "number", Number(e.target.value))}
                   style={{
                     width: 60,
                     padding: "4px 8px",

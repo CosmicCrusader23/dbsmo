@@ -30,6 +30,7 @@ import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { hasPermission } from "@/lib/permissions";
+import { compareProblemSetRecords } from "@/lib/problem-set-order";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,7 @@ export default async function DashboardPage() {
       },
     }),
     prisma.problemSet.findMany({
-      orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+      orderBy: { createdAt: "asc" },
       include: {
         _count: { select: { problems: true, attempts: true, feedback: true } },
       },
@@ -102,8 +103,9 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  const visibleSets =
-    currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
+  const visibleSets = (
+    currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set))
+  ).sort(compareProblemSetRecords);
   const canManageContent = hasPermission(currentUser.role, "admin:content");
   const canViewStudents = hasPermission(currentUser.role, "admin:users");
   const canViewAnalytics = hasPermission(currentUser.role, "admin:analytics");

@@ -24,8 +24,13 @@ export async function POST(req: Request) {
 
     let problemId = null;
     if (problemNumber) {
+      const parsedProblemNumber = Number(problemNumber);
+      if (!Number.isInteger(parsedProblemNumber) || parsedProblemNumber <= 0) {
+        return NextResponse.json({ error: "Invalid problem number" }, { status: 400 });
+      }
+
       const problem = await prisma.problem.findUnique({
-        where: { problemSetId_number: { problemSetId, number: String(problemNumber) } },
+        where: { problemSetId_number: { problemSetId, number: parsedProblemNumber } },
       });
       if (problem) {
         problemId = problem.id;

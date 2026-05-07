@@ -12,7 +12,7 @@ type ExportableProblemSet = {
   difficulty: number;
   videoUrl: string | null;
   problems: Array<{
-    number: string;
+    number: number;
     statement: string;
     contentFormat: ProblemContentFormat;
     answerKey: string;

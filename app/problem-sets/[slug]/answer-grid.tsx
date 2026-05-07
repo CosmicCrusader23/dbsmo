@@ -12,7 +12,7 @@ type SubmitResult = {
   maxScore: number;
   percentage: number;
   results: Array<{
-    number: string;
+    number: number;
     rawAnswer: string;
     isCorrect: boolean;
     pointsAwarded: number;
@@ -21,9 +21,9 @@ type SubmitResult = {
 
 type Props = {
   problemSetId: string;
-  problemNumbers: string[];
+  problemNumbers: number[];
   problemSummaries?: Array<{
-    number: string;
+    number: number;
     topicTags: string[];
     explanationNote: string | null;
     contentFormat: "LATEX" | "HTML";
@@ -58,11 +58,11 @@ export function AnswerGrid({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<SubmitResult | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [reviewLater, setReviewLater] = useState<Set<string>>(() => {
+  const [reviewLater, setReviewLater] = useState<Set<number>>(() => {
     if (typeof window === "undefined") return new Set();
     try {
       const saved = localStorage.getItem(reviewKey);
-      return new Set(saved ? (JSON.parse(saved) as string[]) : []);
+      return new Set(saved ? (JSON.parse(saved) as number[]) : []);
     } catch {
       return new Set();
     }
@@ -92,7 +92,7 @@ export function AnswerGrid({
     [autosaveKey],
   );
 
-  function onAnswerChange(number: string, value: string) {
+  function onAnswerChange(number: number, value: string) {
     setAnswers((prev) => {
       const next = { ...prev, [number]: value };
       debouncedSave(next);
@@ -150,7 +150,7 @@ export function AnswerGrid({
     startTime.current = Date.now();
   }
 
-  function toggleReviewLater(problemNumber: string) {
+  function toggleReviewLater(problemNumber: number) {
     setReviewLater((current) => {
       const next = new Set(current);
       if (next.has(problemNumber)) {

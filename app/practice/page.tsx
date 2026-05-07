@@ -150,7 +150,7 @@ export default function PracticePage() {
         <span className="bg-spark bg-spark-one" />
       </div>
 
-      <div className="page-frame" style={{ maxWidth: 800, margin: "0 auto" }}>
+      <div className="page-frame">
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Training</p>

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 import { statusLabel, statusColor } from "@/lib/visibility";
+import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { DeleteSetButton } from "./delete-set-button";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +14,10 @@ export const dynamic = "force-dynamic";
 type AdminSetsSearchParams = Promise<{
   page?: string;
   q?: string;
+  status?: string;
 }>;
+
+type SetStatusFilter = "all" | "PUBLISHED" | "DRAFT" | "ARCHIVED";
 
 export default async function AdminSetsPage({
   searchParams,
@@ -27,17 +31,27 @@ export default async function AdminSetsPage({
   const params = (await searchParams) ?? {};
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
+  const statusFilter: SetStatusFilter =
+    params.status === "published"
+      ? "PUBLISHED"
+      : params.status === "draft"
+        ? "DRAFT"
+        : params.status === "archived"
+          ? "ARCHIVED"
+          : "all";
   const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
   const pageSize = 25;
 
   const sets = await prisma.problemSet.findMany({
-    orderBy: { order: "asc" },
+    orderBy: { createdAt: "asc" },
     include: {
       _count: { select: { problems: true } },
     },
   });
 
-  const visibleSets = sets.filter((set) => {
+  const orderedSets = [...sets].sort(compareProblemSetRecords);
+  const visibleSets = orderedSets.filter((set) => {
+    if (statusFilter !== "all" && set.status !== statusFilter) return false;
     if (!normalizedQuery) return true;
     return [set.title, set.slug, String(set.order), ...set.topicTags, set.status]
       .join(" ")
@@ -48,13 +62,23 @@ export default async function AdminSetsPage({
   const safePage = Math.min(currentPage, totalPages);
   const paginatedSets = visibleSets.slice((safePage - 1) * pageSize, safePage * pageSize);
 
-  function setsHref(page: number) {
+  function setsHref(next: { page?: number; status?: SetStatusFilter } = {}) {
     const urlParams = new URLSearchParams();
+    const nextPage = next.page ?? safePage;
+    const nextStatus = next.status ?? statusFilter;
     if (query) urlParams.set("q", query);
-    if (page > 1) urlParams.set("page", String(page));
+    if (nextStatus !== "all") urlParams.set("status", nextStatus.toLowerCase());
+    if (nextPage > 1) urlParams.set("page", String(nextPage));
     const suffix = urlParams.toString();
     return suffix ? `/admin/sets?${suffix}` : "/admin/sets";
   }
+
+  const statusOptions: Array<{ label: string; value: SetStatusFilter }> = [
+    { label: "All", value: "all" },
+    { label: "Published", value: "PUBLISHED" },
+    { label: "Draft", value: "DRAFT" },
+    { label: "Archived", value: "ARCHIVED" },
+  ];
 
   return (
     <main className="single-page">
@@ -90,6 +114,9 @@ export default async function AdminSetsPage({
             name="q"
             placeholder="Search sets by title, slug, order, tag, or status"
           />
+          {statusFilter !== "all" ? (
+            <input name="status" type="hidden" value={statusFilter.toLowerCase()} />
+          ) : null}
           <button className="secondary-action compact" type="submit">
             Search
           </button>
@@ -99,6 +126,21 @@ export default async function AdminSetsPage({
             </Link>
           ) : null}
         </form>
+
+        <section className="admin-set-filter-bar" aria-label="Problem set status filters">
+          <span className="leaderboard-control-label">Status</span>
+          <div className="segmented-control">
+            {statusOptions.map((option) => (
+              <Link
+                className={`segmented-button${statusFilter === option.value ? " active" : ""}`}
+                href={setsHref({ page: 1, status: option.value })}
+                key={option.value}
+              >
+                {option.label}
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {visibleSets.length === 0 ? (
           <section className="panel empty-state">
@@ -120,7 +162,9 @@ export default async function AdminSetsPage({
           <section className="panel table-panel">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">All sets</p>
+                <p className="eyebrow">
+                  {statusFilter === "all" ? "All sets" : `${statusFilter.toLowerCase()} sets`}
+                </p>
                 <h2>
                   {visibleSets.length} problem set{visibleSets.length !== 1 ? "s" : ""}
                 </h2>
@@ -188,7 +232,7 @@ export default async function AdminSetsPage({
               <div className="pagination-row">
                 <Link
                   className="secondary-action compact"
-                  href={setsHref(Math.max(1, safePage - 1))}
+                  href={setsHref({ page: Math.max(1, safePage - 1) })}
                 >
                   Previous
                 </Link>
@@ -197,7 +241,7 @@ export default async function AdminSetsPage({
                 </span>
                 <Link
                   className="secondary-action compact"
-                  href={setsHref(Math.min(totalPages, safePage + 1))}
+                  href={setsHref({ page: Math.min(totalPages, safePage + 1) })}
                 >
                   Next
                 </Link>

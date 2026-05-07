@@ -5,6 +5,7 @@ import {
   isSupportedProblemContentFormat,
   normalizeProblemContentFormat,
 } from "../problem-content-format";
+import { nextProblemSetOrder } from "../problem-set-order";
 import type { ImportIssue } from "./zip-dry-run";
 
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
@@ -28,7 +29,7 @@ const ANSWER_TYPE_MAP: Record<string, AnswerType> = {
 };
 
 const jsonProblemSchema = z.object({
-  number: z.coerce.string().trim().min(1).optional(),
+  number: z.number().int().positive().optional(),
   statement: z.string().optional().default(""),
   statementFormat: z
     .string()
@@ -185,12 +186,8 @@ export async function importProblemSetJson(
   if (!finalOrder) {
     const existingSets = await prisma.problemSet.findMany({
       select: { order: true },
-      orderBy: { order: "desc" },
-      take: 1,
     });
-    const maxOrder = existingSets[0]?.order ?? "0";
-    const parsed = parseInt(maxOrder, 10);
-    finalOrder = String((Number.isFinite(parsed) ? parsed : 0) + 1);
+    finalOrder = nextProblemSetOrder(existingSets.map((set) => set.order));
   }
 
   const problemSet = await prisma.problemSet.create({
@@ -284,7 +281,7 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
     topicTags: normalizeTagList(data.topicTags),
     videoUrl: data.videoUrl?.trim() || null,
     problems: data.problems.map((problem, index) => ({
-      number: problem.number ?? String(index + 1),
+      number: problem.number ?? index + 1,
       statement: problem.statement.trim(),
       statementFormat: normalizeProblemContentFormat(
         problem.statementFormat ?? data.statementFormat,
@@ -303,8 +300,8 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
 
 function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): ImportIssue[] {
   const issues: ImportIssue[] = [];
-  const seenNumbers = new Set<string>();
-  const duplicateNumbers = new Set<string>();
+  const seenNumbers = new Set<number>();
+  const duplicateNumbers = new Set<number>();
 
   if (!Object.values(ProblemSetStatus).includes(data.status)) {
     issues.push({ level: "error", message: `Invalid status: ${data.status}.` });
@@ -335,9 +332,9 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
     issues.push({ level: "error", message: `Duplicate problem number: ${duplicate}.` });
   }
 
-  const sortedNumbers = [...seenNumbers].sort((a, b) => a.localeCompare(b));
+  const sortedNumbers = [...seenNumbers].sort((a, b) => a - b);
   sortedNumbers.forEach((number, index) => {
-    if (number !== String(index + 1)) {
+    if (number !== index + 1) {
       issues.push({
         level: "warning",
         message: "Problem numbers are not sequential from 1. Import can continue.",
