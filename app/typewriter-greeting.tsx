@@ -20,6 +20,7 @@ const GREETINGS = [
   (name: string) => `Be Marcoroni :3, ${name}.`,
   (name: string) => `Marcoroni is typing..., ${name}.`,
   (name: string) => `Search Marco The Dog, ${name}.`,
+  (name: string) => `Be more ORZ, ${name}.`,
   (name: string) => `Solve these problems if you're not gay, ${name}.`
 
 ];
