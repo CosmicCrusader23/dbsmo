@@ -21,12 +21,35 @@ const GREETINGS = [
   (name: string) => `Marcoroni is typing..., ${name}.`,
   (name: string) => `Search Marco The Dog, ${name}.`,
   (name: string) => `Be more ORZ, ${name}.`,
-  (name: string) => `Solve these problems if you're not gay, ${name}.`
-
+  (name: string) => `Solve these problems if you're not gay, ${name}.`,
+  (name: string) => `${name}! Stay determined!`,
+  () => `Nature is written in mathematical language.`,
+  () => `In mathematics, you don’t understand things. You just get used to them.`,
+  (name: string) => `${name}, you forgot a ± somewhere.`,
+  (name: string) => `${name}, you look like a trapezium.`,
+  () => `The Riemann Hypothesis has been solved!`,
+  () => `I still remember the thrill of solving my first integral.`,
+  () => `Numbers don't lie.`,
+  () => `Is it always true? Sometimes true? Or never true?`,
+  (name: string) => `${name}, WAKE UP!`,
+  () => `lim h->0 f(x+h) - f(x) / h`,
+  (name: string) => `${name}" or 1 = 1 --`,
+  () => `Take pi = 3`,
+  () => `Eat. Sleep. Math. Repeat.`,
 ];
 
+const getRandomGreetingIndex = (exclude?: number) => {
+  if (GREETINGS.length <= 1) return 0;
+  let next = Math.floor(Math.random() * GREETINGS.length);
+  if (exclude === undefined) return next;
+  while (next === exclude) {
+    next = Math.floor(Math.random() * GREETINGS.length);
+  }
+  return next;
+};
+
 function GreetingTyper({ name }: { name: string }) {
-  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [greetingIndex, setGreetingIndex] = useState(() => getRandomGreetingIndex());
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -60,7 +83,7 @@ function GreetingTyper({ name }: { name: string }) {
       }
 
       setIsDeleting(false);
-      setGreetingIndex((current) => (current + 1) % GREETINGS.length);
+      setGreetingIndex((current) => getRandomGreetingIndex(current));
     }, delay);
 
     return () => window.clearTimeout(timer);
