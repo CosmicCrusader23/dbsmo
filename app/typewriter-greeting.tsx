@@ -2,40 +2,43 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-const TYPE_SPEED_MS = 42;
-const DELETE_SPEED_MS = 22;
-const HOLD_MS = 3676;
-const BETWEEN_GREETING_MS = 280;
+const DEFAULT_TYPE_SPEED_MS = 42;
+const DEFAULT_DELETE_SPEED_MS = 22;
+const DEFAULT_HOLD_MS = 3676;
+const DEFAULT_BETWEEN_GREETING_MS = 280;
 
 const GREETINGS = [
   (name: string) => `Hello, ${name}!`,
+  (name: string) => `${name}, your working is correct but the answer is wrong.`,
   (name: string) => `Eat more curry, ${name}!`,
   (name: string) => `Subscribe to Let's Think Critically, ${name}!`,
+  (name: string) => `${name}, have you tried turning your brain off and on again?`,
   (name: string) => `Welcome back, ${name}.`,
   (name: string) => `Wassup :), ${name}.`,
-  (name: string) => `Good to see you, ${name}.`,
-  (name: string) => `Make me proud, ${name}.`,
   (name: string) => `Be Culver Kwan, ${name}.`,
   (name: string) => `Time to lock in, ${name}.`,
-  (name: string) => `Be Marcoroni :3, ${name}.`,
   (name: string) => `Marcoroni is typing..., ${name}.`,
   (name: string) => `Search Marco The Dog, ${name}.`,
   (name: string) => `Be more ORZ, ${name}.`,
   (name: string) => `Solve these problems if you're not gay, ${name}.`,
   (name: string) => `${name}! Stay determined!`,
-  () => `Nature is written in mathematical language.`,
-  () => `In mathematics, you don’t understand things. You just get used to them.`,
   (name: string) => `${name}, you forgot a ± somewhere.`,
   (name: string) => `${name}, you look like a trapezium.`,
+  () => `Just cancel the dx's. Trust me.`,
+  () => `Proof left as an exercise to the reader.`,
+  () => `Step 1: Draw a circle. Step 2: ???. Step 3: Proof complete.`,
   () => `The Riemann Hypothesis has been solved!`,
   () => `I still remember the thrill of solving my first integral.`,
+  (name: string) => `${name} divided by 0. Error.`,
   () => `Numbers don't lie.`,
   () => `Is it always true? Sometimes true? Or never true?`,
   (name: string) => `${name}, WAKE UP!`,
-  () => `lim h->0 f(x+h) - f(x) / h`,
+  () => `sin(x) = x. QED.`,
+  () => `It is trivially obvious that 0 = 1. QED.`,
   (name: string) => `${name}" or 1 = 1 --`,
   () => `Take pi = 3`,
   () => `Eat. Sleep. Math. Repeat.`,
+  (name: string) => `Initialising ${name}... please wait... still waiting...stillllllll waiting...`,
 ];
 
 const getRandomGreetingIndex = (exclude?: number) => {
@@ -52,18 +55,57 @@ function GreetingTyper({ name }: { name: string }) {
   const [greetingIndex, setGreetingIndex] = useState(() => getRandomGreetingIndex());
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [speeds, setSpeeds] = useState({
+    typeSpeed: DEFAULT_TYPE_SPEED_MS,
+    deleteSpeed: DEFAULT_DELETE_SPEED_MS,
+    holdMs: DEFAULT_HOLD_MS,
+    betweenMs: DEFAULT_BETWEEN_GREETING_MS,
+  });
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("mo-typewriter-settings");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setSpeeds({
+          typeSpeed: Math.max(10, Math.min(500, Number(parsed.typeSpeed) || DEFAULT_TYPE_SPEED_MS)),
+          deleteSpeed: Math.max(10, Math.min(500, Number(parsed.deleteSpeed) || DEFAULT_DELETE_SPEED_MS)),
+          holdMs: Math.max(500, Math.min(15000, Number(parsed.holdMs) || DEFAULT_HOLD_MS)),
+          betweenMs: Math.max(100, Math.min(5000, Number(parsed.betweenMs) || DEFAULT_BETWEEN_GREETING_MS)),
+        });
+      }
+    } catch {}
+    
+    const handleStorage = () => {
+      try {
+        const stored = localStorage.getItem("mo-typewriter-settings");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          setSpeeds({
+            typeSpeed: Math.max(10, Math.min(500, Number(parsed.typeSpeed) || DEFAULT_TYPE_SPEED_MS)),
+            deleteSpeed: Math.max(10, Math.min(500, Number(parsed.deleteSpeed) || DEFAULT_DELETE_SPEED_MS)),
+            holdMs: Math.max(500, Math.min(15000, Number(parsed.holdMs) || DEFAULT_HOLD_MS)),
+            betweenMs: Math.max(100, Math.min(5000, Number(parsed.betweenMs) || DEFAULT_BETWEEN_GREETING_MS)),
+          });
+        }
+      } catch {}
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   const activeGreeting = useMemo(() => GREETINGS[greetingIndex](name), [greetingIndex, name]);
 
   useEffect(() => {
-    let delay = isDeleting ? DELETE_SPEED_MS : TYPE_SPEED_MS;
+    let delay = isDeleting ? speeds.deleteSpeed : speeds.typeSpeed;
 
     if (!isDeleting && charIndex === activeGreeting.length) {
-      delay = HOLD_MS;
+      delay = speeds.holdMs;
     }
 
     if (isDeleting && charIndex === 0) {
-      delay = BETWEEN_GREETING_MS;
+      delay = speeds.betweenMs;
     }
 
     const timer = window.setTimeout(() => {

@@ -69,6 +69,12 @@ export default function SettingsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [typewriterSettings, setTypewriterSettings] = useState({
+    typeSpeed: 42,
+    deleteSpeed: 22,
+    holdMs: 3676,
+    betweenMs: 280,
+  });
   const themePreference = useSyncExternalStore<ThemePreference>(
     subscribeThemePreference,
     getThemeSnapshot,
@@ -113,6 +119,13 @@ export default function SettingsPage() {
       })
       .catch(() => setError("Failed to load profile."))
       .finally(() => setLoading(false));
+
+    try {
+      const storedThemeSettings = localStorage.getItem("mo-typewriter-settings");
+      if (storedThemeSettings) {
+        setTypewriterSettings((prev) => ({ ...prev, ...JSON.parse(storedThemeSettings) }));
+      }
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -127,6 +140,18 @@ export default function SettingsPage() {
     setError(null);
     setSuccess(null);
     setSaving(true);
+    
+    try {
+      const parsedTypewriter = {
+        typeSpeed: Math.max(10, Math.min(500, Number(typewriterSettings.typeSpeed) || 42)),
+        deleteSpeed: Math.max(10, Math.min(500, Number(typewriterSettings.deleteSpeed) || 22)),
+        holdMs: Math.max(500, Math.min(15000, Number(typewriterSettings.holdMs) || 3676)),
+        betweenMs: Math.max(100, Math.min(5000, Number(typewriterSettings.betweenMs) || 280)),
+      };
+      localStorage.setItem("mo-typewriter-settings", JSON.stringify(parsedTypewriter));
+      setTypewriterSettings(parsedTypewriter);
+      window.dispatchEvent(new Event("storage"));
+    } catch {}
 
     try {
       const res = await fetch("/api/settings", {
@@ -326,6 +351,54 @@ export default function SettingsPage() {
               </button>
             </div>
             <small className="form-hint">Saved on this browser.</small>
+          </div>
+
+          <div className="settings-row">
+            <label>Greeting Typing Speed (ms)</label>
+            <input
+              type="number"
+              min="10"
+              max="500"
+              value={typewriterSettings.typeSpeed}
+              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Number(e.target.value) })}
+            />
+            <small className="form-hint">Time between typing each character. Default: 42</small>
+          </div>
+
+          <div className="settings-row">
+            <label>Greeting Deleting Speed (ms)</label>
+            <input
+              type="number"
+              min="10"
+              max="500"
+              value={typewriterSettings.deleteSpeed}
+              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, deleteSpeed: Number(e.target.value) })}
+            />
+            <small className="form-hint">Time between deleting each character. Default: 22</small>
+          </div>
+
+          <div className="settings-row">
+            <label>Greeting Hold Time (ms)</label>
+            <input
+              type="number"
+              min="500"
+              max="15000"
+              value={typewriterSettings.holdMs}
+              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, holdMs: Number(e.target.value) })}
+            />
+            <small className="form-hint">Read time before deleting. Default: 3676</small>
+          </div>
+
+          <div className="settings-row">
+            <label>Time Between Greetings (ms)</label>
+            <input
+              type="number"
+              min="100"
+              max="5000"
+              value={typewriterSettings.betweenMs}
+              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, betweenMs: Number(e.target.value) })}
+            />
+            <small className="form-hint">Pause before the next greeting starts. Default: 280</small>
           </div>
 
           <div className="settings-row">
