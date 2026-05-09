@@ -28,12 +28,38 @@ export function ThemeToggle() {
     applyTheme(theme);
   }, [theme]);
 
-  const toggle = useCallback(() => {
+  const toggle = useCallback(async () => {
     const next: Theme = theme === "light" ? "dark" : "light";
     localStorage.setItem("mo-theme", next);
     applyTheme(next);
     window.dispatchEvent(new Event("storage"));
+    try {
+      await fetch("/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ theme: next }),
+      });
+    } catch {}
   }, [theme]);
+
+  // Sync from DB on mount
+  useEffect(() => {
+    fetch("/api/settings")
+      .then(r => r.json())
+      .then(data => {
+        if (data?.user?.theme && (data.user.theme === "light" || data.user.theme === "dark")) {
+          localStorage.setItem("mo-theme", data.user.theme);
+          applyTheme(data.user.theme);
+          window.dispatchEvent(new Event("storage"));
+        }
+        if (data?.user?.greetingSettings) {
+          localStorage.setItem("mo-typewriter-settings", data.user.greetingSettings);
+          window.dispatchEvent(new Event("storage"));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
 
   return (
     <button

@@ -51,6 +51,8 @@ interface UserProfile {
   group: string | null;
   profileVisible: boolean;
   leaderboardVisible: boolean;
+  theme?: string;
+  greetingSettings?: string;
   stats?: {
     attemptedSets: number;
     totalAttempts: number;
@@ -115,6 +117,17 @@ export default function SettingsPage() {
           setAvatarUrl(data.user.avatarUrl || "");
           setProfileVisible(data.user.profileVisible ?? true);
           setLeaderboardVisible(data.user.leaderboardVisible ?? true);
+
+          if (data.user.theme && isThemePreference(data.user.theme)) {
+            applyThemePreference(data.user.theme);
+          }
+          if (data.user.greetingSettings) {
+            try {
+              const parsed = JSON.parse(data.user.greetingSettings);
+              setTypewriterSettings((prev) => ({ ...prev, ...parsed }));
+              localStorage.setItem("mo-typewriter-settings", data.user.greetingSettings);
+            } catch {}
+          }
         }
       })
       .catch(() => setError("Failed to load profile."))
@@ -141,8 +154,9 @@ export default function SettingsPage() {
     setSuccess(null);
     setSaving(true);
     
+    let parsedTypewriter = typewriterSettings;
     try {
-      const parsedTypewriter = {
+      parsedTypewriter = {
         typeSpeed: Math.max(10, Math.min(500, Number(typewriterSettings.typeSpeed) || 42)),
         deleteSpeed: Math.max(10, Math.min(500, Number(typewriterSettings.deleteSpeed) || 22)),
         holdMs: Math.max(500, Math.min(15000, Number(typewriterSettings.holdMs) || 3676)),
@@ -162,6 +176,8 @@ export default function SettingsPage() {
           avatarUrl: avatarUrl.trim() || null,
           profileVisible,
           leaderboardVisible,
+          theme: themePreference,
+          greetingSettings: JSON.stringify(parsedTypewriter),
         }),
       });
 
@@ -361,8 +377,9 @@ export default function SettingsPage() {
               max="500"
               value={typewriterSettings.typeSpeed}
               onChange={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Number(e.target.value) })}
+              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)) })}
             />
-            <small className="form-hint">Time between typing each character. Default: 42</small>
+            <small className="form-hint">Time between typing each character. Range: 10 - 500. Default: 42</small>
           </div>
 
           <div className="settings-row">
@@ -373,8 +390,9 @@ export default function SettingsPage() {
               max="500"
               value={typewriterSettings.deleteSpeed}
               onChange={(e) => setTypewriterSettings({ ...typewriterSettings, deleteSpeed: Number(e.target.value) })}
+              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, deleteSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 22)) })}
             />
-            <small className="form-hint">Time between deleting each character. Default: 22</small>
+            <small className="form-hint">Time between deleting each character. Range: 10 - 500. Default: 22</small>
           </div>
 
           <div className="settings-row">
@@ -385,8 +403,9 @@ export default function SettingsPage() {
               max="15000"
               value={typewriterSettings.holdMs}
               onChange={(e) => setTypewriterSettings({ ...typewriterSettings, holdMs: Number(e.target.value) })}
+              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, holdMs: Math.max(500, Math.min(15000, Number(e.target.value) || 3676)) })}
             />
-            <small className="form-hint">Read time before deleting. Default: 3676</small>
+            <small className="form-hint">Read time before deleting. Range: 500 - 15000. Default: 3676</small>
           </div>
 
           <div className="settings-row">
@@ -397,8 +416,9 @@ export default function SettingsPage() {
               max="5000"
               value={typewriterSettings.betweenMs}
               onChange={(e) => setTypewriterSettings({ ...typewriterSettings, betweenMs: Number(e.target.value) })}
+              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, betweenMs: Math.max(100, Math.min(5000, Number(e.target.value) || 280)) })}
             />
-            <small className="form-hint">Pause before the next greeting starts. Default: 280</small>
+            <small className="form-hint">Pause before the next greeting starts. Range: 100 - 5000. Default: 280</small>
           </div>
 
           <div className="settings-row">

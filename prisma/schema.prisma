@@ -75,6 +75,8 @@ model User {
   group               String?
   profileVisible      Boolean              @default(true)
   leaderboardVisible  Boolean              @default(true)
+  theme               String               @default("light")
+  greetingSettings    String?
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   lastLoginAt         DateTime?

@@ -40,6 +40,8 @@ export async function GET() {
         group: true,
         profileVisible: true,
         leaderboardVisible: true,
+        theme: true,
+        greetingSettings: true,
         attempts: {
           select: { score: true, maxScore: true, problemSetId: true },
         },
@@ -95,13 +97,15 @@ export async function PATCH(req: Request) {
       displayName?: unknown;
       leaderboardVisible?: unknown;
       profileVisible?: unknown;
+      theme?: unknown;
+      greetingSettings?: unknown;
     };
     try {
       body = (await req.json()) as typeof body;
     } catch {
       return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
     }
-    const { displayName, avatarUrl, profileVisible, leaderboardVisible } = body;
+    const { displayName, avatarUrl, profileVisible, leaderboardVisible, theme, greetingSettings } = body;
     const normalizedAvatarUrl = normalizeAvatarUrl(avatarUrl);
 
     if (displayName !== undefined && displayName !== null) {
@@ -135,8 +139,9 @@ export async function PATCH(req: Request) {
         displayName: displayName !== undefined ? String(displayName).trim() || null : undefined,
         avatarUrl: normalizedAvatarUrl,
         profileVisible: typeof profileVisible === "boolean" ? profileVisible : undefined,
-        leaderboardVisible:
-          typeof leaderboardVisible === "boolean" ? leaderboardVisible : undefined,
+        leaderboardVisible: typeof leaderboardVisible === "boolean" ? leaderboardVisible : undefined,
+        theme: typeof theme === "string" ? theme : undefined,
+        greetingSettings: typeof greetingSettings === "string" ? greetingSettings : undefined,
       },
       select: {
         id: true,
@@ -148,6 +153,8 @@ export async function PATCH(req: Request) {
         group: true,
         profileVisible: true,
         leaderboardVisible: true,
+        theme: true,
+        greetingSettings: true,
       },
     });
 
