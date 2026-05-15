@@ -21,6 +21,7 @@ import Link from "next/link";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { CANONICAL_TAGS, normalizeProblemTag, normalizeTagList } from "@/lib/problem-tags";
 import { DeleteSetButton } from "../delete-set-button";
+import { SetJsonReplacePanel } from "./set-json-replace-panel";
 
 type ProblemData = {
   id: string;
@@ -555,6 +556,8 @@ export function SetEditForm({ set }: { set: SetData }) {
               ) : null}
             </div>
           </div>
+
+          <SetJsonReplacePanel setId={set.id} setTitle={set.title} />
 
           <div className="set-editor-problem-list">
             {problems.map((problem) => (

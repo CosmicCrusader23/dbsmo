@@ -368,9 +368,9 @@ export function AnswerGrid({
             const cls = r ? (r.isCorrect ? "correct" : "incorrect") : "";
             return (
               <div className={`answer-cell graded ${cls}`} key={number}>
-                <span>{number}</span>
+                <span className="answer-cell-label">Question {number}</span>
                 <div className="graded-answer">
-                  <span>{r?.rawAnswer || "—"}</span>
+                  <span className="answer-cell-value">{r?.rawAnswer || "—"}</span>
                   {r?.isCorrect ? (
                     <CheckCircle2 size={14} className="grade-icon correct-icon" />
                   ) : (
@@ -447,8 +447,9 @@ export function AnswerGrid({
       <form className="answer-grid" onSubmit={(e) => e.preventDefault()}>
         {problemNumbers.map((number) => (
           <label className="answer-cell" key={number}>
-            <span>{number}</span>
+            <span className="answer-cell-label">Question {number}</span>
             <input
+              className="answer-cell-input"
               aria-label={`Answer ${number}`}
               name={`answer-${number}`}
               placeholder="answer"

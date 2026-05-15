@@ -1041,41 +1041,46 @@ td {
 
 .answer-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 14px;
   padding: 20px;
 }
 
 .answer-cell {
   display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  align-items: center;
-  min-height: 58px;
+  grid-template-rows: auto minmax(58px, auto);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-card-bg);
   overflow: hidden;
 }
 
-.answer-cell span {
-  display: grid;
-  height: 100%;
-  place-items: center;
+.answer-cell-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border);
   background: var(--cyan-tint);
   color: var(--color-text-strong);
   font-weight: 900;
+  font-size: 0.82rem;
+  text-align: center;
 }
 
-.answer-cell input {
+.answer-cell-input {
   width: 100%;
   min-height: 56px;
   padding: 0 14px;
   border: 0;
   color: var(--color-text-strong);
   outline: none;
+  text-align: center;
+  font-weight: 800;
 }
 
-.answer-cell input:focus {
+.answer-cell-input:focus {
   box-shadow: inset 0 0 0 2px var(--color-blue);
 }
 
@@ -1089,6 +1094,16 @@ td {
 
 .answer-cell.incorrect {
   border-color: var(--color-danger);
+}
+
+.answer-cell.correct .answer-cell-label {
+  background: rgba(27, 191, 137, 0.12);
+  color: var(--color-success);
+}
+
+.answer-cell.incorrect .answer-cell-label {
+  background: rgba(238, 68, 85, 0.12);
+  color: var(--color-danger);
 }
 
 .locked-submit-state {
@@ -1121,6 +1136,12 @@ td {
   min-height: 56px;
   font-weight: 700;
   color: var(--color-text-strong);
+}
+
+.answer-cell-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .grade-icon {
@@ -1359,6 +1380,14 @@ td {
   padding: 20px;
 }
 
+.json-replace-section {
+  display: grid;
+  gap: 16px;
+  margin: 0 20px 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
 .form-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1549,8 +1578,8 @@ html:not(.light) .import-spec pre {
   background: #0a0a14;
 }
 
-html.dark .answer-cell input,
-html:not(.light) .answer-cell input {
+html.dark .answer-cell-input,
+html:not(.light) .answer-cell-input {
   background: var(--color-input-bg);
   color: var(--color-text-strong);
 }
@@ -2194,11 +2223,11 @@ body {
   border-radius: 12px;
 }
 
-.answer-cell span {
+.answer-cell-label {
   background: rgba(240, 93, 155, 0.1);
 }
 
-.answer-cell input,
+.answer-cell-input,
 .form-input {
   background: var(--color-input-bg);
 }
@@ -2557,7 +2586,7 @@ html.dark .session-badge {
   color: #ffffff;
 }
 
-html.dark .answer-cell span {
+html.dark .answer-cell-label {
   background: rgba(240, 93, 155, 0.15);
 }
 

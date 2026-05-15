@@ -78,6 +78,10 @@ export type JsonDryRunInput = {
   text: string;
 };
 
+type JsonImportOptions = {
+  replaceSetId?: string;
+};
+
 export type JsonDryRunResult = {
   ok: boolean;
   issues: ImportIssue[];
@@ -112,7 +116,10 @@ export type JsonImportResult = {
   } | null;
 };
 
-export async function dryRunProblemSetJson(input: JsonDryRunInput): Promise<JsonDryRunResult> {
+export async function dryRunProblemSetJson(
+  input: JsonDryRunInput,
+  options: JsonImportOptions = {},
+): Promise<JsonDryRunResult> {
   if (input.sizeBytes > MAX_JSON_BYTES) {
     return fail(`JSON exceeds the ${MAX_JSON_BYTES / 1024 / 1024} MB upload limit.`);
   }
@@ -129,9 +136,33 @@ export async function dryRunProblemSetJson(input: JsonDryRunInput): Promise<Json
   const normalized = normalizeParsedJson(parsed.data);
   const issues = validateNormalizedJson(normalized);
 
-  const existing = await findExistingProblemSet(normalized.slug);
+  const { existingBySlug, replaceTarget } = await resolveImportTargets(
+    normalized.slug,
+    options.replaceSetId,
+  );
 
-  if (existing) {
+  if (options.replaceSetId) {
+    if (!replaceTarget) {
+      issues.push({
+        level: "error",
+        message: "The target problem set for replacement no longer exists.",
+      });
+    }
+
+    if (existingBySlug && existingBySlug.id !== options.replaceSetId) {
+      issues.push({
+        level: "error",
+        message: `A different problem set already uses slug "${normalized.slug}".`,
+      });
+    }
+
+    if (replaceTarget && replaceTarget.slug !== normalized.slug) {
+      issues.push({
+        level: "warning",
+        message: `Replacing this set will change its slug from "${replaceTarget.slug}" to "${normalized.slug}".`,
+      });
+    }
+  } else if (existingBySlug) {
     issues.push({
       level: "error",
       message: `A problem set with slug "${normalized.slug}" already exists. Delete or rename it first.`,
@@ -149,8 +180,9 @@ export async function dryRunProblemSetJson(input: JsonDryRunInput): Promise<Json
 
 export async function importProblemSetJson(
   input: JsonDryRunInput & { uploadedById: string },
+  options: JsonImportOptions = {},
 ): Promise<JsonImportResult> {
-  const dryRun = await dryRunProblemSetJson(input);
+  const dryRun = await dryRunProblemSetJson(input, options);
   if (!dryRun.ok || !dryRun.preview) {
     return { ok: false, issues: dryRun.issues, created: null };
   }
@@ -162,12 +194,104 @@ export async function importProblemSetJson(
 
   const data = normalizeParsedJson(parsed.data);
   const { prisma } = await import("../db");
-  const existing = await prisma.problemSet.findUnique({
+  const warnings = dryRun.issues.filter((issue) => issue.level === "warning");
+
+  const existingBySlug = await prisma.problemSet.findUnique({
     where: { slug: data.slug },
     select: { id: true },
   });
 
-  if (existing) {
+  if (options.replaceSetId) {
+    const target = await prisma.problemSet.findUnique({
+      where: { id: options.replaceSetId },
+      select: { id: true, order: true },
+    });
+
+    if (!target) {
+      return {
+        ok: false,
+        issues: [
+          {
+            level: "error",
+            message: "The target problem set for replacement no longer exists.",
+          },
+        ],
+        created: null,
+      };
+    }
+
+    if (existingBySlug && existingBySlug.id !== target.id) {
+      return {
+        ok: false,
+        issues: [
+          {
+            level: "error",
+            message: `A different problem set already uses slug "${data.slug}".`,
+          },
+        ],
+        created: null,
+      };
+    }
+
+    const finalOrder = data.order || target.order;
+    const problemSet = await prisma.$transaction(async (tx) => {
+      await tx.problemSet.delete({
+        where: { id: target.id },
+      });
+
+      return tx.problemSet.create({
+        data: {
+          id: target.id,
+          slug: data.slug,
+          title: data.title,
+          description: data.description,
+          order: finalOrder,
+          status: data.status,
+          visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
+          visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,
+          allowedGroups: [],
+          topicTags: data.topicTags,
+          difficulty: data.difficulty,
+          videoUrl: data.videoUrl ?? null,
+          createdById: input.uploadedById,
+          problemFileId: null,
+          solutionFileId: null,
+          problems: {
+            create: data.problems.map((problem) => ({
+              number: problem.number,
+              statement: problem.statement,
+              contentFormat: problem.statementFormat,
+              answerKey: problem.answerKey,
+              answerType: problem.answerType,
+              acceptedAnswers: problem.acceptedAnswers,
+              caseSensitive: problem.caseSensitive,
+              explanationNote: problem.solution ?? null,
+              topicTags: problem.topicTags,
+              points: problem.points,
+            })),
+          },
+        },
+      });
+    });
+
+    return {
+      ok: true,
+      issues: warnings,
+      created: {
+        problemSetId: problemSet.id,
+        slug: problemSet.slug,
+        title: problemSet.title,
+        status: problemSet.status,
+        problemCount: data.problems.length,
+        problemFileKey: null,
+        solutionFileKey: null,
+        videoUrl: problemSet.videoUrl,
+        warnings: warnings.map((issue) => issue.message),
+      },
+    };
+  }
+
+  if (existingBySlug) {
     return {
       ok: false,
       issues: [
@@ -179,8 +303,6 @@ export async function importProblemSetJson(
       created: null,
     };
   }
-
-  const warnings = dryRun.issues.filter((issue) => issue.level === "warning");
 
   let finalOrder = data.order;
   if (!finalOrder) {
@@ -256,16 +378,29 @@ function parseJson(
   return { ok: true, data: result.data };
 }
 
-async function findExistingProblemSet(slug: string): Promise<{ id: string } | null> {
+async function resolveImportTargets(slug: string, replaceSetId?: string) {
   if (!process.env.DATABASE_URL) {
-    return null;
+    return { existingBySlug: null, replaceTarget: null };
   }
 
   const { prisma } = await import("../db");
-  return prisma.problemSet.findUnique({
-    where: { slug },
-    select: { id: true },
-  });
+  const [existingBySlug, replaceTarget] = await Promise.all([
+    prisma.problemSet.findUnique({
+      where: { slug },
+      select: { id: true, slug: true },
+    }),
+    replaceSetId
+      ? prisma.problemSet.findUnique({
+          where: { id: replaceSetId },
+          select: { id: true, slug: true },
+        })
+      : Promise.resolve(null),
+  ]);
+
+  return {
+    existingBySlug,
+    replaceTarget,
+  };
 }
 
 function normalizeParsedJson(data: ParsedProblemSetJson) {

@@ -380,7 +380,7 @@ export default function SettingsPage() {
               onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)) })}
             />
             <small className="form-hint">Time between typing each character. Range: 10 - 500. Default: 42</small>
-          </div>
+          </div>2
 
           <div className="settings-row">
             <label>Greeting Deleting Speed (ms)</label>

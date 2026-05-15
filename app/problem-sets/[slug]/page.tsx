@@ -97,20 +97,16 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 initialBookmarked={problemSet.bookmarks.length > 0}
                 problemSetId={problemSet.id}
               />
-              {user.role === "ADMIN" && (
-                <Link
-                  className="icon-button"
-                  href={`/admin/sets/${problemSet.id}`}
-                  title="Manage set"
-                  style={{ padding: "6px", marginLeft: "4px" }}
-                >
-                  <Settings size={20} />
-                </Link>
-              )}
             </h1>
           </div>
           <div className="topbar-actions">
             <ThemeToggle />
+            {user.role === "ADMIN" && (
+              <Link className="secondary-action" href={`/admin/sets/${problemSet.id}`}>
+                <Settings size={18} />
+                Manage set
+              </Link>
+            )}
             <Link className="secondary-action" href="/dashboard">
               <ArrowLeft size={18} />
               Dashboard
