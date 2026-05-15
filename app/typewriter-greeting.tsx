@@ -84,11 +84,11 @@ function parseStoredSpeeds(raw: string | null) {
 }
 
 function getTypewriterSpeedsSnapshot() {
-  return parseStoredSpeeds(window.localStorage.getItem("mo-typewriter-settings"));
+  return window.localStorage.getItem("mo-typewriter-settings") ?? "";
 }
 
 function getTypewriterSpeedsServerSnapshot() {
-  return DEFAULT_SPEEDS;
+  return "";
 }
 
 function subscribeToTypewriterSpeeds(onStoreChange: () => void) {
@@ -100,11 +100,12 @@ function GreetingTyper({ name }: { name: string }) {
   const [greetingIndex, setGreetingIndex] = useState(INITIAL_GREETING_INDEX);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const speeds = useSyncExternalStore(
+  const storedSpeeds = useSyncExternalStore(
     subscribeToTypewriterSpeeds,
     getTypewriterSpeedsSnapshot,
     getTypewriterSpeedsServerSnapshot,
   );
+  const speeds = useMemo(() => parseStoredSpeeds(storedSpeeds), [storedSpeeds]);
 
   const activeGreeting = useMemo(() => GREETINGS[greetingIndex](name), [greetingIndex, name]);
 

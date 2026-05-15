@@ -340,7 +340,7 @@ export function AnswerGrid({
     );
   }
 
-  function renderSidebarActions() {
+  function renderTopActions() {
     if (submitResult) {
       return (
         <>
@@ -386,7 +386,7 @@ export function AnswerGrid({
           onClick={onSubmit}
         >
           {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
-          {isSubmitting ? "Submitting…" : "Submit"}
+          {isSubmitting ? "Submitting…" : "Submit set"}
         </button>
       </>
     );
@@ -397,19 +397,18 @@ export function AnswerGrid({
       <>
         <div className="problem-workspace">
           <div className="problem-flow">
-            <section className="problem-jump-strip">
-              <div className="problem-jump-strip-head">
+            <section className="problem-jump-strip problem-jump-toolbar">
+              <div className="problem-jump-strip-head problem-jump-toolbar-head">
                 <div>
                   <p className="eyebrow">Problem Grid</p>
                   <h3>Jump to question</h3>
                 </div>
-                <span className="fill-count">
-                  {submitResult
-                    ? `${submitResult.results.filter((result) => result.isCorrect).length}/${submitResult.results.length} correct`
-                    : `${filledCount}/${problemNumbers.length} answered`}
-                </span>
+              </div>
+              <div className="problem-toolbar-actions">
+                {renderTopActions()}
               </div>
               {renderJumpGrid()}
+              {submitError ? <span className="form-error">{submitError}</span> : null}
             </section>
 
             {problemNumbers.map((number) => {
@@ -504,25 +503,6 @@ export function AnswerGrid({
               );
             })}
           </div>
-
-          <aside className="problem-sidebar">
-            <div className="problem-sidebar-inner">
-              <section className="problem-sidebar-block">
-                <div className="problem-sidebar-head">
-                  <div>
-                    <p className="eyebrow">Side Panel</p>
-                    <h3>Problems</h3>
-                  </div>
-                </div>
-                {renderJumpGrid("compact")}
-              </section>
-
-              <section className="problem-sidebar-block problem-sidebar-actions">
-                {renderSidebarActions()}
-                {submitError ? <span className="form-error">{submitError}</span> : null}
-              </section>
-            </div>
-          </aside>
         </div>
         {reportDialog}
       </>
@@ -643,15 +623,15 @@ export function AnswerGrid({
             <MessageSquareWarning size={18} />
             Report issue
           </button>
-          <button
-            className="primary-action"
-            type="button"
-            disabled={isSubmitting || filledCount === 0}
-            onClick={onSubmit}
-          >
-            {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
-            {isSubmitting ? "Submitting…" : "Submit"}
-          </button>
+        <button
+          className="primary-action"
+          type="button"
+          disabled={isSubmitting || filledCount === 0}
+          onClick={onSubmit}
+        >
+          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
+          {isSubmitting ? "Submitting…" : "Submit set"}
+        </button>
         </div>
 
         {submitError ? (
