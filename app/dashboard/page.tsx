@@ -43,7 +43,7 @@ type StudentSetRow = {
   sortPriority: number;
 };
 
-const ACCENTS = ["cyan", "purple", "pink", "orange"] as const;
+const ACCENTS = ["cyan", "purple", "pink", "orange", "black", "grey"] as const;
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -361,7 +361,7 @@ export default async function DashboardPage() {
             <p className="eyebrow">
               {currentUser.role === "ADMIN" ? "Teacher view" : "Student view"}
             </p>
-            <h1>Training Dashboard</h1>
+            <h1>training dashboard</h1>
           </div>
           <div className="topbar-actions">
             <ThemeToggle />
@@ -379,11 +379,11 @@ export default async function DashboardPage() {
             <Link className="primary-action" href={continueHref}>
               {currentUser.role === "ADMIN"
                 ? nextSet
-                  ? "Continue"
-                  : "Open import"
+                  ? "continue"
+                  : "open import"
                 : nextSet
-                  ? "Continue"
-                  : "Browse sets"}
+                  ? "continue"
+                  : "browse sets"}
               <ArrowRight size={18} />
             </Link>
           </div>
@@ -439,16 +439,16 @@ export default async function DashboardPage() {
         </section>
 
         <section className="metric-grid" aria-label="Student progress metrics">
-          <MetricCard label="Today" value={nextSet ? "Next step" : "setup"} accent="orange" />
+          <MetricCard label="Today" value={nextSet ? "next step" : "setup"} accent="grey" />
           <MetricCard
             label="Attempted"
             value={`${completedSets}/${totalSets || 0}`}
-            accent="cyan"
+            accent="grey"
           />
-          <MetricCard label="Average" value={`${averageScore}%`} accent="purple" />
-          <MetricCard label="Latest score" value={`${latestScore}%`} accent="pink" />
+          <MetricCard label="Average" value={`${averageScore}%`} accent="grey" />
+          <MetricCard label="Latest score" value={`${latestScore}%`} accent="grey" />
           {currentUser.role === "ADMIN" ? (
-            <MetricCard label="Open reports" value={`${openReports}`} accent="orange" />
+            <MetricCard label="Open reports" value={`${openReports}`} accent="grey" />
           ) : null}
         </section>
 
@@ -457,7 +457,7 @@ export default async function DashboardPage() {
             <div className="panel-header">
               <div>
                 <p className="eyebrow">Student view</p>
-                <h2>Problem sets</h2>
+                <h2>problem sets</h2>
               </div>
               {nextSet ? (
                 <Link className="text-link" href={`/problem-sets/${nextSet.slug}`}>
@@ -507,7 +507,7 @@ export default async function DashboardPage() {
             <div className="panel-header">
               <div>
                 <p className="eyebrow">Strengths</p>
-                <h2>Topic map</h2>
+                <h2>topic map</h2>
               </div>
               <Sparkles size={20} />
             </div>
@@ -543,7 +543,7 @@ export default async function DashboardPage() {
               <p className="eyebrow">
                 {currentUser.role === "ADMIN" ? "Teacher view" : "Recent activity"}
               </p>
-              <h2>{currentUser.role === "ADMIN" ? "Cohort snapshot" : "Attempt history"}</h2>
+              <h2>{currentUser.role === "ADMIN" ? "cohort snapshot" : "attempt history"}</h2>
             </div>
             {currentUser.role === "ADMIN" ? (
               <Link className="secondary-action compact" href="/admin/import">
@@ -630,7 +630,7 @@ function MetricCard({
 }: {
   label: string;
   value: string;
-  accent: "cyan" | "purple" | "pink" | "orange";
+  accent: "cyan" | "purple" | "pink" | "orange" | "black" | "grey";
 }) {
   return (
     <article className={`metric-card accent-${accent}`}>

@@ -18,6 +18,8 @@
   --color-success: #77bb00;
   --color-warning: #ffaa33;
   --color-danger: #ee4455;
+  --color-black: #111111;
+  --color-grey: #6f6f7f;
   --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.05);
   --shadow-strong: 0 8px 24px rgba(0, 0, 0, 0.1);
   --radius-card: 16px;
@@ -476,6 +478,14 @@ table {
   border-top-color: var(--color-orange);
 }
 
+.accent-black {
+  border-top-color: var(--color-black);
+}
+
+.accent-grey {
+  border-top-color: var(--color-grey);
+}
+
 .content-grid,
 .problem-layout,
 .import-layout {
@@ -639,6 +649,14 @@ table {
 
 .fill-orange {
   background: var(--color-orange);
+}
+
+.fill-black {
+  background: var(--color-black);
+}
+
+.fill-grey {
+  background: var(--color-grey);
 }
 
 .table-panel {
