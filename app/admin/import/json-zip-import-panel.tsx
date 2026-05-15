@@ -2,16 +2,23 @@
 
 import JSZip from "jszip";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useMemo, useState } from "react";
 import {
   CheckCircle2,
   ExternalLink,
   FileArchive,
+  FilePenLine,
   Loader2,
   ShieldCheck,
   UploadCloud,
   XCircle,
 } from "lucide-react";
+import {
+  createJsonImportDraftKey,
+  saveJsonImportDraft,
+  type JsonImportEditorDraft,
+} from "@/lib/import/json-draft-storage";
 
 type DryRunResult = {
   ok: boolean;
@@ -53,6 +60,15 @@ type ImportResult = {
   };
 };
 
+type DraftResult = {
+  ok: boolean;
+  issues: Array<{
+    level: "error" | "warning";
+    message: string;
+  }>;
+  draft: JsonImportEditorDraft | null;
+};
+
 type JsonZipEntry = {
   name: string;
   file: File;
@@ -65,6 +81,7 @@ function isIgnoredZipEntry(path: string) {
 }
 
 export function JsonZipImportPanel() {
+  const router = useRouter();
   const [zipFile, setZipFile] = useState<File | null>(null);
   const [entries, setEntries] = useState<JsonZipEntry[]>([]);
   const [zipError, setZipError] = useState<string | null>(null);
@@ -212,6 +229,35 @@ export function JsonZipImportPanel() {
       setImportErrors((current) => ({ ...current, [entry.name]: "Import request failed." }));
     } finally {
       setIsImporting((current) => ({ ...current, [entry.name]: false }));
+    }
+  }
+
+  async function onOpenInEditor(entry: JsonZipEntry) {
+    const formData = new FormData();
+    formData.append("file", entry.file);
+
+    try {
+      const response = await fetch("/api/admin/import/draft", {
+        method: "POST",
+        body: formData,
+      });
+      const result = (await response.json()) as DraftResult;
+      if (!response.ok || !result.draft) {
+        setDryRunErrors((current) => ({
+          ...current,
+          [entry.name]: result.issues[0]?.message ?? "Could not prepare this draft for editing.",
+        }));
+        return;
+      }
+
+      const draftKey = createJsonImportDraftKey();
+      saveJsonImportDraft(draftKey, result.draft);
+      router.push(`/admin/create?importDraft=${encodeURIComponent(draftKey)}`);
+    } catch {
+      setDryRunErrors((current) => ({
+        ...current,
+        [entry.name]: "Could not open this JSON in the editor.",
+      }));
     }
   }
 
@@ -386,6 +432,18 @@ export function JsonZipImportPanel() {
                       <div className="issue-row ok">
                         <CheckCircle2 size={16} />
                         <span>Dry run passed. Ready to import this JSON file.</span>
+                      </div>
+                    ) : null}
+                    {dryRunResult ? (
+                      <div className="result-links">
+                        <button
+                          className="secondary-action compact"
+                          type="button"
+                          onClick={() => onOpenInEditor(entry)}
+                        >
+                          <FilePenLine size={16} />
+                          {dryRunResult.ok ? "Edit before import" : "Fix in editor"}
+                        </button>
                       </div>
                     ) : null}
                   </div>

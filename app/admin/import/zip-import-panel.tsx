@@ -1,16 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChangeEvent, useMemo, useState } from "react";
 import {
   CheckCircle2,
   ExternalLink,
+  FilePenLine,
   FileJson,
   Loader2,
   ShieldCheck,
   UploadCloud,
   XCircle,
 } from "lucide-react";
+import {
+  createJsonImportDraftKey,
+  saveJsonImportDraft,
+  type JsonImportEditorDraft,
+} from "@/lib/import/json-draft-storage";
 
 type ValidationItem = {
   label: string;
@@ -57,7 +64,17 @@ type ImportResult = {
   };
 };
 
+type DraftResult = {
+  ok: boolean;
+  issues: Array<{
+    level: "error" | "warning";
+    message: string;
+  }>;
+  draft: JsonImportEditorDraft | null;
+};
+
 export function ZipImportPanel() {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [dryRunResult, setDryRunResult] = useState<DryRunResult | null>(null);
   const [dryRunError, setDryRunError] = useState<string | null>(null);
@@ -155,6 +172,33 @@ export function ZipImportPanel() {
       setImportError("Import request failed.");
     } finally {
       setIsImporting(false);
+    }
+  }
+
+  async function onOpenInEditor() {
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/admin/import/draft", {
+        method: "POST",
+        body: formData,
+      });
+      const result = (await response.json()) as DraftResult;
+      if (!response.ok || !result.draft) {
+        setDryRunError(result.issues[0]?.message ?? "Could not prepare this draft for editing.");
+        return;
+      }
+
+      const draftKey = createJsonImportDraftKey();
+      saveJsonImportDraft(draftKey, result.draft);
+      router.push(`/admin/create?importDraft=${encodeURIComponent(draftKey)}`);
+    } catch {
+      setDryRunError("Could not open this JSON in the editor.");
     }
   }
 
@@ -337,6 +381,14 @@ export function ZipImportPanel() {
             <div className="issue-row ok">
               <CheckCircle2 size={16} />
               <span>Dry run passed. Ready to import from JSON.</span>
+            </div>
+          ) : null}
+          {file && dryRunResult ? (
+            <div className="result-links">
+              <button className="secondary-action compact" type="button" onClick={onOpenInEditor}>
+                <FilePenLine size={16} />
+                {dryRunResult.ok ? "Edit before import" : "Fix in editor"}
+              </button>
             </div>
           ) : null}
         </div>

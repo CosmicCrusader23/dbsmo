@@ -962,6 +962,20 @@ td {
   margin: 20px;
 }
 
+.problem-inline-shell {
+  display: block;
+}
+
+.problem-inline-panel {
+  padding-bottom: 20px;
+}
+
+.problem-inline-file-row {
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .problem-statement-card {
   display: grid;
   grid-template-columns: 52px minmax(0, 1fr);
@@ -1037,6 +1051,241 @@ td {
   background: var(--video-bg);
   color: var(--color-text-strong);
   font-weight: 900;
+}
+
+.problem-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  gap: 20px;
+  padding: 20px;
+}
+
+.problem-flow {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.problem-jump-strip,
+.problem-question-card,
+.problem-sidebar-block {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card-bg);
+}
+
+.problem-jump-strip {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.problem-jump-strip-head,
+.problem-sidebar-head,
+.question-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.problem-jump-strip h3,
+.problem-sidebar-head h3 {
+  margin: 4px 0 0;
+  color: var(--color-text-strong);
+  font-size: 1rem;
+}
+
+.problem-jump-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(68px, 1fr));
+  gap: 10px;
+}
+
+.problem-jump-grid.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.problem-jump-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text-strong);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.problem-jump-button:hover {
+  border-color: rgba(69, 160, 255, 0.34);
+  background: rgba(69, 160, 255, 0.08);
+}
+
+.problem-jump-button.filled {
+  border-color: rgba(69, 160, 255, 0.3);
+  background: rgba(69, 160, 255, 0.1);
+}
+
+.problem-jump-button.correct {
+  border-color: rgba(27, 191, 137, 0.32);
+  background: rgba(27, 191, 137, 0.12);
+  color: var(--color-success);
+}
+
+.problem-jump-button.incorrect {
+  border-color: rgba(238, 68, 85, 0.28);
+  background: rgba(238, 68, 85, 0.1);
+  color: var(--color-danger);
+}
+
+.problem-question-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  scroll-margin-top: 24px;
+}
+
+.problem-question-card.correct {
+  border-color: rgba(27, 191, 137, 0.28);
+}
+
+.problem-question-card.incorrect {
+  border-color: rgba(238, 68, 85, 0.22);
+}
+
+.question-card-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+}
+
+.question-card-meta {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.question-card-meta strong {
+  color: var(--color-text-strong);
+  font-size: 1.02rem;
+}
+
+.question-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.question-status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.question-status-badge.filled {
+  background: rgba(69, 160, 255, 0.1);
+  color: var(--color-blue);
+}
+
+.question-status-badge.correct {
+  background: rgba(27, 191, 137, 0.12);
+  color: var(--color-success);
+}
+
+.question-status-badge.incorrect {
+  background: rgba(238, 68, 85, 0.1);
+  color: var(--color-danger);
+}
+
+.question-answer-block {
+  display: grid;
+  gap: 8px;
+}
+
+.question-answer-label {
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.question-answer-input,
+.question-graded-box {
+  min-height: 54px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-input-bg);
+  color: var(--color-text-strong);
+}
+
+.question-answer-input {
+  width: 100%;
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 800;
+}
+
+.question-answer-input:focus {
+  border-color: var(--color-blue);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 160, 255, 0.18);
+}
+
+.question-graded-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.question-graded-box.correct {
+  border-color: rgba(27, 191, 137, 0.28);
+}
+
+.question-graded-box.incorrect {
+  border-color: rgba(238, 68, 85, 0.26);
+}
+
+.question-graded-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 800;
+}
+
+.problem-sidebar {
+  min-width: 0;
+}
+
+.problem-sidebar-inner {
+  position: sticky;
+  top: 20px;
+  display: grid;
+  gap: 16px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.problem-sidebar-block {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.problem-sidebar-actions {
+  align-content: start;
 }
 
 .answer-grid {
@@ -1380,14 +1629,6 @@ td {
   padding: 20px;
 }
 
-.json-replace-section {
-  display: grid;
-  gap: 16px;
-  margin: 0 20px 20px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border);
-}
-
 .form-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1584,6 +1825,12 @@ html:not(.light) .answer-cell-input {
   color: var(--color-text-strong);
 }
 
+html.dark .problem-jump-button,
+html:not(.light) .problem-jump-button {
+  background: var(--color-surface-alt);
+  color: var(--color-text-strong);
+}
+
 /* ── Responsive ──────────────────────────────────────── */
 
 @media (max-width: 1050px) {
@@ -1609,8 +1856,15 @@ html:not(.light) .answer-cell-input {
   .hero-panel,
   .content-grid,
   .problem-layout,
-  .import-layout {
+  .import-layout,
+  .problem-workspace {
     grid-template-columns: 1fr;
+  }
+
+  .problem-sidebar-inner {
+    position: static;
+    max-height: none;
+    overflow: visible;
   }
 }
 
@@ -1668,6 +1922,10 @@ html:not(.light) .answer-cell-input {
 
   .answer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .problem-jump-grid.compact {
+    grid-template-columns: repeat(auto-fit, minmax(68px, 1fr));
   }
 
   .preview-grid {

@@ -19,15 +19,18 @@ type SubmitResult = {
   }>;
 };
 
+type ProblemSummary = {
+  number: number;
+  statement: string;
+  topicTags: string[];
+  explanationNote: string | null;
+  contentFormat: "LATEX" | "HTML";
+};
+
 type Props = {
   problemSetId: string;
   problemNumbers: number[];
-  problemSummaries?: Array<{
-    number: number;
-    topicTags: string[];
-    explanationNote: string | null;
-    contentFormat: "LATEX" | "HTML";
-  }>;
+  problemSummaries?: ProblemSummary[];
   videoUrl?: string | null;
   lockedAttemptNumber?: number | null;
 };
@@ -74,8 +77,6 @@ export function AnswerGrid({
   const [reportSuccess, setReportSuccess] = useState(false);
 
   const startTime = useRef(0);
-
-  /* ── Autosave to localStorage ──────────────────────── */
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const debouncedSave = useCallback(
@@ -85,7 +86,7 @@ export function AnswerGrid({
         try {
           localStorage.setItem(autosaveKey, JSON.stringify(next));
         } catch {
-          /* quota exceeded — skip */
+          /* quota exceeded */
         }
       }, 400);
     },
@@ -100,7 +101,6 @@ export function AnswerGrid({
     });
   }
 
-  /* Record start time + cleanup timer on unmount */
   useEffect(() => {
     startTime.current = Date.now();
     return () => {
@@ -108,7 +108,6 @@ export function AnswerGrid({
     };
   }, []);
 
-  /* ── Submit ────────────────────────────────────────── */
   async function onSubmit() {
     setIsSubmitting(true);
     setSubmitError(null);
@@ -124,14 +123,12 @@ export function AnswerGrid({
       });
 
       const result = await response.json();
-
       if (!response.ok) {
         setSubmitError(result.error ?? "Submission failed.");
         return;
       }
 
       setSubmitResult(result);
-      // Clear autosave on successful submission
       try {
         localStorage.removeItem(autosaveKey);
       } catch {
@@ -197,6 +194,7 @@ export function AnswerGrid({
         setReportError(data.error || "Failed to submit report");
         return;
       }
+
       setReportSuccess(true);
       setTimeout(() => setShowReportDialog(false), 2000);
     } catch {
@@ -206,11 +204,43 @@ export function AnswerGrid({
     }
   }
 
-  const filledCount = Object.values(answers).filter((v) => v.trim().length > 0).length;
+  const filledCount = Object.values(answers).filter((value) => value.trim().length > 0).length;
   const isPerfectResult =
     submitResult !== null &&
     submitResult.maxScore > 0 &&
     submitResult.score === submitResult.maxScore;
+  const problemSummaryMap = new Map(problemSummaries.map((problem) => [problem.number, problem]));
+  const hasInlineStatements = problemNumbers.every((number) => {
+    const statement = problemSummaryMap.get(number)?.statement ?? "";
+    return statement.trim().length > 0;
+  });
+  const resultMap = submitResult
+    ? new Map(submitResult.results.map((result) => [result.number, result]))
+    : null;
+  const missedResults = submitResult
+    ? submitResult.results.filter((result) => !result.isCorrect)
+    : [];
+  const missedTopicCounts = new Map<string, number>();
+
+  for (const result of missedResults) {
+    const summary = problemSummaryMap.get(result.number);
+    const topics = summary?.topicTags.length ? summary.topicTags : ["General"];
+    for (const topic of topics) {
+      missedTopicCounts.set(topic, (missedTopicCounts.get(topic) ?? 0) + 1);
+    }
+  }
+
+  const missedTopics = Array.from(missedTopicCounts.entries())
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, 3);
+  const primaryMissedTopic = missedTopics[0]?.[0] ?? null;
+  const nextAction = isPerfectResult
+    ? "Move to the next set or keep this one as solved."
+    : primaryMissedTopic
+      ? `Review ${primaryMissedTopic}, then retry this set.`
+      : videoUrl
+        ? "Watch the teaching video, then retry this set."
+        : "Retry this set while the questions are fresh.";
 
   const reportDialog = showReportDialog && (
     <div
@@ -237,9 +267,9 @@ export function AnswerGrid({
               Problem Number
               <select name="problemNumber" className="form-input">
                 <option value="">Whole set issue</option>
-                {problemNumbers.map((n) => (
-                  <option key={n} value={String(n)}>
-                    Problem {n}
+                {problemNumbers.map((number) => (
+                  <option key={number} value={String(number)}>
+                    Problem {number}
                   </option>
                 ))}
               </select>
@@ -258,7 +288,7 @@ export function AnswerGrid({
               Description
               <textarea name="message" className="form-input" required rows={3} />
             </label>
-            {reportError && <div style={{ color: "var(--color-danger)" }}>{reportError}</div>}
+            {reportError ? <div style={{ color: "var(--color-danger)" }}>{reportError}</div> : null}
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
               <button
                 type="button"
@@ -276,6 +306,363 @@ export function AnswerGrid({
       </div>
     </div>
   );
+
+  function jumpHref(problemNumber: number) {
+    return `#problem-${problemNumber}`;
+  }
+
+  function jumpButtonState(problemNumber: number) {
+    const trimmedAnswer = answers[problemNumber]?.trim() ?? "";
+    const result = resultMap?.get(problemNumber);
+
+    if (result) {
+      return result.isCorrect ? "correct" : "incorrect";
+    }
+    if (trimmedAnswer) {
+      return "filled";
+    }
+    return "";
+  }
+
+  function renderJumpGrid(className?: string) {
+    return (
+      <div className={`problem-jump-grid${className ? ` ${className}` : ""}`}>
+        {problemNumbers.map((number) => (
+          <a
+            className={`problem-jump-button ${jumpButtonState(number)}`.trim()}
+            href={jumpHref(number)}
+            key={number}
+          >
+            Q{number}
+          </a>
+        ))}
+      </div>
+    );
+  }
+
+  function renderSidebarActions() {
+    if (submitResult) {
+      return (
+        <>
+          <span className="fill-count">
+            {submitResult.results.filter((result) => result.isCorrect).length}/
+            {submitResult.results.length} correct
+          </span>
+          <button
+            className="secondary-action"
+            type="button"
+            onClick={() => setShowReportDialog(true)}
+          >
+            <MessageSquareWarning size={18} />
+            Report issue
+          </button>
+          {!isPerfectResult ? (
+            <button className="secondary-action" type="button" onClick={onRetry}>
+              <RotateCcw size={18} />
+              Try again
+            </button>
+          ) : null}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <span className="fill-count">
+          {filledCount}/{problemNumbers.length} answered
+        </span>
+        <button
+          className="secondary-action"
+          type="button"
+          onClick={() => setShowReportDialog(true)}
+        >
+          <MessageSquareWarning size={18} />
+          Report issue
+        </button>
+        <button
+          className="primary-action"
+          type="button"
+          disabled={isSubmitting || filledCount === 0}
+          onClick={onSubmit}
+        >
+          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
+          {isSubmitting ? "Submitting…" : "Submit"}
+        </button>
+      </>
+    );
+  }
+
+  function renderInlineWorkspace() {
+    return (
+      <>
+        <div className="problem-workspace">
+          <div className="problem-flow">
+            <section className="problem-jump-strip">
+              <div className="problem-jump-strip-head">
+                <div>
+                  <p className="eyebrow">Problem Grid</p>
+                  <h3>Jump to question</h3>
+                </div>
+                <span className="fill-count">
+                  {submitResult
+                    ? `${submitResult.results.filter((result) => result.isCorrect).length}/${submitResult.results.length} correct`
+                    : `${filledCount}/${problemNumbers.length} answered`}
+                </span>
+              </div>
+              {renderJumpGrid()}
+            </section>
+
+            {problemNumbers.map((number) => {
+              const summary = problemSummaryMap.get(number);
+              const result = resultMap?.get(number);
+              const stateClass = result ? (result.isCorrect ? "correct" : "incorrect") : "";
+              const draftState = !submitResult && (answers[number]?.trim() ?? "").length > 0;
+
+              return (
+                <section
+                  className={`problem-question-card ${stateClass}`.trim()}
+                  id={`problem-${number}`}
+                  key={number}
+                >
+                  <div className="question-card-head">
+                    <div className="question-card-heading">
+                      <span className="statement-number">Q{number}</span>
+                      <div className="question-card-meta">
+                        <strong>Question {number}</strong>
+                        {summary?.topicTags.length ? (
+                          <div className="missed-topic-list">
+                            {summary.topicTags.map((topic) => (
+                              <span key={`${number}-${topic}`}>{topic}</span>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    <div className="question-card-actions">
+                      {submitResult && result ? (
+                        <span
+                          className={`question-status-badge ${result.isCorrect ? "correct" : "incorrect"}`}
+                        >
+                          {result.isCorrect ? "Correct" : "Incorrect"}
+                        </span>
+                      ) : draftState ? (
+                        <span className="question-status-badge filled">Draft</span>
+                      ) : null}
+
+                      {submitResult && result && !result.isCorrect ? (
+                        <button
+                          className="secondary-action compact"
+                          type="button"
+                          onClick={() => toggleReviewLater(number)}
+                        >
+                          {reviewLater.has(number) ? "Review saved" : "Review later"}
+                        </button>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  {summary ? (
+                    <div className="statement-text">
+                      <LatexStatement statement={summary.statement} format={summary.contentFormat} />
+                    </div>
+                  ) : null}
+
+                  <label className="question-answer-block">
+                    <span className="question-answer-label">Answer</span>
+                    {submitResult ? (
+                      <div className={`question-graded-box ${stateClass}`.trim()}>
+                        <span className="question-graded-value">{result?.rawAnswer || "—"}</span>
+                        {result?.isCorrect ? (
+                          <CheckCircle2 size={16} className="grade-icon correct-icon" />
+                        ) : (
+                          <XCircle size={16} className="grade-icon incorrect-icon" />
+                        )}
+                      </div>
+                    ) : (
+                      <input
+                        className="question-answer-input"
+                        aria-label={`Answer ${number}`}
+                        name={`answer-${number}`}
+                        placeholder="Enter answer"
+                        value={answers[number] ?? ""}
+                        onChange={(e) => onAnswerChange(number, e.target.value)}
+                      />
+                    )}
+                  </label>
+
+                  {submitResult && summary?.explanationNote && result && !result.isCorrect ? (
+                    <details className="solution-note" open>
+                      <summary>Explanation</summary>
+                      <LatexStatement
+                        statement={summary.explanationNote}
+                        format={summary.contentFormat}
+                      />
+                    </details>
+                  ) : null}
+                </section>
+              );
+            })}
+          </div>
+
+          <aside className="problem-sidebar">
+            <div className="problem-sidebar-inner">
+              <section className="problem-sidebar-block">
+                <div className="problem-sidebar-head">
+                  <div>
+                    <p className="eyebrow">Side Panel</p>
+                    <h3>Problems</h3>
+                  </div>
+                </div>
+                {renderJumpGrid("compact")}
+              </section>
+
+              <section className="problem-sidebar-block problem-sidebar-actions">
+                {renderSidebarActions()}
+                {submitError ? <span className="form-error">{submitError}</span> : null}
+              </section>
+            </div>
+          </aside>
+        </div>
+        {reportDialog}
+      </>
+    );
+  }
+
+  function renderFallbackAnswerGrid() {
+    if (submitResult) {
+      const scorePercent = Math.max(0, Math.min(100, submitResult.percentage));
+      const scoreRingStyle = { "--score-percent": `${scorePercent}%` } as CSSProperties;
+
+      return (
+        <>
+          <div className="score-result">
+            <div className="score-ring" style={scoreRingStyle}>
+              <span>{submitResult.percentage}%</span>
+              <small>
+                {submitResult.score}/{submitResult.maxScore}
+              </small>
+            </div>
+            <div className="score-details">
+              <strong>Attempt #{submitResult.attemptNumber}</strong>
+              <p>
+                {submitResult.results.filter((result) => result.isCorrect).length} of{" "}
+                {submitResult.results.length} correct
+              </p>
+              {isPerfectResult ? (
+                <p className="perfect-lock-note">Perfect score saved. This set is now locked.</p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="submit-coaching-panel">
+            <div>
+              <p className="eyebrow">Next step</p>
+              <strong>{nextAction}</strong>
+            </div>
+            {missedTopics.length > 0 ? (
+              <div className="missed-topic-list">
+                {missedTopics.map(([topic, count]) => (
+                  <span key={topic}>
+                    {topic}: {count}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="answer-grid">
+            {problemNumbers.map((number) => {
+              const result = resultMap?.get(number);
+              const stateClass = result ? (result.isCorrect ? "correct" : "incorrect") : "";
+
+              return (
+                <div className={`answer-cell graded ${stateClass}`.trim()} key={number}>
+                  <span className="answer-cell-label">Question {number}</span>
+                  <div className="graded-answer">
+                    <span className="answer-cell-value">{result?.rawAnswer || "—"}</span>
+                    {result?.isCorrect ? (
+                      <CheckCircle2 size={14} className="grade-icon correct-icon" />
+                    ) : (
+                      <XCircle size={14} className="grade-icon incorrect-icon" />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="problem-actions">
+            <button
+              className="secondary-action"
+              type="button"
+              onClick={() => setShowReportDialog(true)}
+            >
+              <MessageSquareWarning size={18} />
+              Report issue
+            </button>
+            {!isPerfectResult ? (
+              <button className="secondary-action" type="button" onClick={onRetry}>
+                <RotateCcw size={18} />
+                Try again
+              </button>
+            ) : null}
+          </div>
+          {reportDialog}
+        </>
+      );
+    }
+
+    return (
+      <>
+        <form className="answer-grid" onSubmit={(e) => e.preventDefault()}>
+          {problemNumbers.map((number) => (
+            <label className="answer-cell" key={number}>
+              <span className="answer-cell-label">Question {number}</span>
+              <input
+                className="answer-cell-input"
+                aria-label={`Answer ${number}`}
+                name={`answer-${number}`}
+                placeholder="answer"
+                value={answers[number] ?? ""}
+                onChange={(e) => onAnswerChange(number, e.target.value)}
+              />
+            </label>
+          ))}
+        </form>
+
+        <div className="problem-actions">
+          <span className="fill-count">
+            {filledCount}/{problemNumbers.length} answered
+          </span>
+          <button
+            className="secondary-action"
+            type="button"
+            onClick={() => setShowReportDialog(true)}
+          >
+            <MessageSquareWarning size={18} />
+            Report issue
+          </button>
+          <button
+            className="primary-action"
+            type="button"
+            disabled={isSubmitting || filledCount === 0}
+            onClick={onSubmit}
+          >
+            {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
+            {isSubmitting ? "Submitting…" : "Submit"}
+          </button>
+        </div>
+
+        {submitError ? (
+          <div className="problem-actions">
+            <span className="form-error">{submitError}</span>
+          </div>
+        ) : null}
+        {reportDialog}
+      </>
+    );
+  }
 
   if (lockedAttemptNumber) {
     return (
@@ -298,197 +685,5 @@ export function AnswerGrid({
     );
   }
 
-  /* ── Score result view ─────────────────────────────── */
-  if (submitResult) {
-    const resultMap = new Map(submitResult.results.map((r) => [r.number, r]));
-    const scorePercent = Math.max(0, Math.min(100, submitResult.percentage));
-    const scoreRingStyle = { "--score-percent": `${scorePercent}%` } as CSSProperties;
-    const problemSummaryMap = new Map(problemSummaries.map((problem) => [problem.number, problem]));
-    const missedResults = submitResult.results.filter((result) => !result.isCorrect);
-    const missedTopicCounts = new Map<string, number>();
-    for (const result of missedResults) {
-      const summary = problemSummaryMap.get(result.number);
-      const topics = summary?.topicTags.length ? summary.topicTags : ["General"];
-      for (const topic of topics) {
-        missedTopicCounts.set(topic, (missedTopicCounts.get(topic) ?? 0) + 1);
-      }
-    }
-    const missedTopics = Array.from(missedTopicCounts.entries())
-      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-      .slice(0, 3);
-    const primaryMissedTopic = missedTopics[0]?.[0] ?? null;
-    const nextAction = isPerfectResult
-      ? "Move to the next set or keep this one as solved."
-      : primaryMissedTopic
-        ? `Review ${primaryMissedTopic}, then retry this set.`
-        : videoUrl
-          ? "Watch the teaching video, then retry this set."
-          : "Retry this set while the questions are fresh.";
-
-    return (
-      <>
-        <div className="score-result">
-          <div className="score-ring" style={scoreRingStyle}>
-            <span>{submitResult.percentage}%</span>
-            <small>
-              {submitResult.score}/{submitResult.maxScore}
-            </small>
-          </div>
-          <div className="score-details">
-            <strong>Attempt #{submitResult.attemptNumber}</strong>
-            <p>
-              {submitResult.results.filter((r) => r.isCorrect).length} of{" "}
-              {submitResult.results.length} correct
-            </p>
-            {isPerfectResult ? (
-              <p className="perfect-lock-note">Perfect score saved. This set is now locked.</p>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="submit-coaching-panel">
-          <div>
-            <p className="eyebrow">Next step</p>
-            <strong>{nextAction}</strong>
-          </div>
-          {missedTopics.length > 0 ? (
-            <div className="missed-topic-list">
-              {missedTopics.map(([topic, count]) => (
-                <span key={topic}>
-                  {topic}: {count}
-                </span>
-              ))}
-            </div>
-          ) : null}
-        </div>
-
-        <div className="answer-grid">
-          {problemNumbers.map((number) => {
-            const r = resultMap.get(number);
-            const cls = r ? (r.isCorrect ? "correct" : "incorrect") : "";
-            return (
-              <div className={`answer-cell graded ${cls}`} key={number}>
-                <span className="answer-cell-label">Question {number}</span>
-                <div className="graded-answer">
-                  <span className="answer-cell-value">{r?.rawAnswer || "—"}</span>
-                  {r?.isCorrect ? (
-                    <CheckCircle2 size={14} className="grade-icon correct-icon" />
-                  ) : (
-                    <XCircle size={14} className="grade-icon incorrect-icon" />
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {missedResults.length > 0 ? (
-          <div className="review-list">
-            {missedResults.map((result) => {
-              const summary = problemSummaryMap.get(result.number);
-              return (
-                <article className="review-card" key={result.number}>
-                  <div className="review-card-head">
-                    <strong>Problem {result.number}</strong>
-                    <button
-                      className="secondary-action compact"
-                      type="button"
-                      onClick={() => toggleReviewLater(result.number)}
-                    >
-                      {reviewLater.has(result.number) ? "Review saved" : "Review later"}
-                    </button>
-                  </div>
-                  {summary?.topicTags.length ? (
-                    <div className="missed-topic-list">
-                      {summary.topicTags.map((topic) => (
-                        <span key={topic}>{topic}</span>
-                      ))}
-                    </div>
-                  ) : null}
-                  {summary?.explanationNote ? (
-                    <details className="solution-note">
-                      <summary>Explanation</summary>
-                      <LatexStatement
-                        statement={summary.explanationNote}
-                        format={summary.contentFormat}
-                      />
-                    </details>
-                  ) : null}
-                </article>
-              );
-            })}
-          </div>
-        ) : null}
-
-        <div className="problem-actions">
-          <button
-            className="secondary-action"
-            type="button"
-            onClick={() => setShowReportDialog(true)}
-          >
-            <MessageSquareWarning size={18} />
-            Report issue
-          </button>
-          {!isPerfectResult ? (
-            <button className="secondary-action" type="button" onClick={onRetry}>
-              <RotateCcw size={18} />
-              Try again
-            </button>
-          ) : null}
-        </div>
-        {reportDialog}
-      </>
-    );
-  }
-
-  /* ── Answer entry view ─────────────────────────────── */
-  return (
-    <>
-      <form className="answer-grid" onSubmit={(e) => e.preventDefault()}>
-        {problemNumbers.map((number) => (
-          <label className="answer-cell" key={number}>
-            <span className="answer-cell-label">Question {number}</span>
-            <input
-              className="answer-cell-input"
-              aria-label={`Answer ${number}`}
-              name={`answer-${number}`}
-              placeholder="answer"
-              value={answers[number] ?? ""}
-              onChange={(e) => onAnswerChange(number, e.target.value)}
-            />
-          </label>
-        ))}
-      </form>
-
-      <div className="problem-actions">
-        <span className="fill-count">
-          {filledCount}/{problemNumbers.length} answered
-        </span>
-        <button
-          className="secondary-action"
-          type="button"
-          onClick={() => setShowReportDialog(true)}
-        >
-          <MessageSquareWarning size={18} />
-          Report issue
-        </button>
-        <button
-          className="primary-action"
-          type="button"
-          disabled={isSubmitting || filledCount === 0}
-          onClick={onSubmit}
-        >
-          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
-          {isSubmitting ? "Submitting…" : "Submit"}
-        </button>
-      </div>
-
-      {submitError && (
-        <div className="problem-actions">
-          <span className="form-error">{submitError}</span>
-        </div>
-      )}
-      {reportDialog}
-    </>
-  );
+  return hasInlineStatements ? renderInlineWorkspace() : renderFallbackAnswerGrid();
 }

@@ -66,6 +66,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
   const problemCount = problemSet.problems.length;
   const videoHost = problemSet.videoUrl ? new URL(problemSet.videoUrl).hostname : null;
   const statementProblems = problemSet.problems.filter((problem) => problem.statement.trim());
+  const hasInlineStatements = problemSet.problems.every((problem) => problem.statement.trim().length > 0);
   const pdfHref =
     problemSet.problemFile?.mimeType === "application/pdf"
       ? `/api/files/${problemSet.problemFile.id}`
@@ -114,103 +115,166 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
           </div>
         </header>
 
-        <section className="problem-layout">
-          <article className="panel statement-panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">Problem file</p>
-                <h2>Set statement</h2>
+        {hasInlineStatements ? (
+          <section className="problem-inline-shell">
+            <article className="panel statement-panel problem-inline-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Questions</p>
+                  <h2>Statements and answers</h2>
+                </div>
+                <CheckCircle2 size={20} />
               </div>
-              <FileText size={20} />
-            </div>
-            {pdfHref ? (
-              <div className="pdf-viewer-block">
-                <iframe className="pdf-frame" src={pdfHref} title={`${problemSet.title} PDF`} />
+              {pdfHref ? (
+                <div className="file-meta-row problem-inline-file-row">
+                  <span>Problem file: {problemSet.problemFile?.originalName}</span>
+                  <a
+                    className="secondary-action compact"
+                    href={pdfHref}
+                    target="_blank"
+                  >
+                    <Maximize2 size={16} />
+                    Open PDF
+                  </a>
+                </div>
+              ) : null}
+              <AnswerGrid
+                lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
+                problemNumbers={problemSet.problems.map((problem) => problem.number)}
+                problemSummaries={problemSet.problems.map((problem) => ({
+                  number: problem.number,
+                  statement: problem.statement,
+                  topicTags: problem.topicTags,
+                  explanationNote: problem.explanationNote,
+                  contentFormat: problem.contentFormat,
+                }))}
+                problemSetId={problemSet.id}
+                videoUrl={problemSet.videoUrl}
+              />
+              {problemSet.videoUrl ? (
                 <a
-                  className="secondary-action compact pdf-open-action"
-                  href={pdfHref}
+                  className="video-strip"
+                  href={problemSet.videoUrl}
+                  rel="noreferrer"
                   target="_blank"
                 >
-                  <Maximize2 size={16} />
-                  Enlarge PDF
+                  <PlayCircle size={20} />
+                  Teaching video on {videoHost}
+                  <ExternalLink size={16} />
                 </a>
+              ) : (
+                <div className="video-strip muted-strip">
+                  <PlayCircle size={20} />
+                  Teaching video can be attached later
+                </div>
+              )}
+              {problemSet.solutionFile ? (
+                <div className="file-meta-row">
+                  <span>Solution file: {problemSet.solutionFile.originalName}</span>
+                </div>
+              ) : null}
+            </article>
+          </section>
+        ) : (
+          <section className="problem-layout">
+            <article className="panel statement-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Problem file</p>
+                  <h2>Set statement</h2>
+                </div>
+                <FileText size={20} />
               </div>
-            ) : statementProblems.length > 0 ? (
-              <div className="problem-statement-list">
-                {problemSet.problems.map((problem) => (
-                  <section className="problem-statement-card" key={problem.id}>
-                    <span className="statement-number">Q{problem.number}</span>
-                    <div className="statement-text">
-                      <LatexStatement
-                        statement={problem.statement}
-                        format={problem.contentFormat}
-                      />
-                      {problem.explanationNote ? (
-                        <details className="solution-note">
-                          <summary>Solution</summary>
-                          <LatexStatement
-                            statement={problem.explanationNote}
-                            format={problem.contentFormat}
-                          />
-                        </details>
-                      ) : null}
-                    </div>
-                  </section>
-                ))}
-              </div>
-            ) : (
-              <div className="pdf-placeholder">
-                <FileText size={42} />
-                <strong>{problemSet.problemFile?.originalName ?? "Problem file attached"}</strong>
-                <span>{problemCount} answer-only questions</span>
-              </div>
-            )}
-            {problemSet.videoUrl ? (
-              <a
-                className="video-strip"
-                href={problemSet.videoUrl}
-                rel="noreferrer"
-                target="_blank"
-              >
-                <PlayCircle size={20} />
-                Teaching video on {videoHost}
-                <ExternalLink size={16} />
-              </a>
-            ) : (
-              <div className="video-strip muted-strip">
-                <PlayCircle size={20} />
-                Teaching video can be attached later
-              </div>
-            )}
-            {problemSet.solutionFile ? (
-              <div className="file-meta-row">
-                <span>Solution file: {problemSet.solutionFile.originalName}</span>
-              </div>
-            ) : null}
-          </article>
+              {pdfHref ? (
+                <div className="pdf-viewer-block">
+                  <iframe className="pdf-frame" src={pdfHref} title={`${problemSet.title} PDF`} />
+                  <a
+                    className="secondary-action compact pdf-open-action"
+                    href={pdfHref}
+                    target="_blank"
+                  >
+                    <Maximize2 size={16} />
+                    Enlarge PDF
+                  </a>
+                </div>
+              ) : statementProblems.length > 0 ? (
+                <div className="problem-statement-list">
+                  {problemSet.problems.map((problem) => (
+                    <section className="problem-statement-card" key={problem.id}>
+                      <span className="statement-number">Q{problem.number}</span>
+                      <div className="statement-text">
+                        <LatexStatement
+                          statement={problem.statement}
+                          format={problem.contentFormat}
+                        />
+                        {problem.explanationNote ? (
+                          <details className="solution-note">
+                            <summary>Solution</summary>
+                            <LatexStatement
+                              statement={problem.explanationNote}
+                              format={problem.contentFormat}
+                            />
+                          </details>
+                        ) : null}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              ) : (
+                <div className="pdf-placeholder">
+                  <FileText size={42} />
+                  <strong>{problemSet.problemFile?.originalName ?? "Problem file attached"}</strong>
+                  <span>{problemCount} answer-only questions</span>
+                </div>
+              )}
+              {problemSet.videoUrl ? (
+                <a
+                  className="video-strip"
+                  href={problemSet.videoUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  <PlayCircle size={20} />
+                  Teaching video on {videoHost}
+                  <ExternalLink size={16} />
+                </a>
+              ) : (
+                <div className="video-strip muted-strip">
+                  <PlayCircle size={20} />
+                  Teaching video can be attached later
+                </div>
+              )}
+              {problemSet.solutionFile ? (
+                <div className="file-meta-row">
+                  <span>Solution file: {problemSet.solutionFile.originalName}</span>
+                </div>
+              ) : null}
+            </article>
 
-          <article className="panel answer-panel">
-            <div className="panel-header">
-              <div>
-                <p className="eyebrow">Answer-only</p>
-                <h2>Response grid</h2>
+            <article className="panel answer-panel">
+              <div className="panel-header">
+                <div>
+                  <p className="eyebrow">Answer-only</p>
+                  <h2>Response grid</h2>
+                </div>
+                <CheckCircle2 size={20} />
               </div>
-              <CheckCircle2 size={20} />
-            </div>
-            <AnswerGrid
-              lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
-              problemNumbers={problemSet.problems.map((p) => p.number)}
-              problemSummaries={problemSet.problems.map((problem) => ({
-                number: problem.number,
-                topicTags: problem.topicTags,
-                explanationNote: problem.explanationNote,
-                contentFormat: problem.contentFormat,
-              }))}
-              problemSetId={problemSet.id}
-              videoUrl={problemSet.videoUrl}
-            />
-          </article>
-        </section>
+              <AnswerGrid
+                lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
+                problemNumbers={problemSet.problems.map((problem) => problem.number)}
+                problemSummaries={problemSet.problems.map((problem) => ({
+                  number: problem.number,
+                  statement: problem.statement,
+                  topicTags: problem.topicTags,
+                  explanationNote: problem.explanationNote,
+                  contentFormat: problem.contentFormat,
+                }))}
+                problemSetId={problemSet.id}
+                videoUrl={problemSet.videoUrl}
+              />
+            </article>
+          </section>
+        )}
       </div>
     </main>
   );

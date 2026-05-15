@@ -6,6 +6,7 @@ import {
   normalizeProblemContentFormat,
 } from "../problem-content-format";
 import { nextProblemSetOrder } from "../problem-set-order";
+import type { JsonImportEditorDraft } from "./json-draft-storage";
 import type { ImportIssue } from "./zip-dry-run";
 
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
@@ -114,6 +115,12 @@ export type JsonImportResult = {
     videoUrl: string | null;
     warnings: string[];
   } | null;
+};
+
+export type JsonImportDraftResult = {
+  ok: boolean;
+  issues: ImportIssue[];
+  draft: JsonImportEditorDraft | null;
 };
 
 export async function dryRunProblemSetJson(
@@ -356,6 +363,69 @@ export async function importProblemSetJson(
       solutionFileKey: null,
       videoUrl: problemSet.videoUrl,
       warnings: warnings.map((issue) => issue.message),
+    },
+  };
+}
+
+export async function createProblemSetJsonDraft(
+  input: JsonDryRunInput,
+): Promise<JsonImportDraftResult> {
+  if (input.sizeBytes > MAX_JSON_BYTES) {
+    return {
+      ok: false,
+      issues: [{ level: "error", message: `JSON exceeds the ${MAX_JSON_BYTES / 1024 / 1024} MB upload limit.` }],
+      draft: null,
+    };
+  }
+
+  if (!input.fileName.toLowerCase().endsWith(".json")) {
+    return {
+      ok: false,
+      issues: [{ level: "error", message: "Uploaded file must be a .json file." }],
+      draft: null,
+    };
+  }
+
+  const parsed = parseJson(input.text);
+  if (!parsed.ok) {
+    return { ok: false, issues: parsed.issues, draft: null };
+  }
+
+  const normalized = normalizeParsedJson(parsed.data);
+  const issues = validateNormalizedJson(normalized);
+  const { existingBySlug } = await resolveImportTargets(normalized.slug);
+
+  if (existingBySlug) {
+    issues.push({
+      level: "error",
+      message: `A problem set with slug "${normalized.slug}" already exists. Change the slug before importing.`,
+    });
+  }
+
+  return {
+    ok: issues.every((issue) => issue.level !== "error"),
+    issues,
+    draft: {
+      fileName: input.fileName,
+      slug: normalized.slug,
+      title: normalized.title,
+      description: normalized.description,
+      order: normalized.order,
+      status: normalized.status,
+      difficulty: normalized.difficulty,
+      topicTags: normalized.topicTags,
+      videoUrl: normalized.videoUrl,
+      problems: normalized.problems.map((problem) => ({
+        number: problem.number,
+        statement: problem.statement,
+        contentFormat: problem.statementFormat,
+        answerKey: problem.answerKey,
+        answerType: problem.answerType,
+        topicTags: problem.topicTags,
+        points: problem.points,
+        explanationNote: problem.solution,
+      })),
+      issues,
     },
   };
 }

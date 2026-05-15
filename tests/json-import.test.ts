@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { dryRunProblemSetJson } from "../lib/import/json-import";
+import { createProblemSetJsonDraft, dryRunProblemSetJson } from "../lib/import/json-import";
 
 describe("dryRunProblemSetJson", () => {
   it("validates inline LaTeX statements, answer types, and solutions", async () => {
@@ -64,5 +64,65 @@ describe("dryRunProblemSetJson", () => {
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.message.includes("number"))).toBe(true);
+  });
+});
+
+describe("createProblemSetJsonDraft", () => {
+  it("builds an editable draft even when validation errors exist", async () => {
+    const text = JSON.stringify({
+      slug: "json-draft-missing-answer",
+      title: "JSON Draft Missing Answer",
+      description: "Needs one answer filled in from the editor.",
+      status: "DRAFT",
+      topicTags: ["Algebra"],
+      problems: [
+        {
+          number: 1,
+          statement: "Compute $5+6$.",
+          answerType: "INTEGER",
+          points: 1,
+          solution: "Add the integers.",
+        },
+        {
+          number: 2,
+          statement: "Compute $8+1$.",
+          answerType: "INTEGER",
+          answerKey: "9",
+          points: 1,
+        },
+      ],
+    });
+
+    const result = await createProblemSetJsonDraft({
+      fileName: "json-draft-missing-answer.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ message: "Problem 1 is missing answerKey." }),
+      ]),
+    );
+    expect(result.draft).not.toBeNull();
+    expect(result.draft?.fileName).toBe("json-draft-missing-answer.json");
+    expect(result.draft?.title).toBe("JSON Draft Missing Answer");
+    expect(result.draft?.problems).toHaveLength(2);
+    expect(result.draft?.problems[0]).toEqual(
+      expect.objectContaining({
+        number: 1,
+        statement: "Compute $5+6$.",
+        answerKey: "",
+        answerType: "INTEGER",
+        explanationNote: "Add the integers.",
+      }),
+    );
+    expect(result.draft?.problems[1]).toEqual(
+      expect.objectContaining({
+        number: 2,
+        answerKey: "9",
+      }),
+    );
   });
 });

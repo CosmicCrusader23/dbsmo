@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   Plus,
@@ -19,6 +19,11 @@ import {
   Upload,
 } from "lucide-react";
 import { CANONICAL_TAGS, normalizeProblemTag, normalizeTagList } from "@/lib/problem-tags";
+import {
+  clearJsonImportDraft,
+  loadJsonImportDraft,
+  type ImportIssue,
+} from "@/lib/import/json-draft-storage";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 /* ── Types ─────────────────────────────────────────────── */
@@ -125,6 +130,9 @@ function hasTag(csv: string, tag: string): boolean {
 
 export default function CreateSetPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const importDraftKey = searchParams.get("importDraft");
+  const draftLoaded = useRef(false);
 
   // Set metadata
   const [title, setTitle] = useState("");
@@ -133,7 +141,7 @@ export default function CreateSetPage() {
   const [description, setDescription] = useState("");
   const [order, setOrder] = useState("1");
   const [difficulty, setDifficulty] = useState(1);
-  const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
+  const [status, setStatus] = useState<"DRAFT" | "PUBLISHED" | "ARCHIVED">("DRAFT");
   const [topicTags, setTopicTags] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [problemPdf, setProblemPdf] = useState<{ name: string; dataUrl: string } | null>(null);
@@ -146,7 +154,54 @@ export default function CreateSetPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [draftIssues, setDraftIssues] = useState<ImportIssue[]>([]);
+  const [draftFileName, setDraftFileName] = useState<string | null>(null);
   const effectiveSlug = slugManual ? slug : slugify(title);
+
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    if (!importDraftKey || draftLoaded.current) {
+      return;
+    }
+
+    const draft = loadJsonImportDraft(importDraftKey);
+    draftLoaded.current = true;
+
+    if (!draft) {
+      queueMicrotask(() => {
+        setError("That import draft is missing or expired. Run the dry run again and reopen it.");
+      });
+      return;
+    }
+
+    setTitle(draft.title);
+    setSlug(draft.slug);
+    setSlugManual(true);
+    setDescription(draft.description);
+    setOrder(draft.order);
+    setDifficulty(draft.difficulty);
+    setStatus(draft.status);
+    setTopicTags(draft.topicTags.join(", "));
+    setVideoUrl(draft.videoUrl ?? "");
+    setProblems(
+      draft.problems.length > 0
+        ? draft.problems.map((problem) => ({
+            id: uid(),
+            number: problem.number,
+            statement: problem.statement,
+            contentFormat: problem.contentFormat,
+            answerType: problem.answerType,
+            answerKey: problem.answerKey,
+            topicTags: problem.topicTags.join(", "),
+            points: problem.points,
+            explanationNote: problem.explanationNote ?? "",
+          }))
+        : [emptyProblem(1)],
+    );
+    setDraftIssues(draft.issues);
+    setDraftFileName(draft.fileName);
+  }, [importDraftKey]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   function addProblem() {
     setProblems((prev) => [...prev, emptyProblem(prev.length + 1)]);
@@ -269,7 +324,10 @@ export default function CreateSetPage() {
       }
 
       setSuccess(`Problem set "${title}" created successfully!`);
-      setTimeout(() => router.push("/admin/sets"), 1500);
+      if (importDraftKey) {
+        clearJsonImportDraft(importDraftKey);
+      }
+      setTimeout(() => router.push(`/admin/sets/${data.problemSet.id}`), 1500);
     } catch {
       setError("Network error. Please try again.");
     } finally {
@@ -284,7 +342,7 @@ export default function CreateSetPage() {
       <header className="create-set-header">
         <div>
           <p className="eyebrow">Admin</p>
-          <h1>Create Problem Set</h1>
+          <h1>{importDraftKey ? "Fix JSON Draft" : "Create Problem Set"}</h1>
         </div>
         <div className="create-set-header-actions">
           <Link className="secondary-action" href="/dashboard">
@@ -314,6 +372,33 @@ export default function CreateSetPage() {
           <span>{success}</span>
         </div>
       )}
+      {importDraftKey && draftFileName ? (
+        <div className="create-set-alert">
+          <CheckCircle2 size={18} />
+          <span>Loaded import draft from {draftFileName}. Fix the issues below, then save.</span>
+        </div>
+      ) : null}
+      {draftIssues.length > 0 ? (
+        <div className="dry-run-result" aria-live="polite">
+          <div className="preview-card">
+            <div className="preview-heading">
+              <span className="status-dot status-review" />
+              <div>
+                <strong>Import issues to fix</strong>
+                <small>These came from the original JSON dry run.</small>
+              </div>
+            </div>
+          </div>
+          <div className="issue-list">
+            {draftIssues.map((issue) => (
+              <div className={`issue-row ${issue.level}`} key={issue.message}>
+                {issue.level === "error" ? <AlertCircle size={16} /> : <CheckCircle2 size={16} />}
+                <span>{issue.message}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
 
       {/* ── Metadata section ──────────────────────────── */}
       <section className="create-set-meta">
@@ -399,10 +484,11 @@ export default function CreateSetPage() {
             <select
               id="set-status"
               value={status}
-              onChange={(e) => setStatus(e.target.value as "DRAFT" | "PUBLISHED")}
+              onChange={(e) => setStatus(e.target.value as "DRAFT" | "PUBLISHED" | "ARCHIVED")}
             >
               <option value="DRAFT">Draft</option>
               <option value="PUBLISHED">Published</option>
+              <option value="ARCHIVED">Archived</option>
             </select>
           </div>
 
