@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 
 const DEFAULT_TYPE_SPEED_MS = 42;
 const DEFAULT_DELETE_SPEED_MS = 22;
 const DEFAULT_HOLD_MS = 3676;
 const DEFAULT_BETWEEN_GREETING_MS = 280;
+const DEFAULT_SPEEDS = {
+  typeSpeed: DEFAULT_TYPE_SPEED_MS,
+  deleteSpeed: DEFAULT_DELETE_SPEED_MS,
+  holdMs: DEFAULT_HOLD_MS,
+  betweenMs: DEFAULT_BETWEEN_GREETING_MS,
+};
 
 const GREETINGS = [
   (name: string) => `Hello, ${name}!`,
@@ -41,6 +47,8 @@ const GREETINGS = [
   (name: string) => `Initialising ${name}... please wait... still waiting...stillllllll waiting...`,
 ];
 
+const INITIAL_GREETING_INDEX = 0;
+
 const getRandomGreetingIndex = (exclude?: number) => {
   if (GREETINGS.length <= 1) return 0;
   let next = Math.floor(Math.random() * GREETINGS.length);
@@ -51,49 +59,52 @@ const getRandomGreetingIndex = (exclude?: number) => {
   return next;
 };
 
+function parseStoredSpeeds(raw: string | null) {
+  if (!raw) {
+    return DEFAULT_SPEEDS;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    return {
+      typeSpeed: Math.max(10, Math.min(500, Number(parsed.typeSpeed) || DEFAULT_TYPE_SPEED_MS)),
+      deleteSpeed: Math.max(
+        10,
+        Math.min(500, Number(parsed.deleteSpeed) || DEFAULT_DELETE_SPEED_MS),
+      ),
+      holdMs: Math.max(500, Math.min(15000, Number(parsed.holdMs) || DEFAULT_HOLD_MS)),
+      betweenMs: Math.max(
+        100,
+        Math.min(5000, Number(parsed.betweenMs) || DEFAULT_BETWEEN_GREETING_MS),
+      ),
+    };
+  } catch {
+    return DEFAULT_SPEEDS;
+  }
+}
+
+function getTypewriterSpeedsSnapshot() {
+  return parseStoredSpeeds(window.localStorage.getItem("mo-typewriter-settings"));
+}
+
+function getTypewriterSpeedsServerSnapshot() {
+  return DEFAULT_SPEEDS;
+}
+
+function subscribeToTypewriterSpeeds(onStoreChange: () => void) {
+  window.addEventListener("storage", onStoreChange);
+  return () => window.removeEventListener("storage", onStoreChange);
+}
+
 function GreetingTyper({ name }: { name: string }) {
-  const [greetingIndex, setGreetingIndex] = useState(() => getRandomGreetingIndex());
+  const [greetingIndex, setGreetingIndex] = useState(INITIAL_GREETING_INDEX);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [speeds, setSpeeds] = useState({
-    typeSpeed: DEFAULT_TYPE_SPEED_MS,
-    deleteSpeed: DEFAULT_DELETE_SPEED_MS,
-    holdMs: DEFAULT_HOLD_MS,
-    betweenMs: DEFAULT_BETWEEN_GREETING_MS,
-  });
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("mo-typewriter-settings");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        setSpeeds({
-          typeSpeed: Math.max(10, Math.min(500, Number(parsed.typeSpeed) || DEFAULT_TYPE_SPEED_MS)),
-          deleteSpeed: Math.max(10, Math.min(500, Number(parsed.deleteSpeed) || DEFAULT_DELETE_SPEED_MS)),
-          holdMs: Math.max(500, Math.min(15000, Number(parsed.holdMs) || DEFAULT_HOLD_MS)),
-          betweenMs: Math.max(100, Math.min(5000, Number(parsed.betweenMs) || DEFAULT_BETWEEN_GREETING_MS)),
-        });
-      }
-    } catch {}
-    
-    const handleStorage = () => {
-      try {
-        const stored = localStorage.getItem("mo-typewriter-settings");
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          setSpeeds({
-            typeSpeed: Math.max(10, Math.min(500, Number(parsed.typeSpeed) || DEFAULT_TYPE_SPEED_MS)),
-            deleteSpeed: Math.max(10, Math.min(500, Number(parsed.deleteSpeed) || DEFAULT_DELETE_SPEED_MS)),
-            holdMs: Math.max(500, Math.min(15000, Number(parsed.holdMs) || DEFAULT_HOLD_MS)),
-            betweenMs: Math.max(100, Math.min(5000, Number(parsed.betweenMs) || DEFAULT_BETWEEN_GREETING_MS)),
-          });
-        }
-      } catch {}
-    };
-
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
+  const speeds = useSyncExternalStore(
+    subscribeToTypewriterSpeeds,
+    getTypewriterSpeedsSnapshot,
+    getTypewriterSpeedsServerSnapshot,
+  );
 
   const activeGreeting = useMemo(() => GREETINGS[greetingIndex](name), [greetingIndex, name]);
 
@@ -129,7 +140,15 @@ function GreetingTyper({ name }: { name: string }) {
     }, delay);
 
     return () => window.clearTimeout(timer);
-  }, [activeGreeting.length, charIndex, isDeleting]);
+  }, [
+    activeGreeting.length,
+    charIndex,
+    isDeleting,
+    speeds.betweenMs,
+    speeds.deleteSpeed,
+    speeds.holdMs,
+    speeds.typeSpeed,
+  ]);
 
   return (
     <span className="typewriter-greeting" aria-label={activeGreeting}>
