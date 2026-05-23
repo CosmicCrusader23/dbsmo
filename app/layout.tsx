@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
+import { SiteSidebar } from "./site-sidebar";
+import { GlobalMobileNavToggle } from "./global-mobile-nav";
 
 export const metadata: Metadata = {
   title: "DBSMO Training Platform",
@@ -13,11 +15,13 @@ export const metadata: Metadata = {
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const sidebar = await SiteSidebar();
+
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
@@ -32,7 +36,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className}${sidebar ? " has-site-sidebar" : ""}`}>
         <div className="confetti-triangles" aria-hidden="true">
           <span className="tri-1" />
           <span className="tri-2" />
@@ -47,7 +51,9 @@ export default function RootLayout({
           <span className="tri-11" />
           <span className="tri-12" />
         </div>
-        {children}
+        {sidebar}
+        {sidebar ? <GlobalMobileNavToggle /> : null}
+        <div className="site-content">{children}</div>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 
 const OPEN_CLASS = "mobile-nav-open";
 
-export function MobileNavToggle() {
+export function GlobalMobileNavToggle() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export function MobileNavToggle() {
   return (
     <button
       type="button"
-      className="mobile-nav-toggle"
+      className="mobile-nav-toggle global-mobile-nav-toggle"
       aria-label={open ? "Close navigation" : "Open navigation"}
       aria-expanded={open}
       onClick={() => setOpen((prev) => !prev)}
@@ -44,7 +44,7 @@ export function MobileNavToggle() {
   );
 }
 
-export function MobileNavScrim() {
+export function GlobalMobileNavScrim() {
   return (
     <button
       type="button"

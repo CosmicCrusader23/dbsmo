@@ -4,34 +4,22 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import {
   ArrowRight,
-  BarChart3,
   CheckCircle2,
   ClipboardList,
   FileJson,
-  Gauge,
-  ListChecks,
   MessageSquareWarning,
-  PenLine,
   PlayCircle,
-  Settings,
   Sparkles,
-  Swords,
-  Target,
-  Trophy,
-  User,
-  Users,
 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { AuthButton } from "@/app/auth-button";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { TypewriterGreeting } from "@/app/typewriter-greeting";
-import { MobileNavScrim, MobileNavToggle } from "./mobile-nav-toggle";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
-import { hasPermission } from "@/lib/permissions";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 
 export const dynamic = "force-dynamic";
@@ -108,11 +96,6 @@ export default async function DashboardPage() {
   const visibleSets = (
     currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set))
   ).sort(compareProblemSetRecords);
-  const canManageContent = hasPermission(currentUser.role, "admin:content");
-  const canViewStudents = hasPermission(currentUser.role, "admin:users");
-  const canViewAnalytics = hasPermission(currentUser.role, "admin:analytics");
-  const canManageFeedback = hasPermission(currentUser.role, "admin:feedback");
-  const canViewAudit = hasPermission(currentUser.role, "admin:audit");
 
   const attemptsBySet = new Map<
     string,
@@ -266,90 +249,6 @@ export default async function DashboardPage() {
 
   return (
     <main className="app-shell">
-      <MobileNavScrim />
-      <aside className="sidebar" aria-label="Primary" tabIndex={0}>
-        <nav className="nav-list">
-          <Link className="nav-item active" href="/dashboard">
-            <Gauge size={18} />
-            <span className="nav-label">Dashboard</span>
-          </Link>
-          <Link className="nav-item" href="/problem-sets">
-            <ClipboardList size={18} />
-            <span className="nav-label">Problem Sets</span>
-          </Link>
-          <Link className="nav-item" href="/practice">
-            <Target size={18} />
-            <span className="nav-label">Practice</span>
-          </Link>
-          <Link className="nav-item" href="/ftw">
-            <Swords size={18} />
-            <span className="nav-label">FTW</span>
-          </Link>
-          {hasPermission(currentUser.role, "admin:view") ? (
-            <>
-              {canManageContent ? (
-                <>
-                  <Link className="nav-item" href="/admin/sets">
-                    <ListChecks size={18} />
-                    <span className="nav-label">Manage Sets</span>
-                  </Link>
-                  <Link className="nav-item" href="/admin/create">
-                    <PenLine size={18} />
-                    <span className="nav-label">Create Set</span>
-                  </Link>
-                  <Link className="nav-item" href="/admin/import">
-                    <FileJson size={18} />
-                    <span className="nav-label">JSON Import</span>
-                  </Link>
-                </>
-              ) : null}
-              {canViewStudents ? (
-                <Link className="nav-item" href="/admin/students">
-                  <Users size={18} />
-                  <span className="nav-label">Students</span>
-                </Link>
-              ) : null}
-              {canViewAnalytics ? (
-                <Link className="nav-item" href="/admin/analytics">
-                  <BarChart3 size={18} />
-                  <span className="nav-label">Analytics</span>
-                </Link>
-              ) : null}
-              {canManageFeedback ? (
-                <Link className="nav-item" href="/admin/feedback">
-                  <MessageSquareWarning size={18} />
-                  <span className="nav-label">Feedback</span>
-                </Link>
-              ) : null}
-              {canViewAudit ? (
-                <Link className="nav-item" href="/admin/audit">
-                  <CheckCircle2 size={18} />
-                  <span className="nav-label">Audit</span>
-                </Link>
-              ) : null}
-            </>
-          ) : null}
-          <Link className="nav-item" href="/users">
-            <Users size={18} />
-            <span className="nav-label">Users</span>
-          </Link>
-          <Link className="nav-item" href={profileHref}>
-            <User size={18} />
-            <span className="nav-label">My Profile</span>
-          </Link>
-          <Link className="nav-item" href="/leaderboard">
-            <Trophy size={18} />
-            <span className="nav-label">Leaderboard</span>
-          </Link>
-          <Link className="nav-item" href="/settings">
-            <Settings size={18} />
-            <span className="nav-label">Settings</span>
-          </Link>
-        </nav>
-
-        <div className="sidebar-footer" />
-      </aside>
-
       <section className="workspace">
         <header className="topbar">
           <div>
@@ -359,7 +258,6 @@ export default async function DashboardPage() {
             <h1>training dashboard</h1>
           </div>
           <div className="topbar-actions">
-            <MobileNavToggle />
             <ThemeToggle />
             <AuthButton
               avatarUrl={currentUser.avatarUrl}
