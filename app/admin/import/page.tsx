@@ -52,10 +52,13 @@ export default async function ImportPage() {
   "statementFormat": "LATEX",
   "status": "DRAFT",
   "topicTags": ["Algebra"],
+  "images": [
+    { "key": "fig1", "mimeType": "image/png", "data": "<base64>" }
+  ],
   "problems": [
     {
       "number": 1,
-      "statement": "Find $\\\\sqrt{2}$.",
+      "statement": "See [[img:fig1]]. Find $\\\\sqrt{2}$.",
       "answerType": "EXPRESSION",
       "answerKey": "sqrt(2)",
       "acceptedAnswers": ["2^0.5"],
@@ -66,6 +69,7 @@ export default async function ImportPage() {
             <div className="check-list">
               <span>Schema validation</span>
               <span>LaTeX or HTML statements</span>
+              <span>Inline images via [[img:KEY]]</span>
               <span>Answer type preview</span>
               <span>Draft before publish</span>
               <span>Solutions stored as notes</span>
