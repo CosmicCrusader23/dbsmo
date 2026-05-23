@@ -268,18 +268,6 @@ export default async function DashboardPage() {
     <main className="app-shell">
       <MobileNavScrim />
       <aside className="sidebar" aria-label="Primary" tabIndex={0}>
-        <Link className="brand brand-on-dark" href="/dashboard">
-          <span className="brand-mark">
-            <img src="/logo.png" alt="MO Logo" />
-          </span>
-          <span className="brand-text">
-            <strong>DBS Training</strong>
-            <small>
-              {currentUser.role === "ADMIN" ? "Teacher workspace" : "Student workspace"}
-            </small>
-          </span>
-        </Link>
-
         <nav className="nav-list">
           <Link className="nav-item active" href="/dashboard">
             <Gauge size={18} />
@@ -447,7 +435,6 @@ export default async function DashboardPage() {
         </section>
 
         <section className="metric-grid" aria-label="Student progress metrics">
-          <MetricCard label="Today" value={nextSet ? "next step" : "setup"} accent="grey" />
           <MetricCard
             label="Attempted"
             value={`${completedSets}/${totalSets || 0}`}
