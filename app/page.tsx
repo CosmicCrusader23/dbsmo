@@ -48,7 +48,7 @@ export default async function LandingPage() {
 
         <div className="login-note">
           <Music2 size={24} />
-          <span>© 2026 Cosmic Crusader</span>
+          <span>© 2026 Cosmic Crusader made with ❤️ with codex and claude code</span>
         </div>
       </div>
     </main>
