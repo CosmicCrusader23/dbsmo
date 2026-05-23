@@ -3,7 +3,7 @@ import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import JSZip from "jszip";
 import { prisma } from "@/lib/db";
 import { normalizeTagList } from "@/lib/problem-tags";
-import { saveFile } from "@/lib/storage";
+import { saveFile, deleteFile } from "@/lib/storage";
 import type { ImportIssue } from "./zip-dry-run";
 import { dryRunProblemSetZip, type ZipDryRunInput } from "./zip-dry-run";
 import { safeZipPath } from "./zip-path";
@@ -110,10 +110,12 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
   }
 
   const problemFileInfo = await extractAndSave(preview.problemFile);
+  const savedKeys: string[] = [problemFileInfo.storageKey];
 
   let solutionFileInfo: Awaited<ReturnType<typeof extractAndSave>> | null = null;
   if (preview.solutionFile) {
     solutionFileInfo = await extractAndSave(preview.solutionFile);
+    savedKeys.push(solutionFileInfo.storageKey);
   }
 
   /* ── Parse answers from dry-run (re-read from ZIP) ───────────── */
@@ -133,69 +135,106 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
     trim: true,
   });
 
-  const answers = records
-    .map((r) => answerRowSchema.safeParse(r))
-    .filter((r) => r.success)
-    .map((r) => r.data!);
+  const answers: Array<ReturnType<typeof answerRowSchema.parse>> = [];
+  const rowFailures: string[] = [];
+  records.forEach((row, idx) => {
+    const result = answerRowSchema.safeParse(row);
+    if (result.success) {
+      answers.push(result.data);
+      return;
+    }
+    rowFailures.push(
+      `row ${idx + 2}: ${result.error.issues.map((i) => `${i.path.join(".") || "row"} ${i.message}`).join("; ")}`,
+    );
+  });
+
+  if (rowFailures.length > 0) {
+    await Promise.all(savedKeys.map((k) => deleteFile(k).catch(() => {})));
+    return {
+      ok: false,
+      issues: [
+        {
+          level: "error",
+          message: `Refusing to import: answers.csv has ${rowFailures.length} invalid row(s). ${rowFailures.slice(0, 3).join(" | ")}${rowFailures.length > 3 ? " | …" : ""}`,
+        },
+      ],
+      created: null,
+    };
+  }
 
   /* ── Transaction: create all records ─────────────────────────── */
-  const result = await prisma.$transaction(async (tx) => {
-    const problemFile = await tx.importedFile.create({
-      data: {
-        storageKey: problemFileInfo.storageKey,
-        originalName: preview.problemFile,
-        mimeType: guessMime(preview.problemFile),
-        sizeBytes: problemFileInfo.sizeBytes,
-        checksum: problemFileInfo.checksum,
-        uploadedById,
-      },
-    });
-
-    let solutionFile: { id: string } | null = null;
-    if (solutionFileInfo && preview.solutionFile) {
-      solutionFile = await tx.importedFile.create({
+  let result: Awaited<ReturnType<typeof prisma.problemSet.create>>;
+  try {
+    result = await prisma.$transaction(async (tx) => {
+      const problemFile = await tx.importedFile.create({
         data: {
-          storageKey: solutionFileInfo.storageKey,
-          originalName: preview.solutionFile,
-          mimeType: guessMime(preview.solutionFile),
-          sizeBytes: solutionFileInfo.sizeBytes,
-          checksum: solutionFileInfo.checksum,
+          storageKey: problemFileInfo.storageKey,
+          originalName: preview.problemFile,
+          mimeType: guessMime(preview.problemFile),
+          sizeBytes: problemFileInfo.sizeBytes,
+          checksum: problemFileInfo.checksum,
           uploadedById,
         },
       });
-    }
 
-    const problemSet = await tx.problemSet.create({
-      data: {
-        slug: preview.slug,
-        title: preview.title,
-        description: manifest.description,
-        order: manifest.order,
-        status: STATUS_MAP[preview.status] ?? "DRAFT",
-        allowedGroups: [],
-        topicTags: normalizeTagList(preview.topicTags),
-        difficulty: preview.difficulty,
-        videoUrl: preview.videoUrl,
-        problemFileId: problemFile.id,
-        solutionFileId: solutionFile?.id ?? null,
-        createdById: uploadedById,
-      },
+      let solutionFile: { id: string } | null = null;
+      if (solutionFileInfo && preview.solutionFile) {
+        solutionFile = await tx.importedFile.create({
+          data: {
+            storageKey: solutionFileInfo.storageKey,
+            originalName: preview.solutionFile,
+            mimeType: guessMime(preview.solutionFile),
+            sizeBytes: solutionFileInfo.sizeBytes,
+            checksum: solutionFileInfo.checksum,
+            uploadedById,
+          },
+        });
+      }
+
+      const problemSet = await tx.problemSet.create({
+        data: {
+          slug: preview.slug,
+          title: preview.title,
+          description: manifest.description,
+          order: manifest.order,
+          status: STATUS_MAP[preview.status] ?? "DRAFT",
+          allowedGroups: [],
+          topicTags: normalizeTagList(preview.topicTags),
+          difficulty: preview.difficulty,
+          videoUrl: preview.videoUrl,
+          problemFileId: problemFile.id,
+          solutionFileId: solutionFile?.id ?? null,
+          createdById: uploadedById,
+        },
+      });
+
+      await tx.problem.createMany({
+        data: answers.map((answer) => ({
+          problemSetId: problemSet.id,
+          number: answer.number,
+          answerKey: answer.answer,
+          answerType: ANSWER_TYPE_MAP[answer.answerType] ?? "EXACT",
+          acceptedAnswers: answer.acceptedAnswers,
+          topicTags: normalizeTagList(answer.topicTags),
+          points: answer.points,
+        })),
+      });
+
+      return problemSet;
     });
-
-    await tx.problem.createMany({
-      data: answers.map((answer) => ({
-        problemSetId: problemSet.id,
-        number: answer.number,
-        answerKey: answer.answer,
-        answerType: ANSWER_TYPE_MAP[answer.answerType] ?? "EXACT",
-        acceptedAnswers: answer.acceptedAnswers,
-        topicTags: normalizeTagList(answer.topicTags),
-        points: answer.points,
-      })),
-    });
-
-    return problemSet;
-  });
+  } catch (err) {
+    await Promise.all(savedKeys.map((k) => deleteFile(k).catch(() => {})));
+    return {
+      ok: false,
+      issues: [
+        {
+          level: "error",
+          message: `Database write failed and uploaded files were rolled back. ${err instanceof Error ? err.message : "Unknown error."}`,
+        },
+      ],
+      created: null,
+    };
+  }
 
   return {
     ok: true,

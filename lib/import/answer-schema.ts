@@ -1,15 +1,20 @@
 import { z } from "zod";
 
-export const answerTypeSchema = z.enum([
-  "exact",
-  "integer",
-  "decimal",
-  "fraction",
-  "set",
-  "multiple",
-  "expression",
-  "evaluated",
-]);
+export const answerTypeSchema = z
+  .string()
+  .transform((v) => v.trim().toLowerCase())
+  .pipe(
+    z.enum([
+      "exact",
+      "integer",
+      "decimal",
+      "fraction",
+      "set",
+      "multiple",
+      "expression",
+      "evaluated",
+    ]),
+  );
 
 export const answerRowSchema = z.object({
   number: z.coerce.number().int().positive(),

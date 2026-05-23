@@ -207,15 +207,14 @@ function validateProblemNumbers(answers: AnswerRow[], issues: ImportIssue[]) {
   }
 
   const sorted = [...seen].sort((a, b) => a - b);
-  sorted.forEach((number, index) => {
-    if (number !== index + 1) {
-      issues.push({
-        level: "warning",
-        message:
-          "Problem numbers are not sequential from 1. Import can continue, but check the set.",
-      });
-    }
-  });
+  const expected = sorted.map((_, i) => i + 1);
+  const missing = expected.filter((n) => !seen.has(n));
+  if (missing.length > 0) {
+    issues.push({
+      level: "warning",
+      message: `Problem numbers are not sequential from 1. Missing: ${missing.join(", ")}. Import can continue.`,
+    });
+  }
 }
 
 function buildPreview(

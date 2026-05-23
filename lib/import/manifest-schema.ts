@@ -16,7 +16,7 @@ export const manifestSchema = z.object({
   status: z.enum(["draft", "published", "archived"]).default("draft"),
   allowedGroups: z.array(z.string().min(1)).default([]),
   topicTags: z.array(z.string().min(1)).default([]),
-  difficulty: z.number().int().min(1).max(5).default(1),
+  difficulty: z.number().int().min(1).max(10).default(1),
   problemFile: zipPathSchema,
   solutionFile: zipPathSchema.optional(),
   videoUrl: z.string().url().optional(),

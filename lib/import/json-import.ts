@@ -538,14 +538,14 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
   }
 
   const sortedNumbers = [...seenNumbers].sort((a, b) => a - b);
-  sortedNumbers.forEach((number, index) => {
-    if (number !== index + 1) {
-      issues.push({
-        level: "warning",
-        message: "Problem numbers are not sequential from 1. Import can continue.",
-      });
-    }
-  });
+  const expected = sortedNumbers.map((_, i) => i + 1);
+  const missing = expected.filter((n) => !seenNumbers.has(n));
+  if (missing.length > 0) {
+    issues.push({
+      level: "warning",
+      message: `Problem numbers are not sequential from 1. Missing: ${missing.join(", ")}.`,
+    });
+  }
 
   return issues;
 }

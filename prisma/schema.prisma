@@ -69,6 +69,12 @@ enum FtwMatchStatus {
   ABANDONED
 }
 
+enum FtwRoomStatus {
+  LOBBY
+  IN_PROGRESS
+  COMPLETED
+}
+
 model User {
   id                  String               @id @default(cuid())
   email               String               @unique
@@ -99,6 +105,9 @@ model User {
   auditLogs           AuditLog[]           @relation("AuditLogActor")
   exportJobs          ExportJob[]          @relation("ExportJobRequester")
   ftwMatches          FtwMatch[]
+  hostedFtwRooms      FtwRoom[]            @relation("FtwRoomHost")
+  ftwRoomPlayers      FtwRoomPlayer[]
+  ftwRoomAnswers      FtwRoomAnswer[]
 }
 
 model Friendship {
@@ -170,6 +179,7 @@ model Problem {
   feedbackReports FeedbackReport[]
   practiceSolves  PracticeSolve[]
   ftwAnswers      FtwAnswer[]
+  ftwRoomProblems FtwRoomProblem[]
 
   @@unique([problemSetId, number])
 }
@@ -348,6 +358,74 @@ model FtwAnswer {
 
   @@unique([matchId, problemIndex])
   @@index([matchId])
+}
+
+model FtwRoom {
+  id             String           @id @default(cuid())
+  code           String           @unique
+  hostId         String
+  tag            String?
+  status         FtwRoomStatus    @default(LOBBY)
+  totalProblems  Int              @default(10)
+  problemLimitMs Int              @default(45000)
+  currentIndex   Int              @default(-1)
+  createdAt      DateTime         @default(now())
+  startedAt      DateTime?
+  completedAt    DateTime?
+  host           User             @relation("FtwRoomHost", fields: [hostId], references: [id], onDelete: Cascade)
+  players        FtwRoomPlayer[]
+  problems       FtwRoomProblem[]
+
+  @@index([status, createdAt])
+}
+
+model FtwRoomPlayer {
+  id        String          @id @default(cuid())
+  roomId    String
+  userId    String
+  score     Int             @default(0)
+  joinedAt  DateTime        @default(now())
+  leftAt    DateTime?
+  room      FtwRoom         @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers   FtwRoomAnswer[]
+
+  @@unique([roomId, userId])
+  @@index([userId])
+}
+
+model FtwRoomProblem {
+  id           String          @id @default(cuid())
+  roomId       String
+  problemId    String
+  problemIndex Int
+  servedAt     DateTime        @default(now())
+  endsAt       DateTime
+  lockedAt     DateTime?
+  room         FtwRoom         @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  problem      Problem         @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  answers      FtwRoomAnswer[]
+
+  @@unique([roomId, problemIndex])
+  @@index([roomId])
+}
+
+model FtwRoomAnswer {
+  id             String         @id @default(cuid())
+  roomProblemId  String
+  playerId       String
+  userId         String
+  rawAnswer      String?
+  submittedAt    DateTime?
+  elapsedMs      Int?
+  isCorrect      Boolean?
+  points         Int            @default(0)
+  roomProblem    FtwRoomProblem @relation(fields: [roomProblemId], references: [id], onDelete: Cascade)
+  player         FtwRoomPlayer  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomProblemId, userId])
+  @@index([userId])
 }
 
 model VerificationToken {
