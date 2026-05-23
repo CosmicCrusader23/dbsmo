@@ -37,6 +37,7 @@ export async function GET(_request: Request, context: RouteContext) {
       include: {
         problemFileFor: true,
         solutionFileFor: true,
+        assetFor: { include: { problemSet: true } },
       },
     }),
   ]);
@@ -45,7 +46,11 @@ export async function GET(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 
-  const relatedSets = [...file.problemFileFor, ...file.solutionFileFor];
+  const relatedSets = [
+    ...file.problemFileFor,
+    ...file.solutionFileFor,
+    ...file.assetFor.map((a) => a.problemSet),
+  ];
   const canRead =
     currentUser.role === "ADMIN" || relatedSets.some((set) => isVisibleToStudent(set));
 

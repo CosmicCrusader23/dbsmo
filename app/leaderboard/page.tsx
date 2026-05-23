@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
@@ -9,19 +7,9 @@ import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { isStaffRole } from "@/lib/permissions";
+import { Avatar } from "@/app/avatar";
 
 export const dynamic = "force-dynamic";
-
-function DefaultAvatar({ size = 36 }: { size?: number }) {
-  return (
-    <div
-      className="default-avatar default-avatar-sm"
-      style={{ width: size, height: size, fontSize: size * 0.45 }}
-    >
-      <span>M</span>
-    </div>
-  );
-}
 
 function RankBadge({ rank }: { rank: number }) {
   if (rank === 1) return <span className="rank-badge rank-gold">🥇</span>;
@@ -267,15 +255,16 @@ export default async function LeaderboardPage({
                   </td>
                   <td>
                     <div className="leaderboard-user">
-                      {u.avatarUrl ? (
-                        <img
-                          alt={`${u.displayLabel}'s avatar`}
-                          className="leaderboard-avatar"
-                          src={u.avatarUrl}
-                        />
-                      ) : (
-                        <DefaultAvatar />
-                      )}
+                      <Avatar
+                        user={{
+                          id: u.id,
+                          email: u.email,
+                          displayName: u.displayLabel,
+                          avatarUrl: u.avatarUrl,
+                        }}
+                        size="md"
+                        className="leaderboard-avatar"
+                      />
                       <div className="leaderboard-user-info">
                         <Link className="user-link" href={profilePathFromEmail(u.email)}>
                           {u.displayLabel}

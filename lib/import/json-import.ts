@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import { z } from "zod";
 import { normalizeTagList } from "../problem-tags";
@@ -6,8 +7,23 @@ import {
   normalizeProblemContentFormat,
 } from "../problem-content-format";
 import { nextProblemSetOrder } from "../problem-set-order";
+import { saveFile } from "../storage";
 import type { JsonImportEditorDraft } from "./json-draft-storage";
 import type { ImportIssue } from "./zip-dry-run";
+import {
+  decodeAssets,
+  imageAssetSchema,
+  unknownReferencedKeys,
+  type ImageAssetInput,
+} from "./image-assets";
+
+const MIME_TO_EXT: Record<string, string> = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/gif": "gif",
+  "image/webp": "webp",
+  "image/svg+xml": "svg",
+};
 
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
 const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -68,6 +84,7 @@ const jsonProblemSetSchema = z.object({
   topicTags: z.array(z.string()).optional().default([]),
   difficulty: z.coerce.number().int().min(1).max(10).optional().default(1),
   videoUrl: z.string().url().nullable().optional(),
+  images: z.array(imageAssetSchema).optional().default([]),
   problems: z.array(jsonProblemSchema).min(1),
 });
 
@@ -281,6 +298,15 @@ export async function importProblemSetJson(
       });
     });
 
+    if (data.images.length > 0) {
+      await persistAssets({
+        problemSetId: problemSet.id,
+        slug: problemSet.slug,
+        uploadedById: input.uploadedById,
+        assets: data.images,
+      });
+    }
+
     return {
       ok: true,
       issues: warnings,
@@ -349,6 +375,15 @@ export async function importProblemSetJson(
       },
     },
   });
+
+  if (data.images.length > 0) {
+    await persistAssets({
+      problemSetId: problemSet.id,
+      slug: problemSet.slug,
+      uploadedById: input.uploadedById,
+      assets: data.images,
+    });
+  }
 
   return {
     ok: true,
@@ -485,6 +520,7 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
     status: normalizeStatus(data.status),
     topicTags: normalizeTagList(data.topicTags),
     videoUrl: data.videoUrl?.trim() || null,
+    images: data.images ?? [],
     problems: data.problems.map((problem, index) => ({
       number: problem.number ?? index + 1,
       statement: problem.statement.trim(),
@@ -547,6 +583,31 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
     });
   }
 
+  if (data.images.length > 0) {
+    const decode = decodeAssets(data.images);
+    for (const err of decode.errors) {
+      issues.push({ level: "error", message: err });
+    }
+    const known = new Set(decode.decoded.map((a) => a.key));
+    const statementsAndSolutions = data.problems.flatMap((p) => [p.statement, p.solution ?? ""]);
+    const unknown = unknownReferencedKeys(statementsAndSolutions, known);
+    for (const k of unknown) {
+      issues.push({
+        level: "error",
+        message: `Statement references [[img:${k}]] but no image with that key was supplied.`,
+      });
+    }
+  } else {
+    const statementsAndSolutions = data.problems.flatMap((p) => [p.statement, p.solution ?? ""]);
+    const unknown = unknownReferencedKeys(statementsAndSolutions, new Set());
+    for (const k of unknown) {
+      issues.push({
+        level: "error",
+        message: `Statement references [[img:${k}]] but the JSON has no "images" array.`,
+      });
+    }
+  }
+
   return issues;
 }
 
@@ -601,4 +662,56 @@ function zodIssues(label: string, error: z.ZodError): ImportIssue[] {
     level: "error",
     message: `${label}: ${issue.path.join(".") || "value"} ${issue.message}`,
   }));
+}
+
+async function persistAssets(args: {
+  problemSetId: string;
+  slug: string;
+  uploadedById: string;
+  assets: ImageAssetInput[];
+}): Promise<void> {
+  const decode = decodeAssets(args.assets);
+  if (!decode.ok) {
+    throw new Error(`Refusing to persist assets: ${decode.errors.join("; ")}`);
+  }
+
+  const { prisma } = await import("../db");
+
+  for (const asset of decode.decoded) {
+    const ext = MIME_TO_EXT[asset.mimeType] ?? "bin";
+    const storageKey = `imports/${args.slug}/images/${asset.key}.${ext}`;
+    const checksum = createHash("sha256").update(asset.buffer).digest("hex");
+
+    await saveFile(storageKey, asset.buffer);
+
+    await prisma.$transaction(async (tx) => {
+      const file = await tx.importedFile.create({
+        data: {
+          storageKey,
+          originalName: `${asset.key}.${ext}`,
+          mimeType: asset.mimeType,
+          sizeBytes: asset.sizeBytes,
+          checksum,
+          uploadedById: args.uploadedById,
+        },
+      });
+
+      await tx.problemSetAsset.upsert({
+        where: {
+          problemSetId_key: {
+            problemSetId: args.problemSetId,
+            key: asset.key,
+          },
+        },
+        update: {
+          fileId: file.id,
+        },
+        create: {
+          problemSetId: args.problemSetId,
+          key: asset.key,
+          fileId: file.id,
+        },
+      });
+    });
+  }
 }

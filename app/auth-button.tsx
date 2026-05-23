@@ -1,10 +1,9 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import type { Session } from "next-auth";
 import Link from "next/link";
 import { signIn, signOut } from "next-auth/react";
+import { Avatar } from "./avatar";
 
 type AuthButtonProps = {
   session: Session | null;
@@ -27,16 +26,20 @@ export function AuthButton({
 }: AuthButtonProps) {
   if (session) {
     const label = displayName || session.user?.name || session.user?.email;
+    const avatarUser = {
+      id: session.user?.id ?? null,
+      email: session.user?.email ?? null,
+      name: session.user?.name ?? null,
+      displayName: displayName ?? null,
+      avatarUrl: avatarUrl ?? null,
+      image: session.user?.image ?? null,
+    };
 
     return (
       <div className="auth-session">
         {profileHref ? (
           <Link className="account-avatar-button" href={profileHref} aria-label="Open profile">
-            {avatarUrl ? (
-              <img src={avatarUrl} alt="" className="account-avatar-img" />
-            ) : (
-              <span className="account-avatar-fallback">M</span>
-            )}
+            <Avatar user={avatarUser} size="sm" />
           </Link>
         ) : null}
         <span className="session-badge">

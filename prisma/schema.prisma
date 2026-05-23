@@ -144,9 +144,23 @@ model ProblemSet {
   feedback       FeedbackReport[]
   problems       Problem[]
   bookmarks      ProblemSetBookmark[]
+  assets         ProblemSetAsset[]
   createdBy      User                 @relation("ProblemSetCreator", fields: [createdById], references: [id])
   problemFile    ImportedFile?        @relation("ProblemFile", fields: [problemFileId], references: [id])
   solutionFile   ImportedFile?        @relation("SolutionFile", fields: [solutionFileId], references: [id])
+}
+
+model ProblemSetAsset {
+  id           String       @id @default(cuid())
+  problemSetId String
+  key          String
+  fileId       String
+  createdAt    DateTime     @default(now())
+  problemSet   ProblemSet   @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+  file         ImportedFile @relation("AssetFile", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@unique([problemSetId, key])
+  @@index([fileId])
 }
 
 model ProblemSetBookmark {
@@ -253,17 +267,18 @@ model FeedbackReport {
 }
 
 model ImportedFile {
-  id              String       @id @default(cuid())
-  storageKey      String       @unique
+  id              String            @id @default(cuid())
+  storageKey      String            @unique
   originalName    String
   mimeType        String
   sizeBytes       Int
   checksum        String
   uploadedById    String
-  createdAt       DateTime     @default(now())
-  uploadedBy      User         @relation(fields: [uploadedById], references: [id])
-  problemFileFor  ProblemSet[] @relation("ProblemFile")
-  solutionFileFor ProblemSet[] @relation("SolutionFile")
+  createdAt       DateTime          @default(now())
+  uploadedBy      User              @relation(fields: [uploadedById], references: [id])
+  problemFileFor  ProblemSet[]      @relation("ProblemFile")
+  solutionFileFor ProblemSet[]      @relation("SolutionFile")
+  assetFor        ProblemSetAsset[] @relation("AssetFile")
 }
 
 model AuditLog {

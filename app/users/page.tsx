@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
@@ -8,19 +6,9 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isStaffRole } from "@/lib/permissions";
+import { Avatar } from "@/app/avatar";
 
 export const dynamic = "force-dynamic";
-
-function DefaultAvatar({ size = 36 }: { size?: number }) {
-  return (
-    <div
-      className="default-avatar default-avatar-sm"
-      style={{ width: size, height: size, fontSize: size * 0.45 }}
-    >
-      <span>M</span>
-    </div>
-  );
-}
 
 type UsersSearchParams = Promise<{
   page?: string;
@@ -139,11 +127,16 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
             <Link key={u.id} href={profilePathFromEmail(u.email)} className="user-card-link">
               <div className="user-card">
                 <div className="user-card-avatar">
-                  {u.avatarUrl ? (
-                    <img src={u.avatarUrl} alt="" className="user-card-img" />
-                  ) : (
-                    <DefaultAvatar size={48} />
-                  )}
+                  <Avatar
+                    user={{
+                      id: u.id,
+                      email: u.email,
+                      displayName: u.displayLabel,
+                      avatarUrl: u.avatarUrl,
+                    }}
+                    size="lg"
+                    className="user-card-img"
+                  />
                 </div>
                 <div className="user-card-info">
                   <h3>{u.displayLabel}</h3>

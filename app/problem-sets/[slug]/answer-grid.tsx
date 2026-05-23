@@ -33,6 +33,7 @@ type Props = {
   problemSummaries?: ProblemSummary[];
   videoUrl?: string | null;
   lockedAttemptNumber?: number | null;
+  assets?: Record<string, string>;
 };
 
 const AUTOSAVE_KEY_PREFIX = "mo-draft-";
@@ -44,6 +45,7 @@ export function AnswerGrid({
   problemSummaries = [],
   videoUrl = null,
   lockedAttemptNumber = null,
+  assets,
 }: Props) {
   const autosaveKey = `${AUTOSAVE_KEY_PREFIX}${problemSetId}`;
   const reviewKey = `${REVIEW_KEY_PREFIX}${problemSetId}`;
@@ -463,7 +465,7 @@ export function AnswerGrid({
 
                   {summary ? (
                     <div className="statement-text">
-                      <LatexStatement statement={summary.statement} format={summary.contentFormat} />
+                      <LatexStatement statement={summary.statement} format={summary.contentFormat} assets={assets} />
                     </div>
                   ) : null}
 
@@ -496,6 +498,7 @@ export function AnswerGrid({
                       <LatexStatement
                         statement={summary.explanationNote}
                         format={summary.contentFormat}
+                        assets={assets}
                       />
                     </details>
                   ) : null}

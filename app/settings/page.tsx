@@ -1,10 +1,9 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
 import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { ArrowLeft, Save, User, CheckCircle2, AlertCircle, Moon, Sun } from "lucide-react";
+import { Avatar } from "@/app/avatar";
 
 const MAX_AVATAR_BYTES = 512 * 1024;
 const THEME_STORAGE_KEY = "mo-theme";
@@ -31,14 +30,6 @@ function getThemeSnapshot(): ThemePreference {
 function subscribeThemePreference(callback: () => void) {
   window.addEventListener("storage", callback);
   return () => window.removeEventListener("storage", callback);
-}
-
-function DefaultAvatar() {
-  return (
-    <div className="default-avatar">
-      <span>M</span>
-    </div>
-  );
 }
 
 interface UserProfile {
@@ -249,6 +240,7 @@ export default function SettingsPage() {
         <div className="settings-avatar-section">
           <div className="settings-avatar-preview">
             {currentAvatar ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={currentAvatar}
                 alt="Profile"
@@ -258,8 +250,18 @@ export default function SettingsPage() {
                   setError("That profile picture could not be loaded.");
                 }}
               />
-            ) : null}
-            {!currentAvatar && <DefaultAvatar />}
+            ) : (
+              <Avatar
+                user={{
+                  id: user?.id ?? null,
+                  email: user?.email ?? null,
+                  displayName: displayName || user?.displayName || user?.name || null,
+                  name: user?.name ?? null,
+                }}
+                size="lg"
+                className="settings-avatar-img"
+              />
+            )}
           </div>
           <div className="settings-avatar-info">
             <h3>{previewName || "MO Student"}</h3>

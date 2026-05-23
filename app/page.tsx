@@ -33,15 +33,13 @@ export default async function LandingPage() {
 
         <div className="login-layout">
           <section className="login-copy">
-            <p className="eyebrow">Diocesan Boys&apos; School Mathematics Olympiad</p>
             <h1>sign in to proceed.</h1>
-            <p className="login-copy-text">math olympiad training platform.</p>
+            <p className="login-copy-text">Diocesan Boys&apos; School math olympiad training.</p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
             <div className="login-card-head">
-              <p className="eyebrow">sign in</p>
-              <h2>with your school gmail</h2>
+              <h2>sign in with your school gmail</h2>
             </div>
 
             <AuthButton canUseGoogle={googleAuthEnabled} mode="stacked" session={session} />
@@ -50,7 +48,7 @@ export default async function LandingPage() {
 
         <div className="login-note">
           <Music2 size={24} />
-          <span>made with love with codex and claude code © 2026 Cosmic Crusader</span>
+          <span>© 2026 Cosmic Crusader</span>
         </div>
       </div>
     </main>

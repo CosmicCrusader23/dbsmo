@@ -1041,6 +1041,40 @@ td {
   overflow-y: hidden;
 }
 
+.problem-image {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+  width: auto;
+  height: auto;
+  margin: 0.85rem auto;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+img.avatar {
+  border: 1px solid var(--color-border-soft);
+}
+
+.avatar-fallback {
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  user-select: none;
+  text-transform: uppercase;
+}
+
 .solution-note {
   margin-top: 0.85rem;
   padding: 0.8rem 0.9rem;
@@ -4903,6 +4937,58 @@ html.dark .theme-choice-button.active {
   font-size: 0.85rem;
 }
 
+.problem-category-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0 0 1.25rem;
+}
+
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-soft);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.category-pill:hover {
+  border-color: var(--color-pink);
+  color: var(--color-pink);
+}
+
+.category-pill.active {
+  background: var(--color-pink);
+  border-color: var(--color-pink);
+  color: #fff;
+}
+
+.category-pill.active .category-pill-count {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.category-pill-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.25rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--color-surface-strong, rgba(125,137,164,0.14));
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .problem-hub-table-panel .text-link {
   display: inline-flex;
   align-items: center;
@@ -5285,15 +5371,15 @@ html:not(.dark) .nav-item.active {
 }
 
 html:not(.dark) .primary-action {
-  background: var(--color-text-strong);
-  color: var(--color-surface);
-  border: 1px solid var(--color-text-strong);
-  box-shadow: 0 1px 0 rgba(35, 28, 20, 0.15);
+  background: var(--color-pink);
+  color: #ffffff;
+  border: 1px solid var(--color-pink);
+  box-shadow: 0 1px 0 rgba(224, 69, 122, 0.2);
 }
 
 html:not(.dark) .primary-action:hover {
-  background: var(--color-pink);
-  border-color: var(--color-pink);
+  background: #e0457a;
+  border-color: #e0457a;
 }
 
 html:not(.dark) .secondary-action {

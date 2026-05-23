@@ -4,13 +4,15 @@ import {
   type ProblemContentFormat,
 } from "@/lib/problem-content-format";
 
-const MATH_SEGMENT_PATTERN = String.raw`(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$\$[\s\S]+?\$\$|\$[^$\n]+\$)`;
+const MATH_SEGMENT_PATTERN = String.raw`(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\[\[img:[a-z0-9][a-z0-9_-]{0,63}\]\])`;
 const HAS_MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN);
 const MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN, "g");
+const IMG_TOKEN_REGEX = /^\[\[img:([a-z0-9][a-z0-9_-]{0,63})\]\]$/;
 
 type LatexStatementProps = {
   statement: string;
   format?: ProblemContentFormat | string | null;
+  assets?: Record<string, string>;
 };
 
 function renderMath(tex: string, displayMode: boolean): string {
@@ -99,7 +101,7 @@ function normalizeStatementInput(statement: string, format: ProblemContentFormat
   return value;
 }
 
-export function LatexStatement({ statement, format }: LatexStatementProps) {
+export function LatexStatement({ statement, format, assets }: LatexStatementProps) {
   const normalizedFormat = normalizeProblemContentFormat(format);
   const value = normalizeStatementInput(statement, normalizedFormat);
   if (!value) {
@@ -119,6 +121,15 @@ export function LatexStatement({ statement, format }: LatexStatementProps) {
   return (
     <>
       {parts.map((part, index) => {
+        const imgMatch = part.match(IMG_TOKEN_REGEX);
+        if (imgMatch) {
+          const url = assets?.[imgMatch[1]];
+          if (url) {
+            /* eslint-disable-next-line @next/next/no-img-element */
+            return <img key={`img-${index}`} src={url} alt="" className="problem-image" />;
+          }
+          return <span key={`img-${index}`}>{part}</span>;
+        }
         const math = parseMathSegment(part);
         if (math) {
           return (

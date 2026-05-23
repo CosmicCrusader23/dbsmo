@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
@@ -13,18 +11,11 @@ import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { isStaffRole } from "@/lib/permissions";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
+import { Avatar } from "@/app/avatar";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
 
 export const dynamic = "force-dynamic";
-
-function DefaultAvatar({ size = 96 }: { size?: number }) {
-  return (
-    <div className="default-avatar" style={{ width: size, height: size, fontSize: size * 0.45 }}>
-      <span>M</span>
-    </div>
-  );
-}
 
 function progressTileStyle(percent: number | null): CSSProperties {
   if (percent === null) {
@@ -366,11 +357,16 @@ export default async function UserProfilePage({
 
       <section className="profile-hero">
         <div className="profile-avatar">
-          {user.avatarUrl ? (
-            <img src={user.avatarUrl} alt="" className="profile-avatar-img" />
-          ) : (
-            <DefaultAvatar size={96} />
-          )}
+          <Avatar
+            user={{
+              id: user.id,
+              email: user.email,
+              displayName: displayLabel,
+              avatarUrl: user.avatarUrl,
+            }}
+            size="lg"
+            className="profile-avatar-img"
+          />
         </div>
         <div className="profile-identity">
           <div className="profile-title-row">

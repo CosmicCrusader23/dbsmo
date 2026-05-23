@@ -518,24 +518,25 @@ export default async function ProblemSetsPage({
         ) : null}
       </form>
 
-      <section className="problem-category-grid" aria-label="Problem-set categories">
+      <section className="problem-category-pills" aria-label="Problem-set categories">
+        <Link
+          className={`category-pill${!activeCategory ? " active" : ""}`}
+          href={problemSetsHref({ category: null })}
+        >
+          All
+          <span className="category-pill-count">{filteredRows.length}</span>
+        </Link>
         {CATEGORY_ORDER.map((category) => {
           const rows = groupedRows.get(category) ?? [];
+          if (rows.length === 0 && activeCategory !== category) return null;
           return (
             <Link
-              className={`problem-category-card problem-category-filter${
-                activeCategory === category ? " active" : ""
-              }`}
+              className={`category-pill${activeCategory === category ? " active" : ""}`}
               href={problemSetsHref({ category })}
               key={category}
             >
-              <div className="problem-category-head">
-                <h2>{category}</h2>
-                <span className="problem-category-count">{rows.length}</span>
-              </div>
-              <p className="problem-category-empty">
-                {activeCategory === category ? "Showing below" : "Click to filter tasks"}
-              </p>
+              {category}
+              <span className="category-pill-count">{rows.length}</span>
             </Link>
           );
         })}

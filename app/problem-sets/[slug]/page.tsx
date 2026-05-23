@@ -46,6 +46,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
         problems: { orderBy: { number: "asc" } },
         problemFile: true,
         solutionFile: true,
+        assets: { select: { key: true, fileId: true } },
         createdBy: { select: { name: true } },
         bookmarks: {
           where: { userId: session.user.id },
@@ -71,6 +72,10 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
     problemSet.problemFile?.mimeType === "application/pdf"
       ? `/api/files/${problemSet.problemFile.id}`
       : null;
+  const assetUrls: Record<string, string> = {};
+  for (const asset of problemSet.assets) {
+    assetUrls[asset.key] = `/api/files/${asset.fileId}`;
+  }
   const previousAttempts = await prisma.attempt.findMany({
     where: { userId: user.id, problemSetId: problemSet.id, maxScore: { gt: 0 } },
     select: { attemptNumber: true, score: true, maxScore: true },
@@ -150,6 +155,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 }))}
                 problemSetId={problemSet.id}
                 videoUrl={problemSet.videoUrl}
+                assets={assetUrls}
               />
               {problemSet.videoUrl ? (
                 <a
@@ -206,6 +212,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                         <LatexStatement
                           statement={problem.statement}
                           format={problem.contentFormat}
+                          assets={assetUrls}
                         />
                         {problem.explanationNote ? (
                           <details className="solution-note">
@@ -213,6 +220,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                             <LatexStatement
                               statement={problem.explanationNote}
                               format={problem.contentFormat}
+                              assets={assetUrls}
                             />
                           </details>
                         ) : null}
@@ -271,6 +279,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 }))}
                 problemSetId={problemSet.id}
                 videoUrl={problemSet.videoUrl}
+                assets={assetUrls}
               />
             </article>
           </section>
