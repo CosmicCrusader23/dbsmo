@@ -62,11 +62,6 @@ export async function SiteSidebar() {
     <>
       <GlobalMobileNavScrim />
       <aside className="sidebar site-sidebar" aria-label="Primary" tabIndex={0}>
-        <Link className="sidebar-brand" href="/dashboard" aria-label="Home">
-          <span className="brand-mark sidebar-brand-mark">
-            <img src="/logo.png" alt="" />
-          </span>
-        </Link>
         <SiteSidebarNav links={links} />
         <div className="sidebar-footer" />
       </aside>
