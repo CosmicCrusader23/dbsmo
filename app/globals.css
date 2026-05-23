@@ -145,7 +145,6 @@ table {
   display: grid;
   grid-template-columns: var(--sidebar-collapsed-width) minmax(0, 1fr);
   min-height: 100vh;
-  overflow: hidden;
 }
 
 .single-page {
@@ -2447,7 +2446,9 @@ html {
   left: 0;
   width: var(--sidebar-collapsed-width);
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -2789,12 +2790,26 @@ html {
   height: 42px;
   place-items: center;
   overflow: hidden;
-  border: 1px solid var(--color-border);
   border-radius: 50%;
-  background: var(--color-card-bg);
+  background: transparent;
   color: var(--color-text-strong);
-  box-shadow: var(--shadow-soft);
   text-decoration: none;
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms ease;
+}
+
+.account-avatar-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(240, 93, 155, 0.35);
+}
+
+.account-avatar-button .avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 .account-avatar-img {
@@ -5888,12 +5903,18 @@ html:not(.light) .ftw-tag.is-active {
 
 .ftw-leader-row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto auto;
+  grid-template-columns: 28px minmax(0, 1fr) minmax(0, auto) auto;
   align-items: center;
   gap: 12px;
-  padding: 8px 6px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--color-border);
   font-size: 0.92rem;
+  border-radius: 8px;
+  transition: background 160ms ease;
+}
+
+.ftw-leader-row:hover {
+  background: var(--color-surface-alt);
 }
 
 .ftw-leader-row:last-child {
