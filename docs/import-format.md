@@ -71,6 +71,7 @@ In the example above:
 | `topicTags`       | string[]            | No       | `[]`            | Tags for the set as a whole. These do not by themselves place questions into Practice pools.                                                                                                                                                           |
 | `difficulty`      | integer             | No       | `1`             | Difficulty from 1 to 10.                                                                                                                                                                                                                               |
 | `videoUrl`        | URL string          | No       | `null`          | Optional video link.                                                                                                                                                                                                                                   |
+| `images`          | object[]            | No       | `[]`            | Inline image assets keyed by short string. Reference them in any statement or solution with `[[img:KEY]]`. See *Image Assets* below.                                                                                                                   |
 | `problems`        | object[]            | Yes      | -               | At least one problem is required.                                                                                                                                                                                                                      |
 
 ## Problem Fields
@@ -124,6 +125,41 @@ Per-problem `topicTags` drive Practice mode.
 - `FRACTION` does not automatically treat `1/2` and `0.5` as equal. Use `EXPRESSION` if decimal and fractional forms should both pass.
 - `EXPRESSION` supports inputs like `sqrt(2)`, `2^0.5`, `pi/3`, `2pi`, and `3(1+2)`.
 - `EXPRESSION` is numeric only. Symbolic algebra such as `x+1` is not supported.
+
+## Image Assets
+
+Inline images live in the top-level `images` array. Each entry has a short `key`, a `mimeType`, and the image bytes encoded as base64. Reference them from any `statement` or `solution` with `[[img:<key>]]` and the renderer swaps the token for an `<img>` tag pointing at the stored asset.
+
+```json
+{
+  "slug": "geo-sample",
+  "title": "Geometry Sample",
+  "images": [
+    { "key": "fig1", "mimeType": "image/png", "data": "iVBORw0KGgo..." }
+  ],
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Refer to the figure: [[img:fig1]]. Find $x$.",
+      "answerType": "INTEGER",
+      "answerKey": "5"
+    }
+  ]
+}
+```
+
+### Asset rules
+
+| Rule              | Limit / format                                         |
+| :---------------- | :----------------------------------------------------- |
+| `key`             | `^[a-z0-9][a-z0-9_-]{0,63}$` — lowercase, ≤64 chars    |
+| `mimeType`        | `image/png`, `image/jpeg`, `image/gif`, `image/webp`   |
+| Per-image size    | ≤ 4 MB after base64 decode                             |
+| Images per set    | ≤ 50                                                   |
+| Token format      | `[[img:<key>]]` (lowercase, matches the key pattern)   |
+| Magic-byte check  | Decoded bytes must match the declared MIME             |
+
+SVG is not accepted because it can carry script content. Every referenced `[[img:KEY]]` must have a matching `images` entry — unknown keys cause the import to fail before any database writes happen. Imports replace previous assets for the same `(problemSet, key)` pair, so re-uploading is idempotent.
 
 ## Validation Rules
 

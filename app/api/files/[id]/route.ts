@@ -7,6 +7,14 @@ import { isVisibleToStudent } from "@/lib/visibility";
 
 export const runtime = "nodejs";
 
+const INLINE_SAFE_MIME = new Set([
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/webp",
+  "application/pdf",
+]);
+
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
@@ -70,9 +78,10 @@ export async function GET(_request: Request, context: RouteContext) {
     headers: {
       "Content-Type": file.mimeType,
       "Content-Length": String(file.sizeBytes),
-      "Content-Disposition": `inline; filename="${contentDispositionFilename(file.originalName)}"`,
+      "Content-Disposition": `${INLINE_SAFE_MIME.has(file.mimeType) ? "inline" : "attachment"}; filename="${contentDispositionFilename(file.originalName)}"`,
       "Cache-Control": "private, max-age=300",
       "X-Content-Type-Options": "nosniff",
+      "Content-Security-Policy": "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
     },
   });
 }

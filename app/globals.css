@@ -2035,7 +2035,7 @@ html:not(.light) .problem-jump-button {
   }
 
   .nav-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .nav-item {
