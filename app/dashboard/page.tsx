@@ -267,12 +267,12 @@ export default async function DashboardPage() {
   return (
     <main className="app-shell">
       <MobileNavScrim />
-      <aside className="sidebar" aria-label="Primary">
+      <aside className="sidebar" aria-label="Primary" tabIndex={0}>
         <Link className="brand brand-on-dark" href="/dashboard">
           <span className="brand-mark">
             <img src="/logo.png" alt="MO Logo" />
           </span>
-          <span>
+          <span className="brand-text">
             <strong>DBS Training</strong>
             <small>
               {currentUser.role === "ADMIN" ? "Teacher workspace" : "Student workspace"}
@@ -283,19 +283,19 @@ export default async function DashboardPage() {
         <nav className="nav-list">
           <Link className="nav-item active" href="/dashboard">
             <Gauge size={18} />
-            Dashboard
+            <span className="nav-label">Dashboard</span>
           </Link>
           <Link className="nav-item" href="/problem-sets">
             <ClipboardList size={18} />
-            Problem Sets
+            <span className="nav-label">Problem Sets</span>
           </Link>
           <Link className="nav-item" href="/practice">
             <Target size={18} />
-            Practice
+            <span className="nav-label">Practice</span>
           </Link>
           <Link className="nav-item" href="/ftw">
             <Swords size={18} />
-            FTW
+            <span className="nav-label">FTW</span>
           </Link>
           {hasPermission(currentUser.role, "admin:view") ? (
             <>
@@ -303,59 +303,59 @@ export default async function DashboardPage() {
                 <>
                   <Link className="nav-item" href="/admin/sets">
                     <ListChecks size={18} />
-                    Manage Sets
+                    <span className="nav-label">Manage Sets</span>
                   </Link>
                   <Link className="nav-item" href="/admin/create">
                     <PenLine size={18} />
-                    Create Set
+                    <span className="nav-label">Create Set</span>
                   </Link>
                   <Link className="nav-item" href="/admin/import">
                     <FileJson size={18} />
-                    JSON Import
+                    <span className="nav-label">JSON Import</span>
                   </Link>
                 </>
               ) : null}
               {canViewStudents ? (
                 <Link className="nav-item" href="/admin/students">
                   <Users size={18} />
-                  Students
+                  <span className="nav-label">Students</span>
                 </Link>
               ) : null}
               {canViewAnalytics ? (
                 <Link className="nav-item" href="/admin/analytics">
                   <BarChart3 size={18} />
-                  Analytics
+                  <span className="nav-label">Analytics</span>
                 </Link>
               ) : null}
               {canManageFeedback ? (
                 <Link className="nav-item" href="/admin/feedback">
                   <MessageSquareWarning size={18} />
-                  Feedback
+                  <span className="nav-label">Feedback</span>
                 </Link>
               ) : null}
               {canViewAudit ? (
                 <Link className="nav-item" href="/admin/audit">
                   <CheckCircle2 size={18} />
-                  Audit
+                  <span className="nav-label">Audit</span>
                 </Link>
               ) : null}
             </>
           ) : null}
           <Link className="nav-item" href="/users">
             <Users size={18} />
-            Users
+            <span className="nav-label">Users</span>
           </Link>
           <Link className="nav-item" href={profileHref}>
             <User size={18} />
-            My Profile
+            <span className="nav-label">My Profile</span>
           </Link>
           <Link className="nav-item" href="/leaderboard">
             <Trophy size={18} />
-            Leaderboard
+            <span className="nav-label">Leaderboard</span>
           </Link>
           <Link className="nav-item" href="/settings">
             <Settings size={18} />
-            Settings
+            <span className="nav-label">Settings</span>
           </Link>
         </nav>
 
