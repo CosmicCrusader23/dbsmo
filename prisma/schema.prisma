@@ -63,6 +63,12 @@ enum FeedbackStatus {
   REJECTED
 }
 
+enum FtwMatchStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
 model User {
   id                  String               @id @default(cuid())
   email               String               @unique
@@ -92,6 +98,7 @@ model User {
   practiceSolves      PracticeSolve[]
   auditLogs           AuditLog[]           @relation("AuditLogActor")
   exportJobs          ExportJob[]          @relation("ExportJobRequester")
+  ftwMatches          FtwMatch[]
 }
 
 model Friendship {
@@ -162,6 +169,7 @@ model Problem {
   responses       Response[]
   feedbackReports FeedbackReport[]
   practiceSolves  PracticeSolve[]
+  ftwAnswers      FtwAnswer[]
 
   @@unique([problemSetId, number])
 }
@@ -304,6 +312,42 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model FtwMatch {
+  id             String         @id @default(cuid())
+  userId         String
+  tag            String?
+  status         FtwMatchStatus @default(IN_PROGRESS)
+  totalProblems  Int            @default(10)
+  problemsServed Int            @default(0)
+  totalScore     Int            @default(0)
+  maxScore       Int            @default(60)
+  startedAt      DateTime       @default(now())
+  completedAt    DateTime?
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers        FtwAnswer[]
+
+  @@index([userId, startedAt])
+  @@index([status, totalScore])
+}
+
+model FtwAnswer {
+  id           String    @id @default(cuid())
+  matchId      String
+  problemId    String
+  problemIndex Int
+  servedAt     DateTime  @default(now())
+  submittedAt  DateTime?
+  rawAnswer    String?
+  isCorrect    Boolean?
+  elapsedMs    Int?
+  points       Int       @default(0)
+  match        FtwMatch  @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  problem      Problem   @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([matchId, problemIndex])
+  @@index([matchId])
 }
 
 model VerificationToken {

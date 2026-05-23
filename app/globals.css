@@ -5197,3 +5197,581 @@ html.dark .theme-choice-button.active {
   0% { top: -10%; }
   100% { top: 110%; }
 }
+
+/* ── Light-mode rehaul: warmer ink-on-paper ─────────── */
+
+:root {
+  --color-text: #2c2a2e;
+  --color-text-strong: #1a1820;
+  --color-muted: #6e6976;
+  --color-bg: #f6f1ea;
+  --color-surface: #fffaf2;
+  --color-surface-alt: #fbf4ea;
+  --color-surface-glass: #fffaf2;
+  --color-card-bg: #fffaf2;
+  --color-border: #e7ddcf;
+  --color-border-strong: #d3c6b1;
+  --color-input-bg: #fffaf2;
+  --color-pink: #e0457a;
+  --color-cyan: #2c8aa6;
+  --color-purple: #7a52b8;
+  --color-blue: #3a76d8;
+  --color-orange: #d68545;
+  --color-success: #2f8a52;
+  --color-warning: #c47b1c;
+  --color-danger: #c93a3a;
+  --shadow-soft: 0 1px 0 rgba(35, 28, 20, 0.04), 0 12px 24px rgba(35, 28, 20, 0.05);
+  --shadow-strong: 0 2px 0 rgba(35, 28, 20, 0.06), 0 24px 48px rgba(35, 28, 20, 0.10);
+  --radius-card: 12px;
+  --sidebar-bg: #fffaf2;
+  --sidebar-border: #e7ddcf;
+  --sidebar-text: #2c2a2e;
+  --sidebar-muted: #6e6976;
+  --landing-bg: #f6f1ea;
+  --card-bg: #fffaf2;
+  --card-border: #e7ddcf;
+  --bg-gradient: #f6f1ea;
+}
+
+html:not(.dark) body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Hide the decorative confetti triangles in light mode — too AI-vibey */
+html:not(.dark) .confetti-triangles {
+  display: none;
+}
+
+html:not(.dark) .topbar h1,
+html:not(.dark) .topbar h2,
+html:not(.dark) .panel-header h2,
+html:not(.dark) .hero-copy h2 {
+  color: var(--color-text-strong);
+  letter-spacing: -0.01em;
+  font-weight: 800;
+}
+
+html:not(.dark) .eyebrow {
+  color: var(--color-muted);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+html:not(.dark) .panel,
+html:not(.dark) .hero-panel,
+html:not(.dark) .metric-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+
+html:not(.dark) .nav-item {
+  color: var(--sidebar-text);
+}
+
+html:not(.dark) .nav-item:hover {
+  background: rgba(224, 69, 122, 0.06);
+  border-color: rgba(224, 69, 122, 0.18);
+  color: var(--color-text-strong);
+}
+
+html:not(.dark) .nav-item.active {
+  background: rgba(224, 69, 122, 0.10);
+  border-color: rgba(224, 69, 122, 0.28);
+  color: var(--color-text-strong);
+}
+
+html:not(.dark) .primary-action {
+  background: var(--color-text-strong);
+  color: var(--color-surface);
+  border: 1px solid var(--color-text-strong);
+  box-shadow: 0 1px 0 rgba(35, 28, 20, 0.15);
+}
+
+html:not(.dark) .primary-action:hover {
+  background: var(--color-pink);
+  border-color: var(--color-pink);
+}
+
+html:not(.dark) .secondary-action {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-strong);
+}
+
+html:not(.dark) .secondary-action:hover {
+  border-color: var(--color-pink);
+  color: var(--color-pink);
+}
+
+html:not(.dark) .form-input,
+html:not(.dark) input.form-input {
+  background: var(--color-input-bg);
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-strong);
+}
+
+html:not(.dark) .form-input:focus {
+  border-color: var(--color-pink);
+  outline: 2px solid rgba(224, 69, 122, 0.18);
+  outline-offset: 1px;
+}
+
+html:not(.dark) .typewriter-cursor {
+  color: var(--color-pink);
+}
+
+/* ── FTW (For The Win) ──────────────────────────────── */
+
+.ftw-shell {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: 32px 24px 64px;
+}
+
+.ftw-page {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ftw-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 24px 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.ftw-intro h2 {
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  color: var(--color-text-strong);
+}
+
+.ftw-intro p {
+  color: var(--color-muted);
+  margin: 0 0 12px;
+  max-width: 56ch;
+  line-height: 1.55;
+}
+
+.ftw-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.ftw-rules strong {
+  color: var(--color-pink);
+}
+
+.ftw-hero-stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-alt);
+  color: var(--color-pink);
+}
+
+.ftw-hero-stat strong {
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--color-text-strong);
+}
+
+.ftw-hero-stat small,
+.ftw-hero-stat span {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.8rem;
+}
+
+.ftw-start-panel {
+  padding: 20px 24px;
+}
+
+.ftw-lobby {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.ftw-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ftw-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text-strong);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.ftw-tag span {
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.ftw-tag:hover {
+  border-color: var(--color-pink);
+}
+
+.ftw-tag.is-active {
+  background: var(--color-text-strong);
+  border-color: var(--color-text-strong);
+  color: var(--color-surface);
+}
+
+.ftw-tag.is-active span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+html.dark .ftw-tag.is-active,
+html:not(.light) .ftw-tag.is-active {
+  background: var(--color-pink);
+  border-color: var(--color-pink);
+  color: #fff;
+}
+
+.ftw-start {
+  align-self: flex-start;
+}
+
+.ftw-error {
+  color: var(--color-danger);
+  font-weight: 700;
+  margin: 0;
+}
+
+.ftw-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .ftw-grid {
+    grid-template-columns: 1fr;
+  }
+  .ftw-intro {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ftw-leaderboard,
+.ftw-history {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 6px;
+}
+
+.ftw-empty {
+  color: var(--color-muted);
+  margin: 8px 0;
+}
+
+.ftw-leader-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.92rem;
+}
+
+.ftw-leader-row:last-child {
+  border-bottom: 0;
+}
+
+.ftw-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--color-surface-alt);
+  color: var(--color-muted);
+  font-weight: 800;
+  font-size: 0.8rem;
+}
+
+.ftw-rank.rank-1 {
+  background: var(--color-pink);
+  color: #fff;
+}
+
+.ftw-leader-name {
+  font-weight: 700;
+  color: var(--color-text-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ftw-leader-tag {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  text-transform: lowercase;
+}
+
+.ftw-leader-score,
+.ftw-history-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--color-text-strong);
+}
+
+.ftw-leader-score small,
+.ftw-history-score small {
+  color: var(--color-muted);
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.ftw-history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ftw-history-row:last-child {
+  border-bottom: 0;
+}
+
+.ftw-history-row strong {
+  display: block;
+  color: var(--color-text-strong);
+  text-transform: lowercase;
+}
+
+.ftw-history-row small {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.ftw-pb {
+  color: var(--color-pink);
+  font-weight: 800;
+}
+
+/* Match arena */
+
+.ftw-arena {
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ftw-arena-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.ftw-arena-head h2 {
+  margin: 4px 0 0;
+  font-size: 1.4rem;
+  color: var(--color-text-strong);
+  text-transform: lowercase;
+}
+
+.ftw-score-chip {
+  text-align: right;
+}
+
+.ftw-score-chip small {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  color: var(--color-muted);
+}
+
+.ftw-score-chip strong {
+  font-size: 1.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-pink);
+}
+
+.ftw-score-chip span {
+  color: var(--color-muted);
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.ftw-timer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ftw-timer-track {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-surface-alt);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.ftw-timer-track > span {
+  display: block;
+  height: 100%;
+  background: var(--color-pink);
+  transition: width 0.1s linear, background 0.2s;
+  border-radius: 999px;
+}
+
+.ftw-timer-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.ftw-timer.is-low .ftw-timer-text {
+  color: var(--color-danger);
+}
+
+.ftw-statement {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-text-strong);
+  padding: 16px 18px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.ftw-answer-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ftw-answer-form .form-input {
+  flex: 1;
+  font-size: 1rem;
+  padding: 10px 14px;
+}
+
+.ftw-feedback {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  align-self: flex-start;
+}
+
+.ftw-feedback.feedback-correct {
+  background: rgba(47, 138, 82, 0.12);
+  color: var(--color-success);
+}
+
+.ftw-feedback.feedback-wrong {
+  background: rgba(201, 58, 58, 0.12);
+  color: var(--color-danger);
+}
+
+.ftw-feedback.feedback-timeout {
+  background: rgba(196, 123, 28, 0.14);
+  color: var(--color-warning);
+}
+
+.ftw-loading,
+.ftw-result {
+  padding: 36px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ftw-result h2 {
+  font-size: 2.4rem;
+  margin: 0;
+  color: var(--color-text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.ftw-result-pct {
+  margin: 0;
+  color: var(--color-pink);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.ftw-result-tag {
+  margin: 0;
+  color: var(--color-muted);
+  text-transform: lowercase;
+}
+
+.ftw-result-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* FTW dark adjustments */
+
+html.dark .ftw-feedback.feedback-correct,
+html:not(.light) .ftw-feedback.feedback-correct {
+  background: rgba(47, 138, 82, 0.18);
+}
+
+html.dark .ftw-feedback.feedback-wrong,
+html:not(.light) .ftw-feedback.feedback-wrong {
+  background: rgba(255, 80, 100, 0.16);
+}
+
+html.dark .ftw-rank.rank-1,
+html:not(.light) .ftw-rank.rank-1 {
+  background: var(--color-pink);
+  color: #fff;
+}
+

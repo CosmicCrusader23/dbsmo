@@ -15,6 +15,7 @@ import {
   PlayCircle,
   Settings,
   Sparkles,
+  Swords,
   Target,
   Trophy,
   User,
@@ -289,6 +290,10 @@ export default async function DashboardPage() {
           <Link className="nav-item" href="/practice">
             <Target size={18} />
             Practice
+          </Link>
+          <Link className="nav-item" href="/ftw">
+            <Swords size={18} />
+            FTW
           </Link>
           {hasPermission(currentUser.role, "admin:view") ? (
             <>
