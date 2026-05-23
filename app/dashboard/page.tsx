@@ -26,6 +26,7 @@ import { authOptions } from "@/lib/auth";
 import { AuthButton } from "@/app/auth-button";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { TypewriterGreeting } from "@/app/typewriter-greeting";
+import { MobileNavScrim, MobileNavToggle } from "./mobile-nav-toggle";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
@@ -265,6 +266,7 @@ export default async function DashboardPage() {
 
   return (
     <main className="app-shell">
+      <MobileNavScrim />
       <aside className="sidebar" aria-label="Primary">
         <Link className="brand brand-on-dark" href="/dashboard">
           <span className="brand-mark">
@@ -369,6 +371,7 @@ export default async function DashboardPage() {
             <h1>training dashboard</h1>
           </div>
           <div className="topbar-actions">
+            <MobileNavToggle />
             <ThemeToggle />
             <AuthButton
               avatarUrl={currentUser.avatarUrl}

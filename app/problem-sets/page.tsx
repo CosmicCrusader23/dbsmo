@@ -579,12 +579,12 @@ export default async function ProblemSetsPage({
               ) : (
                 paginatedRows.map((set) => (
                   <tr key={set.id} className="problem-set-row">
-                    <td>
+                    <td data-label="ID">
                       <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
                         {set.order}
                       </Link>
                     </td>
-                    <td>
+                    <td data-label="Name">
                       <Link
                         className="problem-set-row-link problem-set-title-link"
                         href={`/problem-sets/${set.slug}`}
@@ -592,7 +592,7 @@ export default async function ProblemSetsPage({
                         <strong>{set.title}</strong>
                       </Link>
                     </td>
-                    <td>
+                    <td data-label="Categories">
                       <Link
                         className="problem-set-row-link problem-set-categories-link"
                         href={`/problem-sets/${set.slug}`}
@@ -600,7 +600,7 @@ export default async function ProblemSetsPage({
                         {set.categories.join(" · ")}
                       </Link>
                     </td>
-                    <td>
+                    <td data-label="Your best">
                       <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
                         <span
                           className={`score-pill${
@@ -611,7 +611,7 @@ export default async function ProblemSetsPage({
                         </span>
                       </Link>
                     </td>
-                    <td>
+                    <td data-label="# Solved">
                       <Link className="problem-set-row-link" href={`/problem-sets/${set.slug}`}>
                         {set.solvedCount}
                       </Link>
