@@ -158,14 +158,7 @@ export default function PracticePage() {
           </div>
           <div className="topbar-actions">
             {practiceScore > 0 && (
-              <div
-                className="secondary-action"
-                style={{
-                  cursor: "default",
-                  border: "1px solid var(--color-success)",
-                  color: "var(--color-success)",
-                }}
-              >
+              <div className="practice-score-chip">
                 <Trophy size={18} />
                 Practice Score: {practiceScore}
               </div>
@@ -178,21 +171,19 @@ export default function PracticePage() {
         </header>
 
         {!selectedTag ? (
-          <section className="panel" style={{ padding: 40, textAlign: "center" }}>
-            <Target size={48} style={{ margin: "0 auto 20px", color: "var(--color-pink)" }} />
-            <h2 style={{ fontSize: "1.8rem", marginBottom: 10 }}>Select a Category</h2>
-            <p style={{ color: "var(--color-muted)", marginBottom: 30 }}>
-              Focus your training on specific topics (10+ questions) or try the Endless mode.
-            </p>
+          <section className="panel practice-picker">
+            <Target size={48} className="practice-picker-icon" />
+            <h2>Select a Category</h2>
+            <p>Focus your training on specific topics (10+ questions) or try the Endless mode.</p>
 
             {loadingTags ? (
-              <div style={{ display: "flex", justifyContent: "center", padding: 40 }}>
-                <Loader2 className="spin-icon" size={32} color="var(--color-muted)" />
+              <div className="practice-loading">
+                <Loader2 className="spin-icon" size={32} />
               </div>
             ) : tags.length === 0 ? (
               <p>No categories available with enough questions.</p>
             ) : (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
+              <div className="practice-tag-grid">
                 {tags.map((tag) => {
                   const isEndless = tag.toLowerCase() === "endless";
                   return isEndless ? (
@@ -208,26 +199,7 @@ export default function PracticePage() {
                     <button
                       key={tag}
                       onClick={() => handleTagSelect(tag)}
-                      style={{
-                        padding: "12px 24px",
-                        borderRadius: 100,
-                        background: "var(--color-surface)",
-                        border: "1px solid var(--color-border)",
-                        color: "var(--color-text-strong)",
-                        fontSize: "1.1rem",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        transition: "all 0.2s",
-                        boxShadow: "none",
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.borderColor = "var(--color-pink)";
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.borderColor = "var(--color-border)";
-                        e.currentTarget.style.transform = "none";
-                      }}
+                      className="practice-tag-btn"
                     >
                       {tag}
                     </button>
@@ -238,7 +210,7 @@ export default function PracticePage() {
           </section>
         ) : (
           <div>
-            <div style={{ marginBottom: 20 }}>
+            <div className="practice-back-row">
               <button
                 onClick={() => {
                   setSelectedTag(null);
@@ -250,34 +222,23 @@ export default function PracticePage() {
               </button>
             </div>
 
-            <section className="panel" style={{ padding: 30 }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: 20,
-                  borderBottom: "1px solid var(--color-border)",
-                  paddingBottom: 15,
-                }}
-              >
+            <section className="panel practice-arena">
+              <div className="practice-arena-head">
                 <div>
                   <p className="eyebrow">Category</p>
-                  <h2 style={{ textTransform: "capitalize" }}>{selectedTag}</h2>
+                  <h2>{selectedTag}</h2>
                 </div>
                 {problem && (
-                  <div style={{ textAlign: "right" }}>
+                  <div className="practice-source">
                     <p className="eyebrow">Source</p>
-                    <p style={{ fontWeight: 800, color: "var(--color-muted)" }}>
-                      {problem.problemSet.title}
-                    </p>
+                    <p>{problem.problemSet.title}</p>
                   </div>
                 )}
               </div>
 
               {loadingProblem ? (
-                <div style={{ display: "flex", justifyContent: "center", padding: 60 }}>
-                  <Loader2 className="spin-icon" size={40} color="var(--color-muted)" />
+                <div className="practice-loading practice-loading-lg">
+                  <Loader2 className="spin-icon" size={40} />
                 </div>
               ) : problemMessage ? (
                 <div className="empty-state">
@@ -289,30 +250,25 @@ export default function PracticePage() {
                       setSelectedTag(null);
                       void refreshPracticeTags();
                     }}
-                    className="primary-action"
-                    style={{ marginTop: 20 }}
+                    className="primary-action practice-pick-another"
                   >
                     Choose another category
                   </button>
                 </div>
               ) : problem ? (
                 <div>
-                  <div className="statement-text" style={{ fontSize: "1.2rem", marginBottom: 30 }}>
+                  <div className="practice-statement">
                     <LatexStatement statement={problem.statement} format={problem.contentFormat} />
                   </div>
 
-                  <form
-                    onSubmit={submitAnswer}
-                    style={{ display: "flex", gap: 15, alignItems: "center", flexWrap: "wrap" }}
-                  >
+                  <form onSubmit={submitAnswer} className="practice-answer-form">
                     <input
                       type="text"
-                      className="form-input"
+                      className="form-input practice-answer-input"
                       placeholder="Enter your answer..."
                       value={answer}
                       onChange={(e) => setAnswer(e.target.value)}
                       disabled={isSubmitting || isCorrect === true}
-                      style={{ flex: 1, fontSize: "1.1rem" }}
                       autoFocus
                     />
                     {isCorrect !== true ? (
@@ -342,9 +298,8 @@ export default function PracticePage() {
                     ) : (
                       <button
                         type="button"
-                        className="primary-action"
+                        className="primary-action practice-next"
                         onClick={() => loadNextProblem(selectedTag)}
-                        style={{ background: "var(--color-success)" }}
                       >
                         Next Question <ArrowRight size={18} />
                       </button>
@@ -352,39 +307,13 @@ export default function PracticePage() {
                   </form>
 
                   {isCorrect === true && (
-                    <div
-                      style={{
-                        marginTop: 20,
-                        padding: 15,
-                        background: "rgba(0, 210, 180, 0.15)",
-                        border: "1px solid var(--color-success)",
-                        borderRadius: 12,
-                        color: "var(--color-success)",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                        fontWeight: 800,
-                      }}
-                    >
+                    <div className="practice-feedback feedback-correct">
                       <CheckCircle2 size={24} />
                       Correct! Great job.
                     </div>
                   )}
                   {isCorrect === false && (
-                    <div
-                      style={{
-                        marginTop: 20,
-                        padding: 15,
-                        background: "rgba(255, 80, 100, 0.15)",
-                        border: "1px solid var(--color-danger)",
-                        borderRadius: 12,
-                        color: "var(--color-danger)",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 10,
-                        fontWeight: 800,
-                      }}
-                    >
+                    <div className="practice-feedback feedback-wrong">
                       <XCircle size={24} />
                       Incorrect. Try again!
                     </div>
