@@ -18,44 +18,64 @@ export default async function FtwHomePage() {
 
   const now = new Date();
 
-  const [tagAggregates, recent, leaderboard, totalCount] = await Promise.all([
-    prisma.problem.findMany({
-      where: {
-        problemSet: {
-          status: "PUBLISHED",
-          AND: [
-            { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
-            { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
-          ],
+  const [tagAggregates, soloRecent, soloLeaders, roomLeaders, roomRecent, totalCount] =
+    await Promise.all([
+      prisma.problem.findMany({
+        where: {
+          problemSet: {
+            status: "PUBLISHED",
+            AND: [
+              { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
+              { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
+            ],
+          },
         },
-      },
-      select: { topicTags: true },
-    }),
-    prisma.ftwMatch.findMany({
-      where: { userId: session.user.id, status: "COMPLETED" },
-      orderBy: { completedAt: "desc" },
-      take: 5,
-    }),
-    prisma.ftwMatch.findMany({
-      where: { status: "COMPLETED" },
-      orderBy: [{ totalScore: "desc" }, { completedAt: "asc" }],
-      take: 10,
-      include: {
-        user: { select: { displayName: true, name: true, leaderboardVisible: true } },
-      },
-    }),
-    prisma.problem.count({
-      where: {
-        problemSet: {
-          status: "PUBLISHED",
-          AND: [
-            { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
-            { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
-          ],
+        select: { topicTags: true },
+      }),
+      prisma.ftwMatch.findMany({
+        where: { userId: session.user.id, status: "COMPLETED" },
+        orderBy: { completedAt: "desc" },
+        take: 8,
+      }),
+      prisma.ftwMatch.findMany({
+        where: { status: "COMPLETED" },
+        orderBy: [{ totalScore: "desc" }, { completedAt: "asc" }],
+        take: 20,
+        include: {
+          user: { select: { displayName: true, name: true, leaderboardVisible: true } },
         },
-      },
-    }),
-  ]);
+      }),
+      prisma.ftwRoomPlayer.findMany({
+        where: { room: { status: "COMPLETED" } },
+        orderBy: [{ score: "desc" }, { joinedAt: "asc" }],
+        take: 20,
+        include: {
+          user: { select: { displayName: true, name: true, leaderboardVisible: true } },
+          room: { select: { tag: true, totalProblems: true, completedAt: true } },
+        },
+      }),
+      prisma.ftwRoomPlayer.findMany({
+        where: { userId: session.user.id, room: { status: "COMPLETED" } },
+        orderBy: { joinedAt: "desc" },
+        take: 8,
+        include: {
+          room: {
+            select: { tag: true, totalProblems: true, completedAt: true, code: true },
+          },
+        },
+      }),
+      prisma.problem.count({
+        where: {
+          problemSet: {
+            status: "PUBLISHED",
+            AND: [
+              { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
+              { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
+            ],
+          },
+        },
+      }),
+    ]);
 
   const tagCounts = new Map<string, number>();
   for (const row of tagAggregates) {
@@ -69,9 +89,82 @@ export default async function FtwHomePage() {
     .sort((a, b) => b[1] - a[1])
     .map(([tag, count]) => ({ tag, count }));
 
+  type LeaderEntry = {
+    key: string;
+    rankKey: number;
+    name: string;
+    tag: string | null;
+    score: number;
+    maxScore: number;
+    mode: "solo" | "room";
+    completedAt: Date | null;
+  };
+
+  const FTW_MAX_PER_PROBLEM = 6;
+  const soloEntries: LeaderEntry[] = soloLeaders.map((m) => ({
+    key: `solo-${m.id}`,
+    rankKey: m.totalScore,
+    name: m.user.leaderboardVisible
+      ? m.user.displayName || m.user.name || "Anonymous"
+      : "Anonymous",
+    tag: m.tag,
+    score: m.totalScore,
+    maxScore: m.maxScore,
+    mode: "solo",
+    completedAt: m.completedAt,
+  }));
+  const roomEntries: LeaderEntry[] = roomLeaders.map((p) => ({
+    key: `room-${p.id}`,
+    rankKey: p.score,
+    name: p.user.leaderboardVisible
+      ? p.user.displayName || p.user.name || "Anonymous"
+      : "Anonymous",
+    tag: p.room.tag,
+    score: p.score,
+    maxScore: p.room.totalProblems * FTW_MAX_PER_PROBLEM,
+    mode: "room",
+    completedAt: p.room.completedAt,
+  }));
+  const leaderboard = [...soloEntries, ...roomEntries]
+    .sort((a, b) => {
+      if (a.score !== b.score) return b.score - a.score;
+      const at = a.completedAt?.getTime() ?? 0;
+      const bt = b.completedAt?.getTime() ?? 0;
+      return at - bt;
+    })
+    .slice(0, 10);
+
+  type HistoryEntry = {
+    key: string;
+    tag: string | null;
+    score: number;
+    maxScore: number;
+    mode: "solo" | "room";
+    completedAt: Date | null;
+  };
+  const soloHistory: HistoryEntry[] = soloRecent.map((m) => ({
+    key: `solo-${m.id}`,
+    tag: m.tag,
+    score: m.totalScore,
+    maxScore: m.maxScore,
+    mode: "solo",
+    completedAt: m.completedAt,
+  }));
+  const roomHistory: HistoryEntry[] = roomRecent.map((p) => ({
+    key: `room-${p.id}`,
+    tag: p.room.tag,
+    score: p.score,
+    maxScore: p.room.totalProblems * FTW_MAX_PER_PROBLEM,
+    mode: "room",
+    completedAt: p.room.completedAt,
+  }));
+  const recent = [...soloHistory, ...roomHistory]
+    .sort((a, b) => (b.completedAt?.getTime() ?? 0) - (a.completedAt?.getTime() ?? 0))
+    .slice(0, 6);
+
   const personalBest =
     recent.length > 0
-      ? recent.reduce((acc, m) => (m.totalScore > acc.totalScore ? m : acc), recent[0])
+      ? recent.reduce((acc, m) => (m.score > acc.score ? m : acc), recent[0])
       : null;
 
   return (
@@ -139,24 +232,22 @@ export default async function FtwHomePage() {
               {leaderboard.length === 0 ? (
                 <p className="ftw-empty">No matches finished yet. Be the first.</p>
               ) : (
-                leaderboard.map((m, i) => {
-                  const display = m.user.leaderboardVisible
-                    ? m.user.displayName || m.user.name || "Anonymous"
-                    : "Anonymous";
-                  return (
-                    <div className="ftw-leader-row" key={m.id}>
-                      <span className={`ftw-rank rank-${i + 1}`}>
-                        {i === 0 ? <Crown size={14} /> : i + 1}
-                      </span>
-                      <span className="ftw-leader-name">{display}</span>
-                      <span className="ftw-leader-tag">{m.tag ?? "any"}</span>
-                      <span className="ftw-leader-score">
-                        {m.totalScore}
-                        <small>/{m.maxScore}</small>
-                      </span>
-                    </div>
-                  );
-                })
+                leaderboard.map((m, i) => (
+                  <div className="ftw-leader-row" key={m.key}>
+                    <span className={`ftw-rank rank-${i + 1}`}>
+                      {i === 0 ? <Crown size={14} /> : i + 1}
+                    </span>
+                    <span className="ftw-leader-name">
+                      {m.name}
+                      <small className="ftw-mode-tag">{m.mode === "room" ? "room" : "solo"}</small>
+                    </span>
+                    <span className="ftw-leader-tag">{m.tag ?? "any"}</span>
+                    <span className="ftw-leader-score">
+                      {m.score}
+                      <small>/{m.maxScore}</small>
+                    </span>
+                  </div>
+                ))
               )}
             </div>
           </section>
@@ -169,7 +260,7 @@ export default async function FtwHomePage() {
               </div>
               {personalBest ? (
                 <small className="ftw-pb">
-                  PB {personalBest.totalScore}/{personalBest.maxScore}
+                  PB {personalBest.score}/{personalBest.maxScore}
                 </small>
               ) : null}
             </div>
@@ -178,15 +269,20 @@ export default async function FtwHomePage() {
                 <p className="ftw-empty">No completed matches yet.</p>
               ) : (
                 recent.map((m) => (
-                  <div className="ftw-history-row" key={m.id}>
+                  <div className="ftw-history-row" key={m.key}>
                     <div>
-                      <strong>{m.tag ?? "any"}</strong>
+                      <strong>
+                        {m.tag ?? "any"}
+                        <small className="ftw-mode-tag">
+                          {m.mode === "room" ? "room" : "solo"}
+                        </small>
+                      </strong>
                       <small>
                         {m.completedAt ? m.completedAt.toLocaleDateString() : "—"}
                       </small>
                     </div>
                     <span className="ftw-history-score">
-                      {m.totalScore}
+                      {m.score}
                       <small>/{m.maxScore}</small>
                     </span>
                   </div>

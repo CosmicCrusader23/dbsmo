@@ -51,6 +51,7 @@ export async function GET(
               submittedAt: true,
               isCorrect: true,
               points: true,
+              elapsedMs: true,
             },
           },
         },
@@ -110,6 +111,7 @@ export async function GET(
                 submittedAt: a.submittedAt,
                 isCorrect: a.isCorrect,
                 points: a.points,
+                elapsedMs: a.elapsedMs,
               }))
             : null,
           myAnswer: myAnswer
@@ -117,8 +119,10 @@ export async function GET(
                 submitted: Boolean(myAnswer.submittedAt),
                 isCorrect: myAnswer.isCorrect,
                 points: myAnswer.points,
+                elapsedMs: myAnswer.elapsedMs,
               }
             : null,
+          isLastProblem: room.currentIndex + 1 >= room.totalProblems,
         }
       : null,
     completedAt: room.completedAt,

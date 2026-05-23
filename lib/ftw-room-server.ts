@@ -82,6 +82,12 @@ export async function advanceRoomIfDue(roomId: string): Promise<void> {
     });
   }
 
+  // Multi-player rooms reveal the round and wait for the host to advance.
+  // Solo rooms (or empty rooms) auto-advance so the lone player isn't blocked.
+  if (!noProblemYet && activePlayerIds.length > 1) {
+    return;
+  }
+
   if (!noProblemYet && room.currentIndex + 1 >= room.totalProblems) {
     await prisma.ftwRoom.update({
       where: { id: roomId },
@@ -91,4 +97,34 @@ export async function advanceRoomIfDue(roomId: string): Promise<void> {
   }
 
   await pickNextRoomProblem(roomId);
+}
+
+export async function advanceRoomNow(roomId: string): Promise<{
+  ok: boolean;
+  reason?: string;
+}> {
+  const room = await prisma.ftwRoom.findUnique({
+    where: { id: roomId },
+    include: {
+      problems: { orderBy: { problemIndex: "desc" }, take: 1 },
+    },
+  });
+  if (!room || room.status !== "IN_PROGRESS") {
+    return { ok: false, reason: "Room not running." };
+  }
+  const current = room.problems[0];
+  if (current && !current.lockedAt) {
+    return { ok: false, reason: "Round still live." };
+  }
+
+  if (current && room.currentIndex + 1 >= room.totalProblems) {
+    await prisma.ftwRoom.update({
+      where: { id: roomId },
+      data: { status: "COMPLETED", completedAt: new Date() },
+    });
+    return { ok: true };
+  }
+
+  await pickNextRoomProblem(roomId);
+  return { ok: true };
 }

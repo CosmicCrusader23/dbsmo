@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, CheckCircle2, Copy, Loader2, Play, Send, Users, XCircle } from "lucide-react";
+import { ArrowRight, ArrowLeft, CheckCircle2, Copy, Loader2, Play, Send, Users, XCircle } from "lucide-react";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 type Player = {
@@ -19,6 +19,7 @@ type RevealedAnswer = {
   submittedAt: string | null;
   isCorrect: boolean | null;
   points: number;
+  elapsedMs: number | null;
 };
 
 type RoomState = {
@@ -39,7 +40,13 @@ type RoomState = {
     remainingMs: number;
     problem: { id: string; statement: string; contentFormat: "LATEX" | "HTML" } | null;
     revealedAnswers: RevealedAnswer[] | null;
-    myAnswer: { submitted: boolean; isCorrect: boolean | null; points: number } | null;
+    myAnswer: {
+      submitted: boolean;
+      isCorrect: boolean | null;
+      points: number;
+      elapsedMs: number | null;
+    } | null;
+    isLastProblem: boolean;
   } | null;
   completedAt: string | null;
 };
@@ -59,6 +66,7 @@ export function FtwRoomClient({
   const [error, setError] = useState<string | null>(null);
   const [answer, setAnswer] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [advancing, setAdvancing] = useState(false);
   const [joined, setJoined] = useState(isMember);
   const [joining, setJoining] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -120,6 +128,21 @@ export function FtwRoomClient({
     if (!res.ok) {
       const data = await res.json();
       setError(data.error ?? "Could not start.");
+    }
+  }
+
+  async function advanceRound() {
+    if (advancing) return;
+    setAdvancing(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/ftw/rooms/${code}/advance`, { method: "POST" });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error ?? "Could not advance.");
+      }
+    } finally {
+      setAdvancing(false);
     }
   }
 
@@ -262,7 +285,9 @@ export function FtwRoomClient({
 
               {!state.current.locked && joined ? (
                 <form
-                  className="ftw-answer-form"
+                  className={`ftw-answer-form${
+                    state.current.myAnswer?.submitted ? " is-locked" : ""
+                  }`}
                   onSubmit={(e) => {
                     e.preventDefault();
                     void submitAnswer();
@@ -270,7 +295,9 @@ export function FtwRoomClient({
                 >
                   <input
                     className="form-input"
-                    placeholder="answer"
+                    placeholder={
+                      state.current.myAnswer?.submitted ? "answer locked in" : "answer"
+                    }
                     value={answer}
                     autoComplete="off"
                     autoFocus
@@ -287,29 +314,77 @@ export function FtwRoomClient({
                     }
                   >
                     {submitting ? <Loader2 size={18} className="spin-icon" /> : <Send size={18} />}
-                    submit
+                    {state.current.myAnswer?.submitted ? "submitted" : "submit"}
                   </button>
                 </form>
               ) : null}
 
               {state.current.myAnswer?.submitted && !state.current.locked ? (
-                <p className="ftw-locked-in">
-                  Locked in. Waiting for others…
-                </p>
+                <div
+                  className={`ftw-locked-in${
+                    state.current.myAnswer.isCorrect ? " is-correct" : " is-wrong"
+                  }`}
+                >
+                  {state.current.myAnswer.isCorrect ? (
+                    <CheckCircle2 size={16} />
+                  ) : (
+                    <XCircle size={16} />
+                  )}
+                  <span>
+                    Locked in
+                    {state.current.myAnswer.elapsedMs !== null
+                      ? ` at ${(state.current.myAnswer.elapsedMs / 1000).toFixed(1)}s`
+                      : ""}
+                    . Waiting for others…
+                  </span>
+                </div>
               ) : null}
 
               {state.current.locked && state.current.revealedAnswers ? (
                 <div className="ftw-reveal">
-                  <p className="eyebrow">Round results</p>
+                  <div className="ftw-reveal-head">
+                    <p className="eyebrow">Round results</p>
+                    {isHost ? (
+                      <button
+                        type="button"
+                        className="primary-action ftw-next-btn"
+                        onClick={advanceRound}
+                        disabled={advancing}
+                      >
+                        {advancing ? (
+                          <Loader2 size={16} className="spin-icon" />
+                        ) : (
+                          <ArrowRight size={16} />
+                        )}
+                        {state.current.isLastProblem ? "Finish match" : "Next"}
+                      </button>
+                    ) : (
+                      <small className="ftw-reveal-wait">Waiting on host…</small>
+                    )}
+                  </div>
                   <ul>
                     {state.current.revealedAnswers
                       .slice()
-                      .sort((a, b) => b.points - a.points)
-                      .map((a) => {
+                      .sort((a, b) => {
+                        if (a.isCorrect !== b.isCorrect) {
+                          return a.isCorrect ? -1 : 1;
+                        }
+                        const aMs = a.elapsedMs ?? Number.POSITIVE_INFINITY;
+                        const bMs = b.elapsedMs ?? Number.POSITIVE_INFINITY;
+                        return aMs - bMs;
+                      })
+                      .map((a, idx) => {
                         const player = state.players.find((p) => p.userId === a.userId);
+                        const seconds =
+                          a.elapsedMs !== null ? (a.elapsedMs / 1000).toFixed(1) : "—";
                         return (
-                          <li key={a.userId}>
-                            <span>{player?.name ?? "—"}</span>
+                          <li
+                            key={a.userId}
+                            className={a.isCorrect ? "is-correct" : "is-wrong"}
+                          >
+                            <span className={`ftw-rank rank-${idx + 1}`}>{idx + 1}</span>
+                            <span className="ftw-leader-name">{player?.name ?? "—"}</span>
+                            <span className="ftw-reveal-time">{seconds}s</span>
                             {a.isCorrect ? (
                               <CheckCircle2 size={16} color="var(--color-success)" />
                             ) : (
