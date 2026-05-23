@@ -52,16 +52,17 @@ Generate the secret if you don't have one:
 openssl rand -base64 32
 ```
 
-## 3. Install + migrate + build
+## 3. Install + schema + build
 
 ```bash
 npm ci
-npx prisma migrate deploy   # applies committed migrations
 npx prisma generate
+npx prisma db push          # creates / updates the schema
 npm run build
 ```
 
-If the database is fresh and there are no migration files yet, use `npx prisma db push` once to create the schema, then commit a baseline migration on your dev box later.
+This repo uses `prisma db push` (not `prisma migrate`). See §7 for why
+and how to handle subsequent schema changes.
 
 ## 4. Start with PM2
 
@@ -154,7 +155,8 @@ sudo certbot --nginx -d your.domain.example
 cd ~/dbsmo
 git pull origin main
 npm ci
-npx prisma migrate deploy   # only does work if there are new migrations
+npx prisma generate         # regen client when schema.prisma changes
+npx prisma db push          # apply schema (this repo uses db push, not migrate)
 npm run build
 pm2 reload dbsmo            # zero-downtime reload
 pm2 logs dbsmo --lines 30
@@ -162,25 +164,46 @@ pm2 logs dbsmo --lines 30
 
 If you only changed CSS or a static asset, `pm2 restart dbsmo` is fine.
 
-## 7. Database migrations after schema changes
+> **Important:** `prisma generate` must run before `pm2 reload` whenever
+> `schema.prisma` changes. The pm2 process loads `@prisma/client` once at
+> startup; if you skip generate, the client won't know about new models
+> and any API touching them will return 500.
 
-After pulling code that includes `prisma/schema.prisma` changes:
+### Deploying this pull (image-asset support)
+
+This commit adds the `ProblemSetAsset` table and a few related fields.
+Run the standard redeploy block above — `prisma db push` will create the
+new table and indexes, `prisma generate` rebuilds the client, and the
+pm2 reload picks up the new code. Verify with:
 
 ```bash
-npx prisma migrate deploy
+psql -U dbsmo -h localhost dbsmo -c '\d "ProblemSetAsset"'
 ```
 
-If there's no migration file (this repo has been using `db push`-style flow during dev), generate one on your dev box first:
+You should see columns `id, problemSetId, key, fileId, createdAt`.
+
+## 7. Database schema changes
+
+This repo uses `prisma db push` (not `prisma migrate`), so any
+`schema.prisma` change applies the same way every time:
 
 ```bash
-# on dev
-npx prisma migrate dev --name <describe-change>
-git add prisma/migrations && git commit -m "db: <describe-change>"
-git push
-
-# on VPS
-git pull && npx prisma migrate deploy && pm2 reload dbsmo
+git pull
+npx prisma generate         # regen the client
+npx prisma db push          # apply schema to the live DB
+pm2 reload dbsmo
 ```
+
+`db push` is idempotent — running it when nothing changed is a no-op.
+It does **not** drop columns unless you explicitly accept the prompt,
+so it's safe for additive changes (new tables, new optional columns,
+new indexes). Back up first (`pg_dump`, see §8) if a change is
+destructive or you're not sure.
+
+If you ever need to switch this repo to migration files, run
+`prisma migrate dev --name baseline` on dev *once* to capture the
+current state, commit `prisma/migrations/`, and from then on use
+`prisma migrate deploy` on the VPS.
 
 ## 8. Backups
 
@@ -208,4 +231,4 @@ Cron it:
 - **Build OOM on VPS** — small VPS? `NODE_OPTIONS="--max-old-space-size=2048" npm run build`.
 - **Prisma can't connect** — verify `DATABASE_URL`, run `psql "$DATABASE_URL" -c '\dt'` to confirm credentials.
 - **Google sign-in loops** — `NEXTAUTH_URL` must be your public HTTPS URL exactly, and the OAuth redirect URI in Google Cloud must include `https://your.domain.example/api/auth/callback/google`.
-- **Schema out of sync** — `npx prisma migrate status` to see what's pending.
+- **Schema out of sync** — re-run `npx prisma db push` then `pm2 reload dbsmo`. If `pm2 logs --err` shows "Unknown field" or "Unknown model", the running pm2 process is loading a stale `@prisma/client`. Run `npx prisma generate` then `pm2 reload dbsmo`.
