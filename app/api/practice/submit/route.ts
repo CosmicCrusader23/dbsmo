@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
-import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { type AnswerType, gradeAnswer } from "@/lib/grading";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
 
 export const runtime = "nodejs";
 
@@ -95,7 +95,7 @@ export async function POST(request: Request) {
       });
       counted = true;
     } catch (error) {
-      if (!(error instanceof Prisma.PrismaClientKnownRequestError) || error.code !== "P2002") {
+      if (!isPrismaUniqueViolation(error)) {
         console.error("Failed to record practice solve:", error);
       }
     }

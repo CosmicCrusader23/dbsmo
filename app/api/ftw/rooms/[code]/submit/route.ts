@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
-import { Prisma } from "@prisma/client";
+import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { type AnswerType, gradeAnswer } from "@/lib/grading";
@@ -109,7 +109,7 @@ export async function POST(
       }),
     ]);
   } catch (err) {
-    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+    if (isPrismaUniqueViolation(err)) {
       return NextResponse.json({ error: "Already submitted." }, { status: 409 });
     }
     throw err;

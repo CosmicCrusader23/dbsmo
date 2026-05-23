@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
 
 export const runtime = "nodejs";
 
@@ -36,7 +36,7 @@ export async function POST(
       data: { roomId: room.id, userId: session.user.id },
     });
   } catch (err) {
-    if (!(err instanceof Prisma.PrismaClientKnownRequestError) || err.code !== "P2002") {
+    if (!isPrismaUniqueViolation(err)) {
       throw err;
     }
     await prisma.ftwRoomPlayer.update({

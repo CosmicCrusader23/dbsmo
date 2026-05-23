@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { FeedbackStatus, Prisma } from "@prisma/client";
+import { FeedbackStatus } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { recordAuditLog } from "@/lib/audit";
 import { hasPermission } from "@/lib/permissions";
 

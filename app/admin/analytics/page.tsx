@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, Download, Flame } from "lucide-react";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
