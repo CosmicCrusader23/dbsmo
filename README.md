@@ -9,4 +9,6 @@ Statements can be rendered in Latex or HTML math tags.
 - [Grading rules](./docs/grading.md)
 - [Admin Guide](./docs/admin-guide.md)
 - [Student Guide](./docs/student-guide.md)
+- [Permissions Guide](./docs/permissions.md)
+- [Deployment Guide](./docs/deployment.md)
 
