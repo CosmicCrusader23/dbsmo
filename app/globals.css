@@ -8173,3 +8173,64 @@ html:not(.light) .ftw-rank.rank-1 {
   .ftw-history-row { padding: 10px 12px; }
   .audit-stat-grid { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---------- Mobile rework: Dashboard / Problem Sets / Profile ---------- */
+@media (max-width: 720px) {
+  /* Dashboard */
+  .workspace { padding: 1.25rem 1rem 3rem; }
+  .hero-panel { padding: 18px; gap: 14px; flex-direction: column; }
+  .hero-copy h2 { font-size: 1.5rem; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+  .hero-actions > * { justify-content: center; }
+  .progress-orbit { width: 100%; max-width: 240px; margin: 0 auto; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .content-grid { gap: 14px; }
+
+  /* Problem-sets hub */
+  .problem-hub-shell { padding: 1.25rem 1rem 3rem; }
+  .problem-hub-header { flex-direction: column; gap: 12px; }
+  .problem-hub-header h1 { font-size: 1.5rem; }
+  .problem-hub-tabs { flex-wrap: wrap; gap: 6px; }
+  .problem-hub-tab { flex: 1 1 calc(50% - 3px); justify-content: center; min-height: 40px; }
+  .task-search-panel { flex-direction: column; align-items: stretch; gap: 8px; }
+  .task-search-panel input,
+  .task-search-panel select,
+  .task-search-panel button { width: 100%; min-height: 44px; }
+  .problem-hub-table-panel table,
+  .problem-hub-table-panel thead { display: none; }
+  .problem-hub-table-panel tbody,
+  .problem-hub-table-panel tr.problem-set-row,
+  .problem-hub-table-panel td { display: block; width: 100%; }
+  .problem-hub-table-panel tr.problem-set-row {
+    margin-bottom: 8px;
+    padding: 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-card-bg);
+  }
+  .problem-hub-table-panel tr.problem-set-row td { padding: 4px 0 !important; border: 0 !important; }
+
+  /* Profile */
+  .profile-shell { padding: 1.25rem 1rem 3rem; }
+  .profile-header { flex-direction: column; align-items: stretch; gap: 12px; }
+  .profile-hero { flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+  .profile-title-row { flex-direction: column; align-items: center; gap: 8px; }
+  .profile-title-row h1 { font-size: 1.5rem; text-align: center; }
+  .profile-username, .profile-joined { justify-content: center; }
+  .profile-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .profile-stat { padding: 14px; }
+  .profile-summary-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .profile-section { padding-top: 0; }
+  .profile-grid-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .profile-set-grid { grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)); gap: 4px; }
+  .profile-set-tile { font-size: 0.7rem; min-height: 30px; }
+}
+
+@media (max-width: 480px) {
+  .workspace { padding: 1rem 0.875rem 2.5rem; }
+  .problem-hub-shell,
+  .profile-shell { padding: 1rem 0.875rem 2.5rem; }
+  .metric-grid { grid-template-columns: minmax(0, 1fr); }
+  .problem-hub-tab { flex: 1 1 100%; }
+  .profile-stats-row { grid-template-columns: minmax(0, 1fr); }
+}
