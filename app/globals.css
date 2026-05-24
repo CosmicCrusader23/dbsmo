@@ -7800,6 +7800,13 @@ html:not(.light) .ftw-rank.rank-1 {
 }
 
 /* ---------- Audit: shadcn-flavored rework ---------- */
+.audit-frame,
+.ftw-frame,
+.practice-frame,
+.analytics-frame {
+  padding: 2rem 1.5rem 4rem;
+}
+
 .audit-frame {
   display: grid;
   gap: 18px;
@@ -7926,6 +7933,19 @@ html:not(.light) .ftw-rank.rank-1 {
   font-weight: 800;
   font-size: 0.82rem;
   flex-shrink: 0;
+}
+
+.audit-avatar-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.audit-avatar-system {
+  background: var(--meter-track);
+  color: var(--color-muted);
 }
 
 .audit-action-cell {

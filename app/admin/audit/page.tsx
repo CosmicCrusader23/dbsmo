@@ -5,6 +5,7 @@ import { ArrowLeft, ShieldCheck, Search } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
+import { Avatar } from "@/app/avatar";
 import { AuditFilters } from "./audit-filters";
 
 export const dynamic = "force-dynamic";
@@ -69,7 +70,18 @@ export default async function AdminAuditPage({
       where,
       orderBy: { createdAt: "desc" },
       take: 200,
-      include: { actor: { select: { id: true, email: true, name: true, displayName: true } } },
+      include: {
+        actor: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            displayName: true,
+            avatarUrl: true,
+            image: true,
+          },
+        },
+      },
     }),
     prisma.auditLog.count(),
     prisma.auditLog.groupBy({
@@ -170,18 +182,17 @@ export default async function AdminAuditPage({
               logs.map((log) => {
                 const actor =
                   log.actor?.displayName || log.actor?.name || log.actor?.email || "System";
-                const initials = actor
-                  .split(/\s+/)
-                  .slice(0, 2)
-                  .map((s) => s[0]?.toUpperCase())
-                  .join("");
                 const meta = log.metadata
                   ? JSON.stringify(log.metadata)
                   : null;
                 return (
                   <article className="audit-row" key={log.id}>
                     <div className="audit-actor">
-                      <span className="audit-avatar">{initials || "S"}</span>
+                      {log.actor ? (
+                        <Avatar user={log.actor} size="sm" className="audit-avatar-img" />
+                      ) : (
+                        <span className="audit-avatar audit-avatar-system">S</span>
+                      )}
                       <div>
                         <strong>{actor}</strong>
                         <small>{timeAgo(log.createdAt)}</small>
