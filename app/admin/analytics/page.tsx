@@ -19,6 +19,7 @@ export const dynamic = "force-dynamic";
 type AnalyticsSearchParams = Promise<{
   from?: string;
   group?: string;
+  range?: string;
   set?: string;
   student?: string;
   to?: string;
@@ -39,38 +40,99 @@ function formatShortDate(d: Date) {
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
 
-function startOfWeek(d: Date) {
+const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function startOfDay(d: Date) {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
+  return x;
+}
+
+function startOfWeek(d: Date) {
+  const x = startOfDay(d);
   x.setDate(x.getDate() - x.getDay());
   return x;
 }
 
-type TrendBucket = { label: string; attempts: number; completions: number; avgPct: number };
-
-function buildLinePath(values: number[], width: number, height: number, max: number) {
-  if (values.length === 0 || max <= 0) return "";
-  const step = values.length > 1 ? width / (values.length - 1) : 0;
-  return values
-    .map((v, i) => {
-      const x = i * step;
-      const y = height - (v / max) * height;
-      return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
-    })
-    .join(" ");
+function startOfMonth(d: Date) {
+  const x = startOfDay(d);
+  x.setDate(1);
+  return x;
 }
 
-function buildAreaPath(values: number[], width: number, height: number, max: number) {
-  if (values.length === 0 || max <= 0) return "";
-  const step = values.length > 1 ? width / (values.length - 1) : 0;
-  const top = values
-    .map((v, i) => {
-      const x = i * step;
-      const y = height - (v / max) * height;
-      return `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
-    })
-    .join(" ");
-  return `${top} L${(values.length - 1) * step} ${height} L0 ${height} Z`;
+type RangeKey = "7d" | "30d" | "6m" | "1y";
+type Granularity = "day" | "week" | "month";
+
+const RANGES: { key: RangeKey; label: string; short: string; points: number; granularity: Granularity }[] = [
+  { key: "7d", label: "Last 7 days", short: "7d", points: 7, granularity: "day" },
+  { key: "30d", label: "Last 30 days", short: "30d", points: 30, granularity: "day" },
+  { key: "6m", label: "Last 6 months", short: "6m", points: 26, granularity: "week" },
+  { key: "1y", label: "Last 12 months", short: "1y", points: 12, granularity: "month" },
+];
+
+function bucketKey(d: Date, granularity: Granularity) {
+  if (granularity === "day") {
+    const x = startOfDay(d);
+    return `${x.getFullYear()}-${x.getMonth()}-${x.getDate()}`;
+  }
+  if (granularity === "week") {
+    const x = startOfWeek(d);
+    return `${x.getFullYear()}-${x.getMonth()}-${x.getDate()}`;
+  }
+  const x = startOfMonth(d);
+  return `${x.getFullYear()}-${x.getMonth()}`;
+}
+
+function bucketStart(d: Date, granularity: Granularity) {
+  if (granularity === "day") return startOfDay(d);
+  if (granularity === "week") return startOfWeek(d);
+  return startOfMonth(d);
+}
+
+function stepBucket(d: Date, granularity: Granularity, n: number) {
+  const x = new Date(d);
+  if (granularity === "day") x.setDate(x.getDate() + n);
+  else if (granularity === "week") x.setDate(x.getDate() + n * 7);
+  else x.setMonth(x.getMonth() + n);
+  return x;
+}
+
+function bucketLabel(d: Date, granularity: Granularity) {
+  if (granularity === "month") return MONTH_LABELS[d.getMonth()];
+  return formatShortDate(d);
+}
+
+type TrendBucket = { label: string; date: Date; attempts: number; completions: number; avgPct: number };
+
+function buildSmoothPath(
+  points: { x: number; y: number }[],
+  closeToBaseline?: number,
+) {
+  if (points.length === 0) return "";
+  if (points.length === 1) {
+    const p = points[0];
+    return closeToBaseline !== undefined
+      ? `M${p.x.toFixed(1)} ${p.y.toFixed(1)} L${p.x.toFixed(1)} ${closeToBaseline} Z`
+      : `M${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
+  }
+  let d = `M${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
+  for (let i = 0; i < points.length - 1; i++) {
+    const p0 = points[Math.max(0, i - 1)];
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    const p3 = points[Math.min(points.length - 1, i + 2)];
+    const t = 0.22;
+    const c1x = p1.x + (p2.x - p0.x) * t;
+    const c1y = p1.y + (p2.y - p0.y) * t;
+    const c2x = p2.x - (p3.x - p1.x) * t;
+    const c2y = p2.y - (p3.y - p1.y) * t;
+    d += ` C${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+  }
+  if (closeToBaseline !== undefined) {
+    const last = points[points.length - 1];
+    d += ` L${last.x.toFixed(1)} ${closeToBaseline} L${points[0].x.toFixed(1)} ${closeToBaseline} Z`;
+  }
+  return d;
 }
 
 export default async function AnalyticsOverviewPage({
@@ -85,6 +147,8 @@ export default async function AnalyticsOverviewPage({
   const params = (await searchParams) ?? {};
   const fromDate = parseDateParam(params.from);
   const toDate = parseDateParam(params.to, true);
+  const rangeKey = (RANGES.find((r) => r.key === params.range)?.key ?? "6m") as RangeKey;
+  const rangeConfig = RANGES.find((r) => r.key === rangeKey)!;
 
   const [problemSets, students, allProblems] = await Promise.all([
     prisma.problemSet.findMany({
@@ -259,30 +323,27 @@ export default async function AnalyticsOverviewPage({
     .filter((question) => question.reasons.length > 0)
     .slice(0, 6);
 
-  // 6-week trend buckets, anchored to weeks
+  // Trend buckets — granularity follows the selected range
   const trendNow = new Date();
-  const currentWeekStart = startOfWeek(trendNow);
   const trendBuckets: TrendBucket[] = [];
-  for (let offset = 5; offset >= 0; offset--) {
-    const start = new Date(currentWeekStart);
-    start.setDate(start.getDate() - offset * 7);
+  const trendStart = bucketStart(trendNow, rangeConfig.granularity);
+  for (let offset = rangeConfig.points - 1; offset >= 0; offset--) {
+    const start = stepBucket(trendStart, rangeConfig.granularity, -offset);
     trendBuckets.push({
-      label: formatShortDate(start),
+      label: bucketLabel(start, rangeConfig.granularity),
+      date: start,
       attempts: 0,
       completions: 0,
       avgPct: 0,
     });
   }
   const trendIndex = new Map<string, number>(
-    trendBuckets.map((b, i) => [b.label, i]),
+    trendBuckets.map((b, i) => [bucketKey(b.date, rangeConfig.granularity), i]),
   );
   const trendSums = trendBuckets.map(() => ({ pctSum: 0, pctCount: 0 }));
   for (const attempt of attempts) {
-    const ageDays = Math.floor((trendNow.getTime() - attempt.submittedAt.getTime()) / 86_400_000);
-    if (ageDays < 0) continue;
-    const bucketStart = startOfWeek(attempt.submittedAt);
-    const label = formatShortDate(bucketStart);
-    const idx = trendIndex.get(label);
+    const key = bucketKey(attempt.submittedAt, rangeConfig.granularity);
+    const idx = trendIndex.get(key);
     if (idx === undefined) continue;
     trendBuckets[idx].attempts += 1;
     if (attempt.maxScore > 0) {
@@ -297,6 +358,10 @@ export default async function AnalyticsOverviewPage({
       trendBuckets[i].avgPct = Math.round(trendSums[i].pctSum / trendSums[i].pctCount);
     }
   }
+  const trendTotalAttempts = trendBuckets.reduce((s, b) => s + b.attempts, 0);
+  const trendTotalCompletions = trendBuckets.reduce((s, b) => s + b.completions, 0);
+  const trendCompletionRate =
+    trendTotalAttempts > 0 ? Math.round((trendTotalCompletions / trendTotalAttempts) * 100) : 0;
 
   // Daily activity for last 30 days
   const dailyBuckets: { label: string; date: Date; count: number }[] = [];
@@ -408,30 +473,61 @@ export default async function AnalyticsOverviewPage({
     .sort((a, b) => b.attempts - a.attempts)
     .slice(0, 10);
 
-  // SVG geometry
+  // SVG geometry — leaves padding for axis labels
   const CHART_W = 760;
   const CHART_H = 320;
+  const PAD_L = 40;
+  const PAD_R = 16;
+  const PAD_T = 10;
+  const PAD_B = 28;
+  const PLOT_W = CHART_W - PAD_L - PAD_R;
+  const PLOT_H = CHART_H - PAD_T - PAD_B;
   const maxAttemptsBucket = Math.max(1, ...trendBuckets.map((b) => b.attempts));
-  const attemptsPath = buildLinePath(
-    trendBuckets.map((b) => b.attempts),
-    CHART_W,
-    CHART_H,
-    maxAttemptsBucket,
+  const stepX = trendBuckets.length > 1 ? PLOT_W / (trendBuckets.length - 1) : 0;
+  const trendPoints = trendBuckets.map((b, i) => ({
+    x: PAD_L + i * stepX,
+    y: PAD_T + PLOT_H - (b.attempts / maxAttemptsBucket) * PLOT_H,
+    bucket: b,
+    index: i,
+  }));
+  const baseline = PAD_T + PLOT_H;
+  const linePath = buildSmoothPath(trendPoints.map((p) => ({ x: p.x, y: p.y })));
+  const areaPath = buildSmoothPath(
+    trendPoints.map((p) => ({ x: p.x, y: p.y })),
+    baseline,
   );
-  const completionsPath = buildLinePath(
-    trendBuckets.map((b) => b.completions),
-    CHART_W,
-    CHART_H,
-    maxAttemptsBucket,
-  );
-  const attemptsArea = buildAreaPath(
-    trendBuckets.map((b) => b.attempts),
-    CHART_W,
-    CHART_H,
-    maxAttemptsBucket,
-  );
+  const yTicks = (() => {
+    const max = maxAttemptsBucket;
+    const step = Math.max(1, Math.ceil(max / 4));
+    const ticks: number[] = [];
+    for (let v = 0; v <= max; v += step) ticks.push(v);
+    if (ticks[ticks.length - 1] !== max) ticks.push(max);
+    return ticks;
+  })();
+  const xTickIndices = (() => {
+    const len = trendBuckets.length;
+    if (len <= 8) return trendBuckets.map((_, i) => i);
+    const target = 6;
+    const stride = Math.max(1, Math.ceil((len - 1) / (target - 1)));
+    const idxs: number[] = [];
+    for (let i = 0; i < len; i += stride) idxs.push(i);
+    if (idxs[idxs.length - 1] !== len - 1) idxs.push(len - 1);
+    return idxs;
+  })();
 
   const maxDaily = Math.max(1, ...dailyBuckets.map((b) => b.count));
+
+  function rangeHref(key: RangeKey) {
+    const sp = new URLSearchParams();
+    if (selectedSet) sp.set("set", selectedSet.slug);
+    if (selectedStudent) sp.set("student", selectedStudent.id);
+    if (selectedGroup) sp.set("group", selectedGroup);
+    if (selectedTopic) sp.set("topic", selectedTopic);
+    if (params.from) sp.set("from", params.from);
+    if (params.to) sp.set("to", params.to);
+    sp.set("range", key);
+    return `/admin/analytics?${sp.toString()}`;
+  }
 
   return (
     <main className="single-page">
@@ -545,105 +641,129 @@ export default async function AnalyticsOverviewPage({
           </article>
         </section>
 
-        <section className="panel analytics-chart-panel">
-          <div className="panel-header">
+        <section className="panel analytics-chart-panel chart-card">
+          <div className="panel-header chart-card-header">
             <div>
               <p className="eyebrow">Completion trends</p>
-              <h2>Last 6 weeks</h2>
+              <h2>{rangeConfig.label}</h2>
+              <p className="chart-card-description">
+                {trendTotalAttempts} attempts · {trendTotalCompletions} completions ·{" "}
+                {trendCompletionRate}% completion rate
+              </p>
             </div>
-            <div className="chart-legend">
-              <span className="legend-key legend-attempts">Attempts</span>
-              <span className="legend-key legend-completions">Completions</span>
-            </div>
+            <nav className="range-toggle" aria-label="Time range">
+              {RANGES.map((r) => (
+                <Link
+                  key={r.key}
+                  href={rangeHref(r.key)}
+                  className={`range-toggle-btn${r.key === rangeKey ? " active" : ""}`}
+                  scroll={false}
+                >
+                  {r.short}
+                </Link>
+              ))}
+            </nav>
           </div>
-          {maxAttemptsBucket <= 1 && trendBuckets.every((b) => b.attempts === 0) ? (
+          {trendTotalAttempts === 0 ? (
             <p className="analytics-empty">No attempts in this window yet.</p>
           ) : (
             <div className="chart-wrap">
               <svg
-                viewBox={`0 0 ${CHART_W} ${CHART_H + 36}`}
+                viewBox={`0 0 ${CHART_W} ${CHART_H}`}
                 preserveAspectRatio="xMidYMid meet"
                 role="img"
-                aria-label="Weekly attempts and completions"
+                aria-label={`Attempts over ${rangeConfig.label.toLowerCase()}`}
               >
                 <defs>
                   <linearGradient id="attemptsArea" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="var(--color-pink)" stopOpacity="0.32" />
-                    <stop offset="100%" stopColor="var(--color-pink)" stopOpacity="0.02" />
+                    <stop offset="0%" stopColor="var(--color-pink)" stopOpacity="0.45" />
+                    <stop offset="55%" stopColor="var(--color-pink)" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="var(--color-pink)" stopOpacity="0" />
                   </linearGradient>
                 </defs>
-                {[0.25, 0.5, 0.75].map((t) => (
-                  <line
-                    key={t}
-                    x1={0}
-                    x2={CHART_W}
-                    y1={CHART_H * t}
-                    y2={CHART_H * t}
-                    stroke="var(--color-border)"
-                    strokeDasharray="4 6"
-                    opacity="0.5"
-                  />
-                ))}
-                <path d={attemptsArea} fill="url(#attemptsArea)" />
-                <path
-                  d={attemptsPath}
-                  fill="none"
-                  stroke="var(--color-pink)"
-                  strokeWidth={2.5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d={completionsPath}
-                  fill="none"
-                  stroke="var(--color-cyan)"
-                  strokeWidth={2.5}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeDasharray="6 5"
-                />
-                {trendBuckets.map((b, i) => {
-                  const x = (i / Math.max(1, trendBuckets.length - 1)) * CHART_W;
-                  const yA = CHART_H - (b.attempts / maxAttemptsBucket) * CHART_H;
-                  const yC = CHART_H - (b.completions / maxAttemptsBucket) * CHART_H;
+                {yTicks.map((v) => {
+                  const y = PAD_T + PLOT_H - (v / maxAttemptsBucket) * PLOT_H;
                   return (
-                    <g key={b.label}>
-                      <circle cx={x} cy={yA} r={4} fill="var(--color-pink)" />
-                      <circle
-                        cx={x}
-                        cy={yC}
-                        r={4}
-                        fill="var(--color-card-bg)"
-                        stroke="var(--color-cyan)"
-                        strokeWidth={2}
+                    <g key={v}>
+                      <line
+                        x1={PAD_L}
+                        x2={PAD_L + PLOT_W}
+                        y1={y}
+                        y2={y}
+                        stroke="var(--color-border)"
+                        strokeWidth={1}
+                        opacity={0.55}
                       />
                       <text
-                        x={x}
-                        y={CHART_H + 24}
-                        textAnchor="middle"
+                        x={PAD_L - 8}
+                        y={y + 3}
+                        textAnchor="end"
                         fill="var(--color-muted)"
                         fontSize={11}
                         fontWeight={700}
                       >
-                        {b.label}
+                        {v}
                       </text>
                     </g>
                   );
                 })}
-              </svg>
-              <div className="chart-summary">
-                {trendBuckets.map((b) => (
-                  <div key={b.label} className="chart-summary-cell">
-                    <span className="chart-summary-week">{b.label}</span>
-                    <strong>{b.attempts}</strong>
-                    <small>
-                      {b.completions} done · {b.avgPct || 0}% avg
-                    </small>
-                  </div>
+                <path d={areaPath} fill="url(#attemptsArea)" />
+                <path
+                  d={linePath}
+                  fill="none"
+                  stroke="var(--color-pink)"
+                  strokeWidth={2.4}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {xTickIndices.map((i) => {
+                  const p = trendPoints[i];
+                  return (
+                    <text
+                      key={i}
+                      x={p.x}
+                      y={CHART_H - 6}
+                      textAnchor="middle"
+                      fill="var(--color-muted)"
+                      fontSize={11}
+                      fontWeight={700}
+                    >
+                      {p.bucket.label}
+                    </text>
+                  );
+                })}
+                {trendPoints.map((p) => (
+                  <g key={p.index}>
+                    <title>
+                      {p.bucket.label}: {p.bucket.attempts} attempts ·{" "}
+                      {p.bucket.completions} completions ·{" "}
+                      {p.bucket.avgPct || 0}% avg
+                    </title>
+                    <rect
+                      x={p.x - Math.max(8, stepX / 2)}
+                      y={PAD_T}
+                      width={Math.max(16, stepX)}
+                      height={PLOT_H}
+                      fill="transparent"
+                    />
+                  </g>
                 ))}
-              </div>
+              </svg>
             </div>
           )}
+          <div className="chart-card-footer">
+            <span className="chart-card-foot-line">
+              <span className="legend-dot legend-dot-pink" /> Attempts per{" "}
+              {rangeConfig.granularity === "day"
+                ? "day"
+                : rangeConfig.granularity === "week"
+                  ? "week"
+                  : "month"}
+            </span>
+            <span className="chart-card-foot-muted">
+              ≥80% scores count as completions
+            </span>
+          </div>
         </section>
 
         <div className="analytics-row">
