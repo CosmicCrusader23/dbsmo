@@ -8257,6 +8257,18 @@ html:not(.light) .ftw-rank.rank-1 {
     white-space: nowrap !important;
     overflow: visible !important;
   }
+
+  /* Hard cap so no descendant can inflate workspace beyond the viewport */
+  html, body { max-width: 100vw; overflow-x: clip; }
+  .app-shell, .site-content, .workspace { max-width: 100%; min-width: 0; overflow-x: clip; }
+  .workspace > *,
+  .topbar > *,
+  .topbar-actions,
+  .hero-panel,
+  .metric-grid,
+  .content-grid { min-width: 0; max-width: 100%; }
+  .topbar-actions { width: 100%; max-width: 100%; flex-wrap: wrap; }
+  .auth-session, .auth-actions-inline { max-width: 100%; min-width: 0; }
 }
 
 @media (max-width: 720px) {

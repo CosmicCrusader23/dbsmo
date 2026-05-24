@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 const OPEN_CLASS = "mobile-nav-open";
+const CLOSE_EVENT = "dbsmo:mobile-nav-close";
 
 export function GlobalMobileNavToggle() {
   const [open, setOpen] = useState(false);
@@ -22,15 +23,16 @@ export function GlobalMobileNavToggle() {
   }, [open]);
 
   useEffect(() => {
-    if (!open) return;
     function close() {
       setOpen(false);
     }
     window.addEventListener("popstate", close);
+    window.addEventListener(CLOSE_EVENT, close);
     return () => {
       window.removeEventListener("popstate", close);
+      window.removeEventListener(CLOSE_EVENT, close);
     };
-  }, [open]);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -66,7 +68,7 @@ export function GlobalMobileNavScrim() {
       className="mobile-nav-scrim"
       tabIndex={-1}
       aria-hidden="true"
-      onClick={() => document.documentElement.classList.remove(OPEN_CLASS)}
+      onClick={() => window.dispatchEvent(new Event(CLOSE_EVENT))}
     />
   );
 }

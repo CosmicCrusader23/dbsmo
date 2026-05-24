@@ -77,7 +77,10 @@ export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
             key={link.href}
             className={`nav-item${isActive ? " active" : ""}`}
             href={link.href}
-            onClick={(e) => e.currentTarget.blur()}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              window.dispatchEvent(new Event("dbsmo:mobile-nav-close"));
+            }}
           >
             <Icon size={18} />
             <span className="nav-label">{link.label}</span>
