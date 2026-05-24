@@ -4849,6 +4849,14 @@ html.dark .theme-choice-button.active {
 .analytics-frame {
   display: grid;
   gap: 18px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.analytics-frame > * {
+  min-width: 0;
 }
 
 .analytics-metric-grid {
@@ -4868,6 +4876,10 @@ html.dark .theme-choice-button.active {
   align-items: start;
 }
 
+.analytics-row > * {
+  min-width: 0;
+}
+
 @media (max-width: 960px) {
   .analytics-row {
     grid-template-columns: minmax(0, 1fr);
@@ -4879,6 +4891,7 @@ html.dark .theme-choice-button.active {
   flex-direction: column;
   gap: 14px;
   padding-bottom: 20px;
+  min-width: 0;
 }
 
 .analytics-empty {
@@ -4891,6 +4904,7 @@ html.dark .theme-choice-button.active {
 .chart-legend {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   color: var(--color-muted);
   font-size: 0.78rem;
@@ -4934,18 +4948,21 @@ html.dark .theme-choice-button.active {
   flex-direction: column;
   gap: 12px;
   padding: 0 20px;
+  min-width: 0;
 }
 
 .chart-wrap svg {
+  display: block;
   width: 100%;
   height: auto;
-  max-height: 260px;
+  max-width: 100%;
 }
 
 .chart-summary {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
+  min-width: 0;
 }
 
 .chart-summary-cell {
@@ -4989,8 +5006,9 @@ html.dark .theme-choice-button.active {
   grid-template-columns: repeat(30, minmax(0, 1fr));
   align-items: end;
   gap: 3px;
-  height: 160px;
+  height: 200px;
   padding: 16px 20px 20px;
+  min-width: 0;
 }
 
 .daily-bar {

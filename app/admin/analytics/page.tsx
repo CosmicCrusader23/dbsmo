@@ -410,7 +410,7 @@ export default async function AnalyticsOverviewPage({
 
   // SVG geometry
   const CHART_W = 760;
-  const CHART_H = 220;
+  const CHART_H = 320;
   const maxAttemptsBucket = Math.max(1, ...trendBuckets.map((b) => b.attempts));
   const attemptsPath = buildLinePath(
     trendBuckets.map((b) => b.attempts),
@@ -562,7 +562,7 @@ export default async function AnalyticsOverviewPage({
             <div className="chart-wrap">
               <svg
                 viewBox={`0 0 ${CHART_W} ${CHART_H + 36}`}
-                preserveAspectRatio="none"
+                preserveAspectRatio="xMidYMid meet"
                 role="img"
                 aria-label="Weekly attempts and completions"
               >
