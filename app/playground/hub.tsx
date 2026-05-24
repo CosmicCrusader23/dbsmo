@@ -42,7 +42,7 @@ export function PlaygroundHub({ bosses }: { bosses: Boss[] }) {
       </header>
 
       <p className="playground-hub-blurb">
-        Bullet-hell duels with a math twist. Dodge their patterns, then prove their integrals before the
+        Win against each boss against their expertises before the
         clock runs out. Every boss you beat earns a trophy.
       </p>
 

@@ -27,8 +27,8 @@ export interface Phase {
   density: number;
   /** Bullet speed (px / second) */
   speed: number;
-  /** The integral the player must solve after surviving */
-  integral: Integral;
+  /** Pool of integrals for this phase. One is picked at random when the phase starts. */
+  integrals: Integral[];
   /** Lines spoken when the integral appears */
   challenge: string[];
 }
@@ -68,7 +68,7 @@ const CULVER: Boss = {
   name: "Mr. Culver",
   eyebrow: "Faculty boss · DBSMO",
   description:
-    "He grades on a strict curve. Survive his pen, then prove your integrals. " +
+    "He grades on a strict gay curve. Survive his pen, then prove your integrals. " +
     "You will fail the first three times. Probably the next three too.",
   icon: "/playground/culvericon.jpg",
   portrait: "/playground/culverphase1.jpg",
@@ -85,12 +85,12 @@ const CULVER: Boss = {
     "* Mr. Culver caps his red pen.",
     "* \"...Acceptable.\"",
     "* \"You may sit in the front row.\"",
-    "* TROPHY ACQUIRED — Honour Roll, Real Analysis.",
+    "* TROPHY ACQUIRED — Culveroni.",
   ],
   defeat: [
     "* The bell rings.",
     "* Mr. Culver shakes his head.",
-    "* \"See me after class.\"",
+    "* \"See me after school in my home.\"",
     "* GAME OVER. Press space to retry.",
   ],
   phases: [
@@ -99,7 +99,7 @@ const CULVER: Boss = {
       dodgeSeconds: 12,
       taunts: [
         "* Don't tell me you forgot the chain rule.",
-        "* I've seen Form 1 students dodge faster.",
+        "* I've seen Grade 1 students dodge faster.",
         "* This is the EASY one.",
       ],
       pattern: "wave",
@@ -109,19 +109,51 @@ const CULVER: Boss = {
         "* Mr. Culver writes on the board.",
         "* \"Evaluate. You have 25 seconds.\"",
       ],
-      integral: {
-        prompt: "\\int_0^{\\pi/2} \\sin^2 x\\, dx",
-        answers: ["pi/4", "π/4", "(pi)/4", "0.7853981633974483"],
-        hint: "Half-angle. sin²x = (1 − cos2x)/2.",
-        solveSeconds: 25,
-      },
+      integrals: [
+        {
+          prompt: "\\int_0^{\\pi/2} \\sin^2 x\\, dx",
+          answers: ["pi/4", "π/4", "(pi)/4", "0.7853981633974483", "0.7854"],
+          hint: "Half-angle. sin²x = (1 − cos2x)/2.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_0^{\\pi/2} \\cos^2 x\\, dx",
+          answers: ["pi/4", "π/4", "(pi)/4", "0.7853981633974483", "0.7854"],
+          hint: "Half-angle. cos²x = (1 + cos2x)/2.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_0^{\\pi/4} \\sec^2 x\\, dx",
+          answers: ["1", "1.0"],
+          hint: "Antiderivative of sec²x is tan x.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_0^{\\pi/2} \\sin(2x)\\, dx",
+          answers: ["1", "1.0"],
+          hint: "u = 2x flips it into a clean cosine.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_0^{\\pi/3} \\sin x\\, dx",
+          answers: ["1/2", "0.5"],
+          hint: "1 − cos(π/3).",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_0^{\\pi} \\sin^2 x\\, dx",
+          answers: ["pi/2", "π/2", "(pi)/2", "1.5707963267948966", "1.5708"],
+          hint: "Same half-angle trick, longer interval.",
+          solveSeconds: 25,
+        },
+      ],
     },
     {
       image: "/playground/culverphase1.jpg",
       dodgeSeconds: 14,
       taunts: [
         "* Pay attention. The hardest part is still ahead.",
-        "* Form 5 used to do this in their sleep.",
+        "* Grade 5s used to do this in their sleep.",
         "* You move like a piecewise function.",
       ],
       pattern: "spiral",
@@ -131,12 +163,44 @@ const CULVER: Boss = {
         "* Mr. Culver flips the page.",
         "* \"Integration by parts. Don't make me circle it.\"",
       ],
-      integral: {
-        prompt: "\\int_0^{1} x e^{x}\\, dx",
-        answers: ["1", "1.0"],
-        hint: "u = x, dv = eˣ dx. The boundary terms simplify.",
-        solveSeconds: 22,
-      },
+      integrals: [
+        {
+          prompt: "\\int_0^{1} x e^{x}\\, dx",
+          answers: ["1", "1.0"],
+          hint: "u = x, dv = eˣ dx. The boundary terms simplify.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\int_0^{1} x e^{-x}\\, dx",
+          answers: ["1 - 2/e", "1-2/e", "(e-2)/e", "0.2642411176571153", "0.2642"],
+          hint: "u = x, dv = e⁻ˣ dx.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\int_1^{e} \\ln x\\, dx",
+          answers: ["1", "1.0"],
+          hint: "u = ln x, dv = dx. Result is x ln x − x.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\int_0^{\\pi} x \\sin x\\, dx",
+          answers: ["pi", "π", "3.141592653589793", "3.1416"],
+          hint: "u = x, dv = sin x dx.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\int_0^{\\pi/2} x \\cos x\\, dx",
+          answers: ["pi/2 - 1", "(pi-2)/2", "π/2 - 1", "0.5707963267948966", "0.5708"],
+          hint: "u = x, dv = cos x dx.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\int_0^{1} x^{2} e^{x}\\, dx",
+          answers: ["e - 2", "e-2", "0.7182818284590452", "0.7183"],
+          hint: "Parts twice. Bring eˣ along.",
+          solveSeconds: 22,
+        },
+      ],
     },
     {
       image: "/playground/culverphase2.jpg",
@@ -153,12 +217,44 @@ const CULVER: Boss = {
         "* The classroom dims.",
         "* \"This one was on the 1989 entrance paper.\"",
       ],
-      integral: {
-        prompt: "\\int_{0}^{1} \\frac{dx}{1+x^{2}}",
-        answers: ["pi/4", "π/4", "(pi)/4", "arctan(1)", "tan^-1(1)"],
-        hint: "It's a standard arctangent.",
-        solveSeconds: 18,
-      },
+      integrals: [
+        {
+          prompt: "\\int_{0}^{1} \\frac{dx}{1+x^{2}}",
+          answers: ["pi/4", "π/4", "(pi)/4", "arctan(1)", "tan^-1(1)", "0.7854"],
+          hint: "It's a standard arctangent.",
+          solveSeconds: 18,
+        },
+        {
+          prompt: "\\int_{0}^{1} \\frac{dx}{\\sqrt{1-x^{2}}}",
+          answers: ["pi/2", "π/2", "(pi)/2", "arcsin(1)", "1.5708"],
+          hint: "Antiderivative is arcsin x.",
+          solveSeconds: 18,
+        },
+        {
+          prompt: "\\int_{1}^{\\sqrt{3}} \\frac{dx}{1+x^{2}}",
+          answers: ["pi/12", "π/12", "(pi)/12", "0.2617993877991494", "0.2618"],
+          hint: "arctan(√3) − arctan(1) = π/3 − π/4.",
+          solveSeconds: 18,
+        },
+        {
+          prompt: "\\int_{0}^{1/2} \\frac{dx}{\\sqrt{1-x^{2}}}",
+          answers: ["pi/6", "π/6", "(pi)/6", "0.5235987755982988", "0.5236"],
+          hint: "arcsin(1/2).",
+          solveSeconds: 18,
+        },
+        {
+          prompt: "\\int_{0}^{2} \\frac{dx}{4+x^{2}}",
+          answers: ["pi/8", "π/8", "(pi)/8", "0.39269908169872414", "0.3927"],
+          hint: "Standard form: 1/(a²+x²) → (1/a)arctan(x/a).",
+          solveSeconds: 18,
+        },
+        {
+          prompt: "\\int_{0}^{1} \\frac{x}{1+x^{2}}\\, dx",
+          answers: ["ln(2)/2", "(ln2)/2", "ln(sqrt(2))", "0.34657359027997264", "0.3466"],
+          hint: "u = 1+x². The numerator is half du.",
+          solveSeconds: 18,
+        },
+      ],
     },
     {
       image: "/playground/culverphase2.jpg",
@@ -175,12 +271,50 @@ const CULVER: Boss = {
         "* Mr. Culver does NOT smile.",
         "* \"Substitution. Twenty seconds. Go.\"",
       ],
-      integral: {
-        prompt: "\\int_{0}^{\\pi/4} \\tan^{2} x\\, dx",
-        answers: ["1 - pi/4", "1-pi/4", "1 − π/4", "(4-pi)/4", "0.2146018366025517"],
-        hint: "tan²x = sec²x − 1.",
-        solveSeconds: 20,
-      },
+      integrals: [
+        {
+          prompt: "\\int_{0}^{\\pi/4} \\tan^{2} x\\, dx",
+          answers: ["1 - pi/4", "1-pi/4", "1 − π/4", "(4-pi)/4", "0.2146018366025517", "0.2146"],
+          hint: "tan²x = sec²x − 1.",
+          solveSeconds: 20,
+        },
+        {
+          prompt: "\\int_{0}^{1} \\frac{2x}{1+x^{2}}\\, dx",
+          answers: ["ln(2)", "ln2", "0.6931471805599453", "0.6931"],
+          hint: "u = 1+x². Numerator is exactly du.",
+          solveSeconds: 20,
+        },
+        {
+          prompt: "\\int_{0}^{1} x\\sqrt{1-x^{2}}\\, dx",
+          answers: ["1/3", "0.3333333333333333", "0.3333"],
+          hint: "u = 1−x², du = −2x dx.",
+          solveSeconds: 20,
+        },
+        {
+          prompt: "\\int_{1}^{e} \\frac{\\ln x}{x}\\, dx",
+          answers: ["1/2", "0.5"],
+          hint: "u = ln x.",
+          solveSeconds: 20,
+        },
+        {
+          prompt: "\\int_{0}^{\\pi/2} \\sin x \\cos x\\, dx",
+          answers: ["1/2", "0.5"],
+          hint: "u = sin x — or use the double angle.",
+          solveSeconds: 20,
+        },
+        {
+          prompt: "\\int_{0}^{1} \\frac{e^{x}}{1+e^{x}}\\, dx",
+          answers: ["ln((1+e)/2)", "ln(1+e)-ln(2)", "0.6201557396773", "0.6202"],
+          hint: "u = 1+eˣ.",
+          solveSeconds: 20,
+        },
+        {
+          prompt: "\\int_{0}^{\\pi/2} \\sin^{3} x\\, dx",
+          answers: ["2/3", "0.6666666666666666", "0.6667"],
+          hint: "Split off one sin x; rest in terms of cos x.",
+          solveSeconds: 20,
+        },
+      ],
     },
     {
       image: "/playground/culverphase2.jpg",
@@ -198,16 +332,60 @@ const CULVER: Boss = {
         "* Mr. Culver writes one more line on the board.",
         "* \"Definite. Closed form. Prove it.\"",
       ],
-      integral: {
-        prompt: "\\int_{0}^{\\infty} e^{-x^{2}}\\, dx",
-        answers: ["sqrt(pi)/2", "√π/2", "(sqrt(pi))/2", "(√π)/2", "0.886226925452758"],
-        hint: "Square it, switch to polar coordinates.",
-        solveSeconds: 30,
-      },
+      integrals: [
+        {
+          prompt: "\\int_{0}^{\\infty} e^{-x^{2}}\\, dx",
+          answers: ["sqrt(pi)/2", "√π/2", "(sqrt(pi))/2", "(√π)/2", "0.886226925452758", "0.8862"],
+          hint: "Square it, switch to polar coordinates.",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{0}^{\\infty} \\frac{dx}{1+x^{2}}",
+          answers: ["pi/2", "π/2", "(pi)/2", "1.5707963267948966", "1.5708"],
+          hint: "arctan from 0 to ∞.",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{0}^{\\infty} x e^{-x^{2}}\\, dx",
+          answers: ["1/2", "0.5"],
+          hint: "u = x². Closed form pops right out.",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{0}^{\\infty} x e^{-x}\\, dx",
+          answers: ["1", "1.0"],
+          hint: "Γ(2). Or parts.",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{0}^{\\infty} x^{2} e^{-x}\\, dx",
+          answers: ["2", "2.0"],
+          hint: "Γ(3) = 2! .",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{0}^{1} \\frac{\\ln(1+x)}{x}\\, dx",
+          answers: ["pi^2/12", "(pi^2)/12", "π²/12", "0.8224670334241132", "0.8225"],
+          hint: "Series: Σ (−1)ⁿ⁻¹ /n² from 1 to ∞.",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{-\\infty}^{\\infty} \\frac{dx}{1+x^{2}}",
+          answers: ["pi", "π", "3.141592653589793", "3.1416"],
+          hint: "Two-sided arctangent.",
+          solveSeconds: 30,
+        },
+        {
+          prompt: "\\int_{0}^{1} \\frac{\\ln x}{x-1}\\, dx",
+          answers: ["pi^2/6", "(pi^2)/6", "π²/6", "1.6449340668482264", "1.6449"],
+          hint: "Basel-flavoured. Σ 1/n².",
+          solveSeconds: 30,
+        },
+      ],
     },
   ],
-  trophyTitle: "Honour Roll · Real Analysis",
-  trophyFlavor: "Survived Mr. Culver. Bring proof to the staff room.",
+  trophyTitle: "Honour Roll · Integrals",
+  trophyFlavor: "Survived Mr. Culver. Come to the staff room after school.",
 };
 
 export const BOSSES: Boss[] = [CULVER];

@@ -11,7 +11,7 @@ type GameState =
   | { kind: "intro"; line: number }
   | { kind: "dodging"; phase: number; tStart: number; tauntIndex: number }
   | { kind: "challenge"; phase: number; line: number }
-  | { kind: "solving"; phase: number; tStart: number; input: string; hintShown: boolean; wrong: boolean }
+  | { kind: "solving"; phase: number; integralIndex: number; tStart: number; input: string; hintShown: boolean; wrong: boolean }
   | { kind: "between"; phase: number }
   | { kind: "victory"; line: number }
   | { kind: "defeat"; line: number };
@@ -125,6 +125,7 @@ export function BossBattle({ boss }: { boss: Boss }) {
           setState({
             kind: "solving",
             phase: cur.phase,
+            integralIndex: Math.floor(Math.random() * phase.integrals.length),
             tStart: performance.now(),
             input: "",
             hintShown: false,
@@ -190,14 +191,21 @@ export function BossBattle({ boss }: { boss: Boss }) {
     const speed = phase.speed;
     switch (phase.pattern) {
       case "spiral": {
-        const angle = ((now / 1000) * 1.5) % (Math.PI * 2);
+        // Spawn from a rotating point along the top edge so the centre stays survivable.
+        const t = now / 1000;
+        const angle = (t * 1.5) % (Math.PI * 2);
+        const ox = BOX_W / 2 + Math.cos(t * 0.7) * (BOX_W * 0.35);
+        const oy = -8;
         for (let i = 0; i < 3; i++) {
           const a = angle + (i * Math.PI * 2) / 3;
+          // Bias downward so bullets clear the top edge.
+          const vx = Math.cos(a) * speed;
+          const vy = Math.abs(Math.sin(a)) * speed * 0.6 + speed * 0.6;
           bullets.current.push({
-            x: BOX_W / 2,
-            y: BOX_H / 2,
-            vx: Math.cos(a) * speed,
-            vy: Math.sin(a) * speed,
+            x: ox,
+            y: oy,
+            vx,
+            vy,
             r: 4,
             ttl: 4,
             kind: "round",
@@ -209,7 +217,10 @@ export function BossBattle({ boss }: { boss: Boss }) {
       case "wave": {
         const fromLeft = Math.floor(now / 1500) % 2 === 0;
         const x = fromLeft ? -10 : BOX_W + 10;
-        const y = 30 + Math.sin(now / 200) * 90 + BOX_H / 2 - 80;
+        // Cover the full arena height by mapping sin into [PLAYER_R+4, BOX_H-PLAYER_R-4].
+        const margin = PLAYER_R + 4;
+        const range = BOX_H - margin * 2;
+        const y = margin + ((Math.sin(now / 200) + 1) / 2) * range;
         bullets.current.push({
           x,
           y,
@@ -303,8 +314,12 @@ export function BossBattle({ boss }: { boss: Boss }) {
         break;
       }
       case "bones": {
+        // Vertical bones falling from top OR bottom — never spawn on top of the player.
         const fromTop = Math.random() < 0.5;
-        const x = Math.random() * BOX_W;
+        let x = Math.random() * BOX_W;
+        if (Math.abs(x - player.current.x) < PLAYER_R * 4) {
+          x = (x + BOX_W / 2) % BOX_W;
+        }
         bullets.current.push({
           x,
           y: fromTop ? -10 : BOX_H + 10,
@@ -466,7 +481,8 @@ export function BossBattle({ boss }: { boss: Boss }) {
   useEffect(() => {
     if (state.kind !== "solving") return;
     const phase = boss.phases[state.phase];
-    const limit = phase.integral.solveSeconds * 1000;
+    const integral = phase.integrals[state.integralIndex];
+    const limit = integral.solveSeconds * 1000;
     inputRef.current?.focus();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSolveRemaining(limit);
@@ -488,7 +504,8 @@ export function BossBattle({ boss }: { boss: Boss }) {
   const integralLatex = useMemo(() => {
     if (state.kind !== "solving") return "";
     const phase = boss.phases[state.phase];
-    return katex.renderToString(phase.integral.prompt, {
+    const integral = phase.integrals[state.integralIndex];
+    return katex.renderToString(integral.prompt, {
       throwOnError: false,
       displayMode: true,
     });
@@ -498,7 +515,8 @@ export function BossBattle({ boss }: { boss: Boss }) {
     e.preventDefault();
     if (state.kind !== "solving") return;
     const phase = boss.phases[state.phase];
-    if (isCorrect(state.input, phase.integral.answers)) {
+    const integral = phase.integrals[state.integralIndex];
+    if (isCorrect(state.input, integral.answers)) {
       if (state.phase + 1 >= boss.phases.length) {
         setState({ kind: "victory", line: 0 });
         try {
@@ -625,8 +643,8 @@ export function BossBattle({ boss }: { boss: Boss }) {
           />
           <div className="battle-solve-meta">
             <span>⏱ {(solveRemaining / 1000).toFixed(1)}s</span>
-            {state.hintShown && phase.integral.hint ? (
-              <span className="battle-solve-hint">💡 {phase.integral.hint}</span>
+            {state.hintShown && phase.integrals[state.integralIndex].hint ? (
+              <span className="battle-solve-hint">💡 {phase.integrals[state.integralIndex].hint}</span>
             ) : null}
           </div>
           <div className="battle-solve-input-row">
