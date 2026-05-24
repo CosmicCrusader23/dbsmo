@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 const OPEN_CLASS = "mobile-nav-open";
@@ -31,16 +32,30 @@ export function GlobalMobileNavToggle() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <button
-      type="button"
-      className="mobile-nav-toggle global-mobile-nav-toggle"
-      aria-label={open ? "Close navigation" : "Open navigation"}
-      aria-expanded={open}
-      onClick={() => setOpen((prev) => !prev)}
-    >
-      {open ? <X size={20} /> : <Menu size={20} />}
-    </button>
+    <header className="mobile-topbar" role="banner">
+      <Link href="/dashboard" className="mobile-topbar-brand" onClick={() => setOpen(false)}>
+        DBSMO
+      </Link>
+      <button
+        type="button"
+        className="mobile-topbar-toggle"
+        aria-label={open ? "Close navigation" : "Open navigation"}
+        aria-expanded={open}
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        {open ? <X size={20} /> : <Menu size={20} />}
+      </button>
+    </header>
   );
 }
 
