@@ -72,6 +72,11 @@ export function PlaygroundHub({ bosses }: { bosses: Boss[] }) {
                   <span className={`difficulty-chip difficulty-${boss.difficulty}`}>
                     {boss.difficulty.replace("-", " ")}
                   </span>
+                  {boss.tags.map((tag) => (
+                    <span key={tag} className="playground-card-tag">
+                      {tag}
+                    </span>
+                  ))}
                   <span>⏱ {Math.floor(boss.totalTimeSec / 60)}:{String(boss.totalTimeSec % 60).padStart(2, "0")}</span>
                   <span>{boss.phases.length} phases</span>
                 </div>

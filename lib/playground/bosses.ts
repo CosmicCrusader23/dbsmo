@@ -60,6 +60,8 @@ export interface Boss {
   maxHp: number;
   /** Difficulty chip on the hub card */
   difficulty: "warmup" | "hard" | "sans-tier";
+  /** Topic tags shown as chips on the hub card (e.g. ["Integrals", "Calc 2"]) */
+  tags: string[];
   /** Lines spoken before the fight begins */
   intro: string[];
   /** Lines spoken on victory */
@@ -85,6 +87,7 @@ const CULVER: Boss = {
   totalTimeSec: 240,
   maxHp: 3,
   difficulty: "sans-tier",
+  tags: ["Integrals", "Calculus"],
   intro: [
     "* Mr. Culver looks up from his marking pile.",
     "* \"Ah. Another candidate for my olympiad squad.\"",
@@ -410,6 +413,7 @@ const MARCO: Boss = {
   totalTimeSec: 180,
   maxHp: 4,
   difficulty: "warmup",
+  tags: ["Number Theory"],
   intro: [
     "* You see Marco hunched over his laptop.",
     "* He has 14 unread messages from you.",

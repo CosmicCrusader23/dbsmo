@@ -8481,6 +8481,20 @@ html:not(.light) .ftw-rank.rank-1 {
   animation: sans-tier-flicker 2.4s steps(1, end) infinite;
 }
 
+.playground-card-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(125, 137, 164, 0.14);
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 1px solid rgba(125, 137, 164, 0.22);
+}
+
 @keyframes sans-tier-flicker {
   0%, 92%, 100% { opacity: 1; }
   94%, 98% { opacity: 0.55; }
