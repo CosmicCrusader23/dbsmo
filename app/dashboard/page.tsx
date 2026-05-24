@@ -73,9 +73,15 @@ export default async function DashboardPage() {
             difficulty: true,
           },
         },
-        responses: { include: { problem: { select: { topicTags: true } } } },
+        responses: {
+          select: {
+            isCorrect: true,
+            problem: { select: { topicTags: true } },
+          },
+        },
       },
       orderBy: { submittedAt: "desc" },
+      take: 200,
     }),
     session.user.role === "ADMIN"
       ? prisma.user.findMany({
@@ -83,6 +89,8 @@ export default async function DashboardPage() {
           include: {
             attempts: {
               select: { score: true, maxScore: true, submittedAt: true, problemSetId: true },
+              orderBy: { submittedAt: "desc" },
+              take: 100,
             },
           },
         })

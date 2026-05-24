@@ -5,7 +5,6 @@ import { ArrowLeft, Heart, Target, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
-import { computeBestAverageScore } from "@/lib/analytics";
 import { isStaffRole } from "@/lib/permissions";
 import { Avatar } from "@/app/avatar";
 
@@ -50,7 +49,7 @@ export default async function LeaderboardPage({
     return `/leaderboard?${query.toString()}`;
   }
 
-  const [users, friendships] = await Promise.all([
+  const [users, perSetBest, attemptTotals, friendships] = await Promise.all([
     prisma.user.findMany({
       select: {
         id: true,
@@ -60,13 +59,18 @@ export default async function LeaderboardPage({
         avatarUrl: true,
         role: true,
         leaderboardVisible: true,
-        attempts: {
-          select: { score: true, maxScore: true, problemSetId: true },
-        },
         _count: {
           select: { practiceSolves: true },
         },
       },
+    }),
+    prisma.attempt.groupBy({
+      by: ["userId", "problemSetId"],
+      _max: { score: true, maxScore: true },
+    }),
+    prisma.attempt.groupBy({
+      by: ["userId"],
+      _count: { _all: true },
     }),
     prisma.friendship
       ?.findMany({
@@ -78,6 +82,18 @@ export default async function LeaderboardPage({
       .catch(() => []) ?? Promise.resolve([]),
   ]);
 
+  const bestPerSetByUser = new Map<string, Array<{ pct: number }>>();
+  for (const row of perSetBest) {
+    const max = row._max.maxScore ?? 0;
+    const pct = max > 0 ? ((row._max.score ?? 0) / max) * 100 : 0;
+    const list = bestPerSetByUser.get(row.userId) ?? [];
+    list.push({ pct });
+    bestPerSetByUser.set(row.userId, list);
+  }
+  const totalAttemptsByUser = new Map<string, number>(
+    attemptTotals.map((row) => [row.userId, row._count._all]),
+  );
+
   const friendIds = new Set<string>([session.user.id]);
   for (const friendship of friendships) {
     friendIds.add(
@@ -87,17 +103,14 @@ export default async function LeaderboardPage({
 
   const rows = users
     .map((u) => {
-      const totalAttempts = u.attempts.length;
-      const uniqueSets = new Set(u.attempts.map((a) => a.problemSetId)).size;
-
-      // Calculate best per set
-      const bestPerSet = new Map<string, number>();
-      for (const a of u.attempts) {
-        const pct = a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0;
-        bestPerSet.set(a.problemSetId, Math.max(bestPerSet.get(a.problemSetId) ?? 0, pct));
-      }
-      const solvedSets = [...bestPerSet.values()].filter((p) => p >= 80).length;
-      const avgScore = computeBestAverageScore(u.attempts);
+      const perSet = bestPerSetByUser.get(u.id) ?? [];
+      const uniqueSets = perSet.length;
+      const totalAttempts = totalAttemptsByUser.get(u.id) ?? 0;
+      const solvedSets = perSet.filter((s) => s.pct >= 80).length;
+      const avgScore =
+        perSet.length > 0
+          ? Math.round(perSet.reduce((sum, s) => sum + s.pct, 0) / perSet.length)
+          : 0;
 
       return {
         id: u.id,

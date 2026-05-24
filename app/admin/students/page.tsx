@@ -34,6 +34,8 @@ export default async function AdminStudentsPage({
     include: {
       attempts: {
         select: { score: true, maxScore: true, submittedAt: true, problemSetId: true },
+        orderBy: { submittedAt: "desc" },
+        take: 100,
       },
     },
     orderBy: { name: "asc" },

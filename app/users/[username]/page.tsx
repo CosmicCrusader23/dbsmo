@@ -96,6 +96,7 @@ export default async function UserProfilePage({
           problemSet: { select: { title: true, slug: true } },
         },
         orderBy: { submittedAt: "desc" },
+        take: 200,
       },
       problemSetBookmarks: {
         select: {
