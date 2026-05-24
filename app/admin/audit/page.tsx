@@ -1,27 +1,116 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Search } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
+import { AuditFilters } from "./audit-filters";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminAuditPage() {
+type AuditSearchParams = Promise<{
+  q?: string;
+  action?: string;
+  actor?: string;
+}>;
+
+function timeAgo(d: Date) {
+  const ms = Date.now() - d.getTime();
+  const s = Math.floor(ms / 1000);
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const days = Math.floor(h / 24);
+  if (days < 7) return `${days}d ago`;
+  return d.toLocaleDateString();
+}
+
+function actionTone(action: string) {
+  const a = action.toLowerCase();
+  if (a.includes("delete") || a.includes("remove")) return "danger";
+  if (a.includes("create") || a.includes("publish") || a.includes("add")) return "success";
+  if (a.includes("update") || a.includes("edit") || a.includes("regrade")) return "warning";
+  return "default";
+}
+
+export default async function AdminAuditPage({
+  searchParams,
+}: {
+  searchParams?: AuditSearchParams;
+}) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/");
   if (!hasPermission(session.user.role, "admin:audit")) redirect("/dashboard");
 
-  const logs = await prisma.auditLog.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 100,
-    include: { actor: { select: { email: true, name: true, displayName: true } } },
-  });
+  const params = (await searchParams) ?? {};
+  const q = params.q?.trim() ?? "";
+  const actionFilter = params.action?.trim() ?? "";
+  const actorFilter = params.actor?.trim() ?? "";
+
+  const where = {
+    ...(actionFilter ? { action: actionFilter } : {}),
+    ...(actorFilter ? { actorId: actorFilter } : {}),
+    ...(q
+      ? {
+          OR: [
+            { action: { contains: q, mode: "insensitive" as const } },
+            { targetType: { contains: q, mode: "insensitive" as const } },
+            { targetId: { contains: q, mode: "insensitive" as const } },
+          ],
+        }
+      : {}),
+  };
+
+  const [logs, totalCount, actionAggregate, actorAggregate] = await Promise.all([
+    prisma.auditLog.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 200,
+      include: { actor: { select: { id: true, email: true, name: true, displayName: true } } },
+    }),
+    prisma.auditLog.count(),
+    prisma.auditLog.groupBy({
+      by: ["action"],
+      _count: { _all: true },
+      orderBy: { _count: { action: "desc" } },
+      take: 30,
+    }),
+    prisma.auditLog.findMany({
+      where: { actorId: { not: null } },
+      select: {
+        actorId: true,
+        actor: { select: { displayName: true, name: true, email: true } },
+      },
+      distinct: ["actorId"],
+      take: 80,
+    }),
+  ]);
+
+  const actionOptions = actionAggregate.map((row) => ({
+    value: row.action,
+    label: `${row.action} (${row._count._all})`,
+  }));
+  const actorOptions = actorAggregate
+    .filter((r) => r.actorId)
+    .map((r) => ({
+      value: r.actorId as string,
+      label: r.actor?.displayName || r.actor?.name || r.actor?.email || "Unknown",
+    }));
+
+  const oneDayAgo = new Date(Date.now() - 86_400_000);
+  const last24h = logs.filter((l) => l.createdAt >= oneDayAgo).length;
+  const uniqueActors = new Set(logs.map((l) => l.actorId).filter(Boolean)).size;
 
   return (
     <main className="single-page">
-      <div className="page-frame">
+      <div className="background-layers" aria-hidden="true">
+        <span className="bg-band bg-band-one" />
+        <span className="bg-band bg-band-two" />
+      </div>
+      <div className="page-frame audit-frame">
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Admin</p>
@@ -36,53 +125,93 @@ export default async function AdminAuditPage() {
           </Link>
         </header>
 
-        <section className="panel table-panel">
-          <div className="panel-header">
+        <section className="audit-stat-grid">
+          <article className="audit-stat-card">
+            <small>Total events</small>
+            <strong>{totalCount.toLocaleString()}</strong>
+          </article>
+          <article className="audit-stat-card">
+            <small>Last 24h</small>
+            <strong>{last24h}</strong>
+          </article>
+          <article className="audit-stat-card">
+            <small>Recent actors</small>
+            <strong>{uniqueActors}</strong>
+          </article>
+          <article className="audit-stat-card">
+            <small>Distinct actions</small>
+            <strong>{actionAggregate.length}</strong>
+          </article>
+        </section>
+
+        <section className="audit-card">
+          <div className="audit-card-header">
             <div>
-              <p className="eyebrow">Latest events</p>
-              <h2>{logs.length} recorded actions</h2>
+              <h2 className="audit-card-title">Recent activity</h2>
+              <p className="audit-card-subtitle">
+                Showing {logs.length} of {totalCount.toLocaleString()} events
+              </p>
             </div>
+            <Search size={16} className="audit-card-icon" />
           </div>
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Time</th>
-                  <th>Actor</th>
-                  <th>Action</th>
-                  <th>Target</th>
-                  <th>Metadata</th>
-                </tr>
-              </thead>
-              <tbody>
-                {logs.length === 0 ? (
-                  <tr>
-                    <td colSpan={5}>No audit events recorded yet.</td>
-                  </tr>
-                ) : (
-                  logs.map((log) => (
-                    <tr key={log.id}>
-                      <td>{log.createdAt.toLocaleString()}</td>
-                      <td>
-                        {log.actor?.displayName || log.actor?.name || log.actor?.email || "System"}
-                      </td>
-                      <td>
-                        <code className="slug-code">{log.action}</code>
-                      </td>
-                      <td>
-                        {log.targetType ?? "—"}
-                        {log.targetId ? `:${log.targetId.slice(0, 8)}` : ""}
-                      </td>
-                      <td>
-                        <code className="slug-code">
-                          {log.metadata ? JSON.stringify(log.metadata).slice(0, 120) : "—"}
-                        </code>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+
+          <AuditFilters
+            q={q}
+            actionFilter={actionFilter}
+            actorFilter={actorFilter}
+            actionOptions={actionOptions}
+            actorOptions={actorOptions}
+          />
+
+          <div className="audit-list">
+            {logs.length === 0 ? (
+              <p className="audit-empty">No audit events match the filters.</p>
+            ) : (
+              logs.map((log) => {
+                const actor =
+                  log.actor?.displayName || log.actor?.name || log.actor?.email || "System";
+                const initials = actor
+                  .split(/\s+/)
+                  .slice(0, 2)
+                  .map((s) => s[0]?.toUpperCase())
+                  .join("");
+                const meta = log.metadata
+                  ? JSON.stringify(log.metadata)
+                  : null;
+                return (
+                  <article className="audit-row" key={log.id}>
+                    <div className="audit-actor">
+                      <span className="audit-avatar">{initials || "S"}</span>
+                      <div>
+                        <strong>{actor}</strong>
+                        <small>{timeAgo(log.createdAt)}</small>
+                      </div>
+                    </div>
+                    <div className="audit-action-cell">
+                      <span className={`audit-badge tone-${actionTone(log.action)}`}>
+                        {log.action}
+                      </span>
+                      {log.targetType ? (
+                        <span className="audit-target">
+                          {log.targetType}
+                          {log.targetId ? `:${log.targetId.slice(0, 8)}` : ""}
+                        </span>
+                      ) : null}
+                    </div>
+                    <div className="audit-meta">
+                      {meta ? (
+                        <code title={meta}>{meta.length > 80 ? `${meta.slice(0, 80)}…` : meta}</code>
+                      ) : (
+                        <span className="audit-meta-empty">no metadata</span>
+                      )}
+                    </div>
+                    <time className="audit-time" dateTime={log.createdAt.toISOString()}>
+                      {log.createdAt.toLocaleString()}
+                    </time>
+                  </article>
+                );
+              })
+            )}
           </div>
         </section>
       </div>

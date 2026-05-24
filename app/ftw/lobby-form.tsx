@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Play, Swords, Users } from "lucide-react";
+import { Loader2, Play, Swords, Users, Search } from "lucide-react";
 
 type TagOption = { tag: string; count: number };
 
@@ -12,6 +12,11 @@ export function FtwLobbyForm({ tagOptions }: { tagOptions: TagOption[] }) {
   const [busy, setBusy] = useState<"" | "solo" | "host" | "join">("");
   const [error, setError] = useState<string | null>(null);
   const [joinCode, setJoinCode] = useState("");
+  const [tagQuery, setTagQuery] = useState("");
+
+  const filteredTags = tagOptions.filter((opt) =>
+    opt.tag.toLowerCase().includes(tagQuery.trim().toLowerCase()),
+  );
 
   async function startSolo() {
     setBusy("solo");
@@ -80,54 +85,105 @@ export function FtwLobbyForm({ tagOptions }: { tagOptions: TagOption[] }) {
 
   return (
     <div className="ftw-lobby">
-      <div className="ftw-tag-row">
-        <button
-          type="button"
-          className={`ftw-tag${tag === null ? " is-active" : ""}`}
-          onClick={() => setTag(null)}
-        >
-          any topic
-        </button>
-        {tagOptions.map((opt) => (
+      <div className="ftw-lobby-section">
+        <div className="ftw-lobby-section-head">
+          <div>
+            <span className="ftw-lobby-step">1</span>
+            <strong>Pick a topic</strong>
+          </div>
+          <span className="ftw-selected-tag">{tag ?? "Any topic"}</span>
+        </div>
+        <div className="ftw-tag-search">
+          <Search size={14} />
+          <input
+            value={tagQuery}
+            onChange={(e) => setTagQuery(e.target.value)}
+            placeholder="Search topics…"
+          />
+        </div>
+        <div className="ftw-tag-row">
           <button
             type="button"
-            key={opt.tag}
-            className={`ftw-tag${tag === opt.tag ? " is-active" : ""}`}
-            onClick={() => setTag(opt.tag)}
+            className={`ftw-tag${tag === null ? " is-active" : ""}`}
+            onClick={() => setTag(null)}
           >
-            {opt.tag}
-            <span>{opt.count}</span>
+            any topic
           </button>
-        ))}
+          {filteredTags.map((opt) => (
+            <button
+              type="button"
+              key={opt.tag}
+              className={`ftw-tag${tag === opt.tag ? " is-active" : ""}`}
+              onClick={() => setTag(opt.tag)}
+            >
+              {opt.tag}
+              <span>{opt.count}</span>
+            </button>
+          ))}
+          {filteredTags.length === 0 ? (
+            <span className="ftw-tag-empty">No topics match &ldquo;{tagQuery}&rdquo;</span>
+          ) : null}
+        </div>
       </div>
 
-      {error ? <p className="ftw-error">{error}</p> : null}
-
-      <div className="ftw-mode-row">
-        <button type="button" className="primary-action" onClick={startSolo} disabled={busy !== ""}>
-          {busy === "solo" ? <Loader2 size={18} className="spin-icon" /> : <Play size={18} />}
-          Solo run
-        </button>
-        <button type="button" className="secondary-action" onClick={hostRoom} disabled={busy !== ""}>
-          {busy === "host" ? <Loader2 size={18} className="spin-icon" /> : <Swords size={18} />}
-          Host room
-        </button>
+      <div className="ftw-lobby-section">
+        <div className="ftw-lobby-section-head">
+          <div>
+            <span className="ftw-lobby-step">2</span>
+            <strong>Choose a mode</strong>
+          </div>
+        </div>
+        {error ? <p className="ftw-error">{error}</p> : null}
+        <div className="ftw-mode-grid">
+          <button
+            type="button"
+            className="ftw-mode-card primary"
+            onClick={startSolo}
+            disabled={busy !== ""}
+          >
+            <span className="ftw-mode-icon">
+              {busy === "solo" ? <Loader2 size={20} className="spin-icon" /> : <Play size={20} />}
+            </span>
+            <strong>Solo run</strong>
+            <small>Race the clock alone</small>
+          </button>
+          <button
+            type="button"
+            className="ftw-mode-card"
+            onClick={hostRoom}
+            disabled={busy !== ""}
+          >
+            <span className="ftw-mode-icon">
+              {busy === "host" ? <Loader2 size={20} className="spin-icon" /> : <Swords size={20} />}
+            </span>
+            <strong>Host room</strong>
+            <small>Invite friends with a code</small>
+          </button>
+          <form className="ftw-mode-card join" onSubmit={joinRoom}>
+            <span className="ftw-mode-icon">
+              {busy === "join" ? <Loader2 size={20} className="spin-icon" /> : <Users size={20} />}
+            </span>
+            <strong>Join a room</strong>
+            <div className="ftw-join-input-row">
+              <input
+                className="ftw-code-input"
+                placeholder="CODE"
+                value={joinCode}
+                onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                maxLength={5}
+                disabled={busy !== ""}
+              />
+              <button
+                type="submit"
+                className="ftw-join-go"
+                disabled={busy !== "" || !joinCode.trim()}
+              >
+                Go
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <form className="ftw-join-row" onSubmit={joinRoom}>
-        <Users size={16} />
-        <input
-          className="form-input ftw-code-input"
-          placeholder="enter code"
-          value={joinCode}
-          onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-          maxLength={5}
-          disabled={busy !== ""}
-        />
-        <button type="submit" className="secondary-action" disabled={busy !== "" || !joinCode.trim()}>
-          {busy === "join" ? <Loader2 size={18} className="spin-icon" /> : "Join"}
-        </button>
-      </form>
     </div>
   );
 }

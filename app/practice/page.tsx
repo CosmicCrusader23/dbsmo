@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
   Crosshair,
+  Infinity as InfinityIcon,
   Loader2,
   SkipForward,
   Target,
   Trophy,
   XCircle,
+  Search,
 } from "lucide-react";
 import { LatexStatement } from "../problem-sets/[slug]/latex-statement";
 
@@ -29,6 +31,7 @@ export default function PracticePage() {
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [loadingTags, setLoadingTags] = useState(true);
+  const [tagQuery, setTagQuery] = useState("");
 
   const [problem, setProblem] = useState<Problem | null>(null);
   const [loadingProblem, setLoadingProblem] = useState(false);
@@ -39,6 +42,8 @@ export default function PracticePage() {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const [practiceScore, setPracticeScore] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [solvedThisSession, setSolvedThisSession] = useState(0);
 
   async function refreshPracticeTags() {
     setLoadingTags(true);
@@ -102,11 +107,14 @@ export default function PracticePage() {
 
   function handleTagSelect(tag: string) {
     setSelectedTag(tag);
+    setStreak(0);
+    setSolvedThisSession(0);
     loadNextProblem(tag);
   }
 
   function skipProblem() {
     if (!selectedTag || loadingProblem || isSubmitting) return;
+    setStreak(0);
     loadNextProblem(selectedTag);
   }
 
@@ -126,6 +134,8 @@ export default function PracticePage() {
 
       if (data.isCorrect) {
         setIsCorrect(true);
+        setStreak((s) => s + 1);
+        setSolvedThisSession((s) => s + 1);
         if (typeof data.practiceScore === "number") {
           setPracticeScore(data.practiceScore);
         } else if (data.counted) {
@@ -134,6 +144,7 @@ export default function PracticePage() {
         void refreshPracticeTags();
       } else {
         setIsCorrect(false);
+        setStreak(0);
       }
     } catch {
       alert("Submission failed.");
@@ -141,6 +152,12 @@ export default function PracticePage() {
       setIsSubmitting(false);
     }
   }
+
+  const filteredTags = useMemo(() => {
+    const q = tagQuery.trim().toLowerCase();
+    if (!q) return tags;
+    return tags.filter((t) => t.toLowerCase().includes(q));
+  }, [tagQuery, tags]);
 
   return (
     <main className="single-page">
@@ -150,19 +167,23 @@ export default function PracticePage() {
         <span className="bg-spark bg-spark-one" />
       </div>
 
-      <div className="page-frame">
+      <div className="page-frame practice-frame">
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Training</p>
-            <h1>Practice Mode</h1>
+            <h1>
+              <Target size={22} />
+              Practice
+            </h1>
           </div>
           <div className="topbar-actions">
-            {practiceScore > 0 && (
+            {practiceScore > 0 ? (
               <div className="practice-score-chip">
-                <Trophy size={18} />
-                Practice Score: {practiceScore}
+                <Trophy size={16} />
+                <span>Practice score</span>
+                <strong>{practiceScore}</strong>
               </div>
-            )}
+            ) : null}
             <Link className="secondary-action" href="/dashboard">
               <ArrowLeft size={18} />
               Dashboard
@@ -171,37 +192,56 @@ export default function PracticePage() {
         </header>
 
         {!selectedTag ? (
-          <section className="panel practice-picker">
-            <Target size={48} className="practice-picker-icon" />
-            <h2>Select a Category</h2>
-            <p>Focus your training on specific topics (10+ questions) or try the Endless mode.</p>
+          <section className="practice-picker-card">
+            <div className="practice-picker-head">
+              <div>
+                <p className="eyebrow">Pick a category</p>
+                <h2>Choose your focus</h2>
+                <p className="practice-picker-sub">
+                  Drill a specific topic, or run Endless mode to mix everything.
+                </p>
+              </div>
+              <Target size={28} className="practice-picker-glyph" />
+            </div>
+
+            <div className="practice-tag-search">
+              <Search size={14} />
+              <input
+                value={tagQuery}
+                onChange={(e) => setTagQuery(e.target.value)}
+                placeholder="Search categories…"
+                aria-label="Search categories"
+              />
+            </div>
 
             {loadingTags ? (
               <div className="practice-loading">
-                <Loader2 className="spin-icon" size={32} />
+                <Loader2 className="spin-icon" size={28} />
+                <span>Loading categories…</span>
               </div>
             ) : tags.length === 0 ? (
-              <p>No categories available with enough questions.</p>
+              <p className="practice-empty">No categories with enough questions yet.</p>
+            ) : filteredTags.length === 0 ? (
+              <p className="practice-empty">
+                No categories match &ldquo;{tagQuery}&rdquo;.
+              </p>
             ) : (
               <div className="practice-tag-grid">
-                {tags.map((tag) => {
+                {filteredTags.map((tag) => {
                   const isEndless = tag.toLowerCase() === "endless";
-                  return isEndless ? (
+                  return (
                     <button
                       key={tag}
                       onClick={() => handleTagSelect(tag)}
-                      className="hologram-btn"
+                      className={`practice-tag-card${isEndless ? " endless" : ""}`}
                     >
-                      <div className="hologram-scan-line" />
-                      <span data-text={tag}>{tag}</span>
-                    </button>
-                  ) : (
-                    <button
-                      key={tag}
-                      onClick={() => handleTagSelect(tag)}
-                      className="practice-tag-btn"
-                    >
-                      {tag}
+                      <span className="practice-tag-card-icon">
+                        {isEndless ? <InfinityIcon size={18} /> : <Target size={16} />}
+                      </span>
+                      <span className="practice-tag-card-name">{tag}</span>
+                      <span className="practice-tag-card-go" aria-hidden>
+                        <ArrowRight size={14} />
+                      </span>
                     </button>
                   );
                 })}
@@ -209,8 +249,8 @@ export default function PracticePage() {
             )}
           </section>
         ) : (
-          <div>
-            <div className="practice-back-row">
+          <div className="practice-arena-wrap">
+            <div className="practice-arena-bar">
               <button
                 onClick={() => {
                   setSelectedTag(null);
@@ -218,107 +258,122 @@ export default function PracticePage() {
                 }}
                 className="secondary-action compact"
               >
-                ← Back to categories
+                <ArrowLeft size={16} />
+                Categories
               </button>
+              <div className="practice-arena-stats">
+                <span><small>Solved</small><strong>{solvedThisSession}</strong></span>
+                <span><small>Streak</small><strong>{streak}</strong></span>
+                <span><small>Total</small><strong>{practiceScore}</strong></span>
+              </div>
             </div>
 
-            <section className="panel practice-arena">
+            <section className="practice-arena-card">
               <div className="practice-arena-head">
                 <div>
                   <p className="eyebrow">Category</p>
                   <h2>{selectedTag}</h2>
                 </div>
-                {problem && (
-                  <div className="practice-source">
-                    <p className="eyebrow">Source</p>
-                    <p>{problem.problemSet.title}</p>
+                {problem ? (
+                  <div className="practice-source-pill">
+                    <small>Source</small>
+                    <span>{problem.problemSet.title}</span>
                   </div>
-                )}
+                ) : null}
               </div>
 
               {loadingProblem ? (
                 <div className="practice-loading practice-loading-lg">
-                  <Loader2 className="spin-icon" size={40} />
+                  <Loader2 className="spin-icon" size={36} />
+                  <span>Pulling next problem…</span>
                 </div>
               ) : problemMessage ? (
-                <div className="empty-state">
-                  <CheckCircle2 size={48} color="var(--color-success)" />
-                  <strong>You&apos;ve completed this category!</strong>
+                <div className="practice-finished">
+                  <CheckCircle2 size={44} />
+                  <strong>You&apos;ve cleared this category!</strong>
                   <p>{problemMessage}</p>
                   <button
                     onClick={() => {
                       setSelectedTag(null);
                       void refreshPracticeTags();
                     }}
-                    className="primary-action practice-pick-another"
+                    className="primary-action"
                   >
                     Choose another category
                   </button>
                 </div>
               ) : problem ? (
-                <div>
+                <>
                   <div className="practice-statement">
-                    <LatexStatement statement={problem.statement} format={problem.contentFormat} />
+                    <LatexStatement
+                      statement={problem.statement}
+                      format={problem.contentFormat}
+                    />
                   </div>
 
                   <form onSubmit={submitAnswer} className="practice-answer-form">
                     <input
                       type="text"
-                      className="form-input practice-answer-input"
-                      placeholder="Enter your answer..."
+                      className="practice-answer-input"
+                      placeholder="Enter your answer…"
                       value={answer}
                       onChange={(e) => setAnswer(e.target.value)}
                       disabled={isSubmitting || isCorrect === true}
                       autoFocus
                     />
-                    {isCorrect !== true ? (
-                      <>
-                        <button
-                          type="submit"
-                          className="primary-action"
-                          disabled={!answer.trim() || isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <Loader2 size={18} className="spin-icon" />
-                          ) : (
-                            <Crosshair size={18} />
-                          )}
-                          Submit
-                        </button>
+                    <div className="practice-answer-actions">
+                      {isCorrect !== true ? (
+                        <>
+                          <button
+                            type="submit"
+                            className="primary-action"
+                            disabled={!answer.trim() || isSubmitting}
+                          >
+                            {isSubmitting ? (
+                              <Loader2 size={16} className="spin-icon" />
+                            ) : (
+                              <Crosshair size={16} />
+                            )}
+                            Submit
+                          </button>
+                          <button
+                            type="button"
+                            className="secondary-action"
+                            onClick={skipProblem}
+                            disabled={loadingProblem || isSubmitting}
+                          >
+                            <SkipForward size={16} />
+                            Skip
+                          </button>
+                        </>
+                      ) : (
                         <button
                           type="button"
-                          className="secondary-action"
-                          onClick={skipProblem}
-                          disabled={loadingProblem || isSubmitting}
+                          className="primary-action"
+                          onClick={() => loadNextProblem(selectedTag)}
                         >
-                          <SkipForward size={18} />
-                          Skip
+                          Next problem
+                          <ArrowRight size={16} />
                         </button>
-                      </>
-                    ) : (
-                      <button
-                        type="button"
-                        className="primary-action practice-next"
-                        onClick={() => loadNextProblem(selectedTag)}
-                      >
-                        Next Question <ArrowRight size={18} />
-                      </button>
-                    )}
+                      )}
+                    </div>
                   </form>
 
-                  {isCorrect === true && (
+                  {isCorrect === true ? (
                     <div className="practice-feedback feedback-correct">
-                      <CheckCircle2 size={24} />
-                      Correct! Great job.
+                      <CheckCircle2 size={20} />
+                      <strong>Correct.</strong>
+                      <span>Streak {streak}.</span>
                     </div>
-                  )}
-                  {isCorrect === false && (
+                  ) : null}
+                  {isCorrect === false ? (
                     <div className="practice-feedback feedback-wrong">
-                      <XCircle size={24} />
-                      Incorrect. Try again!
+                      <XCircle size={20} />
+                      <strong>Not quite.</strong>
+                      <span>Try again or skip.</span>
                     </div>
-                  )}
-                </div>
+                  ) : null}
+                </>
               ) : null}
             </section>
           </div>

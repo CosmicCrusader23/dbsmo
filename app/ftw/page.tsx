@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import { ArrowLeft, Crown, Flame, Swords, Trophy } from "lucide-react";
+import { ArrowLeft, Crown, Flame, Swords, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
@@ -9,6 +9,20 @@ import { FTW_PROBLEMS_PER_MATCH, FTW_PROBLEM_LIMIT_SEC } from "@/lib/ftw";
 import { FtwLobbyForm } from "./lobby-form";
 
 export const dynamic = "force-dynamic";
+
+function timeAgo(d: Date | null) {
+  if (!d) return "—";
+  const ms = Date.now() - d.getTime();
+  const s = Math.floor(ms / 1000);
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const days = Math.floor(h / 24);
+  if (days < 7) return `${days}d ago`;
+  return d.toLocaleDateString();
+}
 
 export default async function FtwHomePage() {
   const session = await getServerSession(authOptions);
@@ -91,7 +105,6 @@ export default async function FtwHomePage() {
 
   type LeaderEntry = {
     key: string;
-    rankKey: number;
     name: string;
     tag: string | null;
     score: number;
@@ -103,7 +116,6 @@ export default async function FtwHomePage() {
   const FTW_MAX_PER_PROBLEM = 6;
   const soloEntries: LeaderEntry[] = soloLeaders.map((m) => ({
     key: `solo-${m.id}`,
-    rankKey: m.totalScore,
     name: m.user.leaderboardVisible
       ? m.user.displayName || m.user.name || "Anonymous"
       : "Anonymous",
@@ -115,7 +127,6 @@ export default async function FtwHomePage() {
   }));
   const roomEntries: LeaderEntry[] = roomLeaders.map((p) => ({
     key: `room-${p.id}`,
-    rankKey: p.score,
     name: p.user.leaderboardVisible
       ? p.user.displayName || p.user.name || "Anonymous"
       : "Anonymous",
@@ -167,9 +178,17 @@ export default async function FtwHomePage() {
       ? recent.reduce((acc, m) => (m.score > acc.score ? m : acc), recent[0])
       : null;
 
+  const matchesPlayed = recent.length;
+  const wins = recent.filter((m) => m.maxScore > 0 && m.score / m.maxScore >= 0.8).length;
+
   return (
-    <main className="ftw-shell">
-      <div className="ftw-page">
+    <main className="single-page">
+      <div className="background-layers" aria-hidden="true">
+        <span className="bg-band bg-band-one" />
+        <span className="bg-band bg-band-two" />
+        <span className="bg-spark bg-spark-two" />
+      </div>
+      <div className="page-frame ftw-frame">
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Speed round</p>
@@ -177,56 +196,61 @@ export default async function FtwHomePage() {
           </div>
           <Link className="secondary-action" href="/dashboard">
             <ArrowLeft size={18} />
-            Back to dashboard
+            Dashboard
           </Link>
         </header>
 
-        <section className="ftw-intro">
-          <div>
+        <section className="ftw-hero">
+          <div className="ftw-hero-copy">
             <h2>Race the clock.</h2>
             <p>
-              {FTW_PROBLEMS_PER_MATCH} problems. {FTW_PROBLEM_LIMIT_SEC}s each. Faster correct
+              {FTW_PROBLEMS_PER_MATCH} problems · {FTW_PROBLEM_LIMIT_SEC}s each. Faster correct
               answers earn more points. Loosely modelled on AoPS For The Win.
             </p>
-            <ul className="ftw-rules">
-              <li>
-                <strong>6 pts</strong> if you answer in the first 7s
-              </li>
-              <li>
-                <strong>1 pt</strong> minimum for a correct answer
-              </li>
-              <li>Wrong or timed out = 0</li>
-            </ul>
+            <div className="ftw-hero-rules">
+              <span><strong>6 pts</strong> · first 7s</span>
+              <span><strong>1 pt</strong> · minimum correct</span>
+              <span><strong>0 pts</strong> · wrong or timeout</span>
+            </div>
           </div>
-          <div className="ftw-hero-stat">
-            <Flame size={28} />
-            <div>
-              <small>Problem pool</small>
+          <div className="ftw-hero-stats">
+            <div className="ftw-hero-stat">
+              <Flame size={18} />
+              <small>Pool</small>
               <strong>{totalCount}</strong>
-              <span>published problems</span>
+            </div>
+            <div className="ftw-hero-stat">
+              <Trophy size={18} />
+              <small>Personal best</small>
+              <strong>{personalBest ? `${personalBest.score}/${personalBest.maxScore}` : "—"}</strong>
+            </div>
+            <div className="ftw-hero-stat">
+              <Swords size={18} />
+              <small>Recent runs</small>
+              <strong>{matchesPlayed}{wins > 0 ? <span className="ftw-hero-stat-sub"> · {wins} wins</span> : null}</strong>
             </div>
           </div>
         </section>
 
-        <section className="panel ftw-start-panel">
-          <div className="panel-header">
+        <section className="ftw-lobby-card">
+          <div className="ftw-lobby-card-head">
             <div>
               <p className="eyebrow">New match</p>
-              <h2>pick a topic</h2>
+              <h2>Set up a run</h2>
             </div>
-            <Swords size={22} />
+            <Swords size={20} />
           </div>
           <FtwLobbyForm tagOptions={tagOptions} />
         </section>
 
         <div className="ftw-grid">
-          <section className="panel">
-            <div className="panel-header">
+          <section className="ftw-card">
+            <div className="ftw-card-head">
               <div>
                 <p className="eyebrow">Top scores</p>
-                <h2>leaderboard</h2>
+                <h2>Leaderboard</h2>
               </div>
-              <Trophy size={20} />
+              <Trophy size={18} />
             </div>
             <div className="ftw-leaderboard">
               {leaderboard.length === 0 ? (
@@ -237,11 +261,13 @@ export default async function FtwHomePage() {
                     <span className={`ftw-rank rank-${i + 1}`}>
                       {i === 0 ? <Crown size={14} /> : i + 1}
                     </span>
-                    <span className="ftw-leader-name">
-                      {m.name}
-                      <small className="ftw-mode-tag">{m.mode === "room" ? "room" : "solo"}</small>
-                    </span>
-                    <span className="ftw-leader-tag">{m.tag ?? "any"}</span>
+                    <div className="ftw-leader-main">
+                      <strong>{m.name}</strong>
+                      <small>
+                        <span className={`ftw-mode-pill mode-${m.mode}`}>{m.mode}</span>
+                        <span className="ftw-leader-tag">{m.tag ?? "any"}</span>
+                      </small>
+                    </div>
                     <span className="ftw-leader-score">
                       {m.score}
                       <small>/{m.maxScore}</small>
@@ -252,41 +278,40 @@ export default async function FtwHomePage() {
             </div>
           </section>
 
-          <section className="panel">
-            <div className="panel-header">
+          <section className="ftw-card">
+            <div className="ftw-card-head">
               <div>
                 <p className="eyebrow">Your runs</p>
-                <h2>recent matches</h2>
+                <h2>Recent matches</h2>
               </div>
-              {personalBest ? (
-                <small className="ftw-pb">
-                  PB {personalBest.score}/{personalBest.maxScore}
-                </small>
-              ) : null}
+              <Users size={18} />
             </div>
             <div className="ftw-history">
               {recent.length === 0 ? (
                 <p className="ftw-empty">No completed matches yet.</p>
               ) : (
-                recent.map((m) => (
-                  <div className="ftw-history-row" key={m.key}>
-                    <div>
-                      <strong>
-                        {m.tag ?? "any"}
-                        <small className="ftw-mode-tag">
-                          {m.mode === "room" ? "room" : "solo"}
+                recent.map((m) => {
+                  const pct = m.maxScore > 0 ? Math.round((m.score / m.maxScore) * 100) : 0;
+                  const tier = pct >= 80 ? "success" : pct >= 50 ? "warning" : "danger";
+                  return (
+                    <div className="ftw-history-row" key={m.key}>
+                      <div className="ftw-history-main">
+                        <strong>{m.tag ?? "any"}</strong>
+                        <small>
+                          <span className={`ftw-mode-pill mode-${m.mode}`}>{m.mode}</span>
+                          <span>{timeAgo(m.completedAt)}</span>
                         </small>
-                      </strong>
-                      <small>
-                        {m.completedAt ? m.completedAt.toLocaleDateString() : "—"}
-                      </small>
+                      </div>
+                      <div className="ftw-history-meter">
+                        <span className={`ftw-history-fill tier-${tier}`} style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="ftw-history-score">
+                        {m.score}
+                        <small>/{m.maxScore}</small>
+                      </span>
                     </div>
-                    <span className="ftw-history-score">
-                      {m.score}
-                      <small>/{m.maxScore}</small>
-                    </span>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </section>
