@@ -1,5 +1,15 @@
 // Bosses live here. Add new fights by appending to BOSSES.
-// Edit dialogue, integrals, phase tuning right in this file — no other code changes needed.
+// Drop boss artwork in this same folder (lib/playground/) and import it below —
+// Next.js will serve it via the static import. No public/ copy needed.
+
+import type { StaticImageData } from "next/image";
+import culverIcon from "./culvericon.jpg";
+import culverPhase1 from "./culverphase1.jpg";
+import culverPhase2 from "./culverphase2.jpg";
+import marcoIcon from "./marcoicon.jpg";
+import marcoPhase1 from "./marcophase1.jpg";
+
+const src = (img: StaticImageData) => img.src;
 
 export type BulletPattern = "spiral" | "wave" | "sweep" | "rain" | "blaster" | "bones";
 
@@ -70,16 +80,16 @@ const CULVER: Boss = {
   description:
     "He grades on a strict gay curve. Survive his pen, then prove your integrals. " +
     "You will fail the first three times. Probably the next three too.",
-  icon: "/playground/culvericon.jpg",
-  portrait: "/playground/culverphase1.jpg",
+  icon: src(culverIcon),
+  portrait: src(culverPhase1),
   totalTimeSec: 120,
   maxHp: 3,
   difficulty: "sans-tier",
   intro: [
     "* Mr. Culver looks up from his marking pile.",
-    "* \"Ah. Another candidate for the olympiad squad.\"",
+    "* \"Ah. Another candidate for my olympiad squad.\"",
     "* \"Show me you can move a pen.\"",
-    "* \"Then show me you can move a symbol.\"",
+    "* \"Then show me you can move an island.\"",
   ],
   victory: [
     "* Mr. Culver caps his red pen.",
@@ -95,7 +105,7 @@ const CULVER: Boss = {
   ],
   phases: [
     {
-      image: "/playground/culverphase1.jpg",
+      image: src(culverPhase1),
       dodgeSeconds: 12,
       taunts: [
         "* Don't tell me you forgot the chain rule.",
@@ -149,7 +159,7 @@ const CULVER: Boss = {
       ],
     },
     {
-      image: "/playground/culverphase1.jpg",
+      image: src(culverPhase1),
       dodgeSeconds: 14,
       taunts: [
         "* Pay attention. The hardest part is still ahead.",
@@ -203,7 +213,7 @@ const CULVER: Boss = {
       ],
     },
     {
-      image: "/playground/culverphase2.jpg",
+      image: src(culverPhase2),
       dodgeSeconds: 16,
       taunts: [
         "* I am not warmed up yet.",
@@ -257,7 +267,7 @@ const CULVER: Boss = {
       ],
     },
     {
-      image: "/playground/culverphase2.jpg",
+      image: src(culverPhase2),
       dodgeSeconds: 14,
       taunts: [
         "* Symbol manipulation is just typing with extra steps.",
@@ -317,7 +327,7 @@ const CULVER: Boss = {
       ],
     },
     {
-      image: "/playground/culverphase2.jpg",
+      image: src(culverPhase2),
       dodgeSeconds: 18,
       taunts: [
         "* Final question.",
@@ -388,7 +398,98 @@ const CULVER: Boss = {
   trophyFlavor: "Survived Mr. Culver. Come to the staff room after school.",
 };
 
-export const BOSSES: Boss[] = [CULVER];
+const MARCO: Boss = {
+  slug: "marco",
+  name: "Marcoroni",
+  eyebrow: "OI Captain · Grade 10 IB",
+  description:
+    "Current OI captain. Will respond to your DM in 4–6 business weeks. " +
+    "Beat him at his own pace before he leaves you on read.",
+  icon: src(marcoIcon),
+  portrait: src(marcoPhase1),
+  totalTimeSec: 75,
+  maxHp: 4,
+  difficulty: "warmup",
+  intro: [
+    "* You see Marco hunched over his laptop.",
+    "* He has 14 unread messages from you.",
+    "* \"oh hey. sorry just saw this.\"",
+    "* \"warmup round. come at me.\"",
+  ],
+  victory: [
+    "* Marco closes his laptop.",
+    "* \"clean. ill add you to the squad gc.\"",
+    "* (He won't.)",
+    "* TROPHY ACQUIRED — Marcoroni.",
+  ],
+  defeat: [
+    "* Marco is typing...",
+    "* Marco is typing...",
+    "* Marco has stopped typing.",
+    "* GAME OVER. Press space to retry.",
+  ],
+  phases: [
+    {
+      image: src(marcoPhase1),
+      dodgeSeconds: 14,
+      taunts: [
+        "* read 11:42pm. dodged.",
+        "* my notifs are stacked rn.",
+        "* its giving... competitive programming.",
+        "* one sec, pulling up a problem.",
+      ],
+      pattern: "rain",
+      density: 4.0,
+      speed: 210,
+      challenge: [
+        "* Marco screen-shares a problem.",
+        "* \"easy one. closed form. go.\"",
+      ],
+      integrals: [
+        {
+          prompt: "\\int_{0}^{2} x\\, dx",
+          answers: ["2", "2.0"],
+          hint: "Power rule. x²/2 evaluated at 2.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_{0}^{1} x^{2}\\, dx",
+          answers: ["1/3", "0.3333333333333333", "0.3333"],
+          hint: "Power rule.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_{0}^{\\pi} \\sin x\\, dx",
+          answers: ["2", "2.0"],
+          hint: "−cos π + cos 0.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_{0}^{1} e^{x}\\, dx",
+          answers: ["e - 1", "e-1", "1.718281828459045", "1.7183"],
+          hint: "Antiderivative is eˣ.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_{1}^{2} \\frac{1}{x}\\, dx",
+          answers: ["ln(2)", "ln2", "0.6931471805599453", "0.6931"],
+          hint: "ln of a ratio.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\int_{0}^{\\pi/2} \\cos x\\, dx",
+          answers: ["1", "1.0"],
+          hint: "sin(π/2) − sin 0.",
+          solveSeconds: 25,
+        },
+      ],
+    },
+  ],
+  trophyTitle: "Read Receipt · Marcoroni",
+  trophyFlavor: "Got a reply out of the OI captain. Don't expect a second one.",
+};
+
+export const BOSSES: Boss[] = [CULVER, MARCO];
 
 export function getBoss(slug: string): Boss | null {
   return BOSSES.find((b) => b.slug === slug) ?? null;
