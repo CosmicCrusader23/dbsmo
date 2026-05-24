@@ -477,17 +477,22 @@ export function BossBattle({ boss }: { boss: Boss }) {
 
   const [solveRemaining, setSolveRemaining] = useState(0);
 
-  // Solving timer
+  // Solving timer — only re-arm when a NEW solve begins, not on every keystroke.
+  const solvingActive = state.kind === "solving";
+  const solvingTStart = state.kind === "solving" ? state.tStart : 0;
+  const solvingPhaseIdx = state.kind === "solving" ? state.phase : -1;
+  const solvingIntegralIdx = state.kind === "solving" ? state.integralIndex : -1;
+
   useEffect(() => {
-    if (state.kind !== "solving") return;
-    const phase = boss.phases[state.phase];
-    const integral = phase.integrals[state.integralIndex];
+    if (!solvingActive) return;
+    const phaseObj = boss.phases[solvingPhaseIdx];
+    const integral = phaseObj.integrals[solvingIntegralIdx];
     const limit = integral.solveSeconds * 1000;
     inputRef.current?.focus();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSolveRemaining(limit);
     const id = window.setInterval(() => {
-      const elapsed = performance.now() - state.tStart;
+      const elapsed = performance.now() - solvingTStart;
       const remaining = Math.max(0, limit - elapsed);
       setSolveRemaining(remaining);
       const cur = stateRef.current;
@@ -499,7 +504,7 @@ export function BossBattle({ boss }: { boss: Boss }) {
       }
     }, 100);
     return () => clearInterval(id);
-  }, [state, boss]);
+  }, [solvingActive, solvingTStart, solvingPhaseIdx, solvingIntegralIdx, boss]);
 
   const integralLatex = useMemo(() => {
     if (state.kind !== "solving") return "";
