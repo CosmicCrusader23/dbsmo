@@ -4846,6 +4846,224 @@ html.dark .theme-choice-button.active {
   font-weight: 750;
 }
 
+.analytics-frame {
+  display: grid;
+  gap: 18px;
+}
+
+.analytics-metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1080px) {
+  .analytics-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.analytics-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .analytics-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.analytics-chart-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 20px;
+}
+
+.analytics-empty {
+  margin: 0;
+  padding: 24px 20px 8px;
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
+.chart-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.legend-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-key::before {
+  content: "";
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.legend-attempts {
+  color: var(--color-pink);
+}
+
+.legend-completions {
+  color: var(--color-cyan);
+}
+
+.legend-completions::before {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-cyan) 0 6px,
+    transparent 6px 11px
+  );
+}
+
+.chart-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.chart-wrap svg {
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+}
+
+.chart-summary {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.chart-summary-cell {
+  display: grid;
+  gap: 2px;
+  padding: 10px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-card-bg);
+  text-align: center;
+}
+
+.chart-summary-cell strong {
+  color: var(--color-text-strong);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.chart-summary-cell small {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.chart-summary-week {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .chart-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.daily-bars {
+  display: grid;
+  grid-template-columns: repeat(30, minmax(0, 1fr));
+  align-items: end;
+  gap: 3px;
+  height: 160px;
+  padding: 16px 20px 20px;
+}
+
+.daily-bar {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.daily-bar span {
+  display: block;
+  width: 100%;
+  min-height: 4px;
+  border-radius: 4px 4px 1px 1px;
+  background: linear-gradient(180deg, var(--color-pink), var(--color-purple));
+  transition: opacity 180ms ease;
+}
+
+.score-dist {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 16px 20px 4px;
+  list-style: none;
+}
+
+.score-dist li {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 12px;
+}
+
+.score-dist-label {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.score-dist-track {
+  position: relative;
+  display: block;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--meter-track);
+  overflow: hidden;
+}
+
+.score-dist-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.score-dist-fill.tier-success {
+  background: var(--color-cyan);
+}
+
+.score-dist-fill.tier-warning {
+  background: var(--color-orange);
+}
+
+.score-dist-fill.tier-danger {
+  background: var(--color-pink);
+}
+
+.score-dist li strong {
+  color: var(--color-text-strong);
+  font-weight: 800;
+  text-align: right;
+}
+
 .leaderboard-table-wrap {
   background: var(--color-card-bg);
   border: 1px solid var(--color-border);
