@@ -32,11 +32,11 @@ const BOX_H = 280;
 const PLAYER_R = 7;
 const PLAYER_SPEED = 220; // px/s
 
-function trophyKey(slug: string) {
-  return `dbsmo:trophy:${slug}`;
+function trophyKey(userId: string, slug: string) {
+  return `dbsmo:trophy:${userId}:${slug}`;
 }
 
-export function BossBattle({ boss }: { boss: Boss }) {
+export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
 
@@ -74,7 +74,7 @@ export function BossBattle({ boss }: { boss: Boss }) {
         // Victory!
         setState({ kind: "victory", line: 0 });
         try {
-          localStorage.setItem(trophyKey(boss.slug), JSON.stringify({ wonAt: Date.now() }));
+          localStorage.setItem(trophyKey(userId, boss.slug), JSON.stringify({ wonAt: Date.now() }));
         } catch {}
         return;
       }
@@ -84,7 +84,7 @@ export function BossBattle({ boss }: { boss: Boss }) {
       player.current = { x: BOX_W / 2, y: BOX_H / 2 };
       setState({ kind: "dodging", phase: idx, tStart: performance.now(), tauntIndex: 0 });
     },
-    [boss],
+    [boss, userId],
   );
 
   const resetFight = useCallback(() => {
@@ -525,7 +525,7 @@ export function BossBattle({ boss }: { boss: Boss }) {
       if (state.phase + 1 >= boss.phases.length) {
         setState({ kind: "victory", line: 0 });
         try {
-          localStorage.setItem(trophyKey(boss.slug), JSON.stringify({ wonAt: Date.now() }));
+          localStorage.setItem(trophyKey(userId, boss.slug), JSON.stringify({ wonAt: Date.now() }));
         } catch {}
       } else {
         setState({ kind: "between", phase: state.phase });

@@ -13,5 +13,5 @@ export const metadata = {
 export default async function PlaygroundPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/");
-  return <PlaygroundHub bosses={BOSSES} />;
+  return <PlaygroundHub bosses={BOSSES} userId={session.user.id} />;
 }

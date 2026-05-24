@@ -5,14 +5,14 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles, Trophy } from "lucide-react";
 import type { Boss } from "@/lib/playground/bosses";
 
-export function PlaygroundHub({ bosses }: { bosses: Boss[] }) {
+export function PlaygroundHub({ bosses, userId }: { bosses: Boss[]; userId: string }) {
   const [trophies, setTrophies] = useState<Record<string, number>>({});
 
   useEffect(() => {
     const next: Record<string, number> = {};
     for (const b of bosses) {
       try {
-        const raw = localStorage.getItem(`dbsmo:trophy:${b.slug}`);
+        const raw = localStorage.getItem(`dbsmo:trophy:${userId}:${b.slug}`);
         if (raw) {
           const parsed = JSON.parse(raw) as { wonAt?: number };
           if (parsed?.wonAt) next[b.slug] = parsed.wonAt;
@@ -21,7 +21,7 @@ export function PlaygroundHub({ bosses }: { bosses: Boss[] }) {
     }
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTrophies(next);
-  }, [bosses]);
+  }, [bosses, userId]);
 
   return (
     <main className="playground-hub-shell">

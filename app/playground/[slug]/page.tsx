@@ -16,7 +16,7 @@ export default async function PlaygroundBossPage({ params }: { params: Params })
   if (!boss) notFound();
   return (
     <main className="playground-shell">
-      <BossBattle boss={boss} />
+      <BossBattle boss={boss} userId={session.user.id} />
     </main>
   );
 }
