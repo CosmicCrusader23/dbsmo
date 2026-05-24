@@ -51,6 +51,7 @@
     "eslint-config-next": "latest",
     "prettier": "latest",
     "prisma": "latest",
+    "shadcn": "^4.8.0",
     "ts-node": "^10.9.2",
     "typescript": "latest",
     "vitest": "latest"

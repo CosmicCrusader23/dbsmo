@@ -8234,3 +8234,90 @@ html:not(.light) .ftw-rank.rank-1 {
   .problem-hub-tab { flex: 1 1 100%; }
   .profile-stats-row { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ---------- Mobile polish — fix sheet nav, leaderboard, dashboard topbar ---------- */
+@media (max-width: 1050px) {
+  /* Mobile sheet nav: force single column even when narrower breakpoints fight us */
+  body.has-site-sidebar .sidebar.site-sidebar .nav-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  body.has-site-sidebar .sidebar.site-sidebar .nav-item {
+    justify-content: flex-start;
+    min-height: 44px;
+  }
+  body.has-site-sidebar .sidebar.site-sidebar .nav-label {
+    width: auto;
+    margin-left: 4px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Topbar buttons: keep them inline and let them wrap, never one-per-row by default */
+  .topbar-actions { width: 100%; flex-wrap: wrap; gap: 8px; }
+  .topbar-actions > * { flex: 0 1 auto; min-width: 0; }
+  .topbar-actions .primary-action { flex: 1 1 auto; min-width: 140px; justify-content: center; }
+
+  /* Dashboard hero: pair the auth bits horizontally */
+  .auth-session,
+  .auth-actions-inline,
+  .auth-bypass {
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .auth-session > *,
+  .auth-actions-inline > * { min-width: 0; }
+
+  /* Leaderboard mobile: stack table rows into cards */
+  .leaderboard-shell { padding: 1.25rem 1rem 3rem; }
+  .leaderboard-table-wrap { overflow-x: visible; }
+  .leaderboard-table { min-width: 0; }
+  .leaderboard-table thead { display: none; }
+  .leaderboard-table tbody,
+  .leaderboard-table tr,
+  .leaderboard-table td { display: block; width: 100%; }
+  .leaderboard-table tr {
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--color-card-bg);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto;
+    column-gap: 12px;
+    align-items: center;
+  }
+  .leaderboard-table td { padding: 0; border: 0; }
+  .leaderboard-table tr td:first-child { grid-row: 1; grid-column: 1; }
+  .leaderboard-table tr td:nth-child(2) { grid-row: 1; grid-column: 2; min-width: 0; }
+  .leaderboard-table tr td:nth-child(3),
+  .leaderboard-table tr td:nth-child(4),
+  .leaderboard-table tr td:nth-child(5),
+  .leaderboard-table tr td:nth-child(6) { display: none; }
+  .leaderboard-table .user-link { white-space: normal; overflow: visible; text-overflow: clip; }
+  .leaderboard-mobile-meta { display: block; }
+  .leaderboard-score-cell { display: none; }
+
+  /* Users list: keep search panel from forcing button below input on tap */
+  .search-panel { flex-wrap: wrap; gap: 8px; }
+  .search-panel input { flex: 1 1 100%; min-width: 0; }
+  .search-panel button,
+  .search-panel .secondary-action { flex: 1 1 auto; }
+
+  /* Admin students table: scroll horizontally rather than crop */
+  .admin-students-shell .table-wrap,
+  .panel.table-panel .table-wrap { overflow-x: auto; }
+  .panel.table-panel table { min-width: 720px; }
+}
+
+@media (max-width: 480px) {
+  .topbar-actions .primary-action { flex: 1 1 100%; }
+  .leaderboard-table tr { grid-template-columns: auto 1fr; }
+}
