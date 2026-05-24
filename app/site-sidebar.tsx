@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -23,6 +22,7 @@ export async function SiteSidebar() {
     { href: "/problem-sets", label: "Problem Sets", icon: "ClipboardList" },
     { href: "/practice", label: "Practice", icon: "Target" },
     { href: "/ftw", label: "FTW", icon: "Swords" },
+    { href: "/playground", label: "Playground", icon: "Sparkles" },
   ];
 
   if (hasPermission(user.role, "admin:view")) {
