@@ -3,6 +3,8 @@ import { ArrowLeft, Download, Flame } from "lucide-react";
 import type { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
+import { AnalyticsFilters } from "./filters";
+import { TrendChart, type TrendPoint } from "./trend-chart";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import {
@@ -102,38 +104,20 @@ function bucketLabel(d: Date, granularity: Granularity) {
   return formatShortDate(d);
 }
 
-type TrendBucket = { label: string; date: Date; attempts: number; completions: number; avgPct: number };
-
-function buildSmoothPath(
-  points: { x: number; y: number }[],
-  closeToBaseline?: number,
-) {
-  if (points.length === 0) return "";
-  if (points.length === 1) {
-    const p = points[0];
-    return closeToBaseline !== undefined
-      ? `M${p.x.toFixed(1)} ${p.y.toFixed(1)} L${p.x.toFixed(1)} ${closeToBaseline} Z`
-      : `M${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
+function bucketFullLabel(d: Date, granularity: Granularity) {
+  const monthLong = d.toLocaleString("en", { month: "long" });
+  if (granularity === "month") return `${monthLong} ${d.getFullYear()}`;
+  if (granularity === "week") {
+    const end = new Date(d);
+    end.setDate(end.getDate() + 6);
+    const m1 = MONTH_LABELS[d.getMonth()];
+    const m2 = MONTH_LABELS[end.getMonth()];
+    return `${m1} ${d.getDate()} – ${m2} ${end.getDate()}`;
   }
-  let d = `M${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[Math.max(0, i - 1)];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[Math.min(points.length - 1, i + 2)];
-    const t = 0.22;
-    const c1x = p1.x + (p2.x - p0.x) * t;
-    const c1y = p1.y + (p2.y - p0.y) * t;
-    const c2x = p2.x - (p3.x - p1.x) * t;
-    const c2y = p2.y - (p3.y - p1.y) * t;
-    d += ` C${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
-  }
-  if (closeToBaseline !== undefined) {
-    const last = points[points.length - 1];
-    d += ` L${last.x.toFixed(1)} ${closeToBaseline} L${points[0].x.toFixed(1)} ${closeToBaseline} Z`;
-  }
-  return d;
+  return `${monthLong} ${d.getDate()}, ${d.getFullYear()}`;
 }
+
+type TrendBucket = { label: string; fullLabel: string; date: Date; attempts: number; completions: number; avgPct: number };
 
 export default async function AnalyticsOverviewPage({
   searchParams,
@@ -331,6 +315,7 @@ export default async function AnalyticsOverviewPage({
     const start = stepBucket(trendStart, rangeConfig.granularity, -offset);
     trendBuckets.push({
       label: bucketLabel(start, rangeConfig.granularity),
+      fullLabel: bucketFullLabel(start, rangeConfig.granularity),
       date: start,
       attempts: 0,
       completions: 0,
@@ -473,47 +458,13 @@ export default async function AnalyticsOverviewPage({
     .sort((a, b) => b.attempts - a.attempts)
     .slice(0, 10);
 
-  // SVG geometry — leaves padding for axis labels
-  const CHART_W = 760;
-  const CHART_H = 320;
-  const PAD_L = 40;
-  const PAD_R = 16;
-  const PAD_T = 10;
-  const PAD_B = 28;
-  const PLOT_W = CHART_W - PAD_L - PAD_R;
-  const PLOT_H = CHART_H - PAD_T - PAD_B;
-  const maxAttemptsBucket = Math.max(1, ...trendBuckets.map((b) => b.attempts));
-  const stepX = trendBuckets.length > 1 ? PLOT_W / (trendBuckets.length - 1) : 0;
-  const trendPoints = trendBuckets.map((b, i) => ({
-    x: PAD_L + i * stepX,
-    y: PAD_T + PLOT_H - (b.attempts / maxAttemptsBucket) * PLOT_H,
-    bucket: b,
-    index: i,
+  const trendPoints: TrendPoint[] = trendBuckets.map((b) => ({
+    label: b.label,
+    fullLabel: b.fullLabel,
+    attempts: b.attempts,
+    completions: b.completions,
+    avgPct: b.avgPct,
   }));
-  const baseline = PAD_T + PLOT_H;
-  const linePath = buildSmoothPath(trendPoints.map((p) => ({ x: p.x, y: p.y })));
-  const areaPath = buildSmoothPath(
-    trendPoints.map((p) => ({ x: p.x, y: p.y })),
-    baseline,
-  );
-  const yTicks = (() => {
-    const max = maxAttemptsBucket;
-    const step = Math.max(1, Math.ceil(max / 4));
-    const ticks: number[] = [];
-    for (let v = 0; v <= max; v += step) ticks.push(v);
-    if (ticks[ticks.length - 1] !== max) ticks.push(max);
-    return ticks;
-  })();
-  const xTickIndices = (() => {
-    const len = trendBuckets.length;
-    if (len <= 8) return trendBuckets.map((_, i) => i);
-    const target = 6;
-    const stride = Math.max(1, Math.ceil((len - 1) / (target - 1)));
-    const idxs: number[] = [];
-    for (let i = 0; i < len; i += stride) idxs.push(i);
-    if (idxs[idxs.length - 1] !== len - 1) idxs.push(len - 1);
-    return idxs;
-  })();
 
   const maxDaily = Math.max(1, ...dailyBuckets.map((b) => b.count));
 
@@ -552,59 +503,40 @@ export default async function AnalyticsOverviewPage({
           </div>
         </header>
 
-        <form action="/admin/analytics" className="search-panel analytics-filter-panel">
-          <select aria-label="Filter by set" name="set" defaultValue={selectedSet?.slug ?? ""}>
-            <option value="">All sets</option>
-            {problemSets.map((set) => (
-              <option key={set.id} value={set.slug}>
-                {set.title}
-              </option>
-            ))}
-          </select>
-          <select
-            aria-label="Filter by student"
-            name="student"
-            defaultValue={selectedStudent?.id ?? ""}
-          >
-            <option value="">All students</option>
-            {students.map((student) => (
-              <option key={student.id} value={student.id}>
-                {student.displayName || student.name || student.email}
-              </option>
-            ))}
-          </select>
-          <select aria-label="Filter by cohort" name="group" defaultValue={selectedGroup}>
-            <option value="">All cohorts</option>
-            {groupOptions.map((group) => (
-              <option key={group} value={group}>
-                {group}
-              </option>
-            ))}
-          </select>
-          <select aria-label="Filter by topic" name="topic" defaultValue={selectedTopic}>
-            <option value="">All topics</option>
-            {topicOptions.map((topic) => (
-              <option key={topic} value={topic}>
-                {topic}
-              </option>
-            ))}
-          </select>
-          <input aria-label="From date" name="from" type="date" defaultValue={params.from ?? ""} />
-          <input aria-label="To date" name="to" type="date" defaultValue={params.to ?? ""} />
-          <button className="secondary-action compact" type="submit">
-            Filter
-          </button>
-          {selectedSet ||
-          selectedStudent ||
-          selectedGroup ||
-          selectedTopic ||
-          params.from ||
-          params.to ? (
-            <Link className="text-link" href="/admin/analytics">
-              Clear
-            </Link>
-          ) : null}
-        </form>
+        <AnalyticsFilters
+          rangeKey={rangeKey}
+          fromInitial={params.from ?? ""}
+          toInitial={params.to ?? ""}
+          filters={[
+            {
+              name: "set",
+              label: "Set",
+              current: selectedSet?.slug ?? "",
+              options: problemSets.map((s) => ({ value: s.slug, label: s.title })),
+            },
+            {
+              name: "student",
+              label: "Student",
+              current: selectedStudent?.id ?? "",
+              options: students.map((s) => ({
+                value: s.id,
+                label: s.displayName || s.name || s.email || "",
+              })),
+            },
+            {
+              name: "group",
+              label: "Cohort",
+              current: selectedGroup,
+              options: groupOptions.map((g) => ({ value: g, label: g })),
+            },
+            {
+              name: "topic",
+              label: "Topic",
+              current: selectedTopic,
+              options: topicOptions.map((t) => ({ value: t, label: t })),
+            },
+          ]}
+        />
 
         <section className="metric-grid analytics-metric-grid" aria-label="Overview metrics">
           <article className="metric-card accent-cyan">
@@ -667,89 +599,7 @@ export default async function AnalyticsOverviewPage({
           {trendTotalAttempts === 0 ? (
             <p className="analytics-empty">No attempts in this window yet.</p>
           ) : (
-            <div className="chart-wrap">
-              <svg
-                viewBox={`0 0 ${CHART_W} ${CHART_H}`}
-                preserveAspectRatio="xMidYMid meet"
-                role="img"
-                aria-label={`Attempts over ${rangeConfig.label.toLowerCase()}`}
-              >
-                <defs>
-                  <linearGradient id="attemptsArea" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="var(--color-pink)" stopOpacity="0.45" />
-                    <stop offset="55%" stopColor="var(--color-pink)" stopOpacity="0.18" />
-                    <stop offset="100%" stopColor="var(--color-pink)" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                {yTicks.map((v) => {
-                  const y = PAD_T + PLOT_H - (v / maxAttemptsBucket) * PLOT_H;
-                  return (
-                    <g key={v}>
-                      <line
-                        x1={PAD_L}
-                        x2={PAD_L + PLOT_W}
-                        y1={y}
-                        y2={y}
-                        stroke="var(--color-border)"
-                        strokeWidth={1}
-                        opacity={0.55}
-                      />
-                      <text
-                        x={PAD_L - 8}
-                        y={y + 3}
-                        textAnchor="end"
-                        fill="var(--color-muted)"
-                        fontSize={11}
-                        fontWeight={700}
-                      >
-                        {v}
-                      </text>
-                    </g>
-                  );
-                })}
-                <path d={areaPath} fill="url(#attemptsArea)" />
-                <path
-                  d={linePath}
-                  fill="none"
-                  stroke="var(--color-pink)"
-                  strokeWidth={2.4}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {xTickIndices.map((i) => {
-                  const p = trendPoints[i];
-                  return (
-                    <text
-                      key={i}
-                      x={p.x}
-                      y={CHART_H - 6}
-                      textAnchor="middle"
-                      fill="var(--color-muted)"
-                      fontSize={11}
-                      fontWeight={700}
-                    >
-                      {p.bucket.label}
-                    </text>
-                  );
-                })}
-                {trendPoints.map((p) => (
-                  <g key={p.index}>
-                    <title>
-                      {p.bucket.label}: {p.bucket.attempts} attempts ·{" "}
-                      {p.bucket.completions} completions ·{" "}
-                      {p.bucket.avgPct || 0}% avg
-                    </title>
-                    <rect
-                      x={p.x - Math.max(8, stepX / 2)}
-                      y={PAD_T}
-                      width={Math.max(16, stepX)}
-                      height={PLOT_H}
-                      fill="transparent"
-                    />
-                  </g>
-                ))}
-              </svg>
-            </div>
+            <TrendChart data={trendPoints} />
           )}
           <div className="chart-card-footer">
             <span className="chart-card-foot-line">

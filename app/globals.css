@@ -4846,6 +4846,240 @@ html.dark .theme-choice-button.active {
   font-weight: 750;
 }
 
+.analytics-filter-bar {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-soft);
+}
+
+.analytics-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.analytics-filter-input {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-card-bg);
+  color: var(--color-text-strong);
+  font: inherit;
+  font-weight: 700;
+}
+
+.analytics-filter-clear {
+  margin-left: auto;
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.analytics-filter-clear:hover {
+  color: var(--color-text-strong);
+  border-color: var(--color-text-strong);
+  background: var(--meter-track);
+}
+
+.searchable-select {
+  position: relative;
+  min-width: 0;
+  flex: 1 1 180px;
+  max-width: 240px;
+}
+
+.searchable-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-card-bg);
+  color: var(--color-text-strong);
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.searchable-select-trigger:hover {
+  border-color: var(--color-text-strong);
+}
+
+.searchable-select.has-value .searchable-select-trigger {
+  border-color: var(--color-pink);
+  color: var(--color-text-strong);
+}
+
+.searchable-select.open .searchable-select-trigger {
+  border-color: var(--color-pink);
+  box-shadow: 0 0 0 3px rgba(241, 84, 145, 0.18);
+}
+
+.searchable-select-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.searchable-select-caret {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  transition: transform 160ms ease;
+}
+
+.searchable-select.open .searchable-select-caret {
+  transform: rotate(180deg);
+}
+
+.searchable-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-strong);
+}
+
+.searchable-select-search {
+  width: 100%;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-card-bg);
+  color: var(--color-text-strong);
+  font: inherit;
+  font-weight: 700;
+}
+
+.searchable-select-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.searchable-select-option {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-strong);
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.searchable-select-option:hover {
+  background: var(--meter-track);
+}
+
+.searchable-select-option.active {
+  background: var(--color-pink);
+  color: #fff;
+}
+
+.searchable-select-empty {
+  padding: 10px;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.trend-chart-wrap {
+  position: relative;
+  padding: 0 20px;
+  min-width: 0;
+}
+
+.trend-chart-wrap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: crosshair;
+}
+
+.trend-tooltip {
+  position: absolute;
+  top: 8px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-strong);
+  color: var(--color-text-strong);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.trend-tooltip-date {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.trend-tooltip-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trend-tooltip-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-pink);
+}
+
+.trend-tooltip-meta {
+  margin-top: 4px;
+  color: var(--color-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
 .analytics-frame {
   display: grid;
   gap: 18px;
