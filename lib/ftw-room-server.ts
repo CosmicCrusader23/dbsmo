@@ -57,7 +57,7 @@ export async function advanceRoomIfDue(roomId: string): Promise<void> {
       problems: {
         orderBy: { problemIndex: "desc" },
         take: 1,
-        include: { answers: { select: { id: true, playerId: true } } },
+        include: { answers: { select: { id: true, playerId: true, points: true } } },
       },
     },
   });
@@ -75,11 +75,25 @@ export async function advanceRoomIfDue(roomId: string): Promise<void> {
 
   if (!noProblemYet && !allAnswered && !timedOut) return;
 
+  // Lock the round AND apply round points to player scores in one transaction.
+  // Scores are deferred until lock so live players can't infer correctness from a
+  // ticking scoreboard while others are still answering.
   if (current && !current.lockedAt) {
-    await prisma.ftwRoomProblem.update({
-      where: { id: current.id },
-      data: { lockedAt: new Date() },
-    });
+    const updates = current.answers
+      .filter((a) => a.points > 0)
+      .map((a) =>
+        prisma.ftwRoomPlayer.update({
+          where: { id: a.playerId },
+          data: { score: { increment: a.points } },
+        }),
+      );
+    await prisma.$transaction([
+      prisma.ftwRoomProblem.update({
+        where: { id: current.id },
+        data: { lockedAt: new Date() },
+      }),
+      ...updates,
+    ]);
   }
 
   // Multi-player rooms reveal the round and wait for the host to advance.

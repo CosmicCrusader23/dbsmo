@@ -23,7 +23,7 @@ interface Bullet {
   vy: number;
   r: number;
   ttl: number;
-  kind: "round" | "bone" | "laser";
+  kind: "round" | "bone" | "laser" | "homer";
   born: number;
 }
 
@@ -332,6 +332,102 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
         });
         break;
       }
+      case "homing": {
+        // Slow, lightly-tracking projectile from a random edge — punishes standing still.
+        const edge = Math.floor(Math.random() * 4);
+        let sx = 0,
+          sy = 0;
+        if (edge === 0) {
+          sx = Math.random() * BOX_W;
+          sy = -10;
+        } else if (edge === 1) {
+          sx = BOX_W + 10;
+          sy = Math.random() * BOX_H;
+        } else if (edge === 2) {
+          sx = Math.random() * BOX_W;
+          sy = BOX_H + 10;
+        } else {
+          sx = -10;
+          sy = Math.random() * BOX_H;
+        }
+        const dx = player.current.x - sx;
+        const dy = player.current.y - sy;
+        const len = Math.max(0.001, Math.hypot(dx, dy));
+        bullets.current.push({
+          x: sx,
+          y: sy,
+          vx: (dx / len) * speed * 0.55,
+          vy: (dy / len) * speed * 0.55,
+          r: 5,
+          ttl: 6,
+          kind: "homer",
+          born: now,
+        });
+        break;
+      }
+      case "orbit": {
+        // Two clusters orbiting fixed centres, occasionally shedding a bullet.
+        const t = now / 1000;
+        const cx1 = BOX_W * 0.3;
+        const cx2 = BOX_W * 0.7;
+        const cy = BOX_H / 2;
+        const r1 = 70;
+        for (let i = 0; i < 2; i++) {
+          const a = t * 2 + (i * Math.PI);
+          const ox = (i === 0 ? cx1 : cx2) + Math.cos(a) * r1;
+          const oy = cy + Math.sin(a) * r1;
+          // Tangential velocity sheds outward.
+          const vx = -Math.sin(a) * speed * 0.4 + Math.cos(a) * speed * 0.5;
+          const vy = Math.cos(a) * speed * 0.4 + Math.sin(a) * speed * 0.5;
+          bullets.current.push({
+            x: ox,
+            y: oy,
+            vx,
+            vy,
+            r: 4,
+            ttl: 3.5,
+            kind: "round",
+            born: now,
+          });
+        }
+        break;
+      }
+      case "cross": {
+        // Four-way salvo from a random row or column — leaves a single safe gap.
+        const horizontal = Math.random() < 0.5;
+        if (horizontal) {
+          const y = 30 + Math.random() * (BOX_H - 60);
+          for (let i = 0; i < 5; i++) {
+            const fromLeft = i % 2 === 0;
+            bullets.current.push({
+              x: fromLeft ? -10 : BOX_W + 10,
+              y: y + (i - 2) * 10,
+              vx: (fromLeft ? 1 : -1) * speed,
+              vy: 0,
+              r: 4,
+              ttl: 4,
+              kind: "round",
+              born: now,
+            });
+          }
+        } else {
+          const x = 30 + Math.random() * (BOX_W - 60);
+          for (let i = 0; i < 5; i++) {
+            const fromTop = i % 2 === 0;
+            bullets.current.push({
+              x: x + (i - 2) * 10,
+              y: fromTop ? -10 : BOX_H + 10,
+              vx: 0,
+              vy: (fromTop ? 1 : -1) * speed,
+              r: 4,
+              ttl: 4,
+              kind: "round",
+              born: now,
+            });
+          }
+        }
+        break;
+      }
     }
   }, []);
 
@@ -387,6 +483,19 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
 
         // Update bullets
         for (const b of bullets.current) {
+          if (b.kind === "homer") {
+            // Steer toward the player at a capped angular rate.
+            const dxh = player.current.x - b.x;
+            const dyh = player.current.y - b.y;
+            const lenh = Math.max(0.001, Math.hypot(dxh, dyh));
+            const speedNow = Math.max(60, Math.hypot(b.vx, b.vy));
+            const desiredVx = (dxh / lenh) * speedNow;
+            const desiredVy = (dyh / lenh) * speedNow;
+            // Lerp velocity by ~1.6 dt so it bends but doesn't snap.
+            const k = Math.min(1, dt * 1.6);
+            b.vx += (desiredVx - b.vx) * k;
+            b.vy += (desiredVy - b.vy) * k;
+          }
           b.x += b.vx * dt;
           b.y += b.vy * dt;
           b.ttl -= dt;
@@ -446,6 +555,20 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
         } else if (b.kind === "bone") {
           ctx.fillStyle = "#e6ecff";
           ctx.fillRect(b.x - b.r, b.y - b.r * 1.6, b.r * 2, b.r * 3.2);
+        } else if (b.kind === "homer") {
+          // Diamond with a soft halo so trackers read clearly.
+          ctx.fillStyle = "rgba(157, 119, 255, 0.25)";
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r + 4, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "#9d77ff";
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y - b.r);
+          ctx.lineTo(b.x + b.r, b.y);
+          ctx.lineTo(b.x, b.y + b.r);
+          ctx.lineTo(b.x - b.r, b.y);
+          ctx.closePath();
+          ctx.fill();
         } else {
           ctx.fillStyle = "#f6c177";
           ctx.beginPath();

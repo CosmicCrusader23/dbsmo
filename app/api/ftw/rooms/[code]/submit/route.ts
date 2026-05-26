@@ -90,24 +90,18 @@ export async function POST(
   const points = timedOut ? 0 : roomScore(elapsedMs, room.problemLimitMs, isCorrect);
 
   try {
-    await prisma.$transaction([
-      prisma.ftwRoomAnswer.create({
-        data: {
-          roomProblemId: roomProblem.id,
-          playerId: player.id,
-          userId: session.user.id,
-          rawAnswer: parsed.data.answer,
-          submittedAt: new Date(now),
-          elapsedMs,
-          isCorrect: timedOut ? false : isCorrect,
-          points,
-        },
-      }),
-      prisma.ftwRoomPlayer.update({
-        where: { id: player.id },
-        data: { score: { increment: points } },
-      }),
-    ]);
+    await prisma.ftwRoomAnswer.create({
+      data: {
+        roomProblemId: roomProblem.id,
+        playerId: player.id,
+        userId: session.user.id,
+        rawAnswer: parsed.data.answer,
+        submittedAt: new Date(now),
+        elapsedMs,
+        isCorrect: timedOut ? false : isCorrect,
+        points,
+      },
+    });
   } catch (err) {
     if (isPrismaUniqueViolation(err)) {
       return NextResponse.json({ error: "Already submitted." }, { status: 409 });
@@ -117,10 +111,5 @@ export async function POST(
 
   await advanceRoomIfDue(room.id);
 
-  return NextResponse.json({
-    isCorrect: timedOut ? false : isCorrect,
-    points,
-    elapsedMs,
-    timedOut,
-  });
+  return NextResponse.json({ submitted: true });
 }

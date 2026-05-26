@@ -40,6 +40,7 @@ type RoomState = {
     remainingMs: number;
     problem: { id: string; statement: string; contentFormat: "LATEX" | "HTML" } | null;
     revealedAnswers: RevealedAnswer[] | null;
+    correctAnswer: string | null;
     myAnswer: {
       submitted: boolean;
       isCorrect: boolean | null;
@@ -320,16 +321,7 @@ export function FtwRoomClient({
               ) : null}
 
               {state.current.myAnswer?.submitted && !state.current.locked ? (
-                <div
-                  className={`ftw-locked-in${
-                    state.current.myAnswer.isCorrect ? " is-correct" : " is-wrong"
-                  }`}
-                >
-                  {state.current.myAnswer.isCorrect ? (
-                    <CheckCircle2 size={16} />
-                  ) : (
-                    <XCircle size={16} />
-                  )}
+                <div className="ftw-locked-in is-pending">
                   <span>
                     Locked in
                     {state.current.myAnswer.elapsedMs !== null
@@ -362,6 +354,12 @@ export function FtwRoomClient({
                       <small className="ftw-reveal-wait">Waiting on host…</small>
                     )}
                   </div>
+                  {state.current.correctAnswer ? (
+                    <div className="ftw-reveal-answer">
+                      <span className="eyebrow">Correct answer</span>
+                      <strong>{state.current.correctAnswer}</strong>
+                    </div>
+                  ) : null}
                   <ul>
                     {state.current.revealedAnswers
                       .slice()

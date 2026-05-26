@@ -42,7 +42,7 @@ export async function GET(
         take: 1,
         include: {
           problem: {
-            select: { id: true, statement: true, contentFormat: true },
+            select: { id: true, statement: true, contentFormat: true, answerKey: true },
           },
           answers: {
             select: {
@@ -67,6 +67,7 @@ export async function GET(
   }
 
   const current = room.problems[0];
+  const isLocked = current ? Boolean(current.lockedAt) : false;
   const myAnswer = current
     ? current.answers.find((a) => a.userId === session.user.id) ?? null
     : null;
@@ -96,7 +97,7 @@ export async function GET(
       ? {
           problemIndex: current.problemIndex,
           endsAt: current.endsAt,
-          locked: Boolean(current.lockedAt),
+          locked: isLocked,
           remainingMs: Math.max(0, current.endsAt.getTime() - Date.now()),
           problem: showStatement
             ? {
@@ -105,7 +106,7 @@ export async function GET(
                 contentFormat: current.problem.contentFormat,
               }
             : null,
-          revealedAnswers: current.lockedAt
+          revealedAnswers: isLocked
             ? current.answers.map((a) => ({
                 userId: a.userId,
                 submittedAt: a.submittedAt,
@@ -114,11 +115,14 @@ export async function GET(
                 elapsedMs: a.elapsedMs,
               }))
             : null,
+          correctAnswer: isLocked ? current.problem.answerKey : null,
           myAnswer: myAnswer
             ? {
                 submitted: Boolean(myAnswer.submittedAt),
-                isCorrect: myAnswer.isCorrect,
-                points: myAnswer.points,
+                // Hide correctness/points until the round locks so live players
+                // can't tell whether their answer was correct mid-round.
+                isCorrect: isLocked ? myAnswer.isCorrect : null,
+                points: isLocked ? myAnswer.points : 0,
                 elapsedMs: myAnswer.elapsedMs,
               }
             : null,

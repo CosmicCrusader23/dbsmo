@@ -8,10 +8,22 @@ import culverPhase1 from "./culverphase1.jpg";
 import culverPhase2 from "./culverphase2.jpg";
 import marcoIcon from "./marcoicon.jpg";
 import marcoPhase1 from "./marcophase1.jpg";
+import mrpIcon from "./mrpicon.jpg";
+import mrpPhase1 from "./mrpphase1.jpg";
+import mrpPhase2 from "./mrpphase2.jpg";
 
 const src = (img: StaticImageData) => img.src;
 
-export type BulletPattern = "spiral" | "wave" | "sweep" | "rain" | "blaster" | "bones";
+export type BulletPattern =
+  | "spiral"
+  | "wave"
+  | "sweep"
+  | "rain"
+  | "blaster"
+  | "bones"
+  | "homing"
+  | "orbit"
+  | "cross";
 
 export interface Integral {
   /** LaTeX rendered inside KaTeX */
@@ -627,7 +639,224 @@ const MARCO: Boss = {
   trophyFlavor: "Got a reply out of the OI captain. Don't expect a second one.",
 };
 
-export const BOSSES: Boss[] = [CULVER, MARCO];
+const MR_P: Boss = {
+  slug: "mrp",
+  name: "Mr. P",
+  eyebrow: "IB Maths · MIT",
+  description:
+    "Indian, IB maths teacher, MIT alum. Loves combinatorics. " +
+    "His recurring question: \"Is it always true? Sometimes true? Or never true?\"",
+  icon: src(mrpIcon),
+  portrait: src(mrpPhase1),
+  totalTimeSec: 240,
+  maxHp: 3,
+  difficulty: "hard",
+  tags: ["Combinatorics"],
+  intro: [
+    "* Mr. P closes a worn copy of \"Concrete Mathematics\".",
+    "* \"Right. So.\"",
+    "* \"Is it always true? Sometimes true? Or never true?\"",
+    "* \"Let us see how you count.\"",
+  ],
+  victory: [
+    "* Mr. P nods once.",
+    "* \"Always true. Excellent.\"",
+    "* \"You may join the IB HL contingent.\"",
+    "* TROPHY ACQUIRED — The MIT Stamp.",
+  ],
+  defeat: [
+    "* Mr. P sighs.",
+    "* \"This was sometimes true at best.\"",
+    "* \"Read Stanley. Then come back.\"",
+    "* GAME OVER. Press space to retry.",
+  ],
+  phases: [
+    {
+      image: src(mrpPhase1),
+      dodgeSeconds: 14,
+      taunts: [
+        "* \"Counting is rigour. Stop guessing.\"",
+        "* \"Pigeonhole is not a suggestion.\"",
+        "* \"Is it always true? Sometimes? Never?\"",
+      ],
+      pattern: "homing",
+      density: 2.6,
+      speed: 220,
+      challenge: [
+        "* Mr. P writes on the whiteboard.",
+        "* \"Integer answer. 22 seconds.\"",
+      ],
+      integrals: [
+        {
+          prompt: "\\binom{6}{2} = ?",
+          answers: ["15"],
+          hint: "6·5 / 2.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\binom{8}{3} = ?",
+          answers: ["56"],
+          hint: "8·7·6 / 6.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\binom{10}{4} = ?",
+          answers: ["210"],
+          hint: "10·9·8·7 / 24.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "5! = ?",
+          answers: ["120"],
+          hint: "5·4·3·2·1.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Permutations of the letters of } \\textsf{ABBA} = ?",
+          answers: ["6"],
+          hint: "4! / (2!·2!).",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Number of subsets of a 5-element set} = ?",
+          answers: ["32"],
+          hint: "2⁵.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\binom{7}{3} + \\binom{7}{4} = ?",
+          answers: ["70"],
+          hint: "Pascal's identity → C(8,4).",
+          solveSeconds: 22,
+        },
+      ],
+    },
+    {
+      image: src(mrpPhase1),
+      dodgeSeconds: 16,
+      taunts: [
+        "* \"Stars and bars. You should know this.\"",
+        "* \"Inclusion–exclusion is the right hammer.\"",
+        "* \"Always, sometimes, or never?\"",
+      ],
+      pattern: "orbit",
+      density: 4.2,
+      speed: 240,
+      challenge: [
+        "* Mr. P circles a problem in red.",
+        "* \"Closed form. 22 seconds. Go.\"",
+      ],
+      integrals: [
+        {
+          prompt: "\\text{Solutions to } x_1+x_2+x_3=10, \\, x_i \\ge 0 = ?",
+          answers: ["66"],
+          hint: "Stars and bars: C(12,2).",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Number of permutations of } \\textsf{MISSISSIPPI} = ?",
+          answers: ["34650"],
+          hint: "11! / (4!·4!·2!).",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Derangements of 4 objects } D_4 = ?",
+          answers: ["9"],
+          hint: "4!·(1−1+½−⅙+1/24).",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Ways to choose 3 from 10 people, order matters} = ?",
+          answers: ["720"],
+          hint: "P(10,3) = 10·9·8.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Lattice paths from (0,0) to (4,3), only right/up} = ?",
+          answers: ["35"],
+          hint: "C(7,3).",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\sum_{k=0}^{6} \\binom{6}{k} = ?",
+          answers: ["64"],
+          hint: "Binomial theorem at x=1.",
+          solveSeconds: 22,
+        },
+        {
+          prompt: "\\text{Solutions to } x_1+x_2+x_3=10, \\, x_i \\ge 1 = ?",
+          answers: ["36"],
+          hint: "Substitute yᵢ = xᵢ − 1, then C(9,2).",
+          solveSeconds: 22,
+        },
+      ],
+    },
+    {
+      image: src(mrpPhase2),
+      dodgeSeconds: 18,
+      taunts: [
+        "* \"This is the part where most students freeze.\"",
+        "* \"Recurrences. Generating functions. Beautiful.\"",
+        "* \"Always true? Sometimes? Or never?\"",
+      ],
+      pattern: "cross",
+      density: 1.9,
+      speed: 270,
+      challenge: [
+        "* Mr. P does not blink.",
+        "* \"Final question. Integer. 25 seconds.\"",
+      ],
+      integrals: [
+        {
+          prompt: "\\text{Catalan number } C_4 = ?",
+          answers: ["14"],
+          hint: "C(2n,n)/(n+1) with n=4.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\text{Catalan number } C_5 = ?",
+          answers: ["42"],
+          hint: "C(10,5)/6.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\text{Fibonacci } F_{10} = ? \\quad (F_1=F_2=1)",
+          answers: ["55"],
+          hint: "1,1,2,3,5,8,13,21,34,55.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\text{Stirling numbers of the 2nd kind: } S(4,2) = ?",
+          answers: ["7"],
+          hint: "Partitions of 4 elements into 2 nonempty subsets.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\text{Bell number } B_4 = ?",
+          answers: ["15"],
+          hint: "Total set partitions of 4 elements.",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\text{Onto maps } [4] \\to [2] = ?",
+          answers: ["14"],
+          hint: "2⁴ − 2 (kill the two constants).",
+          solveSeconds: 25,
+        },
+        {
+          prompt: "\\text{Tilings of a } 1\\times 6 \\text{ strip with } 1\\times 1 \\text{ and } 1\\times 2 \\text{ tiles} = ?",
+          answers: ["13"],
+          hint: "Fibonacci-style: f(n) = f(n−1)+f(n−2).",
+          solveSeconds: 25,
+        },
+      ],
+    },
+  ],
+  trophyTitle: "The MIT Stamp · Combinatorics",
+  trophyFlavor: "Mr. P thinks you can count. Always true.",
+};
+
+export const BOSSES: Boss[] = [CULVER, MARCO, MR_P];
 
 export function getBoss(slug: string): Boss | null {
   return BOSSES.find((b) => b.slug === slug) ?? null;
