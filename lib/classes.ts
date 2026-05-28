@@ -25,7 +25,7 @@ export function buildCompletionMap(input: {
     if (!result.has(a.userId)) continue;
     if (a.submittedAt.getTime() <= cutoff) continue;
     const existing = result.get(a.userId);
-    if (existing === null || a.submittedAt < existing) {
+    if (!existing || a.submittedAt < existing) {
       result.set(a.userId, a.submittedAt);
     }
   }
