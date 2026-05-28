@@ -34,7 +34,10 @@ export async function SiteSidebar() {
       );
     }
     if (hasPermission(user.role, "admin:users")) {
-      links.push({ href: "/admin/students", label: "Students", icon: "Users" });
+      links.push(
+        { href: "/admin/students", label: "Students", icon: "Users" },
+        { href: "/admin/classes", label: "Classes", icon: "GraduationCap" },
+      );
     }
     if (hasPermission(user.role, "admin:analytics")) {
       links.push({ href: "/admin/analytics", label: "Analytics", icon: "BarChart3" });
