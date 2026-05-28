@@ -8841,3 +8841,16 @@ html:not(.light) .ftw-rank.rank-1 {
 .classes-pick-chips li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; background: rgba(240, 93, 155, 0.12); color: var(--color-pink); font-weight: 600; }
 .classes-pick-chips button { background: transparent; border: none; cursor: pointer; padding: 0; display: inline-flex; }
 .classes-error { color: var(--color-danger); font-weight: 600; }
+.classes-roster, .classes-assignments { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.classes-roster li, .classes-assignments li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 12px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 10px; }
+.classes-roster li > span { display: flex; flex-direction: column; }
+.classes-roster li small { color: var(--color-muted); font-size: 0.78rem; }
+.classes-assignments li > div { display: flex; flex-direction: column; }
+.classes-assignments li small { color: var(--color-muted); font-size: 0.78rem; }
+.classes-progress { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--color-success); }
+.classes-roster li button, .classes-assignments li button { background: transparent; border: none; color: var(--color-muted); cursor: pointer; }
+.classes-roster li button:hover, .classes-assignments li button:hover { color: var(--color-danger); }
+.classes-assign-picker { margin-top: 8px; }
+.classes-assign-confirm { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 10px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-alt); }
+.classes-shell section { margin-top: 24px; }
+.classes-shell section h2 { font-size: 1.1rem; margin: 0 0 8px; }
