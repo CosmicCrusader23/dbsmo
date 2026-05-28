@@ -21,6 +21,7 @@ import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
+import { AssignmentsWidget } from "./assignments-widget";
 
 export const dynamic = "force-dynamic";
 
@@ -339,6 +340,8 @@ export default async function DashboardPage() {
             ) : null}
           </div>
         </section>
+
+        <AssignmentsWidget />
 
         <section className="metric-grid" aria-label="Student progress metrics">
           <MetricCard

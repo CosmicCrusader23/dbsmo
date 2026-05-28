@@ -8853,4 +8853,10 @@ html:not(.light) .ftw-rank.rank-1 {
 .classes-assign-picker { margin-top: 8px; }
 .classes-assign-confirm { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 10px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-alt); }
 .classes-shell section { margin-top: 24px; }
+.assignments-widget ul { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.assignments-widget li a { display: grid; grid-template-columns: minmax(0,1fr) auto auto; column-gap: 10px; row-gap: 2px; align-items: center; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-alt); text-decoration: none; color: var(--color-text-strong); }
+.assignments-widget li a:hover { border-color: var(--color-pink); }
+.assignments-widget li small { grid-column: 1; color: var(--color-muted); font-size: 0.78rem; }
+.assignments-widget-due { font-size: 0.78rem; color: var(--color-muted); font-weight: 600; }
+.assignments-widget-done { display: inline-flex; align-items: center; gap: 4px; color: var(--color-success); font-weight: 700; font-size: 0.78rem; }
 .classes-shell section h2 { font-size: 1.1rem; margin: 0 0 8px; }
