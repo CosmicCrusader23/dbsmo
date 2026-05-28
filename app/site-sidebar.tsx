@@ -21,6 +21,7 @@ export async function SiteSidebar() {
     { href: "/dashboard", label: "Dashboard", icon: "Gauge" },
     { href: "/problem-sets", label: "Problem Sets", icon: "ClipboardList" },
     { href: "/practice", label: "Practice", icon: "Target" },
+    { href: "/classes", label: "Classes", icon: "GraduationCap" },
     { href: "/ftw", label: "FTW", icon: "Swords" },
     { href: "/playground", label: "Playground", icon: "Sparkles" },
   ];
@@ -36,7 +37,7 @@ export async function SiteSidebar() {
     if (hasPermission(user.role, "admin:users")) {
       links.push(
         { href: "/admin/students", label: "Students", icon: "Users" },
-        { href: "/admin/classes", label: "Classes", icon: "GraduationCap" },
+        { href: "/admin/classes", label: "Manage Classes", icon: "GraduationCap" },
       );
     }
     if (hasPermission(user.role, "admin:analytics")) {

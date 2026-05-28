@@ -8861,3 +8861,17 @@ html:not(.light) .ftw-rank.rank-1 {
 .assignments-widget-done { display: inline-flex; align-items: center; gap: 4px; color: var(--color-success); font-weight: 700; font-size: 0.78rem; }
 .classes-shell section h2 { font-size: 1.1rem; margin: 0 0 8px; }
 .set-card-assigned-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-pink); background: rgba(240, 93, 155, 0.12); }
+.student-classes-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.student-class-card { padding: 16px 18px; border-radius: 14px; border: 1px solid var(--color-border); background: var(--color-surface); }
+.student-class-card > header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.student-class-card h2 { font-size: 1.05rem; margin: 0; color: var(--color-text-strong); }
+.student-class-card small { color: var(--color-muted); }
+.student-class-count { color: var(--color-muted); font-weight: 600; font-size: 0.85rem; }
+.student-class-blank { color: var(--color-muted); margin: 0; }
+.student-class-assignments { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.student-class-assignments li a { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto auto; align-items: center; column-gap: 10px; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface-alt); text-decoration: none; color: var(--color-text-strong); }
+.student-class-assignments li a:hover { border-color: var(--color-pink); }
+.student-class-assignment-title { font-weight: 600; }
+.student-class-due { color: var(--color-muted); font-size: 0.78rem; font-weight: 600; }
+.student-class-due.muted { font-style: italic; }
+.student-class-done { display: inline-flex; align-items: center; gap: 4px; color: var(--color-success); font-weight: 700; font-size: 0.78rem; }
