@@ -8860,3 +8860,4 @@ html:not(.light) .ftw-rank.rank-1 {
 .assignments-widget-due { font-size: 0.78rem; color: var(--color-muted); font-weight: 600; }
 .assignments-widget-done { display: inline-flex; align-items: center; gap: 4px; color: var(--color-success); font-weight: 700; font-size: 0.78rem; }
 .classes-shell section h2 { font-size: 1.1rem; margin: 0 0 8px; }
+.set-card-assigned-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-pink); background: rgba(240, 93, 155, 0.12); }

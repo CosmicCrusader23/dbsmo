@@ -75,13 +75,15 @@ export default async function ProblemSetsPage({
   const activeView =
     params.view === "bookmarked"
       ? "bookmarked"
-      : params.view === "assigned"
-        ? "assigned"
-        : params.view === "completed"
-          ? "completed"
-          : params.view === "practice"
-            ? "practice"
-            : "recommended";
+      : params.view === "classAssigned"
+        ? "classAssigned"
+        : params.view === "assigned"
+          ? "assigned"
+          : params.view === "completed"
+            ? "completed"
+            : params.view === "practice"
+              ? "practice"
+              : "recommended";
   const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
   const pageSize = 20;
   const statusFilter =
@@ -107,7 +109,7 @@ export default async function ProblemSetsPage({
     media?: "all" | "video" | "pdf";
     status?: "all" | "not-started" | "in-progress" | "completed";
     page?: number;
-    view?: "recommended" | "bookmarked" | "assigned" | "completed" | "practice";
+    view?: "recommended" | "bookmarked" | "classAssigned" | "assigned" | "completed" | "practice";
   }) {
     const nextSort = next.sort ?? sortMode;
     const nextView = next.view ?? activeView;
@@ -183,6 +185,33 @@ export default async function ProblemSetsPage({
 
   if (!currentUser) {
     redirect("/");
+  }
+
+  const assignedSetRows = await prisma.classMember.findMany({
+    where: { studentId: session.user.id },
+    select: {
+      class: {
+        select: {
+          name: true,
+          assignments: { select: { problemSetId: true, dueAt: true, createdAt: true } },
+        },
+      },
+    },
+  });
+  const assignedSets = new Map<
+    string,
+    { className: string; dueAt: Date | null; createdAt: Date }
+  >();
+  for (const m of assignedSetRows) {
+    for (const a of m.class.assignments) {
+      if (!assignedSets.has(a.problemSetId)) {
+        assignedSets.set(a.problemSetId, {
+          className: m.class.name,
+          dueAt: a.dueAt,
+          createdAt: a.createdAt,
+        });
+      }
+    }
   }
 
   const visibleSets =
@@ -287,6 +316,7 @@ export default async function ProblemSetsPage({
 
   const viewRows = orderedRows.filter((set) => {
     if (activeView === "bookmarked") return set.isBookmarked;
+    if (activeView === "classAssigned") return assignedSets.has(set.id);
     if (activeView === "assigned") return set.bestScore < 100;
     if (activeView === "completed") return set.bestScore >= 100;
     if (activeView === "practice") return set.weakMatch > 0 || set.attempts > 0;
@@ -368,6 +398,14 @@ export default async function ProblemSetsPage({
         >
           Bookmarked
         </Link>
+        {assignedSets.size > 0 ? (
+          <Link
+            className={`problem-hub-tab${activeView === "classAssigned" ? " active" : ""}`}
+            href={problemSetsHref({ category: null, view: "classAssigned" })}
+          >
+            Class
+          </Link>
+        ) : null}
         <Link
           className={`problem-hub-tab${activeView === "assigned" ? " active" : ""}`}
           href={problemSetsHref({ category: null, view: "assigned" })}
@@ -591,6 +629,14 @@ export default async function ProblemSetsPage({
                       >
                         <strong>{set.title}</strong>
                       </Link>
+                      {assignedSets.has(set.id) ? (
+                        <span className="set-card-assigned-badge">
+                          Assigned
+                          {assignedSets.get(set.id)!.dueAt
+                            ? ` · due ${new Date(assignedSets.get(set.id)!.dueAt!).toLocaleDateString()}`
+                            : ""}
+                        </span>
+                      ) : null}
                     </td>
                     <td data-label="Categories">
                       <Link
