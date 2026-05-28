@@ -108,6 +108,9 @@ model User {
   hostedFtwRooms      FtwRoom[]            @relation("FtwRoomHost")
   ftwRoomPlayers      FtwRoomPlayer[]
   ftwRoomAnswers      FtwRoomAnswer[]
+  teachingClasses     Class[]              @relation("ClassTeacher")
+  classMemberships    ClassMember[]        @relation("ClassMembership")
+  authoredAssignments Assignment[]         @relation("AssignmentAuthor")
 }
 
 model Friendship {
@@ -148,6 +151,7 @@ model ProblemSet {
   createdBy      User                 @relation("ProblemSetCreator", fields: [createdById], references: [id])
   problemFile    ImportedFile?        @relation("ProblemFile", fields: [problemFileId], references: [id])
   solutionFile   ImportedFile?        @relation("SolutionFile", fields: [solutionFileId], references: [id])
+  assignments    Assignment[]
 }
 
 model ProblemSetAsset {
@@ -449,4 +453,43 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Class {
+  id          String        @id @default(cuid())
+  name        String
+  teacherId   String
+  teacher     User          @relation("ClassTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+  members     ClassMember[]
+  assignments Assignment[]
+  createdAt   DateTime      @default(now())
+
+  @@index([teacherId])
+}
+
+model ClassMember {
+  classId   String
+  studentId String
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  student   User     @relation("ClassMembership", fields: [studentId], references: [id], onDelete: Cascade)
+  addedAt   DateTime @default(now())
+
+  @@id([classId, studentId])
+  @@index([studentId])
+}
+
+model Assignment {
+  id           String     @id @default(cuid())
+  classId      String
+  problemSetId String
+  assignedById String
+  dueAt        DateTime?
+  createdAt    DateTime   @default(now())
+  class        Class      @relation(fields: [classId], references: [id], onDelete: Cascade)
+  problemSet   ProblemSet @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+  assignedBy   User       @relation("AssignmentAuthor", fields: [assignedById], references: [id])
+
+  @@unique([classId, problemSetId])
+  @@index([classId])
+  @@index([problemSetId])
 }
