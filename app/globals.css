@@ -8819,3 +8819,14 @@ html:not(.light) .ftw-rank.rank-1 {
   .playground-card-icon { width: 84px; height: 84px; }
   .battle-integral { font-size: 1.2rem; }
 }
+
+/* ── Classes list page ── */
+.classes-shell { padding: 24px; max-width: 1100px; margin: 0 auto; }
+.classes-shell .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.classes-empty { padding: 36px; border: 1px dashed var(--color-border); border-radius: 14px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; color: var(--color-muted); }
+.classes-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.classes-card { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--color-border); background: var(--color-surface); transition: border-color 120ms ease; }
+.classes-card:hover { border-color: var(--color-pink); }
+.classes-card h2 { font-size: 1.05rem; margin: 0; color: var(--color-text-strong); }
+.classes-card-meta { display: flex; gap: 14px; color: var(--color-muted); font-weight: 600; font-size: 0.85rem; margin: 0; }
+.classes-card small { color: var(--color-muted); }
