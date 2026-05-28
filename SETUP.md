@@ -182,6 +182,17 @@ psql -U dbsmo -h localhost dbsmo -c '\d "ProblemSetAsset"'
 
 You should see columns `id, problemSetId, key, fileId, createdAt`.
 
+### Deploying this pull (classes and assignments)
+
+Standard redeploy. `prisma db push` will create three new tables:
+`Class`, `ClassMember`, `Assignment`. Verify with:
+
+```bash
+psql -U dbsmo -h localhost dbsmo -c '\d "Class"'
+psql -U dbsmo -h localhost dbsmo -c '\d "ClassMember"'
+psql -U dbsmo -h localhost dbsmo -c '\d "Assignment"'
+```
+
 ## 7. Database schema changes
 
 This repo uses `prisma db push` (not `prisma migrate`), so any
