@@ -29,6 +29,7 @@ Stack: Next.js, NextAuth (Google + dev bypass), Prisma, KaTeX for math, Lucide i
 
 ### Now (this session)
 
+- **Classes + assignments** — teacher creates a class, picks students by username, assigns published problem sets with optional due dates. Three new tables (`Class`, `ClassMember`, `Assignment`). Permissions reuse `admin:users`. Completion derived live from `Attempt.submittedAt > assignment.createdAt` — never denormalized. Teacher routes under `/admin/classes`. Student surface = dashboard widget + new "Class" filter chip on `/problem-sets` (kept distinct from the pre-existing `assigned` tab which means "bestScore < 100"). Spec/plan in `docs/superpowers/{specs,plans}/2026-05-28-classes-and-assignments-*.md`.
 - **FTW (Alcumus For The Win) mode** — speed-based timed problem race against the clock. Single-player + real multiplayer rooms with join codes (5-char, ambiguous chars stripped). Routes under `/ftw`, schema additions `FtwMatch`/`FtwAnswer` (solo) and `FtwRoom`/`FtwRoomPlayer`/`FtwRoomProblem`/`FtwRoomAnswer` (multi). Polling-based realtime (1.5s tick on `/state`); host starts; scoreboard advances when all answered or timer expires. Sidebar entry on dashboard.
 - **Light-mode rehaul** — current light theme reads as flat AI-generated. Goals: warmer paper-white background, deliberate ink colors, fewer purple/cyan washes, pink reserved as accent (matches dark). Keep dark+pink as-is.
 - **Less AI vibe** — copy passes (no eyebrow soup, no "hero panel" walls of cards), tighter spacing, fewer gradients. Keep the typewriter greeting unchanged.
