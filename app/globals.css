@@ -8830,3 +8830,14 @@ html:not(.light) .ftw-rank.rank-1 {
 .classes-card h2 { font-size: 1.05rem; margin: 0; color: var(--color-text-strong); }
 .classes-card-meta { display: flex; gap: 14px; color: var(--color-muted); font-weight: 600; font-size: 0.85rem; margin: 0; }
 .classes-card small { color: var(--color-muted); }
+
+/* ── New class form ── */
+.classes-form { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.classes-form label { display: flex; flex-direction: column; gap: 6px; }
+.classes-pick-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; }
+.classes-pick-list button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 8px; text-align: left; cursor: pointer; }
+.classes-pick-list button small { color: var(--color-muted); margin-left: auto; }
+.classes-pick-chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.classes-pick-chips li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; background: rgba(240, 93, 155, 0.12); color: var(--color-pink); font-weight: 600; }
+.classes-pick-chips button { background: transparent; border: none; cursor: pointer; padding: 0; display: inline-flex; }
+.classes-error { color: var(--color-danger); font-weight: 600; }
