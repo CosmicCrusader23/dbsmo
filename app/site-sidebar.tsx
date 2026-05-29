@@ -37,7 +37,6 @@ export async function SiteSidebar() {
     if (hasPermission(user.role, "admin:users")) {
       links.push(
         { href: "/admin/students", label: "Students", icon: "Users" },
-        { href: "/admin/classes", label: "Manage Classes", icon: "GraduationCap" },
       );
     }
     if (hasPermission(user.role, "admin:analytics")) {
