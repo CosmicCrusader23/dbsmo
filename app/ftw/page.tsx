@@ -26,7 +26,7 @@ function timeAgo(d: Date | null) {
 
 export default async function FtwHomePage() {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+  if (!session?.user?.id || session.user.role !== "ADMIN") {
     redirect("/");
   }
 

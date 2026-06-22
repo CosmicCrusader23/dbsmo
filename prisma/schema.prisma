@@ -399,15 +399,15 @@ model FtwRoom {
 }
 
 model FtwRoomPlayer {
-  id        String          @id @default(cuid())
-  roomId    String
-  userId    String
-  score     Int             @default(0)
-  joinedAt  DateTime        @default(now())
-  leftAt    DateTime?
-  room      FtwRoom         @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  answers   FtwRoomAnswer[]
+  id       String          @id @default(cuid())
+  roomId   String
+  userId   String
+  score    Int             @default(0)
+  joinedAt DateTime        @default(now())
+  leftAt   DateTime?
+  room     FtwRoom         @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  answers  FtwRoomAnswer[]
 
   @@unique([roomId, userId])
   @@index([userId])
@@ -430,18 +430,18 @@ model FtwRoomProblem {
 }
 
 model FtwRoomAnswer {
-  id             String         @id @default(cuid())
-  roomProblemId  String
-  playerId       String
-  userId         String
-  rawAnswer      String?
-  submittedAt    DateTime?
-  elapsedMs      Int?
-  isCorrect      Boolean?
-  points         Int            @default(0)
-  roomProblem    FtwRoomProblem @relation(fields: [roomProblemId], references: [id], onDelete: Cascade)
-  player         FtwRoomPlayer  @relation(fields: [playerId], references: [id], onDelete: Cascade)
-  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String         @id @default(cuid())
+  roomProblemId String
+  playerId      String
+  userId        String
+  rawAnswer     String?
+  submittedAt   DateTime?
+  elapsedMs     Int?
+  isCorrect     Boolean?
+  points        Int            @default(0)
+  roomProblem   FtwRoomProblem @relation(fields: [roomProblemId], references: [id], onDelete: Cascade)
+  player        FtwRoomPlayer  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([roomProblemId, userId])
   @@index([userId])
