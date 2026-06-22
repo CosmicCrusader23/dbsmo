@@ -12,7 +12,7 @@ export default async function FtwRoomPage({
   params: Promise<{ code: string }>;
 }) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) redirect("/");
+  if (!session?.user?.id || session.user.role !== "ADMIN") redirect("/");
 
   const { code } = await params;
   const upper = code.toUpperCase();

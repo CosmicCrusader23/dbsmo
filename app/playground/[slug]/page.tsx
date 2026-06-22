@@ -10,7 +10,7 @@ type Params = Promise<{ slug: string }>;
 
 export default async function PlaygroundBossPage({ params }: { params: Params }) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) redirect("/");
+  if (!session?.user?.id || session.user.role !== "ADMIN") redirect("/");
   const { slug } = await params;
   const boss = getBoss(slug);
   if (!boss) notFound();

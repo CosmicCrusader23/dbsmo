@@ -12,7 +12,7 @@ export default async function FtwMatchPage({
   params: Promise<{ id: string }>;
 }) {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) redirect("/");
+  if (!session?.user?.id || session.user.role !== "ADMIN") redirect("/");
 
   const { id } = await params;
   const match = await prisma.ftwMatch.findUnique({ where: { id } });
