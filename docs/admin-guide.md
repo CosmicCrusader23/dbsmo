@@ -17,6 +17,7 @@
    - Use **LaTeX** for `$...$`/`$$...$$` style input.
    - Use **HTML** for content that includes tags like `<math>...</math>`.
 5. You can preview the statement live before saving.
+   - If you upload per-problem images, **Toggle Previews** renders them below the statement using the same image tokens used on the student problem page.
 6. Click **Save problem set** to finish. The set will show you as the uploader.
 
 ## Uploading a Problem Set (JSON)

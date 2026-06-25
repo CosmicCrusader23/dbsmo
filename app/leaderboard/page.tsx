@@ -84,6 +84,7 @@ export default async function LeaderboardPage({
         id: true,
         email: true,
         name: true,
+        image: true,
         displayName: true,
         avatarUrl: true,
         role: true,
@@ -177,6 +178,7 @@ export default async function LeaderboardPage({
         email: u.email,
         displayLabel: u.displayName || u.name || "Anonymous",
         avatarUrl: u.avatarUrl,
+        image: u.image,
         role: u.role,
         leaderboardVisible: u.leaderboardVisible,
         masteredSets,
@@ -376,6 +378,7 @@ export default async function LeaderboardPage({
                           email: u.email,
                           displayName: u.displayLabel,
                           avatarUrl: u.avatarUrl,
+                          image: u.image,
                         }}
                         size="md"
                         className="leaderboard-avatar"

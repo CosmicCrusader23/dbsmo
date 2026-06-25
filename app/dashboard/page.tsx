@@ -50,6 +50,7 @@ export default async function DashboardPage() {
         id: true,
         email: true,
         name: true,
+        image: true,
         displayName: true,
         avatarUrl: true,
         role: true,

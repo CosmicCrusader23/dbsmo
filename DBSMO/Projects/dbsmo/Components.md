@@ -45,9 +45,9 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Admin Content Components
 
-- `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`; supports per-problem image uploads and preview through `LatexStatement`.
-- `StatementPreview` in `app/admin/create/page-client.tsx`: local preview for statement content/format.
-- `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF upload, image upload, status, problem list, answer keys/types, points, explanations, and save to `/api/admin/sets/[id]`.
+- `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`; supports per-problem image uploads and preview through `LatexStatement`. Uploaded images are appended as `[[img:key]]` tokens for preview/save when not already referenced.
+- `StatementPreview` in `app/admin/create/page-client.tsx`: local preview for statement content/format, including problem image assets rendered by `LatexStatement`.
+- `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF upload, image upload, status, problem list, answer keys/types, points, explanations, and save to `/api/admin/sets/[id]`. It shares the same per-problem image-token append behavior before save.
 - `DeleteSetButton` in `app/admin/sets/delete-set-button.tsx`: client delete action used by set management/detail flows and backed by `DELETE /api/admin/sets/[id]`.
 - `JsonZipImportPanel` in `app/admin/import/json-zip-import-panel.tsx`: batch JSON ZIP import UI; unpacks `.json` files plus optional same-basename nested image ZIPs and runs dry-run/draft/commit per entry.
 - `ZipImportPanel` in `app/admin/import/zip-import-panel.tsx`: single JSON import UI; accepts optional same-basename image ZIP and runs dry-run/draft/commit flow.
@@ -70,7 +70,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Users and Settings
 
-- `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, writes theme/typewriter settings to `localStorage`, validates and patches account settings.
+- `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, falls back to Google `User.image` when no custom avatar is set, writes theme/typewriter settings to `localStorage`, validates and patches account settings.
 - `FriendButton` in `app/users/[username]/friend-button.tsx`: client heart button backed by `PATCH /api/friends/[userId]`.
 - `PromoteUserButton` in `app/users/[username]/promote-user-button.tsx`: admin role change UI backed by `PATCH /api/admin/users/[id]/role`.
 - `LeaderboardPage` in `app/leaderboard/page.tsx`: leaderboard route with local `RankBadge` and shared `Avatar`.

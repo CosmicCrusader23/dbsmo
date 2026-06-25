@@ -30,8 +30,8 @@ export function Avatar({
   const tint = avatarTint(seed);
 
   if (url) {
-    /* eslint-disable-next-line @next/next/no-img-element */
     return (
+      /* eslint-disable-next-line @next/next/no-img-element */
       <img
         src={url}
         alt=""

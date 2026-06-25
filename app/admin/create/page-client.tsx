@@ -724,22 +724,14 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
         {problems.map((p) => (
           <div key={p.id} className="problem-card">
             <div className="problem-card-head">
-              <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div className="problem-number-control">
                 <GripVertical size={14} className="grip-icon" />
                 <input
+                  className="problem-number-input"
                   type="number"
                   min={1}
                   value={p.number}
                   onChange={(e) => updateProblem(p.id, "number", Number(e.target.value))}
-                  style={{
-                    width: 60,
-                    padding: "4px 8px",
-                    borderRadius: 4,
-                    border: "1px solid var(--color-border)",
-                    background: "var(--color-surface)",
-                    color: "var(--color-text-strong)",
-                    fontWeight: 700,
-                  }}
                   placeholder="ID"
                 />
               </div>

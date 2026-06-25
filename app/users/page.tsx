@@ -29,6 +29,7 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
       id: true,
       email: true,
       name: true,
+      image: true,
       displayName: true,
       avatarUrl: true,
       role: true,
@@ -133,6 +134,7 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
                       email: u.email,
                       displayName: u.displayLabel,
                       avatarUrl: u.avatarUrl,
+                      image: u.image,
                     }}
                     size="lg"
                     className="user-card-img"

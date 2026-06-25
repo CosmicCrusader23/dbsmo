@@ -20,7 +20,7 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 
 ## Core Models
 
-- `User`: NextAuth user plus app profile fields: display name, avatar URL, role, group, visibility flags, theme, greeting settings, login timestamps, and relations to attempts, feedback, files, problem sets, bookmarks, friendships, practice solves, audit/export jobs, FTW, and classes (source: `prisma/schema.prisma`).
+- `User`: NextAuth user plus app profile fields: Google `image`, display name, custom avatar URL, role, group, visibility flags, theme, greeting settings, login timestamps, and relations to attempts, feedback, files, problem sets, bookmarks, friendships, practice solves, audit/export jobs, FTW, and classes (source: `prisma/schema.prisma`). The shared `Avatar` component prefers custom `avatarUrl`, then Google `image`, then deterministic initials (sources: `app/avatar.tsx`, `lib/avatar.ts`).
 - `ProblemSet`: slug/title/description/order/status/visibility windows/group restrictions/tags/difficulty/video/files/creator plus problems, attempts, feedback, bookmarks, assets, and assignments (source: `prisma/schema.prisma`).
 - `Problem`: problem-set child with integer `number`, statement, `ProblemContentFormat`, answer key/type/accepted answers/case sensitivity/explanation/tags/points; unique per `(problemSetId, number)` (source: `prisma/schema.prisma`).
 - `Attempt` and `Response`: full problem-set attempt totals and per-problem raw/normalized answers, correctness, and awarded points (source: `prisma/schema.prisma`).

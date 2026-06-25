@@ -60,6 +60,7 @@ export default async function UserProfilePage({
       id: true,
       email: true,
       name: true,
+      image: true,
       displayName: true,
       avatarUrl: true,
       role: true,
@@ -364,6 +365,7 @@ export default async function UserProfilePage({
               email: user.email,
               displayName: displayLabel,
               avatarUrl: user.avatarUrl,
+              image: user.image,
             }}
             size="lg"
             className="profile-avatar-img"

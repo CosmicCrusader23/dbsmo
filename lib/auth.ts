@@ -124,12 +124,13 @@ export const authOptions: NextAuthOptions = {
 
         const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },
-          select: { role: true, group: true },
+          select: { role: true, group: true, image: true },
         });
 
         if (dbUser) {
           session.user.role = dbUser.role;
           session.user.group = dbUser.group;
+          session.user.image = dbUser.image ?? session.user.image ?? null;
         } else {
           session.user.role = (token.role as UserRole) ?? "STUDENT";
           session.user.group = null;

@@ -1970,6 +1970,25 @@ img.avatar {
   flex-shrink: 0;
 }
 
+.problem-number-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.problem-number-input {
+  width: 64px;
+  min-height: 34px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text-strong);
+  font-weight: 900;
+  line-height: 1;
+  padding: 4px 8px;
+}
+
 .topic-chips {
   color: var(--color-muted);
   font-weight: 800;

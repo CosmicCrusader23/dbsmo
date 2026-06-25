@@ -76,8 +76,12 @@ function normalizeHtmlStatement(raw: string): string {
       return tex ? ` $${tex}$ ` : " ";
     },
   );
-  value = value.replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g, "$2");
-  value = value.replace(/\[\[([^\]]+)\]\]/g, "$1");
+  value = value.replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g, (match, target: string, label: string) =>
+    target.startsWith("img:") ? match : label,
+  );
+  value = value.replace(/\[\[([^\]]+)\]\]/g, (match, target: string) =>
+    target.startsWith("img:") ? match : target,
+  );
   value = value.replace(
     /<\/?(?:br|p|div|center|li|ul|ol|section|article|tr|td|th|table)\b[^>]*>/gi,
     "\n",

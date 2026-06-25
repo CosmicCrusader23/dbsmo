@@ -148,6 +148,8 @@ Profile/settings:
 - `app/users/[username]/page.tsx`
 - `lib/user-profile.ts`
 - `app/avatar.tsx`, `lib/avatar.ts`
+- `lib/auth.ts` for propagating Google `User.image` into the session.
+- Pages that select user rows for avatars must include `image: true` when they want Google profile-picture fallback, then pass `image` to `Avatar`.
 
 Friends:
 

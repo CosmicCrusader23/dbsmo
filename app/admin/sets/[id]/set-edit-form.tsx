@@ -678,22 +678,14 @@ export function SetEditForm({ set }: { set: SetData }) {
                     ) : (
                       <ChevronRight size={18} />
                     )}
-                    <div className="problem-number" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div className="problem-number-control">
                       <input
+                        className="problem-number-input"
                         type="number"
                         min={1}
                         value={problem.number}
                         onChange={(e) => updateProblem(problem.id, "number", Number(e.target.value))}
                         onClick={(e) => e.stopPropagation()}
-                        style={{
-                          width: 60,
-                          padding: "2px 6px",
-                          borderRadius: 4,
-                          border: "1px solid var(--color-border)",
-                          background: "var(--color-surface)",
-                          color: "var(--color-text-strong)",
-                          fontWeight: 700,
-                        }}
                         placeholder="ID"
                       />
                     </div>

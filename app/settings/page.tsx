@@ -36,6 +36,7 @@ interface UserProfile {
   id: string;
   email: string;
   name: string | null;
+  image: string | null;
   displayName: string | null;
   avatarUrl: string | null;
   role: string;
@@ -127,7 +128,10 @@ export default function SettingsPage() {
     try {
       const storedThemeSettings = localStorage.getItem("mo-typewriter-settings");
       if (storedThemeSettings) {
-        setTypewriterSettings((prev) => ({ ...prev, ...JSON.parse(storedThemeSettings) }));
+        const parsedSettings = JSON.parse(storedThemeSettings);
+        queueMicrotask(() => {
+          setTypewriterSettings((prev) => ({ ...prev, ...parsedSettings }));
+        });
       }
     } catch {}
   }, []);
@@ -207,7 +211,8 @@ export default function SettingsPage() {
     );
   }
 
-  const currentAvatar = avatarUrl.trim();
+  const customAvatar = avatarUrl.trim();
+  const currentAvatar = customAvatar || user.image?.trim() || "";
   const previewName = displayName.trim() || user.name || "";
 
   return (
@@ -246,8 +251,12 @@ export default function SettingsPage() {
                 alt="Profile"
                 className="settings-avatar-img"
                 onError={() => {
-                  setAvatarUrl("");
-                  setError("That profile picture could not be loaded.");
+                  if (customAvatar) {
+                    setAvatarUrl("");
+                    setError("That profile picture could not be loaded.");
+                  } else {
+                    setError("Your Google profile picture could not be loaded.");
+                  }
                 }}
               />
             ) : (
@@ -257,6 +266,7 @@ export default function SettingsPage() {
                   email: user?.email ?? null,
                   displayName: displayName || user?.displayName || user?.name || null,
                   name: user?.name ?? null,
+                  image: user?.image ?? null,
                 }}
                 size="lg"
                 className="settings-avatar-img"
@@ -342,7 +352,7 @@ export default function SettingsPage() {
               onChange={(e) => setAvatarUrl(e.target.value)}
             />
             <small className="form-hint">
-              Paste a URL or leave this empty for the default M avatar.
+              Paste a URL or leave this empty to use your Google profile picture when available.
             </small>
           </div>
 
@@ -382,7 +392,7 @@ export default function SettingsPage() {
               onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)) })}
             />
             <small className="form-hint">Time between typing each character. Range: 10 - 500. Default: 42</small>
-          </div>2
+          </div>
 
           <div className="settings-row">
             <label>Greeting Deleting Speed (ms)</label>
@@ -448,13 +458,13 @@ export default function SettingsPage() {
             </small>
           </div>
 
-          {avatarUrl ? (
+          {customAvatar ? (
             <button
               className="secondary-action compact settings-clear-avatar"
               type="button"
               onClick={() => setAvatarUrl("")}
             >
-              Use default M avatar
+              Use Google/default avatar
             </button>
           ) : null}
 

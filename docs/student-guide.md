@@ -71,6 +71,10 @@ The dashboard shows your overall progress:
 
 The standard leaderboard ranks useful progress instead of raw attempts. By default, **Mastery** sorts by best points earned across currently published sets. **Best average** sorts by each user's weighted best-attempt average. Staff role badges show the user's actual role, such as Admin, Teacher, Content Editor, or Analyst.
 
+## Profile Picture
+
+Your Google account picture is used by default. In **Settings**, you can upload or paste a custom profile picture; clearing it returns to the Google/default avatar.
+
 ## Reporting Issues
 
 If you find an error in a problem or answer key:
