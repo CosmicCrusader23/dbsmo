@@ -9,6 +9,8 @@ Two other docs are required reading for full context. Don't duplicate them — r
 
 `SETUP.md` is the production VPS runbook. Edit it in the **same commit** as any change that affects deploy (new env var, new system dep, schema change, new port/route, new build step). See AGENTS.md.
 
+Commit messages must not include `Co-Authored-By` trailers or assistant attribution trailers unless the user explicitly asks for them. In particular, do not add `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>`.
+
 ## Commands
 
 ```bash

@@ -8,9 +8,11 @@ The user has bypass perms enabled and asks for this explicitly. After each finis
 
 ```bash
 git add -A
-git commit -m "<short msg>" -m "Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
+git commit -m "<short msg>"
 git push origin main
 ```
+
+Do not add `Co-Authored-By` trailers or assistant attribution trailers to commits unless the user explicitly asks for them. In particular, never add `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>`.
 
 What counts as a checkpoint:
 - A feature that builds, lints, and passes tests.
