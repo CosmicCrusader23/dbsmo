@@ -4,6 +4,7 @@ import "katex/dist/katex.min.css";
 import "./globals.css";
 import { SiteSidebar } from "./site-sidebar";
 import { GlobalMobileNavToggle } from "./global-mobile-nav";
+import { AppFooter } from "./app-footer";
 
 export const metadata: Metadata = {
   title: "DBSMO Training Platform",
@@ -60,6 +61,7 @@ export default async function RootLayout({
         {sidebar}
         {sidebar ? <GlobalMobileNavToggle /> : null}
         <div className="site-content">{children}</div>
+        <AppFooter />
       </body>
     </html>
   );

@@ -124,14 +124,19 @@ export function computeBestAverageScore(
 ): number {
   if (attempts.length === 0) return 0;
 
-  const bestPerSet = new Map<string, number>();
+  const bestPerSet = new Map<string, { score: number; maxScore: number; pct: number }>();
   for (const a of attempts) {
     if (a.maxScore > 0) {
       const pct = (a.score / a.maxScore) * 100;
-      bestPerSet.set(a.problemSetId, Math.max(bestPerSet.get(a.problemSetId) ?? 0, pct));
+      const existing = bestPerSet.get(a.problemSetId);
+      if (!existing || pct > existing.pct || (pct === existing.pct && a.score > existing.score)) {
+        bestPerSet.set(a.problemSetId, { score: a.score, maxScore: a.maxScore, pct });
+      }
     }
   }
 
-  const scores = Array.from(bestPerSet.values());
-  return scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+  const bestAttempts = Array.from(bestPerSet.values());
+  const earned = bestAttempts.reduce((sum, attempt) => sum + attempt.score, 0);
+  const possible = bestAttempts.reduce((sum, attempt) => sum + attempt.maxScore, 0);
+  return possible > 0 ? Math.round((earned / possible) * 100) : 0;
 }

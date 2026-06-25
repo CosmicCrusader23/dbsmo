@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isStaffRole } from "@/lib/permissions";
+import { isVisibleToStudent } from "@/lib/visibility";
 import { Avatar } from "@/app/avatar";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +24,34 @@ type LeaderboardSearchParams = Promise<{
   sort?: string;
 }>;
 
+type StandardSortMode = "mastery" | "average";
+
+type BestAttempt = {
+  score: number;
+  maxScore: number;
+  pct: number;
+  submittedAt: Date;
+};
+
+const ROLE_LABELS: Record<string, string> = {
+  ADMIN: "Admin",
+  ANALYST: "Analyst",
+  CONTENT_EDITOR: "Content Editor",
+  STUDENT: "Student",
+  TEACHER: "Teacher",
+};
+
+function roleLabel(role: string) {
+  return ROLE_LABELS[role] ?? role.replace(/_/g, " ").toLowerCase();
+}
+
+function betterAttempt(next: BestAttempt, current: BestAttempt | undefined) {
+  if (!current) return true;
+  if (next.pct !== current.pct) return next.pct > current.pct;
+  if (next.score !== current.score) return next.score > current.score;
+  return next.submittedAt > current.submittedAt;
+}
+
 export default async function LeaderboardPage({
   searchParams,
 }: {
@@ -34,12 +63,12 @@ export default async function LeaderboardPage({
   const params = (await searchParams) ?? {};
   const mode = params.mode === "practice" ? "practice" : "standard";
   const scope = params.scope === "friends" ? "friends" : "all";
-  const sortMode = params.sort === "average" ? "average" : "solved";
+  const sortMode: StandardSortMode = params.sort === "average" ? "average" : "mastery";
 
   function leaderboardHref(next: {
     mode?: "standard" | "practice";
     scope?: "all" | "friends";
-    sort?: "solved" | "average";
+    sort?: StandardSortMode;
   }) {
     const query = new URLSearchParams({
       mode: next.mode ?? mode,
@@ -49,7 +78,7 @@ export default async function LeaderboardPage({
     return `/leaderboard?${query.toString()}`;
   }
 
-  const [users, perSetBest, attemptTotals, friendships] = await Promise.all([
+  const [users, attempts, friendships, problemSets] = await Promise.all([
     prisma.user.findMany({
       select: {
         id: true,
@@ -64,13 +93,21 @@ export default async function LeaderboardPage({
         },
       },
     }),
-    prisma.attempt.groupBy({
-      by: ["userId", "problemSetId"],
-      _max: { score: true, maxScore: true },
-    }),
-    prisma.attempt.groupBy({
-      by: ["userId"],
-      _count: { _all: true },
+    prisma.attempt.findMany({
+      select: {
+        userId: true,
+        problemSetId: true,
+        score: true,
+        maxScore: true,
+        submittedAt: true,
+        problemSet: {
+          select: {
+            status: true,
+            visibleFrom: true,
+            visibleTo: true,
+          },
+        },
+      },
     }),
     prisma.friendship
       ?.findMany({
@@ -80,19 +117,42 @@ export default async function LeaderboardPage({
         select: { requesterId: true, receiverId: true },
       })
       .catch(() => []) ?? Promise.resolve([]),
+    prisma.problemSet.findMany({
+      select: {
+        id: true,
+        status: true,
+        visibleFrom: true,
+        visibleTo: true,
+      },
+    }),
   ]);
 
-  const bestPerSetByUser = new Map<string, Array<{ pct: number }>>();
-  for (const row of perSetBest) {
-    const max = row._max.maxScore ?? 0;
-    const pct = max > 0 ? ((row._max.score ?? 0) / max) * 100 : 0;
-    const list = bestPerSetByUser.get(row.userId) ?? [];
-    list.push({ pct });
-    bestPerSetByUser.set(row.userId, list);
-  }
-  const totalAttemptsByUser = new Map<string, number>(
-    attemptTotals.map((row) => [row.userId, row._count._all]),
+  const visibleSetIds = new Set(
+    problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
   );
+  const bestPerSetByUser = new Map<string, Map<string, BestAttempt>>();
+  const totalAttemptsByUser = new Map<string, number>();
+  for (const attempt of attempts) {
+    if (!visibleSetIds.has(attempt.problemSetId) || !isVisibleToStudent(attempt.problemSet)) {
+      continue;
+    }
+    totalAttemptsByUser.set(attempt.userId, (totalAttemptsByUser.get(attempt.userId) ?? 0) + 1);
+    if (attempt.maxScore <= 0) {
+      continue;
+    }
+
+    const next = {
+      score: attempt.score,
+      maxScore: attempt.maxScore,
+      pct: (attempt.score / attempt.maxScore) * 100,
+      submittedAt: attempt.submittedAt,
+    };
+    const perSet = bestPerSetByUser.get(attempt.userId) ?? new Map<string, BestAttempt>();
+    if (betterAttempt(next, perSet.get(attempt.problemSetId))) {
+      perSet.set(attempt.problemSetId, next);
+      bestPerSetByUser.set(attempt.userId, perSet);
+    }
+  }
 
   const friendIds = new Set<string>([session.user.id]);
   for (const friendship of friendships) {
@@ -103,14 +163,14 @@ export default async function LeaderboardPage({
 
   const rows = users
     .map((u) => {
-      const perSet = bestPerSetByUser.get(u.id) ?? [];
-      const uniqueSets = perSet.length;
+      const perSet = Array.from(bestPerSetByUser.get(u.id)?.values() ?? []);
+      const attemptedSets = perSet.length;
       const totalAttempts = totalAttemptsByUser.get(u.id) ?? 0;
-      const solvedSets = perSet.filter((s) => s.pct >= 80).length;
-      const avgScore =
-        perSet.length > 0
-          ? Math.round(perSet.reduce((sum, s) => sum + s.pct, 0) / perSet.length)
-          : 0;
+      const masteredSets = perSet.filter((s) => s.pct >= 80).length;
+      const bestPoints = perSet.reduce((sum, attempt) => sum + attempt.score, 0);
+      const possiblePoints = perSet.reduce((sum, attempt) => sum + attempt.maxScore, 0);
+      const bestAverage =
+        possiblePoints > 0 ? Math.round((bestPoints / possiblePoints) * 100) : 0;
 
       return {
         id: u.id,
@@ -119,9 +179,12 @@ export default async function LeaderboardPage({
         avatarUrl: u.avatarUrl,
         role: u.role,
         leaderboardVisible: u.leaderboardVisible,
-        solvedSets,
-        uniqueSets,
-        avgScore,
+        masteredSets,
+        attemptedSets,
+        bestAverage,
+        bestPoints,
+        possiblePoints,
+        masteryPoints: bestPoints,
         totalAttempts,
         practiceScore: u._count.practiceSolves,
       };
@@ -137,19 +200,24 @@ export default async function LeaderboardPage({
 
       if (sortMode === "average") {
         return (
-          b.avgScore - a.avgScore ||
-          b.solvedSets - a.solvedSets ||
+          b.bestAverage - a.bestAverage ||
+          b.masteryPoints - a.masteryPoints ||
+          b.masteredSets - a.masteredSets ||
           a.displayLabel.localeCompare(b.displayLabel)
         );
       }
 
       return (
-        b.solvedSets - a.solvedSets ||
-        b.avgScore - a.avgScore ||
+        b.masteryPoints - a.masteryPoints ||
+        b.masteredSets - a.masteredSets ||
+        b.bestAverage - a.bestAverage ||
+        b.attemptedSets - a.attemptedSets ||
         a.displayLabel.localeCompare(b.displayLabel)
       );
     })
     .map((u, i) => ({ ...u, rank: i + 1 }));
+  const topRow = rows[0] ?? null;
+  const activeStandardUsers = rows.filter((row) => row.attemptedSets > 0).length;
 
   return (
     <main className={`leaderboard-shell leaderboard-shell-${mode}`}>
@@ -217,20 +285,53 @@ export default async function LeaderboardPage({
             <span className="leaderboard-control-label">Order by</span>
             <div className="segmented-control">
               <Link
-                className={`segmented-button${sortMode === "solved" ? " active" : ""}`}
-                href={leaderboardHref({ sort: "solved" })}
+                className={`segmented-button${sortMode === "mastery" ? " active" : ""}`}
+                href={leaderboardHref({ sort: "mastery" })}
               >
-                Solved
+                Mastery
               </Link>
               <Link
                 className={`segmented-button${sortMode === "average" ? " active" : ""}`}
                 href={leaderboardHref({ sort: "average" })}
               >
-                Average score
+                Best average
               </Link>
             </div>
           </div>
         )}
+      </section>
+
+      <section className="leaderboard-summary-grid" aria-label="Leaderboard summary">
+        <article>
+          <small>Ranked by</small>
+          <strong>
+            {mode === "practice"
+              ? "Practice solves"
+              : sortMode === "average"
+                ? "Weighted best average"
+                : "Mastery points"}
+          </strong>
+          <span>
+            {mode === "practice"
+              ? "Correct practice answers"
+              : "Best attempts on visible published sets"}
+          </span>
+        </article>
+        <article>
+          <small>{mode === "practice" ? "Visible players" : "Active players"}</small>
+          <strong>{mode === "practice" ? rows.length : activeStandardUsers}</strong>
+          <span>{scope === "friends" ? "Friends view" : "All visible users"}</span>
+        </article>
+        <article>
+          <small>{mode === "practice" ? "Current leader" : "Sets in season"}</small>
+          <strong>{mode === "practice" ? (topRow?.practiceScore ?? 0) : visibleSetIds.size}</strong>
+          <span>{mode === "practice" ? (topRow?.displayLabel ?? "No entries") : "Published now"}</span>
+        </article>
+        <article>
+          <small>Signal</small>
+          <strong>{mode === "practice" ? "Drill volume" : "Breadth × accuracy"}</strong>
+          <span>Designed to reward useful progress</span>
+        </article>
       </section>
 
       <div className="leaderboard-table-wrap">
@@ -241,9 +342,10 @@ export default async function LeaderboardPage({
               <th>User</th>
               {mode === "standard" ? (
                 <>
-                  <th>Solved</th>
-                  <th>Avg score</th>
-                  <th>Sets tried</th>
+                  <th>Mastery</th>
+                  <th>Mastered</th>
+                  <th>Best avg</th>
+                  <th>Coverage</th>
                   <th>Attempts</th>
                 </>
               ) : (
@@ -254,7 +356,7 @@ export default async function LeaderboardPage({
           <tbody>
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={6}>
+                <td colSpan={mode === "standard" ? 7 : 3}>
                   {scope === "friends"
                     ? "No friends yet. Favorite users from their profile to build this list."
                     : "No leaderboard entries yet."}
@@ -282,11 +384,13 @@ export default async function LeaderboardPage({
                         <Link className="user-link" href={profilePathFromEmail(u.email)}>
                           {u.displayLabel}
                         </Link>
-                        {u.role === "ADMIN" ? <span className="role-badge">Teacher</span> : null}
+                        {u.role !== "STUDENT" ? (
+                          <span className="role-badge">{roleLabel(u.role)}</span>
+                        ) : null}
                         <small className="leaderboard-mobile-meta">
                           {mode === "practice"
                             ? `Score ${u.practiceScore}`
-                            : `Score ${u.avgScore}%`}
+                            : `${u.masteryPoints} pts · ${u.bestAverage}% avg`}
                         </small>
                       </div>
                     </div>
@@ -294,26 +398,49 @@ export default async function LeaderboardPage({
                   {mode === "standard" ? (
                     <>
                       <td>
-                        <strong>{u.solvedSets}</strong>
+                        <div className="leaderboard-score-cell">
+                          <strong>{u.masteryPoints}</strong>
+                          <small>
+                            {u.bestPoints}/{u.possiblePoints || 0} best points
+                          </small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="leaderboard-score-cell">
+                          <strong>{u.masteredSets}</strong>
+                          <small>sets at 80%+</small>
+                        </div>
                       </td>
                       <td>
                         <div className="leaderboard-score-cell">
                           <span
                             className={`score-color ${
-                              u.avgScore >= 80
+                              u.bestAverage >= 80
                                 ? "score-high"
-                                : u.avgScore >= 50
+                                : u.bestAverage >= 50
                                   ? "score-mid"
                                   : "score-low"
                             }`}
                           >
-                            {u.avgScore}%
+                            {u.bestAverage}%
                           </span>
-                          <small>{u.solvedSets} solved</small>
+                          <small>weighted by points</small>
                         </div>
                       </td>
-                      <td>{u.uniqueSets}</td>
-                      <td>{u.totalAttempts}</td>
+                      <td>
+                        <div className="leaderboard-score-cell">
+                          <strong>
+                            {u.attemptedSets}/{visibleSetIds.size}
+                          </strong>
+                          <small>sets tried</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="leaderboard-score-cell">
+                          <strong>{u.totalAttempts}</strong>
+                          <small>submitted</small>
+                        </div>
+                      </td>
                     </>
                   ) : (
                     <td>

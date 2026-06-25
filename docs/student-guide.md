@@ -60,11 +60,16 @@ Click **Continue** or **Open current set** to jump straight to the recommended s
 The dashboard shows your overall progress:
 
 - **Completion percentage** shown in the progress ring.
+- **Best average** based on your best attempt for each attempted set, weighted by each set's possible points.
 - **Topic strengths** shown as colored bars (higher = better).
 - **Set list** with status indicators:
   - 🔴 Not started
   - 🟡 Attempted (can improve)
   - 🟢 Completed (high score)
+
+## Leaderboard
+
+The standard leaderboard ranks useful progress instead of raw attempts. By default, **Mastery** sorts by best points earned across currently published sets. **Best average** sorts by each user's weighted best-attempt average. Staff role badges show the user's actual role, such as Admin, Teacher, Content Editor, or Analyst.
 
 ## Reporting Issues
 
@@ -86,6 +91,10 @@ Your report goes to the admin feedback queue. You can check the status of your r
 ## Dark Mode
 
 Click the theme toggle button (☀️/🌙) in the top-right area to switch between light and dark mode. Your preference is saved in your browser.
+
+## App Footer
+
+Every page footer shows version `v0.67.0`, links to the DBSMO GitHub repository, and links to the Cosmic Crusader website.
 
 ## Tips for Training
 

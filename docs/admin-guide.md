@@ -46,7 +46,7 @@ See [import-format.md](./import-format.md) for the JSON format specification.
 
 1. Click **Students** in the sidebar to see all registered students.
 2. The table shows name, email, group, sets completed, average score, joining date, and last active date.
-   - **Average Score Logic:** Note that the average score is now calculated as the average of the student's **best performance** per unique problem set, rewarding mastery rather than penalizing retakes.
+   - **Average Score Logic:** The average score is calculated from each student's **best attempt per problem set**, weighted by the set's possible points. This rewards mastery while making larger sets count proportionally.
 3. Click a student name to see their **detail page** with:
    - Attempt history and scores.
    - Topic accuracy breakdown.
@@ -102,3 +102,7 @@ Use the **Export CSV** button on the Analytics page for quick access.
 ## Dark Mode
 
 Click the theme toggle button (☀️/🌙) in the top-right topbar area to switch between light and dark mode. The preference is saved in your browser.
+
+## App Footer
+
+Every page footer shows the current app version, repository link, and Cosmic Crusader website link. Version `v0.67.0` is the current deployed app label.

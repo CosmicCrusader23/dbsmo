@@ -159,12 +159,7 @@ export default async function DashboardPage() {
   const completedSets = attemptedRows.length;
   const totalSets = visibleSets.length;
   const completionPercent = totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
-  const averageScore =
-    attemptedRows.length > 0
-      ? Math.round(
-          attemptedRows.reduce((sum, row) => sum + row.bestScore, 0) / attemptedRows.length,
-        )
-      : 0;
+  const averageScore = computeBestAverageScore(attempts);
   const latestAttempt = attempts[0] ?? null;
   const latestScore =
     latestAttempt && latestAttempt.maxScore > 0
@@ -330,7 +325,7 @@ export default async function DashboardPage() {
             </div>
             <div className="orbit-card orbit-card-one">
               <CheckCircle2 size={18} />
-              {averageScore}% avg
+              {averageScore}% best avg
             </div>
             {currentUser.role === "ADMIN" ? (
               <div className="orbit-card orbit-card-two">
@@ -349,7 +344,7 @@ export default async function DashboardPage() {
             value={`${completedSets}/${totalSets || 0}`}
             accent="grey"
           />
-          <MetricCard label="Average" value={`${averageScore}%`} accent="grey" />
+          <MetricCard label="Best average" value={`${averageScore}%`} accent="grey" />
           <MetricCard label="Latest score" value={`${latestScore}%`} accent="grey" />
           {currentUser.role === "ADMIN" ? (
             <MetricCard label="Open reports" value={`${openReports}`} accent="grey" />
