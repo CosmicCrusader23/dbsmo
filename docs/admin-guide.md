@@ -4,6 +4,7 @@
 
 1. **Sign in** using your school Google account (`@g.dbs.edu.hk`), or use the developer bypass in local mode.
 2. After sign-in you land on the **Training Dashboard** with a Teacher View badge.
+3. On phones and tablets, tap the **DBSMO** topbar menu button to open the compact sidebar sheet. The popup is designed to fit without its own scroll area.
 
 ## Creating a Problem Set (GUI)
 

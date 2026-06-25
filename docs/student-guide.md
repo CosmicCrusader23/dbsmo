@@ -5,6 +5,7 @@
 1. Open the training platform URL in your browser.
 2. Click **Sign in with Google** using your school email (`@g.dbs.edu.hk`).
 3. You will be redirected to the **Training Dashboard**.
+4. On phones and tablets, tap the **DBSMO** topbar menu button to open navigation. The menu appears as a compact popup sheet and does not create a separate scroll area.
 
 ## Dashboard Overview
 
