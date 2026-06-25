@@ -1527,6 +1527,12 @@ img.avatar {
   border-color: rgba(238, 68, 85, 0.26);
 }
 
+.question-graded-box.locked,
+.answer-cell.locked {
+  border-color: rgba(27, 191, 137, 0.24);
+  background: rgba(27, 191, 137, 0.06);
+}
+
 .question-graded-value {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1644,6 +1650,10 @@ img.avatar {
 .perfect-lock-note {
   color: var(--color-muted);
   font-weight: 800;
+}
+
+.locked-fill-count {
+  max-width: 32rem;
 }
 
 .graded-answer {

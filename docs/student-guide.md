@@ -36,6 +36,7 @@ Click **Continue** or **Open current set** to jump straight to the recommended s
 3. Type your answer in the input field for each problem number.
 4. Your answers **autosave** to your browser — you can close and come back later without losing progress.
 5. When ready, click **Submit** to grade your answers.
+6. If you have already solved a set with a perfect score, the problem page stays readable but answer inputs and new submissions are locked.
 
 ### Answer Formats
 

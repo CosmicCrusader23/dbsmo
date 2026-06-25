@@ -77,6 +77,10 @@ export function AnswerGrid({
   const [reportSubmitting, setReportSubmitting] = useState(false);
   const [reportError, setReportError] = useState<string | null>(null);
   const [reportSuccess, setReportSuccess] = useState(false);
+  const isSubmissionLocked = lockedAttemptNumber !== null;
+  const lockedMessage = lockedAttemptNumber
+    ? `Attempt #${lockedAttemptNumber} solved this set, so submissions are locked.`
+    : null;
 
   const startTime = useRef(0);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -111,6 +115,11 @@ export function AnswerGrid({
   }, []);
 
   async function onSubmit() {
+    if (isSubmissionLocked) {
+      setSubmitError(lockedMessage);
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitResult(null);
@@ -144,6 +153,11 @@ export function AnswerGrid({
   }
 
   function onRetry() {
+    if (isSubmissionLocked) {
+      setSubmitError(lockedMessage);
+      return;
+    }
+
     setSubmitResult(null);
     setSubmitError(null);
     startTime.current = Date.now();
@@ -343,6 +357,22 @@ export function AnswerGrid({
   }
 
   function renderTopActions() {
+    if (isSubmissionLocked) {
+      return (
+        <>
+          <span className="fill-count locked-fill-count">{lockedMessage}</span>
+          <button
+            className="secondary-action"
+            type="button"
+            onClick={() => setShowReportDialog(true)}
+          >
+            <MessageSquareWarning size={18} />
+            Report issue
+          </button>
+        </>
+      );
+    }
+
     if (submitResult) {
       return (
         <>
@@ -417,7 +447,8 @@ export function AnswerGrid({
               const summary = problemSummaryMap.get(number);
               const result = resultMap?.get(number);
               const stateClass = result ? (result.isCorrect ? "correct" : "incorrect") : "";
-              const draftState = !submitResult && (answers[number]?.trim() ?? "").length > 0;
+              const draftState =
+                !isSubmissionLocked && !submitResult && (answers[number]?.trim() ?? "").length > 0;
 
               return (
                 <section
@@ -480,6 +511,11 @@ export function AnswerGrid({
                           <XCircle size={16} className="grade-icon incorrect-icon" />
                         )}
                       </div>
+                    ) : isSubmissionLocked ? (
+                      <div className="question-graded-box locked">
+                        <span className="question-graded-value">Submission locked</span>
+                        <CheckCircle2 size={16} className="grade-icon correct-icon" />
+                      </div>
                     ) : (
                       <input
                         className="question-answer-input"
@@ -513,6 +549,44 @@ export function AnswerGrid({
   }
 
   function renderFallbackAnswerGrid() {
+    if (isSubmissionLocked) {
+      return (
+        <>
+          <div className="locked-submit-state">
+            <CheckCircle2 size={24} />
+            <div>
+              <strong>Perfect score already recorded</strong>
+              <p>{lockedMessage}</p>
+            </div>
+          </div>
+
+          <div className="answer-grid">
+            {problemNumbers.map((number) => (
+              <div className="answer-cell locked" key={number}>
+                <span className="answer-cell-label">Question {number}</span>
+                <div className="graded-answer">
+                  <span className="answer-cell-value">Submission locked</span>
+                  <CheckCircle2 size={14} className="grade-icon correct-icon" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="problem-actions">
+            <button
+              className="secondary-action"
+              type="button"
+              onClick={() => setShowReportDialog(true)}
+            >
+              <MessageSquareWarning size={18} />
+              Report issue
+            </button>
+          </div>
+          {reportDialog}
+        </>
+      );
+    }
+
     if (submitResult) {
       const scorePercent = Math.max(0, Math.min(100, submitResult.percentage));
       const scoreRingStyle = { "--score-percent": `${scorePercent}%` } as CSSProperties;
@@ -644,27 +718,6 @@ export function AnswerGrid({
         ) : null}
         {reportDialog}
       </>
-    );
-  }
-
-  if (lockedAttemptNumber) {
-    return (
-      <div className="locked-submit-state">
-        <CheckCircle2 size={24} />
-        <div>
-          <strong>Perfect score already recorded</strong>
-          <p>Attempt #{lockedAttemptNumber} solved this set, so submissions are locked.</p>
-        </div>
-        <button
-          className="secondary-action"
-          type="button"
-          onClick={() => setShowReportDialog(true)}
-        >
-          <MessageSquareWarning size={18} />
-          Report issue
-        </button>
-        {reportDialog}
-      </div>
     );
   }
 

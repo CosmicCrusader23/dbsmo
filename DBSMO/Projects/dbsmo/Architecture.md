@@ -53,7 +53,7 @@ Problem set browsing starts at `app/problem-sets/page.tsx`, which loads all sets
 
 Problem detail is handled by `app/problem-sets/[slug]/page.tsx`. It loads the set, problems, files, assets, creator, bookmarks, and previous attempts; non-admin users only see visible sets. The page chooses inline statement rendering when every problem has statement text, otherwise it falls back to PDF/file presentation (source: `app/problem-sets/[slug]/page.tsx`).
 
-The answer grid is client-side and posts to `/api/submit`. It autosaves draft answers to `localStorage`, stores "review later" state in `localStorage`, supports feedback report submission, clears autosave after successful submission, and blocks retry UI when a perfect attempt locks the set (source: `app/problem-sets/[slug]/answer-grid.tsx`).
+The answer grid is client-side and posts to `/api/submit`. It autosaves draft answers to `localStorage`, stores "review later" state in `localStorage`, supports feedback report submission, clears autosave after successful submission, and blocks answer entry/submission controls when a perfect attempt locks the set while keeping problem statements visible (source: `app/problem-sets/[slug]/answer-grid.tsx`).
 
 Submission is persisted in `app/api/submit/route.ts`: it checks session, validates JSON with Zod, loads the `ProblemSet`, checks visibility, prevents new attempts after a perfect attempt, grades each problem through `gradeAnswer(...)`, creates an `Attempt`, creates `Response` records, and returns score/results (sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`).
 

@@ -32,13 +32,9 @@ This note captures fragile or confusing areas in [[dbsmo]] discovered while mapp
 
 Optional image ZIP imports derive asset keys from image filenames by lowercasing the basename and replacing unsafe characters. Files like `Geom Number 1.png` and `geom-number-1.webp` can collide after normalization; duplicates are rejected. Problem-level JSON refs such as `imageRef: "geomnumber1.png"` are converted the same way and must match a supplied inline/ZIP/manual image asset (sources: `lib/import/image-assets.ts`, `lib/import/image-zip.ts`, `lib/import/json-import.ts`).
 
-## Settings File Contains Suspicious Literal `2`
-
-`app/settings/page.tsx` has a visible stray `2` immediately after a closing `</div>` in the typewriter settings area in the inspected source. It may be intentional text, a typo, or a rendering bug; verify before modifying settings UI (source: `app/settings/page.tsx`).
-
 ## Full-Set Perfect Score Locks Further Attempts
 
-`POST /api/submit` blocks new attempts if any previous attempt has `score === maxScore`; `ProblemSetPage` passes `lockedAttemptNumber` to `AnswerGrid`. Any change to attempt/retake semantics needs to update both server logic and UI messaging (sources: `app/api/submit/route.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
+`POST /api/submit` blocks new attempts if any previous attempt has `score === maxScore`; `ProblemSetPage` passes `lockedAttemptNumber` to `AnswerGrid`. The locked UI must still render problem statements/PDF context and only remove answer entry/submission controls. Any change to attempt/retake semantics needs to update both server logic and UI messaging (sources: `app/api/submit/route.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
 
 ## Practice Completion Counts Only Correct Answers
 
