@@ -4,6 +4,14 @@ Self-paced mathematics olympiad training platform for DBS. Complete with feature
 
 Statements can be rendered in Latex or HTML math tags.
 
+## Important Docs
+- [JSON import format](./docs/import-format.md)
+- [Grading rules](./docs/grading.md)
+- [Admin Guide](./docs/admin-guide.md)
+- [Student Guide](./docs/student-guide.md)
+- [Permissions Guide](./docs/permissions.md)
+- [Deployment Guide](./docs/deployment.md)
+
 ## PATCHNOTES
 
 Current app version: **v0.67.0**.
@@ -30,10 +38,3 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Added Google account profile pictures as the default avatar fallback before deterministic initials, while preserving custom avatar URLs/uploads.
 - Added focused tests for image-token rendering in LaTeX and HTML statements and configured Vitest to understand the app `@/` import alias.
 
-## Important Docs
-- [JSON import format](./docs/import-format.md)
-- [Grading rules](./docs/grading.md)
-- [Admin Guide](./docs/admin-guide.md)
-- [Student Guide](./docs/student-guide.md)
-- [Permissions Guide](./docs/permissions.md)
-- [Deployment Guide](./docs/deployment.md)
