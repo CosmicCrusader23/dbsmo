@@ -10,6 +10,7 @@ import {
   Download,
   FileText,
   Hash,
+  ImageIcon,
   Loader2,
   Plus,
   RotateCcw,
@@ -32,6 +33,13 @@ type ProblemData = {
   topicTags: string[];
   points: number;
   explanationNote: string | null;
+};
+
+type UploadedImageAsset = {
+  key: string;
+  name: string;
+  mimeType: string;
+  dataUrl: string;
 };
 
 type SetData = {
@@ -94,7 +102,51 @@ function newProblem(number: number | string) {
     points: 1,
     explanationNote: null,
     explanationNoteInput: "",
+    imageAssets: [] as UploadedImageAsset[],
   };
+}
+
+function imageKeyFromFileName(fileName: string): string {
+  return (
+    fileName
+      .replace(/\\/g, "/")
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 64) ?? ""
+  );
+}
+
+function imageTokens(statement: string) {
+  return new Set(
+    Array.from(statement.matchAll(/\[\[img:([a-z0-9][a-z0-9_-]{0,63})\]\]/g), (m) => m[1]),
+  );
+}
+
+function statementWithProblemImages(statement: string, assets: UploadedImageAsset[]) {
+  const existing = imageTokens(statement);
+  const tokens = assets
+    .filter((asset) => !existing.has(asset.key))
+    .map((asset) => `[[img:${asset.key}]]`);
+  return tokens.length ? [statement.trim(), ...tokens].filter(Boolean).join("\n\n") : statement;
+}
+
+function readFileAsDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("Unexpected file reader result."));
+      }
+    };
+    reader.onerror = () => reject(new Error("Could not read image file."));
+    reader.readAsDataURL(file);
+  });
 }
 
 export function SetEditForm({ set }: { set: SetData }) {
@@ -119,6 +171,7 @@ export function SetEditForm({ set }: { set: SetData }) {
       ...problem,
       topicTagsInput: problem.topicTags.join(", "),
       explanationNoteInput: problem.explanationNote ?? "",
+      imageAssets: [] as UploadedImageAsset[],
     })),
   );
   const [expandedProblems, setExpandedProblems] = useState<Set<string>>(new Set());
@@ -233,6 +286,60 @@ export function SetEditForm({ set }: { set: SetData }) {
     reader.readAsDataURL(file);
   }
 
+  async function handleImageFiles(problemId: string, files: FileList | null) {
+    setError(null);
+    const selected = Array.from(files ?? []);
+    if (selected.length === 0) {
+      return;
+    }
+
+    const existingKeys = new Set(problems.flatMap((problem) => problem.imageAssets.map((a) => a.key)));
+    const nextAssets: UploadedImageAsset[] = [];
+    for (const file of selected) {
+      if (!["image/png", "image/jpeg", "image/gif", "image/webp"].includes(file.type)) {
+        setError(`${file.name} must be PNG, JPEG, GIF, or WebP.`);
+        return;
+      }
+      if (file.size > 4 * 1024 * 1024) {
+        setError(`${file.name} exceeds the 4MB per-image limit.`);
+        return;
+      }
+      const key = imageKeyFromFileName(file.name);
+      if (!/^[a-z0-9][a-z0-9_-]{0,63}$/.test(key)) {
+        setError(`${file.name} cannot be converted into a safe image key.`);
+        return;
+      }
+      if (existingKeys.has(key) || nextAssets.some((asset) => asset.key === key)) {
+        setError(`Image key "${key}" is already used in this problem set.`);
+        return;
+      }
+      nextAssets.push({
+        key,
+        name: file.name,
+        mimeType: file.type,
+        dataUrl: await readFileAsDataUrl(file),
+      });
+    }
+
+    setProblems((prev) =>
+      prev.map((problem) =>
+        problem.id === problemId
+          ? { ...problem, imageAssets: [...problem.imageAssets, ...nextAssets] }
+          : problem,
+      ),
+    );
+  }
+
+  function removeImage(problemId: string, key: string) {
+    setProblems((prev) =>
+      prev.map((problem) =>
+        problem.id === problemId
+          ? { ...problem, imageAssets: problem.imageAssets.filter((asset) => asset.key !== key) }
+          : problem,
+      ),
+    );
+  }
+
   async function onSave() {
     setIsSaving(true);
     setError(null);
@@ -266,10 +373,11 @@ export function SetEditForm({ set }: { set: SetData }) {
           topicTags: parseTagInput(topicTags),
           videoUrl: videoUrl.trim() || null,
           problemPdf,
+          imageAssets: problems.flatMap((problem) => problem.imageAssets),
           problems: problems.map((problem) => ({
             id: problem.id.startsWith("new-") ? undefined : problem.id,
             number: problem.number,
-            statement: problem.statement.trim(),
+            statement: statementWithProblemImages(problem.statement, problem.imageAssets).trim(),
             contentFormat: problem.contentFormat,
             answerKey: problem.answerKey.trim(),
             answerType: problem.answerType,
@@ -652,6 +760,45 @@ export function SetEditForm({ set }: { set: SetData }) {
                         onChange={(e) => updateProblem(problem.id, "statement", e.target.value)}
                       />
                     </label>
+
+                    <div className="form-field form-field-full image-upload-box">
+                      <span className="form-label">
+                        <ImageIcon size={14} />
+                        Problem images
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/png,image/jpeg,image/gif,image/webp"
+                        multiple
+                        onChange={(event) => void handleImageFiles(problem.id, event.target.files)}
+                      />
+                      <small className="form-hint">
+                        New uploads are inserted below this problem when saved. Existing [[img:key]]
+                        tokens remain in the statement.
+                      </small>
+                      {problem.imageAssets.length > 0 ? (
+                        <div className="image-asset-list">
+                          {problem.imageAssets.map((asset) => (
+                            <div className="image-asset-row" key={asset.key}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={asset.dataUrl} alt="" />
+                              <div>
+                                <strong>{asset.name}</strong>
+                                <small>[[img:{asset.key}]]</small>
+                              </div>
+                              <button
+                                className="icon-button-sm icon-button-danger"
+                                type="button"
+                                title="Remove image"
+                                onClick={() => removeImage(problem.id, asset.key)}
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </div>
 
                     <div className="problem-answer-row">
                       <label className="form-field">

@@ -38,6 +38,7 @@ type DryRunResult = {
     videoUrl: string | null;
     answerTypeCounts: Record<string, number>;
     solutionCount: number;
+    imageCount: number;
   };
 };
 
@@ -72,6 +73,8 @@ type DraftResult = {
 type JsonZipEntry = {
   name: string;
   file: File;
+  imageZipFile?: File;
+  imageZipName?: string;
 };
 
 function isIgnoredZipEntry(path: string) {
@@ -99,7 +102,7 @@ export function JsonZipImportPanel() {
     if (!zipFile) {
       return [
         { label: "ZIP selected", ok: false },
-        { label: "Only .json files inside", ok: false },
+        { label: "JSON files plus optional matching image ZIPs", ok: false },
         { label: "Ready to process individually", ok: false },
       ];
     }
@@ -109,7 +112,7 @@ export function JsonZipImportPanel() {
 
     return [
       { label: "ZIP selected", ok: isZip },
-      { label: "Only .json files inside", ok: Boolean(hasOnlyJson) },
+      { label: "JSON files plus optional matching image ZIPs", ok: Boolean(hasOnlyJson) },
       { label: "Ready to process individually", ok: Boolean(isZip && hasOnlyJson) },
     ];
   }, [entries.length, zipError, zipFile]);
@@ -140,30 +143,68 @@ export function JsonZipImportPanel() {
       const files = Object.values(zip.files).filter(
         (entry) => !entry.dir && !isIgnoredZipEntry(entry.name),
       );
-      const invalidFiles = files.filter((entry) => !entry.name.toLowerCase().endsWith(".json"));
+      const invalidFiles = files.filter((entry) => {
+        const name = entry.name.toLowerCase();
+        return !name.endsWith(".json") && !name.endsWith(".zip");
+      });
 
       if (invalidFiles.length > 0) {
-        setZipError("ZIP archives here may only contain .json files.");
+        setZipError("ZIP archives here may only contain .json files and matching image .zip files.");
         return;
       }
 
-      if (files.length === 0) {
+      const jsonFiles = files.filter((entry) => entry.name.toLowerCase().endsWith(".json"));
+      const imageZipFiles = files.filter((entry) => entry.name.toLowerCase().endsWith(".zip"));
+
+      if (jsonFiles.length === 0) {
         setZipError("This ZIP does not contain any .json files.");
         return;
       }
 
+      const imageZipByBase = new Map<string, typeof imageZipFiles>();
+      for (const entry of imageZipFiles) {
+        const key = baseName(entry.name, ".zip");
+        imageZipByBase.set(key, [...(imageZipByBase.get(key) ?? []), entry]);
+      }
+
+      for (const [key, matches] of imageZipByBase) {
+        if (matches.length > 1) {
+          setZipError(`More than one image ZIP matches ${key}.json.`);
+          return;
+        }
+        const hasJson = jsonFiles.some((entry) => baseName(entry.name, ".json") === key);
+        if (!hasJson) {
+          setZipError(`Image ZIP ${matches[0].name} does not match any JSON file.`);
+          return;
+        }
+      }
+
       const jsonEntries = await Promise.all(
-        files
+        jsonFiles
           .sort((a, b) => a.name.localeCompare(b.name))
           .map(async (entry) => {
             const content = await entry.async("uint8array");
             const bytes = new Uint8Array(content.byteLength);
             bytes.set(content);
+            const imageZipEntry = imageZipByBase.get(baseName(entry.name, ".json"))?.[0];
+            let imageZipFile: File | undefined;
+            if (imageZipEntry) {
+              const imageZipContent = await imageZipEntry.async("uint8array");
+              const imageZipBytes = new Uint8Array(imageZipContent.byteLength);
+              imageZipBytes.set(imageZipContent);
+              imageZipFile = new File(
+                [imageZipBytes],
+                imageZipEntry.name.split("/").pop() || imageZipEntry.name,
+                { type: "application/zip" },
+              );
+            }
             return {
               name: entry.name,
               file: new File([bytes], entry.name.split("/").pop() || entry.name, {
                 type: "application/json",
               }),
+              imageZipFile,
+              imageZipName: imageZipEntry?.name,
             };
           }),
       );
@@ -179,6 +220,9 @@ export function JsonZipImportPanel() {
   async function onDryRun(entry: JsonZipEntry) {
     const formData = new FormData();
     formData.append("file", entry.file);
+    if (entry.imageZipFile) {
+      formData.append("imageZip", entry.imageZipFile);
+    }
     setIsDryRunning((current) => ({ ...current, [entry.name]: true }));
     setDryRunErrors((current) => ({ ...current, [entry.name]: null }));
     setDryRunResults((current) => ({ ...current, [entry.name]: null }));
@@ -208,6 +252,9 @@ export function JsonZipImportPanel() {
   async function onImport(entry: JsonZipEntry) {
     const formData = new FormData();
     formData.append("file", entry.file);
+    if (entry.imageZipFile) {
+      formData.append("imageZip", entry.imageZipFile);
+    }
     setIsImporting((current) => ({ ...current, [entry.name]: true }));
     setImportErrors((current) => ({ ...current, [entry.name]: null }));
     setImportResults((current) => ({ ...current, [entry.name]: null }));
@@ -235,6 +282,9 @@ export function JsonZipImportPanel() {
   async function onOpenInEditor(entry: JsonZipEntry) {
     const formData = new FormData();
     formData.append("file", entry.file);
+    if (entry.imageZipFile) {
+      formData.append("imageZip", entry.imageZipFile);
+    }
 
     try {
       const response = await fetch("/api/admin/import/draft", {
@@ -283,7 +333,7 @@ export function JsonZipImportPanel() {
         <span>
           {zipFile
             ? `${formatBytes(zipFile.size)} selected`
-            : "Upload a ZIP that contains only valid .json files"}
+            : "Upload JSON files with optional same-name image ZIPs"}
         </span>
       </label>
 
@@ -323,7 +373,12 @@ export function JsonZipImportPanel() {
                 <div className="zip-json-row">
                   <div className="zip-json-meta">
                     <strong>{entry.name}</strong>
-                    <small>{formatBytes(entry.file.size)}</small>
+                    <small>
+                      {formatBytes(entry.file.size)}
+                      {entry.imageZipFile
+                        ? ` · images: ${entry.imageZipName} (${formatBytes(entry.imageZipFile.size)})`
+                        : ""}
+                    </small>
                   </div>
                   <div className="topbar-actions">
                     <button
@@ -409,6 +464,10 @@ export function JsonZipImportPanel() {
                             <dt>Solutions</dt>
                             <dd>{dryRunResult.preview.solutionCount}</dd>
                           </div>
+                          <div>
+                            <dt>Images</dt>
+                            <dd>{dryRunResult.preview.imageCount}</dd>
+                          </div>
                         </dl>
                       </div>
                     ) : null}
@@ -461,6 +520,11 @@ export function JsonZipImportPanel() {
       ) : null}
     </section>
   );
+}
+
+function baseName(fileName: string, extension: string) {
+  const leaf = fileName.replace(/\\/g, "/").split("/").pop()?.toLowerCase() ?? "";
+  return leaf.endsWith(extension) ? leaf.slice(0, -extension.length) : "";
 }
 
 function formatBytes(bytes: number) {

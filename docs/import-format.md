@@ -92,6 +92,8 @@ Each entry in `problems` defines one question.
 | `topicTags`       | string[]           | No       | `[]`                                 | Optional question tags. These are the tags used by Practice mode.                                                                                    |
 | `solution`        | string             | No       | `null`                               | Optional explanation shown after completion.                                                                                                         |
 | `explanationNote` | string             | No       | `null`                               | Alias for `solution`.                                                                                                                                |
+| `imageRef`        | string             | No       | -                                    | Optional image filename/key for this problem, e.g. `geomnumber1.png`. The importer appends the image below the statement.                            |
+| `imageRefs`       | string[] or string | No       | -                                    | Multiple image filenames/keys for this problem. Aliases: `image`, `imageFiles`, per-problem `images`.                                                |
 
 \* Each problem must provide either `answerKey` or `answer`.
 
@@ -128,7 +130,12 @@ Per-problem `topicTags` drive Practice mode.
 
 ## Image Assets
 
-Inline images live in the top-level `images` array. Each entry has a short `key`, a `mimeType`, and the image bytes encoded as base64. Reference them from any `statement` or `solution` with `[[img:<key>]]` and the renderer swaps the token for an `<img>` tag pointing at the stored asset.
+Images can be supplied in two ways:
+
+- Inline in the top-level `images` array. Each entry has a short `key`, a `mimeType`, and base64 image bytes.
+- As an optional image ZIP uploaded with the JSON. The ZIP must have the same base name as the JSON, for example `geometry.json` and `geometry.zip`.
+
+Reference images from any `statement` or `solution` with `[[img:<key>]]`, or attach them to a problem with `imageRef` / `imageRefs`. Problem-level refs derive the key from the filename (`geomnumber1.png` becomes `geomnumber1`) and are rendered below the statement.
 
 ```json
 {
@@ -148,6 +155,26 @@ Inline images live in the top-level `images` array. Each entry has a short `key`
 }
 ```
 
+Same-name ZIP example:
+
+```json
+{
+  "slug": "geo-zip-sample",
+  "title": "Geometry ZIP Sample",
+  "problems": [
+    {
+      "number": 1,
+      "statement": "Find the shaded area.",
+      "imageRef": "geomnumber1.png",
+      "answerType": "INTEGER",
+      "answerKey": "12"
+    }
+  ]
+}
+```
+
+Upload this as `geo-zip-sample.json` with `geo-zip-sample.zip` containing `geomnumber1.png`. The image ZIP may contain images directly or inside folders. Batch JSON ZIP imports can include each `.json` file and a matching nested `.zip` file in the parent archive.
+
 ### Asset rules
 
 | Rule              | Limit / format                                         |
@@ -156,10 +183,11 @@ Inline images live in the top-level `images` array. Each entry has a short `key`
 | `mimeType`        | `image/png`, `image/jpeg`, `image/gif`, `image/webp`   |
 | Per-image size    | ≤ 4 MB after base64 decode                             |
 | Images per set    | ≤ 50                                                   |
+| Image ZIP size    | ≤ 100 MB compressed and expanded                       |
 | Token format      | `[[img:<key>]]` (lowercase, matches the key pattern)   |
 | Magic-byte check  | Decoded bytes must match the declared MIME             |
 
-SVG is not accepted because it can carry script content. Every referenced `[[img:KEY]]` must have a matching `images` entry — unknown keys cause the import to fail before any database writes happen. Imports replace previous assets for the same `(problemSet, key)` pair, so re-uploading is idempotent.
+SVG is not accepted because it can carry script content. ZIP entries are checked for unsafe paths and unsupported file types. Every referenced image key must have a matching inline asset or ZIP image — unknown keys cause the import to fail before any database writes happen. Imports replace previous assets for the same `(problemSet, key)` pair, so re-uploading is idempotent.
 
 ## Validation Rules
 

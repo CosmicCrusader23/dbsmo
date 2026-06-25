@@ -45,17 +45,17 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Admin Content Components
 
-- `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`.
+- `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`; supports per-problem image uploads and preview through `LatexStatement`.
 - `StatementPreview` in `app/admin/create/page-client.tsx`: local preview for statement content/format.
-- `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF upload, status, problem list, answer keys/types, points, explanations, and save to `/api/admin/sets/[id]`.
+- `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF upload, image upload, status, problem list, answer keys/types, points, explanations, and save to `/api/admin/sets/[id]`.
 - `DeleteSetButton` in `app/admin/sets/delete-set-button.tsx`: client delete action used by set management/detail flows and backed by `DELETE /api/admin/sets/[id]`.
-- `JsonZipImportPanel` in `app/admin/import/json-zip-import-panel.tsx`: JSON import UI path, including dry-run/draft/commit flow.
-- `ZipImportPanel` in `app/admin/import/zip-import-panel.tsx`: ZIP import UI path, including dry-run/commit flow.
+- `JsonZipImportPanel` in `app/admin/import/json-zip-import-panel.tsx`: batch JSON ZIP import UI; unpacks `.json` files plus optional same-basename nested image ZIPs and runs dry-run/draft/commit per entry.
+- `ZipImportPanel` in `app/admin/import/zip-import-panel.tsx`: single JSON import UI; accepts optional same-basename image ZIP and runs dry-run/draft/commit flow.
 
 ## Admin Classes and Assignments
 
 - `NewClassForm` in `app/admin/classes/new/new-class-form.tsx`: class creation client; searches students through `/api/admin/classes/student-search` and posts to `/api/admin/classes`.
-- `ClassDetailClient` in `app/admin/classes/[id]/class-detail-client.tsx`: class detail client; loads `/api/admin/classes/[id]`, adds/removes members, assigns/removes sets, and displays completion counts.
+- `ClassDetailClient` in `app/admin/classes/[id]/class-detail-client.tsx`: class detail client; loads `/api/admin/classes/[id]`, adds/removes members, assigns/removes sets, deletes the class, and displays completion counts.
 - `RosterPicker` in `app/admin/classes/[id]/class-detail-client.tsx`: local student search/add component.
 - `AssignmentPicker` in `app/admin/classes/[id]/class-detail-client.tsx`: local published set search + due-date assignment component.
 

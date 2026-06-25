@@ -12,6 +12,8 @@ import {
   normalizeAuthoringProblem,
 } from "@/lib/problem-set-authoring";
 import { hasPermission } from "@/lib/permissions";
+import { decodeUploadedImageAssets } from "@/lib/import/image-assets";
+import { persistProblemSetImageAssets } from "@/lib/import/persist-image-assets";
 
 export async function POST(req: Request) {
   try {
@@ -48,6 +50,7 @@ export async function POST(req: Request) {
       topicTags,
       videoUrl,
       problemPdf,
+      imageAssets,
       problems,
     } = parsed.data;
 
@@ -61,6 +64,14 @@ export async function POST(req: Request) {
       return NextResponse.json(
         { error: `A problem set with slug "${slug}" already exists.` },
         { status: 409 },
+      );
+    }
+
+    const decodedImages = decodeUploadedImageAssets(imageAssets);
+    if (!decodedImages.ok) {
+      return NextResponse.json(
+        { error: "Invalid image upload.", details: decodedImages.errors },
+        { status: 400 },
       );
     }
 
@@ -108,6 +119,15 @@ export async function POST(req: Request) {
       },
       include: { problems: true },
     });
+
+    if (decodedImages.decoded.length > 0) {
+      await persistProblemSetImageAssets({
+        problemSetId: problemSet.id,
+        slug: problemSet.slug,
+        uploadedById: session.user.id,
+        assets: decodedImages.decoded,
+      });
+    }
 
     await recordAuditLog({
       actorId: session.user.id,

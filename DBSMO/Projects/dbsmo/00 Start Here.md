@@ -2,7 +2,11 @@
 date: 2026-06-26
 updated: 2026-06-26
 type: project-index
-tags: [project, architecture, dbsmo, index]
+tags:
+  - project
+  - architecture
+  - dbsmo
+  - index
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
@@ -31,6 +35,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Authentication uses NextAuth with Google OAuth plus a non-production credentials bypass unless disabled; route protection starts in `proxy.ts` and continues in API/page-level checks (sources: `lib/auth.ts`, `proxy.ts`, `lib/permissions.ts`).
 - Most business logic sits in `lib/`: grading, visibility, permissions, imports, storage, FTW scoring, classes, analytics, and exports.
 - Main UI routes live under `app/`; API handlers live under `app/api/`.
+- Current import notes include optional same-name image ZIPs for JSON imports, per-problem image uploads in the problem maker, and tolerant JSON editor drafts (sources: `lib/import/json-import.ts`, `lib/import/image-zip.ts`, `app/admin/create/page-client.tsx`).
 
 ## Source Inspection Basis
 

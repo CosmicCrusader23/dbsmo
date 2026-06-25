@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { dryRunProblemSetJson } from "@/lib/import/json-import";
+import { readOptionalImageZip } from "@/lib/import/uploaded-image-zip";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 
@@ -41,10 +42,23 @@ export async function POST(request: Request) {
     );
   }
 
+  const imageZip = await readOptionalImageZip(formData, upload.name);
+  if (imageZip.issues.some((issue) => issue.level === "error")) {
+    return NextResponse.json(
+      {
+        ok: false,
+        issues: imageZip.issues,
+        preview: null,
+      },
+      { status: 422 },
+    );
+  }
+
   const result = await dryRunProblemSetJson({
     fileName: upload.name,
     sizeBytes: upload.size,
     text: await upload.text(),
+    imageZip: imageZip.imageZip,
   });
 
   return NextResponse.json(result);

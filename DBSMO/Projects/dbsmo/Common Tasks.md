@@ -65,8 +65,11 @@ JSON path:
 
 - `lib/import/json-import.ts`
 - `lib/import/image-assets.ts` if image/token behavior changes.
+- `lib/import/image-zip.ts`, `lib/import/uploaded-image-zip.ts`, `lib/import/persist-image-assets.ts` if optional image ZIP/manual image upload behavior changes.
 - `app/admin/import/json-zip-import-panel.tsx`
+- `app/admin/import/zip-import-panel.tsx`
 - `app/api/admin/import/dry-run/route.ts`, `/commit/route.ts`, `/draft/route.ts`
+- `app/admin/create/page-client.tsx`, `app/admin/sets/[id]/set-edit-form.tsx`, `app/api/admin/create-set/route.ts`, `app/api/admin/sets/[id]/route.ts` if import-draft/manual image handling is affected.
 - `docs/import-format.md`
 - `tests/json-import.test.ts`
 
@@ -98,6 +101,8 @@ Edit:
 - Tests: `tests/classes.test.ts`.
 
 Completion currently counts attempts submitted after assignment creation, independent of score/perfection (source: `lib/classes.ts`).
+
+Class deletion is already exposed by `DELETE /api/admin/classes/[id]` and surfaced in `app/admin/classes/[id]/class-detail-client.tsx`; changing delete semantics should update `tests/classes.test.ts` and the class detail UI together.
 
 ## Change Dashboard Metrics or Analytics
 

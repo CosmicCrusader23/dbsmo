@@ -5,6 +5,7 @@ import {
   isSupportedProblemContentFormat,
 } from "./problem-content-format";
 import { normalizeTagList } from "./problem-tags";
+import { uploadedImageAssetSchema } from "./import/image-assets";
 
 export const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -45,6 +46,7 @@ export const createProblemSetAuthoringSchema = z.object({
   topicTags: z.array(z.string()).optional().default([]),
   videoUrl: z.string().url().nullable().optional(),
   problemPdf: uploadedPdfSchema,
+  imageAssets: z.array(uploadedImageAssetSchema).optional().default([]),
   problems: z.array(authoringProblemSchema).min(1),
 });
 
@@ -57,6 +59,7 @@ export const patchProblemSetAuthoringSchema = z.object({
   topicTags: z.array(z.string().min(1)).optional(),
   videoUrl: z.string().url().nullable().optional(),
   problemPdf: uploadedPdfSchema,
+  imageAssets: z.array(uploadedImageAssetSchema).optional().default([]),
   problems: z.array(authoringProblemSchema).min(1).optional(),
 });
 

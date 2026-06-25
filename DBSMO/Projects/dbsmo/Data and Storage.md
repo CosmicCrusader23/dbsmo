@@ -69,13 +69,15 @@ Practice tags are derived from unsolved problems in published visible sets. `GET
 
 ## Import Data Flow
 
-JSON import schema accepts top-level metadata, `statementFormat`, visibility windows, topic tags, difficulty, video URL, inline `images`, and at least one problem (source: `lib/import/json-import.ts`). It accepts `answerKey` or `answer`, accepts lowercase or uppercase answer types through answer schemas, normalizes statement format, handles accepted answers, and maps `solution`/`explanationNote` into `Problem.explanationNote` (sources: `lib/import/json-import.ts`, `docs/import-format.md`).
+JSON import schema accepts top-level metadata, `statementFormat`, visibility windows, topic tags, difficulty, video URL, inline `images`, optional same-name image ZIP uploads, and at least one problem (source: `lib/import/json-import.ts`). It accepts `answerKey` or `answer`, accepts lowercase or uppercase answer types through answer schemas, normalizes statement format, handles accepted answers, maps `solution`/`explanationNote` into `Problem.explanationNote`, and appends `[[img:key]]` tokens for per-problem image refs so images render below statements (sources: `lib/import/json-import.ts`, `docs/import-format.md`).
 
-Image assets are declared as base64 image records and referenced by `[[img:key]]` tokens. `lib/import/image-assets.ts` enforces lowercase key pattern, supported mime types, max 50 images, max 4 MB each, and magic-byte matching; SVG is not accepted by the source code (source: `lib/import/image-assets.ts`).
+Image assets are declared as base64 image records, uploaded through the manual problem maker GUI, or supplied by optional image ZIPs. `lib/import/image-assets.ts` enforces lowercase key pattern, supported mime types, max 50 images, max 4 MB each, data URL/base64 decoding, and magic-byte matching; SVG is not accepted by the source code. `lib/import/image-zip.ts` enforces a 100 MB image ZIP cap, ZIP signature/opening checks, unsafe-path rejection, duplicate-key rejection, supported-image magic bytes, and folder/direct image layouts (sources: `lib/import/image-assets.ts`, `lib/import/image-zip.ts`, `lib/import/uploaded-image-zip.ts`).
 
-ZIP import uses `manifest.yml`/`manifest.yaml`, `answers.csv`, and problem/solution file references. It blocks unsafe ZIP paths, requires answer columns, warns on non-sequential numbers, and rejects duplicates (source: `lib/import/zip-dry-run.ts`, `lib/import/manifest-schema.ts`, `lib/import/answer-schema.ts`, `lib/import/zip-path.ts`).
+ZIP import uses `manifest.yml`/`manifest.yaml`, `answers.csv`, and problem/solution file references. It blocks unsafe ZIP paths, requires answer columns, warns on non-sequential numbers, and rejects duplicates (source: `lib/import/zip-dry-run.ts`, `lib/import/manifest-schema.ts`, `lib/import/answer-schema.ts`, `lib/import/zip-path.ts`). The JSON batch upload UI (`app/admin/import/json-zip-import-panel.tsx`) can unpack a parent ZIP containing `.json` files plus same-basename nested image `.zip` files, then sends each JSON/image pair through the JSON import APIs.
 
-JSON import drafts are stored client/session-side through `lib/import/json-draft-storage.ts` and consumed by `app/admin/create/page-client.tsx` when creating/editing from import draft (sources: named files).
+JSON import drafts are stored client/session-side through `lib/import/json-draft-storage.ts` and consumed by `app/admin/create/page-client.tsx` when creating/editing from import draft. Draft creation has a tolerant parser path so fixable schema errors, such as string problem numbers or missing answer keys, can still open in the editor with issues shown (sources: `lib/import/json-import.ts`, `lib/import/json-draft-storage.ts`, `app/admin/create/page-client.tsx`).
+
+Image asset persistence is centralized in `lib/import/persist-image-assets.ts`. It stores bytes via `lib/storage.ts`, writes `ImportedFile`, and upserts `ProblemSetAsset` by `(problemSetId, key)` using checksum-suffixed storage keys to avoid collisions on replacements (source: `lib/import/persist-image-assets.ts`).
 
 ## File Storage
 
@@ -87,7 +89,7 @@ JSON import drafts are stored client/session-side through `lib/import/json-draft
 
 ## Classes and Assignments
 
-Class detail authorization requires session, `admin:users`, class existence, and for non-admin users `cls.teacherId === userId` (source: `app/api/admin/classes/[id]/route.ts`). Completion is calculated by `buildCompletionMap(...)`: each class member starts null, attempts count only if submitted after assignment creation, and the earliest qualifying attempt is stored (source: `lib/classes.ts`).
+Class detail authorization requires session, `admin:users`, class existence, and for non-admin users `cls.teacherId === userId` (source: `app/api/admin/classes/[id]/route.ts`). The class detail UI exposes roster/assignment mutation and class deletion through the same route family (source: `app/admin/classes/[id]/class-detail-client.tsx`). Completion is calculated by `buildCompletionMap(...)`: each class member starts null, attempts count only if submitted after assignment creation, and the earliest qualifying attempt is stored (source: `lib/classes.ts`).
 
 Assignment data shown to students comes from `/api/assignments/mine` and is rendered by `AssignmentsWidget` sorted by incomplete first and due date ascending (source: `app/dashboard/assignments-widget.tsx`, `app/api/assignments/mine/route.ts`).
 

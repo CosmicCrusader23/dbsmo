@@ -58,7 +58,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/grading.ts` - deterministic answer normalization and grading engine (source: `lib/grading.ts`).
 - `lib/visibility.ts` - student visibility/status helpers for problem sets (source: `lib/visibility.ts`).
 - `lib/problem-tags.ts`, `lib/problem-content-format.ts`, `lib/problem-set-order.ts`, `lib/problem-set-authoring.ts` - problem metadata normalization, ordering, and authoring validation (sources: named files).
-- `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, ZIP path safety, JSON draft storage, and JSON export conversion (sources: `lib/import/**`).
+- `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, optional image ZIP parsing, ZIP path safety, JSON draft storage, image asset persistence, and JSON export conversion (sources: `lib/import/**`).
 - `lib/storage.ts`, `lib/uploaded-pdf.ts` - local/S3 storage and uploaded PDF handling (sources: named files).
 - `lib/analytics.ts`, `lib/admin-exports.ts`, `lib/audit.ts` - analytics computations, export builders, and audit log writes (sources: named files).
 - `lib/classes.ts` - class name validation and assignment completion mapping (source: `lib/classes.ts`).

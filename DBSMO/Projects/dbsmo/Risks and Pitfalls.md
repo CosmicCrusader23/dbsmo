@@ -28,9 +28,9 @@ This note captures fragile or confusing areas in [[dbsmo]] discovered while mapp
 
 `lib/storage.ts` supports `STORAGE_DRIVER=s3`, but S3 mode requires `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, and optional `S3_REGION`. Existing setup docs only show local/default storage in the inspected section. If enabling S3, update `SETUP.md` and verify backup/file-serving behavior (sources: `lib/storage.ts`, `SETUP.md`).
 
-## Imported Image Schema Error Message Mentions SVG
+## Image Import Keys Are Derived From Filenames
 
-`lib/import/image-assets.ts` allows png/jpeg/gif/webp and rejects SVG by omission, but the Zod message says "png/jpeg/gif/webp/svg+xml." That message conflicts with the supported MIME set and `docs/import-format.md`, which says SVG is not accepted (sources: `lib/import/image-assets.ts`, `docs/import-format.md`).
+Optional image ZIP imports derive asset keys from image filenames by lowercasing the basename and replacing unsafe characters. Files like `Geom Number 1.png` and `geom-number-1.webp` can collide after normalization; duplicates are rejected. Problem-level JSON refs such as `imageRef: "geomnumber1.png"` are converted the same way and must match a supplied inline/ZIP/manual image asset (sources: `lib/import/image-assets.ts`, `lib/import/image-zip.ts`, `lib/import/json-import.ts`).
 
 ## Settings File Contains Suspicious Literal `2`
 
@@ -54,7 +54,7 @@ Practice mode records `PracticeSolve` only for correct answers and has a unique 
 
 ## Large Files and Avatar Data URLs
 
-PDF upload limit is 25 MB (`lib/uploaded-pdf.ts`), ZIP import limit is 50 MB (`lib/import/zip-dry-run.ts`), JSON import limit is 5 MB per docs/source path, image assets are 4 MB each/50 max (`lib/import/image-assets.ts`), and profile avatar URL/data URL max is 700,000 characters while UI says under 512 KB (sources: named files, `docs/import-format.md`, `app/api/settings/route.ts`, `app/settings/page.tsx`).
+PDF upload limit is 25 MB (`lib/uploaded-pdf.ts`), legacy problem-set ZIP import limit is 50 MB (`lib/import/zip-dry-run.ts`), JSON import limit is 5 MB per docs/source path, image ZIP limit is 100 MB (`lib/import/image-zip.ts`), image assets are 4 MB each/50 max (`lib/import/image-assets.ts`), and profile avatar URL/data URL max is 700,000 characters while UI says under 512 KB (sources: named files, `docs/import-format.md`, `app/api/settings/route.ts`, `app/settings/page.tsx`).
 
 ## Route Handlers Often Duplicate Auth Checks
 

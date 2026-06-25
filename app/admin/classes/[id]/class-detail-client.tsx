@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
   ArrowLeft,
@@ -29,9 +30,11 @@ type Detail = {
 };
 
 export function ClassDetailClient({ classId }: { classId: string }) {
+  const router = useRouter();
   const [detail, setDetail] = useState<Detail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const refresh = useCallback(async () => {
     const res = await fetch(`/api/admin/classes/${classId}`, { cache: "no-store" });
@@ -98,6 +101,32 @@ export function ClassDetailClient({ classId }: { classId: string }) {
     }
   }
 
+  async function deleteClass() {
+    if (!detail) {
+      return;
+    }
+    const ok = window.confirm(
+      `Delete class "${detail.name}"? This removes roster membership and assignments for this class.`,
+    );
+    if (!ok) {
+      return;
+    }
+
+    setDeleting(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/classes/${classId}`, { method: "DELETE" });
+      if (!res.ok) {
+        setError((await res.json()).error ?? "Failed to delete class.");
+        return;
+      }
+      router.push("/admin/classes");
+      router.refresh();
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   if (!detail) {
     return (
       <main className="classes-shell">
@@ -113,62 +142,108 @@ export function ClassDetailClient({ classId }: { classId: string }) {
           <p className="eyebrow">Class</p>
           <h1>{detail.name}</h1>
         </div>
-        <Link href="/admin/classes" className="secondary-action">
-          <ArrowLeft size={16} /> Back
-        </Link>
+        <div className="topbar-actions">
+          <button
+            type="button"
+            className="secondary-action danger-action"
+            disabled={deleting || busy}
+            onClick={() => void deleteClass()}
+          >
+            <Trash2 size={16} />
+            {deleting ? "Deleting..." : "Delete class"}
+          </button>
+          <Link href="/admin/classes" className="secondary-action">
+            <ArrowLeft size={16} /> Back
+          </Link>
+        </div>
       </header>
 
       {error ? <p className="classes-error">{error}</p> : null}
 
-      <section>
-        <h2>Roster ({detail.members.length})</h2>
+      <div className="classes-summary-grid" aria-label="Class summary">
+        <div>
+          <span>Students</span>
+          <strong>{detail.members.length}</strong>
+        </div>
+        <div>
+          <span>Assignments</span>
+          <strong>{detail.assignments.length}</strong>
+        </div>
+        <div>
+          <span>Completed work</span>
+          <strong>
+            {detail.assignments.reduce((sum, assignment) => sum + assignment.completedCount, 0)}
+          </strong>
+        </div>
+      </div>
+
+      <section className="classes-section">
+        <div className="classes-section-header">
+          <div>
+            <p className="eyebrow">Roster</p>
+            <h2>{detail.members.length} student{detail.members.length === 1 ? "" : "s"}</h2>
+          </div>
+        </div>
         <RosterPicker onPick={addMembers} excludeIds={detail.members.map((m) => m.id)} disabled={busy} />
-        <ul className="classes-roster">
-          {detail.members.map((m) => (
-            <li key={m.id}>
-              <span>
-                <strong>{m.name}</strong>
-                <small>{m.email}</small>
-              </span>
-              <button
-                type="button"
-                aria-label={`Remove ${m.name}`}
-                onClick={() => void removeMember(m.id)}
-                disabled={busy}
-              >
-                <X size={14} />
-              </button>
-            </li>
-          ))}
-        </ul>
+        {detail.members.length > 0 ? (
+          <ul className="classes-roster">
+            {detail.members.map((m) => (
+              <li key={m.id}>
+                <span>
+                  <strong>{m.name}</strong>
+                  <small>{m.email}</small>
+                </span>
+                <button
+                  type="button"
+                  aria-label={`Remove ${m.name}`}
+                  onClick={() => void removeMember(m.id)}
+                  disabled={busy}
+                >
+                  <X size={14} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="classes-empty-inline">No students have been added yet.</p>
+        )}
       </section>
 
-      <section>
-        <h2>Assignments ({detail.assignments.length})</h2>
+      <section className="classes-section">
+        <div className="classes-section-header">
+          <div>
+            <p className="eyebrow">Assignments</p>
+            <h2>{detail.assignments.length} set{detail.assignments.length === 1 ? "" : "s"}</h2>
+          </div>
+        </div>
         <AssignmentPicker onAssign={assignSet} disabled={busy} />
-        <ul className="classes-assignments">
-          {detail.assignments.map((a) => (
-            <li key={a.id}>
-              <div>
-                <strong>{a.problemSet.title}</strong>
-                <small>
-                  {a.dueAt ? `Due ${new Date(a.dueAt).toLocaleDateString()}` : "No due date"}
-                </small>
-              </div>
-              <span className="classes-progress">
-                <CheckCircle2 size={14} /> {a.completedCount} / {a.totalCount}
-              </span>
-              <button
-                type="button"
-                aria-label="Delete assignment"
-                onClick={() => void removeAssignment(a.id)}
-                disabled={busy}
-              >
-                <Trash2 size={14} />
-              </button>
-            </li>
-          ))}
-        </ul>
+        {detail.assignments.length > 0 ? (
+          <ul className="classes-assignments">
+            {detail.assignments.map((a) => (
+              <li key={a.id}>
+                <div>
+                  <strong>{a.problemSet.title}</strong>
+                  <small>
+                    {a.dueAt ? `Due ${new Date(a.dueAt).toLocaleDateString()}` : "No due date"}
+                  </small>
+                </div>
+                <span className="classes-progress">
+                  <CheckCircle2 size={14} /> {a.completedCount} / {a.totalCount}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Delete assignment"
+                  onClick={() => void removeAssignment(a.id)}
+                  disabled={busy}
+                >
+                  <Trash2 size={14} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="classes-empty-inline">No problem sets are assigned to this class.</p>
+        )}
       </section>
     </main>
   );

@@ -11,6 +11,8 @@ import {
   patchProblemSetAuthoringSchema,
 } from "@/lib/problem-set-authoring";
 import { hasPermission } from "@/lib/permissions";
+import { decodeUploadedImageAssets } from "@/lib/import/image-assets";
+import { persistProblemSetImageAssets } from "@/lib/import/persist-image-assets";
 
 export const runtime = "nodejs";
 
@@ -80,7 +82,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
   }
 
-  const { problems, problemPdf, ...setPatch } = result.data;
+  const { problems, problemPdf, imageAssets, ...setPatch } = result.data;
   const normalizedPatch = {
     ...setPatch,
     topicTags: setPatch.topicTags ? normalizeTagList(setPatch.topicTags) : undefined,
@@ -100,6 +102,14 @@ export async function PATCH(request: Request, context: RouteContext) {
         { status: 422 },
       );
     }
+  }
+
+  const decodedImages = decodeUploadedImageAssets(imageAssets);
+  if (!decodedImages.ok) {
+    return NextResponse.json(
+      { error: "Invalid image upload.", details: decodedImages.errors },
+      { status: 400 },
+    );
   }
 
   let uploadedPdfId: string | null | undefined;
@@ -178,6 +188,15 @@ export async function PATCH(request: Request, context: RouteContext) {
     targetId: updated.id,
     metadata: { slug: existing.slug, fromStatus: existing.status, toStatus: updated.status },
   });
+
+  if (decodedImages.decoded.length > 0) {
+    await persistProblemSetImageAssets({
+      problemSetId: updated.id,
+      slug: updated.slug,
+      uploadedById: session.user.id,
+      assets: decodedImages.decoded,
+    });
+  }
 
   return NextResponse.json(updated);
 }

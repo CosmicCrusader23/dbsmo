@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import { z } from "zod";
 import { normalizeTagList } from "../problem-tags";
@@ -7,23 +6,18 @@ import {
   normalizeProblemContentFormat,
 } from "../problem-content-format";
 import { nextProblemSetOrder } from "../problem-set-order";
-import { saveFile } from "../storage";
 import type { JsonImportEditorDraft } from "./json-draft-storage";
 import type { ImportIssue } from "./zip-dry-run";
 import {
   decodeAssets,
+  imageKeyFromFileName,
   imageAssetSchema,
-  unknownReferencedKeys,
-  type ImageAssetInput,
+  extractTokens,
+  MIME_TO_EXTENSION,
+  type DecodedAsset,
 } from "./image-assets";
-
-const MIME_TO_EXT: Record<string, string> = {
-  "image/png": "png",
-  "image/jpeg": "jpg",
-  "image/gif": "gif",
-  "image/webp": "webp",
-  "image/svg+xml": "svg",
-};
+import { parseImageZip, type ImageZipInput } from "./image-zip";
+import { persistProblemSetImageAssets } from "./persist-image-assets";
 
 const MAX_JSON_BYTES = 5 * 1024 * 1024;
 const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -63,6 +57,11 @@ const jsonProblemSchema = z.object({
   points: z.coerce.number().int().positive().optional().default(1),
   explanationNote: z.string().nullable().optional(),
   solution: z.string().nullable().optional(),
+  image: z.string().optional(),
+  imageRef: z.string().optional(),
+  imageRefs: z.union([z.array(z.string()), z.string()]).optional(),
+  imageFiles: z.union([z.array(z.string()), z.string()]).optional(),
+  images: z.union([z.array(z.string()), z.string()]).optional(),
 });
 
 const jsonProblemSetSchema = z.object({
@@ -90,10 +89,16 @@ const jsonProblemSetSchema = z.object({
 
 type ParsedProblemSetJson = z.infer<typeof jsonProblemSetSchema>;
 
+type NormalizedImageRef = {
+  source: string;
+  key: string | null;
+};
+
 export type JsonDryRunInput = {
   fileName: string;
   sizeBytes: number;
   text: string;
+  imageZip?: ImageZipInput;
 };
 
 type JsonImportOptions = {
@@ -115,6 +120,7 @@ export type JsonDryRunResult = {
     statementFormat: string;
     answerTypeCounts: Record<string, number>;
     solutionCount: number;
+    imageCount: number;
   } | null;
 };
 
@@ -158,7 +164,11 @@ export async function dryRunProblemSetJson(
   }
 
   const normalized = normalizeParsedJson(parsed.data);
-  const issues = validateNormalizedJson(normalized);
+  const assetCollection = await collectImportAssets(normalized, input.imageZip);
+  const issues = [
+    ...assetCollection.issues,
+    ...validateNormalizedJson(normalized, assetCollection.assets),
+  ];
 
   const { existingBySlug, replaceTarget } = await resolveImportTargets(
     normalized.slug,
@@ -193,7 +203,7 @@ export async function dryRunProblemSetJson(
     });
   }
 
-  const preview = buildPreview(normalized);
+  const preview = buildPreview(normalized, assetCollection.assets);
 
   return {
     ok: issues.every((issue) => issue.level !== "error"),
@@ -217,6 +227,7 @@ export async function importProblemSetJson(
   }
 
   const data = normalizeParsedJson(parsed.data);
+  const assetCollection = await collectImportAssets(data, input.imageZip);
   const { prisma } = await import("../db");
   const warnings = dryRun.issues.filter((issue) => issue.level === "warning");
 
@@ -283,7 +294,7 @@ export async function importProblemSetJson(
           problems: {
             create: data.problems.map((problem) => ({
               number: problem.number,
-              statement: problem.statement,
+              statement: statementWithImageRefs(problem.statement, problem.imageRefs),
               contentFormat: problem.statementFormat,
               answerKey: problem.answerKey,
               answerType: problem.answerType,
@@ -298,12 +309,12 @@ export async function importProblemSetJson(
       });
     });
 
-    if (data.images.length > 0) {
-      await persistAssets({
+    if (assetCollection.assets.length > 0) {
+      await persistProblemSetImageAssets({
         problemSetId: problemSet.id,
         slug: problemSet.slug,
         uploadedById: input.uploadedById,
-        assets: data.images,
+        assets: assetCollection.assets,
       });
     }
 
@@ -362,7 +373,7 @@ export async function importProblemSetJson(
       problems: {
         create: data.problems.map((problem) => ({
           number: problem.number,
-          statement: problem.statement,
+          statement: statementWithImageRefs(problem.statement, problem.imageRefs),
           contentFormat: problem.statementFormat,
           answerKey: problem.answerKey,
           answerType: problem.answerType,
@@ -376,12 +387,12 @@ export async function importProblemSetJson(
     },
   });
 
-  if (data.images.length > 0) {
-    await persistAssets({
+  if (assetCollection.assets.length > 0) {
+    await persistProblemSetImageAssets({
       problemSetId: problemSet.id,
       slug: problemSet.slug,
       uploadedById: input.uploadedById,
-      assets: data.images,
+      assets: assetCollection.assets,
     });
   }
 
@@ -421,13 +432,18 @@ export async function createProblemSetJsonDraft(
     };
   }
 
-  const parsed = parseJson(input.text);
+  const parsed = parseJsonForDraft(input.text, input.fileName);
   if (!parsed.ok) {
     return { ok: false, issues: parsed.issues, draft: null };
   }
 
   const normalized = normalizeParsedJson(parsed.data);
-  const issues = validateNormalizedJson(normalized);
+  const assetCollection = await collectImportAssets(normalized, input.imageZip);
+  const issues = [
+    ...parsed.issues,
+    ...assetCollection.issues,
+    ...validateNormalizedJson(normalized, assetCollection.assets),
+  ];
   const { existingBySlug } = await resolveImportTargets(normalized.slug);
 
   if (existingBySlug) {
@@ -459,6 +475,13 @@ export async function createProblemSetJsonDraft(
         topicTags: problem.topicTags,
         points: problem.points,
         explanationNote: problem.solution,
+        imageRefs: problem.imageRefs.map((ref) => ref.source),
+      })),
+      imageAssets: assetCollection.assets.map((asset) => ({
+        key: asset.key,
+        name: asset.originalName ?? `${asset.key}.${MIME_TO_EXTENSION[asset.mimeType] ?? "bin"}`,
+        mimeType: asset.mimeType,
+        dataUrl: `data:${asset.mimeType};base64,${asset.buffer.toString("base64")}`,
       })),
       issues,
     },
@@ -481,6 +504,37 @@ function parseJson(
   }
 
   return { ok: true, data: result.data };
+}
+
+function parseJsonForDraft(
+  text: string,
+  fileName: string,
+):
+  | { ok: true; data: ParsedProblemSetJson; issues: ImportIssue[] }
+  | { ok: false; issues: ImportIssue[] } {
+  let raw: unknown;
+  try {
+    raw = JSON.parse(text);
+  } catch {
+    return { ok: false, issues: [{ level: "error", message: "JSON could not be parsed." }] };
+  }
+
+  const strict = jsonProblemSetSchema.safeParse(raw);
+  if (strict.success) {
+    return { ok: true, data: strict.data, issues: [] };
+  }
+
+  const loose = normalizeLooseJson(raw, fileName);
+  if (!loose) {
+    return { ok: false, issues: zodIssues("JSON", strict.error) };
+  }
+
+  const looseResult = jsonProblemSetSchema.safeParse(loose);
+  if (!looseResult.success) {
+    return { ok: false, issues: zodIssues("JSON", strict.error) };
+  }
+
+  return { ok: true, data: looseResult.data, issues: zodIssues("JSON", strict.error) };
 }
 
 async function resolveImportTargets(slug: string, replaceSetId?: string) {
@@ -535,14 +589,55 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
       topicTags: normalizeTagList(problem.topicTags),
       points: problem.points,
       solution: (problem.solution ?? problem.explanationNote ?? null)?.trim() || null,
+      imageRefs: normalizeProblemImageRefs(problem),
     })),
   };
 }
 
-function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): ImportIssue[] {
+async function collectImportAssets(
+  data: ReturnType<typeof normalizeParsedJson>,
+  imageZip?: ImageZipInput,
+): Promise<{ issues: ImportIssue[]; assets: DecodedAsset[] }> {
+  const issues: ImportIssue[] = [];
+  const assets: DecodedAsset[] = [];
+  const seen = new Set<string>();
+
+  const inline = decodeAssets(data.images);
+  for (const error of inline.errors) {
+    issues.push({ level: "error", message: error });
+  }
+  for (const asset of inline.decoded) {
+    seen.add(asset.key);
+    assets.push(asset);
+  }
+
+  if (imageZip) {
+    const zip = await parseImageZip(imageZip);
+    issues.push(...zip.issues);
+    for (const asset of zip.assets) {
+      if (seen.has(asset.key)) {
+        issues.push({
+          level: "error",
+          message: `Image key "${asset.key}" is supplied more than once.`,
+        });
+        continue;
+      }
+      seen.add(asset.key);
+      assets.push(asset);
+    }
+  }
+
+  return { issues, assets };
+}
+
+function validateNormalizedJson(
+  data: ReturnType<typeof normalizeParsedJson>,
+  assets: DecodedAsset[],
+): ImportIssue[] {
   const issues: ImportIssue[] = [];
   const seenNumbers = new Set<number>();
   const duplicateNumbers = new Set<number>();
+  const knownImageKeys = new Set(assets.map((asset) => asset.key));
 
   if (!Object.values(ProblemSetStatus).includes(data.status)) {
     issues.push({ level: "error", message: `Invalid status: ${data.status}.` });
@@ -567,6 +662,20 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
         message: `Problem ${problem.number} has invalid answerType: ${problem.answerType}.`,
       });
     }
+
+    for (const ref of problem.imageRefs) {
+      if (!ref.key) {
+        issues.push({
+          level: "error",
+          message: `Problem ${problem.number} references an invalid image filename: ${ref.source}.`,
+        });
+      } else if (!knownImageKeys.has(ref.key)) {
+        issues.push({
+          level: "error",
+          message: `Problem ${problem.number} references image "${ref.source}" but no matching image was supplied.`,
+        });
+      }
+    }
   }
 
   for (const duplicate of duplicateNumbers) {
@@ -583,27 +692,18 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
     });
   }
 
-  if (data.images.length > 0) {
-    const decode = decodeAssets(data.images);
-    for (const err of decode.errors) {
-      issues.push({ level: "error", message: err });
+  const statementsAndSolutions = data.problems.flatMap((p) => [p.statement, p.solution ?? ""]);
+  const referenced = new Set<string>();
+  for (const text of statementsAndSolutions) {
+    for (const key of extractTokens(text)) {
+      referenced.add(key);
     }
-    const known = new Set(decode.decoded.map((a) => a.key));
-    const statementsAndSolutions = data.problems.flatMap((p) => [p.statement, p.solution ?? ""]);
-    const unknown = unknownReferencedKeys(statementsAndSolutions, known);
-    for (const k of unknown) {
+  }
+  for (const key of referenced) {
+    if (!knownImageKeys.has(key)) {
       issues.push({
         level: "error",
-        message: `Statement references [[img:${k}]] but no image with that key was supplied.`,
-      });
-    }
-  } else {
-    const statementsAndSolutions = data.problems.flatMap((p) => [p.statement, p.solution ?? ""]);
-    const unknown = unknownReferencedKeys(statementsAndSolutions, new Set());
-    for (const k of unknown) {
-      issues.push({
-        level: "error",
-        message: `Statement references [[img:${k}]] but the JSON has no "images" array.`,
+        message: `Statement references [[img:${key}]] but no image with that key was supplied.`,
       });
     }
   }
@@ -611,7 +711,10 @@ function validateNormalizedJson(data: ReturnType<typeof normalizeParsedJson>): I
   return issues;
 }
 
-function buildPreview(data: ReturnType<typeof normalizeParsedJson>): JsonDryRunResult["preview"] {
+function buildPreview(
+  data: ReturnType<typeof normalizeParsedJson>,
+  assets: DecodedAsset[],
+): JsonDryRunResult["preview"] {
   return {
     slug: data.slug,
     title: data.title,
@@ -627,7 +730,44 @@ function buildPreview(data: ReturnType<typeof normalizeParsedJson>): JsonDryRunR
       return counts;
     }, {}),
     solutionCount: data.problems.filter((problem) => problem.solution).length,
+    imageCount: assets.length,
   };
+}
+
+function normalizeProblemImageRefs(problem: ParsedProblemSetJson["problems"][number]): NormalizedImageRef[] {
+  const rawRefs = [
+    ...normalizeStringOrStringArray(problem.image),
+    ...normalizeStringOrStringArray(problem.imageRef),
+    ...normalizeStringOrStringArray(problem.imageRefs),
+    ...normalizeStringOrStringArray(problem.imageFiles),
+    ...normalizeStringOrStringArray(problem.images),
+  ];
+  const seen = new Set<string>();
+  const refs: NormalizedImageRef[] = [];
+  for (const source of rawRefs) {
+    const trimmed = source.trim();
+    if (!trimmed || seen.has(trimmed)) {
+      continue;
+    }
+    seen.add(trimmed);
+    refs.push({ source: trimmed, key: imageKeyFromFileName(trimmed) });
+  }
+  return refs;
+}
+
+function statementWithImageRefs(statement: string, refs: NormalizedImageRef[]) {
+  const existing = new Set(extractTokens(statement));
+  const tokens = refs
+    .map((ref) => ref.key)
+    .filter((key): key is string => Boolean(key))
+    .filter((key) => !existing.has(key))
+    .map((key) => `[[img:${key}]]`);
+
+  if (tokens.length === 0) {
+    return statement;
+  }
+
+  return [statement.trim(), ...tokens].filter(Boolean).join("\n\n");
 }
 
 function normalizeStatus(value: string): ProblemSetStatus {
@@ -653,6 +793,97 @@ function normalizeAcceptedAnswers(value: string[] | string | undefined): string[
   return [];
 }
 
+function normalizeStringOrStringArray(value: string[] | string | undefined): string[] {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string");
+  }
+  return typeof value === "string" ? [value] : [];
+}
+
+function normalizeLooseJson(raw: unknown, fileName: string): unknown | null {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    return null;
+  }
+
+  const record = raw as Record<string, unknown>;
+  const title = stringValue(record.title) || stringValue(record.name) || "Imported Problem Set";
+  const slug =
+    normalizeSlug(stringValue(record.slug)) ||
+    normalizeSlug(fileName.replace(/\.json$/i, "")) ||
+    "imported-problem-set";
+  const problemsRaw = Array.isArray(record.problems) ? record.problems : [];
+  if (problemsRaw.length === 0) {
+    return null;
+  }
+
+  return {
+    ...record,
+    slug,
+    title,
+    description: stringValue(record.description),
+    order: stringValue(record.order),
+    status: stringValue(record.status) || "DRAFT",
+    topicTags: Array.isArray(record.topicTags) ? record.topicTags : [],
+    difficulty: integerValue(record.difficulty) ?? 1,
+    videoUrl: typeof record.videoUrl === "string" ? record.videoUrl : null,
+    images: Array.isArray(record.images) ? record.images : [],
+    problems: problemsRaw
+      .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object" && !Array.isArray(item))
+      .map((problem, index) => ({
+        ...problem,
+        number: integerValue(problem.number) ?? index + 1,
+        statement: stringValue(problem.statement),
+        answerType: stringValue(problem.answerType) || "EXACT",
+        answerKey: stringValue(problem.answerKey) || stringValue(problem.answer),
+        acceptedAnswers: Array.isArray(problem.acceptedAnswers)
+          ? problem.acceptedAnswers
+          : stringValue(problem.acceptedAnswers),
+        caseSensitive: typeof problem.caseSensitive === "boolean" ? problem.caseSensitive : false,
+        topicTags: Array.isArray(problem.topicTags) ? problem.topicTags : [],
+        points: integerValue(problem.points) ?? 1,
+        explanationNote:
+          typeof problem.explanationNote === "string" ? problem.explanationNote : null,
+        solution: typeof problem.solution === "string" ? problem.solution : null,
+        image: typeof problem.image === "string" ? problem.image : undefined,
+        imageRef: typeof problem.imageRef === "string" ? problem.imageRef : undefined,
+        imageRefs: normalizeUnknownStringList(problem.imageRefs),
+        imageFiles: normalizeUnknownStringList(problem.imageFiles),
+        images: normalizeUnknownStringList(problem.images),
+      })),
+  };
+}
+
+function stringValue(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function integerValue(value: unknown): number | undefined {
+  if (typeof value === "number" && Number.isInteger(value) && value > 0) {
+    return value;
+  }
+  if (typeof value === "string" && /^\d+$/.test(value.trim())) {
+    const parsed = Number(value.trim());
+    return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : undefined;
+  }
+  return undefined;
+}
+
+function normalizeUnknownStringList(value: unknown): string[] | string | undefined {
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string");
+  }
+  return typeof value === "string" ? value : undefined;
+}
+
+function normalizeSlug(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-+/g, "-");
+}
+
 function fail(message: string): JsonDryRunResult {
   return { ok: false, issues: [{ level: "error", message }], preview: null };
 }
@@ -662,56 +893,4 @@ function zodIssues(label: string, error: z.ZodError): ImportIssue[] {
     level: "error",
     message: `${label}: ${issue.path.join(".") || "value"} ${issue.message}`,
   }));
-}
-
-async function persistAssets(args: {
-  problemSetId: string;
-  slug: string;
-  uploadedById: string;
-  assets: ImageAssetInput[];
-}): Promise<void> {
-  const decode = decodeAssets(args.assets);
-  if (!decode.ok) {
-    throw new Error(`Refusing to persist assets: ${decode.errors.join("; ")}`);
-  }
-
-  const { prisma } = await import("../db");
-
-  for (const asset of decode.decoded) {
-    const ext = MIME_TO_EXT[asset.mimeType] ?? "bin";
-    const storageKey = `imports/${args.slug}/images/${asset.key}.${ext}`;
-    const checksum = createHash("sha256").update(asset.buffer).digest("hex");
-
-    await saveFile(storageKey, asset.buffer);
-
-    await prisma.$transaction(async (tx) => {
-      const file = await tx.importedFile.create({
-        data: {
-          storageKey,
-          originalName: `${asset.key}.${ext}`,
-          mimeType: asset.mimeType,
-          sizeBytes: asset.sizeBytes,
-          checksum,
-          uploadedById: args.uploadedById,
-        },
-      });
-
-      await tx.problemSetAsset.upsert({
-        where: {
-          problemSetId_key: {
-            problemSetId: args.problemSetId,
-            key: asset.key,
-          },
-        },
-        update: {
-          fileId: file.id,
-        },
-        create: {
-          problemSetId: args.problemSetId,
-          key: asset.key,
-          fileId: file.id,
-        },
-      });
-    });
-  }
 }

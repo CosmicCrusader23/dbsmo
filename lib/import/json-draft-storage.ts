@@ -12,6 +12,14 @@ export type JsonProblemDraft = {
   topicTags: string[];
   points: number;
   explanationNote: string | null;
+  imageRefs: string[];
+};
+
+export type JsonDraftImageAsset = {
+  key: string;
+  name: string;
+  mimeType: string;
+  dataUrl: string;
 };
 
 export type JsonImportEditorDraft = {
@@ -25,6 +33,7 @@ export type JsonImportEditorDraft = {
   topicTags: string[];
   videoUrl: string | null;
   problems: JsonProblemDraft[];
+  imageAssets: JsonDraftImageAsset[];
   issues: ImportIssue[];
 };
 

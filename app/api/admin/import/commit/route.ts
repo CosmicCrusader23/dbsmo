@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { importProblemSetJson } from "@/lib/import/json-import";
+import { readOptionalImageZip } from "@/lib/import/uploaded-image-zip";
 import { authOptions } from "@/lib/auth";
 import { recordAuditLog } from "@/lib/audit";
 import { hasPermission } from "@/lib/permissions";
@@ -42,11 +43,24 @@ export async function POST(request: Request) {
     );
   }
 
+  const imageZip = await readOptionalImageZip(formData, upload.name);
+  if (imageZip.issues.some((issue) => issue.level === "error")) {
+    return NextResponse.json(
+      {
+        ok: false,
+        issues: imageZip.issues,
+        created: null,
+      },
+      { status: 422 },
+    );
+  }
+
   const result = await importProblemSetJson({
     fileName: upload.name,
     sizeBytes: upload.size,
     text: await upload.text(),
     uploadedById: session.user.id,
+    imageZip: imageZip.imageZip,
   });
 
   if (result.ok && result.created) {

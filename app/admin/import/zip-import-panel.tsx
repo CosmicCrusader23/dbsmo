@@ -42,6 +42,7 @@ type DryRunResult = {
     videoUrl: string | null;
     answerTypeCounts: Record<string, number>;
     solutionCount: number;
+    imageCount: number;
   };
 };
 
@@ -76,6 +77,7 @@ type DraftResult = {
 export function ZipImportPanel() {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
+  const [imageZipFile, setImageZipFile] = useState<File | null>(null);
   const [dryRunResult, setDryRunResult] = useState<DryRunResult | null>(null);
   const [dryRunError, setDryRunError] = useState<string | null>(null);
   const [isDryRunning, setIsDryRunning] = useState(false);
@@ -88,6 +90,7 @@ export function ZipImportPanel() {
     if (!file) {
       return [
         { label: "JSON selected", ok: false },
+        { label: "Optional image ZIP matches JSON name", ok: true },
         { label: "Size under configured limit", ok: false },
         { label: "Ready for dry run", ok: false },
       ];
@@ -97,17 +100,32 @@ export function ZipImportPanel() {
       file.name.toLowerCase().endsWith(".json") ||
       file.type === "application/json" ||
       file.type === "text/json";
+    const imageZipOk =
+      !imageZipFile ||
+      (imageZipFile.name.toLowerCase().endsWith(".zip") &&
+        imageZipFile.size <= 100 * 1024 * 1024 &&
+        baseName(file.name, ".json") === baseName(imageZipFile.name, ".zip"));
 
     return [
       { label: "JSON selected", ok: isJson },
+      { label: "Optional image ZIP matches JSON name", ok: imageZipOk },
       { label: "Size under configured limit", ok: file.size <= 5 * 1024 * 1024 },
-      { label: "Ready for dry run", ok: isJson },
+      { label: "Ready for dry run", ok: isJson && imageZipOk },
     ];
-  }, [file]);
+  }, [file, imageZipFile]);
 
   function onFileChange(event: ChangeEvent<HTMLInputElement>) {
     const nextFile = event.target.files?.[0] ?? null;
     setFile(nextFile);
+    setDryRunResult(null);
+    setDryRunError(null);
+    setImportResult(null);
+    setImportError(null);
+  }
+
+  function onImageZipChange(event: ChangeEvent<HTMLInputElement>) {
+    const nextFile = event.target.files?.[0] ?? null;
+    setImageZipFile(nextFile);
     setDryRunResult(null);
     setDryRunError(null);
     setImportResult(null);
@@ -124,6 +142,9 @@ export function ZipImportPanel() {
 
     const formData = new FormData();
     formData.append("file", file);
+    if (imageZipFile) {
+      formData.append("imageZip", imageZipFile);
+    }
     setIsDryRunning(true);
     setDryRunError(null);
     setDryRunResult(null);
@@ -154,6 +175,9 @@ export function ZipImportPanel() {
 
     const formData = new FormData();
     formData.append("file", file);
+    if (imageZipFile) {
+      formData.append("imageZip", imageZipFile);
+    }
     setIsImporting(true);
     setImportError(null);
     setImportResult(null);
@@ -182,6 +206,9 @@ export function ZipImportPanel() {
 
     const formData = new FormData();
     formData.append("file", file);
+    if (imageZipFile) {
+      formData.append("imageZip", imageZipFile);
+    }
 
     try {
       const response = await fetch("/api/admin/import/draft", {
@@ -225,6 +252,22 @@ export function ZipImportPanel() {
           {file
             ? `${formatBytes(file.size)} selected`
             : "LaTeX/HTML statements, answer keys, answer types, tags, and solution notes"}
+        </span>
+      </label>
+
+      <label className="dropzone compact-dropzone">
+        <input
+          type="file"
+          accept=".zip,application/zip"
+          data-testid="json-image-zip-input"
+          onChange={onImageZipChange}
+        />
+        <UploadCloud size={26} />
+        <strong>{imageZipFile ? imageZipFile.name : "Optional matching image ZIP"}</strong>
+        <span>
+          {imageZipFile
+            ? `${formatBytes(imageZipFile.size)} selected`
+            : "Use the same base name as the JSON, for example geom.json and geom.zip"}
         </span>
       </label>
 
@@ -360,6 +403,10 @@ export function ZipImportPanel() {
                   <dt>Solutions</dt>
                   <dd>{dryRunResult.preview.solutionCount}</dd>
                 </div>
+                <div>
+                  <dt>Images</dt>
+                  <dd>{dryRunResult.preview.imageCount}</dd>
+                </div>
               </dl>
               <div className="preview-files">
                 <span>{dryRunResult.preview.topicTags.join(", ") || "No tags"}</span>
@@ -395,6 +442,11 @@ export function ZipImportPanel() {
       )}
     </section>
   );
+}
+
+function baseName(fileName: string, extension: string) {
+  const leaf = fileName.replace(/\\/g, "/").split("/").pop()?.toLowerCase() ?? "";
+  return leaf.endsWith(extension) ? leaf.slice(0, -extension.length) : "";
 }
 
 function formatBytes(bytes: number) {

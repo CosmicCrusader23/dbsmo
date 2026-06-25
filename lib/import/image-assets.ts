@@ -8,12 +8,19 @@ import { z } from "zod";
 const MAX_ASSET_BYTES = 4 * 1024 * 1024;
 const MAX_ASSETS_PER_SET = 50;
 const ASSET_KEY_PATTERN = /^[a-z0-9][a-z0-9_-]{0,63}$/;
-const SUPPORTED_IMAGE_MIME = new Set([
+export const SUPPORTED_IMAGE_MIME = new Set([
   "image/png",
   "image/jpeg",
   "image/gif",
   "image/webp",
 ]);
+
+export const MIME_TO_EXTENSION: Record<string, string> = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/gif": "gif",
+  "image/webp": "webp",
+};
 
 const MIME_MAGIC_BYTES: Record<string, (b: Buffer) => boolean> = {
   "image/png": (b) =>
@@ -38,19 +45,99 @@ export const imageAssetSchema = z.object({
     message: "Image key must be lowercase letters, digits, '-' or '_' (≤64 chars).",
   }),
   mimeType: z.string().refine((v) => SUPPORTED_IMAGE_MIME.has(v), {
-    message: "Image mimeType must be one of png/jpeg/gif/webp/svg+xml.",
+    message: "Image mimeType must be one of png/jpeg/gif/webp.",
   }),
   data: z.string().min(1, { message: "Image data (base64) is required." }),
 });
 
 export type ImageAssetInput = z.infer<typeof imageAssetSchema>;
 
+export const uploadedImageAssetSchema = z.object({
+  key: z.string().regex(ASSET_KEY_PATTERN, {
+    message: "Image key must be lowercase letters, digits, '-' or '_' (≤64 chars).",
+  }),
+  name: z.string().min(1),
+  mimeType: z.string().refine((v) => SUPPORTED_IMAGE_MIME.has(v), {
+    message: "Image mimeType must be one of png/jpeg/gif/webp.",
+  }),
+  dataUrl: z.string().min(1),
+});
+
+export type UploadedImageAssetInput = z.infer<typeof uploadedImageAssetSchema>;
+
 export type DecodedAsset = {
   key: string;
   mimeType: string;
   buffer: Buffer;
   sizeBytes: number;
+  originalName?: string;
 };
+
+export function detectImageMime(buffer: Buffer): string | null {
+  for (const [mimeType, check] of Object.entries(MIME_MAGIC_BYTES)) {
+    if (check(buffer)) {
+      return mimeType;
+    }
+  }
+  return null;
+}
+
+export function imageKeyFromFileName(fileName: string): string | null {
+  const baseName = fileName
+    .replace(/\\/g, "/")
+    .split("/")
+    .pop()
+    ?.replace(/\.[^.]+$/, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 64);
+
+  if (!baseName || !/^[a-z0-9][a-z0-9_-]{0,63}$/.test(baseName)) {
+    return null;
+  }
+  return baseName;
+}
+
+export function validateDecodedImage(args: {
+  key: string;
+  mimeType: string;
+  buffer: Buffer;
+  originalName?: string;
+}): { ok: true; asset: DecodedAsset } | { ok: false; error: string } {
+  if (!SUPPORTED_IMAGE_MIME.has(args.mimeType)) {
+    return {
+      ok: false,
+      error: `Image ${args.key}: mimeType must be one of png/jpeg/gif/webp.`,
+    };
+  }
+  if (args.buffer.byteLength === 0) {
+    return { ok: false, error: `Image ${args.key}: empty after decode.` };
+  }
+  if (args.buffer.byteLength > MAX_ASSET_BYTES) {
+    return {
+      ok: false,
+      error: `Image ${args.key}: ${(args.buffer.byteLength / 1024 / 1024).toFixed(1)}MB exceeds ${MAX_ASSET_BYTES / 1024 / 1024}MB limit.`,
+    };
+  }
+  const detectedMime = detectImageMime(args.buffer);
+  if (detectedMime !== args.mimeType) {
+    return {
+      ok: false,
+      error: `Image ${args.key}: bytes do not match declared mimeType ${args.mimeType}.`,
+    };
+  }
+  return {
+    ok: true,
+    asset: {
+      key: args.key,
+      mimeType: args.mimeType,
+      buffer: args.buffer,
+      sizeBytes: args.buffer.byteLength,
+      originalName: args.originalName,
+    },
+  };
+}
 
 export function decodeAssets(assets: ImageAssetInput[]): {
   ok: boolean;
@@ -79,22 +166,65 @@ export function decodeAssets(assets: ImageAssetInput[]): {
       errors.push(`Image ${asset.key}: base64 decode failed.`);
       continue;
     }
-    if (buf.byteLength === 0) {
-      errors.push(`Image ${asset.key}: empty after base64 decode.`);
+    const validated = validateDecodedImage({
+      key: asset.key,
+      mimeType: asset.mimeType,
+      buffer: buf,
+    });
+    if (!validated.ok) {
+      errors.push(validated.error);
       continue;
     }
-    if (buf.byteLength > MAX_ASSET_BYTES) {
-      errors.push(
-        `Image ${asset.key}: ${(buf.byteLength / 1024 / 1024).toFixed(1)}MB exceeds ${MAX_ASSET_BYTES / 1024 / 1024}MB limit.`,
-      );
+    decoded.push(validated.asset);
+  }
+
+  return { ok: errors.length === 0, decoded, errors };
+}
+
+export function decodeUploadedImageAssets(assets: UploadedImageAssetInput[]): {
+  ok: boolean;
+  decoded: DecodedAsset[];
+  errors: string[];
+} {
+  const errors: string[] = [];
+  const decoded: DecodedAsset[] = [];
+
+  if (assets.length > MAX_ASSETS_PER_SET) {
+    errors.push(`Too many images: ${assets.length}. Maximum is ${MAX_ASSETS_PER_SET}.`);
+    return { ok: false, decoded: [], errors };
+  }
+
+  const seen = new Set<string>();
+  for (const asset of assets) {
+    if (seen.has(asset.key)) {
+      errors.push(`Duplicate image key: ${asset.key}.`);
       continue;
     }
-    const magicCheck = MIME_MAGIC_BYTES[asset.mimeType];
-    if (!magicCheck || !magicCheck(buf)) {
-      errors.push(`Image ${asset.key}: bytes do not match declared mimeType ${asset.mimeType}.`);
+    seen.add(asset.key);
+
+    const match = asset.dataUrl.match(/^data:([^;,]+);base64,(.+)$/);
+    if (!match) {
+      errors.push(`Image ${asset.key}: upload data must be a base64 data URL.`);
       continue;
     }
-    decoded.push({ key: asset.key, mimeType: asset.mimeType, buffer: buf, sizeBytes: buf.byteLength });
+    const [, declaredMime, base64] = match;
+    if (declaredMime !== asset.mimeType) {
+      errors.push(`Image ${asset.key}: data URL mimeType does not match ${asset.mimeType}.`);
+      continue;
+    }
+
+    const buffer = Buffer.from(base64, "base64");
+    const validated = validateDecodedImage({
+      key: asset.key,
+      mimeType: asset.mimeType,
+      buffer,
+      originalName: asset.name,
+    });
+    if (!validated.ok) {
+      errors.push(validated.error);
+      continue;
+    }
+    decoded.push(validated.asset);
   }
 
   return { ok: errors.length === 0, decoded, errors };

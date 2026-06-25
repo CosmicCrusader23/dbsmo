@@ -1,5 +1,20 @@
 import { describe, expect, it } from "vitest";
+import JSZip from "jszip";
 import { createProblemSetJsonDraft, dryRunProblemSetJson } from "../lib/import/json-import";
+import { parseImageZip } from "../lib/import/image-zip";
+
+const PNG_1X1 = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=",
+  "base64",
+);
+
+async function imageZip(files: Record<string, Buffer>) {
+  const zip = new JSZip();
+  for (const [name, buffer] of Object.entries(files)) {
+    zip.file(name, buffer);
+  }
+  return Buffer.from(await zip.generateAsync({ type: "nodebuffer" }));
+}
 
 describe("dryRunProblemSetJson", () => {
   it("validates inline LaTeX statements, answer types, and solutions", async () => {
@@ -65,6 +80,54 @@ describe("dryRunProblemSetJson", () => {
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.message.includes("number"))).toBe(true);
   });
+
+  it("accepts problem image references from a same-name image ZIP", async () => {
+    const text = JSON.stringify({
+      slug: "json-geometry-image",
+      title: "JSON Geometry Image",
+      problems: [
+        {
+          number: 1,
+          statement: "Find the shaded area.",
+          imageRef: "geomnumber1.png",
+          answerType: "INTEGER",
+          answerKey: "12",
+        },
+      ],
+    });
+    const buffer = await imageZip({ "images/geomnumber1.png": PNG_1X1 });
+
+    const result = await dryRunProblemSetJson({
+      fileName: "json-geometry-image.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+      imageZip: {
+        fileName: "json-geometry-image.zip",
+        sizeBytes: buffer.byteLength,
+        buffer,
+      },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.preview?.imageCount).toBe(1);
+  });
+
+  it("rejects problem image references without a supplied image", async () => {
+    const text = JSON.stringify({
+      slug: "json-missing-image",
+      title: "JSON Missing Image",
+      problems: [{ statement: "Use the diagram.", imageRef: "diagram.png", answerKey: "1" }],
+    });
+
+    const result = await dryRunProblemSetJson({
+      fileName: "json-missing-image.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.message.includes("no matching image"))).toBe(true);
+  });
 });
 
 describe("createProblemSetJsonDraft", () => {
@@ -124,5 +187,38 @@ describe("createProblemSetJsonDraft", () => {
         answerKey: "9",
       }),
     );
+  });
+
+  it("opens a draft for string problem numbers so the editor can fix them", async () => {
+    const text = JSON.stringify({
+      slug: "json-string-number-draft",
+      title: "String Number Draft",
+      problems: [{ number: "1", statement: "Compute $1+1$.", answerKey: "2" }],
+    });
+
+    const result = await createProblemSetJsonDraft({
+      fileName: "json-string-number-draft.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.draft?.problems[0].number).toBe(1);
+    expect(result.issues.some((issue) => issue.message.includes("number"))).toBe(true);
+  });
+});
+
+describe("parseImageZip", () => {
+  it("rejects unsafe image ZIP paths", async () => {
+    const buffer = await imageZip({ "../evil.png": PNG_1X1 });
+
+    const result = await parseImageZip({
+      fileName: "geometry.zip",
+      sizeBytes: buffer.byteLength,
+      buffer,
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.message.includes("unsafe path"))).toBe(true);
   });
 });
