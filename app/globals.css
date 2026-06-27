@@ -674,6 +674,32 @@ body.has-site-sidebar .app-footer {
   align-items: start;
 }
 
+.test-problem-layout {
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+}
+
+.test-problem-layout .statement-panel {
+  grid-column: 1;
+  grid-row: 2 / span 4;
+}
+
+.test-answer-panel {
+  display: contents;
+}
+
+.test-problem-layout .test-jump-toolbar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.test-problem-layout .test-answer-shell,
+.test-problem-layout .score-result,
+.test-problem-layout .submit-coaching-panel,
+.test-problem-layout .locked-submit-state,
+.test-problem-layout .problem-actions {
+  grid-column: 2;
+}
+
 .panel {
   border-radius: var(--radius-card);
   background: var(--color-surface-alt);
@@ -2396,6 +2422,17 @@ html:not(.light) .problem-jump-button {
   .import-layout,
   .problem-workspace {
     grid-template-columns: 1fr;
+  }
+
+  .test-problem-layout .statement-panel,
+  .test-problem-layout .test-jump-toolbar,
+  .test-problem-layout .test-answer-shell,
+  .test-problem-layout .score-result,
+  .test-problem-layout .submit-coaching-panel,
+  .test-problem-layout .locked-submit-state,
+  .test-problem-layout .problem-actions {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .problem-sidebar-inner {

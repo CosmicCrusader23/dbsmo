@@ -182,7 +182,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
             </article>
           </section>
         ) : (
-          <section className="problem-layout">
+          <section className={`problem-layout${isTestSet ? " test-problem-layout" : ""}`}>
             <article className="panel statement-panel">
               <div className="panel-header">
                 <div>
@@ -259,14 +259,16 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
               ) : null}
             </article>
 
-            <article className="panel answer-panel">
-              <div className="panel-header">
-                <div>
-                  <p className="eyebrow">Answer-only</p>
-                  <h2>Response grid</h2>
+            <article className={`panel answer-panel${isTestSet ? " test-answer-panel" : ""}`}>
+              {!isTestSet ? (
+                <div className="panel-header">
+                  <div>
+                    <p className="eyebrow">Answer-only</p>
+                    <h2>Response grid</h2>
+                  </div>
+                  <CheckCircle2 size={20} />
                 </div>
-                <CheckCircle2 size={20} />
-              </div>
+              ) : null}
               <AnswerGrid
                 lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
                 problemNumbers={problemSet.problems.map((problem) => problem.number)}
