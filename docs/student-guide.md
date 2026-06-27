@@ -76,6 +76,10 @@ The standard leaderboard ranks useful progress instead of raw attempts. By defau
 
 Your Google account picture is used by default. In **Settings**, you can upload or paste a custom profile picture; clearing it returns to the Google/default avatar.
 
+## User Profiles
+
+Public user profiles show progress summaries, recent completions, bookmarks, an authored tasks table, and a set/problem progress grid. The authored tasks table lists problem sets created by that user, with problem count, perfect-solver count, attempt count, and links to open each visible set.
+
 ## Reporting Issues
 
 If you find an error in a problem or answer key:

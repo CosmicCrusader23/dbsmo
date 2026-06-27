@@ -43,6 +43,10 @@ See [import-format.md](./import-format.md) for the JSON format specification.
 4. Click **Save changes**.
 5. The set is now visible to students. It will display "Uploaded by [Your Name]".
 
+### Authored Tasks on Profiles
+
+User profile pages include an **Authored tasks** section above the set/problem grid. Public viewers see authored sets that are currently visible to students. Staff and profile owners can also see draft or archived authored sets, with quick links to open the set, view analytics, or manage it when their role allows those actions.
+
 ## Managing Students
 
 1. Click **Students** in the sidebar to see all registered students.

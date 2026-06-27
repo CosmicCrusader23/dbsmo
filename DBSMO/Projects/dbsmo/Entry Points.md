@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-27
 type: entry-points
 tags: [project, architecture, routes, apis, dbsmo]
 ai-first: true
@@ -41,7 +41,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `/dashboard` - authenticated dashboard with set progress, topic metrics, admin metrics, assignments widget, auth/profile/theme controls (source: `app/dashboard/page.tsx`, `app/dashboard/assignments-widget.tsx`).
 - `/settings` - client account settings: display name, avatar URL/upload, Google profile-picture fallback, privacy flags, theme, typewriter settings (source: `app/settings/page.tsx`, `app/api/settings/route.ts`).
 - `/leaderboard` - leaderboard view with avatars/rank badges (source: `app/leaderboard/page.tsx`).
-- `/users` and `/users/[username]` - user list/profile, friend button, admin promote user button (sources: `app/users/page.tsx`, `app/users/[username]/page.tsx`, `app/users/[username]/friend-button.tsx`, `app/users/[username]/promote-user-button.tsx`).
+- `/users` and `/users/[username]` - user list/profile, friend button, admin promote user button, authored tasks table above the set/problem progress grid (sources: `app/users/page.tsx`, `app/users/[username]/page.tsx`, `app/users/[username]/friend-button.tsx`, `app/users/[username]/promote-user-button.tsx`).
 
 ## Problem Set and Practice Routes
 

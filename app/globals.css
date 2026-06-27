@@ -4777,6 +4777,7 @@ html.dark .theme-choice-button.active {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .profile-section h2 {
@@ -4836,6 +4837,117 @@ html.dark .theme-choice-button.active {
   color: var(--color-blue);
   font-size: 0.86rem;
   font-weight: 850;
+}
+
+.profile-authored-section {
+  overflow: hidden;
+}
+
+.profile-authored-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.profile-authored-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.profile-authored-table th,
+.profile-authored-table td {
+  padding: 0.85rem 0.95rem;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.profile-authored-table th {
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.profile-authored-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.profile-authored-table tbody tr:hover {
+  background: rgba(47, 185, 232, 0.06);
+}
+
+.profile-authored-id {
+  color: var(--color-muted);
+  font-weight: 900;
+}
+
+.profile-authored-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.profile-authored-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 0.55rem;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.profile-authored-status.published {
+  background: rgba(27, 191, 137, 0.12);
+  color: var(--color-success);
+}
+
+.profile-authored-status.draft {
+  background: rgba(234, 179, 8, 0.12);
+  color: var(--color-orange);
+}
+
+.profile-authored-status.archived {
+  background: rgba(125, 137, 164, 0.16);
+  color: var(--color-muted);
+}
+
+.profile-authored-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.profile-authored-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 32px;
+  padding: 0 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface-alt);
+  color: var(--color-text-strong);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.profile-authored-action:hover {
+  transform: translateY(-1px);
+  border-color: rgba(47, 185, 232, 0.28);
+  background: rgba(47, 185, 232, 0.08);
 }
 
 .profile-grid-legend {

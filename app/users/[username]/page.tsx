@@ -1,7 +1,16 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Grid2x2, Mail } from "lucide-react";
+import {
+  ArrowLeft,
+  BarChart3,
+  Calendar,
+  ClipboardList,
+  ExternalLink,
+  Grid2x2,
+  Mail,
+  Pencil,
+} from "lucide-react";
 import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
@@ -9,7 +18,7 @@ import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
-import { isStaffRole } from "@/lib/permissions";
+import { hasPermission, isStaffRole } from "@/lib/permissions";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { Avatar } from "@/app/avatar";
 import { FriendButton } from "./friend-button";
@@ -106,6 +115,31 @@ export default async function UserProfilePage({
         orderBy: { createdAt: "desc" },
         take: 5,
       },
+      createdProblemSets: {
+        select: {
+          id: true,
+          slug: true,
+          title: true,
+          order: true,
+          status: true,
+          visibleFrom: true,
+          visibleTo: true,
+          createdAt: true,
+          attempts: {
+            select: {
+              userId: true,
+              score: true,
+              maxScore: true,
+            },
+          },
+          _count: {
+            select: {
+              attempts: true,
+              problems: true,
+            },
+          },
+        },
+      },
     },
   });
 
@@ -179,6 +213,8 @@ export default async function UserProfilePage({
 
   const displayLabel = user.displayName || user.name || "Anonymous";
   const profileUsername = usernameFromEmail(user.email);
+  const canManageContent = hasPermission(session.user.role, "admin:content");
+  const canViewAnalytics = hasPermission(session.user.role, "admin:analytics");
   const uniqueSets = new Set(user.attempts.map((a) => a.problemSetId)).size;
   const totalAttempts = user.attempts.length;
   const avgScore =
@@ -236,6 +272,28 @@ export default async function UserProfilePage({
     .slice(0, 4);
   const visibleSets =
     session.user.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
+  const canSeeAllAuthoredSets = isOwnProfile || isStaffRole(session.user.role);
+  const authoredTaskRows = user.createdProblemSets
+    .filter((set) => canSeeAllAuthoredSets || isVisibleToStudent(set))
+    .sort(compareProblemSetRecords)
+    .map((set) => {
+      const solvedUsers = new Set(
+        set.attempts
+          .filter((attempt) => attempt.maxScore > 0 && attempt.score === attempt.maxScore)
+          .map((attempt) => attempt.userId),
+      );
+
+      return {
+        id: set.id,
+        slug: set.slug,
+        title: set.title,
+        order: set.order || set.slug,
+        status: set.status,
+        solvedCount: solvedUsers.size,
+        attemptCount: set._count.attempts,
+        problemCount: set._count.problems,
+      };
+    });
   const setGridRows = visibleSets.map((set) => {
     const progress = setScores.get(set.id);
     const best = progress ? Math.round(progress.best) : null;
@@ -484,6 +542,83 @@ export default async function UserProfilePage({
             </div>
           )}
         </article>
+      </section>
+
+      <section className="profile-section profile-authored-section">
+        <div className="profile-grid-header">
+          <div className="profile-grid-title-row">
+            <h2>
+              <ClipboardList size={18} />
+              Authored tasks ({authoredTaskRows.length})
+            </h2>
+          </div>
+        </div>
+        {authoredTaskRows.length === 0 ? (
+          <p className="profile-muted">No authored public tasks yet.</p>
+        ) : (
+          <div className="profile-authored-table-wrap">
+            <table className="profile-authored-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Problems</th>
+                  <th># Solved</th>
+                  <th>Attempts</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {authoredTaskRows.map((set) => (
+                  <tr key={set.id}>
+                    <td>
+                      <span className="profile-authored-id">{set.order}</span>
+                    </td>
+                    <td>
+                      <div className="profile-authored-name-cell">
+                        <Link className="text-link" href={`/problem-sets/${set.slug}`}>
+                          {set.title}
+                        </Link>
+                        <span className={`profile-authored-status ${set.status.toLowerCase()}`}>
+                          {set.status.toLowerCase()}
+                        </span>
+                      </div>
+                    </td>
+                    <td>{set.problemCount}</td>
+                    <td>{set.solvedCount}</td>
+                    <td>{set.attemptCount}</td>
+                    <td>
+                      <div className="profile-authored-actions">
+                        <Link
+                          className="profile-authored-action"
+                          href={`/problem-sets/${set.slug}`}
+                        >
+                          <ExternalLink size={14} />
+                          Open
+                        </Link>
+                        {canViewAnalytics ? (
+                          <Link
+                            className="profile-authored-action"
+                            href={`/admin/sets/${set.id}/analytics`}
+                          >
+                            <BarChart3 size={14} />
+                            Analytics
+                          </Link>
+                        ) : null}
+                        {canManageContent ? (
+                          <Link className="profile-authored-action" href={`/admin/sets/${set.id}`}>
+                            <Pencil size={14} />
+                            Manage
+                          </Link>
+                        ) : null}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       <section className="profile-section">

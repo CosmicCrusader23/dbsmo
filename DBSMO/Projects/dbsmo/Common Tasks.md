@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-27
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
@@ -150,6 +150,7 @@ Profile/settings:
 - `app/avatar.tsx`, `lib/avatar.ts`
 - `lib/auth.ts` for propagating Google `User.image` into the session.
 - Pages that select user rows for avatars must include `image: true` when they want Google profile-picture fallback, then pass `image` to `Avatar`.
+- Profile authored tasks are rendered in `app/users/[username]/page.tsx` from `User.createdProblemSets`; keep public visibility filtered through `isVisibleToStudent(...)` and use `hasPermission(...)` before linking staff-only analytics/manage actions.
 
 Friends:
 

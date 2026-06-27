@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-27
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -71,6 +71,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 ## Users and Settings
 
 - `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, falls back to Google `User.image` when no custom avatar is set, writes theme/typewriter settings to `localStorage`, validates and patches account settings.
+- `UserProfilePage` in `app/users/[username]/page.tsx`: server-rendered public profile with avatar, friend/admin actions, progress stats, topic/completion/bookmark summaries, authored tasks table, and set/problem progress grid. Authored tasks come from `User.createdProblemSets` and show visible sets to public viewers while owners/staff can see private authored sets.
 - `FriendButton` in `app/users/[username]/friend-button.tsx`: client heart button backed by `PATCH /api/friends/[userId]`.
 - `PromoteUserButton` in `app/users/[username]/promote-user-button.tsx`: admin role change UI backed by `PATCH /api/admin/users/[id]/role`.
 - `LeaderboardPage` in `app/leaderboard/page.tsx`: leaderboard route with local `RankBadge` and shared `Avatar`.
