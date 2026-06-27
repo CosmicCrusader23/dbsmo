@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Download, ExternalLink, FileJson, Plus, Search } from "lucide-react";
+import { ArrowLeft, BarChart3, Download, ExternalLink, FileJson, Plus, Search } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
@@ -211,6 +211,13 @@ export default async function AdminSetsPage({
                           <Link className="secondary-action compact" href={`/admin/sets/${set.id}`}>
                             <ExternalLink size={14} />
                             View
+                          </Link>
+                          <Link
+                            className="secondary-action compact"
+                            href={`/admin/sets/${set.id}/analytics`}
+                          >
+                            <BarChart3 size={14} />
+                            Analytics
                           </Link>
                           <a
                             className="secondary-action compact"

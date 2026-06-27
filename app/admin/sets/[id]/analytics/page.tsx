@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { notFound, redirect } from "next/navigation";
 import { ArrowLeft, BarChart3 } from "lucide-react";
 import { prisma } from "@/lib/db";
+import { authOptions } from "@/lib/auth";
 import { computeScoreBuckets, accuracyLevel } from "@/lib/analytics";
+import { hasPermission } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +16,10 @@ function pct(a: { score: number; maxScore: number }) {
 }
 
 export default async function SetAnalyticsPage({ params }: Props) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+  if (!hasPermission(session.user.role, "admin:analytics")) redirect("/dashboard");
+
   const { id } = await params;
   const set = await prisma.problemSet.findUnique({
     where: { id },

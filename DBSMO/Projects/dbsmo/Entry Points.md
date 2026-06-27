@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This note lists the important [[dbsmo]] entry points: app routes, API routes, scripts, auth gates, CI, and startup/deploy flow. It is route-inventory dense; use [[Architecture]] for behavioral explanation and [[Common Tasks]] for where to edit.
 
 ## Startup and Commands
@@ -59,9 +60,9 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 ## Admin App Routes
 
-- `/admin/sets` - set management list (source: `app/admin/sets/page.tsx`).
+- `/admin/sets` - set management list with direct view, per-set analytics, JSON export, and delete actions (source: `app/admin/sets/page.tsx`).
 - `/admin/sets/[id]` - set detail/edit page and `SetEditForm` client (sources: `app/admin/sets/[id]/page.tsx`, `app/admin/sets/[id]/set-edit-form.tsx`).
-- `/admin/sets/[id]/analytics` - per-set analytics (source: `app/admin/sets/[id]/analytics/page.tsx`).
+- `/admin/sets/[id]/analytics` - per-set analytics, gated by `admin:analytics` (source: `app/admin/sets/[id]/analytics/page.tsx`).
 - `/admin/create` - create set manually or from import draft (sources: `app/admin/create/page.tsx`, `app/admin/create/page-client.tsx`).
 - `/admin/import` - JSON/ZIP import panels (sources: `app/admin/import/page.tsx`, `app/admin/import/json-zip-import-panel.tsx`, `app/admin/import/zip-import-panel.tsx`).
 - `/admin/classes`, `/admin/classes/new`, `/admin/classes/[id]` - class index, class creation form, class roster/assignment detail (sources: `app/admin/classes/page.tsx`, `app/admin/classes/new/page.tsx`, `app/admin/classes/new/new-class-form.tsx`, `app/admin/classes/[id]/page.tsx`, `app/admin/classes/[id]/class-detail-client.tsx`).
