@@ -34,10 +34,28 @@ type Props = {
   videoUrl?: string | null;
   lockedAttemptNumber?: number | null;
   assets?: Record<string, string>;
+  answerLayout?: "standard" | "test";
 };
 
 const AUTOSAVE_KEY_PREFIX = "mo-draft-";
 const REVIEW_KEY_PREFIX = "mo-review-";
+
+export function buildTestQuestionRows(problemNumbers: number[]) {
+  return Array.from({ length: Math.ceil(problemNumbers.length / 3) }, (_, rowIndex) => {
+    const problemIndex = rowIndex + 1;
+    return {
+      problemIndex,
+      cells: problemNumbers
+        .slice(rowIndex * 3, rowIndex * 3 + 3)
+        .map((problemNumber, cellIndex) => ({
+          problemNumber,
+          problemIndex,
+          level: cellIndex + 1,
+          label: `${problemIndex}(${cellIndex + 1})`,
+        })),
+    };
+  });
+}
 
 export function AnswerGrid({
   problemSetId,
@@ -46,6 +64,7 @@ export function AnswerGrid({
   videoUrl = null,
   lockedAttemptNumber = null,
   assets,
+  answerLayout = "standard",
 }: Props) {
   const autosaveKey = `${AUTOSAVE_KEY_PREFIX}${problemSetId}`;
   const reviewKey = `${REVIEW_KEY_PREFIX}${problemSetId}`;
@@ -226,10 +245,17 @@ export function AnswerGrid({
     submitResult.maxScore > 0 &&
     submitResult.score === submitResult.maxScore;
   const problemSummaryMap = new Map(problemSummaries.map((problem) => [problem.number, problem]));
-  const hasInlineStatements = problemNumbers.every((number) => {
-    const statement = problemSummaryMap.get(number)?.statement ?? "";
-    return statement.trim().length > 0;
-  });
+  const testRows = answerLayout === "test" ? buildTestQuestionRows(problemNumbers) : [];
+  const isTestLayout = testRows.length > 0;
+  const testLabelMap = new Map(
+    testRows.flatMap((row) => row.cells.map((cell) => [cell.problemNumber, cell.label])),
+  );
+  const hasInlineStatements =
+    answerLayout !== "test" &&
+    problemNumbers.every((number) => {
+      const statement = problemSummaryMap.get(number)?.statement ?? "";
+      return statement.trim().length > 0;
+    });
   const resultMap = submitResult
     ? new Map(submitResult.results.map((result) => [result.number, result]))
     : null;
@@ -285,7 +311,7 @@ export function AnswerGrid({
                 <option value="">Whole set issue</option>
                 {problemNumbers.map((number) => (
                   <option key={number} value={String(number)}>
-                    Problem {number}
+                    Problem {questionLabel(number)}
                   </option>
                 ))}
               </select>
@@ -325,6 +351,10 @@ export function AnswerGrid({
 
   function jumpHref(problemNumber: number) {
     return `#problem-${problemNumber}`;
+  }
+
+  function questionLabel(problemNumber: number) {
+    return testLabelMap.get(problemNumber) ?? String(problemNumber);
   }
 
   function jumpButtonState(problemNumber: number) {
@@ -436,9 +466,7 @@ export function AnswerGrid({
                   <h3>Jump to question</h3>
                 </div>
               </div>
-              <div className="problem-toolbar-actions">
-                {renderTopActions()}
-              </div>
+              <div className="problem-toolbar-actions">{renderTopActions()}</div>
               {renderJumpGrid()}
               {submitError ? <span className="form-error">{submitError}</span> : null}
             </section>
@@ -496,7 +524,11 @@ export function AnswerGrid({
 
                   {summary ? (
                     <div className="statement-text">
-                      <LatexStatement statement={summary.statement} format={summary.contentFormat} assets={assets} />
+                      <LatexStatement
+                        statement={summary.statement}
+                        format={summary.contentFormat}
+                        assets={assets}
+                      />
                     </div>
                   ) : null}
 
@@ -549,6 +581,79 @@ export function AnswerGrid({
   }
 
   function renderFallbackAnswerGrid() {
+    function renderTestAnswerTable() {
+      return (
+        <div className="test-answer-shell">
+          <div className="test-answer-summary">
+            <strong>Test answer sheet</strong>
+            <span>
+              {testRows.length} problems · 3 levels · {problemNumbers.length} marks
+            </span>
+          </div>
+          <div className="test-answer-table-wrap">
+            <table className="test-answer-table">
+              <thead>
+                <tr>
+                  <th>Problem</th>
+                  <th>(1)</th>
+                  <th>(2)</th>
+                  <th>(3)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {testRows.map((row) => (
+                  <tr key={row.problemIndex}>
+                    <th scope="row">{row.problemIndex}</th>
+                    {[0, 1, 2].map((cellIndex) => {
+                      const cell = row.cells[cellIndex];
+                      if (!cell) {
+                        return <td className="test-answer-cell empty" key={cellIndex} />;
+                      }
+
+                      const result = resultMap?.get(cell.problemNumber);
+                      const stateClass = result ? (result.isCorrect ? "correct" : "incorrect") : "";
+
+                      return (
+                        <td
+                          className={`test-answer-cell ${stateClass}`.trim()}
+                          key={cell.problemNumber}
+                        >
+                          {submitResult ? (
+                            <div className={`test-answer-graded ${stateClass}`.trim()}>
+                              <span>{result?.rawAnswer || "—"}</span>
+                              {result?.isCorrect ? (
+                                <CheckCircle2 size={14} className="grade-icon correct-icon" />
+                              ) : (
+                                <XCircle size={14} className="grade-icon incorrect-icon" />
+                              )}
+                            </div>
+                          ) : isSubmissionLocked ? (
+                            <div className="test-answer-graded locked">
+                              <span>Locked</span>
+                              <CheckCircle2 size={14} className="grade-icon correct-icon" />
+                            </div>
+                          ) : (
+                            <input
+                              className="test-answer-input"
+                              aria-label={`Answer ${cell.label}`}
+                              name={`answer-${cell.problemNumber}`}
+                              placeholder={cell.label}
+                              value={answers[cell.problemNumber] ?? ""}
+                              onChange={(e) => onAnswerChange(cell.problemNumber, e.target.value)}
+                            />
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
     if (isSubmissionLocked) {
       return (
         <>
@@ -560,17 +665,21 @@ export function AnswerGrid({
             </div>
           </div>
 
-          <div className="answer-grid">
-            {problemNumbers.map((number) => (
-              <div className="answer-cell locked" key={number}>
-                <span className="answer-cell-label">Question {number}</span>
-                <div className="graded-answer">
-                  <span className="answer-cell-value">Submission locked</span>
-                  <CheckCircle2 size={14} className="grade-icon correct-icon" />
+          {isTestLayout ? (
+            renderTestAnswerTable()
+          ) : (
+            <div className="answer-grid">
+              {problemNumbers.map((number) => (
+                <div className="answer-cell locked" key={number}>
+                  <span className="answer-cell-label">Question {number}</span>
+                  <div className="graded-answer">
+                    <span className="answer-cell-value">Submission locked</span>
+                    <CheckCircle2 size={14} className="grade-icon correct-icon" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           <div className="problem-actions">
             <button
@@ -628,26 +737,30 @@ export function AnswerGrid({
             ) : null}
           </div>
 
-          <div className="answer-grid">
-            {problemNumbers.map((number) => {
-              const result = resultMap?.get(number);
-              const stateClass = result ? (result.isCorrect ? "correct" : "incorrect") : "";
+          {isTestLayout ? (
+            renderTestAnswerTable()
+          ) : (
+            <div className="answer-grid">
+              {problemNumbers.map((number) => {
+                const result = resultMap?.get(number);
+                const stateClass = result ? (result.isCorrect ? "correct" : "incorrect") : "";
 
-              return (
-                <div className={`answer-cell graded ${stateClass}`.trim()} key={number}>
-                  <span className="answer-cell-label">Question {number}</span>
-                  <div className="graded-answer">
-                    <span className="answer-cell-value">{result?.rawAnswer || "—"}</span>
-                    {result?.isCorrect ? (
-                      <CheckCircle2 size={14} className="grade-icon correct-icon" />
-                    ) : (
-                      <XCircle size={14} className="grade-icon incorrect-icon" />
-                    )}
+                return (
+                  <div className={`answer-cell graded ${stateClass}`.trim()} key={number}>
+                    <span className="answer-cell-label">Question {number}</span>
+                    <div className="graded-answer">
+                      <span className="answer-cell-value">{result?.rawAnswer || "—"}</span>
+                      {result?.isCorrect ? (
+                        <CheckCircle2 size={14} className="grade-icon correct-icon" />
+                      ) : (
+                        <XCircle size={14} className="grade-icon incorrect-icon" />
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
           <div className="problem-actions">
             <button
@@ -672,21 +785,25 @@ export function AnswerGrid({
 
     return (
       <>
-        <form className="answer-grid" onSubmit={(e) => e.preventDefault()}>
-          {problemNumbers.map((number) => (
-            <label className="answer-cell" key={number}>
-              <span className="answer-cell-label">Question {number}</span>
-              <input
-                className="answer-cell-input"
-                aria-label={`Answer ${number}`}
-                name={`answer-${number}`}
-                placeholder="answer"
-                value={answers[number] ?? ""}
-                onChange={(e) => onAnswerChange(number, e.target.value)}
-              />
-            </label>
-          ))}
-        </form>
+        {isTestLayout ? (
+          renderTestAnswerTable()
+        ) : (
+          <form className="answer-grid" onSubmit={(e) => e.preventDefault()}>
+            {problemNumbers.map((number) => (
+              <label className="answer-cell" key={number}>
+                <span className="answer-cell-label">Question {number}</span>
+                <input
+                  className="answer-cell-input"
+                  aria-label={`Answer ${number}`}
+                  name={`answer-${number}`}
+                  placeholder="answer"
+                  value={answers[number] ?? ""}
+                  onChange={(e) => onAnswerChange(number, e.target.value)}
+                />
+              </label>
+            ))}
+          </form>
+        )}
 
         <div className="problem-actions">
           <span className="fill-count">
@@ -700,15 +817,19 @@ export function AnswerGrid({
             <MessageSquareWarning size={18} />
             Report issue
           </button>
-        <button
-          className="primary-action"
-          type="button"
-          disabled={isSubmitting || filledCount === 0}
-          onClick={onSubmit}
-        >
-          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
-          {isSubmitting ? "Submitting…" : "Submit set"}
-        </button>
+          <button
+            className="primary-action"
+            type="button"
+            disabled={isSubmitting || filledCount === 0}
+            onClick={onSubmit}
+          >
+            {isSubmitting ? (
+              <Loader2 size={18} className="spin-icon" />
+            ) : (
+              <CheckCircle2 size={18} />
+            )}
+            {isSubmitting ? "Submitting…" : "Submit set"}
+          </button>
         </div>
 
         {submitError ? (

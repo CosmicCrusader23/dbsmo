@@ -38,6 +38,8 @@ Click **Continue** or **Open current set** to jump straight to the recommended s
 5. When ready, click **Submit** to grade your answers.
 6. If you have already solved a set with a perfect score, the problem page stays readable but answer inputs and new submissions are locked.
 
+Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answer boxes for levels `(1)`, `(2)`, and `(3)`, for 60 marks total.
+
 ### Answer Formats
 
 | Type     | Example    | Notes                                     |

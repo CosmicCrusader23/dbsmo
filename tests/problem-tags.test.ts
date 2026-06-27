@@ -14,4 +14,8 @@ describe("normalizeTagList", () => {
       "Linear Equations",
     ]);
   });
+
+  it("canonicalizes the Tests problem-set category", () => {
+    expect(normalizeTagList(["test", "Tests", "tests"])).toEqual(["Tests"]);
+  });
 });

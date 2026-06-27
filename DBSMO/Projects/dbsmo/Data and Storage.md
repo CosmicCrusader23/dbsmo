@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-27
 type: data-storage
 tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
@@ -23,6 +23,7 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 - `User`: NextAuth user plus app profile fields: Google `image`, display name, custom avatar URL, role, group, visibility flags, theme, greeting settings, login timestamps, and relations to attempts, feedback, files, problem sets, bookmarks, friendships, practice solves, audit/export jobs, FTW, and classes (source: `prisma/schema.prisma`). The shared `Avatar` component prefers custom `avatarUrl`, then Google `image`, then deterministic initials (sources: `app/avatar.tsx`, `lib/avatar.ts`).
 - `ProblemSet`: slug/title/description/order/status/visibility windows/group restrictions/tags/difficulty/video/files/creator plus problems, attempts, feedback, bookmarks, assets, and assignments (source: `prisma/schema.prisma`).
 - `Problem`: problem-set child with integer `number`, statement, `ProblemContentFormat`, answer key/type/accepted answers/case sensitivity/explanation/tags/points; unique per `(problemSetId, number)` (source: `prisma/schema.prisma`).
+- `Tests` is a canonical problem-set category tag. It does not change storage: test papers are still represented as 60 `Problem` rows, and `AnswerGrid` groups those rows visually into 20 problems × 3 levels on tagged sets (sources: `lib/problem-tags.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
 - `Attempt` and `Response`: full problem-set attempt totals and per-problem raw/normalized answers, correctness, and awarded points (source: `prisma/schema.prisma`).
 - `PracticeSolve`: unique `(userId, problemId)` record for correct practice solves (source: `prisma/schema.prisma`).
 - `FeedbackReport`: user-submitted issue report tied to set and optional problem, with type/status/admin note/resolution time (source: `prisma/schema.prisma`).

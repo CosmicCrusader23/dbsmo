@@ -9,6 +9,7 @@ export const STANDARD_PROBLEM_SET_TAGS = [
   "AIME",
   "AMC",
   "AJHSME",
+  "Tests",
 ] as const;
 
 export const OTHER_PROBLEM_SET_TAG = "Others";
@@ -53,6 +54,7 @@ export const CANONICAL_TAGS: CanonicalTag[] = [
   { slug: "aime", label: "AIME", kind: "problem_set_category", aliases: [] },
   { slug: "amc", label: "AMC", kind: "problem_set_category", aliases: [] },
   { slug: "ajhsme", label: "AJHSME", kind: "problem_set_category", aliases: [] },
+  { slug: "tests", label: "Tests", kind: "problem_set_category", aliases: ["test"] },
 ];
 
 const canonicalTagLookup = new Map<string, CanonicalTag>();

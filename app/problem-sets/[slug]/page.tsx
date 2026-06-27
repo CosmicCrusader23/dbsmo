@@ -18,6 +18,7 @@ import { BookmarkButton } from "./bookmark-button";
 import { LatexStatement } from "./latex-statement";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { normalizeProblemTag } from "@/lib/problem-tags";
 import { isVisibleToStudent } from "@/lib/visibility";
 
 export const dynamic = "force-dynamic";
@@ -66,8 +67,10 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
 
   const problemCount = problemSet.problems.length;
   const videoHost = problemSet.videoUrl ? new URL(problemSet.videoUrl).hostname : null;
+  const isTestSet = problemSet.topicTags.some((tag) => normalizeProblemTag(tag) === "tests");
   const statementProblems = problemSet.problems.filter((problem) => problem.statement.trim());
-  const hasInlineStatements = problemSet.problems.every((problem) => problem.statement.trim().length > 0);
+  const hasInlineStatements =
+    !isTestSet && problemSet.problems.every((problem) => problem.statement.trim().length > 0);
   const pdfHref =
     problemSet.problemFile?.mimeType === "application/pdf"
       ? `/api/files/${problemSet.problemFile.id}`
@@ -133,11 +136,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
               {pdfHref ? (
                 <div className="file-meta-row problem-inline-file-row">
                   <span>Problem file: {problemSet.problemFile?.originalName}</span>
-                  <a
-                    className="secondary-action compact"
-                    href={pdfHref}
-                    target="_blank"
-                  >
+                  <a className="secondary-action compact" href={pdfHref} target="_blank">
                     <Maximize2 size={16} />
                     Open PDF
                   </a>
@@ -156,6 +155,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 problemSetId={problemSet.id}
                 videoUrl={problemSet.videoUrl}
                 assets={assetUrls}
+                answerLayout={isTestSet ? "test" : "standard"}
               />
               {problemSet.videoUrl ? (
                 <a
@@ -280,6 +280,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 problemSetId={problemSet.id}
                 videoUrl={problemSet.videoUrl}
                 assets={assetUrls}
+                answerLayout={isTestSet ? "test" : "standard"}
               />
             </article>
           </section>

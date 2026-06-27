@@ -30,7 +30,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `AssignmentsWidget` in `app/dashboard/assignments-widget.tsx`: client component that fetches `/api/assignments/mine`, sorts assignments, and renders up to five dashboard assignment links.
 - `ProblemSetsPage` in `app/problem-sets/page.tsx`: route page that handles catalog filtering/sorting/views/recommendations/pagination and renders set cards/links.
 - `ProblemSetPage` in `app/problem-sets/[slug]/page.tsx`: route page that loads a set by slug and chooses inline-statement vs PDF/file layout.
-- `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, missed-topic next action, and feedback report dialog.
+- `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, missed-topic next action, and feedback report dialog. When `ProblemSetPage` detects the set tag `Tests`, it passes the test layout so answer-only/PDF sets render as a 20×3 test answer sheet for 60 underlying `Problem` rows.
 - `BookmarkButton` in `app/problem-sets/[slug]/bookmark-button.tsx`: client bookmark toggle backed by `/api/problem-sets/[id]/bookmark`.
 - `LatexStatement` in `app/problem-sets/[slug]/latex-statement.tsx`: statement renderer for LaTeX/HTML-style statements and imported image assets.
 

@@ -9,6 +9,8 @@ This format now supports two different kinds of tags:
 
 Practice mode only shows tags that belong to more than 10 published questions.
 
+Use top-level `topicTags: ["Tests"]` for school test papers with 20 problems split into levels `(1)`, `(2)`, and `(3)`. Import those as 60 problem entries in order; the student answer page groups them as a 20×3 test answer sheet while preserving the underlying 60 graded answers.
+
 ## Example
 
 ```json
