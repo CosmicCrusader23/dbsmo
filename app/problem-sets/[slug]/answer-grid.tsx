@@ -379,10 +379,28 @@ export function AnswerGrid({
             href={jumpHref(number)}
             key={number}
           >
-            Q{number}
+            {isTestLayout ? questionLabel(number) : `Q${number}`}
           </a>
         ))}
       </div>
+    );
+  }
+
+  function renderTestJumpGrid() {
+    if (!isTestLayout) {
+      return null;
+    }
+
+    return (
+      <section className="problem-jump-strip problem-jump-toolbar test-jump-toolbar">
+        <div className="problem-jump-strip-head problem-jump-toolbar-head">
+          <div>
+            <p className="eyebrow">Problem Grid</p>
+            <h3>Jump to question</h3>
+          </div>
+        </div>
+        {renderJumpGrid("test-jump-grid")}
+      </section>
     );
   }
 
@@ -616,6 +634,7 @@ export function AnswerGrid({
                       return (
                         <td
                           className={`test-answer-cell ${stateClass}`.trim()}
+                          id={`problem-${cell.problemNumber}`}
                           key={cell.problemNumber}
                         >
                           {submitResult ? (
@@ -664,6 +683,7 @@ export function AnswerGrid({
               <p>{lockedMessage}</p>
             </div>
           </div>
+          {renderTestJumpGrid()}
 
           {isTestLayout ? (
             renderTestAnswerTable()
@@ -736,6 +756,7 @@ export function AnswerGrid({
               </div>
             ) : null}
           </div>
+          {renderTestJumpGrid()}
 
           {isTestLayout ? (
             renderTestAnswerTable()
@@ -785,6 +806,7 @@ export function AnswerGrid({
 
     return (
       <>
+        {renderTestJumpGrid()}
         {isTestLayout ? (
           renderTestAnswerTable()
         ) : (

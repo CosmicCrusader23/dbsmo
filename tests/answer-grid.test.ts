@@ -47,6 +47,8 @@ describe("AnswerGrid", () => {
 
     expect(html).toContain("Test answer sheet");
     expect(html).toContain("20 problems · 3 levels · 60 marks");
+    expect(html).toContain('href="#problem-1"');
+    expect(html).toContain('id="problem-60"');
     expect(html).toContain('aria-label="Answer 1(1)"');
     expect(html).toContain('aria-label="Answer 20(3)"');
   });
