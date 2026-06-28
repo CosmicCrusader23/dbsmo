@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-28
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This note captures fragile or confusing areas in [[dbsmo]] discovered while mapping the codebase on 2026-06-26. Treat these as investigation leads before editing; verify in source because the worktree was dirty at scan time.
 
 ## Admin Permission Mismatch
@@ -36,6 +37,8 @@ Optional image ZIP imports derive asset keys from image filenames by lowercasing
 
 `POST /api/submit` blocks new attempts if any previous attempt has `score === maxScore`; `ProblemSetPage` passes `lockedAttemptNumber` to `AnswerGrid`. The locked UI must still render problem statements/PDF context and only remove answer entry/submission controls. Any change to attempt/retake semantics needs to update both server logic and UI messaging (sources: `app/api/submit/route.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
 
+Writeups intentionally remain accessible even when submissions are locked or the user has not submitted. Do not reuse submission-lock logic to hide `/problem-sets/[slug]/writeups`; only normal auth and set visibility should gate that page (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`).
+
 ## Practice Completion Counts Only Correct Answers
 
 Practice mode records `PracticeSolve` only for correct answers and has a unique `(userId, problemId)` constraint. Duplicate correct submissions are silently treated as already counted; incorrect attempts are not persisted. This affects analytics expectations for practice mode (sources: `app/api/practice/submit/route.ts`, `prisma/schema.prisma`).
@@ -50,7 +53,7 @@ Practice mode records `PracticeSolve` only for correct answers and has a unique 
 
 ## Large Files and Avatar Data URLs
 
-PDF upload limit is 25 MB (`lib/uploaded-pdf.ts`), legacy problem-set ZIP import limit is 50 MB (`lib/import/zip-dry-run.ts`), JSON import limit is 5 MB per docs/source path, image ZIP limit is 100 MB (`lib/import/image-zip.ts`), image assets are 4 MB each/50 max (`lib/import/image-assets.ts`), and profile avatar URL/data URL max is 700,000 characters while UI says under 512 KB (sources: named files, `docs/import-format.md`, `app/api/settings/route.ts`, `app/settings/page.tsx`).
+PDF upload limit is 25 MB (`lib/uploaded-pdf.ts`), legacy problem-set ZIP import limit is 50 MB (`lib/import/zip-dry-run.ts`), JSON import limit is 5 MB per docs/source path, image ZIP limit is 100 MB (`lib/import/image-zip.ts`), image assets are 4 MB each/50 max (`lib/import/image-assets.ts`), writeup images are 5 MB each and max 4 per post (`lib/writeup-images.ts`, `app/api/problem-sets/[id]/writeups/route.ts`), and profile avatar URL/data URL max is 700,000 characters while UI says under 512 KB (sources: named files, `docs/import-format.md`, `app/api/settings/route.ts`, `app/settings/page.tsx`).
 
 ## Route Handlers Often Duplicate Auth Checks
 

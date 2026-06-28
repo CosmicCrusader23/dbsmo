@@ -46,6 +46,7 @@ export async function GET(_request: Request, context: RouteContext) {
         problemFileFor: true,
         solutionFileFor: true,
         assetFor: { include: { problemSet: true } },
+        writeupImageFor: { include: { writeup: { include: { problemSet: true } } } },
       },
     }),
   ]);
@@ -58,6 +59,7 @@ export async function GET(_request: Request, context: RouteContext) {
     ...file.problemFileFor,
     ...file.solutionFileFor,
     ...file.assetFor.map((a) => a.problemSet),
+    ...file.writeupImageFor.map((image) => image.writeup.problemSet),
   ];
   const canRead =
     currentUser.role === "ADMIN" || relatedSets.some((set) => isVisibleToStudent(set));
@@ -81,7 +83,8 @@ export async function GET(_request: Request, context: RouteContext) {
       "Content-Disposition": `${INLINE_SAFE_MIME.has(file.mimeType) ? "inline" : "attachment"}; filename="${contentDispositionFilename(file.originalName)}"`,
       "Cache-Control": "private, max-age=300",
       "X-Content-Type-Options": "nosniff",
-      "Content-Security-Policy": "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
+      "Content-Security-Policy":
+        "default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'; sandbox",
     },
   });
 }

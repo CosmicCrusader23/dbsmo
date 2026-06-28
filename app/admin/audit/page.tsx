@@ -112,7 +112,8 @@ export default async function AdminAuditPage({
       label: r.actor?.displayName || r.actor?.name || r.actor?.email || "Unknown",
     }));
 
-  const oneDayAgo = new Date(Date.now() - 86_400_000);
+  const oneDayAgo = new Date();
+  oneDayAgo.setTime(oneDayAgo.getTime() - 86_400_000);
   const last24h = logs.filter((l) => l.createdAt >= oneDayAgo).length;
   const uniqueActors = new Set(logs.map((l) => l.actorId).filter(Boolean)).size;
 
@@ -182,9 +183,7 @@ export default async function AdminAuditPage({
               logs.map((log) => {
                 const actor =
                   log.actor?.displayName || log.actor?.name || log.actor?.email || "System";
-                const meta = log.metadata
-                  ? JSON.stringify(log.metadata)
-                  : null;
+                const meta = log.metadata ? JSON.stringify(log.metadata) : null;
                 return (
                   <article className="audit-row" key={log.id}>
                     <div className="audit-actor">
@@ -211,7 +210,9 @@ export default async function AdminAuditPage({
                     </div>
                     <div className="audit-meta">
                       {meta ? (
-                        <code title={meta}>{meta.length > 80 ? `${meta.slice(0, 80)}…` : meta}</code>
+                        <code title={meta}>
+                          {meta.length > 80 ? `${meta.slice(0, 80)}…` : meta}
+                        </code>
                       ) : (
                         <span className="audit-meta-empty">no metadata</span>
                       )}

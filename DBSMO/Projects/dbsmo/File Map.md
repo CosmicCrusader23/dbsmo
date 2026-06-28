@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-28
 type: file-map
 tags: [project, architecture, file-map, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --files` on 2026-06-26. Use this before broad searching; generated folders such as `.next`, `generated`, `node_modules`, and `.codegraph` are intentionally not described as source.
 
 ## Root Files
@@ -29,7 +30,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/page.tsx`, `app/login/page.tsx`, `app/dashboard/page.tsx` - landing/login/dashboard surfaces (sources: named files).
 - `app/site-sidebar.tsx`, `app/site-sidebar-nav.tsx`, `app/global-mobile-nav.tsx` - authenticated sidebar links and mobile nav behavior (sources: named files).
 - `app/auth-button.tsx`, `app/avatar.tsx`, `app/theme-toggle.tsx`, `app/typewriter-greeting.tsx` - shared app UI atoms/widgets (sources: named files).
-- `app/problem-sets/` - catalog, problem-set detail page, answering grid, bookmarking, LaTeX/HTML statement rendering (sources: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/latex-statement.tsx`, `app/problem-sets/[slug]/bookmark-button.tsx`).
+- `app/problem-sets/` - catalog, problem-set detail page, answering grid, bookmarking, writeups, LaTeX/HTML statement rendering (sources: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/latex-statement.tsx`, `app/problem-sets/[slug]/bookmark-button.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`).
 - `app/practice/page.tsx` - practice-mode client surface backed by `/api/practice/*` (source: `app/practice/page.tsx`).
 - `app/classes/page.tsx` - student-facing classes route (source: `app/classes/page.tsx`).
 - `app/users/`, `app/leaderboard/page.tsx`, `app/settings/page.tsx` - public/user profile, friends, promotion UI, leaderboard, and account settings (sources: named files).
@@ -43,6 +44,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/api/submit/route.ts`, `app/api/submit/report/route.ts` - full problem-set submission and student feedback report creation (sources: named files).
 - `app/api/practice/*` - practice tags, next problem, and answer submission (sources: `app/api/practice/tags/route.ts`, `app/api/practice/next/route.ts`, `app/api/practice/submit/route.ts`).
 - `app/api/problem-sets/[id]/bookmark/route.ts` - bookmark create/delete for current user (source: route file).
+- `app/api/problem-sets/[id]/writeups/route.ts` and `app/api/writeups/[id]/vote/route.ts` - writeup creation and voting for visible problem sets (sources: route files).
 - `app/api/files/[id]/route.ts` - authenticated file streaming with related-set visibility checks and CSP headers (source: route file).
 - `app/api/settings/route.ts` - profile settings read/update, display name/avatar/privacy/theme/greeting settings (source: route file).
 - `app/api/friends/[userId]/route.ts` - friend toggle endpoint used by profile UI (source: route file).
@@ -59,7 +61,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/visibility.ts` - student visibility/status helpers for problem sets (source: `lib/visibility.ts`).
 - `lib/problem-tags.ts`, `lib/problem-content-format.ts`, `lib/problem-set-order.ts`, `lib/problem-set-authoring.ts` - problem metadata normalization, ordering, and authoring validation (sources: named files).
 - `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, optional image ZIP parsing, ZIP path safety, JSON draft storage, image asset persistence, and JSON export conversion (sources: `lib/import/**`).
-- `lib/storage.ts`, `lib/uploaded-pdf.ts` - local/S3 storage and uploaded PDF handling (sources: named files).
+- `lib/storage.ts`, `lib/uploaded-pdf.ts`, `lib/writeup-images.ts` - local/S3 storage, uploaded PDF handling, and validated writeup image storage (sources: named files).
 - `lib/analytics.ts`, `lib/admin-exports.ts`, `lib/audit.ts` - analytics computations, export builders, and audit log writes (sources: named files).
 - `lib/classes.ts` - class name validation and assignment completion mapping (source: `lib/classes.ts`).
 - `lib/ftw.ts`, `lib/ftw-room.ts`, `lib/ftw-room-host.ts`, `lib/ftw-room-server.ts` - FTW scoring, room scoring, host transition, and room progression (sources: named files).
@@ -68,7 +70,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 
 ## `prisma/`
 
-- `prisma/schema.prisma` - database schema for users, auth tables, friendships, problem sets/problems, attempts/responses, feedback, files/assets, audit logs, export jobs, FTW solo/rooms, and classes/assignments.
+- `prisma/schema.prisma` - database schema for users, auth tables, friendships, problem sets/problems, attempts/responses, feedback, files/assets, writeups/votes, audit logs, export jobs, FTW solo/rooms, and classes/assignments.
 - `prisma/seed.ts` - demo admin/student/problem set/feedback seeding via Prisma Client and Prisma PG adapter.
 - `prisma/migrations/` - existing SQL migration files, but deployment docs currently instruct `prisma db push` rather than `prisma migrate deploy` (sources: `prisma/migrations/*`, `SETUP.md`).
 

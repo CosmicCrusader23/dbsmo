@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
-import {
-  ArrowLeft,
-  Calendar,
-  ClipboardList,
-  Grid2x2,
-  Mail,
-} from "lucide-react";
+import { ArrowLeft, Calendar, ClipboardList, Grid2x2, Mail } from "lucide-react";
 import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
@@ -24,6 +18,10 @@ import { PromoteUserButton } from "./promote-user-button";
 
 export const dynamic = "force-dynamic";
 
+const HEATMAP_WEEKS = 53;
+const HEATMAP_DAYS = HEATMAP_WEEKS * 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 function progressTileStyle(percent: number | null): CSSProperties {
   if (percent === null) {
     return {
@@ -39,6 +37,35 @@ function progressTileStyle(percent: number | null): CSSProperties {
     borderColor: `hsla(${hue}, 72%, 48%, 0.34)`,
     color: `hsl(${hue}, 72%, 58%)`,
   };
+}
+
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function addDays(date: Date, days: number) {
+  return new Date(date.getTime() + days * DAY_MS);
+}
+
+function dateKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function masteryLevel(count: number) {
+  return Math.min(5, Math.max(0, count));
+}
+
+function formatMasteryTitle(date: Date, count: number) {
+  const label = date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+  if (count === 0) return `No mastered sets on ${label}`;
+  return `${count} mastered set${count === 1 ? "" : "s"} on ${label}`;
 }
 
 export default async function UserProfilePage({
@@ -104,7 +131,7 @@ export default async function UserProfilePage({
           problemSet: { select: { title: true, slug: true } },
         },
         orderBy: { submittedAt: "desc" },
-        take: 200,
+        take: 1000,
       },
       problemSetBookmarks: {
         select: {
@@ -234,6 +261,10 @@ export default async function UserProfilePage({
       : 0;
 
   const setScores = new Map<string, { title: string; slug: string; best: number }>();
+  const today = startOfDay(new Date());
+  const lastYearStart = addDays(today, -364);
+  const heatmapStart = addDays(lastYearStart, -lastYearStart.getDay());
+  const masteredSetsByDay = new Map<string, Set<string>>();
   for (const a of user.attempts) {
     const pct = a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0;
     const existing = setScores.get(a.problemSetId);
@@ -244,7 +275,41 @@ export default async function UserProfilePage({
         best: pct,
       });
     }
+    const submittedDay = startOfDay(a.submittedAt);
+    if (pct >= 80 && submittedDay >= lastYearStart && submittedDay <= today) {
+      const key = dateKey(submittedDay);
+      const masteredSets = masteredSetsByDay.get(key) ?? new Set<string>();
+      masteredSets.add(a.problemSetId);
+      masteredSetsByDay.set(key, masteredSets);
+    }
   }
+  const masteryCells = Array.from({ length: HEATMAP_DAYS }, (_, index) => {
+    const date = addDays(heatmapStart, index);
+    const count = masteredSetsByDay.get(dateKey(date))?.size ?? 0;
+    const inRange = date >= lastYearStart && date <= today;
+    return {
+      key: dateKey(date),
+      date,
+      week: Math.floor(index / 7),
+      day: date.getDay(),
+      count: inRange ? count : 0,
+      inRange,
+    };
+  });
+  const masteryMonthLabels = Array.from({ length: HEATMAP_WEEKS }, (_, week) => {
+    const weekDays = masteryCells.slice(week * 7, week * 7 + 7);
+    const monthStart = weekDays.find((cell) => cell.date.getDate() === 1);
+    if (!monthStart) return null;
+    return {
+      week,
+      label: monthStart.date.toLocaleDateString("en-US", { month: "short" }),
+    };
+  }).filter(Boolean) as Array<{ week: number; label: string }>;
+  const masteryTotal = Array.from(masteredSetsByDay.values()).reduce(
+    (sum, masteredSets) => sum + masteredSets.size,
+    0,
+  );
+  const masteryActiveDays = masteryCells.filter((cell) => cell.inRange && cell.count > 0).length;
   const solvedSets = [...setScores.values()].filter((s) => s.best >= 80);
   const recentCompletions = solvedSets.slice(0, 5);
   const topicStats = new Map<string, { correct: number; total: number }>();
@@ -560,6 +625,68 @@ export default async function UserProfilePage({
             canViewAnalytics={canViewAnalytics}
           />
         )}
+      </section>
+
+      <section className="profile-section profile-mastery-section">
+        <div className="profile-grid-header">
+          <div className="profile-grid-title-row">
+            <h2>
+              <Calendar size={18} />
+              Problem mastery
+            </h2>
+          </div>
+          <p className="profile-mastery-summary">
+            {masteryTotal} mastered set{masteryTotal === 1 ? "" : "s"} across {masteryActiveDays}{" "}
+            active day{masteryActiveDays === 1 ? "" : "s"} in the last year
+          </p>
+        </div>
+        <div className="profile-heatmap-scroll" aria-label="Problem mastery heatmap">
+          <div className="profile-heatmap-grid">
+            {masteryMonthLabels.map((month) => (
+              <span
+                className="profile-heatmap-month"
+                key={`${month.week}-${month.label}`}
+                style={{ gridColumn: month.week + 2, gridRow: 1 }}
+              >
+                {month.label}
+              </span>
+            ))}
+            <span className="profile-heatmap-day-label" style={{ gridColumn: 1, gridRow: 3 }}>
+              Mon
+            </span>
+            <span className="profile-heatmap-day-label" style={{ gridColumn: 1, gridRow: 5 }}>
+              Wed
+            </span>
+            <span className="profile-heatmap-day-label" style={{ gridColumn: 1, gridRow: 7 }}>
+              Fri
+            </span>
+            {masteryCells.map((cell) => (
+              <span
+                aria-label={formatMasteryTitle(cell.date, cell.count)}
+                className="profile-heatmap-cell"
+                data-level={cell.inRange ? masteryLevel(cell.count) : 0}
+                key={cell.key}
+                style={{ gridColumn: cell.week + 2, gridRow: cell.day + 2 }}
+                title={formatMasteryTitle(cell.date, cell.count)}
+              />
+            ))}
+          </div>
+          <div className="profile-heatmap-footer">
+            <span className="profile-muted">Last 12 months</span>
+            <div className="profile-heatmap-legend" aria-label="Mastery scale">
+              <span>Less</span>
+              {[0, 1, 2, 3, 4, 5].map((level) => (
+                <span
+                  aria-label={`${level}${level === 5 ? "+" : ""} mastered sets`}
+                  className="profile-heatmap-cell"
+                  data-level={level}
+                  key={level}
+                />
+              ))}
+              <span>More</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="profile-section">

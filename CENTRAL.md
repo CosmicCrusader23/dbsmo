@@ -29,17 +29,17 @@ Stack: Next.js, NextAuth (Google + dev bypass), Prisma, KaTeX for math, Lucide i
 
 ### Now (this session)
 
-- **Classes + assignments** — teacher creates a class, picks students by username, assigns published problem sets with optional due dates. Three new tables (`Class`, `ClassMember`, `Assignment`). Permissions reuse `admin:users`. Completion derived live from `Attempt.submittedAt > assignment.createdAt` — never denormalized. Teacher routes under `/admin/classes`. Student surface = dashboard widget + new "Class" filter chip on `/problem-sets` (kept distinct from the pre-existing `assigned` tab which means "bestScore < 100"). Spec/plan in `docs/superpowers/{specs,plans}/2026-05-28-classes-and-assignments-*.md`.
-- **FTW (Alcumus For The Win) mode** — speed-based timed problem race against the clock. Single-player + real multiplayer rooms with join codes (5-char, ambiguous chars stripped). Routes under `/ftw`, schema additions `FtwMatch`/`FtwAnswer` (solo) and `FtwRoom`/`FtwRoomPlayer`/`FtwRoomProblem`/`FtwRoomAnswer` (multi). Polling-based realtime (1.5s tick on `/state`); host starts; scoreboard advances when all answered or timer expires. Sidebar entry on dashboard.
-- **Light-mode rehaul** — current light theme reads as flat AI-generated. Goals: warmer paper-white background, deliberate ink colors, fewer purple/cyan washes, pink reserved as accent (matches dark). Keep dark+pink as-is.
-- **Less AI vibe** — copy passes (no eyebrow soup, no "hero panel" walls of cards), tighter spacing, fewer gradients. Keep the typewriter greeting unchanged.
-- **JSON import fixes** — see `lib/import/`. Hardened: case-insensitive `answerType` (ZIP path), full row-failure surfacing instead of silent drop, file-storage rollback when transaction fails, sequence warnings list missing numbers, manifest difficulty bumped to 1–10 to match spec.
+- No active half-finished feature after the current writeups/profile update lands.
 
-### Next (after the above lands)
+### Recently landed
 
-- `/simplify` pass on the codebase. *Done — practice-page inline styles moved to CSS classes.*
-- Sweep for dead code and CSS leaves now that several features have rotated through.
-- Consider WebSocket/SSE for room realtime if the polling overhead becomes a problem (current cost: ~1 SQL round-trip per second per connected player).
+- **Problem-set writeups** — `/problem-sets/[slug]/writeups` lets signed-in users post LaTeX/HTML solution notes with up to four images, then sort by latest/top and upvote/downvote posts. Persistence uses new `Writeup`, `WriteupImage`, and `WriteupVote` Prisma models plus `lib/writeup-images.ts`; image bytes are stored through the existing storage layer and streamed via `/api/files/[id]`.
+- **Profile mastery heatmap** — `app/users/[username]/page.tsx` now renders a GitHub-style yearly heatmap between authored tasks and the set grid. It counts days where the profile user mastered one or more sets with best-day intensity capped at 5.
+- **Authored tasks cap** — profile authored tasks initially show five rows with a client-side show-more affordance.
+
+### Next
+
+- Consider WebSocket/SSE for FTW room realtime if the polling overhead becomes a problem (current cost: ~1 SQL round-trip per second per connected player).
 
 ## Testing locally
 
@@ -62,10 +62,12 @@ npm run dev         # next dev — open http://localhost:3000
 ## Recovery
 
 If a file goes missing:
+
 ```bash
 git fetch origin
 git checkout origin/main -- <path>
 ```
+
 Then read the file, reconcile with what's in memory, keep going.
 
 ## Deploy
@@ -76,6 +78,6 @@ VPS deploy is documented in `SETUP.md` (npm + pm2 + nginx + certbot + cron backu
 
 - Room realtime is poll-based (1.5s). Fine for a classroom; would migrate to SSE/WebSockets if scale warrants. The DB does the locking via `advanceRoomIfDue`, which is the canonical way to advance — call it from `state` and `submit`.
 - `lib/storage.deleteFile` is best-effort on rollback; an orphan-sweeper job would catch any leaks.
-- Migration: schema gained `FtwRoom*` models. Run `npx prisma migrate dev --name add_ftw_rooms` on dev, commit `prisma/migrations/`, then `npx prisma migrate deploy` on the VPS.
+- Migration: schema gained `Writeup`, `WriteupImage`, and `WriteupVote` models in `prisma/migrations/20260628090000_add_writeups/`. Deploy needs the normal Prisma migration step before the app starts serving writeup routes.
 - `/api/practice/tags` is referenced from `practice/page.tsx` but I haven't reviewed it; check before touching.
 - `globals.css` has a "2026 refresh" overlay starting around line 2175 — overrides earlier rules. The light-mode rehaul lives at the very tail (post-confetti keyframes). Edit there for visual changes, not the top.

@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-27
+updated: 2026-06-28
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This note tells future agents where to edit [[dbsmo]] for common changes. It is source-grounded but not a substitute for re-reading the target files before modification.
 
 ## Add or Change an Answer Type
@@ -151,6 +152,7 @@ Profile/settings:
 - `lib/auth.ts` for propagating Google `User.image` into the session.
 - Pages that select user rows for avatars must include `image: true` when they want Google profile-picture fallback, then pass `image` to `Avatar`.
 - Profile authored tasks are rendered in `app/users/[username]/page.tsx` from `User.createdProblemSets`; keep public visibility filtered through `isVisibleToStudent(...)` and use `hasPermission(...)` before linking staff-only analytics/manage actions.
+- Profile mastery heatmap is also in `app/users/[username]/page.tsx`; it is derived from recent `Attempt` rows and should stay aligned with whatever threshold defines "mastered" elsewhere in the app.
 
 Friends:
 
@@ -162,6 +164,18 @@ Leaderboard:
 
 - `app/leaderboard/page.tsx`
 - `User.leaderboardVisible`, `Attempt`, and `PracticeSolve` model data in `prisma/schema.prisma`
+
+## Change Problem Set Writeups
+
+Edit:
+
+- `prisma/schema.prisma` - `Writeup`, `WriteupImage`, `WriteupVote`, and related `User`/`ProblemSet`/`ImportedFile` relations.
+- `app/problem-sets/[slug]/writeups/page.tsx` - auth, visibility, initial query, and latest/top sorting.
+- `app/problem-sets/[slug]/writeups/writeups-client.tsx` - composer, image selection, optimistic vote state, and feed rendering.
+- `app/api/problem-sets/[id]/writeups/route.ts` - writeup creation, multipart validation, and image persistence.
+- `app/api/writeups/[id]/vote/route.ts` - vote mutation and score response.
+- `lib/writeup-images.ts` and `app/api/files/[id]/route.ts` - image validation, storage, and read access.
+- `docs/student-guide.md` and [[Data and Storage]] when behavior changes.
 
 ## Run Checks
 

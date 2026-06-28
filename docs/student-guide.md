@@ -42,14 +42,14 @@ Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answ
 
 ### Answer Formats
 
-| Type     | Example    | Notes                                     |
-| -------- | ---------- | ----------------------------------------- |
-| Integer  | `42`       | Whole numbers                             |
-| Decimal  | `3.14`     | Decimal numbers                           |
-| Fraction | `3/7`      | Will be normalized (e.g., `6/14` = `3/7`) |
-| Set      | `1,2,5`    | Order doesn't matter (e.g., `2,5,1` is correct) |
-| Exact    | `triangle` | Exact text match                          |
-| Expression| `sqrt(2)` | Mathematical formulas (`2^0.5`, `pi/2`, `0.5`, `1/2`). Equivalent values are automatically recognized! |
+| Type       | Example    | Notes                                                                                                  |
+| ---------- | ---------- | ------------------------------------------------------------------------------------------------------ |
+| Integer    | `42`       | Whole numbers                                                                                          |
+| Decimal    | `3.14`     | Decimal numbers                                                                                        |
+| Fraction   | `3/7`      | Will be normalized (e.g., `6/14` = `3/7`)                                                              |
+| Set        | `1,2,5`    | Order doesn't matter (e.g., `2,5,1` is correct)                                                        |
+| Exact      | `triangle` | Exact text match                                                                                       |
+| Expression | `sqrt(2)`  | Mathematical formulas (`2^0.5`, `pi/2`, `0.5`, `1/2`). Equivalent values are automatically recognized! |
 
 ### After Submission
 
@@ -80,7 +80,13 @@ Your Google account picture is used by default. In **Settings**, you can upload 
 
 ## User Profiles
 
-Public user profiles show progress summaries, recent completions, bookmarks, an authored tasks table, and a set/problem progress grid. The authored tasks table lists problem sets created by that user, with problem count, perfect-solver count, attempt count, and links to open each visible set.
+Public user profiles show progress summaries, recent completions, bookmarks, an authored tasks table, a mastery heatmap, and a set/problem progress grid. The authored tasks table lists up to five problem sets created by that user by default, with a show-more control for the rest. The mastery heatmap shows days where the user mastered one or more sets, using a green intensity scale from 1 to 5 mastered sets.
+
+## Writeups
+
+Each problem set has a writeups page next to the bookmark control. Signed-in students can read writeups whether or not they have submitted or perfectly solved the set. A writeup can contain LaTeX/HTML text, up to four uploaded solution images, or both.
+
+Writeups can be sorted by newest posts or by top score. Students can upvote, downvote, or clear their vote on each writeup.
 
 ## Reporting Issues
 

@@ -97,6 +97,8 @@ model User {
   uploadedFiles       ImportedFile[]
   createdProblemSets  ProblemSet[]         @relation("ProblemSetCreator")
   problemSetBookmarks ProblemSetBookmark[]
+  writeups            Writeup[]
+  writeupVotes        WriteupVote[]
   accounts            Account[]
   sessions            Session[]
   sentFriendships     Friendship[]         @relation("FriendshipRequester")
@@ -148,6 +150,7 @@ model ProblemSet {
   problems       Problem[]
   bookmarks      ProblemSetBookmark[]
   assets         ProblemSetAsset[]
+  writeups       Writeup[]
   createdBy      User                 @relation("ProblemSetCreator", fields: [createdById], references: [id])
   problemFile    ImportedFile?        @relation("ProblemFile", fields: [problemFileId], references: [id])
   solutionFile   ImportedFile?        @relation("SolutionFile", fields: [solutionFileId], references: [id])
@@ -283,6 +286,52 @@ model ImportedFile {
   problemFileFor  ProblemSet[]      @relation("ProblemFile")
   solutionFileFor ProblemSet[]      @relation("SolutionFile")
   assetFor        ProblemSetAsset[] @relation("AssetFile")
+  writeupImageFor WriteupImage[]    @relation("WriteupImageFile")
+}
+
+model Writeup {
+  id            String               @id @default(cuid())
+  problemSetId  String
+  authorId      String
+  title         String
+  body          String
+  contentFormat ProblemContentFormat @default(LATEX)
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  problemSet    ProblemSet           @relation(fields: [problemSetId], references: [id], onDelete: Cascade)
+  author        User                 @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  images        WriteupImage[]
+  votes         WriteupVote[]
+
+  @@index([problemSetId, createdAt])
+  @@index([authorId, createdAt])
+}
+
+model WriteupImage {
+  id        String       @id @default(cuid())
+  writeupId String
+  fileId    String
+  sortOrder Int          @default(0)
+  createdAt DateTime     @default(now())
+  writeup   Writeup      @relation(fields: [writeupId], references: [id], onDelete: Cascade)
+  file      ImportedFile @relation("WriteupImageFile", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([writeupId, sortOrder])
+  @@index([fileId])
+}
+
+model WriteupVote {
+  id        String   @id @default(cuid())
+  writeupId String
+  userId    String
+  value     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  writeup   Writeup  @relation(fields: [writeupId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([writeupId, userId])
+  @@index([userId])
 }
 
 model AuditLog {

@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-06-28
 type: architecture
 tags: [project, architecture, system-design, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This note describes the [[dbsmo]] system architecture and data flow, source-verified on 2026-06-26. It focuses on how Next.js routes, auth, Prisma, grading, imports, storage, analytics, classes, and FTW features fit together.
 
 ## Architectural Shape
@@ -56,6 +57,14 @@ Problem detail is handled by `app/problem-sets/[slug]/page.tsx`. It loads the se
 The answer grid is client-side and posts to `/api/submit`. It autosaves draft answers to `localStorage`, stores "review later" state in `localStorage`, supports feedback report submission, clears autosave after successful submission, and blocks answer entry/submission controls when a perfect attempt locks the set while keeping problem statements visible (source: `app/problem-sets/[slug]/answer-grid.tsx`).
 
 Submission is persisted in `app/api/submit/route.ts`: it checks session, validates JSON with Zod, loads the `ProblemSet`, checks visibility, prevents new attempts after a perfect attempt, grades each problem through `gradeAnswer(...)`, creates an `Attempt`, creates `Response` records, and returns score/results (sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`).
+
+## Writeup Flow
+
+Problem-set writeups are a separate readable/community surface at `/problem-sets/[slug]/writeups`, linked from the set header next to bookmarks. The server page requires auth, verifies set visibility for students, loads writeups with authors/images/votes, and sorts by newest or top score (source: `app/problem-sets/[slug]/writeups/page.tsx`).
+
+The client feed posts multipart form data to `POST /api/problem-sets/[id]/writeups`, supports LaTeX/HTML bodies and up to four images, renders bodies through `LatexStatement`, and sends vote mutations to `POST /api/writeups/[id]/vote` (sources: `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`).
+
+Writeup images reuse the existing storage/file-serving boundary: `lib/writeup-images.ts` validates and stores image bytes, `WriteupImage` ties the resulting `ImportedFile` to the writeup, and `app/api/files/[id]/route.ts` grants access if the related problem set is visible or the requester is admin (sources: `lib/writeup-images.ts`, `prisma/schema.prisma`, `app/api/files/[id]/route.ts`).
 
 ## Grading Flow
 

@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-27
+updated: 2026-06-28
 type: data-storage
 tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This note documents [[dbsmo]] data models, storage mechanisms, APIs, and state flows as verified from Prisma schema and source on 2026-06-26. Read this before changing schema, grading, imports, storage, class assignments, or FTW state.
 
 ## Database Boundary
@@ -28,6 +29,7 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 - `PracticeSolve`: unique `(userId, problemId)` record for correct practice solves (source: `prisma/schema.prisma`).
 - `FeedbackReport`: user-submitted issue report tied to set and optional problem, with type/status/admin note/resolution time (source: `prisma/schema.prisma`).
 - `ImportedFile` and `ProblemSetAsset`: file metadata and inline image assets keyed by `(problemSetId, key)` (source: `prisma/schema.prisma`).
+- `Writeup`, `WriteupImage`, and `WriteupVote`: problem-set discussion/solution posts. `Writeup` belongs to a `ProblemSet` and `User`, stores title/body/content format; `WriteupImage` links uploaded image `ImportedFile` records to a writeup; `WriteupVote` is unique per `(writeupId, userId)` with value `-1` or `1` enforced by migration check constraint (sources: `prisma/schema.prisma`, `prisma/migrations/20260628090000_add_writeups/migration.sql`).
 - `AuditLog` and `ExportJob`: admin activity and export artifacts (source: `prisma/schema.prisma`).
 - `Friendship`: one-way requester/receiver pair with unique constraint (source: `prisma/schema.prisma`).
 - `Class`, `ClassMember`, `Assignment`: teacher-owned classes, roster membership, and assigned problem sets (source: `prisma/schema.prisma`).
@@ -87,6 +89,16 @@ Image asset persistence is centralized in `lib/import/persist-image-assets.ts`. 
 `storeUploadedPdf(...)` accepts only `data:application/pdf;base64,...`, enforces non-empty and <= 25 MB, sanitizes filename, hashes content, saves bytes through `saveFile(...)`, and creates `ImportedFile` metadata (source: `lib/uploaded-pdf.ts`).
 
 `GET /api/files/[id]` allows reads only for admins or if the file is related to a visible problem set through `problemFileFor`, `solutionFileFor`, or asset relations. It returns safe inline mime types inline and everything else as attachment, with `Cache-Control: private`, `X-Content-Type-Options: nosniff`, and CSP sandbox headers (source: `app/api/files/[id]/route.ts`).
+
+Writeup image uploads use `lib/writeup-images.ts`. The helper accepts only PNG, JPEG, GIF, or WebP images up to 5 MB each, validates magic bytes, sanitizes filenames, stores bytes under `writeups/{problemSetId}/{writeupId}/...`, writes `ImportedFile`, and creates `WriteupImage` rows. `/api/files/[id]` includes writeup-image relations in its visibility check so images follow the same visible-set/admin access boundary (sources: `lib/writeup-images.ts`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/files/[id]/route.ts`).
+
+## Writeup Flow
+
+`GET /problem-sets/[slug]/writeups` is a server route that requires a signed-in user, loads the problem set and visible access state, fetches writeups with authors/images/votes, and sorts by `latest` or `top` according to the `sort` query param (source: `app/problem-sets/[slug]/writeups/page.tsx`).
+
+`POST /api/problem-sets/[id]/writeups` accepts multipart form data with `title`, `body`, `contentFormat`, and optional `images`. It requires at least text or one image, caps title/body/image count, verifies set visibility, creates the writeup, then stores up to four validated images. If image persistence fails after writeup creation, the route deletes the writeup before returning an error (source: `app/api/problem-sets/[id]/writeups/route.ts`).
+
+`POST /api/writeups/[id]/vote` accepts `value` `-1`, `0`, or `1`. It verifies session and set visibility, deletes the current user's vote for `0`, otherwise upserts the vote, and returns the updated score and current user's vote (source: `app/api/writeups/[id]/vote/route.ts`).
 
 ## Classes and Assignments
 

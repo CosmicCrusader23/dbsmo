@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-27
+updated: 2026-06-28
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This note maps important [[dbsmo]] UI/components to their source files and usage sites. It focuses on components that carry behavior or data flow, not every visual element.
 
 ## Global Shell
@@ -32,6 +33,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `ProblemSetPage` in `app/problem-sets/[slug]/page.tsx`: route page that loads a set by slug and chooses inline-statement vs PDF/file layout.
 - `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, missed-topic next action, and feedback report dialog. When `ProblemSetPage` detects the set tag `Tests`, it passes the test layout so answer-only/PDF sets render as a 20×3 test answer sheet for 60 underlying `Problem` rows.
 - `BookmarkButton` in `app/problem-sets/[slug]/bookmark-button.tsx`: client bookmark toggle backed by `/api/problem-sets/[id]/bookmark`.
+- Writeup header link in `app/problem-sets/[slug]/page.tsx`: icon link next to `BookmarkButton` that opens `/problem-sets/[slug]/writeups`.
+- `WriteupsPage` and `WriteupsClient` in `app/problem-sets/[slug]/writeups/`: server/client pair for set writeups. The server page handles auth, set visibility, sorting, and initial data; the client component handles the composer, image selection, optimistic voting, and feed cards rendered with `LatexStatement`.
 - `LatexStatement` in `app/problem-sets/[slug]/latex-statement.tsx`: statement renderer for LaTeX/HTML-style statements and imported image assets.
 
 ## Practice and Games
@@ -71,7 +74,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 ## Users and Settings
 
 - `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, falls back to Google `User.image` when no custom avatar is set, writes theme/typewriter settings to `localStorage`, validates and patches account settings.
-- `UserProfilePage` in `app/users/[username]/page.tsx`: server-rendered public profile with avatar, friend/admin actions, progress stats, topic/completion/bookmark summaries, authored tasks table, and set/problem progress grid. Authored tasks come from `User.createdProblemSets` and show visible sets to public viewers while owners/staff can see private authored sets.
+- `UserProfilePage` in `app/users/[username]/page.tsx`: server-rendered public profile with avatar, friend/admin actions, progress stats, topic/completion/bookmark summaries, authored tasks table, mastery heatmap, and set/problem progress grid. Authored tasks come from `User.createdProblemSets` and show visible sets to public viewers while owners/staff can see private authored sets. The heatmap is derived from recent attempts and marks days where the user mastered visible sets.
 - `FriendButton` in `app/users/[username]/friend-button.tsx`: client heart button backed by `PATCH /api/friends/[userId]`.
 - `PromoteUserButton` in `app/users/[username]/promote-user-button.tsx`: admin role change UI backed by `PATCH /api/admin/users/[id]/role`.
 - `LeaderboardPage` in `app/leaderboard/page.tsx`: leaderboard route with local `RankBadge` and shared `Avatar`.

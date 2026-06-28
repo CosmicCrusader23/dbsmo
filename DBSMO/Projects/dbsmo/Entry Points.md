@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-27
+updated: 2026-06-28
 type: entry-points
 tags: [project, architecture, routes, apis, dbsmo]
 ai-first: true
@@ -48,6 +48,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 - `/problem-sets` - browse/filter/sort problem sets with recommendations, assignments/bookmarks/practice views, media/status/category filters, search, and pagination (source: `app/problem-sets/page.tsx`).
 - `/problem-sets/[slug]` - set detail and answer entry, with inline statements or PDF fallback and file/video/solution display (source: `app/problem-sets/[slug]/page.tsx`).
+- `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
 - `/practice` - practice-mode UI backed by tags/next/submit APIs (source: `app/practice/page.tsx`).
 - `/classes` - student-facing class route (source: `app/classes/page.tsx`).
 
@@ -79,6 +80,8 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `GET /api/practice/next?tag=...` - returns a random unsolved visible published problem for tag or endless (source: `app/api/practice/next/route.ts`).
 - `POST /api/practice/submit` - grades one practice problem, records `PracticeSolve` only on correct answers, returns current practice score if correct (source: `app/api/practice/submit/route.ts`).
 - `PUT/DELETE /api/problem-sets/[id]/bookmark` - create/remove current user's bookmark (source: `app/api/problem-sets/[id]/bookmark/route.ts`).
+- `POST /api/problem-sets/[id]/writeups` - create a writeup with LaTeX/HTML text and optional image uploads for a visible set (source: `app/api/problem-sets/[id]/writeups/route.ts`).
+- `POST /api/writeups/[id]/vote` - upvote, downvote, or clear the current user's vote on a visible writeup (source: `app/api/writeups/[id]/vote/route.ts`).
 - `GET/PATCH /api/settings` - read/update profile settings and privacy flags (source: `app/api/settings/route.ts`).
 - `PATCH /api/friends/[userId]` - toggle friend relationship (source: `app/api/friends/[userId]/route.ts`).
 - `GET /api/files/[id]` - authenticated file streaming for PDFs/images with visibility checks (source: `app/api/files/[id]/route.ts`).

@@ -82,10 +82,7 @@ export function TrendChart({ data }: { data: TrendPoint[] }) {
   }
 
   const hovered = hover !== null ? points[hover] : null;
-  const tooltipPct =
-    hovered && wrapRef.current
-      ? Math.max(0, Math.min(100, ((hovered.x - PAD_L) / PLOT_W) * 100))
-      : 0;
+  const tooltipPct = hovered ? Math.max(0, Math.min(100, ((hovered.x - PAD_L) / PLOT_W) * 100)) : 0;
 
   return (
     <div className="trend-chart-wrap" ref={wrapRef}>

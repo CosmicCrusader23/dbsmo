@@ -9,6 +9,7 @@ import {
   ExternalLink,
   FileText,
   Maximize2,
+  MessageSquareText,
   PlayCircle,
   Settings,
 } from "lucide-react";
@@ -106,6 +107,14 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 initialBookmarked={problemSet.bookmarks.length > 0}
                 problemSetId={problemSet.id}
               />
+              <Link
+                aria-label="Open writeups"
+                className="writeups-header-link"
+                href={`/problem-sets/${problemSet.slug}/writeups`}
+                title="Open writeups"
+              >
+                <MessageSquareText size={22} />
+              </Link>
             </h1>
           </div>
           <div className="topbar-actions">

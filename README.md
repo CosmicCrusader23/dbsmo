@@ -5,6 +5,7 @@ Self-paced mathematics olympiad training platform for DBS. Complete with feature
 Statements can be rendered in Latex or HTML math tags.
 
 ## Important Docs
+
 - [JSON import format](./docs/import-format.md)
 - [Grading rules](./docs/grading.md)
 - [Admin Guide](./docs/admin-guide.md)
@@ -37,6 +38,8 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Fixed create-set preview image rendering, including HTML statement normalization preserving `[[img:key]]` tokens.
 - Added Google account profile pictures as the default avatar fallback before deterministic initials, while preserving custom avatar URLs/uploads.
 - Added focused tests for image-token rendering in LaTeX and HTML statements and configured Vitest to understand the app `@/` import alias.
-- Kept solved sets readable while locked
+- Kept solved sets readable while locking new submissions after a perfect-score attempt.
+- Added a profile mastery heatmap between authored tasks and the set grid, using GitHub-style green intensity for days with 1-5 mastered sets.
+- Added problem-set writeups with LaTeX/HTML text, image uploads, latest/top sorting, and upvote/downvote voting. Writeups are reachable from the set header beside the bookmark action and remain accessible regardless of submission status.
 
 © 2026 Cosmic Crusader

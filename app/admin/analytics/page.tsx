@@ -42,7 +42,20 @@ function formatShortDate(d: Date) {
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
 
-const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTH_LABELS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function startOfDay(d: Date) {
   const x = new Date(d);
@@ -65,7 +78,13 @@ function startOfMonth(d: Date) {
 type RangeKey = "7d" | "30d" | "6m" | "1y";
 type Granularity = "day" | "week" | "month";
 
-const RANGES: { key: RangeKey; label: string; short: string; points: number; granularity: Granularity }[] = [
+const RANGES: {
+  key: RangeKey;
+  label: string;
+  short: string;
+  points: number;
+  granularity: Granularity;
+}[] = [
   { key: "7d", label: "Last 7 days", short: "7d", points: 7, granularity: "day" },
   { key: "30d", label: "Last 30 days", short: "30d", points: 30, granularity: "day" },
   { key: "6m", label: "Last 6 months", short: "6m", points: 26, granularity: "week" },
@@ -117,7 +136,14 @@ function bucketFullLabel(d: Date, granularity: Granularity) {
   return `${monthLong} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
-type TrendBucket = { label: string; fullLabel: string; date: Date; attempts: number; completions: number; avgPct: number };
+type TrendBucket = {
+  label: string;
+  fullLabel: string;
+  date: Date;
+  attempts: number;
+  completions: number;
+  avgPct: number;
+};
 
 export default async function AnalyticsOverviewPage({
   searchParams,
@@ -136,7 +162,13 @@ export default async function AnalyticsOverviewPage({
 
   const [problemSets, students, allProblems] = await Promise.all([
     prisma.problemSet.findMany({
-      select: { id: true, title: true, slug: true, status: true, _count: { select: { problems: true } } },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        status: true,
+        _count: { select: { problems: true } },
+      },
     }),
     prisma.user.findMany({
       where: { role: "STUDENT" },
@@ -278,9 +310,7 @@ export default async function AnalyticsOverviewPage({
     (attempt) => attempt.submittedAt >= recentCutoff,
   ).length;
   const activeStudentCount = new Set(
-    attempts
-      .filter((a) => a.submittedAt >= recentCutoff)
-      .map((a) => a.userId),
+    attempts.filter((a) => a.submittedAt >= recentCutoff).map((a) => a.userId),
   ).size;
 
   const suspiciousQuestions = questions
@@ -368,7 +398,7 @@ export default async function AnalyticsOverviewPage({
 
   // Score distribution
   const scoreBuckets = computeScoreBuckets(
-    Array.from(bestAttemptByUserSet.entries()).map(([key, pct]) => ({
+    Array.from(bestAttemptByUserSet.values()).map((pct) => ({
       score: pct,
       maxScore: 100,
     })),
@@ -377,10 +407,7 @@ export default async function AnalyticsOverviewPage({
 
   // Top students by best-attempt average across the filtered scope
   type StudentRow = { id: string; name: string; sets: number; avg: number; recent: number };
-  const studentAgg = new Map<
-    string,
-    { totalPct: number; setKeys: Set<string>; recent: number }
-  >();
+  const studentAgg = new Map<string, { totalPct: number; setKeys: Set<string>; recent: number }>();
   for (const [key, pct] of bestAttemptByUserSet.entries()) {
     const [userId, setId] = key.split(":");
     const entry = studentAgg.get(userId) ?? {
@@ -451,8 +478,7 @@ export default async function AnalyticsOverviewPage({
         attempts: v.attempts,
         students: v.users.size,
         avgBest,
-        completionRate:
-          v.users.size > 0 ? Math.round((completedUsers / v.users.size) * 100) : 0,
+        completionRate: v.users.size > 0 ? Math.round((completedUsers / v.users.size) * 100) : 0,
       };
     })
     .sort((a, b) => b.attempts - a.attempts)
@@ -610,9 +636,7 @@ export default async function AnalyticsOverviewPage({
                   ? "week"
                   : "month"}
             </span>
-            <span className="chart-card-foot-muted">
-              ≥80% scores count as completions
-            </span>
+            <span className="chart-card-foot-muted">≥80% scores count as completions</span>
           </div>
         </section>
 
@@ -629,7 +653,11 @@ export default async function AnalyticsOverviewPage({
             ) : (
               <div className="daily-bars">
                 {dailyBuckets.map((b) => (
-                  <div className="daily-bar" key={b.label} title={`${b.label}: ${b.count} attempts`}>
+                  <div
+                    className="daily-bar"
+                    key={b.label}
+                    title={`${b.label}: ${b.count} attempts`}
+                  >
                     <span
                       style={{
                         height: `${Math.max(4, (b.count / maxDaily) * 100)}%`,
@@ -655,8 +683,7 @@ export default async function AnalyticsOverviewPage({
               <ul className="score-dist">
                 {scoreBuckets.map((b) => {
                   const pct = totalDistAttempts > 0 ? (b.count / totalDistAttempts) * 100 : 0;
-                  const tier =
-                    b.min >= 81 ? "success" : b.min >= 41 ? "warning" : "danger";
+                  const tier = b.min >= 81 ? "success" : b.min >= 41 ? "warning" : "danger";
                   return (
                     <li key={b.label}>
                       <span className="score-dist-label">{b.label}</span>
