@@ -60,9 +60,9 @@ Submission is persisted in `app/api/submit/route.ts`: it checks session, validat
 
 ## Writeup Flow
 
-Problem-set writeups are a separate readable/community surface at `/problem-sets/[slug]/writeups`, linked from the set header next to bookmarks. The server page requires auth, verifies set visibility for students, loads writeups with authors/images/votes, and sorts by newest or top score (source: `app/problem-sets/[slug]/writeups/page.tsx`).
+Problem-set writeups are a separate readable/community surface at `/problem-sets/[slug]/writeups`, linked from the set header next to bookmarks. The server page requires auth, verifies set visibility for students, loads writeups with authors/images/votes, and sorts by newest or top score (source: `app/problem-sets/[slug]/writeups/page.tsx`). The sidebar `/writeups` directory lists latest/top writeups across visible sets and supports problem-set-focused search (source: `app/writeups/page.tsx`).
 
-The client feed posts multipart form data to `POST /api/problem-sets/[id]/writeups`, supports LaTeX/HTML bodies and up to four images, renders bodies through `LatexStatement`, and sends vote mutations to `POST /api/writeups/[id]/vote` (sources: `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`).
+The client feed posts multipart form data to `POST /api/problem-sets/[id]/writeups`, supports LaTeX/HTML bodies and up to four images, renders bodies through `LatexStatement`, sends vote mutations to `POST /api/writeups/[id]/vote`, and shows a confirm-delete control for author/admin deletion through `DELETE /api/writeups/[id]` (sources: `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`, `app/api/writeups/[id]/route.ts`).
 
 Writeup images reuse the existing storage/file-serving boundary: `lib/writeup-images.ts` validates and stores image bytes, `WriteupImage` ties the resulting `ImportedFile` to the writeup, and `app/api/files/[id]/route.ts` grants access if the related problem set is visible or the requester is admin (sources: `lib/writeup-images.ts`, `prisma/schema.prisma`, `app/api/files/[id]/route.ts`).
 

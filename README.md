@@ -41,5 +41,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Kept solved sets readable while locking new submissions after a perfect-score attempt.
 - Added a profile mastery heatmap between authored tasks and the set grid, using GitHub-style green intensity for days with 1-5 mastered sets.
 - Added problem-set writeups with LaTeX/HTML text, image uploads, latest/top sorting, and upvote/downvote voting. Writeups are reachable from the set header beside the bookmark action and remain accessible regardless of submission status.
+- Added owner/admin writeup deletion with an in-card confirmation step, plus a sidebar Writeups page for browsing latest/top writeups and searching by problem set.
 
 © 2026 Cosmic Crusader

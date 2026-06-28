@@ -31,6 +31,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/site-sidebar.tsx`, `app/site-sidebar-nav.tsx`, `app/global-mobile-nav.tsx` - authenticated sidebar links and mobile nav behavior (sources: named files).
 - `app/auth-button.tsx`, `app/avatar.tsx`, `app/theme-toggle.tsx`, `app/typewriter-greeting.tsx` - shared app UI atoms/widgets (sources: named files).
 - `app/problem-sets/` - catalog, problem-set detail page, answering grid, bookmarking, writeups, LaTeX/HTML statement rendering (sources: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/latex-statement.tsx`, `app/problem-sets/[slug]/bookmark-button.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`).
+- `app/writeups/page.tsx` - global writeups directory with latest/top tabs and problem-set search (source: route file).
 - `app/practice/page.tsx` - practice-mode client surface backed by `/api/practice/*` (source: `app/practice/page.tsx`).
 - `app/classes/page.tsx` - student-facing classes route (source: `app/classes/page.tsx`).
 - `app/users/`, `app/leaderboard/page.tsx`, `app/settings/page.tsx` - public/user profile, friends, promotion UI, leaderboard, and account settings (sources: named files).
@@ -44,7 +45,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/api/submit/route.ts`, `app/api/submit/report/route.ts` - full problem-set submission and student feedback report creation (sources: named files).
 - `app/api/practice/*` - practice tags, next problem, and answer submission (sources: `app/api/practice/tags/route.ts`, `app/api/practice/next/route.ts`, `app/api/practice/submit/route.ts`).
 - `app/api/problem-sets/[id]/bookmark/route.ts` - bookmark create/delete for current user (source: route file).
-- `app/api/problem-sets/[id]/writeups/route.ts` and `app/api/writeups/[id]/vote/route.ts` - writeup creation and voting for visible problem sets (sources: route files).
+- `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`, and `app/api/writeups/[id]/route.ts` - writeup creation, voting, and author/admin deletion for visible problem sets (sources: route files).
 - `app/api/files/[id]/route.ts` - authenticated file streaming with related-set visibility checks and CSP headers (source: route file).
 - `app/api/settings/route.ts` - profile settings read/update, display name/avatar/privacy/theme/greeting settings (source: route file).
 - `app/api/friends/[userId]/route.ts` - friend toggle endpoint used by profile UI (source: route file).

@@ -39,6 +39,8 @@ Optional image ZIP imports derive asset keys from image filenames by lowercasing
 
 Writeups intentionally remain accessible even when submissions are locked or the user has not submitted. Do not reuse submission-lock logic to hide `/problem-sets/[slug]/writeups`; only normal auth and set visibility should gate that page (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`).
 
+Writeup deletion is allowed only for the author or an admin. The API deletes the writeup first, then best-effort removes associated uploaded image files and `ImportedFile` rows. A failed file cleanup should not resurrect the deleted writeup, so orphan cleanup remains a storage hygiene concern (source: `app/api/writeups/[id]/route.ts`).
+
 ## Practice Completion Counts Only Correct Answers
 
 Practice mode records `PracticeSolve` only for correct answers and has a unique `(userId, problemId)` constraint. Duplicate correct submissions are silently treated as already counted; incorrect attempts are not persisted. This affects analytics expectations for practice mode (sources: `app/api/practice/submit/route.ts`, `prisma/schema.prisma`).

@@ -100,6 +100,8 @@ Writeup image uploads use `lib/writeup-images.ts`. The helper accepts only PNG, 
 
 `POST /api/writeups/[id]/vote` accepts `value` `-1`, `0`, or `1`. It verifies session and set visibility, deletes the current user's vote for `0`, otherwise upserts the vote, and returns the updated score and current user's vote (source: `app/api/writeups/[id]/vote/route.ts`).
 
+`DELETE /api/writeups/[id]` verifies session, set visibility, and author/admin ownership before deleting the writeup. `WriteupImage` and `WriteupVote` rows cascade from the writeup delete; uploaded `ImportedFile` rows and stored image bytes are deleted best-effort afterward (source: `app/api/writeups/[id]/route.ts`).
+
 ## Classes and Assignments
 
 Class detail authorization requires session, `admin:users`, class existence, and for non-admin users `cls.teacherId === userId` (source: `app/api/admin/classes/[id]/route.ts`). The class detail UI exposes roster/assignment mutation and class deletion through the same route family (source: `app/admin/classes/[id]/class-detail-client.tsx`). Completion is calculated by `buildCompletionMap(...)`: each class member starts null, attempts count only if submitted after assignment creation, and the earliest qualifying attempt is stored (source: `lib/classes.ts`).

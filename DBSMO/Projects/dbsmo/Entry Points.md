@@ -49,6 +49,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `/problem-sets` - browse/filter/sort problem sets with recommendations, assignments/bookmarks/practice views, media/status/category filters, search, and pagination (source: `app/problem-sets/page.tsx`).
 - `/problem-sets/[slug]` - set detail and answer entry, with inline statements or PDF fallback and file/video/solution display (source: `app/problem-sets/[slug]/page.tsx`).
 - `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
+- `/writeups` - global writeups directory from the sidebar with latest/top views and problem-set search (source: `app/writeups/page.tsx`).
 - `/practice` - practice-mode UI backed by tags/next/submit APIs (source: `app/practice/page.tsx`).
 - `/classes` - student-facing class route (source: `app/classes/page.tsx`).
 
@@ -82,6 +83,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `PUT/DELETE /api/problem-sets/[id]/bookmark` - create/remove current user's bookmark (source: `app/api/problem-sets/[id]/bookmark/route.ts`).
 - `POST /api/problem-sets/[id]/writeups` - create a writeup with LaTeX/HTML text and optional image uploads for a visible set (source: `app/api/problem-sets/[id]/writeups/route.ts`).
 - `POST /api/writeups/[id]/vote` - upvote, downvote, or clear the current user's vote on a visible writeup (source: `app/api/writeups/[id]/vote/route.ts`).
+- `DELETE /api/writeups/[id]` - delete a visible writeup when the requester is the author or an admin; associated uploaded image files are deleted best-effort (source: `app/api/writeups/[id]/route.ts`).
 - `GET/PATCH /api/settings` - read/update profile settings and privacy flags (source: `app/api/settings/route.ts`).
 - `PATCH /api/friends/[userId]` - toggle friend relationship (source: `app/api/friends/[userId]/route.ts`).
 - `GET /api/files/[id]` - authenticated file streaming for PDFs/images with visibility checks (source: `app/api/files/[id]/route.ts`).

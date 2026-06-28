@@ -83,6 +83,7 @@ export default async function ProblemSetWriteupsPage({ params, searchParams }: W
       createdAt: writeup.createdAt.toISOString(),
       score: writeup.votes.reduce((sum, vote) => sum + vote.value, 0),
       myVote: writeup.votes.find((vote) => vote.userId === currentUser.id)?.value ?? 0,
+      canDelete: currentUser.role === "ADMIN" || writeup.author.id === currentUser.id,
       author: writeup.author,
       images: writeup.images.map((image) => ({
         id: image.id,

@@ -21,10 +21,15 @@ export async function SiteSidebar() {
   const links: SidebarLink[] = [
     { href: "/dashboard", label: "Dashboard", icon: "Gauge" },
     { href: "/problem-sets", label: "Problem Sets", icon: "ClipboardList" },
+    { href: "/writeups", label: "Writeups", icon: "MessageSquareText" },
     { href: "/practice", label: "Practice", icon: "Target" },
     { href: "/classes", label: "Classes", icon: "GraduationCap" },
-    ...(isAdmin ? [{ href: "/ftw", label: "FTW", icon: "Swords" as const },
-      { href: "/playground", label: "Playground", icon: "Sparkles" as const }] : []),
+    ...(isAdmin
+      ? [
+          { href: "/ftw", label: "FTW", icon: "Swords" as const },
+          { href: "/playground", label: "Playground", icon: "Sparkles" as const },
+        ]
+      : []),
   ];
 
   if (hasPermission(user.role, "admin:view")) {
@@ -36,9 +41,7 @@ export async function SiteSidebar() {
       );
     }
     if (hasPermission(user.role, "admin:users")) {
-      links.push(
-        { href: "/admin/students", label: "Students", icon: "Users" },
-      );
+      links.push({ href: "/admin/students", label: "Students", icon: "Users" });
     }
     if (hasPermission(user.role, "admin:analytics")) {
       links.push({ href: "/admin/analytics", label: "Analytics", icon: "BarChart3" });

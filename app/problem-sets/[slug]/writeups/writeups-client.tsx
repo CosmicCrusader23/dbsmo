@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowDown, ArrowUp, ImagePlus, Send, Sigma } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, ImagePlus, Send, Sigma, Trash2, X } from "lucide-react";
 import { Avatar } from "@/app/avatar";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "../latex-statement";
@@ -16,6 +16,11 @@ type WriteupPost = {
   createdAt: string;
   score: number;
   myVote: number;
+  canDelete: boolean;
+  problemSet?: {
+    slug: string;
+    title: string;
+  };
   author: {
     id: string;
     email: string;
@@ -32,9 +37,11 @@ type WriteupPost = {
 };
 
 type WriteupsClientProps = {
-  problemSetId: string;
-  problemSetSlug: string;
+  problemSetId?: string;
+  problemSetSlug?: string;
   writeups: WriteupPost[];
+  showComposer?: boolean;
+  emptyMessage?: string;
 };
 
 function timeAgo(value: string) {
@@ -50,14 +57,24 @@ function timeAgo(value: string) {
   return `${Math.floor(months / 12)}y ago`;
 }
 
-export function WriteupsClient({ problemSetId, problemSetSlug, writeups }: WriteupsClientProps) {
+export function WriteupsClient({
+  problemSetId,
+  problemSetSlug,
+  writeups,
+  showComposer = true,
+  emptyMessage = "Be the first to post a solution idea for this set.",
+}: WriteupsClientProps) {
   const router = useRouter();
+  const [deletedWriteupIds, setDeletedWriteupIds] = useState(() => new Set<string>());
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [contentFormat, setContentFormat] = useState<"LATEX" | "HTML">("LATEX");
   const [images, setImages] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [voteState, setVoteState] = useState(
     () =>
       new Map(
@@ -67,6 +84,10 @@ export function WriteupsClient({ problemSetId, problemSetSlug, writeups }: Write
 
   async function submitWriteup(event: React.FormEvent) {
     event.preventDefault();
+    if (!problemSetId) {
+      setError("Choose a problem set before posting.");
+      return;
+    }
     setError(null);
     setSubmitting(true);
 
@@ -96,6 +117,38 @@ export function WriteupsClient({ problemSetId, problemSetSlug, writeups }: Write
       setError("Network error.");
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function deleteWriteup(writeupId: string) {
+    setDeleteError(null);
+    setDeletingId(writeupId);
+
+    try {
+      const response = await fetch(`/api/writeups/${writeupId}`, {
+        method: "DELETE",
+      });
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
+      if (!response.ok) {
+        setDeleteError(result?.error ?? "Could not delete writeup.");
+        return;
+      }
+      setDeletedWriteupIds((current) => {
+        const updated = new Set(current);
+        updated.add(writeupId);
+        return updated;
+      });
+      setVoteState((state) => {
+        const updated = new Map(state);
+        updated.delete(writeupId);
+        return updated;
+      });
+      setConfirmDeleteId(null);
+      router.refresh();
+    } catch {
+      setDeleteError("Delete request failed.");
+    } finally {
+      setDeletingId(null);
     }
   }
 
@@ -139,89 +192,96 @@ export function WriteupsClient({ problemSetId, problemSetSlug, writeups }: Write
     }
   }
 
+  const visibleWriteups = writeups.filter((writeup) => !deletedWriteupIds.has(writeup.id));
+
   return (
     <>
-      <form className="writeup-composer" onSubmit={submitWriteup}>
-        <div className="writeup-composer-head">
-          <div>
-            <p className="eyebrow">New post</p>
-            <h2>Share a solution writeup</h2>
+      {showComposer ? (
+        <form className="writeup-composer" onSubmit={submitWriteup}>
+          <div className="writeup-composer-head">
+            <div>
+              <p className="eyebrow">New post</p>
+              <h2>Share a solution writeup</h2>
+            </div>
+            <div className="writeup-format-toggle" role="group" aria-label="Writeup format">
+              <button
+                type="button"
+                className={contentFormat === "LATEX" ? "active" : ""}
+                onClick={() => setContentFormat("LATEX")}
+              >
+                LaTeX
+              </button>
+              <button
+                type="button"
+                className={contentFormat === "HTML" ? "active" : ""}
+                onClick={() => setContentFormat("HTML")}
+              >
+                HTML
+              </button>
+            </div>
           </div>
-          <div className="writeup-format-toggle" role="group" aria-label="Writeup format">
-            <button
-              type="button"
-              className={contentFormat === "LATEX" ? "active" : ""}
-              onClick={() => setContentFormat("LATEX")}
-            >
-              LaTeX
-            </button>
-            <button
-              type="button"
-              className={contentFormat === "HTML" ? "active" : ""}
-              onClick={() => setContentFormat("HTML")}
-            >
-              HTML
+          <input
+            className="form-input"
+            maxLength={120}
+            placeholder="Title"
+            required
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <textarea
+            className="form-input writeup-body-input"
+            maxLength={20000}
+            placeholder="Write your solution. LaTeX like \\[x^2+y^2=1\\] works here."
+            rows={6}
+            value={body}
+            onChange={(event) => setBody(event.target.value)}
+          />
+          <div className="writeup-composer-actions">
+            <label className="secondary-action compact writeup-image-picker">
+              <ImagePlus size={16} />
+              Images
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/gif,image/webp"
+                multiple
+                onChange={(event) => setImages(Array.from(event.target.files ?? []).slice(0, 4))}
+              />
+            </label>
+            {images.length > 0 ? (
+              <span className="writeup-image-count">
+                {images.length} image{images.length === 1 ? "" : "s"}
+              </span>
+            ) : null}
+            {error ? <span className="form-error">{error}</span> : null}
+            <button className="primary-action compact" type="submit" disabled={submitting}>
+              {submitting ? (
+                <MathCurveLoader size={16} label="Posting writeup" />
+              ) : (
+                <Send size={16} />
+              )}
+              Post
             </button>
           </div>
-        </div>
-        <input
-          className="form-input"
-          maxLength={120}
-          placeholder="Title"
-          required
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-        />
-        <textarea
-          className="form-input writeup-body-input"
-          maxLength={20000}
-          placeholder="Write your solution. LaTeX like \\[x^2+y^2=1\\] works here."
-          rows={6}
-          value={body}
-          onChange={(event) => setBody(event.target.value)}
-        />
-        <div className="writeup-composer-actions">
-          <label className="secondary-action compact writeup-image-picker">
-            <ImagePlus size={16} />
-            Images
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/gif,image/webp"
-              multiple
-              onChange={(event) => setImages(Array.from(event.target.files ?? []).slice(0, 4))}
-            />
-          </label>
-          {images.length > 0 ? (
-            <span className="writeup-image-count">
-              {images.length} image{images.length === 1 ? "" : "s"}
-            </span>
-          ) : null}
-          {error ? <span className="form-error">{error}</span> : null}
-          <button className="primary-action compact" type="submit" disabled={submitting}>
-            {submitting ? (
-              <MathCurveLoader size={16} label="Posting writeup" />
-            ) : (
-              <Send size={16} />
-            )}
-            Post
-          </button>
-        </div>
-      </form>
+        </form>
+      ) : null}
+      {deleteError ? <p className="form-error writeup-delete-error">{deleteError}</p> : null}
 
       <section className="writeup-feed" aria-label="Writeups">
-        {writeups.length === 0 ? (
+        {visibleWriteups.length === 0 ? (
           <div className="writeup-empty">
             <Sigma size={28} />
             <strong>No writeups yet</strong>
-            <span>Be the first to post a solution idea for this set.</span>
+            <span>{emptyMessage}</span>
           </div>
         ) : (
-          writeups.map((writeup) => {
+          visibleWriteups.map((writeup) => {
             const state = voteState.get(writeup.id) ?? {
               score: writeup.score,
               myVote: writeup.myVote,
             };
             const authorLabel = writeup.author.displayName || writeup.author.name || "Anonymous";
+            const setSlug = writeup.problemSet?.slug ?? problemSetSlug;
+            const setTitle = writeup.problemSet?.title;
             return (
               <article className="writeup-post" key={writeup.id}>
                 <div className="writeup-post-votes">
@@ -252,6 +312,11 @@ export function WriteupsClient({ problemSetId, problemSetSlug, writeups }: Write
                         <span>posted {timeAgo(writeup.createdAt)}</span>
                       </div>
                       <h3>{writeup.title}</h3>
+                      {setTitle && setSlug ? (
+                        <Link className="writeup-set-pill" href={`/problem-sets/${setSlug}`}>
+                          {setTitle}
+                        </Link>
+                      ) : null}
                     </div>
                   </header>
                   {writeup.body ? (
@@ -267,9 +332,50 @@ export function WriteupsClient({ problemSetId, problemSetSlug, writeups }: Write
                       ))}
                     </div>
                   ) : null}
-                  <Link className="writeup-set-link" href={`/problem-sets/${problemSetSlug}`}>
-                    Back to set
-                  </Link>
+                  <div className="writeup-post-actions">
+                    {setSlug ? (
+                      <Link className="writeup-set-link" href={`/problem-sets/${setSlug}`}>
+                        {writeup.problemSet ? "Open set" : "Back to set"}
+                      </Link>
+                    ) : null}
+                    {writeup.canDelete ? (
+                      confirmDeleteId === writeup.id ? (
+                        <span className="writeup-delete-confirm">
+                          <button
+                            className="secondary-action compact danger-action"
+                            type="button"
+                            disabled={deletingId === writeup.id}
+                            onClick={() => void deleteWriteup(writeup.id)}
+                          >
+                            {deletingId === writeup.id ? (
+                              <MathCurveLoader size={14} label="Deleting writeup" />
+                            ) : (
+                              <Check size={14} />
+                            )}
+                            Confirm delete
+                          </button>
+                          <button
+                            className="icon-action"
+                            type="button"
+                            aria-label="Cancel delete"
+                            disabled={deletingId === writeup.id}
+                            onClick={() => setConfirmDeleteId(null)}
+                          >
+                            <X size={14} />
+                          </button>
+                        </span>
+                      ) : (
+                        <button
+                          className="writeup-delete-button"
+                          type="button"
+                          onClick={() => setConfirmDeleteId(writeup.id)}
+                        >
+                          <Trash2 size={14} />
+                          Delete
+                        </button>
+                      )
+                    ) : null}
+                  </div>
                 </div>
               </article>
             );

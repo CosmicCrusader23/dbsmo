@@ -36,7 +36,7 @@ The app is implemented as a Next.js App Router application using React, TypeScri
 
 ## Major Product Areas
 
-- Problem set catalog, answering, and writeups: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/api/submit/route.ts`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`.
+- Problem set catalog, answering, and writeups: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/api/submit/route.ts`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`.
 - Practice mode: `app/practice/page.tsx`, `app/api/practice/tags/route.ts`, `app/api/practice/next/route.ts`, `app/api/practice/submit/route.ts`, `PracticeSolve` model in `prisma/schema.prisma`.
 - Admin content authoring: `app/admin/create/page-client.tsx`, `app/admin/sets/[id]/set-edit-form.tsx`, `app/api/admin/create-set/route.ts`, `app/api/admin/sets/[id]/route.ts`, `lib/problem-set-authoring.ts`.
 - Import/export: `app/admin/import/*`, `app/api/admin/import/*`, `lib/import/*`, `app/api/admin/export-jobs/route.ts`, `lib/admin-exports.ts`.

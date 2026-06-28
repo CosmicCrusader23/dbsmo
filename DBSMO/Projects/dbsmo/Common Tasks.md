@@ -170,10 +170,11 @@ Leaderboard:
 Edit:
 
 - `prisma/schema.prisma` - `Writeup`, `WriteupImage`, `WriteupVote`, and related `User`/`ProblemSet`/`ImportedFile` relations.
-- `app/problem-sets/[slug]/writeups/page.tsx` - auth, visibility, initial query, and latest/top sorting.
-- `app/problem-sets/[slug]/writeups/writeups-client.tsx` - composer, image selection, optimistic vote state, and feed rendering.
+- `app/problem-sets/[slug]/writeups/page.tsx` and `app/writeups/page.tsx` - auth, visibility, initial query, latest/top sorting, and directory search.
+- `app/problem-sets/[slug]/writeups/writeups-client.tsx` - composer, image selection, optimistic vote state, confirm-delete state, and feed rendering.
 - `app/api/problem-sets/[id]/writeups/route.ts` - writeup creation, multipart validation, and image persistence.
 - `app/api/writeups/[id]/vote/route.ts` - vote mutation and score response.
+- `app/api/writeups/[id]/route.ts` - author/admin deletion and best-effort image file cleanup.
 - `lib/writeup-images.ts` and `app/api/files/[id]/route.ts` - image validation, storage, and read access.
 - `docs/student-guide.md` and [[Data and Storage]] when behavior changes.
 

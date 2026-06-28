@@ -86,7 +86,9 @@ Public user profiles show progress summaries, recent completions, bookmarks, an 
 
 Each problem set has a writeups page next to the bookmark control. Signed-in students can read writeups whether or not they have submitted or perfectly solved the set. A writeup can contain LaTeX/HTML text, up to four uploaded solution images, or both.
 
-Writeups can be sorted by newest posts or by top score. Students can upvote, downvote, or clear their vote on each writeup.
+Writeups can be sorted by newest posts or by top score. Students can upvote, downvote, or clear their vote on each writeup. You can delete your own writeups with a confirmation step; admins can delete any writeup.
+
+The sidebar **Writeups** page shows recent and top writeups across visible problem sets. Use its search bar to find writeups by problem set title or slug.
 
 ## Reporting Issues
 

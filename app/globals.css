@@ -6895,6 +6895,40 @@ html.dark .theme-choice-button.active {
   color: var(--color-text-strong);
 }
 
+.writeups-directory-page .writeup-sort-tabs {
+  margin-top: 1rem;
+}
+
+.writeups-search-panel {
+  margin-bottom: 0;
+}
+
+.writeup-section {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.writeup-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.writeup-section-head h2 {
+  margin: 0.15rem 0 0;
+  color: var(--color-text-strong);
+  font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+}
+
+.writeup-section-head > span {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
 .writeup-composer {
   display: grid;
   gap: 0.8rem;
@@ -7065,6 +7099,19 @@ html.dark .theme-choice-button.active {
   font-size: 1rem;
 }
 
+.writeup-set-pill {
+  display: inline-flex;
+  margin-top: 0.45rem;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid rgba(47, 185, 232, 0.28);
+  border-radius: 9999px;
+  background: rgba(47, 185, 232, 0.1);
+  color: var(--color-blue);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .writeup-rendered-body {
   padding: 0.85rem;
   border: 1px solid var(--color-border);
@@ -7091,9 +7138,17 @@ html.dark .theme-choice-button.active {
   background: #050507;
 }
 
+.writeup-post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
 .writeup-set-link {
   display: inline-flex;
-  margin-top: 0.8rem;
   color: var(--color-muted);
   font-size: 0.78rem;
   font-weight: 900;
@@ -7102,6 +7157,54 @@ html.dark .theme-choice-button.active {
 
 .writeup-set-link:hover {
   color: var(--color-blue);
+}
+
+.writeup-delete-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 30px;
+  padding: 0 0.65rem;
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  border-radius: 9999px;
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--color-danger);
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.writeup-delete-button:hover {
+  border-color: rgba(239, 68, 68, 0.48);
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.writeup-delete-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.writeup-delete-confirm .icon-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-surface-alt);
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.writeup-delete-confirm .icon-action:hover {
+  color: var(--color-text-strong);
+}
+
+.writeup-delete-error {
+  margin: 0 0 0.8rem;
 }
 
 .settings-toggle-list {

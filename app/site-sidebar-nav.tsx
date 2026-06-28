@@ -11,6 +11,7 @@ import {
   Gauge,
   GraduationCap,
   ListChecks,
+  MessageSquareText,
   MessageSquareWarning,
   PenLine,
   Settings,
@@ -42,6 +43,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Users,
   GraduationCap,
   BarChart3,
+  MessageSquareText,
   MessageSquareWarning,
   CheckCircle2,
   User,
@@ -74,8 +76,7 @@ export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
         const Icon = ICON_MAP[link.icon];
         const matchPrefix = link.match ?? link.href;
         const isActive =
-          pathname === link.href ||
-          (matchPrefix !== "/" && pathname.startsWith(matchPrefix));
+          pathname === link.href || (matchPrefix !== "/" && pathname.startsWith(matchPrefix));
         return (
           <Link
             key={link.href}
@@ -96,4 +97,3 @@ export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
 }
 
 export type { SidebarLink };
-

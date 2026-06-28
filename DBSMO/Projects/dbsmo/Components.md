@@ -34,7 +34,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, missed-topic next action, and feedback report dialog. When `ProblemSetPage` detects the set tag `Tests`, it passes the test layout so answer-only/PDF sets render as a 20×3 test answer sheet for 60 underlying `Problem` rows.
 - `BookmarkButton` in `app/problem-sets/[slug]/bookmark-button.tsx`: client bookmark toggle backed by `/api/problem-sets/[id]/bookmark`.
 - Writeup header link in `app/problem-sets/[slug]/page.tsx`: icon link next to `BookmarkButton` that opens `/problem-sets/[slug]/writeups`.
-- `WriteupsPage` and `WriteupsClient` in `app/problem-sets/[slug]/writeups/`: server/client pair for set writeups. The server page handles auth, set visibility, sorting, and initial data; the client component handles the composer, image selection, optimistic voting, and feed cards rendered with `LatexStatement`.
+- `WriteupsPage` and `WriteupsClient` in `app/problem-sets/[slug]/writeups/`: server/client pair for set writeups. The server page handles auth, set visibility, sorting, and initial data; the client component handles the composer, image selection, optimistic voting, confirm-delete controls, and feed cards rendered with `LatexStatement`.
+- `WriteupsDirectoryPage` in `app/writeups/page.tsx`: sidebar community writeups page with latest/top tabs and problem-set-focused search suggestions; it reuses `WriteupsClient` without the composer.
 - `LatexStatement` in `app/problem-sets/[slug]/latex-statement.tsx`: statement renderer for LaTeX/HTML-style statements and imported image assets.
 
 ## Practice and Games
