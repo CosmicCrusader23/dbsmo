@@ -3,13 +3,10 @@ import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
 import {
   ArrowLeft,
-  BarChart3,
   Calendar,
   ClipboardList,
-  ExternalLink,
   Grid2x2,
   Mail,
-  Pencil,
 } from "lucide-react";
 import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
@@ -21,6 +18,7 @@ import { isVisibleToStudent } from "@/lib/visibility";
 import { hasPermission, isStaffRole } from "@/lib/permissions";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { Avatar } from "@/app/avatar";
+import { AuthoredTasksTable } from "./authored-tasks-table";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
 
@@ -556,68 +554,11 @@ export default async function UserProfilePage({
         {authoredTaskRows.length === 0 ? (
           <p className="profile-muted">No authored public tasks yet.</p>
         ) : (
-          <div className="profile-authored-table-wrap">
-            <table className="profile-authored-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Problems</th>
-                  <th># Solved</th>
-                  <th>Attempts</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {authoredTaskRows.map((set) => (
-                  <tr key={set.id}>
-                    <td>
-                      <span className="profile-authored-id">{set.order}</span>
-                    </td>
-                    <td>
-                      <div className="profile-authored-name-cell">
-                        <Link className="text-link" href={`/problem-sets/${set.slug}`}>
-                          {set.title}
-                        </Link>
-                        <span className={`profile-authored-status ${set.status.toLowerCase()}`}>
-                          {set.status.toLowerCase()}
-                        </span>
-                      </div>
-                    </td>
-                    <td>{set.problemCount}</td>
-                    <td>{set.solvedCount}</td>
-                    <td>{set.attemptCount}</td>
-                    <td>
-                      <div className="profile-authored-actions">
-                        <Link
-                          className="profile-authored-action"
-                          href={`/problem-sets/${set.slug}`}
-                        >
-                          <ExternalLink size={14} />
-                          Open
-                        </Link>
-                        {canViewAnalytics ? (
-                          <Link
-                            className="profile-authored-action"
-                            href={`/admin/sets/${set.id}/analytics`}
-                          >
-                            <BarChart3 size={14} />
-                            Analytics
-                          </Link>
-                        ) : null}
-                        {canManageContent ? (
-                          <Link className="profile-authored-action" href={`/admin/sets/${set.id}`}>
-                            <Pencil size={14} />
-                            Manage
-                          </Link>
-                        ) : null}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <AuthoredTasksTable
+            rows={authoredTaskRows}
+            canManageContent={canManageContent}
+            canViewAnalytics={canViewAnalytics}
+          />
         )}
       </section>
 
