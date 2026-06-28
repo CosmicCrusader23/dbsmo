@@ -7064,6 +7064,12 @@ html.dark .theme-choice-button.active {
   color: var(--color-success);
 }
 
+.writeup-post-votes button:last-child.active {
+  border-color: rgba(239, 68, 68, 0.44);
+  background: rgba(239, 68, 68, 0.14);
+  color: var(--color-danger);
+}
+
 .writeup-post-votes strong {
   color: var(--color-text-strong);
   font-variant-numeric: tabular-nums;
