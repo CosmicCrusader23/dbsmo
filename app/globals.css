@@ -4760,6 +4760,63 @@ html.dark .theme-choice-button.active {
   opacity: 0.78;
 }
 
+.search-suggest-root {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.search-suggest-root input {
+  width: 100%;
+}
+
+.search-suggest-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 45;
+  display: grid;
+  gap: 4px;
+  min-width: min(420px, 90vw);
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-strong);
+}
+
+.search-suggest-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.62rem 0.7rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-strong);
+  font: inherit;
+  font-weight: 850;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search-suggest-option:hover {
+  background: var(--meter-track);
+}
+
+.search-suggest-option small {
+  overflow: hidden;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .search-empty-state {
   padding: 1rem 1.2rem;
   border: 1px solid var(--color-border);
@@ -6323,13 +6380,6 @@ html.dark .theme-choice-button.active {
 .problem-hub-tab.active {
   background: var(--color-blue);
   color: var(--color-text-strong);
-}
-
-.problem-hub-tab.tag-tab::before {
-  content: "◆";
-  margin-right: 0.35rem;
-  color: var(--color-pink);
-  font-size: 0.7rem;
 }
 
 .problem-sort-controls {
@@ -8953,6 +9003,7 @@ html:not(.light) .ftw-rank.rank-1 {
 
   /* Users list: keep search panel from forcing button below input on tap */
   .search-panel { flex-wrap: wrap; gap: 8px; }
+  .search-panel .search-suggest-root,
   .search-panel input { flex: 1 1 100%; min-width: 0; }
   .search-panel button,
   .search-panel .secondary-action { flex: 1 1 auto; }

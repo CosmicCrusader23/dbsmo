@@ -14,6 +14,7 @@ import {
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { compareProblemSetOrder, compareProblemSetRecords } from "@/lib/problem-set-order";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 
 export const dynamic = "force-dynamic";
 
@@ -363,6 +364,25 @@ export default async function ProblemSetsPage({
   const safePage = Math.min(currentPage, totalPages);
   const paginatedRows = tableRows.slice((safePage - 1) * pageSize, safePage * pageSize);
   const profileHref = profilePathFromEmail(currentUser.email);
+  const searchSuggestions = [
+    ...setRows.map((set) => ({
+      label: set.title,
+      value: set.title,
+      detail: `${set.order || set.slug} · ${set.slug}`,
+    })),
+    ...setRows.map((set) => ({
+      label: set.slug,
+      value: set.slug,
+      detail: set.title,
+    })),
+    ...Array.from(new Set(setRows.flatMap((set) => [...set.tags, ...set.categories]))).map(
+      (tag) => ({
+        label: tag,
+        value: tag,
+        detail: "Tag",
+      }),
+    ),
+  ];
 
   return (
     <main className="problem-hub-shell">
@@ -388,43 +408,68 @@ export default async function ProblemSetsPage({
       <nav className="problem-hub-tabs" aria-label="Problem set filters">
         <Link
           className={`problem-hub-tab${activeView === "recommended" ? " active" : ""}`}
-          href={problemSetsHref({ category: null, view: "recommended" })}
+          href={problemSetsHref({
+            category: null,
+            media: "all",
+            status: "all",
+            view: "recommended",
+          })}
         >
           Recommended
         </Link>
         <Link
           className={`problem-hub-tab${activeView === "bookmarked" ? " active" : ""}`}
-          href={problemSetsHref({ category: null, view: "bookmarked" })}
+          href={problemSetsHref({
+            category: null,
+            media: "all",
+            status: "all",
+            view: "bookmarked",
+          })}
         >
           Bookmarked
         </Link>
         {assignedSets.size > 0 ? (
           <Link
             className={`problem-hub-tab${activeView === "classAssigned" ? " active" : ""}`}
-            href={problemSetsHref({ category: null, view: "classAssigned" })}
+            href={problemSetsHref({
+              category: null,
+              media: "all",
+              status: "all",
+              view: "classAssigned",
+            })}
           >
             Class
           </Link>
         ) : null}
         <Link
           className={`problem-hub-tab${activeView === "assigned" ? " active" : ""}`}
-          href={problemSetsHref({ category: null, view: "assigned" })}
+          href={problemSetsHref({ category: null, media: "all", status: "all", view: "assigned" })}
         >
           Assigned
         </Link>
         <Link
           className={`problem-hub-tab${activeView === "practice" ? " active" : ""}`}
-          href={problemSetsHref({ category: null, view: "practice", sort: "weakest" })}
+          href={problemSetsHref({
+            category: null,
+            media: "all",
+            sort: "weakest",
+            status: "all",
+            view: "practice",
+          })}
         >
           Self-practice
         </Link>
         <Link
           className={`problem-hub-tab${activeView === "completed" ? " active" : ""}`}
-          href={problemSetsHref({ category: null, view: "completed", status: "completed" })}
+          href={problemSetsHref({
+            category: null,
+            media: "all",
+            status: "completed",
+            view: "completed",
+          })}
         >
           Completed archive
         </Link>
-        <span className="problem-hub-tab tag-tab">Tags</span>
       </nav>
 
       <section className="problem-sort-controls" aria-label="Problem-set ordering">
@@ -519,11 +564,13 @@ export default async function ProblemSetsPage({
 
       <form action="/problem-sets" className="search-panel task-search-panel" role="search">
         <Search size={18} />
-        <input
-          aria-label="Search tasks"
+        <SearchSuggestInput
+          ariaLabel="Search tasks"
           defaultValue={query}
           name="q"
           placeholder="Search tasks by title, slug, or tag"
+          suggestions={searchSuggestions}
+          submitOnSelect
         />
         {sortMode !== "default" ? <input name="sort" type="hidden" value={sortMode} /> : null}
         {activeView !== "recommended" ? (

@@ -15,6 +15,7 @@ import {
   Search,
 } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { LatexStatement } from "../problem-sets/[slug]/latex-statement";
 
 type Problem = {
@@ -206,11 +207,12 @@ export default function PracticePage() {
 
             <div className="practice-tag-search">
               <Search size={14} />
-              <input
-                value={tagQuery}
-                onChange={(e) => setTagQuery(e.target.value)}
+              <SearchSuggestInput
+                ariaLabel="Search categories"
                 placeholder="Search categories…"
-                aria-label="Search categories"
+                suggestions={tags.map((tag) => ({ label: tag, value: tag, detail: "Category" }))}
+                value={tagQuery}
+                onValueChange={setTagQuery}
               />
             </div>
 
@@ -222,9 +224,7 @@ export default function PracticePage() {
             ) : tags.length === 0 ? (
               <p className="practice-empty">No categories with enough questions yet.</p>
             ) : filteredTags.length === 0 ? (
-              <p className="practice-empty">
-                No categories match &ldquo;{tagQuery}&rdquo;.
-              </p>
+              <p className="practice-empty">No categories match &ldquo;{tagQuery}&rdquo;.</p>
             ) : (
               <div className="practice-tag-grid">
                 {filteredTags.map((tag) => {
@@ -262,9 +262,18 @@ export default function PracticePage() {
                 Categories
               </button>
               <div className="practice-arena-stats">
-                <span><small>Solved</small><strong>{solvedThisSession}</strong></span>
-                <span><small>Streak</small><strong>{streak}</strong></span>
-                <span><small>Total</small><strong>{practiceScore}</strong></span>
+                <span>
+                  <small>Solved</small>
+                  <strong>{solvedThisSession}</strong>
+                </span>
+                <span>
+                  <small>Streak</small>
+                  <strong>{streak}</strong>
+                </span>
+                <span>
+                  <small>Total</small>
+                  <strong>{practiceScore}</strong>
+                </span>
               </div>
             </div>
 
@@ -305,10 +314,7 @@ export default function PracticePage() {
               ) : problem ? (
                 <>
                   <div className="practice-statement">
-                    <LatexStatement
-                      statement={problem.statement}
-                      format={problem.contentFormat}
-                    />
+                    <LatexStatement statement={problem.statement} format={problem.contentFormat} />
                   </div>
 
                   <form onSubmit={submitAnswer} className="practice-answer-form">

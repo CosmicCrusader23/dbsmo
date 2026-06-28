@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { hasPermission } from "@/lib/permissions";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 
 export const dynamic = "force-dynamic";
 
@@ -65,6 +66,27 @@ export default async function AdminStudentsPage({
   const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedRows = rows.slice((safePage - 1) * pageSize, safePage * pageSize);
+  const searchSuggestions = [
+    ...students.map((student) => ({
+      label: student.name || student.email,
+      value: student.name || student.email,
+      detail: student.email,
+    })),
+    ...students.map((student) => ({
+      label: student.email,
+      value: student.email,
+      detail: student.name ?? "Student",
+    })),
+    ...Array.from(
+      new Set(
+        students.map((student) => student.group).filter((group): group is string => Boolean(group)),
+      ),
+    ).map((group) => ({
+      label: group,
+      value: group,
+      detail: "Group",
+    })),
+  ];
 
   function studentsHref(page: number) {
     const urlParams = new URLSearchParams();
@@ -102,11 +124,13 @@ export default async function AdminStudentsPage({
 
         <form action="/admin/students" className="search-panel" role="search">
           <Search size={18} />
-          <input
-            aria-label="Search students"
+          <SearchSuggestInput
+            ariaLabel="Search students"
             defaultValue={query}
             name="q"
             placeholder="Search students by name, email, or group"
+            suggestions={searchSuggestions}
+            submitOnSelect
           />
           <button className="secondary-action compact" type="submit">
             Search

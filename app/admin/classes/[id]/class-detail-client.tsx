@@ -302,7 +302,7 @@ function RosterPicker({
       />
       {matches.length > 0 ? (
         <ul className="classes-pick-list">
-          {matches.map((m) => (
+          {matches.slice(0, 3).map((m) => (
             <li key={m.id}>
               <button
                 type="button"
@@ -358,7 +358,7 @@ function AssignmentPicker({
           />
           {matches.length > 0 ? (
             <ul className="classes-pick-list">
-              {matches.map((s) => (
+              {matches.slice(0, 3).map((s) => (
                 <li key={s.id}>
                   <button type="button" onClick={() => setPicked({ id: s.id, title: s.title })}>
                     <Plus size={14} /> {s.title} <small>{s.slug}</small>

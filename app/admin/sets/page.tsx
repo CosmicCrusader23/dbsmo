@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { DeleteSetButton } from "./delete-set-button";
 
 export const dynamic = "force-dynamic";
@@ -61,6 +62,25 @@ export default async function AdminSetsPage({
   const totalPages = Math.max(1, Math.ceil(visibleSets.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedSets = visibleSets.slice((safePage - 1) * pageSize, safePage * pageSize);
+  const searchSuggestions = [
+    ...orderedSets.map((set) => ({
+      label: set.title,
+      value: set.title,
+      detail: `${set.order || set.slug} · ${set.status.toLowerCase()}`,
+    })),
+    ...orderedSets.map((set) => ({
+      label: set.slug,
+      value: set.slug,
+      detail: set.title,
+    })),
+    ...Array.from(new Set(orderedSets.flatMap((set) => [...set.topicTags, set.status]))).map(
+      (tag) => ({
+        label: tag,
+        value: tag,
+        detail: "Filter match",
+      }),
+    ),
+  ];
 
   function setsHref(next: { page?: number; status?: SetStatusFilter } = {}) {
     const urlParams = new URLSearchParams();
@@ -108,11 +128,13 @@ export default async function AdminSetsPage({
 
         <form action="/admin/sets" className="search-panel" role="search">
           <Search size={18} />
-          <input
-            aria-label="Search sets"
+          <SearchSuggestInput
+            ariaLabel="Search sets"
             defaultValue={query}
             name="q"
             placeholder="Search sets by title, slug, order, tag, or status"
+            suggestions={searchSuggestions}
+            submitOnSelect
           />
           {statusFilter !== "all" ? (
             <input name="status" type="hidden" value={statusFilter.toLowerCase()} />

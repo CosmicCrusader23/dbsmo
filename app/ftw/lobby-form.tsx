@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Play, Swords, Users, Search } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 
 type TagOption = { tag: string; count: number };
 
@@ -96,10 +97,16 @@ export function FtwLobbyForm({ tagOptions }: { tagOptions: TagOption[] }) {
         </div>
         <div className="ftw-tag-search">
           <Search size={14} />
-          <input
-            value={tagQuery}
-            onChange={(e) => setTagQuery(e.target.value)}
+          <SearchSuggestInput
+            ariaLabel="Search topics"
             placeholder="Search topics…"
+            suggestions={tagOptions.map((option) => ({
+              label: option.tag,
+              value: option.tag,
+              detail: `${option.count} problems`,
+            }))}
+            value={tagQuery}
+            onValueChange={setTagQuery}
           />
         </div>
         <div className="ftw-tag-row">

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 
 type Option = { value: string; label: string };
 
@@ -46,12 +47,16 @@ export function AuditFilters({
     <div className="audit-filters">
       <form className="audit-search" onSubmit={submitQuery}>
         <Search size={15} />
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+        <SearchSuggestInput
+          ariaLabel="Search events"
           placeholder="Search action, target type, or target id…"
-          aria-label="Search events"
+          suggestions={[...actionOptions, ...actorOptions].map((option) => ({
+            label: option.label,
+            value: option.value || option.label,
+            detail: option.value ? "Audit filter" : undefined,
+          }))}
+          value={query}
+          onValueChange={setQuery}
         />
       </form>
       <SearchableSelect
@@ -101,15 +106,14 @@ function SearchableSelect({
 
   useEffect(() => {
     if (open) {
-      setQuery("");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);
 
   const filtered = useMemo(() => {
     const s = query.trim().toLowerCase();
-    if (!s) return options;
-    return options.filter((o) => o.label.toLowerCase().includes(s));
+    const filteredOptions = !s ? options : options.filter((o) => o.label.toLowerCase().includes(s));
+    return filteredOptions.slice(0, 3);
   }, [query, options]);
 
   const current = options.find((o) => o.value === value);
@@ -123,7 +127,10 @@ function SearchableSelect({
       <button
         type="button"
         className="searchable-select-trigger"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          if (!open) setQuery("");
+          setOpen((v) => !v);
+        }}
       >
         <span className="searchable-select-label">{label}</span>
         <span className="searchable-select-caret" aria-hidden>
@@ -166,9 +173,7 @@ function SearchableSelect({
                 </button>
               </li>
             ))}
-            {filtered.length === 0 ? (
-              <li className="searchable-select-empty">No matches</li>
-            ) : null}
+            {filtered.length === 0 ? <li className="searchable-select-empty">No matches</li> : null}
           </ul>
         </div>
       ) : null}

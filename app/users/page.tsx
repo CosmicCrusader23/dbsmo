@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isStaffRole } from "@/lib/permissions";
 import { Avatar } from "@/app/avatar";
+import { SearchSuggestInput } from "@/app/search-suggest-input";
 
 export const dynamic = "force-dynamic";
 
@@ -71,6 +72,23 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
   const totalPages = Math.max(1, Math.ceil(userRows.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedRows = userRows.slice((safePage - 1) * pageSize, safePage * pageSize);
+  const searchSuggestions = [
+    ...userRows.map((user) => ({
+      label: user.displayLabel,
+      value: user.displayLabel,
+      detail: user.email,
+    })),
+    ...userRows.map((user) => ({
+      label: user.email,
+      value: user.email,
+      detail: user.role,
+    })),
+    ...Array.from(new Set(userRows.map((user) => user.role))).map((role) => ({
+      label: role,
+      value: role,
+      detail: "Role",
+    })),
+  ];
 
   function usersHref(page: number) {
     const urlParams = new URLSearchParams();
@@ -104,11 +122,13 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
 
       <form action="/users" className="search-panel" role="search">
         <Search size={18} />
-        <input
-          aria-label="Search users"
+        <SearchSuggestInput
+          ariaLabel="Search users"
           defaultValue={query}
           name="q"
           placeholder="Search users by name, email, or role"
+          suggestions={searchSuggestions}
+          submitOnSelect
         />
         <button className="secondary-action compact" type="submit">
           Search

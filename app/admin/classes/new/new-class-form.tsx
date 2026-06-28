@@ -89,7 +89,7 @@ export function NewClassForm() {
 
         {matches.length > 0 ? (
           <ul className="classes-pick-list">
-            {matches.map((m) => (
+            {matches.slice(0, 3).map((m) => (
               <li key={m.id}>
                 <button
                   type="button"

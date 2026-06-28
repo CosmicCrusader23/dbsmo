@@ -40,8 +40,7 @@ export function AnalyticsFilters({
     router.push("/admin/analytics");
   }
 
-  const hasFilter =
-    filters.some((f) => f.current) || from || to;
+  const hasFilter = filters.some((f) => f.current) || from || to;
 
   return (
     <div className="analytics-filter-bar">
@@ -107,15 +106,14 @@ function SearchableSelect({
 
   useEffect(() => {
     if (open) {
-      setQuery("");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return options;
-    return options.filter((o) => o.label.toLowerCase().includes(q));
+    const filteredOptions = !q ? options : options.filter((o) => o.label.toLowerCase().includes(q));
+    return filteredOptions.slice(0, 3);
   }, [query, options]);
 
   const current = options.find((o) => o.value === value);
@@ -129,7 +127,10 @@ function SearchableSelect({
       <button
         type="button"
         className="searchable-select-trigger"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          if (!open) setQuery("");
+          setOpen((v) => !v);
+        }}
       >
         <span className="searchable-select-label">{displayLabel}</span>
         <span className="searchable-select-caret" aria-hidden>
@@ -172,9 +173,7 @@ function SearchableSelect({
                 </button>
               </li>
             ))}
-            {filtered.length === 0 ? (
-              <li className="searchable-select-empty">No matches</li>
-            ) : null}
+            {filtered.length === 0 ? <li className="searchable-select-empty">No matches</li> : null}
           </ul>
         </div>
       ) : null}
