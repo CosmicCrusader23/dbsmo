@@ -13,3 +13,12 @@ storage
 .DS_Store
 *.zip
 !examples/*.zip
+
+# Local AI/code indexes
+.codegraph/
+obsidian-second-brain/
+opencode.jsonc
+
+# Obsidian local state
+DBSMO/.obsidian/
+DBSMO/.trash/

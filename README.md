@@ -37,6 +37,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Fixed create-set preview image rendering, including HTML statement normalization preserving `[[img:key]]` tokens.
 - Added Google account profile pictures as the default avatar fallback before deterministic initials, while preserving custom avatar URLs/uploads.
 - Added focused tests for image-token rendering in LaTeX and HTML statements and configured Vitest to understand the app `@/` import alias.
-- Kept solved sets readable while locked 
+- Kept solved sets readable while locked
 
 © 2026 Cosmic Crusader

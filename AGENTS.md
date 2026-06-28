@@ -1,6 +1,34 @@
 # AGENTS.md
 
+## AI navigation
+
+Before broad file searching:
+1. Use CodeGraph for repo structure and symbol/file relationships.
+2. Check project notes at:
+   /Users/cosmic/Documents/ObsidianVault/Projects/dbsmo/
+3. Treat Obsidian notes as memory, but verify against source code before editing.
+4. Ignore `.codegraph`, `node_modules`, `.next`, `out`, `dist`, and generated files unless needed.
 Rules for any AI agent working in this repo. Loaded into context every session.
+
+
+<!-- CODEGRAPH_START -->
+## CodeGraph
+
+In repositories indexed by CodeGraph (a `.codegraph/` directory exists at the repo root), reach for it BEFORE grep/find or reading files when you need to understand or locate code:
+
+- **MCP tool** (when available): `codegraph_explore` answers most code questions in one call — the relevant symbols' verbatim source plus the call paths between them, including dynamic-dispatch hops grep can't follow. Name a file or symbol in the query to read its current line-numbered source. If it's listed but deferred, load it by name via tool search.
+- **Shell** (always works): `codegraph explore "<symbol names or question>"` prints the same output.
+
+If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is the user's decision.
+<!-- CODEGRAPH_END -->
+
+## Obsidian Second Brain
+
+Project vault is at `DBSMO/`.
+
+Use `DBSMO/AGENTS.md` and `DBSMO/.codex/commands/` for Obsidian Second Brain workflows.
+Use CodeGraph for live code navigation before broad file searching.
+
 
 ## Git checkpoints — push to origin/main after every meaningful milestone
 

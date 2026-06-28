@@ -1,18 +1,13 @@
 {
   "mcpServers": {
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
-    },
     "codegraph": {
       "type": "stdio",
       "command": "codegraph",
       "args": [
         "serve",
-        "--mcp"
+        "--mcp",
+        "--path",
+        "/Users/cosmic/Documents/funni/dbsmo"
       ]
     }
   }
