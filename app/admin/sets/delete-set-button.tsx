@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type DeleteSetButtonProps = {
   setId: string;
@@ -65,7 +66,7 @@ export function DeleteSetButton({ setId, title, status, redirectTo }: DeleteSetB
         disabled={isDeleting}
         onClick={onDelete}
       >
-        {isDeleting ? <Loader2 size={14} className="spin-icon" /> : <Trash2 size={14} />}
+        {isDeleting ? <MathCurveLoader size={14} label="Deleting set" /> : <Trash2 size={14} />}
         {isDeleting ? "Deleting..." : "Delete"}
       </button>
       {error ? <small className="form-error">{error}</small> : null}

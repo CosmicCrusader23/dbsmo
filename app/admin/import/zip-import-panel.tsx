@@ -8,11 +8,11 @@ import {
   ExternalLink,
   FilePenLine,
   FileJson,
-  Loader2,
   ShieldCheck,
   UploadCloud,
   XCircle,
 } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import {
   createJsonImportDraftKey,
   saveJsonImportDraft,
@@ -287,7 +287,11 @@ export function ZipImportPanel() {
           disabled={!ready || isDryRunning}
           onClick={onDryRun}
         >
-          <ShieldCheck size={18} />
+          {isDryRunning ? (
+            <MathCurveLoader size={18} label="Checking JSON" />
+          ) : (
+            <ShieldCheck size={18} />
+          )}
           {isDryRunning ? "Checking…" : "Dry run"}
         </button>
         <button
@@ -296,7 +300,7 @@ export function ZipImportPanel() {
           disabled={!canImport || isImporting}
           onClick={onImport}
         >
-          {isImporting ? <Loader2 size={18} className="spin-icon" /> : null}
+          {isImporting ? <MathCurveLoader size={18} label="Importing JSON" /> : null}
           {isImporting ? "Importing…" : "Import JSON"}
           {!isImporting && <UploadCloud size={18} />}
         </button>

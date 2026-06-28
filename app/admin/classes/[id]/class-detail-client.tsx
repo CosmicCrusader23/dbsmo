@@ -3,13 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Plus,
-  Trash2,
-  X,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, Plus, Trash2, X } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type Member = { id: string; name: string; email: string; addedAt: string };
 type SetSummary = { id: string; slug: string; title: string };
@@ -130,7 +125,10 @@ export function ClassDetailClient({ classId }: { classId: string }) {
   if (!detail) {
     return (
       <main className="classes-shell">
-        <p>{error ?? "Loading…"}</p>
+        <p className="classes-loading">
+          <MathCurveLoader size={28} label="Loading class" />
+          <span>{error ?? "Loading…"}</span>
+        </p>
       </main>
     );
   }
@@ -149,7 +147,7 @@ export function ClassDetailClient({ classId }: { classId: string }) {
             disabled={deleting || busy}
             onClick={() => void deleteClass()}
           >
-            <Trash2 size={16} />
+            {deleting ? <MathCurveLoader size={16} label="Deleting class" /> : <Trash2 size={16} />}
             {deleting ? "Deleting..." : "Delete class"}
           </button>
           <Link href="/admin/classes" className="secondary-action">
@@ -159,6 +157,12 @@ export function ClassDetailClient({ classId }: { classId: string }) {
       </header>
 
       {error ? <p className="classes-error">{error}</p> : null}
+      {busy ? (
+        <p className="classes-loading compact">
+          <MathCurveLoader size={18} label="Updating class" />
+          <span>Updating class…</span>
+        </p>
+      ) : null}
 
       <div className="classes-summary-grid" aria-label="Class summary">
         <div>
@@ -181,10 +185,16 @@ export function ClassDetailClient({ classId }: { classId: string }) {
         <div className="classes-section-header">
           <div>
             <p className="eyebrow">Roster</p>
-            <h2>{detail.members.length} student{detail.members.length === 1 ? "" : "s"}</h2>
+            <h2>
+              {detail.members.length} student{detail.members.length === 1 ? "" : "s"}
+            </h2>
           </div>
         </div>
-        <RosterPicker onPick={addMembers} excludeIds={detail.members.map((m) => m.id)} disabled={busy} />
+        <RosterPicker
+          onPick={addMembers}
+          excludeIds={detail.members.map((m) => m.id)}
+          disabled={busy}
+        />
         {detail.members.length > 0 ? (
           <ul className="classes-roster">
             {detail.members.map((m) => (
@@ -213,7 +223,9 @@ export function ClassDetailClient({ classId }: { classId: string }) {
         <div className="classes-section-header">
           <div>
             <p className="eyebrow">Assignments</p>
-            <h2>{detail.assignments.length} set{detail.assignments.length === 1 ? "" : "s"}</h2>
+            <h2>
+              {detail.assignments.length} set{detail.assignments.length === 1 ? "" : "s"}
+            </h2>
           </div>
         </div>
         <AssignmentPicker onAssign={assignSet} disabled={busy} />
@@ -323,13 +335,13 @@ function AssignmentPicker({
 
   useEffect(() => {
     const ctrl = new AbortController();
-    const promise: Promise<{ sets: { id: string; title: string; slug: string }[] }> =
-      fetch(`/api/admin/classes/set-search?q=${encodeURIComponent(q.trim())}`, {
+    const promise: Promise<{ sets: { id: string; title: string; slug: string }[] }> = fetch(
+      `/api/admin/classes/set-search?q=${encodeURIComponent(q.trim())}`,
+      {
         signal: ctrl.signal,
-      }).then((r) => r.json());
-    promise
-      .then((d) => setMatches(d.sets))
-      .catch(() => {});
+      },
+    ).then((r) => r.json());
+    promise.then((d) => setMatches(d.sets)).catch(() => {});
     return () => ctrl.abort();
   }, [q]);
 

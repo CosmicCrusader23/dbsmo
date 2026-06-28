@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2, Hourglass, Loader2, Send, Timer, XCircle } from "lucide-react";
+import { ArrowRight, CheckCircle2, Hourglass, Send, Timer, XCircle } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 type ProblemPayload = {
@@ -170,7 +171,9 @@ export function FtwMatchClient({ matchId, tag, totalProblems, maxScore, initialS
       <section className="panel ftw-result">
         <Hourglass size={32} />
         <p className="eyebrow">Match complete</p>
-        <h2>{finalScore ?? score} / {maxScore}</h2>
+        <h2>
+          {finalScore ?? score} / {maxScore}
+        </h2>
         <p className="ftw-result-pct">{ratio}%</p>
         <p className="ftw-result-tag">{tag ?? "any topic"}</p>
         <div className="ftw-result-actions">
@@ -188,7 +191,7 @@ export function FtwMatchClient({ matchId, tag, totalProblems, maxScore, initialS
   if (!problem) {
     return (
       <section className="panel ftw-loading">
-        <Loader2 className="spin-icon" size={28} />
+        <MathCurveLoader size={28} label="Loading next problem" />
         <p>Loading next problem.</p>
       </section>
     );
@@ -201,7 +204,9 @@ export function FtwMatchClient({ matchId, tag, totalProblems, maxScore, initialS
     <section className="panel ftw-arena">
       <header className="ftw-arena-head">
         <div>
-          <p className="eyebrow">Problem {problemIndex + 1} of {totalProblems}</p>
+          <p className="eyebrow">
+            Problem {problemIndex + 1} of {totalProblems}
+          </p>
           <h2>{tag ?? "any topic"}</h2>
         </div>
         <div className="ftw-score-chip">
@@ -247,7 +252,11 @@ export function FtwMatchClient({ matchId, tag, totalProblems, maxScore, initialS
           className="primary-action"
           disabled={submitting || !answer.trim() || feedback !== null}
         >
-          {submitting ? <Loader2 size={18} className="spin-icon" /> : <Send size={18} />}
+          {submitting ? (
+            <MathCurveLoader size={18} label="Submitting answer" />
+          ) : (
+            <Send size={18} />
+          )}
           submit
         </button>
       </form>
@@ -257,7 +266,9 @@ export function FtwMatchClient({ matchId, tag, totalProblems, maxScore, initialS
           {feedback.kind === "correct" ? (
             <>
               <CheckCircle2 size={20} />
-              <span>+{feedback.points} pts in {(feedback.elapsedMs / 1000).toFixed(1)}s</span>
+              <span>
+                +{feedback.points} pts in {(feedback.elapsedMs / 1000).toFixed(1)}s
+              </span>
             </>
           ) : feedback.kind === "timeout" ? (
             <>

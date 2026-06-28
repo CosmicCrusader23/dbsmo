@@ -26,6 +26,7 @@ import {
   type ImportIssue,
 } from "@/lib/import/json-draft-storage";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type AnswerType = "INTEGER" | "DECIMAL" | "FRACTION" | "EXACT" | "SET" | "MULTIPLE" | "EXPRESSION";
 
@@ -318,7 +319,9 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
       return;
     }
 
-    const existingKeys = new Set(problems.flatMap((problem) => problem.imageAssets.map((a) => a.key)));
+    const existingKeys = new Set(
+      problems.flatMap((problem) => problem.imageAssets.map((a) => a.key)),
+    );
     const nextAssets: UploadedImageAsset[] = [];
 
     for (const file of selected) {
@@ -470,7 +473,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
             Back to sets
           </Link>
           <button className="primary-action" onClick={handleSubmit} disabled={saving}>
-            <Save size={16} />
+            {saving ? <MathCurveLoader size={16} label="Saving problem set" /> : <Save size={16} />}
             {saving ? "Saving..." : "Save problem set"}
           </button>
         </div>
@@ -574,7 +577,12 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
 
           <div className="form-field">
             <label htmlFor="set-order">Order</label>
-            <input id="set-order" type="text" value={order} onChange={(e) => setOrder(e.target.value)} />
+            <input
+              id="set-order"
+              type="text"
+              value={order}
+              onChange={(e) => setOrder(e.target.value)}
+            />
           </div>
 
           <div className="form-field">
@@ -810,7 +818,8 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
                   onChange={(event) => void handleImageFiles(p.id, event.target.files)}
                 />
                 <small className="form-hint">
-                  Images are inserted below this problem when saved. Use PNG, JPEG, GIF, or WebP up to 4MB each.
+                  Images are inserted below this problem when saved. Use PNG, JPEG, GIF, or WebP up
+                  to 4MB each.
                 </small>
                 {p.imageAssets.length > 0 ? (
                   <div className="image-asset-list">
@@ -939,7 +948,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
           {problems.reduce((s, p) => s + p.points, 0)} total points
         </span>
         <button className="primary-action" onClick={handleSubmit} disabled={saving}>
-          <Save size={16} />
+          {saving ? <MathCurveLoader size={16} label="Saving problem set" /> : <Save size={16} />}
           {saving ? "Saving..." : "Save problem set"}
         </button>
       </footer>

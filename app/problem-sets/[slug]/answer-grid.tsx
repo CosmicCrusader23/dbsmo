@@ -2,7 +2,8 @@
 
 import type { CSSProperties, FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CheckCircle2, Loader2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
+import { CheckCircle2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "./latex-statement";
 
 type SubmitResult = {
@@ -340,7 +341,8 @@ export function AnswerGrid({
                 Cancel
               </button>
               <button type="submit" className="primary-action" disabled={reportSubmitting}>
-                Submit
+                {reportSubmitting ? <MathCurveLoader size={16} label="Submitting report" /> : null}
+                {reportSubmitting ? "Submitting..." : "Submit"}
               </button>
             </div>
           </form>
@@ -465,7 +467,11 @@ export function AnswerGrid({
           disabled={isSubmitting || filledCount === 0}
           onClick={onSubmit}
         >
-          {isSubmitting ? <Loader2 size={18} className="spin-icon" /> : <CheckCircle2 size={18} />}
+          {isSubmitting ? (
+            <MathCurveLoader size={18} label="Submitting set" />
+          ) : (
+            <CheckCircle2 size={18} />
+          )}
           {isSubmitting ? "Submitting…" : "Submit set"}
         </button>
       </>
@@ -846,7 +852,7 @@ export function AnswerGrid({
             onClick={onSubmit}
           >
             {isSubmitting ? (
-              <Loader2 size={18} className="spin-icon" />
+              <MathCurveLoader size={18} label="Submitting set" />
             ) : (
               <CheckCircle2 size={18} />
             )}

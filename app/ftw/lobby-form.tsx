@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Play, Swords, Users, Search } from "lucide-react";
+import { Play, Swords, Users, Search } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type TagOption = { tag: string; count: number };
 
@@ -142,26 +143,33 @@ export function FtwLobbyForm({ tagOptions }: { tagOptions: TagOption[] }) {
             disabled={busy !== ""}
           >
             <span className="ftw-mode-icon">
-              {busy === "solo" ? <Loader2 size={20} className="spin-icon" /> : <Play size={20} />}
+              {busy === "solo" ? (
+                <MathCurveLoader size={20} label="Starting solo run" />
+              ) : (
+                <Play size={20} />
+              )}
             </span>
             <strong>Solo run</strong>
             <small>Race the clock alone</small>
           </button>
-          <button
-            type="button"
-            className="ftw-mode-card"
-            onClick={hostRoom}
-            disabled={busy !== ""}
-          >
+          <button type="button" className="ftw-mode-card" onClick={hostRoom} disabled={busy !== ""}>
             <span className="ftw-mode-icon">
-              {busy === "host" ? <Loader2 size={20} className="spin-icon" /> : <Swords size={20} />}
+              {busy === "host" ? (
+                <MathCurveLoader size={20} label="Creating room" />
+              ) : (
+                <Swords size={20} />
+              )}
             </span>
             <strong>Host room</strong>
             <small>Invite friends with a code</small>
           </button>
           <form className="ftw-mode-card join" onSubmit={joinRoom}>
             <span className="ftw-mode-icon">
-              {busy === "join" ? <Loader2 size={20} className="spin-icon" /> : <Users size={20} />}
+              {busy === "join" ? (
+                <MathCurveLoader size={20} label="Joining room" />
+              ) : (
+                <Users size={20} />
+              )}
             </span>
             <strong>Join a room</strong>
             <div className="ftw-join-input-row">

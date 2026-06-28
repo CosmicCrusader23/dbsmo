@@ -2145,17 +2145,105 @@ img.avatar {
   font-size: 0.82rem;
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+.math-curve-loader {
+  --loader-size: 18px;
+  --loader-duration: 1600ms;
+  display: inline-flex;
+  width: var(--loader-size);
+  height: var(--loader-size);
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.2em;
+  color: currentColor;
+}
+
+.math-curve-loader svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.math-curve-loader-rotor {
+  animation: math-curve-spin calc(var(--loader-duration) * 1.7) linear infinite;
+  transform-origin: 50px 50px;
+}
+
+.math-curve-loader-track,
+.math-curve-loader-path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.math-curve-loader-track {
+  opacity: 0.15;
+  stroke-width: 6;
+}
+
+.math-curve-loader-path {
+  animation: math-curve-dash var(--loader-duration) ease-in-out infinite;
+  opacity: 0.92;
+  stroke-dasharray: 24 76;
+  stroke-width: 7;
+}
+
+.math-curve-loader-dot {
+  animation: math-curve-pulse calc(var(--loader-duration) * 0.7) ease-in-out infinite;
+  fill: currentColor;
+  opacity: 0.55;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.math-curve-loader-dot.rose-five,
+.math-curve-loader-dot.cardioid {
+  opacity: 0.68;
+}
+
+.math-curve-loader-dot.lissajous,
+.math-curve-loader-dot.hypotrochoid {
+  opacity: 0.5;
+}
+
+@keyframes math-curve-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-.spin-icon {
-  animation: spin 1s linear infinite;
+@keyframes math-curve-dash {
+  0% {
+    stroke-dashoffset: 100;
+  }
+
+  50% {
+    stroke-dasharray: 38 62;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes math-curve-pulse {
+  0%,
+  100% {
+    transform: scale(0.55);
+  }
+
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .math-curve-loader-rotor,
+  .math-curve-loader-path,
+  .math-curve-loader-dot {
+    animation: none;
+  }
 }
 
 /* ── Theme toggle ────────────────────────────────────── */
@@ -4406,9 +4494,13 @@ html.dark .confetti-triangles span {
 }
 
 .settings-loading {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
   color: var(--color-muted);
   padding: 4rem 0;
+  text-align: center;
 }
 
 .settings-card {
@@ -7454,6 +7546,8 @@ html:not(.light) .ftw-rank.rank-1 {
 
 .practice-loading {
   display: flex;
+  align-items: center;
+  gap: 12px;
   justify-content: center;
   padding: 40px;
   color: var(--color-muted);
@@ -7679,6 +7773,9 @@ html:not(.light) .ftw-rank.rank-1 {
 }
 
 .ftw-waiting {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   color: var(--color-muted);
   font-style: italic;
 }
@@ -9358,6 +9455,8 @@ html:not(.light) .ftw-rank.rank-1 {
 .classes-pick-chips li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; background: rgba(240, 93, 155, 0.12); color: var(--color-pink); font-weight: 600; }
 .classes-pick-chips button { background: transparent; border: none; cursor: pointer; padding: 0; display: inline-flex; }
 .classes-error { color: var(--color-danger); font-weight: 600; }
+.classes-loading { display: inline-flex; align-items: center; gap: 10px; color: var(--color-muted); font-weight: 800; }
+.classes-loading.compact { margin: 0 0 10px; font-size: 0.86rem; }
 .classes-roster, .classes-assignments { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 6px; }
 .classes-roster li, .classes-assignments li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 12px; background: var(--color-surface-alt); border: 1px solid var(--color-border); border-radius: 10px; }
 .classes-roster li > span { display: flex; flex-direction: column; }

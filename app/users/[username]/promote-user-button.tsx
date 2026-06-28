@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ShieldCheck } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type Role = "STUDENT" | "TEACHER" | "CONTENT_EDITOR" | "ANALYST" | "ADMIN";
 
@@ -54,7 +55,7 @@ export function PromoteUserButton({ userId, currentRole }: { userId: string; cur
           ))}
         </select>
       </label>
-      <ShieldCheck size={16} />
+      {isSaving ? <MathCurveLoader size={16} label="Saving role" /> : <ShieldCheck size={16} />}
       {error ? <span className="form-error">{error}</span> : null}
     </div>
   );

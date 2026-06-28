@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Heart, Loader2 } from "lucide-react";
+import { Heart } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type Props = {
   targetUserId: string;
@@ -50,7 +51,7 @@ export function FriendButton({ targetUserId, initialIsFriend }: Props) {
         type="button"
       >
         {isSaving ? (
-          <Loader2 size={28} className="spin-icon" />
+          <MathCurveLoader size={28} label="Saving friend status" />
         ) : (
           <Heart size={32} fill={isFriend ? "currentColor" : "none"} />
         )}

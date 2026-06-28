@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Check, Eye, Trash2, X } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type Props = {
   reportId: string;
@@ -12,10 +13,11 @@ type Props = {
 
 export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loadingAction, setLoadingAction] = useState<string | null>(null);
+  const loading = loadingAction !== null;
 
   async function updateStatus(status: string) {
-    setLoading(true);
+    setLoadingAction(status);
     try {
       await fetch(`/api/admin/feedback/${reportId}`, {
         method: "PATCH",
@@ -24,19 +26,19 @@ export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
       });
       router.refresh();
     } finally {
-      setLoading(false);
+      setLoadingAction(null);
     }
   }
 
   async function deleteReport() {
-    setLoading(true);
+    setLoadingAction("DELETE");
     try {
       await fetch(`/api/admin/feedback/${reportId}`, {
         method: "DELETE",
       });
       router.refresh();
     } finally {
-      setLoading(false);
+      setLoadingAction(null);
     }
   }
 
@@ -47,7 +49,12 @@ export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
           {adminNote || "Done"}
         </span>
         <button className="btn-sm btn-danger" disabled={loading} onClick={deleteReport}>
-          <Trash2 size={12} /> Delete
+          {loadingAction === "DELETE" ? (
+            <MathCurveLoader size={12} label="Deleting report" />
+          ) : (
+            <Trash2 size={12} />
+          )}{" "}
+          Delete
         </button>
       </div>
     );
@@ -61,7 +68,12 @@ export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
           disabled={loading}
           onClick={() => updateStatus("REVIEWING")}
         >
-          <Eye size={12} /> Review
+          {loadingAction === "REVIEWING" ? (
+            <MathCurveLoader size={12} label="Marking report for review" />
+          ) : (
+            <Eye size={12} />
+          )}{" "}
+          Review
         </button>
       )}
       <button
@@ -69,14 +81,24 @@ export function FeedbackActions({ reportId, currentStatus, adminNote }: Props) {
         disabled={loading}
         onClick={() => updateStatus("RESOLVED")}
       >
-        <Check size={12} /> Resolve
+        {loadingAction === "RESOLVED" ? (
+          <MathCurveLoader size={12} label="Resolving report" />
+        ) : (
+          <Check size={12} />
+        )}{" "}
+        Resolve
       </button>
       <button
         className="btn-sm btn-danger"
         disabled={loading}
         onClick={() => updateStatus("REJECTED")}
       >
-        <X size={12} /> Reject
+        {loadingAction === "REJECTED" ? (
+          <MathCurveLoader size={12} label="Rejecting report" />
+        ) : (
+          <X size={12} />
+        )}{" "}
+        Reject
       </button>
     </div>
   );

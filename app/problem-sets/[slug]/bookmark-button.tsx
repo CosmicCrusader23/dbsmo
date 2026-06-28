@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Star } from "lucide-react";
+import { Star } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type BookmarkButtonProps = {
   problemSetId: string;
@@ -52,7 +53,7 @@ export function BookmarkButton({ problemSetId, initialBookmarked }: BookmarkButt
         type="button"
       >
         {isSaving ? (
-          <Loader2 size={22} className="spin-icon" />
+          <MathCurveLoader size={22} label="Saving bookmark" />
         ) : (
           <Star size={24} fill={isBookmarked ? "currentColor" : "none"} />
         )}

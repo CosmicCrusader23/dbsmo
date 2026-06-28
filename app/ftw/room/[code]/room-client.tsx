@@ -2,7 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, ArrowLeft, CheckCircle2, Copy, Loader2, Play, Send, Users, XCircle } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle2,
+  Copy,
+  Play,
+  Send,
+  Users,
+  XCircle,
+} from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 type Player = {
@@ -191,7 +201,7 @@ export function FtwRoomClient({
   if (!state) {
     return (
       <section className="panel ftw-loading">
-        <Loader2 className="spin-icon" size={28} />
+        <MathCurveLoader size={28} label="Loading room" />
         <p>{error ?? "Loading room…"}</p>
       </section>
     );
@@ -234,7 +244,11 @@ export function FtwRoomClient({
                   onClick={joinRoom}
                   disabled={joining}
                 >
-                  {joining ? <Loader2 size={18} className="spin-icon" /> : <Users size={18} />}
+                  {joining ? (
+                    <MathCurveLoader size={18} label="Joining room" />
+                  ) : (
+                    <Users size={18} />
+                  )}
                   Join room
                 </button>
               ) : isHost ? (
@@ -243,7 +257,10 @@ export function FtwRoomClient({
                   Start match
                 </button>
               ) : (
-                <p className="ftw-waiting">Waiting for host to start…</p>
+                <p className="ftw-waiting">
+                  <MathCurveLoader size={16} label="Waiting for host" />
+                  <span>Waiting for host to start…</span>
+                </p>
               )}
             </section>
           ) : state.status === "IN_PROGRESS" && state.current ? (
@@ -296,9 +313,7 @@ export function FtwRoomClient({
                 >
                   <input
                     className="form-input"
-                    placeholder={
-                      state.current.myAnswer?.submitted ? "answer locked in" : "answer"
-                    }
+                    placeholder={state.current.myAnswer?.submitted ? "answer locked in" : "answer"}
                     value={answer}
                     autoComplete="off"
                     autoFocus
@@ -309,12 +324,14 @@ export function FtwRoomClient({
                     type="submit"
                     className="primary-action"
                     disabled={
-                      submitting ||
-                      !answer.trim() ||
-                      Boolean(state.current.myAnswer?.submitted)
+                      submitting || !answer.trim() || Boolean(state.current.myAnswer?.submitted)
                     }
                   >
-                    {submitting ? <Loader2 size={18} className="spin-icon" /> : <Send size={18} />}
+                    {submitting ? (
+                      <MathCurveLoader size={18} label="Submitting answer" />
+                    ) : (
+                      <Send size={18} />
+                    )}
                     {state.current.myAnswer?.submitted ? "submitted" : "submit"}
                   </button>
                 </form>
@@ -322,6 +339,7 @@ export function FtwRoomClient({
 
               {state.current.myAnswer?.submitted && !state.current.locked ? (
                 <div className="ftw-locked-in is-pending">
+                  <MathCurveLoader size={16} label="Waiting for other players" />
                   <span>
                     Locked in
                     {state.current.myAnswer.elapsedMs !== null
@@ -344,7 +362,7 @@ export function FtwRoomClient({
                         disabled={advancing}
                       >
                         {advancing ? (
-                          <Loader2 size={16} className="spin-icon" />
+                          <MathCurveLoader size={16} label="Advancing round" />
                         ) : (
                           <ArrowRight size={16} />
                         )}
@@ -376,10 +394,7 @@ export function FtwRoomClient({
                         const seconds =
                           a.elapsedMs !== null ? (a.elapsedMs / 1000).toFixed(1) : "—";
                         return (
-                          <li
-                            key={a.userId}
-                            className={a.isCorrect ? "is-correct" : "is-wrong"}
-                          >
+                          <li key={a.userId} className={a.isCorrect ? "is-correct" : "is-wrong"}>
                             <span className={`ftw-rank rank-${idx + 1}`}>{idx + 1}</span>
                             <span className="ftw-leader-name">{player?.name ?? "—"}</span>
                             <span className="ftw-reveal-time">{seconds}s</span>

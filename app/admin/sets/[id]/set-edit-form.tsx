@@ -11,7 +11,6 @@ import {
   FileText,
   Hash,
   ImageIcon,
-  Loader2,
   Plus,
   RotateCcw,
   Save,
@@ -19,6 +18,7 @@ import {
   Upload,
 } from "lucide-react";
 import Link from "next/link";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { CANONICAL_TAGS, normalizeProblemTag, normalizeTagList } from "@/lib/problem-tags";
 import { DeleteSetButton } from "../delete-set-button";
@@ -293,7 +293,9 @@ export function SetEditForm({ set }: { set: SetData }) {
       return;
     }
 
-    const existingKeys = new Set(problems.flatMap((problem) => problem.imageAssets.map((a) => a.key)));
+    const existingKeys = new Set(
+      problems.flatMap((problem) => problem.imageAssets.map((a) => a.key)),
+    );
     const nextAssets: UploadedImageAsset[] = [];
     for (const file of selected) {
       if (!["image/png", "image/jpeg", "image/gif", "image/webp"].includes(file.type)) {
@@ -471,7 +473,11 @@ export function SetEditForm({ set }: { set: SetData }) {
             disabled={isRegrading}
             onClick={onRegrade}
           >
-            {isRegrading ? <Loader2 size={18} className="spin-icon" /> : <RotateCcw size={18} />}
+            {isRegrading ? (
+              <MathCurveLoader size={18} label="Regrading set" />
+            ) : (
+              <RotateCcw size={18} />
+            )}
             {isRegrading ? "Regrading..." : "Regrade"}
           </button>
           <button className="secondary-action" type="button" onClick={downloadJson}>
@@ -485,7 +491,7 @@ export function SetEditForm({ set }: { set: SetData }) {
             redirectTo="/admin/sets"
           />
           <button className="primary-action" type="button" disabled={isSaving} onClick={onSave}>
-            {isSaving ? <Loader2 size={18} className="spin-icon" /> : <Save size={18} />}
+            {isSaving ? <MathCurveLoader size={18} label="Saving set" /> : <Save size={18} />}
             {isSaving ? "Saving…" : "Save changes"}
           </button>
           <Link className="secondary-action" href="/dashboard">
@@ -684,7 +690,9 @@ export function SetEditForm({ set }: { set: SetData }) {
                         type="number"
                         min={1}
                         value={problem.number}
-                        onChange={(e) => updateProblem(problem.id, "number", Number(e.target.value))}
+                        onChange={(e) =>
+                          updateProblem(problem.id, "number", Number(e.target.value))
+                        }
                         onClick={(e) => e.stopPropagation()}
                         placeholder="ID"
                       />

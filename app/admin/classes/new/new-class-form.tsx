@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Plus, X } from "lucide-react";
+import { ArrowLeft, Plus, X } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type Match = { id: string; name: string; email: string };
 
@@ -122,7 +123,7 @@ export function NewClassForm() {
         {error ? <p className="classes-error">{error}</p> : null}
 
         <button type="submit" className="primary-action" disabled={submitting || !name.trim()}>
-          {submitting ? <Loader2 size={16} className="spin-icon" /> : null} Create class
+          {submitting ? <MathCurveLoader size={16} label="Creating class" /> : null} Create class
         </button>
       </form>
     </main>

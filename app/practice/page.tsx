@@ -8,13 +8,13 @@ import {
   CheckCircle2,
   Crosshair,
   Infinity as InfinityIcon,
-  Loader2,
   SkipForward,
   Target,
   Trophy,
   XCircle,
   Search,
 } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "../problem-sets/[slug]/latex-statement";
 
 type Problem = {
@@ -216,7 +216,7 @@ export default function PracticePage() {
 
             {loadingTags ? (
               <div className="practice-loading">
-                <Loader2 className="spin-icon" size={28} />
+                <MathCurveLoader size={28} label="Loading categories" />
                 <span>Loading categories…</span>
               </div>
             ) : tags.length === 0 ? (
@@ -284,7 +284,7 @@ export default function PracticePage() {
 
               {loadingProblem ? (
                 <div className="practice-loading practice-loading-lg">
-                  <Loader2 className="spin-icon" size={36} />
+                  <MathCurveLoader size={36} label="Loading next problem" />
                   <span>Pulling next problem…</span>
                 </div>
               ) : problemMessage ? (
@@ -330,7 +330,7 @@ export default function PracticePage() {
                             disabled={!answer.trim() || isSubmitting}
                           >
                             {isSubmitting ? (
-                              <Loader2 size={16} className="spin-icon" />
+                              <MathCurveLoader size={16} label="Submitting answer" />
                             ) : (
                               <Crosshair size={16} />
                             )}

@@ -4,6 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { ArrowLeft, Save, User, CheckCircle2, AlertCircle, Moon, Sun } from "lucide-react";
 import { Avatar } from "@/app/avatar";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 
 const MAX_AVATAR_BYTES = 512 * 1024;
 const THEME_STORAGE_KEY = "mo-theme";
@@ -148,7 +149,7 @@ export default function SettingsPage() {
     setError(null);
     setSuccess(null);
     setSaving(true);
-    
+
     let parsedTypewriter = typewriterSettings;
     try {
       parsedTypewriter = {
@@ -198,7 +199,10 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <main className="settings-shell">
-        <p className="settings-loading">Loading…</p>
+        <p className="settings-loading">
+          <MathCurveLoader size={28} label="Loading settings" />
+          <span>Loading…</span>
+        </p>
       </main>
     );
   }
@@ -388,10 +392,19 @@ export default function SettingsPage() {
               min="10"
               max="500"
               value={typewriterSettings.typeSpeed}
-              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Number(e.target.value) })}
-              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)) })}
+              onChange={(e) =>
+                setTypewriterSettings({ ...typewriterSettings, typeSpeed: Number(e.target.value) })
+              }
+              onBlur={(e) =>
+                setTypewriterSettings({
+                  ...typewriterSettings,
+                  typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)),
+                })
+              }
             />
-            <small className="form-hint">Time between typing each character. Range: 10 - 500. Default: 42</small>
+            <small className="form-hint">
+              Time between typing each character. Range: 10 - 500. Default: 42
+            </small>
           </div>
 
           <div className="settings-row">
@@ -401,10 +414,22 @@ export default function SettingsPage() {
               min="10"
               max="500"
               value={typewriterSettings.deleteSpeed}
-              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, deleteSpeed: Number(e.target.value) })}
-              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, deleteSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 22)) })}
+              onChange={(e) =>
+                setTypewriterSettings({
+                  ...typewriterSettings,
+                  deleteSpeed: Number(e.target.value),
+                })
+              }
+              onBlur={(e) =>
+                setTypewriterSettings({
+                  ...typewriterSettings,
+                  deleteSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 22)),
+                })
+              }
             />
-            <small className="form-hint">Time between deleting each character. Range: 10 - 500. Default: 22</small>
+            <small className="form-hint">
+              Time between deleting each character. Range: 10 - 500. Default: 22
+            </small>
           </div>
 
           <div className="settings-row">
@@ -414,10 +439,19 @@ export default function SettingsPage() {
               min="500"
               max="15000"
               value={typewriterSettings.holdMs}
-              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, holdMs: Number(e.target.value) })}
-              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, holdMs: Math.max(500, Math.min(15000, Number(e.target.value) || 3676)) })}
+              onChange={(e) =>
+                setTypewriterSettings({ ...typewriterSettings, holdMs: Number(e.target.value) })
+              }
+              onBlur={(e) =>
+                setTypewriterSettings({
+                  ...typewriterSettings,
+                  holdMs: Math.max(500, Math.min(15000, Number(e.target.value) || 3676)),
+                })
+              }
             />
-            <small className="form-hint">Read time before deleting. Range: 500 - 15000. Default: 3676</small>
+            <small className="form-hint">
+              Read time before deleting. Range: 500 - 15000. Default: 3676
+            </small>
           </div>
 
           <div className="settings-row">
@@ -427,10 +461,19 @@ export default function SettingsPage() {
               min="100"
               max="5000"
               value={typewriterSettings.betweenMs}
-              onChange={(e) => setTypewriterSettings({ ...typewriterSettings, betweenMs: Number(e.target.value) })}
-              onBlur={(e) => setTypewriterSettings({ ...typewriterSettings, betweenMs: Math.max(100, Math.min(5000, Number(e.target.value) || 280)) })}
+              onChange={(e) =>
+                setTypewriterSettings({ ...typewriterSettings, betweenMs: Number(e.target.value) })
+              }
+              onBlur={(e) =>
+                setTypewriterSettings({
+                  ...typewriterSettings,
+                  betweenMs: Math.max(100, Math.min(5000, Number(e.target.value) || 280)),
+                })
+              }
             />
-            <small className="form-hint">Pause before the next greeting starts. Range: 100 - 5000. Default: 280</small>
+            <small className="form-hint">
+              Pause before the next greeting starts. Range: 100 - 5000. Default: 280
+            </small>
           </div>
 
           <div className="settings-row">
@@ -476,7 +519,7 @@ export default function SettingsPage() {
           )}
 
           <button className="primary-action settings-save" onClick={handleSave} disabled={saving}>
-            <Save size={16} />
+            {saving ? <MathCurveLoader size={16} label="Saving settings" /> : <Save size={16} />}
             {saving ? "Saving…" : "Save"}
           </button>
         </div>

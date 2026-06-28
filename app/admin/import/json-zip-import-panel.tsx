@@ -9,11 +9,11 @@ import {
   ExternalLink,
   FileArchive,
   FilePenLine,
-  Loader2,
   ShieldCheck,
   UploadCloud,
   XCircle,
 } from "lucide-react";
+import { MathCurveLoader } from "@/app/math-curve-loader";
 import {
   createJsonImportDraftKey,
   saveJsonImportDraft,
@@ -149,7 +149,9 @@ export function JsonZipImportPanel() {
       });
 
       if (invalidFiles.length > 0) {
-        setZipError("ZIP archives here may only contain .json files and matching image .zip files.");
+        setZipError(
+          "ZIP archives here may only contain .json files and matching image .zip files.",
+        );
         return;
       }
 
@@ -355,7 +357,7 @@ export function JsonZipImportPanel() {
       {isReadingZip ? (
         <div className="dry-run-result" aria-live="polite">
           <div className="issue-row ok">
-            <Loader2 size={16} className="spin-icon" />
+            <MathCurveLoader size={16} label="Reading ZIP archive" />
             <span>Reading ZIP archive…</span>
           </div>
         </div>
@@ -387,7 +389,11 @@ export function JsonZipImportPanel() {
                       disabled={isDryRunning[entry.name] === true}
                       onClick={() => onDryRun(entry)}
                     >
-                      <ShieldCheck size={16} />
+                      {isDryRunning[entry.name] ? (
+                        <MathCurveLoader size={16} label="Checking JSON" />
+                      ) : (
+                        <ShieldCheck size={16} />
+                      )}
                       {isDryRunning[entry.name] ? "Checking…" : "Dry run"}
                     </button>
                     <button
@@ -397,7 +403,7 @@ export function JsonZipImportPanel() {
                       onClick={() => onImport(entry)}
                     >
                       {isImporting[entry.name] ? (
-                        <Loader2 size={16} className="spin-icon" />
+                        <MathCurveLoader size={16} label="Importing JSON" />
                       ) : (
                         <UploadCloud size={16} />
                       )}
