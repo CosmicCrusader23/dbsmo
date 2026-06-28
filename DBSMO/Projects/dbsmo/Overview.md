@@ -21,7 +21,7 @@ The app is implemented as a Next.js App Router application using React, TypeScri
 
 ## Primary User Types
 
-- Student: signs in, views visible problem sets, submits answers, posts/reads set writeups, tracks attempts, uses practice mode, sees assignments, manages profile/privacy, and appears on leaderboard if enabled (sources: `app/dashboard/page.tsx`, `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/practice/page.tsx`, `app/settings/page.tsx`, `app/leaderboard/page.tsx`).
+- Student: signs in, views visible problem sets, reads pinned class announcements, submits answers, posts/reads set writeups, tracks attempts, uses practice mode, sees assignments, manages profile/privacy, and appears on leaderboard if enabled (sources: `app/dashboard/page.tsx`, `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/practice/page.tsx`, `app/settings/page.tsx`, `app/leaderboard/page.tsx`).
 - Teacher/staff: manages classes and assignments if permissioned, sees student progress, and accesses staff views according to role permissions (sources: `lib/permissions.ts`, `app/admin/classes/page.tsx`, `app/api/admin/classes/[id]/route.ts`, `app/admin/students/page.tsx`).
 - Admin/content staff: creates and edits problem sets, imports JSON/ZIP sets, exports data, handles feedback, views audit logs, and accesses all admin surfaces allowed by permissions (sources: `app/admin/create/page-client.tsx`, `app/admin/sets/[id]/set-edit-form.tsx`, `app/admin/import/page.tsx`, `app/api/admin/export-jobs/route.ts`, `app/admin/feedback/page.tsx`, `app/admin/audit/page.tsx`).
 
@@ -40,7 +40,7 @@ The app is implemented as a Next.js App Router application using React, TypeScri
 - Practice mode: `app/practice/page.tsx`, `app/api/practice/tags/route.ts`, `app/api/practice/next/route.ts`, `app/api/practice/submit/route.ts`, `PracticeSolve` model in `prisma/schema.prisma`.
 - Admin content authoring: `app/admin/create/page-client.tsx`, `app/admin/sets/[id]/set-edit-form.tsx`, `app/api/admin/create-set/route.ts`, `app/api/admin/sets/[id]/route.ts`, `lib/problem-set-authoring.ts`.
 - Import/export: `app/admin/import/*`, `app/api/admin/import/*`, `lib/import/*`, `app/api/admin/export-jobs/route.ts`, `lib/admin-exports.ts`.
-- Classes/assignments: `app/admin/classes/*`, `app/classes/page.tsx`, `app/dashboard/assignments-widget.tsx`, `app/api/admin/classes/*`, `app/api/assignments/mine/route.ts`, `lib/classes.ts`.
+- Classes/assignments/announcements: `app/admin/classes/*`, `app/classes/page.tsx`, `app/classes/announcement-composer.tsx`, `app/dashboard/assignments-widget.tsx`, `app/api/admin/classes/*`, `app/api/admin/announcements/route.ts`, `app/api/assignments/mine/route.ts`, `lib/classes.ts`.
 - Analytics/audit/feedback: `app/admin/analytics/*`, `lib/analytics.ts`, `app/admin/audit/*`, `lib/audit.ts`, `app/admin/feedback/*`, `app/api/submit/report/route.ts`.
 - FTW and playground games: `app/ftw/*`, `app/api/ftw/*`, `lib/ftw.ts`, `lib/ftw-room.ts`, `lib/ftw-room-server.ts`, `lib/playground/bosses.ts`, `app/playground/*`.
 

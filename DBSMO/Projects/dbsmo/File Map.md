@@ -33,7 +33,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/problem-sets/` - catalog, problem-set detail page, answering grid, bookmarking, writeups, LaTeX/HTML statement rendering (sources: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/latex-statement.tsx`, `app/problem-sets/[slug]/bookmark-button.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`).
 - `app/writeups/page.tsx` - global writeups directory with latest/top tabs and problem-set search (source: route file).
 - `app/practice/page.tsx` - practice-mode client surface backed by `/api/practice/*` (source: `app/practice/page.tsx`).
-- `app/classes/page.tsx` - student-facing classes route (source: `app/classes/page.tsx`).
+- `app/classes/page.tsx` and `app/classes/announcement-composer.tsx` - student-facing classes route plus teacher/admin class-announcement composer (sources: named files).
 - `app/users/`, `app/leaderboard/page.tsx`, `app/settings/page.tsx` - public/user profile, friends, promotion UI, leaderboard, and account settings (sources: named files).
 - `app/ftw/` - solo and multiplayer FTW pages and clients (sources: `app/ftw/page.tsx`, `app/ftw/lobby-form.tsx`, `app/ftw/match/[id]/match-client.tsx`, `app/ftw/room/[code]/room-client.tsx`).
 - `app/playground/` - boss-battle playground pages and client battle UI (sources: `app/playground/page.tsx`, `app/playground/hub.tsx`, `app/playground/[slug]/page.tsx`, `app/playground/[slug]/battle.tsx`).
@@ -50,6 +50,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/api/settings/route.ts` - profile settings read/update, display name/avatar/privacy/theme/greeting settings (source: route file).
 - `app/api/friends/[userId]/route.ts` - friend toggle endpoint used by profile UI (source: route file).
 - `app/api/assignments/mine/route.ts` - current student's assignments for dashboard widget (source: route file).
+- `app/api/admin/announcements/route.ts` - teacher/admin creation endpoint for class-targeted announcements (source: route file).
 - `app/api/admin/**` - admin/staff APIs for backup, classes, content, imports, exports, feedback, role changes, and set editing/regrading/export (sources: `app/api/admin/**`).
 - `app/api/ftw/**` - FTW solo matches and room lifecycle/state/submit endpoints (sources: `app/api/ftw/**`).
 
@@ -71,7 +72,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 
 ## `prisma/`
 
-- `prisma/schema.prisma` - database schema for users, auth tables, friendships, problem sets/problems, attempts/responses, feedback, files/assets, writeups/votes, audit logs, export jobs, FTW solo/rooms, and classes/assignments.
+- `prisma/schema.prisma` - database schema for users, auth tables, friendships, problem sets/problems, attempts/responses, feedback, files/assets, writeups/votes, audit logs, export jobs, FTW solo/rooms, and classes/assignments/announcements.
 - `prisma/seed.ts` - demo admin/student/problem set/feedback seeding via Prisma Client and Prisma PG adapter.
 - `prisma/migrations/` - existing SQL migration files, but deployment docs currently instruct `prisma db push` rather than `prisma migrate deploy` (sources: `prisma/migrations/*`, `SETUP.md`).
 

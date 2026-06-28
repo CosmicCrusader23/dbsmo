@@ -49,6 +49,17 @@ See [import-format.md](./import-format.md) for the JSON format specification.
 
 User profile pages include an **Authored tasks** section above the set/problem grid. Public viewers see authored sets that are currently visible to students. Staff and profile owners can also see draft or archived authored sets, with quick links to open the set, view analytics, or manage it when their role allows those actions.
 
+## Class Announcements
+
+Teachers and admins can post class announcements from the **Classes** page.
+
+1. Open **Classes** in the sidebar.
+2. In **Message classes**, enter an announcement title and message.
+3. Select one or more target classes.
+4. Click **Post**.
+
+Students in the selected classes see the message pinned at the top of their dashboard the next time the page loads. There is no real-time push.
+
 ## Managing Students
 
 1. Click **Students** in the sidebar to see all registered students.

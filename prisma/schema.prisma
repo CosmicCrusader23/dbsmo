@@ -76,43 +76,44 @@ enum FtwRoomStatus {
 }
 
 model User {
-  id                  String               @id @default(cuid())
-  email               String               @unique
-  name                String?
-  emailVerified       DateTime?
-  image               String?
-  displayName         String?
-  avatarUrl           String?
-  role                UserRole             @default(STUDENT)
-  group               String?
-  profileVisible      Boolean              @default(true)
-  leaderboardVisible  Boolean              @default(true)
-  theme               String               @default("light")
-  greetingSettings    String?
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  lastLoginAt         DateTime?
-  attempts            Attempt[]
-  feedbackReports     FeedbackReport[]
-  uploadedFiles       ImportedFile[]
-  createdProblemSets  ProblemSet[]         @relation("ProblemSetCreator")
-  problemSetBookmarks ProblemSetBookmark[]
-  writeups            Writeup[]
-  writeupVotes        WriteupVote[]
-  accounts            Account[]
-  sessions            Session[]
-  sentFriendships     Friendship[]         @relation("FriendshipRequester")
-  receivedFriendships Friendship[]         @relation("FriendshipReceiver")
-  practiceSolves      PracticeSolve[]
-  auditLogs           AuditLog[]           @relation("AuditLogActor")
-  exportJobs          ExportJob[]          @relation("ExportJobRequester")
-  ftwMatches          FtwMatch[]
-  hostedFtwRooms      FtwRoom[]            @relation("FtwRoomHost")
-  ftwRoomPlayers      FtwRoomPlayer[]
-  ftwRoomAnswers      FtwRoomAnswer[]
-  teachingClasses     Class[]              @relation("ClassTeacher")
-  classMemberships    ClassMember[]        @relation("ClassMembership")
-  authoredAssignments Assignment[]         @relation("AssignmentAuthor")
+  id                    String               @id @default(cuid())
+  email                 String               @unique
+  name                  String?
+  emailVerified         DateTime?
+  image                 String?
+  displayName           String?
+  avatarUrl             String?
+  role                  UserRole             @default(STUDENT)
+  group                 String?
+  profileVisible        Boolean              @default(true)
+  leaderboardVisible    Boolean              @default(true)
+  theme                 String               @default("light")
+  greetingSettings      String?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  lastLoginAt           DateTime?
+  attempts              Attempt[]
+  feedbackReports       FeedbackReport[]
+  uploadedFiles         ImportedFile[]
+  createdProblemSets    ProblemSet[]         @relation("ProblemSetCreator")
+  problemSetBookmarks   ProblemSetBookmark[]
+  writeups              Writeup[]
+  writeupVotes          WriteupVote[]
+  accounts              Account[]
+  sessions              Session[]
+  sentFriendships       Friendship[]         @relation("FriendshipRequester")
+  receivedFriendships   Friendship[]         @relation("FriendshipReceiver")
+  practiceSolves        PracticeSolve[]
+  auditLogs             AuditLog[]           @relation("AuditLogActor")
+  exportJobs            ExportJob[]          @relation("ExportJobRequester")
+  ftwMatches            FtwMatch[]
+  hostedFtwRooms        FtwRoom[]            @relation("FtwRoomHost")
+  ftwRoomPlayers        FtwRoomPlayer[]
+  ftwRoomAnswers        FtwRoomAnswer[]
+  teachingClasses       Class[]              @relation("ClassTeacher")
+  classMemberships      ClassMember[]        @relation("ClassMembership")
+  authoredAssignments   Assignment[]         @relation("AssignmentAuthor")
+  authoredAnnouncements Announcement[]       @relation("AnnouncementAuthor")
 }
 
 model Friendship {
@@ -505,13 +506,14 @@ model VerificationToken {
 }
 
 model Class {
-  id          String        @id @default(cuid())
-  name        String
-  teacherId   String
-  teacher     User          @relation("ClassTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
-  members     ClassMember[]
-  assignments Assignment[]
-  createdAt   DateTime      @default(now())
+  id            String         @id @default(cuid())
+  name          String
+  teacherId     String
+  teacher       User           @relation("ClassTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+  members       ClassMember[]
+  assignments   Assignment[]
+  announcements Announcement[]
+  createdAt     DateTime       @default(now())
 
   @@index([teacherId])
 }
@@ -541,4 +543,17 @@ model Assignment {
   @@unique([classId, problemSetId])
   @@index([classId])
   @@index([problemSetId])
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  body        String
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation("AnnouncementAuthor", fields: [createdById], references: [id], onDelete: Cascade)
+  classes     Class[]
+
+  @@index([createdById, createdAt])
 }

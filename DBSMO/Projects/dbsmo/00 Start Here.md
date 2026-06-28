@@ -37,7 +37,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Most business logic sits in `lib/`: grading, visibility, permissions, imports, storage, FTW scoring, classes, analytics, and exports.
 - Main UI routes live under `app/`; API handlers live under `app/api/`.
 - Current import notes include optional same-name image ZIPs for JSON imports, per-problem image uploads in the problem maker, and tolerant JSON editor drafts (sources: `lib/import/json-import.ts`, `lib/import/image-zip.ts`, `app/admin/create/page-client.tsx`).
-- Current profile/community notes include authored tasks, a mastery heatmap, and problem-set writeups with image uploads, voting, deletion, and the `/writeups` directory page (sources: `app/users/[username]/page.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/writeups/page.tsx`, `prisma/schema.prisma`).
+- Current class/community notes include authored tasks, a mastery heatmap, problem-set writeups with image uploads/voting/deletion, and class announcements pinned on dashboards (sources: `app/users/[username]/page.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/writeups/page.tsx`, `app/classes/announcement-composer.tsx`, `app/dashboard/page.tsx`, `prisma/schema.prisma`).
 
 ## Source Inspection Basis
 

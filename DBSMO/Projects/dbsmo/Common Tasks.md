@@ -90,15 +90,16 @@ Edit `lib/storage.ts` for driver/path semantics and `lib/uploaded-pdf.ts` for PD
 
 If adding a new production storage dependency or required env var, update `SETUP.md` in the same commit.
 
-## Change Classes or Assignments
+## Change Classes, Assignments, or Announcements
 
 Edit:
 
-- `prisma/schema.prisma` - `Class`, `ClassMember`, `Assignment`.
+- `prisma/schema.prisma` - `Class`, `ClassMember`, `Assignment`, `Announcement`.
 - `lib/classes.ts` - validation/completion rules.
 - `app/api/admin/classes/**` - CRUD/search/roster/assignment APIs.
-- `app/admin/classes/**` - admin UI.
-- `app/api/assignments/mine/route.ts` and `app/dashboard/assignments-widget.tsx` - student assignment display.
+- `app/api/admin/announcements/route.ts` - class-targeted announcement creation.
+- `app/admin/classes/**` and `app/classes/**` - class admin UI, student/teacher class page, and announcement composer.
+- `app/api/assignments/mine/route.ts`, `app/dashboard/assignments-widget.tsx`, and `app/dashboard/page.tsx` - student assignment and announcement display.
 - Tests: `tests/classes.test.ts`.
 
 Completion currently counts attempts submitted after assignment creation, independent of score/perfection (source: `lib/classes.ts`).

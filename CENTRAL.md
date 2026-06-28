@@ -29,11 +29,12 @@ Stack: Next.js, NextAuth (Google + dev bypass), Prisma, KaTeX for math, Lucide i
 
 ### Now (this session)
 
-- No active half-finished feature after the current writeups/profile update lands.
+- No active half-finished feature after the current class announcements update lands.
 
 ### Recently landed
 
 - **Problem-set writeups** — `/problem-sets/[slug]/writeups` lets signed-in users post LaTeX/HTML solution notes with up to four images, then sort by latest/top and upvote/downvote posts. Authors can delete their own writeups with confirmation; admins can delete any writeup. `/writeups` is the sidebar directory for latest/top writeups and problem-set search. Persistence uses new `Writeup`, `WriteupImage`, and `WriteupVote` Prisma models plus `lib/writeup-images.ts`; image bytes are stored through the existing storage layer and streamed via `/api/files/[id]`.
+- **Class announcements** — teachers/admins post title/body announcements from `/classes` to one or more classes. `Announcement` persists the message with an implicit class relation; `POST /api/admin/announcements` enforces `admin:users` and teacher ownership. Dashboard loads targeted announcements fresh on page render and pins them above the hero.
 - **Profile mastery heatmap** — `app/users/[username]/page.tsx` now renders a GitHub-style yearly heatmap between authored tasks and the set grid. It counts days where the profile user mastered one or more sets with best-day intensity capped at 5.
 - **Authored tasks cap** — profile authored tasks initially show five rows with a client-side show-more affordance.
 
@@ -79,5 +80,6 @@ VPS deploy is documented in `SETUP.md` (npm + pm2 + nginx + certbot + cron backu
 - Room realtime is poll-based (1.5s). Fine for a classroom; would migrate to SSE/WebSockets if scale warrants. The DB does the locking via `advanceRoomIfDue`, which is the canonical way to advance — call it from `state` and `submit`.
 - `lib/storage.deleteFile` is best-effort on rollback; an orphan-sweeper job would catch any leaks.
 - Migration: schema gained `Writeup`, `WriteupImage`, and `WriteupVote` models in `prisma/migrations/20260628090000_add_writeups/`. Deploy needs the normal Prisma migration step before the app starts serving writeup routes.
+- Migration: schema gained `Announcement` and `_AnnouncementToClass` in `prisma/migrations/20260629110000_add_announcements/`. Deploy needs the normal Prisma migration step before the app starts serving class announcement routes.
 - `/api/practice/tags` is referenced from `practice/page.tsx` but I haven't reviewed it; check before touching.
 - `globals.css` has a "2026 refresh" overlay starting around line 2175 — overrides earlier rules. The light-mode rehaul lives at the very tail (post-confetti keyframes). Edit there for visual changes, not the top.

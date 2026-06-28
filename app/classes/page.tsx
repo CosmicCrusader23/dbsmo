@@ -6,6 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { buildCompletionMap } from "@/lib/classes";
+import { AnnouncementComposer } from "./announcement-composer";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Classes · DBSMO" };
@@ -52,9 +53,7 @@ export default async function ClassesPage() {
   ]);
 
   const setIds = Array.from(
-    new Set(
-      memberships.flatMap((m) => m.class.assignments.map((a) => a.problemSetId)),
-    ),
+    new Set(memberships.flatMap((m) => m.class.assignments.map((a) => a.problemSetId))),
   );
 
   const myAttempts =
@@ -83,6 +82,13 @@ export default async function ClassesPage() {
 
       {canTeach ? (
         <section>
+          <AnnouncementComposer
+            classes={teachingClasses.map((c) => ({
+              id: c.id,
+              name: c.name,
+              memberCount: c._count.members,
+            }))}
+          />
           <h2>Classes you teach</h2>
           {teachingClasses.length === 0 ? (
             <div className="classes-empty">

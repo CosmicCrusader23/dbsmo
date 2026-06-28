@@ -11,6 +11,7 @@
 
 Your dashboard shows:
 
+- **Pinned announcements**: Messages from teachers for your classes, shown at the top when available.
 - **Progress ring**: How many sets you've completed out of the total available.
 - **Metric cards**: Attempted sets, average score (calculated from your **best score** on each set), latest score.
 - **Problem sets list**: All published sets with your best score for each.

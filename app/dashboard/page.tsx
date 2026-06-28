@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   ClipboardList,
   FileJson,
+  Megaphone,
   MessageSquareWarning,
   PlayCircle,
   Sparkles,
@@ -102,6 +103,24 @@ export default async function DashboardPage() {
   if (!currentUser) {
     redirect("/");
   }
+
+  const classAnnouncements = await prisma.announcement.findMany({
+    where: {
+      classes: {
+        some: {
+          members: {
+            some: { studentId: currentUser.id },
+          },
+        },
+      },
+    },
+    include: {
+      createdBy: { select: { displayName: true, name: true, email: true } },
+      classes: { select: { id: true, name: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 5,
+  });
 
   const visibleSets = (
     currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set))
@@ -287,6 +306,39 @@ export default async function DashboardPage() {
             </Link>
           </div>
         </header>
+
+        {classAnnouncements.length > 0 ? (
+          <section className="dashboard-announcements" aria-label="Class announcements">
+            <div className="dashboard-announcements-head">
+              <p className="eyebrow">Pinned announcements</p>
+              <h2>
+                <Megaphone size={18} />
+                Class messages
+              </h2>
+            </div>
+            <div className="dashboard-announcement-list">
+              {classAnnouncements.map((announcement) => {
+                const author =
+                  announcement.createdBy.displayName ??
+                  announcement.createdBy.name ??
+                  announcement.createdBy.email;
+                return (
+                  <article className="dashboard-announcement" key={announcement.id}>
+                    <header>
+                      <strong>{announcement.title}</strong>
+                      <span>{announcement.createdAt.toLocaleDateString()}</span>
+                    </header>
+                    <p>{announcement.body}</p>
+                    <footer>
+                      <span>{announcement.classes.map((cls) => cls.name).join(", ")}</span>
+                      <span>From {author}</span>
+                    </footer>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
 
         <section className="hero-panel">
           <div className="hero-copy">

@@ -84,11 +84,13 @@ Binary files are represented in Prisma by `ImportedFile` and stored under storag
 
 File downloads are served by `app/api/files/[id]/route.ts`, which checks the requested `ImportedFile`, finds related problem sets/assets, allows admins or users who can see at least one related set, reads bytes via `readFileBuffer(...)`, and returns security headers including `nosniff` and a restrictive CSP sandbox (source: `app/api/files/[id]/route.ts`).
 
-## Classes and Assignment Flow
+## Classes, Assignment, and Announcement Flow
 
-Classes and assignments are persisted by `Class`, `ClassMember`, and `Assignment` models (source: `prisma/schema.prisma`). Admin class detail APIs call `loadAuthorizedClass(...)` to require `admin:users`, restrict non-admin teachers to their own class, and compute assignment completion from attempts after assignment creation using `buildCompletionMap(...)` (sources: `app/api/admin/classes/[id]/route.ts`, `lib/classes.ts`).
+Classes and assignments are persisted by `Class`, `ClassMember`, and `Assignment` models; class messages use `Announcement` linked to one or more `Class` rows (source: `prisma/schema.prisma`). Admin class detail APIs call `loadAuthorizedClass(...)` to require `admin:users`, restrict non-admin teachers to their own class, and compute assignment completion from attempts after assignment creation using `buildCompletionMap(...)` (sources: `app/api/admin/classes/[id]/route.ts`, `lib/classes.ts`).
 
 The student dashboard includes `AssignmentsWidget`, which fetches `/api/assignments/mine`, sorts incomplete items before complete items and nearer due dates first, then shows up to five assigned problem sets (source: `app/dashboard/assignments-widget.tsx`).
+
+Announcements are created from `/classes` through `AnnouncementComposer` and `POST /api/admin/announcements`; non-admin teachers can target only their own classes. `DashboardPage` reads announcements for classes where the current user is a member and renders them above the hero on each page load; there is no realtime push or polling (sources: `app/classes/announcement-composer.tsx`, `app/api/admin/announcements/route.ts`, `app/dashboard/page.tsx`).
 
 ## Analytics, Audit, Export
 

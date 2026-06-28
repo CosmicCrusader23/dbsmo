@@ -26,7 +26,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Student Dashboard and Catalog
 
-- `DashboardPage` in `app/dashboard/page.tsx`: server-rendered dashboard that loads current user, visible sets, attempts, student rows for admins, computes completion/score/topic metrics, and renders metric cards, next actions, and recent set rows.
+- `DashboardPage` in `app/dashboard/page.tsx`: server-rendered dashboard that loads current user, class announcements, visible sets, attempts, student rows for admins, computes completion/score/topic metrics, and renders pinned announcements, metric cards, next actions, and recent set rows.
 - `MetricCard` in `app/dashboard/page.tsx`: local component for dashboard metric cards.
 - `AssignmentsWidget` in `app/dashboard/assignments-widget.tsx`: client component that fetches `/api/assignments/mine`, sorts assignments, and renders up to five dashboard assignment links.
 - `ProblemSetsPage` in `app/problem-sets/page.tsx`: route page that handles catalog filtering/sorting/views/recommendations/pagination and renders set cards/links.
@@ -58,6 +58,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Admin Classes and Assignments
 
+- `AnnouncementComposer` in `app/classes/announcement-composer.tsx`: teacher/admin client composer that targets one or more classes and posts to `/api/admin/announcements`.
 - `NewClassForm` in `app/admin/classes/new/new-class-form.tsx`: class creation client; searches students through `/api/admin/classes/student-search` and posts to `/api/admin/classes`.
 - `ClassDetailClient` in `app/admin/classes/[id]/class-detail-client.tsx`: class detail client; loads `/api/admin/classes/[id]`, adds/removes members, assigns/removes sets, deletes the class, and displays completion counts.
 - `RosterPicker` in `app/admin/classes/[id]/class-detail-client.tsx`: local student search/add component.

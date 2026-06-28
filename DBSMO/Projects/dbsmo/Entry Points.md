@@ -39,7 +39,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 - `/` - landing/sign-in surface (source: `app/page.tsx`).
 - `/login` - login route (source: `app/login/page.tsx`).
-- `/dashboard` - authenticated dashboard with set progress, topic metrics, admin metrics, assignments widget, auth/profile/theme controls (source: `app/dashboard/page.tsx`, `app/dashboard/assignments-widget.tsx`).
+- `/dashboard` - authenticated dashboard with pinned class announcements, set progress, topic metrics, admin metrics, assignments widget, auth/profile/theme controls (source: `app/dashboard/page.tsx`, `app/dashboard/assignments-widget.tsx`).
 - `/settings` - client account settings: display name, avatar URL/upload, Google profile-picture fallback, privacy flags, theme, typewriter settings (source: `app/settings/page.tsx`, `app/api/settings/route.ts`).
 - `/leaderboard` - leaderboard view with avatars/rank badges (source: `app/leaderboard/page.tsx`).
 - `/users` and `/users/[username]` - user list/profile, friend button, admin promote user button, authored tasks table above the set/problem progress grid (sources: `app/users/page.tsx`, `app/users/[username]/page.tsx`, `app/users/[username]/friend-button.tsx`, `app/users/[username]/promote-user-button.tsx`).
@@ -51,7 +51,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
 - `/writeups` - global writeups directory from the sidebar with latest/top views and problem-set search (source: `app/writeups/page.tsx`).
 - `/practice` - practice-mode UI backed by tags/next/submit APIs (source: `app/practice/page.tsx`).
-- `/classes` - student-facing class route (source: `app/classes/page.tsx`).
+- `/classes` - student-facing class route and teacher announcement composer (sources: `app/classes/page.tsx`, `app/classes/announcement-composer.tsx`).
 
 ## Game Routes
 
@@ -99,6 +99,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `GET/POST /api/admin/export-jobs`, `GET /api/admin/export-jobs/[id]`, `GET /api/admin/export` - CSV/backup export job and direct export endpoints (sources: `app/api/admin/export-jobs/route.ts`, `app/api/admin/export-jobs/[id]/route.ts`, `app/api/admin/export/route.ts`, `lib/admin-exports.ts`).
 - `GET/POST /api/admin/backup` - backup endpoints (source: `app/api/admin/backup/route.ts`).
 - `GET/POST/PATCH/DELETE /api/admin/classes...` - class CRUD, roster mutation, assignment mutation, search endpoints (sources: `app/api/admin/classes/**`, `lib/classes.ts`).
+- `POST /api/admin/announcements` - create a class-targeted announcement for one or more teacher-owned classes, or any class for admins (source: `app/api/admin/announcements/route.ts`).
 - `PATCH/DELETE /api/admin/feedback/[id]`, `PATCH /api/admin/feedback` - feedback status/admin-note changes (sources: `app/api/admin/feedback/**`).
 - `PATCH /api/admin/users/[id]/role` - role change endpoint (source: `app/api/admin/users/[id]/role/route.ts`).
 

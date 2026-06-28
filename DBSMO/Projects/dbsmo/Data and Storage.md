@@ -32,7 +32,7 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 - `Writeup`, `WriteupImage`, and `WriteupVote`: problem-set discussion/solution posts. `Writeup` belongs to a `ProblemSet` and `User`, stores title/body/content format; `WriteupImage` links uploaded image `ImportedFile` records to a writeup; `WriteupVote` is unique per `(writeupId, userId)` with value `-1` or `1` enforced by migration check constraint (sources: `prisma/schema.prisma`, `prisma/migrations/20260628090000_add_writeups/migration.sql`).
 - `AuditLog` and `ExportJob`: admin activity and export artifacts (source: `prisma/schema.prisma`).
 - `Friendship`: one-way requester/receiver pair with unique constraint (source: `prisma/schema.prisma`).
-- `Class`, `ClassMember`, `Assignment`: teacher-owned classes, roster membership, and assigned problem sets (source: `prisma/schema.prisma`).
+- `Class`, `ClassMember`, `Assignment`, `Announcement`: teacher-owned classes, roster membership, assigned problem sets, and class-targeted dashboard announcements. `Announcement` is linked to one or more classes through Prisma's implicit class relation table (source: `prisma/schema.prisma`, `prisma/migrations/20260629110000_add_announcements/migration.sql`).
 - `FtwMatch`, `FtwAnswer`, `FtwRoom`, `FtwRoomPlayer`, `FtwRoomProblem`, `FtwRoomAnswer`: solo and multiplayer FTW state (source: `prisma/schema.prisma`).
 - `Account`, `Session`, `VerificationToken`: NextAuth adapter models (source: `prisma/schema.prisma`).
 
@@ -107,6 +107,8 @@ Writeup image uploads use `lib/writeup-images.ts`. The helper accepts only PNG, 
 Class detail authorization requires session, `admin:users`, class existence, and for non-admin users `cls.teacherId === userId` (source: `app/api/admin/classes/[id]/route.ts`). The class detail UI exposes roster/assignment mutation and class deletion through the same route family (source: `app/admin/classes/[id]/class-detail-client.tsx`). Completion is calculated by `buildCompletionMap(...)`: each class member starts null, attempts count only if submitted after assignment creation, and the earliest qualifying attempt is stored (source: `lib/classes.ts`).
 
 Assignment data shown to students comes from `/api/assignments/mine` and is rendered by `AssignmentsWidget` sorted by incomplete first and due date ascending (source: `app/dashboard/assignments-widget.tsx`, `app/api/assignments/mine/route.ts`).
+
+Class announcements are created through `POST /api/admin/announcements`, which requires `admin:users`; non-admin teachers can target only classes where they are `teacherId`. `/classes` renders `AnnouncementComposer` for teachers/admins, and `app/dashboard/page.tsx` loads announcements for classes where the current user is a member, ordered newest first and pinned above the dashboard hero (sources: `app/api/admin/announcements/route.ts`, `app/classes/announcement-composer.tsx`, `app/classes/page.tsx`, `app/dashboard/page.tsx`).
 
 ## Exports and Backups
 
