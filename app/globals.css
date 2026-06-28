@@ -7065,8 +7065,8 @@ html.dark .theme-choice-button.active {
 }
 
 .writeup-post-votes button:last-child.active {
-  border-color: rgba(239, 68, 68, 0.44);
-  background: rgba(239, 68, 68, 0.14);
+  border-color: color-mix(in srgb, var(--color-danger) 44%, transparent);
+  background: color-mix(in srgb, var(--color-danger) 14%, transparent);
   color: var(--color-danger);
 }
 
