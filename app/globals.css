@@ -7070,6 +7070,12 @@ html.dark .theme-choice-button.active {
   color: var(--color-danger);
 }
 
+.writeup-post-votes button:last-child:hover {
+  border-color: color-mix(in srgb, var(--color-danger) 44%, transparent);
+  background: color-mix(in srgb, var(--color-danger) 14%, transparent);
+  color: var(--color-danger);
+}
+
 .writeup-post-votes strong {
   color: var(--color-text-strong);
   font-variant-numeric: tabular-nums;
