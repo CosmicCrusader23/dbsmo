@@ -2,6 +2,7 @@
 
 import type { CSSProperties, FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { CheckCircle2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "./latex-statement";
@@ -285,71 +286,79 @@ export function AnswerGrid({
         ? "Watch the teaching video, then retry this set."
         : "Retry this set while the questions are fresh.";
 
-  const reportDialog = showReportDialog && (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 100,
-      }}
-    >
-      <div className="panel" style={{ width: 400, padding: 24 }}>
-        <h3 style={{ marginTop: 0 }}>Report Issue</h3>
-        {reportSuccess ? (
-          <div style={{ color: "var(--color-success)" }}>Report submitted successfully!</div>
-        ) : (
-          <form
-            onSubmit={onReportSubmit}
-            style={{ display: "flex", flexDirection: "column", gap: 16 }}
+  const reportDialog =
+    showReportDialog && typeof document !== "undefined"
+      ? createPortal(
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 100,
+            }}
           >
-            <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              Problem Number
-              <select name="problemNumber" className="form-input">
-                <option value="">Whole set issue</option>
-                {problemNumbers.map((number) => (
-                  <option key={number} value={String(number)}>
-                    Problem {questionLabel(number)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              Issue Type
-              <select name="type" className="form-input" required>
-                <option value="WRONG_ANSWER_KEY">Wrong Answer Key</option>
-                <option value="WRONG_SOLUTION">Wrong Solution</option>
-                <option value="TYPO">Typo</option>
-                <option value="UNCLEAR">Unclear Statement</option>
-                <option value="OTHER">Other</option>
-              </select>
-            </label>
-            <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              Description
-              <textarea name="message" className="form-input" required rows={3} />
-            </label>
-            {reportError ? <div style={{ color: "var(--color-danger)" }}>{reportError}</div> : null}
-            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button
-                type="button"
-                className="secondary-action"
-                onClick={() => setShowReportDialog(false)}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="primary-action" disabled={reportSubmitting}>
-                {reportSubmitting ? <MathCurveLoader size={16} label="Submitting report" /> : null}
-                {reportSubmitting ? "Submitting..." : "Submit"}
-              </button>
+            <div className="panel" style={{ width: 400, padding: 24 }}>
+              <h3 style={{ marginTop: 0 }}>Report Issue</h3>
+              {reportSuccess ? (
+                <div style={{ color: "var(--color-success)" }}>Report submitted successfully!</div>
+              ) : (
+                <form
+                  onSubmit={onReportSubmit}
+                  style={{ display: "flex", flexDirection: "column", gap: 16 }}
+                >
+                  <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    Problem Number
+                    <select name="problemNumber" className="form-input">
+                      <option value="">Whole set issue</option>
+                      {problemNumbers.map((number) => (
+                        <option key={number} value={String(number)}>
+                          Problem {questionLabel(number)}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    Issue Type
+                    <select name="type" className="form-input" required>
+                      <option value="WRONG_ANSWER_KEY">Wrong Answer Key</option>
+                      <option value="WRONG_SOLUTION">Wrong Solution</option>
+                      <option value="TYPO">Typo</option>
+                      <option value="UNCLEAR">Unclear Statement</option>
+                      <option value="OTHER">Other</option>
+                    </select>
+                  </label>
+                  <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    Description
+                    <textarea name="message" className="form-input" required rows={3} />
+                  </label>
+                  {reportError ? (
+                    <div style={{ color: "var(--color-danger)" }}>{reportError}</div>
+                  ) : null}
+                  <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                    <button
+                      type="button"
+                      className="secondary-action"
+                      onClick={() => setShowReportDialog(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="primary-action" disabled={reportSubmitting}>
+                      {reportSubmitting ? (
+                        <MathCurveLoader size={16} label="Submitting report" />
+                      ) : null}
+                      {reportSubmitting ? "Submitting..." : "Submit"}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
-          </form>
-        )}
-      </div>
-    </div>
-  );
+          </div>,
+          document.body,
+        )
+      : null;
 
   function jumpHref(problemNumber: number) {
     return `#problem-${problemNumber}`;
