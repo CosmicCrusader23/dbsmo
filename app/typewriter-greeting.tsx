@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { animate } from "animejs";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 const DEFAULT_TYPE_SPEED_MS = 42;
 const DEFAULT_DELETE_SPEED_MS = 22;
@@ -100,6 +101,8 @@ function GreetingTyper({ name }: { name: string }) {
   const [greetingIndex, setGreetingIndex] = useState(INITIAL_GREETING_INDEX);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
   const storedSpeeds = useSyncExternalStore(
     subscribeToTypewriterSpeeds,
     getTypewriterSpeedsSnapshot,
@@ -151,11 +154,52 @@ function GreetingTyper({ name }: { name: string }) {
     speeds.typeSpeed,
   ]);
 
+  useEffect(() => {
+    const text = textRef.current;
+
+    if (!text || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const textAnimation = animate(text, {
+      opacity: [0.72, 1],
+      translateY: [2, 0],
+      duration: isDeleting ? 90 : 140,
+      ease: "outQuad",
+    });
+
+    return () => {
+      textAnimation.revert();
+    };
+  }, [charIndex, isDeleting]);
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+
+    if (!cursor || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const cursorAnimation = animate(cursor, {
+      opacity: [1, 0.16],
+      scaleY: [1, 0.72],
+      duration: 620,
+      ease: "steps(2)",
+      loop: true,
+      alternate: true,
+    });
+
+    return () => {
+      cursorAnimation.revert();
+    };
+  }, []);
+
   return (
     <span className="typewriter-greeting" aria-label={activeGreeting}>
-      {activeGreeting.slice(0, charIndex)}
+      <span ref={textRef}>{activeGreeting.slice(0, charIndex)}</span>
       <span
         className={`typewriter-cursor${charIndex < activeGreeting.length || isDeleting ? " is-typing" : ""}`}
+        ref={cursorRef}
         aria-hidden="true"
       >
         |

@@ -2232,7 +2232,6 @@ img.avatar {
 }
 
 .math-curve-loader-rotor {
-  animation: math-curve-spin calc(var(--loader-duration) * 1.7) linear infinite;
   transform-origin: 50px 50px;
 }
 
@@ -2250,14 +2249,11 @@ img.avatar {
 }
 
 .math-curve-loader-path {
-  animation: math-curve-dash var(--loader-duration) ease-in-out infinite;
   opacity: 0.92;
-  stroke-dasharray: 24 76;
   stroke-width: 7;
 }
 
 .math-curve-loader-dot {
-  animation: math-curve-pulse calc(var(--loader-duration) * 0.7) ease-in-out infinite;
   fill: currentColor;
   opacity: 0.55;
   transform-box: fill-box;
@@ -2274,42 +2270,12 @@ img.avatar {
   opacity: 0.5;
 }
 
-@keyframes math-curve-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes math-curve-dash {
-  0% {
-    stroke-dashoffset: 100;
-  }
-
-  50% {
-    stroke-dasharray: 38 62;
-  }
-
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes math-curve-pulse {
-  0%,
-  100% {
-    transform: scale(0.55);
-  }
-
-  50% {
-    transform: scale(1.12);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .math-curve-loader-rotor,
   .math-curve-loader-path,
   .math-curve-loader-dot {
-    animation: none;
+    transform: none !important;
   }
 }
 
@@ -4088,24 +4054,13 @@ html.dark .confetti-triangles span {
   color: var(--color-pink);
   margin-left: 1px;
   opacity: 1;
-  animation: typewriter-cursor-blink 1s steps(1, end) infinite;
+  transform-origin: center;
 }
 
 .typewriter-cursor.is-typing {
-  animation: none;
   opacity: 1;
 }
 
-@keyframes typewriter-cursor-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
 
 .hero-copy h2 .typewriter-greeting {
   min-height: 1.2em;

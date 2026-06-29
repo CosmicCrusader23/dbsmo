@@ -43,5 +43,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Added problem-set writeups with LaTeX/HTML text, image uploads, latest/top sorting, and upvote/downvote voting. Writeups are reachable from the set header beside the bookmark action and remain accessible regardless of submission status.
 - Added owner/admin writeup deletion with an in-card confirmation step, plus a sidebar Writeups page for browsing latest/top writeups and searching by problem set.
 - Added class announcements: teachers/admins can post messages to one or more classes, and students see targeted messages pinned at the top of the dashboard on page load.
+- Switched the shared math curve loader and dashboard typewriter/caret motion to Anime.js v4 while keeping reduced-motion fallbacks.
 
 © 2026 Cosmic Crusader

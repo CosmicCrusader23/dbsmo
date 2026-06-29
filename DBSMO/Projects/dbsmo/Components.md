@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-28
+updated: 2026-06-29
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -22,7 +22,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `AuthButton` in `app/auth-button.tsx`: sign-in/sign-out control. It renders Google sign-in, optional bypass buttons, session badge, and profile avatar link.
 - `Avatar` in `app/avatar.tsx`: shared avatar display; deterministic fallback initial/tint helper lives in `lib/avatar.ts`.
 - `ThemeToggle` in `app/theme-toggle.tsx`: theme control used on dashboard and problem set pages.
-- `TypewriterGreeting` in `app/typewriter-greeting.tsx`: animated greeting used by dashboard and configured in settings.
+- `MathCurveLoader` in `app/math-curve-loader.tsx`: shared inline loading indicator used across admin, problem set, FTW, classes, settings, and profile actions. It renders random math-curve SVG variants and uses Anime.js v4 for path drawing, rotor spin, and dot pulses while respecting `prefers-reduced-motion`.
+- `TypewriterGreeting` in `app/typewriter-greeting.tsx`: animated greeting used by dashboard and configured in settings. It keeps the existing typed/deleted text state machine and uses Anime.js v4 for subtle text tick and caret motion.
 
 ## Student Dashboard and Catalog
 

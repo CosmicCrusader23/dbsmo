@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { animate, createDrawable, stagger } from "animejs";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
 type Point = {
@@ -124,6 +125,9 @@ const CURVE_VARIANTS: CurveVariant[] = CURVE_POINTS.map((curve) => ({
 
 export function MathCurveLoader({ size = 18, label = "Loading", className }: MathCurveLoaderProps) {
   const [variantIndex, setVariantIndex] = useState(0);
+  const rotorRef = useRef<SVGGElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const dotsRef = useRef<SVGCircleElement[]>([]);
   const variant = CURVE_VARIANTS[variantIndex] ?? CURVE_VARIANTS[0];
 
   useEffect(() => {
@@ -134,6 +138,49 @@ export function MathCurveLoader({ size = 18, label = "Loading", className }: Mat
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
+  useEffect(() => {
+    const rotor = rotorRef.current;
+    const path = pathRef.current;
+    const dots = dotsRef.current;
+
+    if (!rotor || !path || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const [drawable] = createDrawable(path, 0, 0);
+    drawable.setAttribute("draw", "0 0");
+    const drawAnimation = animate(drawable, {
+      draw: "0 1",
+      duration: variant.durationMs,
+      ease: "inOutSine",
+      loop: true,
+      alternate: true,
+    });
+    const spinAnimation = animate(rotor, {
+      rotate: "360deg",
+      duration: variant.durationMs * 1.7,
+      ease: "linear",
+      loop: true,
+    });
+    const dotAnimation = dots.length
+      ? animate(dots, {
+          scale: [0.5, 1.15],
+          opacity: [0.42, 0.9],
+          duration: variant.durationMs * 0.7,
+          delay: stagger(85, { from: "center" }),
+          ease: "inOutSine",
+          loop: true,
+          alternate: true,
+        })
+      : null;
+
+    return () => {
+      drawAnimation.revert();
+      spinAnimation.revert();
+      dotAnimation?.revert();
+    };
+  }, [variant]);
+
   return (
     <span
       aria-label={label}
@@ -142,23 +189,29 @@ export function MathCurveLoader({ size = 18, label = "Loading", className }: Mat
       style={
         {
           "--loader-size": `${size}px`,
-          "--loader-duration": `${variant.durationMs}ms`,
         } as CSSProperties
       }
       title={variant.name}
     >
       <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
-        <g className="math-curve-loader-rotor">
+        <g className="math-curve-loader-rotor" ref={rotorRef}>
           <path className="math-curve-loader-track" d={variant.path} pathLength={100} />
-          <path className="math-curve-loader-path" d={variant.path} pathLength={100} />
+          <path
+            className="math-curve-loader-path"
+            d={variant.path}
+            pathLength={100}
+            ref={pathRef}
+          />
           {variant.particles.map((point, index) => (
             <circle
               className={`math-curve-loader-dot ${variant.className}`}
               cx={point.x}
               cy={point.y}
               key={`${variant.name}-${index}`}
+              ref={(node) => {
+                if (node) dotsRef.current[index] = node;
+              }}
               r={index === 0 ? 4.6 : 2.8}
-              style={{ animationDelay: `${index * -110}ms` }}
             />
           ))}
         </g>
