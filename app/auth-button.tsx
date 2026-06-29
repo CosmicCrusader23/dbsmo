@@ -4,6 +4,7 @@ import type { Session } from "next-auth";
 import Link from "next/link";
 import { signIn, signOut } from "next-auth/react";
 import { Avatar } from "./avatar";
+import { displayNameFor, normalizeDisplayText } from "@/lib/display-name";
 
 type AuthButtonProps = {
   session: Session | null;
@@ -25,12 +26,16 @@ export function AuthButton({
   displayName,
 }: AuthButtonProps) {
   if (session) {
-    const label = displayName || session.user?.name || session.user?.email;
+    const label = displayNameFor({
+      displayName,
+      name: session.user?.name ?? null,
+      email: session.user?.email ?? null,
+    });
     const avatarUser = {
       id: session.user?.id ?? null,
       email: session.user?.email ?? null,
-      name: session.user?.name ?? null,
-      displayName: displayName ?? null,
+      name: normalizeDisplayText(session.user?.name ?? null),
+      displayName: normalizeDisplayText(displayName),
       avatarUrl: avatarUrl ?? null,
       image: session.user?.image ?? null,
     };

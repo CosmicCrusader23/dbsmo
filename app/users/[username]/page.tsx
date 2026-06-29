@@ -11,6 +11,7 @@ import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { hasPermission, isStaffRole } from "@/lib/permissions";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
+import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { AuthoredTasksTable } from "./authored-tasks-table";
 import { FriendButton } from "./friend-button";
@@ -236,7 +237,7 @@ export default async function UserProfilePage({
         })
         .catch(() => null)) ?? null);
 
-  const displayLabel = user.displayName || user.name || "Anonymous";
+  const displayLabel = displayNameFor(user);
   const profileUsername = usernameFromEmail(user.email);
   const canManageContent = hasPermission(session.user.role, "admin:content");
   const canViewAnalytics = hasPermission(session.user.role, "admin:analytics");
@@ -425,7 +426,7 @@ export default async function UserProfilePage({
 
       return {
         id: entry.id,
-        displayLabel: entry.displayName || entry.name || "Anonymous",
+        displayLabel: displayNameFor(entry),
         solvedSets: [...bestPerSet.values()].filter((pct) => pct >= 80).length,
         avgScore: computeBestAverageScore(entry.attempts),
       };
@@ -445,7 +446,7 @@ export default async function UserProfilePage({
     )
     .map((entry) => ({
       id: entry.id,
-      displayLabel: entry.displayName || entry.name || "Anonymous",
+      displayLabel: displayNameFor(entry),
       practiceScore: entry._count.practiceSolves,
     }))
     .sort(

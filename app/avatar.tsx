@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { pickInitial, avatarTint } from "@/lib/avatar";
+import { normalizeDisplayText } from "@/lib/display-name";
 
 type AvatarUser = {
   id?: string | null;
@@ -26,7 +27,13 @@ export function Avatar({
   const px = SIZE_PX[size];
   const url = user.avatarUrl ?? user.image ?? null;
   const initial = pickInitial(user);
-  const seed = (user.id ?? user.email ?? user.displayName ?? user.name ?? "?").toString();
+  const seed = (
+    user.id ??
+    user.email ??
+    normalizeDisplayText(user.displayName) ??
+    normalizeDisplayText(user.name) ??
+    "?"
+  ).toString();
   const tint = avatarTint(seed);
 
   if (url) {

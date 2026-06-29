@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Check, ImagePlus, Send, Sigma, Trash2, X } from "lucide-react";
 import { Avatar } from "@/app/avatar";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { displayNameFor } from "@/lib/display-name";
 import { LatexStatement } from "../latex-statement";
 
 type WriteupPost = {
@@ -279,7 +280,7 @@ export function WriteupsClient({
               score: writeup.score,
               myVote: writeup.myVote,
             };
-            const authorLabel = writeup.author.displayName || writeup.author.name || "Anonymous";
+            const authorLabel = displayNameFor(writeup.author);
             const setSlug = writeup.problemSet?.slug ?? problemSetSlug;
             const setTitle = writeup.problemSet?.title;
             return (

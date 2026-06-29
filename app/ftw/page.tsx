@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { FTW_PROBLEMS_PER_MATCH, FTW_PROBLEM_LIMIT_SEC } from "@/lib/ftw";
+import { displayNameFor } from "@/lib/display-name";
 import { FtwLobbyForm } from "./lobby-form";
 
 export const dynamic = "force-dynamic";
@@ -116,9 +117,7 @@ export default async function FtwHomePage() {
   const FTW_MAX_PER_PROBLEM = 6;
   const soloEntries: LeaderEntry[] = soloLeaders.map((m) => ({
     key: `solo-${m.id}`,
-    name: m.user.leaderboardVisible
-      ? m.user.displayName || m.user.name || "Anonymous"
-      : "Anonymous",
+    name: m.user.leaderboardVisible ? displayNameFor(m.user) : "Anonymous",
     tag: m.tag,
     score: m.totalScore,
     maxScore: m.maxScore,
@@ -127,9 +126,7 @@ export default async function FtwHomePage() {
   }));
   const roomEntries: LeaderEntry[] = roomLeaders.map((p) => ({
     key: `room-${p.id}`,
-    name: p.user.leaderboardVisible
-      ? p.user.displayName || p.user.name || "Anonymous"
-      : "Anonymous",
+    name: p.user.leaderboardVisible ? displayNameFor(p.user) : "Anonymous",
     tag: p.room.tag,
     score: p.score,
     maxScore: p.room.totalProblems * FTW_MAX_PER_PROBLEM,
@@ -208,9 +205,15 @@ export default async function FtwHomePage() {
               answers earn more points. Loosely modelled on AoPS For The Win.
             </p>
             <div className="ftw-hero-rules">
-              <span><strong>6 pts</strong> · first 7s</span>
-              <span><strong>1 pt</strong> · minimum correct</span>
-              <span><strong>0 pts</strong> · wrong or timeout</span>
+              <span>
+                <strong>6 pts</strong> · first 7s
+              </span>
+              <span>
+                <strong>1 pt</strong> · minimum correct
+              </span>
+              <span>
+                <strong>0 pts</strong> · wrong or timeout
+              </span>
             </div>
           </div>
           <div className="ftw-hero-stats">
@@ -222,12 +225,17 @@ export default async function FtwHomePage() {
             <div className="ftw-hero-stat">
               <Trophy size={18} />
               <small>Personal best</small>
-              <strong>{personalBest ? `${personalBest.score}/${personalBest.maxScore}` : "—"}</strong>
+              <strong>
+                {personalBest ? `${personalBest.score}/${personalBest.maxScore}` : "—"}
+              </strong>
             </div>
             <div className="ftw-hero-stat">
               <Swords size={18} />
               <small>Recent runs</small>
-              <strong>{matchesPlayed}{wins > 0 ? <span className="ftw-hero-stat-sub"> · {wins} wins</span> : null}</strong>
+              <strong>
+                {matchesPlayed}
+                {wins > 0 ? <span className="ftw-hero-stat-sub"> · {wins} wins</span> : null}
+              </strong>
             </div>
           </div>
         </section>
@@ -303,7 +311,10 @@ export default async function FtwHomePage() {
                         </small>
                       </div>
                       <div className="ftw-history-meter">
-                        <span className={`ftw-history-fill tier-${tier}`} style={{ width: `${pct}%` }} />
+                        <span
+                          className={`ftw-history-fill tier-${tier}`}
+                          style={{ width: `${pct}%` }}
+                        />
                       </div>
                       <span className="ftw-history-score">
                         {m.score}

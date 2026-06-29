@@ -4,6 +4,7 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { displayNameFor } from "@/lib/display-name";
 import { validateClassName } from "@/lib/classes";
 
 export const runtime = "nodejs";
@@ -42,7 +43,7 @@ export async function GET() {
       name: c.name,
       teacher: {
         id: c.teacher.id,
-        name: c.teacher.displayName ?? c.teacher.name ?? c.teacher.email,
+        name: displayNameFor(c.teacher, "Unknown"),
       },
       memberCount: c._count.members,
       assignmentCount: c._count.assignments,

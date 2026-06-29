@@ -22,6 +22,7 @@ import { profilePathFromEmail } from "@/lib/user-profile";
 import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
+import { displayNameFor, normalizeDisplayText } from "@/lib/display-name";
 import { AssignmentsWidget } from "./assignments-widget";
 
 export const dynamic = "force-dynamic";
@@ -257,7 +258,7 @@ export default async function DashboardPage() {
                 : null;
 
             return {
-              name: student.name ?? student.email,
+              name: displayNameFor(student, "Anonymous"),
               completed: uniqueSets.size,
               average,
               weakTopic: average < 60 ? "Needs review" : average < 80 ? "Mixed" : "Stable",
@@ -270,6 +271,7 @@ export default async function DashboardPage() {
 
   const continueHref = nextSet ? `/problem-sets/${nextSet.slug}` : "/admin/import";
   const profileHref = profilePathFromEmail(currentUser.email);
+  const currentDisplayName = displayNameFor(currentUser, "there");
 
   return (
     <main className="app-shell">
@@ -285,7 +287,7 @@ export default async function DashboardPage() {
             <ThemeToggle />
             <AuthButton
               avatarUrl={currentUser.avatarUrl}
-              displayName={currentUser.displayName}
+              displayName={normalizeDisplayText(currentUser.displayName)}
               profileHref={profileHref}
               session={session}
             />
@@ -318,10 +320,7 @@ export default async function DashboardPage() {
             </div>
             <div className="dashboard-announcement-list">
               {classAnnouncements.map((announcement) => {
-                const author =
-                  announcement.createdBy.displayName ??
-                  announcement.createdBy.name ??
-                  announcement.createdBy.email;
+                const author = displayNameFor(announcement.createdBy, "Unknown");
                 return (
                   <article className="dashboard-announcement" key={announcement.id}>
                     <header>
@@ -344,7 +343,7 @@ export default async function DashboardPage() {
           <div className="hero-copy">
             <p className="eyebrow">{nextSet ? `Next set: ${nextSet.title}` : "Platform setup"}</p>
             <h2>
-              <TypewriterGreeting name={currentUser.displayName || currentUser.name || "there"} />
+              <TypewriterGreeting name={currentDisplayName} />
             </h2>
             {nextSet ? <span className="next-step-reason">{nextSetReason}</span> : null}
             <div className="hero-actions">

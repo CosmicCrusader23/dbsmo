@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { displayNameFor } from "@/lib/display-name";
 
 export const runtime = "nodejs";
 
@@ -39,7 +40,7 @@ export async function GET(request: Request) {
   return NextResponse.json({
     users: users.map((u) => ({
       id: u.id,
-      name: u.displayName ?? u.name ?? u.email,
+      name: displayNameFor(u, "Unknown"),
       email: u.email,
     })),
   });

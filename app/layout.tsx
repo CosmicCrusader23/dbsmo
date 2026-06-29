@@ -5,6 +5,7 @@ import "./globals.css";
 import { SiteSidebar } from "./site-sidebar";
 import { GlobalMobileNavToggle } from "./global-mobile-nav";
 import { AppFooter } from "./app-footer";
+import { AnimeRouteEffects } from "./anime-route-effects";
 
 export const metadata: Metadata = {
   title: "DBSMO Training Platform",
@@ -60,6 +61,7 @@ export default async function RootLayout({
         </div>
         {sidebar}
         {sidebar ? <GlobalMobileNavToggle /> : null}
+        <AnimeRouteEffects />
         <div className="site-content">{children}</div>
         <AppFooter />
       </body>

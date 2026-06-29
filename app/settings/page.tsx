@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Save, User, CheckCircle2, AlertCircle, Moon, Sun } from "lucide-react";
 import { Avatar } from "@/app/avatar";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { normalizeDisplayText } from "@/lib/display-name";
 
 const MAX_AVATAR_BYTES = 512 * 1024;
 const THEME_STORAGE_KEY = "mo-theme";
@@ -106,7 +107,7 @@ export default function SettingsPage() {
       .then((data) => {
         if (data.user) {
           setUser(data.user);
-          setDisplayName(data.user.displayName || "");
+          setDisplayName(normalizeDisplayText(data.user.displayName) ?? "");
           setAvatarUrl(data.user.avatarUrl || "");
           setProfileVisible(data.user.profileVisible ?? true);
           setLeaderboardVisible(data.user.leaderboardVisible ?? true);
@@ -168,7 +169,7 @@ export default function SettingsPage() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          displayName: displayName.trim() || null,
+          displayName: normalizeDisplayText(displayName),
           avatarUrl: avatarUrl.trim() || null,
           profileVisible,
           leaderboardVisible,
@@ -217,7 +218,7 @@ export default function SettingsPage() {
 
   const customAvatar = avatarUrl.trim();
   const currentAvatar = customAvatar || user.image?.trim() || "";
-  const previewName = displayName.trim() || user.name || "";
+  const previewName = normalizeDisplayText(displayName) ?? normalizeDisplayText(user.name) ?? "";
 
   return (
     <main className="settings-shell">
@@ -268,8 +269,11 @@ export default function SettingsPage() {
                 user={{
                   id: user?.id ?? null,
                   email: user?.email ?? null,
-                  displayName: displayName || user?.displayName || user?.name || null,
-                  name: user?.name ?? null,
+                  displayName:
+                    normalizeDisplayText(displayName) ??
+                    normalizeDisplayText(user?.displayName) ??
+                    normalizeDisplayText(user?.name),
+                  name: normalizeDisplayText(user?.name),
                   image: user?.image ?? null,
                 }}
                 size="lg"

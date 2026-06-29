@@ -1,10 +1,15 @@
+import { normalizeDisplayText } from "./display-name";
+
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-export function pickInitial(input: { displayName?: string | null; name?: string | null; email?: string | null }): string {
+export function pickInitial(input: {
+  displayName?: string | null;
+  name?: string | null;
+  email?: string | null;
+}): string {
   const candidates = [input.displayName, input.name, input.email];
   for (const c of candidates) {
-    if (!c) continue;
-    const trimmed = c.trim();
+    const trimmed = normalizeDisplayText(c);
     if (!trimmed) continue;
     const ch = trimmed[0].toUpperCase();
     if (ALPHABET.includes(ch)) return ch;

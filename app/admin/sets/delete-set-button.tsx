@@ -10,13 +10,21 @@ type DeleteSetButtonProps = {
   title: string;
   status: string;
   redirectTo?: string;
+  compact?: boolean;
 };
 
-export function DeleteSetButton({ setId, title, status, redirectTo }: DeleteSetButtonProps) {
+export function DeleteSetButton({
+  setId,
+  title,
+  status,
+  redirectTo,
+  compact = false,
+}: DeleteSetButtonProps) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const canDelete = status === "DRAFT" || status === "PUBLISHED";
+  const iconSize = compact ? 14 : 18;
 
   if (!canDelete) {
     return null;
@@ -60,13 +68,17 @@ export function DeleteSetButton({ setId, title, status, redirectTo }: DeleteSetB
   return (
     <span className="delete-set-action">
       <button
-        className="secondary-action compact danger-action"
+        className={`secondary-action${compact ? " compact" : ""} danger-action`}
         data-testid="delete-set-button"
         type="button"
         disabled={isDeleting}
         onClick={onDelete}
       >
-        {isDeleting ? <MathCurveLoader size={14} label="Deleting set" /> : <Trash2 size={14} />}
+        {isDeleting ? (
+          <MathCurveLoader size={iconSize} label="Deleting set" />
+        ) : (
+          <Trash2 size={iconSize} />
+        )}
         {isDeleting ? "Deleting..." : "Delete"}
       </button>
       {error ? <small className="form-error">{error}</small> : null}

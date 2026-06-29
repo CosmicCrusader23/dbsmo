@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { computeScoreBuckets, accuracyLevel } from "@/lib/analytics";
 import { hasPermission } from "@/lib/permissions";
+import { AnalyticsMotion } from "@/app/admin/analytics/analytics-motion";
 
 export const dynamic = "force-dynamic";
 
@@ -61,7 +62,8 @@ export default async function SetAnalyticsPage({ params }: Props) {
         <span className="bg-band bg-band-one" />
         <span className="bg-band bg-band-two" />
       </div>
-      <div className="page-frame">
+      <div className="page-frame analytics-frame">
+        <AnalyticsMotion />
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Analytics</p>

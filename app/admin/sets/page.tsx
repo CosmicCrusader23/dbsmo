@@ -249,7 +249,12 @@ export default async function AdminSetsPage({
                             <Download size={14} />
                             JSON
                           </a>
-                          <DeleteSetButton setId={set.id} title={set.title} status={set.status} />
+                          <DeleteSetButton
+                            setId={set.id}
+                            title={set.title}
+                            status={set.status}
+                            compact
+                          />
                         </div>
                       </td>
                     </tr>

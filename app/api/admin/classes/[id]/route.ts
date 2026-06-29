@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { validateClassName, buildCompletionMap } from "@/lib/classes";
+import { displayNameFor } from "@/lib/display-name";
 
 export const runtime = "nodejs";
 
@@ -100,7 +101,7 @@ export async function GET(_req: Request, ctx: RouteContext) {
     createdAt: detail.createdAt,
     members: detail.members.map((m) => ({
       id: m.studentId,
-      name: m.student.displayName ?? m.student.name ?? m.student.email,
+      name: displayNameFor(m.student, "Unknown"),
       email: m.student.email,
       addedAt: m.addedAt,
     })),

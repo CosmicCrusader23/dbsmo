@@ -51,7 +51,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
 - `/writeups` - global writeups directory from the sidebar with latest/top views and problem-set search (source: `app/writeups/page.tsx`).
 - `/practice` - practice-mode UI backed by tags/next/submit APIs (source: `app/practice/page.tsx`).
-- `/classes` - student-facing class route and teacher announcement composer (sources: `app/classes/page.tsx`, `app/classes/announcement-composer.tsx`).
+- `/classes` - student-facing class route plus teacher/admin subtabs for class lists and announcement management (sources: `app/classes/page.tsx`, `app/classes/announcement-composer.tsx`, `app/classes/delete-announcement-button.tsx`).
 
 ## Game Routes
 
@@ -100,6 +100,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `GET/POST /api/admin/backup` - backup endpoints (source: `app/api/admin/backup/route.ts`).
 - `GET/POST/PATCH/DELETE /api/admin/classes...` - class CRUD, roster mutation, assignment mutation, search endpoints (sources: `app/api/admin/classes/**`, `lib/classes.ts`).
 - `POST /api/admin/announcements` - create a class-targeted announcement for one or more teacher-owned classes, or any class for admins (source: `app/api/admin/announcements/route.ts`).
+- `DELETE /api/admin/announcements/[id]` - delete an announcement; admins can delete any announcement, teachers can delete announcements they authored (source: `app/api/admin/announcements/[id]/route.ts`).
 - `PATCH/DELETE /api/admin/feedback/[id]`, `PATCH /api/admin/feedback` - feedback status/admin-note changes (sources: `app/api/admin/feedback/**`).
 - `PATCH /api/admin/users/[id]/role` - role change endpoint (source: `app/api/admin/users/[id]/role/route.ts`).
 

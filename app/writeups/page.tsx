@@ -5,6 +5,7 @@ import { ArrowLeft, MessageSquareText, Search, TrendingUp } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { displayNameFor } from "@/lib/display-name";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { WriteupsClient } from "@/app/problem-sets/[slug]/writeups/writeups-client";
 
@@ -87,7 +88,7 @@ export default async function WriteupsPage({
     .filter((writeup) => currentUser.role === "ADMIN" || isVisibleToStudent(writeup.problemSet))
     .filter((writeup) => {
       if (!normalizedQuery) return true;
-      const authorLabel = writeup.author.displayName || writeup.author.name || writeup.author.email;
+      const authorLabel = displayNameFor(writeup.author);
       return [writeup.problemSet.title, writeup.problemSet.slug, writeup.title, authorLabel]
         .join(" ")
         .toLowerCase()

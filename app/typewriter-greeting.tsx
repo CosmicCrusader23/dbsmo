@@ -101,7 +101,6 @@ function GreetingTyper({ name }: { name: string }) {
   const [greetingIndex, setGreetingIndex] = useState(INITIAL_GREETING_INDEX);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const textRef = useRef<HTMLSpanElement>(null);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const storedSpeeds = useSyncExternalStore(
     subscribeToTypewriterSpeeds,
@@ -155,25 +154,6 @@ function GreetingTyper({ name }: { name: string }) {
   ]);
 
   useEffect(() => {
-    const text = textRef.current;
-
-    if (!text || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-    const textAnimation = animate(text, {
-      opacity: [0.72, 1],
-      translateY: [2, 0],
-      duration: isDeleting ? 90 : 140,
-      ease: "outQuad",
-    });
-
-    return () => {
-      textAnimation.revert();
-    };
-  }, [charIndex, isDeleting]);
-
-  useEffect(() => {
     const cursor = cursorRef.current;
 
     if (!cursor || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -196,7 +176,7 @@ function GreetingTyper({ name }: { name: string }) {
 
   return (
     <span className="typewriter-greeting" aria-label={activeGreeting}>
-      <span ref={textRef}>{activeGreeting.slice(0, charIndex)}</span>
+      {activeGreeting.slice(0, charIndex)}
       <span
         className={`typewriter-cursor${charIndex < activeGreeting.length || isDeleting ? " is-typing" : ""}`}
         ref={cursorRef}

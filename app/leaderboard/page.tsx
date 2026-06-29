@@ -7,6 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isStaffRole } from "@/lib/permissions";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 
 export const dynamic = "force-dynamic";
@@ -170,13 +171,12 @@ export default async function LeaderboardPage({
       const masteredSets = perSet.filter((s) => s.pct >= 80).length;
       const bestPoints = perSet.reduce((sum, attempt) => sum + attempt.score, 0);
       const possiblePoints = perSet.reduce((sum, attempt) => sum + attempt.maxScore, 0);
-      const bestAverage =
-        possiblePoints > 0 ? Math.round((bestPoints / possiblePoints) * 100) : 0;
+      const bestAverage = possiblePoints > 0 ? Math.round((bestPoints / possiblePoints) * 100) : 0;
 
       return {
         id: u.id,
         email: u.email,
-        displayLabel: u.displayName || u.name || "Anonymous",
+        displayLabel: displayNameFor(u),
         avatarUrl: u.avatarUrl,
         image: u.image,
         role: u.role,
@@ -327,7 +327,9 @@ export default async function LeaderboardPage({
         <article>
           <small>{mode === "practice" ? "Current leader" : "Sets in season"}</small>
           <strong>{mode === "practice" ? (topRow?.practiceScore ?? 0) : visibleSetIds.size}</strong>
-          <span>{mode === "practice" ? (topRow?.displayLabel ?? "No entries") : "Published now"}</span>
+          <span>
+            {mode === "practice" ? (topRow?.displayLabel ?? "No entries") : "Published now"}
+          </span>
         </article>
         <article>
           <small>Signal</small>

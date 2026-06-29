@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { animate, stagger } from "animejs";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type TrendPoint = {
   label: string;
@@ -84,6 +85,55 @@ export function TrendChart({ data }: { data: TrendPoint[] }) {
   const hovered = hover !== null ? points[hover] : null;
   const tooltipPct = hovered ? Math.max(0, Math.min(100, ((hovered.x - PAD_L) / PLOT_W) * 100)) : 0;
 
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const root = wrapRef.current;
+    const line = root?.querySelector<SVGPathElement>(".trend-line");
+    const area = root?.querySelector<SVGPathElement>(".trend-area");
+    const dots = root ? Array.from(root.querySelectorAll<SVGCircleElement>(".trend-dot")) : [];
+
+    if (!line) {
+      return;
+    }
+
+    const length = line.getTotalLength();
+    line.style.strokeDasharray = `${length}`;
+    line.style.strokeDashoffset = `${length}`;
+
+    const lineAnimation = animate(line, {
+      strokeDashoffset: 0,
+      duration: 980,
+      ease: "outCubic",
+    });
+    const areaAnimation = area
+      ? animate(area, {
+          opacity: [{ from: 0, to: 1 }],
+          duration: 720,
+          delay: 240,
+          ease: "outQuad",
+        })
+      : null;
+    const dotAnimation =
+      dots.length > 0
+        ? animate(dots, {
+            opacity: [{ from: 0, to: 1 }],
+            scale: [{ from: 0.55, to: 1 }],
+            duration: 420,
+            delay: stagger(32, { start: 320 }),
+            ease: "outBack(1.5)",
+          })
+        : null;
+
+    return () => {
+      lineAnimation.revert();
+      areaAnimation?.revert();
+      dotAnimation?.revert();
+    };
+  }, [linePath]);
+
   return (
     <div className="trend-chart-wrap" ref={wrapRef}>
       <svg
@@ -129,8 +179,9 @@ export function TrendChart({ data }: { data: TrendPoint[] }) {
           );
         })}
 
-        <path d={areaPath} fill="url(#trendArea)" />
+        <path className="trend-area" d={areaPath} fill="url(#trendArea)" />
         <path
+          className="trend-line"
           d={linePath}
           fill="none"
           stroke="var(--color-pink)"
@@ -141,6 +192,7 @@ export function TrendChart({ data }: { data: TrendPoint[] }) {
 
         {points.map((p) => (
           <circle
+            className="trend-dot"
             key={p.i}
             cx={p.x}
             cy={p.y}

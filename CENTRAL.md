@@ -29,11 +29,13 @@ Stack: Next.js, NextAuth (Google + dev bypass), Prisma, KaTeX for math, Lucide i
 
 ### Now (this session)
 
-- No active half-finished feature after the current class announcements update lands.
+- No active half-finished feature after the current mobile/classes/animations update lands.
 
 ### Recently landed
 
-- **Anime.js animation pass** — the shared `MathCurveLoader` now drives SVG path drawing, rotation, and dot pulses with Anime.js v4 instead of CSS keyframes, and `TypewriterGreeting` uses Anime.js for its text tick/caret motion. Dependency: `animejs` in `package.json`. Reduced-motion users still get static loader/caret output.
+- **Mobile/classes cleanup** — fixed mobile `/problem-sets` hiding task rows by restoring the responsive card table, stabilized the mobile sidebar grid to avoid icon reflow on tap/focus, and made dashboard auth/actions render as a compact mobile account card. `/classes` now has a teacher/admin `Announcements` subtab that lists existing class messages and supports author/admin deletion. Display-name fallbacks now treat literal `"null"`/`"undefined"` strings as empty via `lib/display-name.ts`.
+- **Anime.js animation pass** — the shared `MathCurveLoader` now drives SVG path drawing, rotation, and dot pulses with Anime.js v4 instead of CSS keyframes, `AnimeRouteEffects` adds reduced-motion-aware route reveal animations for key panels/rows/actions, and analytics surfaces use `AnalyticsMotion` plus animated `TrendChart` path/dots for growing bars and drawn charts. `TypewriterGreeting` keeps the existing typed/deleted text state machine and only animates the caret, avoiding per-character text tween flicker. Dependency: `animejs` in `package.json`.
+- **Per-set analytics access** — admins can open `/admin/sets/[id]/analytics` directly from the student-facing problem set header and the admin set editor; the editor delete action uses full-size topbar button sizing while the list keeps compact row actions.
 - **Problem-set writeups** — `/problem-sets/[slug]/writeups` lets signed-in users post LaTeX/HTML solution notes with up to four images, then sort by latest/top and upvote/downvote posts. Authors can delete their own writeups with confirmation; admins can delete any writeup. `/writeups` is the sidebar directory for latest/top writeups and problem-set search. Persistence uses new `Writeup`, `WriteupImage`, and `WriteupVote` Prisma models plus `lib/writeup-images.ts`; image bytes are stored through the existing storage layer and streamed via `/api/files/[id]`.
 - **Class announcements** — teachers/admins post title/body announcements from `/classes` to one or more classes. `Announcement` persists the message with an implicit class relation; `POST /api/admin/announcements` enforces `admin:users` and teacher ownership. Dashboard loads targeted announcements fresh on page render and pins them above the hero.
 - **Profile mastery heatmap** — `app/users/[username]/page.tsx` now renders a GitHub-style yearly heatmap between authored tasks and the set grid. It counts days where the profile user mastered one or more sets with best-day intensity capped at 5.

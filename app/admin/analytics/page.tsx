@@ -4,6 +4,7 @@ import type { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { AnalyticsFilters } from "./filters";
+import { AnalyticsMotion } from "./analytics-motion";
 import { TrendChart, type TrendPoint } from "./trend-chart";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
@@ -15,6 +16,7 @@ import {
 } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { hasPermission } from "@/lib/permissions";
+import { displayNameFor } from "@/lib/display-name";
 
 export const dynamic = "force-dynamic";
 
@@ -274,9 +276,7 @@ export default async function AnalyticsOverviewPage({
       .filter((group) => group.problemId)
       .map((group) => [group.problemId as string, group._count._all]),
   );
-  const studentMap = new Map(
-    attemptStudents.map((s) => [s.id, s.displayName || s.name || s.email]),
-  );
+  const studentMap = new Map(attemptStudents.map((s) => [s.id, displayNameFor(s, "Unknown")]));
 
   const totalResponses = responses.length;
   const correctCount = responses.filter((r) => r.isCorrect).length;
@@ -514,6 +514,7 @@ export default async function AnalyticsOverviewPage({
         <span className="bg-spark bg-spark-two" />
       </div>
       <div className="page-frame analytics-frame">
+        <AnalyticsMotion />
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Admin</p>
@@ -546,7 +547,7 @@ export default async function AnalyticsOverviewPage({
               current: selectedStudent?.id ?? "",
               options: students.map((s) => ({
                 value: s.id,
-                label: s.displayName || s.name || s.email || "",
+                label: displayNameFor(s, "Unknown"),
               })),
             },
             {

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   ArrowLeft,
+  BarChart3,
   CheckCircle2,
   ChevronDown,
   ChevronRight,
@@ -484,6 +485,10 @@ export function SetEditForm({ set }: { set: SetData }) {
             <Download size={18} />
             Export JSON
           </button>
+          <Link className="secondary-action" href={`/admin/sets/${set.id}/analytics`}>
+            <BarChart3 size={18} />
+            Analytics
+          </Link>
           <DeleteSetButton
             setId={set.id}
             title={set.title}

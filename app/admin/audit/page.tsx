@@ -5,6 +5,7 @@ import { ArrowLeft, ShieldCheck, Search } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
+import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { AuditFilters } from "./audit-filters";
 
@@ -109,7 +110,7 @@ export default async function AdminAuditPage({
     .filter((r) => r.actorId)
     .map((r) => ({
       value: r.actorId as string,
-      label: r.actor?.displayName || r.actor?.name || r.actor?.email || "Unknown",
+      label: r.actor ? displayNameFor(r.actor, "Unknown") : "Unknown",
     }));
 
   const oneDayAgo = new Date();
@@ -181,8 +182,7 @@ export default async function AdminAuditPage({
               <p className="audit-empty">No audit events match the filters.</p>
             ) : (
               logs.map((log) => {
-                const actor =
-                  log.actor?.displayName || log.actor?.name || log.actor?.email || "System";
+                const actor = log.actor ? displayNameFor(log.actor, "System") : "System";
                 const meta = log.metadata ? JSON.stringify(log.metadata) : null;
                 return (
                   <article className="audit-row" key={log.id}>

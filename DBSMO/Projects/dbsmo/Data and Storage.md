@@ -108,7 +108,7 @@ Class detail authorization requires session, `admin:users`, class existence, and
 
 Assignment data shown to students comes from `/api/assignments/mine` and is rendered by `AssignmentsWidget` sorted by incomplete first and due date ascending (source: `app/dashboard/assignments-widget.tsx`, `app/api/assignments/mine/route.ts`).
 
-Class announcements are created through `POST /api/admin/announcements`, which requires `admin:users`; non-admin teachers can target only classes where they are `teacherId`. `/classes` renders `AnnouncementComposer` for teachers/admins, and `app/dashboard/page.tsx` loads announcements for classes where the current user is a member, ordered newest first and pinned above the dashboard hero (sources: `app/api/admin/announcements/route.ts`, `app/classes/announcement-composer.tsx`, `app/classes/page.tsx`, `app/dashboard/page.tsx`).
+Class announcements are created through `POST /api/admin/announcements`, which requires `admin:users`; non-admin teachers can target only classes where they are `teacherId`. `/classes?tab=announcements` renders `AnnouncementComposer`, lists existing related announcements, and deletes messages through `DELETE /api/admin/announcements/[id]` for admins or the announcement author. `app/dashboard/page.tsx` loads announcements for classes where the current user is a member, ordered newest first and pinned above the dashboard hero (sources: `app/api/admin/announcements/route.ts`, `app/api/admin/announcements/[id]/route.ts`, `app/classes/announcement-composer.tsx`, `app/classes/delete-announcement-button.tsx`, `app/classes/page.tsx`, `app/dashboard/page.tsx`).
 
 ## Exports and Backups
 

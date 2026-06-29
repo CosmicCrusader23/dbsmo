@@ -9373,7 +9373,7 @@ html:not(.light) .ftw-rank.rank-1 {
   .task-search-panel input,
   .task-search-panel select,
   .task-search-panel button { width: 100%; min-height: 44px; }
-  .problem-hub-table-panel table,
+  .problem-hub-table-panel table { display: block; min-width: 0 !important; width: 100%; }
   .problem-hub-table-panel thead { display: none; }
   .problem-hub-table-panel tbody,
   .problem-hub-table-panel tr.problem-set-row,
@@ -9386,6 +9386,7 @@ html:not(.light) .ftw-rank.rank-1 {
     background: var(--color-card-bg);
   }
   .problem-hub-table-panel tr.problem-set-row td { padding: 4px 0 !important; border: 0 !important; }
+  .problem-hub-table-panel .table-wrap { overflow-x: visible !important; }
 
   /* Profile */
   .profile-shell { padding: 1.25rem 1rem 3rem; }
@@ -9410,19 +9411,39 @@ html:not(.light) .ftw-rank.rank-1 {
   .metric-grid { grid-template-columns: minmax(0, 1fr); }
   .problem-hub-tab { flex: 1 1 100%; }
   .profile-stats-row { grid-template-columns: minmax(0, 1fr); }
+  .classes-shell { padding: 18px 14px 32px; }
+  .classes-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .classes-tabs a { justify-content: center; padding: 0 10px; }
+  .class-announcement-composer { grid-template-columns: minmax(0, 1fr); }
+  .classes-announcement-card { grid-template-columns: minmax(0, 1fr); }
+  .announcement-delete-button,
+  .announcement-delete-confirm { justify-self: stretch; width: 100%; }
+  .announcement-delete-confirm .secondary-action,
+  .announcement-delete-confirm .danger-action { flex: 1 1 auto; justify-content: center; }
 }
 
 /* ---------- Mobile polish — fix sheet nav, leaderboard, dashboard topbar ---------- */
 @media (max-width: 1050px) {
   /* Mobile sheet nav: compact grid keeps the popup from creating its own scroll area */
   body.has-site-sidebar .sidebar.site-sidebar .nav-list {
-    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 44px;
+    align-items: stretch;
   }
   body.has-site-sidebar .sidebar.site-sidebar .nav-item {
     justify-content: flex-start;
-    min-height: 36px;
-    overflow: visible;
+    height: 44px;
+    min-height: 44px;
+    min-width: 0;
+    overflow: hidden;
+    padding: 0 10px;
     width: 100%;
+    gap: 8px;
+    border-radius: 12px;
+    transform: none !important;
+  }
+  body.has-site-sidebar .sidebar.site-sidebar .nav-item svg {
+    flex: 0 0 auto;
   }
   body.has-site-sidebar .sidebar.site-sidebar .nav-label,
   html.mobile-nav-open .sidebar.site-sidebar .nav-label {
@@ -9432,7 +9453,8 @@ html:not(.light) .ftw-rank.rank-1 {
     pointer-events: auto !important;
     transform: none !important;
     white-space: nowrap !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
 
   /* Hard cap so no descendant can inflate workspace beyond the viewport */
@@ -9455,17 +9477,51 @@ html:not(.light) .ftw-rank.rank-1 {
   .topbar-actions .primary-action { flex: 1 1 auto; min-width: 140px; justify-content: center; }
 
   /* Dashboard hero: pair the auth bits horizontally */
+  .workspace > .topbar .topbar-actions {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-auto-flow: dense;
+    align-items: center;
+    gap: 10px;
+  }
+  .workspace > .topbar .topbar-actions > .theme-toggle,
+  .workspace > .topbar .topbar-actions > .icon-button {
+    width: 48px;
+    height: 48px;
+    justify-self: center;
+  }
+  .workspace > .topbar .topbar-actions > .auth-session,
+  .workspace > .topbar .topbar-actions > .primary-action {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .workspace > .topbar .topbar-actions > .primary-action {
+    justify-content: center;
+  }
   .auth-session,
   .auth-actions-inline,
   .auth-bypass {
-    width: auto;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
   }
+  .workspace > .topbar .auth-session {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    padding: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--color-surface) 82%, transparent);
+  }
   .auth-session > *,
   .auth-actions-inline > * { min-width: 0; }
+  .workspace > .topbar .auth-session .session-badge {
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   /* Leaderboard mobile: stack table rows into cards */
   .leaderboard-shell { padding: 1.25rem 1rem 3rem; }
@@ -9508,8 +9564,8 @@ html:not(.light) .ftw-rank.rank-1 {
 
   /* Admin students table: scroll horizontally rather than crop */
   .admin-students-shell .table-wrap,
-  .panel.table-panel .table-wrap { overflow-x: auto; }
-  .panel.table-panel table { min-width: 720px; }
+  .panel.table-panel:not(.problem-hub-table-panel) .table-wrap { overflow-x: auto; }
+  .panel.table-panel:not(.problem-hub-table-panel) table { min-width: 720px; }
 }
 
 @media (max-width: 480px) {
@@ -9979,6 +10035,10 @@ html:not(.light) .ftw-rank.rank-1 {
 /* ── Classes list page ── */
 .classes-shell { padding: 24px; max-width: 1100px; margin: 0 auto; }
 .classes-shell .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.classes-tabs { display: inline-flex; gap: 6px; padding: 5px; margin: 0 0 18px; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-surface); }
+.classes-tabs a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border-radius: 10px; color: var(--color-muted); font-weight: 900; text-decoration: none; }
+.classes-tabs a:hover { color: var(--color-text-strong); background: var(--color-surface-alt); }
+.classes-tabs a.active { color: var(--color-text-strong); background: rgba(47, 185, 232, 0.14); box-shadow: inset 0 -2px 0 var(--color-blue); }
 .classes-empty { padding: 36px; border: 1px dashed var(--color-border); border-radius: 14px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; color: var(--color-muted); }
 .classes-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
 .classes-card { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; border-radius: 14px; border: 1px solid var(--color-border); background: var(--color-surface); transition: border-color 120ms ease; }
@@ -10065,6 +10125,17 @@ html:not(.light) .ftw-rank.rank-1 {
   gap: 10px;
   flex-wrap: wrap;
 }
+
+.classes-announcement-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 12px; }
+.classes-announcement-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: start; padding: 16px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); }
+.classes-announcement-card header,
+.classes-announcement-card footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.classes-announcement-card header strong { color: var(--color-text-strong); font-size: 1rem; }
+.classes-announcement-card header span,
+.classes-announcement-card footer { color: var(--color-muted); font-size: 0.8rem; font-weight: 800; }
+.classes-announcement-card p { margin: 10px 0; color: var(--color-text); line-height: 1.55; white-space: pre-wrap; }
+.announcement-delete-confirm { display: inline-flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.announcement-delete-confirm .form-error { flex: 1 1 100%; text-align: right; }
 
 /* ── New class form ── */
 .classes-form { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }

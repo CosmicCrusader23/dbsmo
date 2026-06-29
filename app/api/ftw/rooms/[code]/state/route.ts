@@ -4,13 +4,11 @@ import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { advanceRoomIfDue } from "@/lib/ftw-room-server";
 import { maxRoomScorePerProblem } from "@/lib/ftw-room";
+import { displayNameFor } from "@/lib/display-name";
 
 export const runtime = "nodejs";
 
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ code: string }> },
-) {
+export async function GET(_req: Request, { params }: { params: Promise<{ code: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -69,7 +67,7 @@ export async function GET(
   const current = room.problems[0];
   const isLocked = current ? Boolean(current.lockedAt) : false;
   const myAnswer = current
-    ? current.answers.find((a) => a.userId === session.user.id) ?? null
+    ? (current.answers.find((a) => a.userId === session.user.id) ?? null)
     : null;
 
   const showStatement = room.status === "IN_PROGRESS" && current && !current.lockedAt;
@@ -88,7 +86,7 @@ export async function GET(
     players: room.players.map((p) => ({
       id: p.id,
       userId: p.userId,
-      name: p.user.displayName ?? p.user.name ?? "Player",
+      name: displayNameFor(p.user, "Player"),
       score: p.score,
       hasAnsweredCurrent: playerAnsweredIds.has(p.id),
       isYou: p.userId === session.user.id,

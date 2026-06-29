@@ -54,11 +54,12 @@ User profile pages include an **Authored tasks** section above the set/problem g
 Teachers and admins can post class announcements from the **Classes** page.
 
 1. Open **Classes** in the sidebar.
-2. In **Message classes**, enter an announcement title and message.
-3. Select one or more target classes.
-4. Click **Post**.
+2. Open the **Announcements** tab.
+3. In **Message classes**, enter an announcement title and message.
+4. Select one or more target classes.
+5. Click **Post**.
 
-Students in the selected classes see the message pinned at the top of their dashboard the next time the page loads. There is no real-time push.
+The same tab lists existing announcements. Admins can delete any announcement; teachers can delete announcements they authored. Students in the selected classes see messages pinned at the top of their dashboard the next time the page loads. There is no real-time push.
 
 ## Managing Students
 
@@ -81,7 +82,7 @@ Students in the selected classes see the message pinned at the top of their dash
 
 ### Per-Set Analytics
 
-1. In **Manage Sets**, click the analytics icon next to a set.
+1. In **Manage Sets**, click the analytics icon next to a set. You can also open analytics from a problem set header when signed in as an admin, or from the set editor topbar.
 2. View per-question accuracy bars, score distribution buckets, and recent attempts.
 
 ## Handling Feedback

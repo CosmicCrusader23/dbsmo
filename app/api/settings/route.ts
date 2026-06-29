@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
+import { normalizeDisplayText } from "@/lib/display-name";
 
 const MAX_AVATAR_URL_LENGTH = 700_000;
 
@@ -106,11 +107,12 @@ export async function PATCH(req: Request) {
     } catch {
       return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
     }
-    const { displayName, avatarUrl, profileVisible, leaderboardVisible, theme, greetingSettings } = body;
+    const { displayName, avatarUrl, profileVisible, leaderboardVisible, theme, greetingSettings } =
+      body;
     const normalizedAvatarUrl = normalizeAvatarUrl(avatarUrl);
 
     if (displayName !== undefined && displayName !== null) {
-      const trimmed = String(displayName).trim();
+      const trimmed = normalizeDisplayText(String(displayName)) ?? "";
       if (trimmed.length > 50) {
         return NextResponse.json(
           { error: "Display name must be 50 characters or fewer." },
@@ -137,10 +139,12 @@ export async function PATCH(req: Request) {
     const updated = await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        displayName: displayName !== undefined ? String(displayName).trim() || null : undefined,
+        displayName:
+          displayName !== undefined ? normalizeDisplayText(String(displayName)) : undefined,
         avatarUrl: normalizedAvatarUrl,
         profileVisible: typeof profileVisible === "boolean" ? profileVisible : undefined,
-        leaderboardVisible: typeof leaderboardVisible === "boolean" ? leaderboardVisible : undefined,
+        leaderboardVisible:
+          typeof leaderboardVisible === "boolean" ? leaderboardVisible : undefined,
         theme: typeof theme === "string" ? theme : undefined,
         greetingSettings: typeof greetingSettings === "string" ? greetingSettings : undefined,
       },

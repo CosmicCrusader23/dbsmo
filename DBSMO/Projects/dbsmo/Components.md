@@ -15,7 +15,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Global Shell
 
-- `RootLayout` in `app/layout.tsx`: imports KaTeX CSS/global CSS, sets metadata/viewport, injects an early theme script from `localStorage`, renders `SiteSidebar`, optional mobile nav toggle, and `.site-content`.
+- `RootLayout` in `app/layout.tsx`: imports KaTeX CSS/global CSS, sets metadata/viewport, injects an early theme script from `localStorage`, renders `SiteSidebar`, optional mobile nav toggle, `AnimeRouteEffects`, and `.site-content`.
+- `AnimeRouteEffects` in `app/anime-route-effects.tsx`: client-only Anime.js v4 route reveal pass for visible page panels, rows, cards, and action controls; it reruns on pathname changes and exits for `prefers-reduced-motion`.
 - `SiteSidebar` in `app/site-sidebar.tsx`: server component that loads session/user and builds sidebar links based on raw admin role plus `hasPermission(...)`. It renders `SiteSidebarNav` and `GlobalMobileNavScrim`.
 - `SiteSidebarNav` in `app/site-sidebar-nav.tsx`: client nav that maps link icon names to lucide icons and marks active links by pathname prefix.
 - `GlobalMobileNavToggle` and `GlobalMobileNavScrim` in `app/global-mobile-nav.tsx`: mobile sidebar controls used by the root shell/sidebar.
@@ -23,7 +24,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `Avatar` in `app/avatar.tsx`: shared avatar display; deterministic fallback initial/tint helper lives in `lib/avatar.ts`.
 - `ThemeToggle` in `app/theme-toggle.tsx`: theme control used on dashboard and problem set pages.
 - `MathCurveLoader` in `app/math-curve-loader.tsx`: shared inline loading indicator used across admin, problem set, FTW, classes, settings, and profile actions. It renders random math-curve SVG variants and uses Anime.js v4 for path drawing, rotor spin, and dot pulses while respecting `prefers-reduced-motion`.
-- `TypewriterGreeting` in `app/typewriter-greeting.tsx`: animated greeting used by dashboard and configured in settings. It keeps the existing typed/deleted text state machine and uses Anime.js v4 for subtle text tick and caret motion.
+- `TypewriterGreeting` in `app/typewriter-greeting.tsx`: animated greeting used by dashboard and configured in settings. It keeps the existing typed/deleted text state machine and uses Anime.js v4 only for caret motion, avoiding per-character text tweens that flicker.
 
 ## Student Dashboard and Catalog
 
@@ -53,13 +54,15 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`; supports per-problem image uploads and preview through `LatexStatement`. Uploaded images are appended as `[[img:key]]` tokens for preview/save when not already referenced.
 - `StatementPreview` in `app/admin/create/page-client.tsx`: local preview for statement content/format, including problem image assets rendered by `LatexStatement`.
 - `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF upload, image upload, status, problem list, answer keys/types, points, explanations, and save to `/api/admin/sets/[id]`. It shares the same per-problem image-token append behavior before save.
-- `DeleteSetButton` in `app/admin/sets/delete-set-button.tsx`: client delete action used by set management/detail flows and backed by `DELETE /api/admin/sets/[id]`.
+- `DeleteSetButton` in `app/admin/sets/delete-set-button.tsx`: client delete action used by set management/detail flows and backed by `DELETE /api/admin/sets/[id]`; it supports compact row sizing and full topbar sizing.
 - `JsonZipImportPanel` in `app/admin/import/json-zip-import-panel.tsx`: batch JSON ZIP import UI; unpacks `.json` files plus optional same-basename nested image ZIPs and runs dry-run/draft/commit per entry.
 - `ZipImportPanel` in `app/admin/import/zip-import-panel.tsx`: single JSON import UI; accepts optional same-basename image ZIP and runs dry-run/draft/commit flow.
 
 ## Admin Classes and Assignments
 
+- `ClassesPage` in `app/classes/page.tsx`: student/teacher route with `Classes` and teacher/admin-only `Announcements` subtabs. The announcements tab lists existing messages for relevant classes, embeds `AnnouncementComposer`, and uses `DeleteAnnouncementButton` for author/admin deletion.
 - `AnnouncementComposer` in `app/classes/announcement-composer.tsx`: teacher/admin client composer that targets one or more classes and posts to `/api/admin/announcements`.
+- `DeleteAnnouncementButton` in `app/classes/delete-announcement-button.tsx`: confirm-delete client control for class announcements, backed by `DELETE /api/admin/announcements/[id]`.
 - `NewClassForm` in `app/admin/classes/new/new-class-form.tsx`: class creation client; searches students through `/api/admin/classes/student-search` and posts to `/api/admin/classes`.
 - `ClassDetailClient` in `app/admin/classes/[id]/class-detail-client.tsx`: class detail client; loads `/api/admin/classes/[id]`, adds/removes members, assigns/removes sets, deletes the class, and displays completion counts.
 - `RosterPicker` in `app/admin/classes/[id]/class-detail-client.tsx`: local student search/add component.
@@ -69,7 +72,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 - `AnalyticsOverviewPage` in `app/admin/analytics/page.tsx`: server route that builds analytics summary/trend/filter options.
 - `AnalyticsFilters` and local `SearchableSelect` in `app/admin/analytics/filters.tsx`: client filter bar that edits query params and supports searchable dropdowns/date range.
-- `TrendChart` in `app/admin/analytics/trend-chart.tsx`: client SVG chart for attempts/completions/average percent trend.
+- `AnalyticsMotion` in `app/admin/analytics/analytics-motion.tsx`: client Anime.js pass for analytics pages; meter fills, score distribution bars, daily activity bars, and accuracy cards animate on page/filter changes with reduced-motion exit.
+- `TrendChart` in `app/admin/analytics/trend-chart.tsx`: client SVG chart for attempts/completions/average percent trend; Anime.js draws the line path and pops the dots in when the chart data changes.
 - `AuditFilters` and local `SearchableSelect` in `app/admin/audit/audit-filters.tsx`: audit-log filtering UI.
 - `FeedbackTable` in `app/admin/feedback/feedback-table.tsx`: feedback list/table client.
 - `FeedbackActions` in `app/admin/feedback/feedback-actions.tsx`: feedback status/admin-note actions backed by admin feedback APIs.

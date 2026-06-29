@@ -5,6 +5,7 @@ import "katex/dist/katex.min.css";
 
 import {
   ArrowLeft,
+  BarChart3,
   CheckCircle2,
   ExternalLink,
   FileText,
@@ -120,10 +121,16 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
           <div className="topbar-actions">
             <ThemeToggle />
             {user.role === "ADMIN" && (
-              <Link className="secondary-action" href={`/admin/sets/${problemSet.id}`}>
-                <Settings size={18} />
-                Manage set
-              </Link>
+              <>
+                <Link className="secondary-action" href={`/admin/sets/${problemSet.id}/analytics`}>
+                  <BarChart3 size={18} />
+                  Analytics
+                </Link>
+                <Link className="secondary-action" href={`/admin/sets/${problemSet.id}`}>
+                  <Settings size={18} />
+                  Manage set
+                </Link>
+              </>
             )}
             <Link className="secondary-action" href="/dashboard">
               <ArrowLeft size={18} />
