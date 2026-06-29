@@ -17,19 +17,12 @@ export async function SiteSidebar() {
   if (!user) return null;
 
   const profileHref = profilePathFromEmail(user.email);
-  const isAdmin = user.role === "ADMIN";
   const links: SidebarLink[] = [
     { href: "/dashboard", label: "Dashboard", icon: "Gauge" },
     { href: "/problem-sets", label: "Problem Sets", icon: "ClipboardList" },
     { href: "/writeups", label: "Writeups", icon: "MessageSquareText" },
     { href: "/practice", label: "Practice", icon: "Target" },
     { href: "/classes", label: "Classes", icon: "GraduationCap" },
-    ...(isAdmin
-      ? [
-          { href: "/ftw", label: "FTW", icon: "Swords" as const },
-          { href: "/playground", label: "Playground", icon: "Sparkles" as const },
-        ]
-      : []),
   ];
 
   if (hasPermission(user.role, "admin:view")) {
