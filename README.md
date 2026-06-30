@@ -46,5 +46,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Switched the shared math curve loader, route-level UI reveals, and analytics chart/bar motion to Anime.js v4 while keeping reduced-motion fallbacks; stabilized the dashboard typewriter by removing the per-character text tween that caused flicker.
 - Fixed mobile problem-set task cards/sidebar tap layout/dashboard account controls, added the `/classes` Announcements subtab with existing-message deletion, and normalized literal `null` display names.
 - Added direct per-set Analytics buttons on both the student-facing set header for admins and the admin set editor, and made the set-editor Delete button match the other topbar action sizing.
+- Fixed the mobile sidebar tap/focus jump by keeping the opened sheet geometry stable when nav items receive focus.
 
 © 2026 Cosmic Crusader

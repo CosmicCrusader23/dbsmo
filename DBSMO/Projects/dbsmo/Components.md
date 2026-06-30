@@ -19,7 +19,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `AnimeRouteEffects` in `app/anime-route-effects.tsx`: client-only Anime.js v4 route reveal pass for visible page panels, rows, cards, and action controls; it reruns on pathname changes and exits for `prefers-reduced-motion`.
 - `SiteSidebar` in `app/site-sidebar.tsx`: server component that loads session/user and builds sidebar links based on raw admin role plus `hasPermission(...)`. It renders `SiteSidebarNav` and `GlobalMobileNavScrim`.
 - `SiteSidebarNav` in `app/site-sidebar-nav.tsx`: client nav that maps link icon names to lucide icons and marks active links by pathname prefix.
-- `GlobalMobileNavToggle` and `GlobalMobileNavScrim` in `app/global-mobile-nav.tsx`: mobile sidebar controls used by the root shell/sidebar.
+- `GlobalMobileNavToggle` and `GlobalMobileNavScrim` in `app/global-mobile-nav.tsx`: mobile sidebar controls used by the root shell/sidebar. Mobile sheet sizing is fixed in `app/globals.css` so hover/focus/focus-within states keep the same top padding and do not shift the nav grid during taps.
 - `AuthButton` in `app/auth-button.tsx`: sign-in/sign-out control. It renders Google sign-in, optional bypass buttons, session badge, and profile avatar link.
 - `Avatar` in `app/avatar.tsx`: shared avatar display; deterministic fallback initial/tint helper lives in `lib/avatar.ts`.
 - `ThemeToggle` in `app/theme-toggle.tsx`: theme control used on dashboard and problem set pages.
