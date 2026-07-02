@@ -1598,6 +1598,59 @@ img.avatar {
   font-weight: 800;
 }
 
+.set-answer-preview,
+.answer-cell-preview,
+.test-answer-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 72px;
+  min-height: 46px;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: color-mix(in srgb, var(--meter-track) 84%, var(--color-card-bg));
+  color: var(--color-text-strong);
+  overflow-x: auto;
+}
+
+.set-answer-preview {
+  justify-self: start;
+  margin-bottom: -8px;
+}
+
+.answer-cell-preview {
+  width: calc(100% - 20px);
+  justify-self: center;
+  margin: 10px 10px -1px;
+}
+
+.test-answer-preview {
+  width: 100%;
+  min-height: 38px;
+  margin-bottom: -1px;
+  padding: 8px 10px;
+  border-radius: 10px 10px 0 0;
+  font-size: 0.86rem;
+}
+
+.set-answer-preview .katex-display,
+.answer-cell-preview .katex-display,
+.test-answer-preview .katex-display {
+  margin: 0;
+}
+
+.set-answer-preview .katex,
+.answer-cell-preview .katex {
+  font-size: 1.08em;
+}
+
+.test-answer-preview .katex {
+  font-size: 1em;
+}
+
 .question-answer-input:focus {
   border-color: var(--color-blue);
   outline: none;

@@ -72,6 +72,16 @@ describe("gradeAnswer", () => {
     expect(result.isCorrect).toBe(true);
   });
 
+  it("evaluates coefficients before LaTeX functions", () => {
+    const result = gradeAnswer({
+      answerType: "expression",
+      answerKey: "5\\sqrt{2}-7",
+      rawAnswer: "5sqrt(2)-7",
+    });
+
+    expect(result.isCorrect).toBe(true);
+  });
+
   it("evaluates LaTeX fractions and braced powers in expressions", () => {
     expect(
       gradeAnswer({

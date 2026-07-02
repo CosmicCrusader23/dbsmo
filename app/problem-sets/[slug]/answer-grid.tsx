@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CheckCircle2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { mathInputToTex } from "@/lib/math-input";
 import { LatexStatement } from "./latex-statement";
 
 type SubmitResult = {
@@ -381,6 +382,17 @@ export function AnswerGrid({
     return "";
   }
 
+  function answerPreview(problemNumber: number, className = "set-answer-preview") {
+    const tex = mathInputToTex(answers[problemNumber] ?? "");
+    if (!tex) return null;
+
+    return (
+      <div className={className} aria-live="polite">
+        <LatexStatement statement={`$${tex}$`} />
+      </div>
+    );
+  }
+
   function renderJumpGrid(className?: string) {
     return (
       <div className={`problem-jump-grid${className ? ` ${className}` : ""}`}>
@@ -582,14 +594,17 @@ export function AnswerGrid({
                         <CheckCircle2 size={16} className="grade-icon correct-icon" />
                       </div>
                     ) : (
-                      <input
-                        className="question-answer-input"
-                        aria-label={`Answer ${number}`}
-                        name={`answer-${number}`}
-                        placeholder="Enter answer"
-                        value={answers[number] ?? ""}
-                        onChange={(e) => onAnswerChange(number, e.target.value)}
-                      />
+                      <>
+                        {answerPreview(number)}
+                        <input
+                          className="question-answer-input"
+                          aria-label={`Answer ${number}`}
+                          name={`answer-${number}`}
+                          placeholder="Enter answer"
+                          value={answers[number] ?? ""}
+                          onChange={(e) => onAnswerChange(number, e.target.value)}
+                        />
+                      </>
                     )}
                   </label>
 
@@ -667,14 +682,17 @@ export function AnswerGrid({
                               <CheckCircle2 size={14} className="grade-icon correct-icon" />
                             </div>
                           ) : (
-                            <input
-                              className="test-answer-input"
-                              aria-label={`Answer ${cell.label}`}
-                              name={`answer-${cell.problemNumber}`}
-                              placeholder={cell.label}
-                              value={answers[cell.problemNumber] ?? ""}
-                              onChange={(e) => onAnswerChange(cell.problemNumber, e.target.value)}
-                            />
+                            <>
+                              {answerPreview(cell.problemNumber, "test-answer-preview")}
+                              <input
+                                className="test-answer-input"
+                                aria-label={`Answer ${cell.label}`}
+                                name={`answer-${cell.problemNumber}`}
+                                placeholder={cell.label}
+                                value={answers[cell.problemNumber] ?? ""}
+                                onChange={(e) => onAnswerChange(cell.problemNumber, e.target.value)}
+                              />
+                            </>
                           )}
                         </td>
                       );
@@ -829,6 +847,7 @@ export function AnswerGrid({
             {problemNumbers.map((number) => (
               <label className="answer-cell" key={number}>
                 <span className="answer-cell-label">Question {number}</span>
+                {answerPreview(number, "answer-cell-preview")}
                 <input
                   className="answer-cell-input"
                   aria-label={`Answer ${number}`}

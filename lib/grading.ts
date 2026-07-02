@@ -273,7 +273,7 @@ function insertImplicitMultiplication(tokens: MathToken[]): MathToken[] {
     const current = tokens[index];
     const previous = result[result.length - 1];
 
-    if (previous && shouldInsertMultiplication(previous, current, tokens[index + 1])) {
+    if (previous && shouldInsertMultiplication(previous, current)) {
       result.push({ type: "operator", value: "*" });
     }
 
@@ -286,7 +286,6 @@ function insertImplicitMultiplication(tokens: MathToken[]): MathToken[] {
 function shouldInsertMultiplication(
   previous: MathToken,
   current: MathToken,
-  next: MathToken | undefined,
 ): boolean {
   const previousCanEndValue =
     previous.type === "number" ||
@@ -299,7 +298,7 @@ function shouldInsertMultiplication(
     return false;
   }
 
-  return !(current.type === "identifier" && next?.type === "leftParen");
+  return true;
 }
 
 class MathExpressionParser {
