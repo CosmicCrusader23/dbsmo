@@ -58,7 +58,7 @@ Sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`.
 
 ## Grading Data
 
-`AnswerType` exists as a Prisma enum with uppercase values (`EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION`), while `lib/grading.ts` uses lowercase string types and callers map/lowercase Prisma values before grading (sources: `prisma/schema.prisma`, `lib/grading.ts`, `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`).
+`AnswerType` exists as a Prisma enum with uppercase values (`EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION`), while `lib/grading.ts` uses lowercase string types and callers map/lowercase Prisma values before grading. `lib/math-input.ts` strips math delimiters and converts common LaTeX forms like `$5$`, `\sqrt{5}`, `\frac{1}{2}`, braced powers, and `\pi` before expression evaluation (sources: `prisma/schema.prisma`, `lib/grading.ts`, `lib/math-input.ts`, `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`).
 
 Graded responses store both raw and normalized answers in `Response`, which supports later review/export/regrade (sources: `prisma/schema.prisma`, `app/api/submit/route.ts`). Admin regrading is exposed at `app/api/admin/sets/[id]/regrade/route.ts`.
 

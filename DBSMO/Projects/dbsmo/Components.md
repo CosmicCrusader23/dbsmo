@@ -42,7 +42,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Practice and Games
 
-- `PracticePage` in `app/practice/page.tsx`: client practice workflow using `/api/practice/tags`, `/api/practice/next`, and `/api/practice/submit`; renders `LatexStatement`.
+- `PracticePage` in `app/practice/page.tsx`: client practice workflow using `/api/practice/tags`, `/api/practice/next`, and `/api/practice/submit`; renders `LatexStatement` and shows a live KaTeX answer preview above the answer input using `mathInputToTex(...)`.
 - `FtwLobbyForm` in `app/ftw/lobby-form.tsx`: FTW mode entry. It filters tags, creates solo matches through `/api/ftw/matches`, creates rooms through `/api/ftw/rooms`, and joins rooms through `/api/ftw/rooms/[code]/join`.
 - `FtwMatchClient` in `app/ftw/match/[id]/match-client.tsx`: solo FTW problem/submit client.
 - `FtwRoomClient` in `app/ftw/room/[code]/room-client.tsx`: multiplayer room UI with polling state, host actions, answer submission, locked/revealed answers, scores, and current problem rendering through `LatexStatement`.

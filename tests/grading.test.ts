@@ -9,6 +9,7 @@ describe("normalizeAnswer", () => {
 
   it("normalizes equivalent fractions", () => {
     expect(normalizeAnswer(" 3/6 ", "fraction")).toBe("1/2");
+    expect(normalizeAnswer("\\frac{3}{6}", "fraction")).toBe("1/2");
   });
 
   it("normalizes unordered sets", () => {
@@ -48,6 +49,45 @@ describe("gradeAnswer", () => {
 
     expect(result.isCorrect).toBe(true);
     expect(result.normalizedAnswer).toBe("1.4142135623731");
+  });
+
+  it("accepts math-delimited integer answers", () => {
+    const result = gradeAnswer({
+      answerType: "integer",
+      answerKey: "5",
+      rawAnswer: "$5$",
+    });
+
+    expect(result.isCorrect).toBe(true);
+    expect(result.normalizedAnswer).toBe("5");
+  });
+
+  it("evaluates LaTeX expression answer keys and student answers", () => {
+    const result = gradeAnswer({
+      answerType: "expression",
+      answerKey: "\\sqrt{5}",
+      rawAnswer: "sqrt(5)",
+    });
+
+    expect(result.isCorrect).toBe(true);
+  });
+
+  it("evaluates LaTeX fractions and braced powers in expressions", () => {
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "\\frac{1}{2}",
+        rawAnswer: "0.5",
+      }).isCorrect,
+    ).toBe(true);
+
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "2^{1/2}",
+        rawAnswer: "\\sqrt{2}",
+      }).isCorrect,
+    ).toBe(true);
   });
 
   it("supports constants, fractions, and implicit multiplication in expressions", () => {

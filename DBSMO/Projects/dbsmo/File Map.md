@@ -59,7 +59,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/db.ts` - shared Prisma Client with Prisma PG adapter (source: `lib/db.ts`).
 - `lib/auth.ts`, `lib/auth-server.ts` - NextAuth configuration and server helpers (sources: named files).
 - `lib/permissions.ts` - role-to-permission mapping and `hasPermission` helper (source: `lib/permissions.ts`).
-- `lib/grading.ts` - deterministic answer normalization and grading engine (source: `lib/grading.ts`).
+- `lib/grading.ts`, `lib/math-input.ts` - deterministic answer normalization and grading engine plus math-input helpers for stripping delimiters, converting common LaTeX forms, and rendering practice answer previews (sources: named files).
 - `lib/visibility.ts` - student visibility/status helpers for problem sets (source: `lib/visibility.ts`).
 - `lib/problem-tags.ts`, `lib/problem-content-format.ts`, `lib/problem-set-order.ts`, `lib/problem-set-authoring.ts` - problem metadata normalization, ordering, and authoring validation (sources: named files).
 - `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, optional image ZIP parsing, ZIP path safety, JSON draft storage, image asset persistence, and JSON export conversion (sources: `lib/import/**`).

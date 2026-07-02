@@ -47,5 +47,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Fixed mobile problem-set task cards/sidebar tap layout/dashboard account controls, added the `/classes` Announcements subtab with existing-message deletion, and normalized literal `null` display names.
 - Added direct per-set Analytics buttons on both the student-facing set header for admins and the admin set editor, and made the set-editor Delete button match the other topbar action sizing.
 - Fixed the mobile sidebar tap/focus jump by keeping the opened sheet geometry stable when nav items receive focus.
+- Added a live rendered answer preview in Practice and expanded expression grading to understand common LaTeX input/keys such as `$5$`, `\sqrt{5}`, `\frac{1}{2}`, and `2^{1/2}`.
 
 © 2026 Cosmic Crusader

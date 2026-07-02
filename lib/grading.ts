@@ -1,3 +1,5 @@
+import { normalizeMathInputForEvaluation, stripMathDelimiters } from "@/lib/math-input";
+
 export type AnswerType =
   | "exact"
   | "integer"
@@ -101,7 +103,7 @@ export function normalizeAnswer(
 }
 
 function normalizeText(value: string, caseSensitive: boolean): string {
-  const normalized = value
+  const normalized = stripMathDelimiters(value)
     .trim()
     .replace(/[，；]/g, (match) => (match === "，" ? "," : ";"))
     .replace(/\s+/g, " ");
@@ -126,7 +128,12 @@ function normalizeDecimal(value: string): string {
 }
 
 function normalizeFraction(value: string): string {
-  const [numeratorRaw, denominatorRaw] = value.split("/");
+  const stripped = stripMathDelimiters(value);
+  const latexFractionMatch = stripped.match(/^\\frac\{(-?\d+)\}\{(-?\d+)\}$/);
+  const fractionValue = latexFractionMatch
+    ? `${latexFractionMatch[1]}/${latexFractionMatch[2]}`
+    : value;
+  const [numeratorRaw, denominatorRaw] = fractionValue.split("/");
   if (!numeratorRaw || !denominatorRaw) {
     return normalizeDecimal(value);
   }
@@ -200,15 +207,7 @@ const MATH_CONSTANTS: Record<string, number> = {
 };
 
 function evaluateMathExpression(rawExpression: string): number {
-  const normalized = rawExpression
-    .trim()
-    .toLowerCase()
-    .replace(/[，]/g, ",")
-    .replace(/[−–—]/g, "-")
-    .replace(/[×·]/g, "*")
-    .replace(/[÷]/g, "/")
-    .replace(/π/g, "pi")
-    .replace(/\*\*/g, "^");
+  const normalized = normalizeMathInputForEvaluation(rawExpression);
 
   if (!normalized || normalized.length > 200) {
     return Number.NaN;

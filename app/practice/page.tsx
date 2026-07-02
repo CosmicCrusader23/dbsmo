@@ -17,6 +17,7 @@ import {
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { LatexStatement } from "../problem-sets/[slug]/latex-statement";
+import { mathInputToTex } from "@/lib/math-input";
 
 type Problem = {
   id: string;
@@ -159,6 +160,7 @@ export default function PracticePage() {
     if (!q) return tags;
     return tags.filter((t) => t.toLowerCase().includes(q));
   }, [tagQuery, tags]);
+  const answerPreviewTex = useMemo(() => mathInputToTex(answer), [answer]);
 
   return (
     <main className="single-page">
@@ -318,6 +320,11 @@ export default function PracticePage() {
                   </div>
 
                   <form onSubmit={submitAnswer} className="practice-answer-form">
+                    {answerPreviewTex ? (
+                      <div className="practice-answer-preview" aria-live="polite">
+                        <LatexStatement statement={`$${answerPreviewTex}$`} />
+                      </div>
+                    ) : null}
                     <input
                       type="text"
                       className="practice-answer-input"
