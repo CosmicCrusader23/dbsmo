@@ -1,0 +1,2 @@
+We built DBSMO Training Platform to solve the overlooked problem of olympiad practice not having enough dashboards.
+Fictional Series A. Actual grading.

@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>DBSMO Brag</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        margin: 0;
+        overflow: hidden;
+        background: #f2f2f7;
+        color: #444455;
+        font-family: Inter, "Avenir Next", "Segoe UI", Arial, sans-serif;
+        letter-spacing: 0;
+      }
+
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #f2f2f7;
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .scene-bg {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(135deg, rgba(51, 170, 255, 0.14), transparent 34%),
+          linear-gradient(315deg, rgba(255, 102, 170, 0.14), transparent 36%),
+          #f2f2f7;
+      }
+
+      .deck-frame {
+        position: absolute;
+        inset: 70px 86px;
+        border: 1px solid #e0e0ea;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 24px 70px rgba(20, 24, 42, 0.12);
+      }
+
+      .top-rule {
+        position: absolute;
+        top: 112px;
+        left: 140px;
+        right: 140px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #888899;
+        font-size: 22px;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .brand-dot {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #33aaff, #ff66aa);
+        box-shadow: 0 0 0 8px rgba(51, 170, 255, 0.12);
+      }
+
+      .headline {
+        margin: 0;
+        color: #222233;
+        font-size: 104px;
+        font-weight: 900;
+        line-height: 0.98;
+      }
+
+      .subline {
+        margin: 28px 0 0;
+        color: #6f6f7f;
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 20px;
+        border: 1px solid #e0e0ea;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #222233;
+        font-size: 19px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      #scene-1 .copy {
+        position: absolute;
+        left: 156px;
+        right: 156px;
+        bottom: 164px;
+      }
+
+      .funding-chip {
+        margin-bottom: 30px;
+        color: #b92468;
+      }
+
+      .zero-card {
+        position: absolute;
+        right: 156px;
+        bottom: 164px;
+        width: 390px;
+        padding: 30px;
+        border: 1px solid #e0e0ea;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 14px 44px rgba(20, 24, 42, 0.1);
+      }
+
+      .zero-card small,
+      .metric small,
+      .mini-card small,
+      .table-card small {
+        display: block;
+        color: #6f6f7f;
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .zero-card strong {
+        display: block;
+        margin-top: 8px;
+        color: #222233;
+        font-size: 72px;
+        line-height: 0.95;
+      }
+
+      .product-layout {
+        position: absolute;
+        inset: 150px 130px 110px;
+        display: grid;
+        grid-template-columns: 0.95fr 1.25fr;
+        gap: 46px;
+        align-items: center;
+      }
+
+      .login-copy {
+        padding: 42px;
+      }
+
+      .login-copy h2 {
+        margin: 0;
+        color: #222233;
+        font-size: 76px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .login-copy p {
+        margin: 24px 0 0;
+        color: #6f6f7f;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 1.22;
+      }
+
+      .ui-window {
+        border: 1px solid #e0e0ea;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 18px 56px rgba(20, 24, 42, 0.12);
+        overflow: hidden;
+      }
+
+      .window-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        padding: 0 28px;
+        border-bottom: 1px solid #e0e0ea;
+        background: #f7f7fc;
+        color: #222233;
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .dots {
+        display: inline-flex;
+        gap: 9px;
+      }
+
+      .dots span {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #ff66aa;
+      }
+
+      .dots span:nth-child(2) {
+        background: #ffaa33;
+      }
+
+      .dots span:nth-child(3) {
+        background: #33aaff;
+      }
+
+      .dashboard-body {
+        display: grid;
+        gap: 22px;
+        padding: 28px;
+      }
+
+      .hero-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 24px;
+        align-items: center;
+        padding: 26px;
+        border-radius: 18px;
+        background: #f7f7fc;
+      }
+
+      .hero-row h3 {
+        margin: 0;
+        color: #222233;
+        font-size: 36px;
+        font-weight: 900;
+      }
+
+      .button-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        padding: 0 22px;
+        border-radius: 999px;
+        background: #222233;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .mini-grid,
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .mini-card,
+      .metric {
+        min-height: 118px;
+        padding: 20px;
+        border: 1px solid #e0e0ea;
+        border-radius: 16px;
+        background: #ffffff;
+      }
+
+      .mini-card strong,
+      .metric strong {
+        display: block;
+        margin-top: 12px;
+        color: #222233;
+        font-size: 42px;
+        font-weight: 900;
+      }
+
+      .practice-board {
+        position: absolute;
+        inset: 116px 150px 106px;
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        gap: 32px;
+      }
+
+      .practice-card {
+        padding: 34px;
+        border: 1px solid #e0e0ea;
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 18px 56px rgba(20, 24, 42, 0.1);
+      }
+
+      .practice-card h2,
+      .metrics-title h2 {
+        margin: 6px 0 8px;
+        color: #222233;
+        font-size: 48px;
+        font-weight: 900;
+      }
+
+      .practice-card p,
+      .metrics-title p {
+        margin: 0;
+        color: #6f6f7f;
+        font-size: 24px;
+        font-weight: 800;
+        line-height: 1.25;
+      }
+
+      .tag-grid {
+        display: grid;
+        gap: 14px;
+        margin-top: 34px;
+      }
+
+      .tag {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 68px;
+        padding: 0 20px;
+        border: 1px solid #e0e0ea;
+        border-radius: 14px;
+        background: #ffffff;
+        color: #222233;
+        font-size: 24px;
+        font-weight: 900;
+      }
+
+      .tag.active {
+        border-color: transparent;
+        background: linear-gradient(135deg, rgba(255, 102, 170, 0.28), rgba(136, 102, 204, 0.28));
+      }
+
+      .answer-card {
+        display: grid;
+        gap: 24px;
+      }
+
+      .problem-box {
+        padding: 28px;
+        border-radius: 18px;
+        background: #e0e0ea;
+        color: #222233;
+        font-size: 31px;
+        font-weight: 800;
+        line-height: 1.28;
+      }
+
+      .answer-preview {
+        width: max-content;
+        min-width: 250px;
+        padding: 20px 34px;
+        border: 1px solid #e0e0ea;
+        border-bottom: 0;
+        border-radius: 16px 16px 0 0;
+        background: #f7f7fc;
+        color: #222233;
+        font-size: 42px;
+        font-weight: 900;
+      }
+
+      .answer-input {
+        min-height: 72px;
+        padding: 0 24px;
+        border: 2px solid #ff66aa;
+        border-radius: 0 16px 16px 16px;
+        background: #ffffff;
+        color: #222233;
+        font-size: 30px;
+        font-weight: 900;
+      }
+
+      .feedback {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        width: max-content;
+        padding: 16px 22px;
+        border-radius: 14px;
+        background: rgba(51, 170, 255, 0.14);
+        color: #1689d8;
+        font-size: 26px;
+        font-weight: 900;
+      }
+
+      .metrics-wrap {
+        position: absolute;
+        inset: 104px 128px 96px;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 28px;
+      }
+
+      .metrics-title {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+      }
+
+      .metrics-layout {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 28px;
+      }
+
+      .topic-panel,
+      .table-card {
+        padding: 28px;
+        border: 1px solid #e0e0ea;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 14px 44px rgba(20, 24, 42, 0.08);
+      }
+
+      .topic-row {
+        margin-top: 22px;
+      }
+
+      .topic-label {
+        display: flex;
+        justify-content: space-between;
+        color: #222233;
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .meter {
+        height: 16px;
+        margin-top: 10px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: #e0e0ea;
+      }
+
+      .meter span {
+        display: block;
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: #33aaff;
+      }
+
+      .meter.pink span {
+        background: #ff66aa;
+      }
+
+      .meter.purple span {
+        background: #8866cc;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 16px;
+        border-collapse: collapse;
+        color: #222233;
+        font-size: 20px;
+        font-weight: 800;
+      }
+
+      th,
+      td {
+        padding: 14px 10px;
+        border-bottom: 1px solid #e0e0ea;
+        text-align: left;
+      }
+
+      th {
+        color: #888899;
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+
+      .outro {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+
+      .logo-mark {
+        display: inline-grid;
+        width: 106px;
+        height: 106px;
+        margin-bottom: 34px;
+        place-items: center;
+        border-radius: 30px;
+        background: #222233;
+        color: #ffffff;
+        font-size: 42px;
+        font-weight: 900;
+        box-shadow: 0 22px 60px rgba(51, 170, 255, 0.24);
+      }
+
+      .outro h2 {
+        margin: 0;
+        color: #222233;
+        font-size: 92px;
+        font-weight: 900;
+      }
+
+      .outro p {
+        margin: 24px 0 0;
+        color: #6f6f7f;
+        font-size: 34px;
+        font-weight: 900;
+      }
+
+      .version {
+        position: absolute;
+        bottom: 86px;
+        left: 0;
+        right: 0;
+        color: #888899;
+        font-size: 22px;
+        font-weight: 900;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="21"
+      data-width="1920"
+      data-height="1080"
+    >
+      <audio
+        id="bg-music"
+        data-start="0"
+        data-duration="21"
+        data-track-index="10"
+        data-volume="0.2"
+        src="assets/music/happy-beats-business-moves-vol-11-by-ende-dot-app.mp3"
+      ></audio>
+      <audio
+        id="sfx-hook"
+        data-start="1.55"
+        data-duration="0.18"
+        data-track-index="11"
+        data-volume="0.42"
+        src="assets/sfx/impact/impactSoft_medium_001.ogg"
+      ></audio>
+      <audio
+        id="sfx-click"
+        data-start="8.35"
+        data-duration="0.01"
+        data-track-index="12"
+        data-volume="0.42"
+        src="assets/sfx/interface/click_003.ogg"
+      ></audio>
+      <audio
+        id="sfx-correct"
+        data-start="10.62"
+        data-duration="0.12"
+        data-track-index="13"
+        data-volume="0.45"
+        src="assets/sfx/interface/bong_001.ogg"
+      ></audio>
+      <audio
+        id="sfx-card-1"
+        data-start="12.65"
+        data-duration="0.6"
+        data-track-index="14"
+        data-volume="0.28"
+        src="assets/sfx/casino/card-slide-1.ogg"
+      ></audio>
+      <audio
+        id="sfx-card-2"
+        data-start="13.7"
+        data-duration="0.29"
+        data-track-index="15"
+        data-volume="0.28"
+        src="assets/sfx/casino/chips-stack-1.ogg"
+      ></audio>
+      <audio
+        id="sfx-logo"
+        data-start="17.91"
+        data-duration="1"
+        data-track-index="16"
+        data-volume="0.48"
+        src="assets/sfx/impact/impactBell_heavy_000.ogg"
+      ></audio>
+
+      <section id="scene-1" class="clip" data-start="0" data-duration="3" data-track-index="1">
+        <div class="scene-bg"></div>
+        <div class="deck-frame"></div>
+        <div class="top-rule">
+          <span>Fake Series A Announcement</span>
+          <span class="brand-dot"></span>
+        </div>
+        <div class="copy">
+          <div id="funding-chip" class="badge funding-chip">DBS MO Training Platform</div>
+          <h1 id="hook-title" class="headline">DBS math olympiad training has entered its Series A era.</h1>
+          <p id="hook-sub" class="subline">A highly investable answer grid for a very specific institution.</p>
+        </div>
+        <aside id="zero-card" class="zero-card">
+          <small>Fictional capital deployed</small>
+          <strong>$0</strong>
+        </aside>
+      </section>
+
+      <section id="scene-2" class="clip" data-start="3" data-duration="4" data-track-index="1">
+        <div class="scene-bg"></div>
+        <div class="product-layout">
+          <div id="login-copy" class="login-copy">
+            <span class="badge">Actual source copy</span>
+            <h2>sign in to proceed.</h2>
+            <p>Diocesan Boys' School math olympiad training.</p>
+          </div>
+          <div id="dashboard-window" class="ui-window">
+            <div class="window-bar">
+              <span>training dashboard</span>
+              <span class="dots"><span></span><span></span><span></span></span>
+            </div>
+            <div class="dashboard-body">
+              <div class="hero-row">
+                <div>
+                  <span class="badge">Next set: MO Set 001</span>
+                  <h3>Welcome back, analyst of fractions.</h3>
+                </div>
+                <span class="button-pill">continue</span>
+              </div>
+              <div class="mini-grid">
+                <div class="mini-card"><small>Attempted</small><strong>18/24</strong></div>
+                <div class="mini-card"><small>Best avg</small><strong>87%</strong></div>
+                <div class="mini-card"><small>Latest</small><strong>100%</strong></div>
+                <div class="mini-card"><small>Reports</small><strong>2</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-3" class="clip" data-start="7" data-duration="5" data-track-index="1">
+        <div class="scene-bg"></div>
+        <div class="practice-board">
+          <div id="practice-picker" class="practice-card">
+            <span class="badge">Practice</span>
+            <h2>Choose your focus</h2>
+            <p>Drill a specific topic, or run Endless mode to mix everything.</p>
+            <div class="tag-grid">
+              <div class="tag">Geometry <span>-></span></div>
+              <div class="tag active">Number Theory <span>-></span></div>
+              <div class="tag">Endless <span>-></span></div>
+            </div>
+          </div>
+          <div id="answer-card" class="practice-card answer-card">
+            <span class="badge">Category: Number Theory</span>
+            <div class="problem-box">Find the simplified value of the olympiad expression. The platform is already judging silently.</div>
+            <div>
+              <div id="answer-preview" class="answer-preview">5√2 - 7</div>
+              <div id="answer-input" class="answer-input">5sqrt(2)-7</div>
+            </div>
+            <span id="submit-button" class="button-pill">Submit</span>
+            <div id="correct-feedback" class="feedback">✓ Correct. Streak 3.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-4" class="clip" data-start="12" data-duration="5" data-track-index="1">
+        <div class="scene-bg"></div>
+        <div class="metrics-wrap">
+          <div class="metrics-title">
+            <div>
+              <span class="badge">Traction, allegedly</span>
+              <h2>Progress is now a board meeting.</h2>
+              <p>Student practice rolls up into teacher analytics and cohort snapshots.</p>
+            </div>
+            <span class="badge">cohort snapshot</span>
+          </div>
+          <div class="metrics-grid">
+            <div id="metric-1" class="metric"><small>Attempted</small><strong>18/24</strong></div>
+            <div id="metric-2" class="metric"><small>Best average</small><strong>87%</strong></div>
+            <div id="metric-3" class="metric"><small>Latest score</small><strong>100%</strong></div>
+            <div id="metric-4" class="metric"><small>Open reports</small><strong>2</strong></div>
+          </div>
+          <div class="metrics-layout">
+            <div id="topic-panel" class="topic-panel">
+              <span class="badge">Topic map</span>
+              <div class="topic-row">
+                <div class="topic-label"><span>Geometry</span><strong>91%</strong></div>
+                <div class="meter"><span id="bar-geo"></span></div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label"><span>Number Theory</span><strong>84%</strong></div>
+                <div class="meter pink"><span id="bar-number"></span></div>
+              </div>
+              <div class="topic-row">
+                <div class="topic-label"><span>Algebra</span><strong>78%</strong></div>
+                <div class="meter purple"><span id="bar-algebra"></span></div>
+              </div>
+            </div>
+            <div id="table-card" class="table-card">
+              <small>Teacher view</small>
+              <table>
+                <thead>
+                  <tr><th>Student</th><th>Completed</th><th>Average</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Student A</td><td>19</td><td>91%</td><td>Stable</td></tr>
+                  <tr><td>Student B</td><td>12</td><td>77%</td><td>Mixed</td></tr>
+                  <tr><td>Student C</td><td>7</td><td>58%</td><td>Needs review</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="scene-5" class="clip" data-start="17" data-duration="4" data-track-index="1">
+        <div class="scene-bg"></div>
+        <div class="outro">
+          <div>
+            <div id="logo-mark" class="logo-mark">MO</div>
+            <h2 id="outro-title">DBSMO Training Platform</h2>
+            <p id="outro-sub">Fictional funding. Actual grading.</p>
+          </div>
+          <div id="version" class="version">v0.67.0 - made for the olympiad grind</div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.from("#funding-chip", { opacity: 0, y: 18, duration: 0.45, ease: "power3.out" }, 0.25)
+        .from("#hook-title", { opacity: 0, y: 38, duration: 0.7, ease: "power3.out" }, 0.62)
+        .from("#hook-sub", { opacity: 0, y: 20, duration: 0.45, ease: "power2.out" }, 1.52)
+        .from("#zero-card", { opacity: 0, x: 44, duration: 0.45, ease: "power3.out" }, 1.6) // beat-locked: 1.60s
+
+        .from("#login-copy", { opacity: 0, x: -46, duration: 0.5, ease: "power3.out" }, 3.14)
+        .from("#dashboard-window", { opacity: 0, x: 56, duration: 0.55, ease: "power3.out" }, 3.7)
+        .from("#dashboard-window .hero-row", { opacity: 0, y: 20, duration: 0.35, ease: "power2.out" }, 4.25)
+        .from("#dashboard-window .mini-card", { opacity: 0, y: 20, stagger: 0.12, duration: 0.28, ease: "power2.out" }, 5.0)
+
+        .from("#practice-picker", { opacity: 0, x: -50, duration: 0.45, ease: "power3.out" }, 7.12)
+        .from("#practice-picker .tag", { opacity: 0, y: 18, stagger: 0.14, duration: 0.3, ease: "power2.out" }, 7.72)
+        .from("#answer-card", { opacity: 0, x: 54, duration: 0.42, ease: "power3.out" }, 8.35)
+        .from("#answer-preview", { opacity: 0, y: 16, duration: 0.28, ease: "power2.out" }, 9.1)
+        .from("#answer-input", { opacity: 0, y: 12, duration: 0.28, ease: "power2.out" }, 9.35)
+        .from("#submit-button", { opacity: 0, scale: 0.96, duration: 0.25, ease: "power2.out" }, 10.02)
+        .from("#correct-feedback", { opacity: 0, y: 18, duration: 0.35, ease: "power3.out" }, 10.62)
+
+        .from("#scene-4 .metrics-title", { opacity: 0, y: 26, duration: 0.44, ease: "power3.out" }, 12.12)
+        .from("#metric-1", { opacity: 0, y: 22, duration: 0.28, ease: "power2.out" }, 12.65) // beat-grid: metric 1 at 12.65s
+        .from("#metric-2", { opacity: 0, y: 22, duration: 0.28, ease: "power2.out" }, 13.18)
+        .from("#metric-3", { opacity: 0, y: 22, duration: 0.28, ease: "power2.out" }, 13.7)
+        .from("#metric-4", { opacity: 0, y: 22, duration: 0.28, ease: "power2.out" }, 14.22)
+        .from("#topic-panel", { opacity: 0, x: -26, duration: 0.35, ease: "power2.out" }, 14.62)
+        .from("#table-card", { opacity: 0, x: 26, duration: 0.35, ease: "power2.out" }, 14.76)
+        .to("#bar-geo", { width: "91%", duration: 0.58, ease: "power2.out" }, 15.1)
+        .to("#bar-number", { width: "84%", duration: 0.58, ease: "power2.out" }, 15.26)
+        .to("#bar-algebra", { width: "78%", duration: 0.58, ease: "power2.out" }, 15.42)
+
+        .from("#logo-mark", { opacity: 0, y: 28, scale: 0.9, duration: 0.55, ease: "back.out(1.3)" }, 17.36)
+        .from("#outro-title", { opacity: 0, y: 24, duration: 0.48, ease: "power3.out" }, 17.91) // beat-locked: 17.91s
+        .from("#outro-sub", { opacity: 0, y: 18, duration: 0.42, ease: "power3.out" }, 18.55)
+        .from("#version", { opacity: 0, y: 10, duration: 0.32, ease: "power2.out" }, 19.22)
+        .to("#bg-music", { volume: 0, duration: 1.1, ease: "power1.out" }, 19.75);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
