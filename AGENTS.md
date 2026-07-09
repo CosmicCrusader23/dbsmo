@@ -5,7 +5,7 @@
 Before broad file searching:
 1. Use CodeGraph for repo structure and symbol/file relationships.
 2. Check project notes at:
-   /Users/cosmic/Documents/ObsidianVault/Projects/dbsmo/
+   DBSMO/Projects/dbsmo/
 3. Treat Obsidian notes as memory, but verify against source code before editing.
 4. Ignore `.codegraph`, `node_modules`, `.next`, `out`, `dist`, and generated files unless needed.
 Rules for any AI agent working in this repo. Loaded into context every session.
@@ -25,6 +25,9 @@ If there is no `.codegraph/` directory, skip CodeGraph entirely — indexing is 
 ## Obsidian Second Brain
 
 Project vault is at `DBSMO/`.
+
+The dbsmo project notes live in `DBSMO/Projects/dbsmo/`. Do not use the old
+external path `/Users/cosmic/Documents/ObsidianVault/Projects/dbsmo/`.
 
 Use `DBSMO/AGENTS.md` and `DBSMO/.codex/commands/` for Obsidian Second Brain workflows.
 Use CodeGraph for live code navigation before broad file searching.
