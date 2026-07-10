@@ -1,0 +1,17 @@
+{
+  "duration": 22,
+  "maxStaticSec": 1.9,
+  "assertions": [
+    { "kind": "appearsBy", "selector": "#hook-title", "bySec": 1.25 },
+    { "kind": "appearsBy", "selector": "#dashboard-title", "bySec": 3.85 },
+    { "kind": "before", "a": "#dashboard-title", "b": "#metric-best" },
+    { "kind": "appearsBy", "selector": "#focus-title", "bySec": 8.3 },
+    { "kind": "before", "a": "#practice-input", "b": "#correct-feedback" },
+    { "kind": "appearsBy", "selector": "#correct-feedback", "bySec": 16.05 },
+    { "kind": "appearsBy", "selector": "#outro-lockup", "bySec": 20.8 },
+    { "kind": "staysInFrame", "selector": ".dashboard-panel" },
+    { "kind": "staysInFrame", "selector": ".focus-panel" },
+    { "kind": "staysInFrame", "selector": ".solve-panel" },
+    { "kind": "keepsMoving", "withinSelector": "#root" }
+  ]
+}

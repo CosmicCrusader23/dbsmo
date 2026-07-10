@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>DBSMO Training — Momentum Cut</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family:"Impact Local"; src:local("Impact"); }
+    :root { --bg:#f2f2f7; --ink:#222233; --navy:#111a32; --cyan:#33aaff; --pink:#ff66aa; --purple:#8866cc; --green:#77bb00; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; width:1920px; height:1080px; overflow:hidden; background:var(--bg); font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif; color:var(--ink); }
+    #root { position:relative; width:1920px; height:1080px; overflow:hidden; isolation:isolate; }
+    .clip { position:absolute; inset:0; overflow:hidden; }
+    .fill { position:absolute; inset:0; background:var(--bg); }
+    .grid { position:absolute; inset:0; opacity:.18; background-image:linear-gradient(rgba(34,34,51,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(34,34,51,.12) 1px,transparent 1px); background-size:72px 72px; mask-image:radial-gradient(circle at center,#000 5%,transparent 72%); }
+    .noise { position:absolute; inset:0; opacity:.12; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E"); mix-blend-mode:multiply; pointer-events:none; }
+    .kicker { font:700 16px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.18em; text-transform:uppercase; }
+    .display { font-family:"Impact Local","Arial Black",sans-serif; letter-spacing:-.035em; }
+    .scene-tag { position:absolute; top:58px; left:76px; display:flex; gap:14px; align-items:center; color:#7a7a8d; }
+    .scene-tag i { width:32px; height:2px; background:var(--cyan); display:block; }
+    .panel { background:#f8f8fc; border:2px solid rgba(51,170,255,.2); border-radius:36px; box-shadow:0 38px 90px rgba(17,26,50,.18); }
+    .chrome { display:flex; gap:10px; align-items:center; }
+    .chrome span { width:12px; height:12px; border-radius:50%; background:#d8d8e4; }
+    .chrome span:first-child { background:var(--pink); }
+    .chrome span:nth-child(2) { background:#ffb84d; }
+    .chrome span:nth-child(3) { background:var(--green); }
+
+    /* 1 — SVG path draw + motion-blur streak */
+    #scene-hook .fill { background:var(--bg); }
+    .hero-shell { position:absolute; left:76px; right:76px; top:72px; bottom:72px; border-radius:52px; overflow:hidden; background:var(--navy); box-shadow:0 40px 90px rgba(17,26,50,.28); }
+    .hero-grid { position:absolute; inset:0; opacity:.18; background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px); background-size:64px 64px; }
+    .hook-copy { position:absolute; left:110px; top:260px; width:920px; color:#fff; }
+    #hook-title { margin:0; font-size:112px; line-height:.93; }
+    #hook-title em { color:var(--cyan); font-style:normal; }
+    .hook-meta { margin-top:34px; color:#9eaac5; }
+    .curve-stage { position:absolute; right:60px; top:80px; width:720px; height:720px; }
+    .curve-stage svg { width:100%; height:100%; overflow:visible; }
+    #hook-curve { fill:none; stroke:var(--cyan); stroke-width:8; stroke-linecap:round; filter:drop-shadow(0 0 24px rgba(51,170,255,.65)); }
+    .mo-mark { position:absolute; right:222px; top:264px; width:300px; height:300px; object-fit:cover; border-radius:50%; box-shadow:0 0 0 2px rgba(255,255,255,.12),0 30px 90px rgba(51,170,255,.28); }
+    .speed-line { position:absolute; left:0; top:50%; width:100%; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:.5; }
+
+    /* 2 — camera push + stat fills */
+    .dashboard-world { position:absolute; inset:0; transform-origin:50% 50%; }
+    .dashboard-panel { position:absolute; left:196px; top:148px; width:1528px; height:780px; padding:58px 64px; transform:perspective(1600px) rotateX(3deg) rotateY(-4deg); }
+    .dash-head { display:flex; justify-content:space-between; align-items:center; }
+    .dash-head h2 { margin:12px 0 0; font-size:64px; letter-spacing:-.04em; }
+    .user-pill { display:flex; gap:14px; align-items:center; padding:12px 18px; border-radius:999px; background:#ececf5; font-weight:750; }
+    .user-pill b { width:36px; height:36px; display:grid; place-items:center; border-radius:50%; background:var(--cyan); color:white; }
+    .dash-layout { display:grid; grid-template-columns:510px 1fr; gap:54px; margin-top:45px; }
+    .ring-wrap { position:relative; width:430px; height:430px; margin:auto; display:grid; place-items:center; }
+    .ring-wrap svg { position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); }
+    .ring-bg { fill:none; stroke:#e5e5ef; stroke-width:34; }
+    #progress-ring { fill:none; stroke:var(--cyan); stroke-width:34; stroke-linecap:round; }
+    .ring-copy { text-align:center; }
+    .ring-copy strong { font-size:98px; line-height:1; letter-spacing:-.06em; }
+    .ring-copy span { display:block; color:#888899; margin-top:10px; font-weight:700; }
+    .metric-stack { display:grid; grid-template-columns:1fr 1fr; gap:24px; align-content:center; }
+    .metric { padding:28px 30px; border-radius:24px; background:white; border:1px solid #e4e4ee; min-height:170px; box-shadow:0 16px 36px rgba(17,26,50,.08); }
+    .metric small { color:#888899; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+    .metric strong { display:block; font-size:58px; margin-top:14px; letter-spacing:-.05em; }
+    .metric.wide { grid-column:1 / -1; background:var(--navy); color:#fff; }
+    .metric.wide small { color:#a9b5cc; }
+    .metric.wide strong { color:var(--cyan); }
+    .orbit-chip { position:absolute; right:145px; top:292px; padding:18px 24px; border-radius:999px; background:var(--pink); color:white; font-weight:900; font-size:22px; box-shadow:0 18px 42px rgba(255,102,170,.3); }
+
+    /* 3 — depth scatter assemble */
+    .focus-panel { position:absolute; left:174px; right:174px; top:142px; bottom:122px; padding:62px 68px; }
+    #focus-title { margin:14px 0 14px; font-size:76px; letter-spacing:-.05em; }
+    .focus-sub { color:#888899; font-size:25px; }
+    .topics { display:grid; grid-template-columns:repeat(3,1fr); gap:30px; margin-top:52px; perspective:1200px; }
+    .topic { height:330px; border-radius:30px; padding:34px; position:relative; overflow:hidden; background:white; border:1px solid #e2e2ec; box-shadow:0 25px 48px rgba(17,26,50,.1); transform-style:preserve-3d; }
+    .topic .num { font:800 17px ui-monospace,monospace; color:#9999aa; }
+    .topic h3 { margin:78px 0 8px; font-size:46px; letter-spacing:-.04em; }
+    .topic p { margin:0; color:#888899; font-size:20px; }
+    .topic .arrow { position:absolute; right:28px; bottom:26px; width:52px; height:52px; border-radius:50%; display:grid; place-items:center; background:#f0f0f6; font-size:25px; }
+    .topic.algebra { border-top:8px solid var(--cyan); }
+    .topic.geometry { border-top:8px solid var(--purple); }
+    .topic.endless { color:#fff; border:0; background:linear-gradient(145deg,var(--purple),var(--pink)); }
+    .topic.endless .num,.topic.endless p { color:rgba(255,255,255,.72); }
+    .topic.endless .arrow { background:rgba(255,255,255,.2); }
+    .topic-glow { position:absolute; width:420px; height:420px; border-radius:50%; right:-180px; top:-190px; background:rgba(255,255,255,.22); }
+
+    /* 4 — discrete typing + tactile press */
+    .solve-panel { position:absolute; left:198px; top:125px; width:1524px; height:830px; padding:56px 62px; display:grid; grid-template-columns:1.06fr .94fr; gap:56px; }
+    .problem-side { border-right:1px solid #ddddE8; padding-right:56px; }
+    .problem-side h2 { font-size:58px; margin:20px 0 24px; letter-spacing:-.04em; }
+    .problem { font-family:Georgia,serif; font-size:74px; padding:44px 42px; border-radius:26px; background:var(--navy); color:white; }
+    .problem em { color:var(--cyan); font-style:normal; }
+    .workspace h3 { margin:4px 0 22px; font-size:28px; }
+    .input-shell { min-height:112px; border:3px solid var(--cyan); border-radius:22px; background:white; padding:26px 28px; display:flex; align-items:center; font:700 31px ui-monospace,monospace; }
+    #typing-cursor { display:inline-block; width:3px; height:40px; margin-left:5px; background:var(--cyan); }
+    .preview-label { margin-top:28px; color:#888899; font-weight:800; }
+    .math-preview { margin-top:12px; height:150px; border-radius:22px; background:#eeeef6; display:grid; place-items:center; font:54px Georgia,serif; }
+    .math-expression { display:flex; align-items:center; justify-content:center; white-space:nowrap; }
+    .fraction { display:inline-grid; grid-template-rows:auto auto; text-align:center; vertical-align:middle; line-height:1; }
+    .fraction span:first-child { border-bottom:3px solid currentColor; padding:0 12px 8px; }
+    .fraction span:last-child { padding-top:8px; }
+    .submit { margin-top:25px; width:100%; border:0; border-radius:18px; background:var(--pink); color:white; font-size:23px; font-weight:900; padding:20px; box-shadow:0 14px 28px rgba(255,102,170,.25); }
+    #correct-feedback { position:absolute; right:60px; bottom:44px; width:620px; border-radius:25px; padding:25px 28px; display:flex; align-items:center; gap:20px; background:#eef8dc; border:2px solid rgba(119,187,0,.35); color:#477400; font-size:28px; font-weight:900; box-shadow:0 22px 50px rgba(80,130,0,.14); }
+    #correct-feedback i { width:54px; height:54px; border-radius:50%; display:grid; place-items:center; background:var(--green); color:white; font-style:normal; }
+
+    /* 5 — orbit resolve + brand lock */
+    #scene-outro .fill { background:var(--navy); }
+    .outro-grid { position:absolute; inset:0; opacity:.2; background-image:radial-gradient(circle at center,rgba(51,170,255,.22),transparent 55%),linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px); background-size:auto,72px 72px,72px 72px; }
+    .orbit { position:absolute; left:50%; top:50%; width:760px; height:760px; transform:translate(-50%,-50%); border:2px solid rgba(51,170,255,.35); border-radius:50%; }
+    .orbit.two { width:560px; height:560px; border-color:rgba(255,102,170,.28); }
+    .orbit-dot { position:absolute; width:18px; height:18px; border-radius:50%; background:var(--cyan); box-shadow:0 0 30px var(--cyan); }
+    #dot-a { left:50%; top:calc(50% - 380px); }
+    #dot-b { left:calc(50% + 278px); top:calc(50% + 176px); background:var(--pink); box-shadow:0 0 30px var(--pink); }
+    .outro-metrics { position:absolute; inset:0; }
+    .outro-metric { position:absolute; padding:18px 23px; border-radius:18px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:#b4c1d9; backdrop-filter:blur(8px); }
+    .outro-metric strong { display:block; color:white; font-size:30px; margin-top:5px; }
+    #om1 { left:214px; top:240px; } #om2 { right:210px; top:300px; } #om3 { left:260px; bottom:210px; }
+    #outro-lockup { position:absolute; left:50%; top:50%; width:820px; transform:translate(-50%,-50%); text-align:center; color:white; }
+    .logo-aura { position:absolute; left:50%; top:43%; width:420px; height:420px; transform:translate(-50%,-50%); border-radius:50%; background:radial-gradient(circle,rgba(51,170,255,.35),transparent 68%); }
+    .outro-logo { width:230px; height:230px; object-fit:cover; border-radius:50%; box-shadow:0 0 0 2px rgba(255,255,255,.12),0 32px 80px rgba(51,170,255,.32); }
+    #outro-lockup h2 { margin:24px 0 6px; font-size:75px; letter-spacing:-.04em; }
+    #outro-copy { margin:0; color:#afbdd6; font-size:30px; font-weight:700; }
+    .end-rule { width:116px; height:5px; margin:28px auto 0; border-radius:10px; background:linear-gradient(90deg,var(--cyan),var(--pink)); }
+  </style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="22">
+  <section id="scene-hook" class="clip" data-start="0" data-duration="3.01" data-track-index="1">
+    <div class="fill"></div><div class="hero-shell"><div class="hero-grid"></div><div class="speed-line"></div>
+      <div class="hook-copy"><div class="kicker hook-meta">DBSMO / TRAINING / 01</div><h1 id="hook-title" class="display">Olympiad math.<br><em>With momentum.</em></h1></div>
+      <div class="curve-stage"><svg viewBox="0 0 720 720"><path id="hook-curve" d="M360 90 C585 100 625 295 465 360 C305 425 90 380 118 210 C145 48 410 55 540 205 C670 355 565 605 340 625 C115 645 55 438 220 360 C385 282 560 340 565 500" /></svg></div>
+      <img class="mo-mark" id="hook-logo" src="assets/logo/dbsmo-logo.png" alt="DBSMO logo" />
+    </div>
+  </section>
+
+  <section id="scene-dashboard" class="clip" data-start="3.01" data-duration="4.78" data-track-index="1">
+    <div class="fill"></div><div class="grid"></div><div class="scene-tag kicker"><i></i>01 / Progress made visible</div>
+    <div class="dashboard-world"><div class="dashboard-panel panel product-panel">
+      <div class="dash-head"><div><div class="chrome"><span></span><span></span><span></span></div><h2 id="dashboard-title">training dashboard</h2></div><div class="user-pill"><b>D</b> Student view</div></div>
+      <div class="dash-layout"><div class="ring-wrap"><svg viewBox="0 0 430 430"><circle class="ring-bg" cx="215" cy="215" r="170"/><circle id="progress-ring" cx="215" cy="215" r="170"/></svg><div class="ring-copy"><strong>18</strong><span>problems attempted</span></div></div>
+        <div class="metric-stack"><article class="metric" id="metric-attempted"><small>Attempted</small><strong>18</strong></article><article class="metric" id="metric-best"><small>Best average</small><strong>92%</strong></article><article class="metric wide" id="metric-latest"><small>Latest score</small><strong>8 / 10 — keep moving</strong></article></div>
+      </div><div class="orbit-chip">92% best avg</div>
+    </div></div><div class="noise"></div>
+  </section>
+
+  <section id="scene-focus" class="clip" data-start="7.79" data-duration="3.68" data-track-index="1">
+    <div class="fill"></div><div class="grid"></div><div class="scene-tag kicker"><i></i>02 / Pick the next move</div>
+    <div class="focus-panel panel product-panel"><div class="chrome"><span></span><span></span><span></span></div><h2 id="focus-title">Choose your focus</h2><div class="focus-sub">Practice by topic, or keep the challenge flowing.</div>
+      <div class="topics"><article class="topic algebra"><div class="num">01 / TOPIC</div><h3>Algebra</h3><p>Patterns, equations, structure.</p><div class="arrow">↗</div></article><article class="topic geometry"><div class="num">02 / TOPIC</div><h3>Geometry</h3><p>Angles, circles, proof.</p><div class="arrow">↗</div></article><article class="topic endless"><div class="topic-glow" data-layout-allow-overflow></div><div class="num">∞ / MODE</div><h3>Endless</h3><p>One more problem. Then another.</p><div class="arrow">→</div></article></div>
+    </div><div class="noise"></div>
+  </section>
+
+  <section id="scene-solve" class="clip" data-start="11.47" data-duration="4.91" data-track-index="1">
+    <div class="fill"></div><div class="grid"></div><div class="scene-tag kicker"><i></i>03 / Solve. See. Know.</div>
+    <div class="solve-panel panel product-panel"><div class="problem-side"><div class="chrome"><span></span><span></span><span></span></div><h2>Make the next step.</h2><div class="problem">Evaluate<br><em>¾ + ¼</em></div></div>
+      <div class="workspace"><h3>Your answer</h3><div class="input-shell"><span id="practice-input"></span><span id="typing-cursor"></span></div><div class="preview-label kicker">Live math preview</div><div class="math-preview"><span class="math-expression"><span class="fraction"><span>3</span><span>4</span></span>&nbsp;+&nbsp;<span class="fraction"><span>1</span><span>4</span></span>&nbsp;=&nbsp;<strong id="answer-preview">1</strong></span></div><button class="submit" id="submit-button">Submit answer</button></div>
+      <div id="correct-feedback"><i>✓</i>Correct. Streak 4.</div>
+    </div><div class="noise"></div>
+  </section>
+
+  <section id="scene-outro" class="clip" data-start="16.38" data-duration="5.62" data-track-index="1">
+    <div class="fill"></div><div class="outro-grid"></div><div class="orbit"></div><div class="orbit two"></div><div class="orbit-dot" id="dot-a"></div><div class="orbit-dot" id="dot-b"></div>
+    <div class="outro-metrics" data-layout-allow-occlusion data-layout-allow-overlap><div class="outro-metric" id="om1">ATTEMPTED<strong>18</strong></div><div class="outro-metric" id="om2">BEST AVG<strong>92%</strong></div><div class="outro-metric" id="om3">LATEST<strong>8 / 10</strong></div></div>
+    <div class="logo-aura"></div><div id="outro-lockup"><img class="outro-logo" src="assets/logo/dbsmo-logo-outro.png" alt="DBSMO logo" /><h2 class="display">DBSMO TRAINING</h2><p id="outro-copy">Pick a topic. Keep going.</p><div class="end-rule"></div></div><div class="noise"></div>
+  </section>
+
+  <audio id="music" class="clip" data-start="0" data-duration="22" data-track-index="2" data-volume="0.31" src="assets/music/happy-beats-business-moves-vol-10-by-ende-dot-app.mp3"></audio>
+  <audio id="sfx-open" class="clip" data-start="2.46" data-duration="0.14" data-track-index="3" data-volume="0.24" src="assets/sfx/impactSoft_medium_002.ogg"></audio>
+  <audio id="sfx-submit" class="clip" data-start="15.15" data-duration="0.03" data-track-index="4" data-volume="0.3" src="assets/sfx/click5.ogg"></audio>
+  <audio id="sfx-correct" class="clip" data-start="15.82" data-duration="1" data-track-index="5" data-volume="0.28" src="assets/sfx/impactBell_heavy_000.ogg"></audio>
+  <audio id="sfx-logo" class="clip" data-start="20.19" data-duration="0.12" data-track-index="6" data-volume="0.24" src="assets/sfx/impactSoft_medium_000.ogg"></audio>
+</div>
+<script>
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused:true, defaults:{ ease:"power3.out" } });
+  const curve = document.querySelector("#hook-curve");
+  const curveLength = curve.getTotalLength();
+  curve.style.strokeDasharray = curveLength; curve.style.strokeDashoffset = curveLength;
+  const ring = document.querySelector("#progress-ring");
+  const ringLength = 2 * Math.PI * 170;
+  ring.style.strokeDasharray = ringLength; ring.style.strokeDashoffset = ringLength;
+
+  tl.fromTo(".hero-shell",{scale:.94,opacity:0},{scale:1,opacity:1,duration:.58,ease:"power4.out"},0)
+    .to(curve,{strokeDashoffset:0,duration:1.65,ease:"power2.inOut"},.18)
+    .fromTo("#hook-logo",{scale:.72,opacity:0,rotation:-10},{scale:1,opacity:1,rotation:0,duration:.7,ease:"back.out(1.5)"},1.48)
+    .fromTo("#hook-title",{x:-120,opacity:0,filter:"blur(18px)"},{x:0,opacity:1,filter:"blur(0px)",duration:.68,ease:"power4.out"},.45)
+    .fromTo(".hook-meta",{y:20,opacity:0},{y:0,opacity:1,duration:.42},1.2)
+    .fromTo(".speed-line",{scaleX:0,opacity:0},{scaleX:1,opacity:.5,duration:.28},2.15)
+    .to(".speed-line",{scaleX:.15,opacity:0,duration:.28},2.43)
+    .to(".hero-shell",{x:-170,scale:1.05,opacity:0,duration:.32,ease:"power3.in"},2.69)
+    .set(".hero-shell",{opacity:0},3.01);
+
+  tl.fromTo("#scene-dashboard .fill",{opacity:0},{opacity:1,duration:.01},3.01)
+    .fromTo(".dashboard-world",{x:260,scale:1.12,opacity:0,filter:"blur(20px)"},{x:0,scale:1,opacity:1,filter:"blur(0px)",duration:.66,ease:"power4.out"},3.05)
+    .fromTo("#dashboard-title",{y:30,opacity:0},{y:0,opacity:1,duration:.45},3.45)
+    .to(ring,{strokeDashoffset:ringLength*.18,duration:2.7,ease:"power2.out"},3.55)
+    .fromTo("#metric-attempted",{y:54,scale:.92,opacity:0},{y:0,scale:1,opacity:1,duration:.5},4.10)
+    .fromTo("#metric-best",{y:54,scale:.92,opacity:0},{y:0,scale:1,opacity:1,duration:.5},5.19)
+    .fromTo("#metric-latest",{y:54,scale:.94,opacity:0},{y:0,scale:1,opacity:1,duration:.5},6.28)
+    .fromTo(".orbit-chip",{scale:0,rotation:-12,opacity:0},{scale:1,rotation:0,opacity:1,duration:.58,ease:"back.out(1.7)"},6.45)
+    .to(".dashboard-world",{scale:1.34,x:-120,opacity:0,filter:"blur(12px)",duration:.46,ease:"power3.in"},7.30)
+    .set(".dashboard-world",{opacity:0},7.79);
+
+  tl.fromTo(".focus-panel",{scale:.74,opacity:0,filter:"blur(12px)"},{scale:1,opacity:1,filter:"blur(0px)",duration:.58,ease:"power4.out"},7.79)
+    .fromTo("#focus-title",{y:28,opacity:0},{y:0,opacity:1,duration:.42},8.02)
+    .fromTo(".topic.algebra",{x:-190,y:70,rotationY:24,opacity:0},{x:0,y:0,rotationY:0,opacity:1,duration:.62},8.22)
+    .fromTo(".topic.geometry",{y:120,rotationX:-20,opacity:0},{y:0,rotationX:0,opacity:1,duration:.62},9.29)
+    .fromTo(".topic.endless",{x:190,y:70,rotationY:-24,opacity:0},{x:0,y:0,rotationY:0,opacity:1,duration:.62,ease:"back.out(1.25)"},10.38)
+    .to(".topic.endless",{scale:1.035,duration:.23,ease:"power2.out"},10.98)
+    .to(".focus-panel",{scale:1.28,x:-300,opacity:0,filter:"blur(16px)",duration:.38,ease:"power3.in"},11.09)
+    .set(".focus-panel",{opacity:0},11.47);
+
+  tl.fromTo(".solve-panel",{x:260,scale:.92,opacity:0,filter:"blur(16px)"},{x:0,scale:1,opacity:1,filter:"blur(0px)",duration:.56,ease:"power4.out"},11.47)
+    .fromTo(".problem",{y:40,opacity:0},{y:0,opacity:1,duration:.46},11.83)
+    .fromTo(".input-shell",{y:35,opacity:0},{y:0,opacity:1,duration:.4},12.08);
+  const typing = {n:0}, typed = "\\frac{3}{4} + \\frac{1}{4}";
+  tl.to(typing,{n:typed.length,duration:1.25,ease:"none",onUpdate:()=>{document.querySelector("#practice-input").textContent=typed.slice(0,Math.floor(typing.n));}},12.32)
+    .fromTo(".math-preview",{y:24,opacity:0},{y:0,opacity:1,duration:.4},13.62)
+    .fromTo("#answer-preview",{scale:.5,opacity:0},{scale:1,opacity:1,duration:.42,ease:"back.out(1.8)"},14.14)
+    .fromTo("#submit-button",{y:20,opacity:0},{y:0,opacity:1,duration:.34},14.45)
+    .to("#submit-button",{scale:.94,duration:.11,ease:"none"},15.15)
+    .to("#submit-button",{scale:1,duration:.24,ease:"back.out(2)"},15.26)
+    .fromTo("#correct-feedback",{x:85,scale:.88,opacity:0},{x:0,scale:1,opacity:1,duration:.54,ease:"back.out(1.6)"},15.82)
+    .to(".solve-panel",{scale:.82,opacity:0,filter:"blur(15px)",duration:.34,ease:"power3.in"},16.04)
+    .set(".solve-panel",{opacity:0},16.38);
+
+  tl.fromTo("#scene-outro .fill",{opacity:0},{opacity:1,duration:.01},16.38)
+    .fromTo(".orbit",{scale:.25,rotation:-90,opacity:0},{scale:1,rotation:0,opacity:1,duration:1.2,ease:"power4.out"},16.38)
+    .fromTo(".orbit.two",{scale:.2,rotation:75,opacity:0},{scale:1,rotation:0,opacity:1,duration:1.15,ease:"power4.out"},16.52)
+    .fromTo("#om1",{x:-80,opacity:0},{x:0,opacity:1,duration:.45},16.93)
+    .fromTo("#om2",{x:80,opacity:0},{x:0,opacity:1,duration:.45},17.47)
+    .fromTo("#om3",{y:60,opacity:0},{y:0,opacity:1,duration:.45},18.01)
+    .to(".outro-metric",{scale:.65,opacity:0,duration:.5,ease:"power3.in"},19.10)
+    .to(".orbit",{scale:.58,opacity:.45,duration:.7,ease:"power3.inOut"},19.22)
+    .fromTo("#outro-lockup",{scale:.64,opacity:0,filter:"blur(18px)"},{scale:1,opacity:1,filter:"blur(0px)",duration:.72,ease:"back.out(1.35)"},19.91)
+    .fromTo(".logo-aura",{scale:.4,opacity:0},{scale:1,opacity:1,duration:.72},20.02)
+    .fromTo("#outro-copy",{y:24,opacity:0},{y:0,opacity:1,duration:.48},21.28)
+    .fromTo(".end-rule",{scaleX:0,opacity:0},{scaleX:1,opacity:1,duration:.42},21.50);
+  const drift={t:0};
+  tl.to(drift,{t:1,duration:22,ease:"none",onUpdate:()=>{const t=tl.time();gsap.set("#dot-a",{x:Math.cos(t*1.7)*18,y:Math.sin(t*1.7)*18});gsap.set("#dot-b",{x:Math.cos(t*1.45+2)*16,y:Math.sin(t*1.45+2)*16});gsap.set(".logo-aura",{opacity:.65+.12*Math.sin(t*3.1)});}},0);
+  window.__timelines.main = tl;
+</script>
+</body>
+</html>
