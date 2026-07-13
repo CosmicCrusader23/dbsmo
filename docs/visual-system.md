@@ -14,7 +14,9 @@ DBSMO uses a math-notebook visual language built from shared CSS rather than pag
 
 The shared and route-specific selectors cover the dashboard, problem-set catalog and detail pages, writeups, practice, classes, leaderboard, user/profile, settings, and admin surfaces. FTW and Playground retain their existing game-specific styling and were intentionally excluded from the route audit.
 
-Desktop and 390 px mobile visualizations were rendered from representative real class names. The production `/problem-sets/1991-ajhsme` route was also inspected in the signed-in Chrome session. The audit checks included stable header actions, horizontal containment, readable status badges, compact tables, analytics controls, announcements, writeup voting, tall problem panels, and the mobile navigation sheet. Desktop navigation uses a fixed labeled sidebar; the existing off-canvas sheet remains the mobile behavior.
+Desktop and 390 px mobile visualizations were rendered from representative real class names. The production `/problem-sets/1991-ajhsme` route was also inspected in the signed-in Chrome session. The audit checks included stable header actions, horizontal containment, readable status badges, compact tables, analytics controls, announcements, writeup voting, tall problem panels, and the mobile navigation sheet. Desktop navigation is a 64 px icon rail that expands to 240 px on hover or keyboard focus; the existing off-canvas sheet remains the mobile behavior.
+
+The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon metadata and the public landing brand. The sidebar renders the matching Lucide `Sigma`, keeping the navigation icon crisp without duplicating image assets in the component.
 
 ## CSS Shape APIs
 

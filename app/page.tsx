@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { AuthButton } from "./auth-button";
@@ -20,7 +21,7 @@ export default async function LandingPage() {
         <header className="login-topbar">
           <Link className="brand login-brand" href="/">
             <span className="brand-mark">
-              <img src="/logo.png" alt="MO Logo" />
+              <Image src="/dbsmo-mark.svg" alt="DBSMO" width={60} height={60} priority />
             </span>
             <span>
               <strong>DBSMO Training</strong>

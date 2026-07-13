@@ -95,7 +95,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 
 ## Data/Asset Directories
 
-- `public/` - public logo assets (`logo.png`, `proposedlogo.png`).
+- `public/` - public logo assets. `dbsmo-mark.svg` is the simplified Sigma favicon/landing mark; `logo.png` and `proposedlogo.png` are retained legacy assets.
 - `storage/` - local file storage root for imported PDFs/assets in development/default local mode (sources: `lib/storage.ts`, `storage/imports/*`).
 - `examples/` - example ZIP-style import package with manifest, answers, problems PDF, and solution PDF (sources: `examples/mo-set-001/*`).
 

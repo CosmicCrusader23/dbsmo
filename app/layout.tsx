@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "DBSMO Training Platform",
   description: "Mathematics olympiad training platform for Diocesans Boys' School.",
   icons: {
-    icon: "/logo.png",
+    icon: "/dbsmo-mark.svg",
+    apple: "/dbsmo-mark.svg",
   },
 };
 
