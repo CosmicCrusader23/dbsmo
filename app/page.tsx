@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { Music2 } from "lucide-react";
 import { AuthButton } from "./auth-button";
 import { authOptions, googleAuthEnabled } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
@@ -33,6 +32,16 @@ export default async function LandingPage() {
 
         <div className="login-layout">
           <section className="login-copy">
+            <div className="login-math-sketch" aria-hidden="true">
+              <span className="login-sketch-glyph login-sketch-pi">π</span>
+              <span className="login-sketch-glyph login-sketch-sum">∑</span>
+              <span className="login-sketch-glyph login-sketch-root">√</span>
+              <span className="login-sketch-orbit" />
+              <span className="login-sketch-axis" />
+              <span className="login-sketch-point point-one" />
+              <span className="login-sketch-point point-two" />
+              <span className="login-sketch-point point-three" />
+            </div>
             <h1>sign in to proceed.</h1>
             <p className="login-copy-text">Diocesan Boys&apos; School math olympiad training.</p>
           </section>
@@ -46,10 +55,6 @@ export default async function LandingPage() {
           </aside>
         </div>
 
-        <div className="login-note">
-          <Music2 size={24} />
-          <span>© 2026 Cosmic Crusader made with ❤️ with codex and claude code</span>
-        </div>
       </div>
     </main>
   );

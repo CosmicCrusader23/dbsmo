@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-28
+updated: 2026-07-13
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
@@ -64,6 +64,10 @@ Middleware is not the only authorization layer. Many route handlers independentl
 ## Generated and External Files
 
 Do not edit `.next/`, `node_modules/`, `.codegraph/`, `generated/`, `dist/`, or `out` during normal work. `AGENTS.md` explicitly says to ignore generated folders unless needed; CodeGraph data itself is in `.codegraph/` and should be treated as navigation aid, not source (sources: `AGENTS.md`, repo structure).
+
+## Experimental CSS Shape Support
+
+The final visual-system block in `app/globals.css` uses `corner-shape` across shared surfaces and `border-shape` only for the decorative landing orbit. These APIs are not uniformly supported: functional boxes must keep their asymmetric `border-radius` fallback, and decorative custom paths must keep a `clip-path`/ordinary-border fallback. Do not move layout, hit targets, or required content into a shape-dependent clipped region (sources: `app/globals.css`, `app/page.tsx`, `docs/visual-system.md`).
 
 ## Worktree Was Dirty at Scan Time
 

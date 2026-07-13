@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-29
+updated: 2026-07-13
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -16,6 +16,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 ## Global Shell
 
 - `RootLayout` in `app/layout.tsx`: imports KaTeX CSS/global CSS, sets metadata/viewport, injects an early theme script from `localStorage`, renders `SiteSidebar`, optional mobile nav toggle, `AnimeRouteEffects`, and `.site-content`.
+- The hand-drawn visual system is the final override section in `app/globals.css`. It defines paper/ink tokens, graph-paper surfaces, mixed card/control corners, marker accents, dark-mode equivalents, and progressive `corner-shape`/`border-shape` enhancement. `app/page.tsx` supplies the decorative math-sketch spans used by the public sign-in composition; see [[Common Tasks]] and `docs/visual-system.md`.
 - `AnimeRouteEffects` in `app/anime-route-effects.tsx`: client-only Anime.js v4 route reveal pass for visible page panels, rows, cards, and action controls; it reruns on pathname changes and exits for `prefers-reduced-motion`.
 - `SiteSidebar` in `app/site-sidebar.tsx`: server component that loads session/user and builds sidebar links based on raw admin role plus `hasPermission(...)`. It renders `SiteSidebarNav` and `GlobalMobileNavScrim`.
 - `SiteSidebarNav` in `app/site-sidebar-nav.tsx`: client nav that maps link icon names to lucide icons and marks active links by pathname prefix.

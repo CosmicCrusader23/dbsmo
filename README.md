@@ -12,6 +12,7 @@ Statements can be rendered in Latex or HTML math tags.
 - [Student Guide](./docs/student-guide.md)
 - [Permissions Guide](./docs/permissions.md)
 - [Deployment Guide](./docs/deployment.md)
+- [Visual System](./docs/visual-system.md)
 
 ## PATCHNOTES
 
@@ -48,5 +49,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Added direct per-set Analytics buttons on both the student-facing set header for admins and the admin set editor, and made the set-editor Delete button match the other topbar action sizing.
 - Fixed the mobile sidebar tap/focus jump by keeping the opened sheet geometry stable when nav items receive focus.
 - Added live rendered answer previews in Practice and problem-set answer boxes, and expanded expression grading to understand common LaTeX input/keys such as `$5$`, `\sqrt{5}`, `5\sqrt{2}-7`, `\frac{1}{2}`, and `2^{1/2}`.
+- Rehauled the shared visual system around hand-drawn math-notebook shapes: graph-paper surfaces, irregular ink borders, marker accents, offset control shadows, mixed `corner-shape` geometry, and a progressive `border-shape` landing illustration with conventional browser fallbacks.
 
 © 2026 Cosmic Crusader
