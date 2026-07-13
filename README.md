@@ -52,5 +52,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Rehauled the shared visual system around hand-drawn math-notebook shapes: graph-paper surfaces, irregular ink borders, marker accents, offset control shadows, mixed `corner-shape` geometry, and progressive `border-shape` contours with conventional browser fallbacks.
 - Audited and unified the non-game application routes around the same sketchbook language, including dashboard, catalog/set detail, writeups, practice, classes, leaderboard, users/profiles, settings, and admin surfaces. Added Shantell Sans for headings and controls while preserving Inter for dense content, tables, and math; FTW and Playground were intentionally excluded from the route-specific redesign.
 - Audited the signed-in production problem-set page in the real Chrome session and corrected the redesign: removed percentage shape paths from tall panels, normalized compact panel headers, removed the light-blue problem statement band, switched functional surfaces to softer hand-drawn squircles, and added a fixed labeled DBSMO desktop sidebar without changing the mobile sheet behavior.
+- Removed the global yellow wavy eyebrow/title underlines and moved the handwritten character into stable two-pass ink borders for cards, panels, controls, and form fields.
 
 © 2026 Cosmic Crusader

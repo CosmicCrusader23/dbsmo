@@ -10495,6 +10495,7 @@ html:not(.light) .ftw-rank.rank-1 {
   --marker-green: #55a96b;
   --drawn-shadow: 2px 2px 0 rgba(32, 39, 51, 0.13);
   --drawn-shadow-small: 1px 1px 0 rgba(32, 39, 51, 0.11);
+  --drawn-border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 3 C21 1 29 5 37 2 C45 0 53 5 62 2 C70 0 79 5 88 3 Q97 3 97 13 C95 25 99 36 97 47 C95 58 99 70 97 87 Q97 97 87 97 C77 95 68 99 58 97 C48 95 38 99 28 97 C21 96 16 98 12 97 Q3 97 3 87 C1 77 5 67 3 57 C1 47 5 37 3 27 C2 21 3 16 3 12 Q3 3 13 3Z' fill='none' stroke='%23171c24' stroke-width='2.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 4 C24 2 34 4 45 3 C56 2 67 4 88 3 Q96 4 96 13 C98 35 96 65 98 88 Q96 96 86 96 C65 98 35 96 13 98 Q4 96 4 86 C3 65 4 35 3 13 Q4 4 12 4Z' fill='none' stroke='%23171c24' stroke-opacity='.24' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
   --drawn-card-radius: 19px 13px 21px 11px;
   --drawn-control-radius: 13px 9px 15px 8px;
   --color-bg: var(--paper);
@@ -10539,6 +10540,7 @@ html.dark {
   --marker-green: #72c987;
   --drawn-shadow: 2px 2px 0 rgba(0, 0, 0, 0.34);
   --drawn-shadow-small: 1px 1px 0 rgba(0, 0, 0, 0.3);
+  --drawn-border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 3 C21 1 29 5 37 2 C45 0 53 5 62 2 C70 0 79 5 88 3 Q97 3 97 13 C95 25 99 36 97 47 C95 58 99 70 97 87 Q97 97 87 97 C77 95 68 99 58 97 C48 95 38 99 28 97 C21 96 16 98 12 97 Q3 97 3 87 C1 77 5 67 3 57 C1 47 5 37 3 27 C2 21 3 16 3 12 Q3 3 13 3Z' fill='none' stroke='%23f2eee3' stroke-width='2.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 4 C24 2 34 4 45 3 C56 2 67 4 88 3 Q96 4 96 13 C98 35 96 65 98 88 Q96 96 86 96 C65 98 35 96 13 98 Q4 96 4 86 C3 65 4 35 3 13 Q4 4 12 4Z' fill='none' stroke='%23f2eee3' stroke-opacity='.22' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
   --color-bg: var(--paper);
   --color-surface: var(--paper-raised);
   --color-surface-alt: #292f3c;
@@ -10614,6 +10616,7 @@ html:is(.light, .dark) :is(
     .analytics-chart-panel
   ) {
   border: 2px solid var(--ink-soft);
+  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 16px 12px 17px 11px;
   corner-shape: squircle;
   background-color: var(--paper-raised);
@@ -10637,6 +10640,7 @@ html:is(.light, .dark) :is(
 
 html:is(.light, .dark) :is(.primary-action, .secondary-action, .icon-button, .auth-cta) {
   border: 2px solid var(--ink);
+  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 14px 11px 13px 10px;
   corner-shape: squircle;
   box-shadow: var(--drawn-shadow-small);
@@ -10681,6 +10685,7 @@ html:is(.light, .dark) :is(
     .searchable-select-trigger
   ) {
   border: 2px solid var(--ink-soft);
+  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 13px 10px 14px 9px;
   corner-shape: squircle;
   background: var(--color-input-bg);
@@ -10750,11 +10755,7 @@ html:is(.light, .dark) :is(
   display: inline-block;
   width: fit-content;
   color: var(--ink-muted);
-  text-decoration-line: underline;
-  text-decoration-color: var(--marker-yellow);
-  text-decoration-style: wavy;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
+  text-decoration: none;
 }
 
 html:is(.light, .dark)
@@ -10953,17 +10954,7 @@ table tbody tr:hover {
 }
 
 .login-copy h1::after {
-  position: absolute;
-  right: 5%;
-  bottom: -18px;
-  left: 0;
-  z-index: -1;
-  height: 14px;
-  background: var(--marker-yellow);
-  clip-path: polygon(0 42%, 12% 18%, 28% 38%, 44% 10%, 61% 34%, 78% 14%, 100% 36%, 98% 72%, 80% 58%, 62% 84%, 43% 62%, 26% 90%, 8% 66%);
-  content: "";
-  opacity: 0.76;
-  transform: rotate(-1deg);
+  content: none;
 }
 
 .login-copy-text {
@@ -10985,13 +10976,7 @@ table tbody tr:hover {
 }
 
 .login-card::before {
-  top: -5px;
-  left: 7%;
-  width: 86%;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--marker-pink);
-  clip-path: polygon(0 48%, 13% 25%, 29% 48%, 45% 18%, 61% 48%, 78% 22%, 100% 45%, 98% 75%, 80% 58%, 63% 82%, 45% 58%, 27% 80%, 10% 60%);
+  content: none;
 }
 
 .login-card::after {
@@ -11226,7 +11211,7 @@ html:is(.light, .dark)
   ) {
   position: relative;
   padding-bottom: 16px;
-  border-bottom: 2px dashed var(--ink-line);
+  border-bottom: 2px solid var(--ink-line);
 }
 
 html:is(.light, .dark)
@@ -11239,17 +11224,7 @@ html:is(.light, .dark)
     .profile-header,
     .create-set-header
   )::after {
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: clamp(110px, 18vw, 230px);
-  height: 9px;
-  background: var(--marker-yellow);
-  clip-path: polygon(0 42%, 15% 16%, 32% 38%, 49% 10%, 68% 34%, 84% 13%, 100% 40%, 97% 74%, 80% 59%, 63% 84%, 45% 62%, 25% 88%, 8% 67%);
-  content: "";
-  opacity: 0.72;
-  pointer-events: none;
-  transform: rotate(-0.8deg);
+  content: none;
 }
 
 html:is(.light, .dark)
@@ -11304,6 +11279,7 @@ html:is(.light, .dark)
     .submit-coaching-panel
   ) {
   border: 2px solid var(--ink-soft);
+  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 16px 12px 17px 11px;
   corner-shape: squircle;
   background-color: var(--paper-raised);
@@ -11415,6 +11391,7 @@ html:is(.light, .dark)
   padding: 3px;
   overflow: visible;
   border: 2px solid var(--ink-line);
+  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 12px 10px 13px 9px;
   corner-shape: squircle;
   background: var(--paper-raised);
@@ -11681,44 +11658,6 @@ html:is(.light, .dark) .notfound-digit-zero {
 }
 
 @supports (border-shape: circle(50%)) {
-  html:is(.light, .dark)
-    :is(
-      .hero-panel,
-      .metric-card,
-      .set-row,
-      .classes-announcement-card,
-      .search-panel,
-      .writeup-post
-    ) {
-    border-radius: 0;
-    border-shape: shape(
-      from 2% 1%,
-      curve to 98% 2% with 34% 0% / 67% 3%,
-      curve to 99% 97% with 100% 35% / 98% 68%,
-      curve to 1% 99% with 67% 98% / 34% 100%,
-      curve to 2% 1% with 0% 68% / 3% 34%,
-      close
-    );
-  }
-
-  html:is(.light, .dark)
-    :is(
-      .topbar,
-      .problem-hub-header,
-      .leaderboard-header,
-      .settings-header,
-      .users-header,
-      .profile-header,
-      .create-set-header
-    )::after {
-    height: 12px;
-    border: 3px solid var(--marker-yellow);
-    border-radius: 0;
-    border-shape: shape(from 1% 62%, curve to 99% 41% with 28% 4% / 72% 96%);
-    background: transparent;
-    clip-path: none;
-  }
-
   html:is(.light, .dark) :is(.classes-empty, .writeup-empty, .practice-empty, .empty-state) {
     border-radius: 0;
     border-shape: shape(from 2% 8%, curve to 96% 3% with 28% 0 / 72% 8%, curve to 98% 92% with 100% 30% / 95% 70%, curve to 3% 96% with 72% 100% / 28% 91%, curve to 2% 8% with 0 68% / 4% 32%, close);
