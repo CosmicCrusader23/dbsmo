@@ -7,20 +7,22 @@ DBSMO uses a math-notebook visual language built from shared CSS rather than pag
 - Paper: warm graph-paper backgrounds with a dark-mode equivalent.
 - Ink: high-contrast, slightly uneven outlines and small offset shadows instead of soft floating cards.
 - Markers: cyan, pink, yellow, and green accents identify states without making the interface one hue.
-- Geometry: asymmetric fallback radii and mixed corner types make repeated controls feel drawn while keeping dimensions stable.
-- Typography: Shantell Sans gives headings, controls, tabs, badges, and compact labels a handwritten character. Inter remains the body, table-cell, form-entry, and math-adjacent font for scanning and accuracy.
+- Geometry: asymmetric squircle radii make functional cards and controls feel hand-drawn while keeping dimensions stable. Cut or mixed corners are reserved for small decorative accents.
+- Typography: Shantell Sans gives headings, controls, tabs, badges, compact labels, and tabular display text a handwritten character. Inter remains the long-form body, form-entry, and math-adjacent font for scanning and accuracy.
 
 ## Route Coverage
 
 The shared and route-specific selectors cover the dashboard, problem-set catalog and detail pages, writeups, practice, classes, leaderboard, user/profile, settings, and admin surfaces. FTW and Playground retain their existing game-specific styling and were intentionally excluded from the route audit.
 
-Desktop and 390 px mobile visualizations were rendered from representative real class names. The audit checks included stable header actions, horizontal containment, readable status badges, compact tables, analytics controls, announcements, and writeup voting.
+Desktop and 390 px mobile visualizations were rendered from representative real class names. The production `/problem-sets/1991-ajhsme` route was also inspected in the signed-in Chrome session. The audit checks included stable header actions, horizontal containment, readable status badges, compact tables, analytics controls, announcements, writeup voting, tall problem panels, and the mobile navigation sheet. Desktop navigation uses a fixed labeled sidebar; the existing off-canvas sheet remains the mobile behavior.
 
 ## CSS Shape APIs
 
 `corner-shape` changes the geometry inside a non-zero `border-radius`. DBSMO uses values such as `squircle`, `bevel`, and `scoop` on cards, actions, inputs, badges, and navigation. It is progressive enhancement because browser support is not yet universal.
 
-`border-shape` can draw a border along a `<basic-shape>`, including `shape()`. DBSMO uses it inside `@supports (border-shape: circle(50%))` for the sign-in orbit, marker underlines, empty states, and subtle uneven contours on major panels. Required content never depends on it, and each shaped element has an ordinary border/radius first.
+`border-shape` can draw a border along a `<basic-shape>`, including `shape()`. DBSMO uses it inside `@supports (border-shape: circle(50%))` for the sign-in orbit, marker underlines, empty states, and bounded surfaces with predictable heights. Required content never depends on it, and each shaped element has an ordinary border/radius first.
+
+Do not apply percentage-based `border-shape` paths to variable-height panels. On production, a problem panel over 7,000 px tall turned a 1-2% vertical path offset into a 70-140 px diagonal wedge. Tall panels, statement containers, tables, and question cards use ordinary borders with asymmetric squircle radii instead.
 
 `clip-path` remains the fallback for decorative tape, marker strokes, and axes. It is also used where clipping is more appropriate than changing a functional box border.
 
@@ -39,5 +41,6 @@ Primary references:
 3. Keep touch-target dimensions independent of transforms, clips, and decorative pseudo-elements.
 4. Disable nonessential motion under `prefers-reduced-motion`.
 5. Verify the public landing page and at least one dense authenticated surface at desktop and mobile widths after broad CSS changes.
+6. Include a tall problem set in visual QA whenever changing shared panel geometry; checking a short mock panel is not sufficient.
 
 The visual update adds a bundled `next/font` face but no package, environment, schema, or server-step dependency.

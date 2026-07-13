@@ -1,4 +1,6 @@
 import { getServerSession } from "next-auth/next";
+import Link from "next/link";
+import { Sigma } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
@@ -62,6 +64,12 @@ export async function SiteSidebar() {
     <>
       <GlobalMobileNavScrim />
       <aside className="sidebar site-sidebar" aria-label="Primary" tabIndex={0}>
+        <Link className="sidebar-wordmark" href="/dashboard" aria-label="DBSMO dashboard">
+          <span className="sidebar-wordmark-mark" aria-hidden="true">
+            <Sigma size={23} strokeWidth={2.4} />
+          </span>
+          <strong>DBSMO</strong>
+        </Link>
         <SiteSidebarNav links={links} />
         <div className="sidebar-footer" />
       </aside>
