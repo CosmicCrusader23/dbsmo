@@ -67,7 +67,7 @@ Do not edit `.next/`, `node_modules/`, `.codegraph/`, `generated/`, `dist/`, or 
 
 ## Experimental CSS Shape Support
 
-The final visual-system block in `app/globals.css` uses `corner-shape` across shared surfaces and `border-shape` only for the decorative landing orbit. These APIs are not uniformly supported: functional boxes must keep their asymmetric `border-radius` fallback, and decorative custom paths must keep a `clip-path`/ordinary-border fallback. Do not move layout, hit targets, or required content into a shape-dependent clipped region (sources: `app/globals.css`, `app/page.tsx`, `docs/visual-system.md`).
+The final visual-system blocks in `app/globals.css` use `corner-shape` across shared surfaces and guarded `border-shape: shape(...)` contours on selected major panels, underlines, empty states, and the landing orbit. These APIs are not uniformly supported: functional boxes must keep their asymmetric `border-radius` fallback, and decorative custom paths must keep a `clip-path`/ordinary-border fallback. Do not move layout, hit targets, or required content into a shape-dependent clipped region. Shantell Sans is intentionally limited to display/control text; broadening it to body copy or math hurts legibility (sources: `app/globals.css`, `app/layout.tsx`, `app/page.tsx`, `docs/visual-system.md`).
 
 ## Worktree Was Dirty at Scan Time
 

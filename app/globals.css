@@ -10486,14 +10486,15 @@ html:not(.light) .ftw-rank.rank-1 {
   --paper-pink: #ffdce8;
   --ink: #202733;
   --ink-muted: #626a75;
-  --ink-soft: rgba(32, 39, 51, 0.2);
+  --ink-soft: rgba(32, 39, 51, 0.34);
+  --ink-line: rgba(32, 39, 51, 0.64);
   --graph-line: rgba(44, 138, 166, 0.075);
   --marker-cyan: #43b8d4;
   --marker-pink: #ef5d8f;
   --marker-yellow: #f2c84b;
   --marker-green: #55a96b;
-  --drawn-shadow: 4px 5px 0 rgba(32, 39, 51, 0.14);
-  --drawn-shadow-small: 2px 3px 0 rgba(32, 39, 51, 0.14);
+  --drawn-shadow: 3px 4px 0 rgba(32, 39, 51, 0.13);
+  --drawn-shadow-small: 1px 2px 0 rgba(32, 39, 51, 0.13);
   --drawn-card-radius: 19px 13px 21px 11px;
   --drawn-control-radius: 13px 9px 15px 8px;
   --color-bg: var(--paper);
@@ -10529,14 +10530,15 @@ html.dark {
   --paper-pink: #4d2838;
   --ink: #f2eee3;
   --ink-muted: #b6b3ac;
-  --ink-soft: rgba(242, 238, 227, 0.22);
+  --ink-soft: rgba(242, 238, 227, 0.3);
+  --ink-line: rgba(242, 238, 227, 0.58);
   --graph-line: rgba(93, 196, 219, 0.07);
   --marker-cyan: #5dc4db;
   --marker-pink: #ff75a3;
   --marker-yellow: #f5d467;
   --marker-green: #72c987;
-  --drawn-shadow: 4px 5px 0 rgba(0, 0, 0, 0.34);
-  --drawn-shadow-small: 2px 3px 0 rgba(0, 0, 0, 0.3);
+  --drawn-shadow: 3px 4px 0 rgba(0, 0, 0, 0.34);
+  --drawn-shadow-small: 1px 2px 0 rgba(0, 0, 0, 0.3);
   --color-bg: var(--paper);
   --color-surface: var(--paper-raised);
   --color-surface-alt: #292f3c;
@@ -11102,5 +11104,567 @@ table tbody tr:hover {
   :where(.primary-action, .secondary-action, .icon-button, .auth-cta):hover:not(:disabled),
   :where(.primary-action, .secondary-action, .icon-button, .auth-cta):active:not(:disabled) {
     transform: none;
+  }
+}
+
+/* ── Hand-drawn route coverage ──────────────────────── */
+
+html:is(.light, .dark)
+  :is(
+    h1,
+    h2,
+    h3,
+    button,
+    .eyebrow,
+    .nav-item,
+    .problem-hub-tab,
+    .classes-tabs a,
+    .writeup-sort-tab,
+    .writeup-sort-tabs a,
+    .segmented-button,
+    .range-toggle-btn,
+    .metric-card small,
+    .topic-label,
+    .badge,
+    .role-badge,
+    .status-badge,
+    .tag-chip,
+    th
+  ) {
+  font-family: var(--font-shantell), "Segoe Print", cursive;
+  font-optical-sizing: auto;
+}
+
+html:is(.light, .dark)
+  :is(
+    .topbar,
+    .problem-hub-header,
+    .leaderboard-header,
+    .settings-header,
+    .users-header,
+    .profile-header,
+    .create-set-header
+  ) {
+  position: relative;
+  padding-bottom: 16px;
+  border-bottom: 2px dashed var(--ink-line);
+}
+
+html:is(.light, .dark)
+  :is(
+    .topbar,
+    .problem-hub-header,
+    .leaderboard-header,
+    .settings-header,
+    .users-header,
+    .profile-header,
+    .create-set-header
+  )::after {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: clamp(110px, 18vw, 230px);
+  height: 9px;
+  background: var(--marker-yellow);
+  clip-path: polygon(0 42%, 15% 16%, 32% 38%, 49% 10%, 68% 34%, 84% 13%, 100% 40%, 97% 74%, 80% 59%, 63% 84%, 45% 62%, 25% 88%, 8% 67%);
+  content: "";
+  opacity: 0.72;
+  pointer-events: none;
+  transform: rotate(-0.8deg);
+}
+
+html:is(.light, .dark)
+  :is(
+    .leaderboard-summary-grid article,
+    .leaderboard-table-wrap,
+    .analytics-filter-bar,
+    .audit-row,
+    .classes-section,
+    .classes-summary-grid > div,
+    .class-announcement-composer,
+    .classes-empty,
+    .classes-empty-inline,
+    .classes-pick-list button,
+    .classes-assign-confirm,
+    .classes-roster li,
+    .classes-assignments li,
+    .student-class-assignments li a,
+    .assignments-widget li a,
+    .settings-avatar-section,
+    .settings-row,
+    .settings-toggle-row,
+    .theme-choice,
+    .profile-stat,
+    .profile-set-tile,
+    .profile-authored-table-wrap,
+    .profile-heatmap-scroll,
+    .problem-category-card,
+    .problem-jump-strip,
+    .solution-note,
+    .video-strip,
+    .pdf-placeholder,
+    .dropzone,
+    .import-panel,
+    .dry-run-result,
+    .create-set-alert,
+    .problem-card,
+    .image-upload-box,
+    .pdf-upload-box,
+    .image-asset-row,
+    .zip-json-row,
+    .writeup-composer,
+    .writeup-post,
+    .writeup-empty,
+    .practice-finished,
+    .practice-empty,
+    .search-suggest-menu,
+    .searchable-select-menu,
+    .empty-state,
+    .empty-inline-state,
+    .result-error,
+    .submit-coaching-panel
+  ) {
+  border: 2px solid var(--ink-soft);
+  border-radius: var(--drawn-card-radius);
+  corner-shape: squircle bevel squircle scoop;
+  background-color: var(--paper-raised);
+  box-shadow: var(--drawn-shadow-small);
+}
+
+html:is(.light, .dark)
+  :is(
+    .leaderboard-summary-grid article,
+    .audit-row,
+    .classes-summary-grid > div,
+    .classes-pick-list button,
+    .student-class-assignments li a,
+    .assignments-widget li a,
+    .theme-choice,
+    .profile-stat,
+    .profile-set-tile,
+    .problem-category-card,
+    .problem-card,
+    .image-asset-row,
+    .zip-json-row,
+    .writeup-post
+  ):hover {
+  border-color: color-mix(in srgb, var(--marker-cyan) 58%, var(--ink));
+  box-shadow: var(--drawn-shadow);
+}
+
+html:is(.light, .dark)
+  :is(
+    .leaderboard-summary-grid article,
+    .classes-summary-grid > div,
+    .profile-stat,
+    .audit-stat-card
+  ):nth-child(4n + 1) {
+  border-top-color: var(--marker-cyan);
+}
+
+html:is(.light, .dark)
+  :is(
+    .leaderboard-summary-grid article,
+    .classes-summary-grid > div,
+    .profile-stat,
+    .audit-stat-card
+  ):nth-child(4n + 2) {
+  border-top-color: var(--marker-pink);
+}
+
+html:is(.light, .dark)
+  :is(
+    .leaderboard-summary-grid article,
+    .classes-summary-grid > div,
+    .profile-stat,
+    .audit-stat-card
+  ):nth-child(4n + 3) {
+  border-top-color: var(--marker-yellow);
+}
+
+html:is(.light, .dark)
+  :is(
+    .leaderboard-summary-grid article,
+    .classes-summary-grid > div,
+    .profile-stat,
+    .audit-stat-card
+  ):nth-child(4n) {
+  border-top-color: var(--marker-green);
+}
+
+html:is(.light, .dark)
+  :is(
+    .segmented-control,
+    .problem-hub-tabs,
+    .classes-tabs,
+    .writeup-sort-tabs,
+    .range-toggle,
+    .writeup-format-toggle
+  ) {
+  gap: 4px;
+  padding: 4px;
+  overflow: visible;
+  border: 2px solid var(--ink);
+  border-radius: 14px 9px 16px 8px;
+  corner-shape: squircle bevel squircle scoop;
+  background: var(--paper-raised);
+  box-shadow: var(--drawn-shadow-small);
+}
+
+html:is(.light, .dark)
+  :is(
+    .segmented-button,
+    .problem-hub-tab,
+    .classes-tabs a,
+    .writeup-sort-tabs a,
+    .range-toggle-btn,
+    .writeup-format-toggle button
+  ) {
+  border: 0;
+  border-radius: 10px 7px 11px 6px;
+  corner-shape: squircle bevel squircle scoop;
+  box-shadow: none;
+}
+
+html:is(.light, .dark)
+  :is(
+    .segmented-button,
+    .problem-hub-tab,
+    .classes-tabs a,
+    .writeup-sort-tabs a,
+    .range-toggle-btn,
+    .writeup-format-toggle button
+  ).active,
+html:is(.light, .dark) .classes-tabs a.active {
+  background: var(--paper-yellow);
+  color: var(--ink);
+  box-shadow: 2px 3px 0 var(--ink-soft);
+}
+
+html:is(.light, .dark)
+  :is(
+    .category-pill,
+    .problem-category-pill,
+    .problem-category-count,
+    .practice-source-pill,
+    .writeup-set-pill,
+    .audit-badge,
+    .classes-pick-chips li,
+    .class-announcement-targets label,
+    .missed-topic-list span
+  ) {
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 10px 7px 11px 8px;
+  corner-shape: scoop squircle bevel squircle;
+  box-shadow: 1px 2px 0 var(--ink-soft);
+}
+
+html:is(.light, .dark) .category-pill.active,
+html:is(.light, .dark) .class-announcement-targets label:has(input:checked) {
+  border-color: var(--ink);
+  background: var(--paper-pink);
+  color: var(--ink);
+}
+
+html:is(.light, .dark)
+  :is(
+    .search-panel input,
+    .settings-row input,
+    .settings-row textarea,
+    .classes-form input,
+    .classes-form textarea,
+    .classes-form select,
+    .writeup-body-input,
+    .searchable-select-search
+  ):not([type="checkbox"]):not([type="radio"]) {
+  border: 2px solid var(--ink-soft);
+  border-radius: 12px 8px 14px 9px;
+  corner-shape: squircle bevel squircle scoop;
+  background: var(--color-input-bg);
+}
+
+html:is(.light, .dark)
+  :is(
+    .search-panel input,
+    .settings-row input,
+    .settings-row textarea,
+    .classes-form input,
+    .classes-form textarea,
+    .classes-form select,
+    .writeup-body-input,
+    .searchable-select-search
+  ):not([type="checkbox"]):not([type="radio"]):focus {
+  border-color: var(--marker-cyan);
+  outline: 3px solid color-mix(in srgb, var(--marker-yellow) 48%, transparent);
+  outline-offset: 2px;
+}
+
+html:is(.light, .dark) :is(.table-wrap, .test-answer-table-wrap, .profile-authored-table-wrap) {
+  overflow: auto;
+  border: 2px solid var(--ink-soft);
+  border-radius: 16px 10px 18px 9px;
+  corner-shape: squircle bevel squircle scoop;
+  background: var(--paper-raised);
+  box-shadow: var(--drawn-shadow-small);
+}
+
+html:is(.light, .dark) :is(.table-wrap, .test-answer-table-wrap, .profile-authored-table-wrap) table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+html:is(.light, .dark) :is(.table-wrap, .test-answer-table-wrap, .profile-authored-table-wrap) th {
+  border-bottom: 2px solid var(--ink);
+  background: var(--paper-blue);
+}
+
+html:is(.light, .dark) :is(.table-wrap, .test-answer-table-wrap, .profile-authored-table-wrap) td {
+  border-bottom-color: var(--ink-soft);
+}
+
+html:is(.light, .dark) .table-panel > .table-wrap {
+  border-width: 2px 0 0;
+  border-radius: 0;
+  corner-shape: round;
+  box-shadow: none;
+}
+
+html:is(.light, .dark)
+  .status-badge:not(.status-not-started):not(.status-solved):not(.status-attempted):not(.status-review) {
+  background: var(--paper-blue);
+  color: var(--ink);
+}
+
+html:is(.light, .dark) .writeup-sort-tabs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 13px;
+  color: var(--ink-muted);
+  font-weight: 700;
+}
+
+html:is(.light, .dark) .writeup-sort-tabs a.active {
+  color: var(--ink);
+}
+
+html:is(.light, .dark) .writeup-post {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+html:is(.light, .dark) .writeup-post-votes {
+  padding-right: 14px;
+  border-right: 2px dashed var(--ink-soft);
+}
+
+html:is(.light, .dark) .writeup-post-votes button {
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 9px 6px 10px 7px;
+  corner-shape: bevel squircle scoop squircle;
+  box-shadow: 1px 2px 0 var(--ink-soft);
+}
+
+html:is(.light, .dark) .writeup-post-votes button:first-child:hover,
+html:is(.light, .dark) .writeup-post-votes button:first-child.active {
+  border-color: var(--marker-green);
+  background: color-mix(in srgb, var(--marker-green) 18%, var(--paper-raised));
+  color: var(--marker-green);
+}
+
+html:is(.light, .dark) .writeup-post-votes button:last-child:hover,
+html:is(.light, .dark) .writeup-post-votes button:last-child.active {
+  border-color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 18%, var(--paper-raised));
+  color: var(--color-danger);
+}
+
+html:is(.light, .dark) .profile-set-tile:nth-child(4n + 1) {
+  border-left-color: var(--marker-cyan);
+}
+
+html:is(.light, .dark) .profile-set-tile:nth-child(4n + 2) {
+  border-left-color: var(--marker-pink);
+}
+
+html:is(.light, .dark) .profile-set-tile:nth-child(4n + 3) {
+  border-left-color: var(--marker-yellow);
+}
+
+html:is(.light, .dark) .profile-set-tile:nth-child(4n) {
+  border-left-color: var(--marker-green);
+}
+
+html:is(.light, .dark) .profile-heatmap-cell {
+  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+  border-radius: 3px 2px 4px 2px;
+  corner-shape: bevel squircle bevel scoop;
+}
+
+html:is(.light, .dark) :is(.meter, .score-dist-track) {
+  border: 1px solid var(--ink-soft);
+  border-radius: 7px 4px 8px 5px;
+  corner-shape: squircle bevel squircle scoop;
+  background: color-mix(in srgb, var(--ink) 10%, var(--paper-raised));
+  overflow: hidden;
+}
+
+html:is(.light, .dark) :is(.meter-fill, .score-dist-track span, .daily-bar span) {
+  background: var(--marker-cyan);
+}
+
+html:is(.light, .dark) .practice-statement,
+html:is(.light, .dark) .statement-text {
+  border-left: 5px solid var(--marker-cyan);
+  background: color-mix(in srgb, var(--paper-blue) 58%, transparent);
+}
+
+html:is(.light, .dark) .create-set-alert-error,
+html:is(.light, .dark) .result-error {
+  border-color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 10%, var(--paper-raised));
+}
+
+html:is(.light, .dark) .create-set-alert-success {
+  border-color: var(--marker-green);
+  background: color-mix(in srgb, var(--marker-green) 10%, var(--paper-raised));
+}
+
+html:is(.light, .dark) :is(.classes-empty, .classes-empty-inline, .writeup-empty, .practice-empty, .empty-state, .empty-inline-state) {
+  border-style: dashed;
+  background: color-mix(in srgb, var(--paper-yellow) 24%, var(--paper-raised));
+}
+
+html:is(.light, .dark) .notfound-shell {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--graph-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--graph-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+html:is(.light, .dark) .notfound-digit,
+html:is(.light, .dark) .notfound-zero-bracket {
+  background: none;
+  color: var(--marker-pink);
+  text-shadow: 4px 5px 0 var(--ink-soft);
+}
+
+html:is(.light, .dark) .notfound-digit-zero {
+  color: var(--marker-cyan);
+}
+
+@supports (border-shape: circle(50%)) {
+  html:is(.light, .dark)
+    :is(
+      .panel,
+      .hero-panel,
+      .metric-card,
+      .set-row,
+      .chart-card,
+      .classes-card,
+      .classes-announcement-card,
+      .problem-question-card,
+      .problem-statement-card,
+      .profile-section,
+      .search-panel,
+      .writeup-post
+    ) {
+    border-radius: 0;
+    border-shape: shape(
+      from 2% 1%,
+      curve to 98% 2% with 34% 0% / 67% 3%,
+      curve to 99% 97% with 100% 35% / 98% 68%,
+      curve to 1% 99% with 67% 98% / 34% 100%,
+      curve to 2% 1% with 0% 68% / 3% 34%,
+      close
+    );
+  }
+
+  html:is(.light, .dark)
+    :is(
+      .topbar,
+      .problem-hub-header,
+      .leaderboard-header,
+      .settings-header,
+      .users-header,
+      .profile-header,
+      .create-set-header
+    )::after {
+    height: 12px;
+    border: 3px solid var(--marker-yellow);
+    border-radius: 0;
+    border-shape: shape(from 1% 62%, curve to 99% 41% with 28% 4% / 72% 96%);
+    background: transparent;
+    clip-path: none;
+  }
+
+  html:is(.light, .dark) :is(.classes-empty, .writeup-empty, .practice-empty, .empty-state) {
+    border-radius: 0;
+    border-shape: shape(from 2% 8%, curve to 96% 3% with 28% 0 / 72% 8%, curve to 98% 92% with 100% 30% / 95% 70%, curve to 3% 96% with 72% 100% / 28% 91%, curve to 2% 8% with 0 68% / 4% 32%, close);
+  }
+}
+
+@media (max-width: 760px) {
+  html:is(.light, .dark) .topbar-actions {
+    align-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  html:is(.light, .dark) .topbar-actions .primary-action {
+    flex: 1 1 auto;
+    width: auto;
+    height: 46px;
+    min-width: min(140px, 100%);
+    max-height: 46px;
+  }
+
+  html:is(.light, .dark)
+    :is(
+      .topbar,
+      .problem-hub-header,
+      .leaderboard-header,
+      .settings-header,
+      .users-header,
+      .profile-header,
+      .create-set-header
+    ) {
+    padding-bottom: 14px;
+  }
+
+  html:is(.light, .dark)
+    :is(
+      .segmented-control,
+      .problem-hub-tabs,
+      .classes-tabs,
+      .writeup-sort-tabs,
+      .range-toggle,
+      .writeup-format-toggle
+    ) {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  html:is(.light, .dark)
+    :is(
+      .segmented-control,
+      .problem-hub-tabs,
+      .classes-tabs,
+      .writeup-sort-tabs,
+      .range-toggle,
+      .writeup-format-toggle
+    )::-webkit-scrollbar {
+    display: none;
+  }
+
+  html:is(.light, .dark) .writeup-post {
+    grid-template-columns: 54px minmax(0, 1fr);
+  }
+
+  html:is(.light, .dark) .writeup-post-votes {
+    padding-right: 9px;
   }
 }

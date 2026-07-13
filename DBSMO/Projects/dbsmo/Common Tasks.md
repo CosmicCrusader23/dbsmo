@@ -15,9 +15,9 @@ This note tells future agents where to edit [[dbsmo]] for common changes. It is 
 
 ## Change the Visual System
 
-Start with the final `Hand-drawn shape system` section in `app/globals.css`; it intentionally overrides the older 2026 refresh and light-mode rehaul sections. Shared paper/ink/marker tokens live in `:root` with dark equivalents in `html.dark`. Common panels, actions, inputs, badges, navigation, tables, analytics surfaces, and problem-set controls are grouped through `:where(...)` selectors there (source: `app/globals.css`).
+Start with the final `Hand-drawn shape system` and `Hand-drawn route coverage` sections in `app/globals.css`; they intentionally override the older 2026 refresh and light-mode rehaul sections. Shared paper/ink/marker tokens live in `:root` with dark equivalents in `html.dark`. Common panels, actions, inputs, badges, navigation, tables, analytics surfaces, and problem-set controls are grouped there (source: `app/globals.css`).
 
-The public sign-in sketch markup lives in `app/page.tsx`. Keep it `aria-hidden` because it is decorative. `corner-shape` and `border-shape` are progressive enhancements, so preserve the asymmetric `border-radius` and `clip-path` fallbacks and test at desktop plus mobile widths. The implementation/support notes are in `docs/visual-system.md`.
+The public sign-in sketch markup lives in `app/page.tsx`. Keep it `aria-hidden` because it is decorative. Inter/Shantell Sans variables are configured in `app/layout.tsx`; do not apply the handwriting font to answer inputs, equations, or long body copy. `corner-shape` and `border-shape` are progressive enhancements, so preserve the asymmetric `border-radius` and `clip-path` fallbacks and test at desktop plus mobile widths. The current route audit excludes FTW and Playground. Implementation/support notes are in `docs/visual-system.md`.
 
 ## Add or Change an Answer Type
 

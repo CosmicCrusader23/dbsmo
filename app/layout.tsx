@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Shantell_Sans } from "next/font/google";
 import "katex/dist/katex.min.css";
 import "./globals.css";
 import { SiteSidebar } from "./site-sidebar";
@@ -22,6 +22,11 @@ export const viewport: Viewport = {
 };
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const shantellSans = Shantell_Sans({
+  subsets: ["latin"],
+  variable: "--font-shantell",
+  display: "swap",
+});
 
 export default async function RootLayout({
   children,
@@ -31,7 +36,11 @@ export default async function RootLayout({
   const sidebar = await SiteSidebar();
 
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${shantellSans.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
