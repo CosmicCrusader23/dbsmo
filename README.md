@@ -13,6 +13,7 @@ Statements can be rendered in Latex or HTML math tags.
 - [Permissions Guide](./docs/permissions.md)
 - [Deployment Guide](./docs/deployment.md)
 - [Visual System](./docs/visual-system.md)
+- [Latex Docs](./docs/latex-support.md)
 
 ## PATCHNOTES
 
