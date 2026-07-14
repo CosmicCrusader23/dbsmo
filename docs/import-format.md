@@ -104,6 +104,8 @@ Each entry in `problems` defines one question.
 - `LATEX` (default): the statement is interpreted as normal text with LaTeX delimiters (`$...$`, `$$...$$`, `\(...\)`, `\[...\]`).
 - `HTML`: the renderer accepts HTML-like source and converts `<math>...</math>`, `<imath>...</imath>`, and `<cmath>...</cmath>` math tags to KaTeX output.
 
+LaTeX statements also accept bare display environments and compatibility forms for `tabular`, `tabular*`, `tabularx`, and `longtable`. Chemistry commands from `mhchem`, such as `\ce{...}`, are enabled. See [LaTeX rendering support](./latex-support.md) for conversions, limitations, and security rules.
+
 ## Practice Tag Behavior
 
 Per-problem `topicTags` drive Practice mode.

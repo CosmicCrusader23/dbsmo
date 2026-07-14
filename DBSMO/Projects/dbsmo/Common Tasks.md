@@ -37,6 +37,10 @@ Watch for uppercase Prisma enum values versus lowercase `lib/grading.ts` values 
 
 Edit `lib/grading.ts` first. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts`.
 
+## Change LaTeX Statement Support
+
+Edit `lib/latex-compat.ts` for source normalization, table conversion, and compatibility macros. Edit `app/problem-sets/[slug]/latex-statement.tsx` for delimiters/environment detection and KaTeX security options. Keep `trust: false`, retain finite `maxSize`/`maxExpand` limits, and add renderer tests in `tests/latex-statement.test.ts`. Do not treat `\usepackage` as permission to load code or files; document the supported fallback in `docs/latex-support.md` (sources: named files).
+
 ## Add a Problem Set Field
 
 Edit:

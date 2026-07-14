@@ -1327,13 +1327,15 @@ td {
 
 .statement-math-block {
   display: block;
+  max-width: 100%;
   margin: 0.75rem 0;
-}
-
-.statement-text .katex-display {
-  margin: 0;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+.statement-text .katex-display,
+.statement-math-block .katex-display {
+  margin: 0;
 }
 
 .problem-image {

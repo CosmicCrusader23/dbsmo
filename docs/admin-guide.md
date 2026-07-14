@@ -16,6 +16,7 @@
    - **Problem Number:** A positive integer (e.g. 1, 2, 3). If you leave it as-is, new problems default to sequential numbers.
 4. For each problem, use the **LaTeX / HTML** toggle next to the statement field.
    - Use **LaTeX** for `$...$`/`$$...$$` style input.
+   - Table environments (`tabular`, `tabular*`, `tabularx`, and `longtable`) and chemistry with `\ce{...}` are supported through the compatibility renderer; see [LaTeX rendering support](./latex-support.md).
    - Use **HTML** for content that includes tags like `<math>...</math>`.
 5. You can preview the statement live before saving.
    - If you upload per-problem images, **Toggle Previews** renders them below the statement using the same image tokens used on the student problem page.

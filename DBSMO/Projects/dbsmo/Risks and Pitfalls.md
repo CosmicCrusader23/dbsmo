@@ -57,6 +57,10 @@ Practice mode records `PracticeSolve` only for correct answers and has a unique 
 
 PDF upload limit is 25 MB (`lib/uploaded-pdf.ts`), legacy problem-set ZIP import limit is 50 MB (`lib/import/zip-dry-run.ts`), JSON import limit is 5 MB per docs/source path, image ZIP limit is 100 MB (`lib/import/image-zip.ts`), image assets are 4 MB each/50 max (`lib/import/image-assets.ts`), writeup images are 5 MB each and max 4 per post (`lib/writeup-images.ts`, `app/api/problem-sets/[id]/writeups/route.ts`), and profile avatar URL/data URL max is 700,000 characters while UI says under 512 KB (sources: named files, `docs/import-format.md`, `app/api/settings/route.ts`, `app/settings/page.tsx`).
 
+## KaTeX Is Not a TeX Compiler
+
+`LatexStatement` renders math with KaTeX and a bounded compatibility pass; it does not execute arbitrary `\usepackage` declarations or compile full documents. `lib/latex-compat.ts` converts supported table/document forms, but true `\multicolumn` spanning and arbitrary package features remain unavailable. Keep `trust: false`, `maxSize`, and `maxExpand` protections when expanding support, because statements and writeups are user-controlled (sources: `app/problem-sets/[slug]/latex-statement.tsx`, `lib/latex-compat.ts`, `docs/latex-support.md`).
+
 ## Route Handlers Often Duplicate Auth Checks
 
 Middleware is not the only authorization layer. Many route handlers independently load session/current user and check role/permissions/visibility. When changing auth semantics, search callers and route handlers rather than editing only `proxy.ts` or `lib/auth.ts` (sources: `app/api/submit/route.ts`, `app/api/admin/sets/[id]/route.ts`, `app/api/files/[id]/route.ts`, `app/api/admin/classes/[id]/route.ts`).

@@ -1,10 +1,19 @@
 import katex from "katex";
+import "katex/contrib/mhchem";
 import {
   normalizeProblemContentFormat,
   type ProblemContentFormat,
 } from "@/lib/problem-content-format";
+import {
+  KATEX_COMPAT_MACROS,
+  normalizeLatexForKatex,
+  normalizeLatexStatementSource,
+} from "@/lib/latex-compat";
 
-const MATH_SEGMENT_PATTERN = String.raw`(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$\$[\s\S]+?\$\$|\$[^$\n]+\$|\[\[img:[a-z0-9][a-z0-9_-]{0,63}\]\])`;
+const DISPLAY_ENVIRONMENTS = String.raw`(?:tabular\*?|tabularx|longtable|array|darray|matrix\*?|pmatrix\*?|bmatrix\*?|Bmatrix\*?|vmatrix\*?|Vmatrix\*?|align\*?|alignat\*?|aligned|alignedat|gather\*?|gathered|equation\*?|split|cases|dcases|rcases|CD)`;
+const BARE_DISPLAY_ENVIRONMENT_PATTERN = String.raw`\\begin\{${DISPLAY_ENVIRONMENTS}\}[\s\S]+?\\end\{${DISPLAY_ENVIRONMENTS}\}`;
+const BARE_DISPLAY_ENVIRONMENT_REGEX = new RegExp(`^${BARE_DISPLAY_ENVIRONMENT_PATTERN}$`);
+const MATH_SEGMENT_PATTERN = String.raw`(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$\$[\s\S]+?\$\$|\$[^$\n]+\$|${BARE_DISPLAY_ENVIRONMENT_PATTERN}|\[\[img:[a-z0-9][a-z0-9_-]{0,63}\]\])`;
 const HAS_MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN);
 const MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN, "g");
 const IMG_TOKEN_REGEX = /^\[\[img:([a-z0-9][a-z0-9_-]{0,63})\]\]$/;
@@ -16,11 +25,14 @@ type LatexStatementProps = {
 };
 
 function renderMath(tex: string, displayMode: boolean): string {
-  return katex.renderToString(tex, {
+  return katex.renderToString(normalizeLatexForKatex(tex), {
     throwOnError: false,
     strict: "ignore",
     displayMode,
     trust: false,
+    maxSize: 50,
+    maxExpand: 1000,
+    macros: { ...KATEX_COMPAT_MACROS },
   });
 }
 
@@ -39,6 +51,10 @@ function parseMathSegment(part: string): { displayMode: boolean; tex: string } |
 
   if (part.startsWith("$") && part.endsWith("$")) {
     return { displayMode: false, tex: part.slice(1, -1).trim() };
+  }
+
+  if (BARE_DISPLAY_ENVIRONMENT_REGEX.test(part)) {
+    return { displayMode: true, tex: part.trim() };
   }
 
   return null;
@@ -102,7 +118,7 @@ function normalizeStatementInput(statement: string, format: ProblemContentFormat
   if (format === "HTML") {
     return normalizeHtmlStatement(value);
   }
-  return value;
+  return normalizeLatexStatementSource(value);
 }
 
 export function LatexStatement({ statement, format, assets }: LatexStatementProps) {

@@ -54,5 +54,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Audited the signed-in production problem-set page in the real Chrome session and corrected the redesign: removed percentage shape paths from tall panels, normalized compact panel headers, removed the light-blue problem statement band, and switched functional surfaces to softer hand-drawn squircles.
 - Removed the global yellow wavy eyebrow/title underlines and moved the handwritten character into stable two-pass ink borders for cards, panels, controls, and form fields.
 - Restored the desktop sidebar as a compact icon rail that expands on hover/focus, preserved the stable mobile sheet, and introduced a shared simplified Sigma favicon/landing mark.
+- Upgraded KaTeX to v0.17, enabled the official `mhchem` extension, and added secure compatibility rendering for document wrappers and table environments such as `tabular`, `tabular*`, `tabularx`, and `longtable`.
 
 © 2026 Cosmic Crusader
