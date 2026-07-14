@@ -55,5 +55,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Removed the global yellow wavy eyebrow/title underlines and moved the handwritten character into stable two-pass ink borders for cards, panels, controls, and form fields.
 - Restored the desktop sidebar as a compact icon rail that expands on hover/focus, preserved the stable mobile sheet, and introduced a shared simplified Sigma favicon/landing mark.
 - Upgraded KaTeX to v0.17, enabled the official `mhchem` extension, and added secure compatibility rendering for document wrappers and table environments such as `tabular`, `tabular*`, `tabularx`, and `longtable`.
+- Fixed imported contest currency notation so full-LaTeX `\textdollar` and legacy sequences such as `\54` render as dollar amounts instead of KaTeX errors.
 
 © 2026 Cosmic Crusader

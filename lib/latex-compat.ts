@@ -10,6 +10,7 @@ export const KATEX_COMPAT_MACROS: Record<string, string> = {
   "\\QQ": "\\mathbb{Q}",
   "\\CC": "\\mathbb{C}",
   "\\degree": "^{\\circ}",
+  "\\textdollar": "\\$",
 };
 
 type BracedGroup = {
@@ -204,6 +205,7 @@ export function normalizeLatexStatementSource(value: string): string {
 
 export function normalizeLatexForKatex(value: string): string {
   let normalized = normalizeLatexStatementSource(value);
+  normalized = normalized.replace(/(^|[^\\])\\(?=\d)/g, "$1\\$");
   normalized = convertTabularEnvironment(normalized, "tabular*");
   normalized = convertTabularEnvironment(normalized, "tabularx");
   normalized = convertTabularEnvironment(normalized, "longtable");

@@ -8,7 +8,8 @@ DBSMO renders mathematical LaTeX with KaTeX `0.17.x` in `app/problem-sets/[slug]
 - Display math: `$$...$$` and `\[...\]`.
 - Bare display environments mixed with prose, including `array`, matrix variants, `align`, `gather`, `equation`, `cases`, and `CD`.
 - Chemistry through KaTeX's official `mhchem` extension, for example `$\ce{2H2 + O2 -> 2H2O}$`.
-- Common shorthand macros: `\RR`, `\NN`, `\ZZ`, `\QQ`, `\CC`, and `\degree`.
+- Common shorthand macros: `\RR`, `\NN`, `\ZZ`, `\QQ`, `\CC`, `\degree`, and `\textdollar`.
+- Legacy contest imports that encode currency as an invalid backslash-number sequence such as `\54`; this is normalized to `\$54` before rendering.
 - Imported image tokens such as `[[img:diagram1]]`; images remain separate from LaTeX and are served through the application's validated asset path.
 
 ## Table Compatibility

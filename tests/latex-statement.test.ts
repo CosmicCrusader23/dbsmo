@@ -87,4 +87,19 @@ x & $y$ \\
     expect(html).toContain(String.raw`\ce{H2 + O2`);
     expect(html).not.toContain("katex-error");
   });
+
+  it("renders legacy currency commands from imported contest problems", () => {
+    const html = renderToStaticMarkup(
+      React.createElement(LatexStatement, {
+        statement: String.raw`Sale prices are $50\%$ below the original price, with another $20\%$ discount.
+A coat originally costs $\textdollar180$. Choose $\text{(A)}\ \54 \qquad \text{(B)}\ \72 \qquad \text{(C)}\ \90$.`,
+        format: "LATEX",
+      }),
+    );
+
+    expect(html).toContain("Sale prices are");
+    expect(html).toContain("50");
+    expect(html).toContain("180");
+    expect(html).not.toContain("katex-error");
+  });
 });
