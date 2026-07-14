@@ -60,7 +60,7 @@ x & $y$ \\
         statement: String.raw`\documentclass{article}
 \usepackage{booktabs}
 \begin{document}
-\begin{tabular*}{0.8\textwidth}{*{2}{c}}
+\begin{tabular*}{0.8\textwidth}[t]{*{2}{c}}
 \multicolumn{2}{c}{Results} \\
 \cline{1-2}
 3 & 4
@@ -74,6 +74,52 @@ x & $y$ \\
     expect(html).toContain("Results");
     expect(html).not.toContain("katex-error");
     expect(html).not.toContain("multicolumn");
+  });
+
+  it("renders the position-qualified tables imported across the AJHSME archive", () => {
+    const statements = [
+      String.raw`\begin{tabular}[t]{cccc} 9 & 8 & 7 & 6 \\ & A & 3 & 2 \\ & & B & 1 \\ \hline \end{tabular}`,
+      String.raw`\begin{tabular}[t]{c|cccc} & NE & MW & South & West \\ \hline White & 42 & 52 & 57 & 35 \\ Black & 5 & 5 & 15 & 2 \\ Asian & 1 & 1 & 1 & 3 \\ Other & 1 & 1 & 2 & 4 \end{tabular}`,
+      String.raw`\begin{tabular}[t]{cccc} & \boxed{} & \boxed{} & \boxed{} \\ - & & \boxed{} & \boxed{} \\ \hline \end{tabular}`,
+      String.raw`\begin{tabular}[t]{lccc} & & AJHSME & 1989 \\ & & & \\ 1. & & JHSMEA & 9891 \\ 2. & & HSMEAJ & 8919 \\ 3. & & SMEAJH & 9198 \\ & & ........ & \end{tabular}`,
+      String.raw`\begin{tabular}[t]{lllllllll} 89, & 72, & 54, & 97, & 77, & 92, & 85, & 74, & 75, \\ 63, & 84, & 78, & 71, & 80, & 90. & & & \\ \end{tabular} \boxed{\begin{tabular}[t]{cc} A: & 93 - 100 \\ B: & 85 - 92 \\ C: & 75 - 84 \\ D: & 70 - 74 \\ F: & 0 - 69 \end{tabular}}`,
+      String.raw`\begin{tabular}[t]{ccccc} 10 & 6 & 4 & 3 & 2 \\ 11 & 7 & 14 & 10 & 8 \\ 8 & 3 & 4 & 5 & 9 \\ 13 & 4 & 15 & 12 & 1 \\ 8 & 2 & 5 & 9 & 3 \end{tabular}`,
+    ];
+
+    for (const statement of statements) {
+      const html = renderToStaticMarkup(
+        React.createElement(LatexStatement, {
+          statement: `<cmath>${statement}</cmath>`,
+          format: "HTML",
+        }),
+      );
+
+      expect(html).toContain("statement-math-block");
+      expect(html).toContain("katex");
+      expect(html).not.toContain("katex-error");
+      expect(html).not.toContain("tabular");
+    }
+  });
+
+  it("accepts optional position arguments for each supported table variant", () => {
+    const statements = [
+      String.raw`\begin{tabular}[b]{cc}1 & 2 \\ 3 & 4\end{tabular}`,
+      String.raw`\begin{tabular*}{0.8\textwidth}[t]{cc}1 & 2 \\ 3 & 4\end{tabular*}`,
+      String.raw`\begin{tabularx}{\textwidth}[c]{XX}1 & 2 \\ 3 & 4\end{tabularx}`,
+      String.raw`\begin{longtable}[c]{cc}1 & 2 \\ 3 & 4\end{longtable}`,
+    ];
+
+    for (const statement of statements) {
+      const html = renderToStaticMarkup(
+        React.createElement(LatexStatement, {
+          statement: `<cmath>${statement}</cmath>`,
+          format: "HTML",
+        }),
+      );
+
+      expect(html).not.toContain("katex-error");
+      expect(html).not.toContain('mathcolor="#cc0000"');
+    }
   });
 
   it("loads the official mhchem extension", () => {
@@ -154,6 +200,19 @@ x_1+x_2+x_3\\
     expect(html).not.toContain("katex-error");
     expect(html).not.toContain("eqnarray");
     expect(html).not.toContain("multline");
+  });
+
+  it("supports MathLive notation aliases that map safely to KaTeX primitives", () => {
+    const html = renderToStaticMarkup(
+      React.createElement(LatexStatement, {
+        statement: String.raw`$\set{x}\ \Set{x\mid x>0}\ \rd x\ \rD x\ \scriptCapitalE\ \scriptCapitalH\ \scriptCapitalL\ \gothicCapitalC\ \gothicCapitalH\ \gothicCapitalI\ \gothicCapitalR\ \imaginaryI\ \imaginaryJ\ \exponentialE\ \differentialD\ \capitalDifferentialD\ \doubleprime$`,
+        format: "LATEX",
+      }),
+    );
+
+    expect(html).toContain("katex");
+    expect(html).not.toContain("katex-error");
+    expect(html).not.toContain('mathcolor="#cc0000"');
   });
 
   it("does not emit executable markup from hostile HTML or trusted KaTeX commands", () => {

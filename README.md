@@ -57,5 +57,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Upgraded KaTeX to v0.17, enabled the official `mhchem` extension, and added secure compatibility rendering for document wrappers and table environments such as `tabular`, `tabular*`, `tabularx`, and `longtable`.
 - Fixed imported contest currency notation so full-LaTeX `\textdollar` and legacy sequences such as `\54` render as dollar amounts instead of KaTeX errors.
 - Replaced regex-based math splitting with an escape-aware tokenizer, fixing HTML-style `<math>\$2000</math>` imports such as 1996 AJHSME question 18; added conservative package-style aliases and security regression coverage for hostile HTML, trusted KaTeX commands, recursive macros, and macro leakage.
+- Fixed every unsupported expression found in a production sweep of the 1985-1998 AJHSME sets: position-qualified `tabular` layouts now convert to safe KaTeX arrays for 1987 Q8/Q23, 1989 Q14/Q22, 1990 Q9, and 1991 Q6. Added safely portable MathLive notation aliases without enabling HTML/resource-loading commands.
 
 © 2026 Cosmic Crusader

@@ -59,6 +59,23 @@ export const KATEX_COMPAT_MACROS: Record<string, string> = {
   "\\cubed": "^{3}",
   "\\degreeCelsius": "^{\\circ}C",
   "\\percent": "\\%",
+  "\\set": "\\left\\{ #1 \\right\\}",
+  "\\Set": "\\left\\{ #1 \\right\\}",
+  "\\rd": "\\mathrm{d}",
+  "\\rD": "\\mathrm{D}",
+  "\\scriptCapitalE": "\\mathcal{E}",
+  "\\scriptCapitalH": "\\mathcal{H}",
+  "\\scriptCapitalL": "\\mathcal{L}",
+  "\\gothicCapitalC": "\\mathfrak{C}",
+  "\\gothicCapitalH": "\\mathfrak{H}",
+  "\\gothicCapitalI": "\\mathfrak{I}",
+  "\\gothicCapitalR": "\\mathfrak{R}",
+  "\\imaginaryI": "\\mathrm{i}",
+  "\\imaginaryJ": "\\mathrm{j}",
+  "\\exponentialE": "\\mathrm{e}",
+  "\\differentialD": "\\mathrm{d}",
+  "\\capitalDifferentialD": "\\mathrm{D}",
+  "\\doubleprime": "^{\\prime\\prime}",
 };
 
 type BracedGroup = {
@@ -95,6 +112,21 @@ function skipWhitespace(value: string, start: number): number {
   let cursor = start;
   while (cursor < value.length && /\s/.test(value[cursor])) cursor += 1;
   return cursor;
+}
+
+function skipOptionalBracketGroup(value: string, start: number): number {
+  const groupStart = skipWhitespace(value, start);
+  if (value[groupStart] !== "[") return groupStart;
+
+  let braceDepth = 0;
+  for (let cursor = groupStart + 1; cursor < value.length; cursor += 1) {
+    if (isEscaped(value, cursor)) continue;
+    if (value[cursor] === "{") braceDepth += 1;
+    if (value[cursor] === "}") braceDepth = Math.max(0, braceDepth - 1);
+    if (value[cursor] === "]" && braceDepth === 0) return cursor + 1;
+  }
+
+  return groupStart;
 }
 
 function normalizeColumnSpec(spec: string): string {
@@ -217,12 +249,21 @@ function convertTabularEnvironment(
   return value.replace(pattern, (match, rawBody: string) => {
     let cursor = 0;
     const groups: BracedGroup[] = [];
+
+    if (environment === "tabular" || environment === "longtable") {
+      cursor = skipOptionalBracketGroup(rawBody, cursor);
+    }
+
     for (let index = 0; index < prefixGroups; index += 1) {
       const groupStart = skipWhitespace(rawBody, cursor);
       const group = readBracedGroup(rawBody, groupStart);
       if (!group) return match;
       groups.push(group);
       cursor = group.end;
+
+      if (index === 0 && prefixGroups === 2) {
+        cursor = skipOptionalBracketGroup(rawBody, cursor);
+      }
     }
 
     const columnSpec = normalizeColumnSpec(groups[groups.length - 1].content);
