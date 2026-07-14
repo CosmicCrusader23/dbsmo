@@ -10497,7 +10497,6 @@ html:not(.light) .ftw-rank.rank-1 {
   --marker-green: #55a96b;
   --drawn-shadow: 2px 2px 0 rgba(32, 39, 51, 0.13);
   --drawn-shadow-small: 1px 1px 0 rgba(32, 39, 51, 0.11);
-  --drawn-border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 3 C21 1 29 5 37 2 C45 0 53 5 62 2 C70 0 79 5 88 3 Q97 3 97 13 C95 25 99 36 97 47 C95 58 99 70 97 87 Q97 97 87 97 C77 95 68 99 58 97 C48 95 38 99 28 97 C21 96 16 98 12 97 Q3 97 3 87 C1 77 5 67 3 57 C1 47 5 37 3 27 C2 21 3 16 3 12 Q3 3 13 3Z' fill='none' stroke='%23171c24' stroke-width='2.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 4 C24 2 34 4 45 3 C56 2 67 4 88 3 Q96 4 96 13 C98 35 96 65 98 88 Q96 96 86 96 C65 98 35 96 13 98 Q4 96 4 86 C3 65 4 35 3 13 Q4 4 12 4Z' fill='none' stroke='%23171c24' stroke-opacity='.24' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
   --drawn-card-radius: 19px 13px 21px 11px;
   --drawn-control-radius: 13px 9px 15px 8px;
   --color-bg: var(--paper);
@@ -10533,8 +10532,8 @@ html.dark {
   --paper-pink: #4d2838;
   --ink: #f2eee3;
   --ink-muted: #b6b3ac;
-  --ink-soft: rgba(242, 238, 227, 0.3);
-  --ink-line: rgba(242, 238, 227, 0.72);
+  --ink-soft: rgba(242, 238, 227, 0.18);
+  --ink-line: rgba(242, 238, 227, 0.36);
   --graph-line: rgba(93, 196, 219, 0.045);
   --marker-cyan: #5dc4db;
   --marker-pink: #ff75a3;
@@ -10542,15 +10541,14 @@ html.dark {
   --marker-green: #72c987;
   --drawn-shadow: 2px 2px 0 rgba(0, 0, 0, 0.34);
   --drawn-shadow-small: 1px 1px 0 rgba(0, 0, 0, 0.3);
-  --drawn-border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 3 C21 1 29 5 37 2 C45 0 53 5 62 2 C70 0 79 5 88 3 Q97 3 97 13 C95 25 99 36 97 47 C95 58 99 70 97 87 Q97 97 87 97 C77 95 68 99 58 97 C48 95 38 99 28 97 C21 96 16 98 12 97 Q3 97 3 87 C1 77 5 67 3 57 C1 47 5 37 3 27 C2 21 3 16 3 12 Q3 3 13 3Z' fill='none' stroke='%23f2eee3' stroke-width='2.35' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M12 4 C24 2 34 4 45 3 C56 2 67 4 88 3 Q96 4 96 13 C98 35 96 65 98 88 Q96 96 86 96 C65 98 35 96 13 98 Q4 96 4 86 C3 65 4 35 3 13 Q4 4 12 4Z' fill='none' stroke='%23f2eee3' stroke-opacity='.22' stroke-width='1.1' stroke-linecap='round'/%3E%3C/svg%3E");
   --color-bg: var(--paper);
   --color-surface: var(--paper-raised);
   --color-surface-alt: #292f3c;
   --color-surface-glass: rgba(34, 39, 51, 0.94);
   --color-card-bg: var(--paper-raised);
   --color-input-bg: #1b202a;
-  --color-border: rgba(242, 238, 227, 0.18);
-  --color-border-strong: rgba(242, 238, 227, 0.4);
+  --color-border: rgba(242, 238, 227, 0.13);
+  --color-border-strong: rgba(242, 238, 227, 0.3);
   --color-text: #d9d6ce;
   --color-text-strong: var(--ink);
   --color-muted: var(--ink-muted);
@@ -10618,7 +10616,6 @@ html:is(.light, .dark) :is(
     .analytics-chart-panel
   ) {
   border: 2px solid var(--ink-soft);
-  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 16px 12px 17px 11px;
   corner-shape: squircle;
   background-color: var(--paper-raised);
@@ -10642,7 +10639,6 @@ html:is(.light, .dark) :is(
 
 html:is(.light, .dark) :is(.primary-action, .secondary-action, .icon-button, .auth-cta) {
   border: 2px solid var(--ink);
-  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 14px 11px 13px 10px;
   corner-shape: squircle;
   box-shadow: var(--drawn-shadow-small);
@@ -10657,6 +10653,10 @@ html:is(.light, .dark) .primary-action {
   border-color: var(--ink);
   background: var(--marker-pink);
   color: #fff;
+}
+
+html.dark :is(.primary-action, .secondary-action, .icon-button, .auth-cta) {
+  border-color: var(--ink-line);
 }
 
 html:is(.light, .dark)
@@ -10687,7 +10687,6 @@ html:is(.light, .dark) :is(
     .searchable-select-trigger
   ) {
   border: 2px solid var(--ink-soft);
-  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 13px 10px 14px 9px;
   corner-shape: squircle;
   background: var(--color-input-bg);
@@ -10710,8 +10709,7 @@ html:is(.light, .dark) :is(
     .searchable-select-trigger
   ):focus {
   border-color: var(--marker-cyan);
-  outline: 3px solid color-mix(in srgb, var(--marker-yellow) 48%, transparent);
-  outline-offset: 2px;
+  outline: none;
 }
 
 html:is(.light, .dark) :is(
@@ -11259,7 +11257,6 @@ html:is(.light, .dark)
     .submit-coaching-panel
   ) {
   border: 2px solid var(--ink-soft);
-  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 16px 12px 17px 11px;
   corner-shape: squircle;
   background-color: var(--paper-raised);
@@ -11371,7 +11368,6 @@ html:is(.light, .dark)
   padding: 3px;
   overflow: visible;
   border: 2px solid var(--ink-line);
-  border-image: var(--drawn-border-image) 14 / 2px / 1px stretch;
   border-radius: 12px 10px 13px 9px;
   corner-shape: squircle;
   background: var(--paper-raised);
@@ -11450,6 +11446,12 @@ html:is(.light, .dark)
   background: var(--color-input-bg);
 }
 
+html:is(.light, .dark) .search-panel input:not([type="checkbox"]):not([type="radio"]) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
 html:is(.light, .dark)
   :is(
     .search-panel input,
@@ -11462,8 +11464,7 @@ html:is(.light, .dark)
     .searchable-select-search
   ):not([type="checkbox"]):not([type="radio"]):focus {
   border-color: var(--marker-cyan);
-  outline: 3px solid color-mix(in srgb, var(--marker-yellow) 48%, transparent);
-  outline-offset: 2px;
+  outline: none;
 }
 
 html:is(.light, .dark) :is(.table-wrap, .test-answer-table-wrap, .profile-authored-table-wrap) {

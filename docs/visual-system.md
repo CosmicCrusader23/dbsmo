@@ -5,7 +5,7 @@ DBSMO uses a math-notebook visual language built from shared CSS rather than pag
 ## Design Language
 
 - Paper: warm graph-paper backgrounds with a dark-mode equivalent.
-- Ink: high-contrast, two-pass SVG border images create slightly uneven outlines with small offset shadows instead of soft floating cards.
+- Ink: asymmetric native borders and small offset shadows create a drawn outline without adding a second rectangular frame around shaped controls.
 - Markers: cyan, pink, yellow, and green accents identify states without becoming decorative underlines.
 - Geometry: asymmetric squircle radii make functional cards and controls feel hand-drawn while keeping dimensions stable. Cut or mixed corners are reserved for small decorative accents.
 - Typography: Shantell Sans gives headings, controls, tabs, badges, compact labels, and tabular display text a handwritten character. Inter remains the long-form body, form-entry, and math-adjacent font for scanning and accuracy.
@@ -22,7 +22,7 @@ The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon m
 
 `corner-shape` changes the geometry inside a non-zero `border-radius`. DBSMO uses values such as `squircle`, `bevel`, and `scoop` on cards, actions, inputs, badges, and navigation. It is progressive enhancement because browser support is not yet universal.
 
-`border-shape` can draw a border along a `<basic-shape>`, including `shape()`. DBSMO limits it to the sign-in orbit and bounded empty states inside `@supports (border-shape: circle(50%))`. Shared cards, controls, and panels instead use a nine-sliced inline SVG border image with two slightly different ink passes. This keeps the wobble fixed at the edges regardless of content height. Every shaped element retains an ordinary border/radius first.
+`border-shape` can draw a border along a `<basic-shape>`, including `shape()`. DBSMO limits it to the sign-in orbit and bounded empty states inside `@supports (border-shape: circle(50%))`. Shared cards, controls, and panels use native borders with asymmetric radii and `corner-shape`; `border-image` is intentionally avoided because it paints a rectangular frame that does not clip consistently to squircles. Every shaped element retains an ordinary border/radius fallback.
 
 Do not apply percentage-based `border-shape` paths to variable-height panels. On production, a problem panel over 7,000 px tall turned a 1-2% vertical path offset into a 70-140 px diagonal wedge. Tall panels, statement containers, tables, and question cards use ordinary borders with asymmetric squircle radii instead.
 
@@ -45,5 +45,6 @@ Primary references:
 5. Verify the public landing page and at least one dense authenticated surface at desktop and mobile widths after broad CSS changes.
 6. Include a tall problem set in visual QA whenever changing shared panel geometry; checking a short mock panel is not sufficient.
 7. Keep marker colors for state and emphasis; do not restore global wavy eyebrow or page-title underlines.
+8. Keep search inputs borderless at rest inside their search panel and use one cyan border on focus; do not combine a colored border with a second outline ring.
 
 The visual update adds a bundled `next/font` face but no package, environment, schema, or server-step dependency.
