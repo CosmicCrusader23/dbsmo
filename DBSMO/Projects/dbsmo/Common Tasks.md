@@ -39,7 +39,7 @@ Edit `lib/grading.ts` first. Then inspect all callers: full submission, practice
 
 ## Change LaTeX Statement Support
 
-Edit `lib/latex-compat.ts` for source normalization, table conversion, and compatibility macros. Edit `app/problem-sets/[slug]/latex-statement.tsx` for delimiters/environment detection and KaTeX security options. Keep `trust: false`, retain finite `maxSize`/`maxExpand` limits, and add renderer tests in `tests/latex-statement.test.ts`. Do not treat `\usepackage` as permission to load code or files; document the supported fallback in `docs/latex-support.md` (sources: named files).
+Edit `lib/latex-compat.ts` for source normalization, table/display conversion, and conservative compatibility macros. Edit `app/problem-sets/[slug]/latex-statement.tsx` for the escape-aware tokenizer, HTML math-tag normalization, and KaTeX security options. Keep `trust: false`, `globalGroup: false`, fresh macros per expression, and finite `maxSize`/`maxExpand` limits. Add normal syntax, production-regression, and hostile-input tests in `tests/latex-statement.test.ts`. Do not replace the tokenizer with delimiter regexes or treat `\usepackage` as permission to load code/files; document supported fallbacks in `docs/latex-support.md` (sources: named files).
 
 ## Add a Problem Set Field
 

@@ -11,6 +11,54 @@ export const KATEX_COMPAT_MACROS: Record<string, string> = {
   "\\CC": "\\mathbb{C}",
   "\\degree": "^{\\circ}",
   "\\textdollar": "\\$",
+  "\\textpercent": "\\%",
+  "\\textdegree": "^{\\circ}",
+  "\\textunderscore": "\\_",
+  "\\bm": "\\boldsymbol{#1}",
+  "\\mathbbm": "\\mathbb{#1}",
+  "\\mathds": "\\mathbb{#1}",
+  "\\Reals": "\\mathbb{R}",
+  "\\Naturals": "\\mathbb{N}",
+  "\\Integers": "\\mathbb{Z}",
+  "\\Rationals": "\\mathbb{Q}",
+  "\\Complex": "\\mathbb{C}",
+  "\\abs": "\\left\\lvert #1 \\right\\rvert",
+  "\\norm": "\\left\\lVert #1 \\right\\rVert",
+  "\\ceil": "\\left\\lceil #1 \\right\\rceil",
+  "\\floor": "\\left\\lfloor #1 \\right\\rfloor",
+  "\\angles": "\\left\\langle #1 \\right\\rangle",
+  "\\braces": "\\left\\{ #1 \\right\\}",
+  "\\bracks": "\\left[ #1 \\right]",
+  "\\paren": "\\left( #1 \\right)",
+  "\\vect": "\\mathbf{#1}",
+  "\\conj": "\\overline{#1}",
+  "\\given": "\\mid",
+  "\\suchthat": "\\mid",
+  "\\ang": "{#1}^{\\circ}",
+  "\\SI": "#1\\,\\mathrm{#2}",
+  "\\unit": "\\mathrm{#1}",
+  "\\num": "{#1}",
+  "\\dd": "\\mathop{}\\!\\mathrm{d}#1",
+  "\\dv": "\\frac{\\mathrm{d} #1}{\\mathrm{d} #2}",
+  "\\pdv": "\\frac{\\partial #1}{\\partial #2}",
+  "\\metre": "m",
+  "\\meter": "m",
+  "\\centimetre": "cm",
+  "\\centimeter": "cm",
+  "\\millimetre": "mm",
+  "\\millimeter": "mm",
+  "\\kilometre": "km",
+  "\\kilometer": "km",
+  "\\second": "s",
+  "\\gram": "g",
+  "\\kilogram": "kg",
+  "\\litre": "L",
+  "\\liter": "L",
+  "\\per": "/",
+  "\\squared": "^{2}",
+  "\\cubed": "^{3}",
+  "\\degreeCelsius": "^{\\circ}C",
+  "\\percent": "\\%",
 };
 
 type BracedGroup = {
@@ -189,6 +237,13 @@ function convertTabularEnvironment(
   });
 }
 
+function renameEnvironment(value: string, from: string, to: string): string {
+  const escapedFrom = from.replace("*", "\\*");
+  return value
+    .replace(new RegExp(String.raw`\\begin\{${escapedFrom}\}`, "g"), `\\begin{${to}}`)
+    .replace(new RegExp(String.raw`\\end\{${escapedFrom}\}`, "g"), `\\end{${to}}`);
+}
+
 export function normalizeLatexStatementSource(value: string): string {
   const documentBody = value.match(/\\begin\{document\}([\s\S]*?)\\end\{document\}/);
   let normalized = documentBody ? documentBody[1] : value;
@@ -210,5 +265,12 @@ export function normalizeLatexForKatex(value: string): string {
   normalized = convertTabularEnvironment(normalized, "tabularx");
   normalized = convertTabularEnvironment(normalized, "longtable");
   normalized = convertTabularEnvironment(normalized, "tabular");
+  normalized = renameEnvironment(normalized, "eqnarray*", "aligned");
+  normalized = renameEnvironment(normalized, "eqnarray", "aligned");
+  normalized = renameEnvironment(normalized, "flalign*", "aligned");
+  normalized = renameEnvironment(normalized, "flalign", "aligned");
+  normalized = renameEnvironment(normalized, "multline*", "gathered");
+  normalized = renameEnvironment(normalized, "multline", "gathered");
+  normalized = renameEnvironment(normalized, "displaymath", "gathered");
   return normalized;
 }

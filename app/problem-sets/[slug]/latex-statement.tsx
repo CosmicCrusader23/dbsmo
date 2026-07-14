@@ -10,19 +10,64 @@ import {
   normalizeLatexStatementSource,
 } from "@/lib/latex-compat";
 
-const DISPLAY_ENVIRONMENTS = String.raw`(?:tabular\*?|tabularx|longtable|array|darray|matrix\*?|pmatrix\*?|bmatrix\*?|Bmatrix\*?|vmatrix\*?|Vmatrix\*?|align\*?|alignat\*?|aligned|alignedat|gather\*?|gathered|equation\*?|split|cases|dcases|rcases|CD)`;
-const BARE_DISPLAY_ENVIRONMENT_PATTERN = String.raw`\\begin\{${DISPLAY_ENVIRONMENTS}\}[\s\S]+?\\end\{${DISPLAY_ENVIRONMENTS}\}`;
-const BARE_DISPLAY_ENVIRONMENT_REGEX = new RegExp(`^${BARE_DISPLAY_ENVIRONMENT_PATTERN}$`);
-const MATH_SEGMENT_PATTERN = String.raw`(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$\$[\s\S]+?\$\$|\$[^$\n]+\$|${BARE_DISPLAY_ENVIRONMENT_PATTERN}|\[\[img:[a-z0-9][a-z0-9_-]{0,63}\]\])`;
-const HAS_MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN);
-const MATH_SEGMENT_REGEX = new RegExp(MATH_SEGMENT_PATTERN, "g");
-const IMG_TOKEN_REGEX = /^\[\[img:([a-z0-9][a-z0-9_-]{0,63})\]\]$/;
+const DISPLAY_ENVIRONMENTS = new Set([
+  "tabular",
+  "tabular*",
+  "tabularx",
+  "longtable",
+  "array",
+  "darray",
+  "matrix",
+  "matrix*",
+  "pmatrix",
+  "pmatrix*",
+  "bmatrix",
+  "bmatrix*",
+  "Bmatrix",
+  "Bmatrix*",
+  "vmatrix",
+  "vmatrix*",
+  "Vmatrix",
+  "Vmatrix*",
+  "smallmatrix",
+  "subarray",
+  "align",
+  "align*",
+  "alignat",
+  "alignat*",
+  "aligned",
+  "alignedat",
+  "flalign",
+  "flalign*",
+  "gather",
+  "gather*",
+  "gathered",
+  "multline",
+  "multline*",
+  "equation",
+  "equation*",
+  "eqnarray",
+  "eqnarray*",
+  "displaymath",
+  "split",
+  "cases",
+  "dcases",
+  "rcases",
+  "CD",
+]);
+const BEGIN_ENVIRONMENT_REGEX = /^\\begin\{([A-Za-z*]+)\}/;
+const IMG_TOKEN_AT_START_REGEX = /^\[\[img:([a-z0-9][a-z0-9_-]{0,63})\]\]/;
 
 type LatexStatementProps = {
   statement: string;
   format?: ProblemContentFormat | string | null;
   assets?: Record<string, string>;
 };
+
+type StatementSegment =
+  | { kind: "text"; value: string }
+  | { kind: "math"; tex: string; displayMode: boolean }
+  | { kind: "image"; key: string; raw: string };
 
 function renderMath(tex: string, displayMode: boolean): string {
   return katex.renderToString(normalizeLatexForKatex(tex), {
@@ -33,31 +78,160 @@ function renderMath(tex: string, displayMode: boolean): string {
     maxSize: 50,
     maxExpand: 1000,
     macros: { ...KATEX_COMPAT_MACROS },
+    globalGroup: false,
   });
 }
 
-function parseMathSegment(part: string): { displayMode: boolean; tex: string } | null {
-  if (part.startsWith("$$") && part.endsWith("$$")) {
-    return { displayMode: true, tex: part.slice(2, -2).trim() };
+function isEscaped(value: string, index: number): boolean {
+  let slashes = 0;
+  for (let cursor = index - 1; cursor >= 0 && value[cursor] === "\\"; cursor -= 1) {
+    slashes += 1;
   }
+  return slashes % 2 === 1;
+}
 
-  if (part.startsWith("\\[") && part.endsWith("\\]")) {
-    return { displayMode: true, tex: part.slice(2, -2).trim() };
+function findCommandDelimiterEnd(value: string, start: number, closing: string): number | null {
+  let cursor = start;
+  while (cursor < value.length) {
+    const match = value.indexOf(closing, cursor);
+    if (match === -1) return null;
+    if (!isEscaped(value, match)) return match;
+    cursor = match + closing.length;
   }
+  return null;
+}
 
-  if (part.startsWith("\\(") && part.endsWith("\\)")) {
-    return { displayMode: false, tex: part.slice(2, -2).trim() };
+function findDollarDelimiterEnd(value: string, start: number, displayMode: boolean): number | null {
+  let cursor = start;
+  while (cursor < value.length) {
+    const match = value.indexOf("$", cursor);
+    if (match === -1) return null;
+    if (!isEscaped(value, match)) {
+      if (displayMode && value.startsWith("$$", match)) return match;
+      if (!displayMode && value[match - 1] !== "$" && value[match + 1] !== "$") return match;
+    }
+    cursor = match + 1;
   }
+  return null;
+}
 
-  if (part.startsWith("$") && part.endsWith("$")) {
-    return { displayMode: false, tex: part.slice(1, -1).trim() };
-  }
+function findEnvironmentEnd(
+  value: string,
+  start: number,
+  environment: string,
+): { end: number } | null {
+  const opening = `\\begin{${environment}}`;
+  const closing = `\\end{${environment}}`;
+  let depth = 1;
+  let cursor = start;
 
-  if (BARE_DISPLAY_ENVIRONMENT_REGEX.test(part)) {
-    return { displayMode: true, tex: part.trim() };
+  while (cursor < value.length) {
+    const nextOpening = value.indexOf(opening, cursor);
+    const nextClosing = value.indexOf(closing, cursor);
+    if (nextClosing === -1) return null;
+
+    if (nextOpening !== -1 && nextOpening < nextClosing) {
+      depth += 1;
+      cursor = nextOpening + opening.length;
+      continue;
+    }
+
+    depth -= 1;
+    if (depth === 0) {
+      return { end: nextClosing + closing.length };
+    }
+    cursor = nextClosing + closing.length;
   }
 
   return null;
+}
+
+function tokenizeStatement(value: string): StatementSegment[] {
+  const segments: StatementSegment[] = [];
+  let textStart = 0;
+  let cursor = 0;
+
+  const pushText = (end: number) => {
+    if (end > textStart) {
+      segments.push({ kind: "text", value: value.slice(textStart, end) });
+    }
+  };
+
+  while (cursor < value.length) {
+    const imageMatch = value.slice(cursor).match(IMG_TOKEN_AT_START_REGEX);
+    if (imageMatch) {
+      pushText(cursor);
+      segments.push({ kind: "image", key: imageMatch[1], raw: imageMatch[0] });
+      cursor += imageMatch[0].length;
+      textStart = cursor;
+      continue;
+    }
+
+    const commandDelimiter =
+      !isEscaped(value, cursor) && value.startsWith("\\[", cursor)
+        ? { opening: "\\[", closing: "\\]", displayMode: true }
+        : !isEscaped(value, cursor) && value.startsWith("\\(", cursor)
+          ? { opening: "\\(", closing: "\\)", displayMode: false }
+          : null;
+    if (commandDelimiter) {
+      const contentStart = cursor + commandDelimiter.opening.length;
+      const contentEnd = findCommandDelimiterEnd(value, contentStart, commandDelimiter.closing);
+      if (contentEnd !== null) {
+        pushText(cursor);
+        segments.push({
+          kind: "math",
+          tex: value.slice(contentStart, contentEnd).trim(),
+          displayMode: commandDelimiter.displayMode,
+        });
+        cursor = contentEnd + commandDelimiter.closing.length;
+        textStart = cursor;
+        continue;
+      }
+    }
+
+    if (value[cursor] === "$" && value[cursor - 1] !== "$" && !isEscaped(value, cursor)) {
+      const displayMode = value.startsWith("$$", cursor);
+      const openingLength = displayMode ? 2 : 1;
+      const contentStart = cursor + openingLength;
+      const contentEnd = findDollarDelimiterEnd(value, contentStart, displayMode);
+      if (contentEnd !== null) {
+        pushText(cursor);
+        segments.push({
+          kind: "math",
+          tex: value.slice(contentStart, contentEnd).trim(),
+          displayMode,
+        });
+        cursor = contentEnd + openingLength;
+        textStart = cursor;
+        continue;
+      }
+    }
+
+    if (!isEscaped(value, cursor) && value.startsWith("\\begin{", cursor)) {
+      const environmentMatch = value.slice(cursor).match(BEGIN_ENVIRONMENT_REGEX);
+      const environment = environmentMatch?.[1];
+      if (environment && DISPLAY_ENVIRONMENTS.has(environment)) {
+        const contentStart = cursor + environmentMatch[0].length;
+        const environmentEnd = findEnvironmentEnd(value, contentStart, environment);
+        if (environmentEnd) {
+          pushText(cursor);
+          segments.push({
+            kind: "math",
+            tex: value.slice(cursor, environmentEnd.end).trim(),
+            displayMode: true,
+          });
+          cursor = environmentEnd.end;
+          textStart = cursor;
+          continue;
+        }
+      }
+    }
+
+    cursor += 1;
+  }
+
+  pushText(value.length);
+  return segments;
 }
 
 function looksLikeStandaloneMath(value: string) {
@@ -83,13 +257,13 @@ function normalizeHtmlStatement(raw: string): string {
   value = value.replace(/<asy\b[^>]*>[\s\S]*?<\/asy>/gi, " ");
   value = value.replace(/<cmath\b[^>]*>([\s\S]*?)<\/cmath>/gi, (_, math: string) => {
     const tex = math.trim();
-    return tex ? ` $$${tex}$$ ` : " ";
+    return tex ? ` \\[${tex}\\] ` : " ";
   });
   value = value.replace(
     /<(?:imath|math)\b[^>]*>([\s\S]*?)<\/(?:imath|math)>/gi,
     (_, math: string) => {
       const tex = math.trim();
-      return tex ? ` $${tex}$ ` : " ";
+      return tex ? ` \\(${tex}\\) ` : " ";
     },
   );
   value = value.replace(/\[\[([^|\]]+)\|([^\]]+)\]\]/g, (match, target: string, label: string) =>
@@ -128,39 +302,39 @@ export function LatexStatement({ statement, format, assets }: LatexStatementProp
     return <>No statement entered for this problem.</>;
   }
 
-  const hasDelimitedMath = HAS_MATH_SEGMENT_REGEX.test(value);
+  const segments = tokenizeStatement(value);
+  const hasRichContent = segments.some((segment) => segment.kind !== "text");
 
-  if (!hasDelimitedMath) {
+  if (!hasRichContent) {
     if (looksLikeStandaloneMath(value)) {
       return <span dangerouslySetInnerHTML={{ __html: renderMath(value, true) }} />;
     }
     return <>{value}</>;
   }
 
-  const parts = value.split(MATH_SEGMENT_REGEX).filter(Boolean);
   return (
     <>
-      {parts.map((part, index) => {
-        const imgMatch = part.match(IMG_TOKEN_REGEX);
-        if (imgMatch) {
-          const url = assets?.[imgMatch[1]];
+      {segments.map((segment, index) => {
+        if (segment.kind === "image") {
+          const url = assets?.[segment.key];
           if (url) {
             /* eslint-disable-next-line @next/next/no-img-element */
             return <img key={`img-${index}`} src={url} alt="" className="problem-image" />;
           }
-          return <span key={`img-${index}`}>{part}</span>;
+          return <span key={`img-${index}`}>{segment.raw}</span>;
         }
-        const math = parseMathSegment(part);
-        if (math) {
+        if (segment.kind === "math") {
           return (
             <span
-              className={math.displayMode ? "statement-math-block" : "statement-math-inline"}
+              className={segment.displayMode ? "statement-math-block" : "statement-math-inline"}
               key={`math-${index}`}
-              dangerouslySetInnerHTML={{ __html: renderMath(math.tex, math.displayMode) }}
+              dangerouslySetInnerHTML={{
+                __html: renderMath(segment.tex, segment.displayMode),
+              }}
             />
           );
         }
-        return <span key={`text-${index}`}>{part}</span>;
+        return <span key={`text-${index}`}>{segment.value}</span>;
       })}
     </>
   );
