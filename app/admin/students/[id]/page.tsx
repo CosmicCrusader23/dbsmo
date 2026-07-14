@@ -73,19 +73,19 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
           </div>
         </header>
         <section className="metric-grid" aria-label="Student metrics">
-          <article className="metric-card accent-cyan">
+          <article className="metric-card">
             <small>Sets attempted</small>
             <strong>{sets.size}</strong>
           </article>
-          <article className="metric-card accent-purple">
+          <article className="metric-card">
             <small>Average score</small>
             <strong>{avg}%</strong>
           </article>
-          <article className="metric-card accent-pink">
+          <article className="metric-card">
             <small>Best score</small>
             <strong>{best}%</strong>
           </article>
-          <article className="metric-card accent-orange">
+          <article className="metric-card">
             <small>Total attempts</small>
             <strong>{n}</strong>
           </article>

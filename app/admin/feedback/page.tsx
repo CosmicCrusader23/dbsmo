@@ -86,15 +86,15 @@ export default async function AdminFeedbackPage({
             <small>Total reports</small>
             <strong>{counts.all}</strong>
           </article>
-          <article className="metric-card accent-pink">
+          <article className="metric-card">
             <small>Open</small>
             <strong>{counts.open}</strong>
           </article>
-          <article className="metric-card accent-orange">
+          <article className="metric-card">
             <small>Reviewing</small>
             <strong>{counts.reviewing}</strong>
           </article>
-          <article className="metric-card accent-purple">
+          <article className="metric-card">
             <small>Resolved</small>
             <strong>{counts.resolved}</strong>
           </article>

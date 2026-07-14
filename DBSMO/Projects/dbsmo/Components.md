@@ -30,7 +30,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 ## Student Dashboard and Catalog
 
 - `DashboardPage` in `app/dashboard/page.tsx`: server-rendered dashboard that loads current user, class announcements, visible sets, attempts, student rows for admins, computes completion/score/topic metrics, and renders pinned announcements, metric cards, next actions, and recent set rows.
-- `MetricCard` in `app/dashboard/page.tsx`: local component for dashboard metric cards.
+- `MetricCard` in `app/dashboard/page.tsx`: local component for dashboard metric cards. Dashboard and admin metric cards intentionally share a neutral border without per-card colored edge accents (sources: `app/dashboard/page.tsx`, `app/admin/analytics/page.tsx`, `app/admin/feedback/page.tsx`, `app/admin/sets/[id]/analytics/page.tsx`, `app/admin/students/[id]/page.tsx`, `app/globals.css`).
 - `AssignmentsWidget` in `app/dashboard/assignments-widget.tsx`: client component that fetches `/api/assignments/mine`, sorts assignments, and renders up to five dashboard assignment links.
 - `ProblemSetsPage` in `app/problem-sets/page.tsx`: route page that handles catalog filtering/sorting/views/recommendations/pagination and renders set cards/links.
 - `ProblemSetPage` in `app/problem-sets/[slug]/page.tsx`: route page that loads a set by slug and chooses inline-statement vs PDF/file layout.

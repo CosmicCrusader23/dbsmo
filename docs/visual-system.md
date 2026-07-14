@@ -7,6 +7,7 @@ DBSMO uses a math-notebook visual language built from shared CSS rather than pag
 - Paper: warm graph-paper backgrounds with a dark-mode equivalent.
 - Ink: asymmetric native borders and small offset shadows create a drawn outline without adding a second rectangular frame around shaped controls.
 - Markers: cyan, pink, yellow, and green accents identify states without becoming decorative underlines.
+- Metrics: summary cards use one neutral outline on every edge; do not reintroduce per-card colored edge strips.
 - Geometry: asymmetric squircle radii make functional cards and controls feel hand-drawn while keeping dimensions stable. Cut or mixed corners are reserved for small decorative accents.
 - Typography: Shantell Sans gives headings, controls, tabs, badges, compact labels, and tabular display text a handwritten character. Inter remains the long-form body, form-entry, and math-adjacent font for scanning and accuracy.
 
@@ -46,5 +47,6 @@ Primary references:
 6. Include a tall problem set in visual QA whenever changing shared panel geometry; checking a short mock panel is not sufficient.
 7. Keep marker colors for state and emphasis; do not restore global wavy eyebrow or page-title underlines.
 8. Keep search inputs borderless at rest inside their search panel and use one cyan border on focus; do not combine a colored border with a second outline ring.
+9. Keep selected filter labels and their count badges on opaque theme surfaces with ink-level contrast.
 
 The visual update adds a bundled `next/font` face but no package, environment, schema, or server-step dependency.

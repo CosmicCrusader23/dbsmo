@@ -566,35 +566,35 @@ export default async function AnalyticsOverviewPage({
         />
 
         <section className="metric-grid analytics-metric-grid" aria-label="Overview metrics">
-          <article className="metric-card accent-cyan">
+          <article className="metric-card">
             <small>Total responses</small>
             <strong>{totalResponses}</strong>
           </article>
-          <article className="metric-card accent-purple">
+          <article className="metric-card">
             <small>Overall accuracy</small>
             <strong>{overallAccuracy}%</strong>
           </article>
-          <article className="metric-card accent-pink">
+          <article className="metric-card">
             <small>First attempt avg</small>
             <strong>{firstAttemptAccuracy}%</strong>
           </article>
-          <article className="metric-card accent-orange">
+          <article className="metric-card">
             <small>Best attempt avg</small>
             <strong>{bestAttemptAccuracy}%</strong>
           </article>
-          <article className="metric-card accent-cyan">
+          <article className="metric-card">
             <small>Active last 7d</small>
             <strong>{activeStudentCount}</strong>
           </article>
-          <article className="metric-card accent-purple">
+          <article className="metric-card">
             <small>Attempts last 7d</small>
             <strong>{recentAttemptCount}</strong>
           </article>
-          <article className="metric-card accent-pink">
+          <article className="metric-card">
             <small>Topics tracked</small>
             <strong>{topics.length}</strong>
           </article>
-          <article className="metric-card accent-orange">
+          <article className="metric-card">
             <small>Problem sets</small>
             <strong>{problemSets.length}</strong>
           </article>

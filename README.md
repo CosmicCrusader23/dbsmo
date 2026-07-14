@@ -60,5 +60,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Replaced regex-based math splitting with an escape-aware tokenizer, fixing HTML-style `<math>\$2000</math>` imports such as 1996 AJHSME question 18; added conservative package-style aliases and security regression coverage for hostile HTML, trusted KaTeX commands, recursive macros, and macro leakage.
 - Fixed every unsupported expression found in a production sweep of the 1985-1998 AJHSME sets: position-qualified `tabular` layouts now convert to safe KaTeX arrays for 1987 Q8/Q23, 1989 Q14/Q22, 1990 Q9, and 1991 Q6. Added safely portable MathLive notation aliases without enabling HTML/resource-loading commands.
 - Removed the rectangular `border-image` frames that appeared outside existing rounded controls, simplified search focus to one cyan stroke, and softened repeated structural borders in dark mode.
+- Removed colored edge accents from every metric card and increased selected problem-set tag count contrast in both themes.
 
 © 2026 Cosmic Crusader

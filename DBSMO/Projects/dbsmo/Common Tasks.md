@@ -19,6 +19,8 @@ Start with the final `Hand-drawn shape system` and `Hand-drawn route coverage` s
 
 The public sign-in sketch markup lives in `app/page.tsx`. Keep it `aria-hidden` because it is decorative. Inter/Shantell Sans variables are configured in `app/layout.tsx`; do not apply the handwriting font to answer inputs, equations, or long body copy. Shared hand-drawn outlines use native borders with asymmetric radii and progressive `corner-shape`; do not restore `border-image`, because it paints rigid rectangular frames outside squircles. Update light and dark ink tokens together and test desktop plus mobile widths. Search inputs should remain borderless at rest inside the search panel and use one cyan focus border without an additional outline. Never use percentage-based `border-shape` paths on variable-height panels: a 7,000 px problem panel turns a 1% path offset into 70 px. Do not restore global wavy eyebrow/title underlines. Include a long problem set in visual QA. The current route audit excludes FTW and Playground. Implementation/support notes are in `docs/visual-system.md`.
 
+Metric cards are deliberately neutral summary surfaces. Add new metrics with only `metric-card`; do not add `accent-*` classes or colored edge borders. Selected problem-set category counts use an opaque `--paper-raised` background and `--ink` text so both themes retain readable contrast (source: `app/globals.css`).
+
 ## Add or Change an Answer Type
 
 Edit:

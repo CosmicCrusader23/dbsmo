@@ -81,19 +81,19 @@ export default async function SetAnalyticsPage({ params }: Props) {
           </div>
         </header>
         <section className="metric-grid" aria-label="Set analytics">
-          <article className="metric-card accent-cyan">
+          <article className="metric-card">
             <small>Total attempts</small>
             <strong>{set.attempts.length}</strong>
           </article>
-          <article className="metric-card accent-purple">
+          <article className="metric-card">
             <small>Unique students</small>
             <strong>{students.size}</strong>
           </article>
-          <article className="metric-card accent-pink">
+          <article className="metric-card">
             <small>Average score</small>
             <strong>{avg}%</strong>
           </article>
-          <article className="metric-card accent-orange">
+          <article className="metric-card">
             <small>Questions</small>
             <strong>{set.problems.length}</strong>
           </article>

@@ -598,7 +598,6 @@ body.has-site-sidebar .app-footer {
   border-radius: var(--radius-card);
   background: var(--color-card-bg);
   box-shadow: var(--shadow-soft);
-  border-top: 5px solid var(--color-cyan);
   transition:
     transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 220ms ease;
@@ -643,26 +642,6 @@ body.has-site-sidebar .app-footer {
   font-size: 0.78rem;
   font-weight: 900;
   text-transform: uppercase;
-}
-
-.accent-purple {
-  border-top-color: var(--color-purple);
-}
-
-.accent-pink {
-  border-top-color: var(--color-pink);
-}
-
-.accent-orange {
-  border-top-color: var(--color-orange);
-}
-
-.accent-black {
-  border-top-color: var(--color-black);
-}
-
-.accent-grey {
-  border-top-color: var(--color-grey);
 }
 
 .content-grid,
@@ -3206,21 +3185,7 @@ html {
 }
 
 .metric-card {
-  border-top: 0;
-  border-left: 4px solid var(--color-cyan);
   background: rgba(255, 255, 255, 0.96);
-}
-
-.accent-purple {
-  border-left-color: var(--color-purple);
-}
-
-.accent-pink {
-  border-left-color: var(--color-pink);
-}
-
-.accent-orange {
-  border-left-color: var(--color-orange);
 }
 
 .text-link {
@@ -10764,22 +10729,6 @@ html:is(.light, .dark)
   text-wrap: balance;
 }
 
-html:is(.light, .dark) .metric-card {
-  border-left: 5px solid var(--marker-cyan);
-}
-
-html:is(.light, .dark) .metric-card.accent-purple {
-  border-left-color: var(--color-purple);
-}
-
-html:is(.light, .dark) .metric-card.accent-pink {
-  border-left-color: var(--marker-pink);
-}
-
-html:is(.light, .dark) .metric-card.accent-orange {
-  border-left-color: var(--marker-yellow);
-}
-
 .problem-jump-button,
 .answer-nav-button {
   border: 2px solid var(--ink-soft);
@@ -11426,6 +11375,12 @@ html:is(.light, .dark) .category-pill.active,
 html:is(.light, .dark) .class-announcement-targets label:has(input:checked) {
   border-color: var(--ink);
   background: var(--paper-pink);
+  color: var(--ink);
+}
+
+html:is(.light, .dark) .category-pill.active .category-pill-count {
+  border: 1px solid var(--ink-soft);
+  background: var(--paper-raised);
   color: var(--ink);
 }
 

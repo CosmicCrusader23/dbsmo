@@ -391,15 +391,11 @@ export default async function DashboardPage() {
         <AssignmentsWidget />
 
         <section className="metric-grid" aria-label="Student progress metrics">
-          <MetricCard
-            label="Attempted"
-            value={`${completedSets}/${totalSets || 0}`}
-            accent="grey"
-          />
-          <MetricCard label="Best average" value={`${averageScore}%`} accent="grey" />
-          <MetricCard label="Latest score" value={`${latestScore}%`} accent="grey" />
+          <MetricCard label="Attempted" value={`${completedSets}/${totalSets || 0}`} />
+          <MetricCard label="Best average" value={`${averageScore}%`} />
+          <MetricCard label="Latest score" value={`${latestScore}%`} />
           {currentUser.role === "ADMIN" ? (
-            <MetricCard label="Open reports" value={`${openReports}`} accent="grey" />
+            <MetricCard label="Open reports" value={`${openReports}`} />
           ) : null}
         </section>
 
@@ -574,17 +570,9 @@ export default async function DashboardPage() {
   );
 }
 
-function MetricCard({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: string;
-  accent: "cyan" | "purple" | "pink" | "orange" | "black" | "grey";
-}) {
+function MetricCard({ label, value }: { label: string; value: string }) {
   return (
-    <article className={`metric-card accent-${accent}`}>
+    <article className="metric-card">
       <small>{label}</small>
       <strong>{value}</strong>
     </article>
