@@ -24,12 +24,30 @@ NEXTAUTH_SECRET="generate-a-strong-random-secret-here"
 GOOGLE_CLIENT_ID="your-client-id"
 GOOGLE_CLIENT_SECRET="your-client-secret"
 SCHOOL_EMAIL_DOMAINS="g.dbs.edu.hk,dbs.edu.hk"
+# Keep false in production. Set to true only in a trusted local development environment.
+AUTH_DEV_BYPASS="false"
 
 # Storage
-STORAGE_DRIVER="local" # Or switch to "s3" when implemented
+STORAGE_DRIVER="local" # Use "s3" on ephemeral/serverless filesystems
 LOCAL_STORAGE_ROOT="./storage" # Ensure this directory persists across deployments
+MAX_JSON_UPLOAD_MB="5"
 MAX_ZIP_UPLOAD_MB="50"
+
+# Required only when STORAGE_DRIVER="s3"
+S3_ENDPOINT="https://s3.example.com"
+S3_BUCKET="dbsmo"
+S3_ACCESS_KEY_ID="..."
+S3_SECRET_ACCESS_KEY="..."
+S3_REGION="us-east-1"
 ```
+
+`SCHOOL_EMAIL_DOMAINS` is a comma-separated allowlist of exact email domains. Invalid
+entries are ignored, and an explicitly empty value denies all Google sign-ins. The
+developer credentials provider is available only when `AUTH_DEV_BYPASS="true"` and
+`NODE_ENV` is not `production`.
+
+The JSON and legacy ZIP settings can lower their respective 5 MB and 50 MB hard
+limits, but cannot raise them.
 
 ## Vercel Deployment (Recommended)
 
@@ -39,7 +57,7 @@ MAX_ZIP_UPLOAD_MB="50"
 4. Deploy the application.
 
 _Note on File Storage on Vercel:_
-Vercel's file system is ephemeral. If you use `STORAGE_DRIVER="local"`, uploaded ZIP files and PDFs will be lost on the next deployment. For production on serverless platforms, you must implement the S3 storage driver or use a VPS with a persistent disk.
+Vercel's file system is ephemeral. If you use `STORAGE_DRIVER="local"`, uploaded files will be lost on the next deployment. Configure the implemented S3-compatible driver or use a VPS with a persistent disk.
 
 ## VPS Deployment (Docker / PM2)
 
@@ -48,7 +66,7 @@ If deploying to a VPS (e.g., DigitalOcean, Hetzner, AWS EC2), you can use PM2 or
 1. Clone the repository onto your server.
 2. Run `npm install` and `npx prisma generate`.
 3. Set your `.env` variables.
-4. Run `npx prisma migrate deploy` to apply migrations.
+4. Run `npx prisma db push` to apply the schema, matching `SETUP.md`.
 5. Run `npm run build`.
 6. Start the server with `pm2 start npm --name "dbsmo" -- run start`.
 

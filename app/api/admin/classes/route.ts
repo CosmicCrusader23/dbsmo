@@ -6,13 +6,15 @@ import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { displayNameFor } from "@/lib/display-name";
 import { validateClassName } from "@/lib/classes";
+import { readJsonBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
 const createSchema = z.object({
   name: z.string().min(1).max(120),
-  studentIds: z.array(z.string().min(1)).max(200).default([]),
+  studentIds: z.array(z.string().min(1).max(128)).max(200).default([]),
 });
+const MAX_CLASS_BODY_BYTES = 64_000;
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -65,13 +67,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_CLASS_BODY_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
-  const parsed = createSchema.safeParse(body);
+  const parsed = createSchema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 });
   }

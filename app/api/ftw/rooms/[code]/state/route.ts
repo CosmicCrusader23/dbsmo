@@ -5,10 +5,14 @@ import { authOptions } from "@/lib/auth";
 import { advanceRoomIfDue } from "@/lib/ftw-room-server";
 import { maxRoomScorePerProblem } from "@/lib/ftw-room";
 import { displayNameFor } from "@/lib/display-name";
+import { isCrossSiteBrowserRequest } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
-export async function GET(_req: Request, { params }: { params: Promise<{ code: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ code: string }> }) {
+  if (isCrossSiteBrowserRequest(request)) {
+    return NextResponse.json({ error: "Cross-site request rejected." }, { status: 403 });
+  }
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });

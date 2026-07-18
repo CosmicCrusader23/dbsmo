@@ -4,14 +4,16 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { readJsonBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
 const createSchema = z.object({
   title: z.string().trim().min(1).max(120),
   body: z.string().trim().min(1).max(2000),
-  classIds: z.array(z.string().min(1)).min(1).max(50),
+  classIds: z.array(z.string().min(1).max(128)).min(1).max(50),
 });
+const MAX_ANNOUNCEMENT_BODY_BYTES = 32_000;
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -27,14 +29,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_ANNOUNCEMENT_BODY_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
 
-  const parsed = createSchema.safeParse(body);
+  const parsed = createSchema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 });
   }

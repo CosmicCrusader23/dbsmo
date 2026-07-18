@@ -1,14 +1,28 @@
 import { createHash, createHmac } from "node:crypto";
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, open, rm, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, relative, resolve } from "node:path";
 
 type StorageDriver = "local" | "s3";
+
+export class StorageReadLimitError extends Error {
+  constructor(readonly maxBytes: number) {
+    super(`Stored file exceeds the ${maxBytes}-byte read limit.`);
+    this.name = "StorageReadLimitError";
+  }
+}
 
 const root = resolve(
   /*turbopackIgnore: true*/ process.cwd(),
   process.env.LOCAL_STORAGE_ROOT ?? "./storage",
 );
-const storageDriver = (process.env.STORAGE_DRIVER ?? "local") as StorageDriver;
+
+export function resolveStorageDriver(value: string | undefined): StorageDriver {
+  const normalized = value?.trim().toLowerCase() || "local";
+  if (normalized === "local" || normalized === "s3") return normalized;
+  throw new Error('STORAGE_DRIVER must be either "local" or "s3".');
+}
+
+const storageDriver = resolveStorageDriver(process.env.STORAGE_DRIVER);
 
 function assertLocalStorageDriver() {
   if (storageDriver !== "local") {
@@ -158,14 +172,76 @@ export function getFilePath(key: string): string {
   return resolveStoragePath(key);
 }
 
-/** Return a stored file as a buffer for either local or object storage. */
-export async function readFileBuffer(key: string): Promise<Buffer> {
-  if (storageDriver === "s3") {
-    const response = await s3Request("GET", key);
-    return Buffer.from(await response.arrayBuffer());
+/**
+ * Read a stored object without trusting database size metadata. Both local and
+ * S3 paths enforce the cap against bytes from the storage backend.
+ */
+export async function readFileBufferBounded(key: string, maxBytes: number): Promise<Buffer> {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 0) {
+    throw new Error("Storage read limit must be a non-negative safe integer.");
   }
 
-  return readFile(resolveStoragePath(key));
+  if (storageDriver === "s3") {
+    const response = await s3Request("GET", key);
+    const declaredLength = response.headers.get("content-length");
+    if (declaredLength !== null) {
+      const parsedLength = Number(declaredLength);
+      if (Number.isFinite(parsedLength) && parsedLength > maxBytes) {
+        await response.body?.cancel().catch(() => undefined);
+        throw new StorageReadLimitError(maxBytes);
+      }
+    }
+
+    if (!response.body) return Buffer.alloc(0);
+    const reader = response.body.getReader();
+    const chunks: Buffer[] = [];
+    let totalBytes = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel().catch(() => undefined);
+        throw new StorageReadLimitError(maxBytes);
+      }
+      chunks.push(Buffer.from(value));
+    }
+
+    return Buffer.concat(chunks, totalBytes);
+  }
+
+  const handle = await open(resolveStoragePath(key), "r");
+  try {
+    const fileStats = await handle.stat();
+    if (!Number.isSafeInteger(fileStats.size) || fileStats.size > maxBytes) {
+      throw new StorageReadLimitError(maxBytes);
+    }
+
+    const buffer = Buffer.alloc(fileStats.size);
+    let totalBytes = 0;
+    while (totalBytes < buffer.byteLength) {
+      const { bytesRead } = await handle.read(
+        buffer,
+        totalBytes,
+        buffer.byteLength - totalBytes,
+        totalBytes,
+      );
+      if (bytesRead === 0) break;
+      totalBytes += bytesRead;
+    }
+
+    const probe = Buffer.allocUnsafe(1);
+    const { bytesRead: extraBytes } = await handle.read(probe, 0, 1, totalBytes);
+    if (extraBytes > 0) {
+      throw new StorageReadLimitError(maxBytes);
+    }
+
+    return buffer.subarray(0, totalBytes);
+  } finally {
+    await handle.close();
+  }
 }
 
 /** Remove a stored file. Silently succeeds if the file doesn't exist. */

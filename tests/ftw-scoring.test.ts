@@ -58,4 +58,8 @@ describe("FTW room codes", () => {
       expect(generateRoomCode(8)).not.toMatch(/[01OI]/);
     }
   });
+  it("rejects invalid room-code lengths", () => {
+    expect(() => generateRoomCode(0)).toThrow(RangeError);
+    expect(() => generateRoomCode(33)).toThrow(RangeError);
+  });
 });

@@ -12,6 +12,73 @@ describe("normalizeAnswer", () => {
     expect(normalizeAnswer("\\frac{3}{6}", "fraction")).toBe("1/2");
   });
 
+  it("rejects fractions with extra slash-separated values", () => {
+    expect(normalizeAnswer("1/2/999", "fraction")).toBe("1/2/999");
+    expect(
+      gradeAnswer({
+        answerType: "fraction",
+        answerKey: "1/2",
+        rawAnswer: "1/2/999",
+      }).isCorrect,
+    ).toBe(false);
+  });
+
+  it("does not round distinct large integer answers together", () => {
+    expect(normalizeAnswer("9007199254740993", "integer")).toBe("9007199254740993");
+    expect(
+      gradeAnswer({
+        answerType: "integer",
+        answerKey: "9007199254740992",
+        rawAnswer: "9007199254740993",
+      }).isCorrect,
+    ).toBe(false);
+  });
+
+  it("compares zero-tolerance decimals exactly above the safe integer range", () => {
+    expect(
+      gradeAnswer({
+        answerType: "decimal",
+        answerKey: "9007199254740992.0",
+        rawAnswer: "9007199254740993",
+      }).isCorrect,
+    ).toBe(false);
+    expect(
+      gradeAnswer({
+        answerType: "decimal",
+        answerKey: "9007199254740993.0",
+        rawAnswer: "9.007199254740993e15",
+      }).isCorrect,
+    ).toBe(true);
+    expect(
+      gradeAnswer({
+        answerType: "decimal",
+        answerKey: "0.10000000000000000001",
+        rawAnswer: "0.10000000000000000002",
+      }).isCorrect,
+    ).toBe(false);
+  });
+
+  it("preserves equivalent leading-dot decimal spellings", () => {
+    expect(
+      gradeAnswer({
+        answerType: "decimal",
+        answerKey: "0.5",
+        rawAnswer: ".5",
+      }).isCorrect,
+    ).toBe(true);
+    expect(
+      gradeAnswer({
+        answerType: "decimal",
+        answerKey: "-.5",
+        rawAnswer: "-0.500",
+      }).isCorrect,
+    ).toBe(true);
+  });
+
+  it("reduces large fractions without losing integer precision", () => {
+    expect(normalizeAnswer("18014398509481986/36028797018963972", "fraction")).toBe("1/2");
+  });
+
   it("normalizes unordered sets", () => {
     expect(normalizeAnswer("{5, 1, 2}", "set")).toBe("1,2,5");
   });
@@ -124,5 +191,7 @@ describe("gradeAnswer", () => {
 describe("escapeCsvField", () => {
   it("guards CSV formula values", () => {
     expect(escapeCsvField("=IMPORTXML(1)")).toBe("'=IMPORTXML(1)");
+    expect(escapeCsvField("\t=HYPERLINK(1)")).toBe("'\t=HYPERLINK(1)");
+    expect(escapeCsvField("line\rbreak")).toBe('"line\rbreak"');
   });
 });

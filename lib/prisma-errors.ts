@@ -10,3 +10,11 @@ export function isPrismaKnownError(err: unknown, code?: string): boolean {
 export function isPrismaUniqueViolation(err: unknown): boolean {
   return isPrismaKnownError(err, "P2002");
 }
+
+export function isPrismaTransactionConflict(err: unknown): boolean {
+  return isPrismaKnownError(err, "P2034");
+}
+
+export function isRetryablePrismaTransactionError(err: unknown): boolean {
+  return isPrismaUniqueViolation(err) || isPrismaTransactionConflict(err);
+}

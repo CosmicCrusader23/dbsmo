@@ -1,18 +1,17 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { type AnswerType, gradeAnswer } from "@/lib/grading";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
+import { readJsonBody } from "@/lib/http-body";
+import {
+  MAX_PRACTICE_SUBMISSION_BODY_BYTES,
+  practiceSubmissionSchema,
+} from "@/lib/practice-policy";
 
 export const runtime = "nodejs";
-
-const submitSchema = z.object({
-  problemId: z.string().min(1),
-  answer: z.string(),
-});
 
 const PRACTICE_ANSWER_TYPE_MAP = {
   EXACT: "exact",
@@ -30,14 +29,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_PRACTICE_SUBMISSION_BODY_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Submission payload is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
 
-  const result = submitSchema.safeParse(body);
+  const result = practiceSubmissionSchema.safeParse(body.value);
   if (!result.success) {
     return NextResponse.json({ error: "Validation failed." }, { status: 422 });
   }

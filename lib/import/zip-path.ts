@@ -3,11 +3,17 @@ export function normalizeZipPath(path: string): string {
 }
 
 export function isSafeZipPath(path: string): boolean {
-  const normalized = normalizeZipPath(path);
-  if (!normalized || normalized.includes("\0")) {
+  if (
+    !path ||
+    path.length > 512 ||
+    path.includes("\0") ||
+    /^[\\/]/.test(path) ||
+    /^[a-zA-Z]:[\\/]/.test(path)
+  ) {
     return false;
   }
 
+  const normalized = normalizeZipPath(path);
   return normalized.split("/").every((part) => part && part !== "." && part !== "..");
 }
 

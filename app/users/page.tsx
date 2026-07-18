@@ -5,7 +5,7 @@ import { ArrowLeft, Search, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
-import { isStaffRole } from "@/lib/permissions";
+import { canViewPrivateProfiles } from "@/lib/permissions";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
@@ -65,7 +65,10 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
         avgScore,
       };
     })
-    .filter((u) => u.profileVisible || u.id === session.user.id || isStaffRole(session.user.role))
+    .filter(
+      (u) =>
+        u.profileVisible || u.id === session.user.id || canViewPrivateProfiles(session.user.role),
+    )
     .filter((u) => {
       if (!normalizedQuery) return true;
       return [u.displayLabel, u.email, u.role].join(" ").toLowerCase().includes(normalizedQuery);

@@ -4,19 +4,18 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
-import {
-  ROOM_DEFAULT_LIMIT_MS,
-  ROOM_DEFAULT_TOTAL,
-  generateRoomCode,
-} from "@/lib/ftw-room";
+import { readJsonBody } from "@/lib/http-body";
+import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
+import { ROOM_DEFAULT_LIMIT_MS, ROOM_DEFAULT_TOTAL, generateRoomCode } from "@/lib/ftw-room";
 
 export const runtime = "nodejs";
 
 const createSchema = z.object({
-  tag: z.string().optional().nullable(),
+  tag: z.string().max(64).optional().nullable(),
   totalProblems: z.number().int().min(3).max(20).optional(),
   problemLimitMs: z.number().int().min(15000).max(120000).optional(),
 });
+const MAX_FTW_REQUEST_BYTES = 2_048;
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -25,10 +24,15 @@ export async function POST(request: Request) {
   }
 
   let body: unknown = {};
-  try {
-    body = await request.json();
-  } catch {
-    body = {};
+  if (request.body) {
+    const parsedBody = await readJsonBody(request, { maxBytes: MAX_FTW_REQUEST_BYTES });
+    if (!parsedBody.ok) {
+      return NextResponse.json(
+        { error: parsedBody.reason === "too_large" ? "Request is too large." : "Invalid JSON." },
+        { status: parsedBody.reason === "too_large" ? 413 : 400 },
+      );
+    }
+    body = parsedBody.value;
   }
 
   const parsed = createSchema.safeParse(body);
@@ -63,25 +67,27 @@ export async function POST(request: Request) {
     );
   }
 
-  let code = generateRoomCode();
-  for (let attempt = 0; attempt < 5; attempt++) {
-    const existing = await prisma.ftwRoom.findUnique({ where: { code } });
-    if (!existing) break;
-    code = generateRoomCode();
+  for (let attempt = 0; attempt < 10; attempt += 1) {
+    const code = generateRoomCode();
+    try {
+      const room = await prisma.ftwRoom.create({
+        data: {
+          code,
+          hostId: session.user.id,
+          tag,
+          totalProblems,
+          problemLimitMs,
+          players: {
+            create: { userId: session.user.id },
+          },
+        },
+      });
+      return NextResponse.json({ code: room.code, roomId: room.id });
+    } catch (error) {
+      if (isPrismaUniqueViolation(error)) continue;
+      throw error;
+    }
   }
 
-  const room = await prisma.ftwRoom.create({
-    data: {
-      code,
-      hostId: session.user.id,
-      tag,
-      totalProblems,
-      problemLimitMs,
-      players: {
-        create: { userId: session.user.id },
-      },
-    },
-  });
-
-  return NextResponse.json({ code: room.code, roomId: room.id });
+  return NextResponse.json({ error: "Could not allocate a room code." }, { status: 503 });
 }

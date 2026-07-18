@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { dryRunProblemSetJson } from "@/lib/import/json-import";
+import { configuredMaxJsonBytes, dryRunProblemSetJson } from "@/lib/import/json-import";
+import { MAX_IMAGE_ZIP_BYTES } from "@/lib/import/image-zip";
 import { readOptionalImageZip } from "@/lib/import/uploaded-image-zip";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
+import { readFormDataBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
@@ -16,7 +18,29 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  const formData = await request.formData();
+  const maxJsonBytes = configuredMaxJsonBytes();
+  const parsedForm = await readFormDataBody(request, {
+    maxBytes: maxJsonBytes + MAX_IMAGE_ZIP_BYTES + 1024 * 1024,
+  });
+  if (!parsedForm.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        issues: [
+          {
+            level: "error",
+            message:
+              parsedForm.reason === "too_large"
+                ? "Import upload is too large."
+                : "Import form data is invalid.",
+          },
+        ],
+        preview: null,
+      },
+      { status: parsedForm.reason === "too_large" ? 413 : 400 },
+    );
+  }
+  const formData = parsedForm.value;
   const upload = formData.get("file");
 
   if (!(upload instanceof File)) {
@@ -30,12 +54,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const maxMb = parseInt(process.env.MAX_JSON_UPLOAD_MB || "5", 10);
-  if (upload.size > maxMb * 1024 * 1024) {
+  if (upload.size > maxJsonBytes) {
     return NextResponse.json(
       {
         ok: false,
-        issues: [{ level: "error", message: `File size exceeds the ${maxMb}MB limit.` }],
+        issues: [
+          {
+            level: "error",
+            message: `File size exceeds the ${maxJsonBytes / 1024 / 1024}MB limit.`,
+          },
+        ],
         preview: null,
       },
       { status: 413 },

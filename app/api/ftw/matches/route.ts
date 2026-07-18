@@ -4,16 +4,15 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
-import {
-  FTW_PROBLEMS_PER_MATCH,
-  maxScoreForMatch,
-} from "@/lib/ftw";
+import { readJsonBody } from "@/lib/http-body";
+import { FTW_PROBLEMS_PER_MATCH, maxScoreForMatch } from "@/lib/ftw";
 
 export const runtime = "nodejs";
 
 const startSchema = z.object({
-  tag: z.string().optional().nullable(),
+  tag: z.string().max(64).optional().nullable(),
 });
+const MAX_FTW_REQUEST_BYTES = 2_048;
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
@@ -22,10 +21,15 @@ export async function POST(request: Request) {
   }
 
   let body: unknown = {};
-  try {
-    body = await request.json();
-  } catch {
-    body = {};
+  if (request.body) {
+    const parsedBody = await readJsonBody(request, { maxBytes: MAX_FTW_REQUEST_BYTES });
+    if (!parsedBody.ok) {
+      return NextResponse.json(
+        { error: parsedBody.reason === "too_large" ? "Request is too large." : "Invalid JSON." },
+        { status: parsedBody.reason === "too_large" ? 413 : 400 },
+      );
+    }
+    body = parsedBody.value;
   }
 
   const parsed = startSchema.safeParse(body);

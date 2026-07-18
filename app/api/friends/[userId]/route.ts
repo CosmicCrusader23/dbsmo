@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
+import { Prisma } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { isPrismaKnownError, isRetryablePrismaTransactionError } from "@/lib/prisma-errors";
+
+const MAX_TOGGLE_ATTEMPTS = 3;
 
 type RouteContext = {
   params: Promise<{ userId: string }>;
@@ -37,22 +41,49 @@ export async function PATCH(_request: Request, { params }: RouteContext) {
   }
 
   const [requesterId, receiverId] = friendshipPair(session.user.id, targetUser.id);
-  try {
-    const existing = await friendshipDelegate.findUnique({
-      where: { requesterId_receiverId: { requesterId, receiverId } },
-    });
+  for (let attempt = 1; attempt <= MAX_TOGGLE_ATTEMPTS; attempt += 1) {
+    try {
+      const isFriend = await prisma.$transaction(
+        async (tx) => {
+          const existing = await tx.friendship.findUnique({
+            where: { requesterId_receiverId: { requesterId, receiverId } },
+          });
 
-    if (existing) {
-      await friendshipDelegate.delete({ where: { id: existing.id } });
-      return NextResponse.json({ ok: true, isFriend: false });
+          if (existing) {
+            await tx.friendship.delete({ where: { id: existing.id } });
+            return false;
+          }
+
+          await tx.friendship.create({
+            data: { requesterId, receiverId },
+          });
+          return true;
+        },
+        { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+      );
+
+      return NextResponse.json({ ok: true, isFriend });
+    } catch (error) {
+      const raced = isRetryablePrismaTransactionError(error) || isPrismaKnownError(error, "P2025");
+      if (raced && attempt < MAX_TOGGLE_ATTEMPTS) {
+        continue;
+      }
+      if (raced) {
+        return NextResponse.json(
+          { error: "Friend status changed at the same time. Please retry." },
+          { status: 409 },
+        );
+      }
+      if (isPrismaKnownError(error, "P2003")) {
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+      if (isPrismaKnownError(error, "P2021")) {
+        return NextResponse.json({ error: "Friend data is not ready yet." }, { status: 503 });
+      }
+      console.error("Failed to toggle friendship:", error);
+      return NextResponse.json({ error: "Could not update friend status." }, { status: 500 });
     }
-
-    await friendshipDelegate.create({
-      data: { requesterId, receiverId },
-    });
-
-    return NextResponse.json({ ok: true, isFriend: true });
-  } catch {
-    return NextResponse.json({ error: "Friend data is not ready yet." }, { status: 503 });
   }
+
+  return NextResponse.json({ error: "Could not update friend status." }, { status: 500 });
 }

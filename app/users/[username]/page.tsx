@@ -9,8 +9,13 @@ import { computeBestAverageScore } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
-import { hasPermission, isStaffRole } from "@/lib/permissions";
+import {
+  canViewHiddenLeaderboardEntries,
+  canViewPrivateProfiles,
+  hasPermission,
+} from "@/lib/permissions";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
+import { canLinkProblemSetFromProfile } from "@/lib/profile-visibility";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { AuthoredTasksTable } from "./authored-tasks-table";
@@ -83,6 +88,7 @@ export default async function UserProfilePage({
   const gridParams = (await searchParams) ?? {};
   const normalizedUsername = decodeURIComponent(username).trim().toLowerCase();
   const gridMode = gridParams.grid === "problems" ? "problems" : "sets";
+  const profileVisibilityNow = new Date();
 
   const user = await prisma.user.findFirst({
     where: {
@@ -129,14 +135,46 @@ export default async function UserProfilePage({
               },
             },
           },
-          problemSet: { select: { title: true, slug: true } },
+          problemSet: {
+            select: {
+              title: true,
+              slug: true,
+              status: true,
+              visibleFrom: true,
+              visibleTo: true,
+            },
+          },
         },
         orderBy: { submittedAt: "desc" },
         take: 1000,
       },
       problemSetBookmarks: {
+        where:
+          session.user.role === "ADMIN"
+            ? undefined
+            : {
+                problemSet: {
+                  status: "PUBLISHED",
+                  AND: [
+                    {
+                      OR: [{ visibleFrom: null }, { visibleFrom: { lte: profileVisibilityNow } }],
+                    },
+                    {
+                      OR: [{ visibleTo: null }, { visibleTo: { gte: profileVisibilityNow } }],
+                    },
+                  ],
+                },
+              },
         select: {
-          problemSet: { select: { title: true, slug: true } },
+          problemSet: {
+            select: {
+              title: true,
+              slug: true,
+              status: true,
+              visibleFrom: true,
+              visibleTo: true,
+            },
+          },
         },
         orderBy: { createdAt: "desc" },
         take: 5,
@@ -194,7 +232,7 @@ export default async function UserProfilePage({
     .then((sets) => sets.sort(compareProblemSetRecords));
 
   const isOwnProfile = user.id === session.user.id;
-  const canViewPrivateProfile = isOwnProfile || isStaffRole(session.user.role);
+  const canViewPrivateProfile = isOwnProfile || canViewPrivateProfiles(session.user.role);
   if (!user.profileVisible && !canViewPrivateProfile) {
     return (
       <main className="profile-shell">
@@ -261,7 +299,17 @@ export default async function UserProfilePage({
         )
       : 0;
 
-  const setScores = new Map<string, { title: string; slug: string; best: number }>();
+  const setScores = new Map<
+    string,
+    {
+      title: string;
+      slug: string;
+      status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
+      visibleFrom: Date | null;
+      visibleTo: Date | null;
+      best: number;
+    }
+  >();
   const today = startOfDay(new Date());
   const lastYearStart = addDays(today, -364);
   const heatmapStart = addDays(lastYearStart, -lastYearStart.getDay());
@@ -273,6 +321,9 @@ export default async function UserProfilePage({
       setScores.set(a.problemSetId, {
         title: a.problemSet.title,
         slug: a.problemSet.slug,
+        status: a.problemSet.status,
+        visibleFrom: a.problemSet.visibleFrom,
+        visibleTo: a.problemSet.visibleTo,
         best: pct,
       });
     }
@@ -312,7 +363,12 @@ export default async function UserProfilePage({
   );
   const masteryActiveDays = masteryCells.filter((cell) => cell.inRange && cell.count > 0).length;
   const solvedSets = [...setScores.values()].filter((s) => s.best >= 80);
-  const recentCompletions = solvedSets.slice(0, 5);
+  const recentCompletions = solvedSets
+    .filter((set) => canLinkProblemSetFromProfile(set, session.user.role, profileVisibilityNow))
+    .slice(0, 5);
+  const visibleBookmarks = user.problemSetBookmarks.filter((bookmark) =>
+    canLinkProblemSetFromProfile(bookmark.problemSet, session.user.role, profileVisibilityNow),
+  );
   const topicStats = new Map<string, { correct: number; total: number }>();
   for (const attempt of user.attempts) {
     for (const response of attempt.responses) {
@@ -336,7 +392,7 @@ export default async function UserProfilePage({
     .slice(0, 4);
   const visibleSets =
     session.user.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set));
-  const canSeeAllAuthoredSets = isOwnProfile || isStaffRole(session.user.role);
+  const canSeeAllAuthoredSets = isOwnProfile || hasPermission(session.user.role, "admin:content");
   const authoredTaskRows = user.createdProblemSets
     .filter((set) => canSeeAllAuthoredSets || isVisibleToStudent(set))
     .sort(compareProblemSetRecords)
@@ -412,7 +468,9 @@ export default async function UserProfilePage({
   const standardRows = leaderboardUsers
     .filter(
       (entry) =>
-        entry.leaderboardVisible || entry.id === session.user.id || isStaffRole(session.user.role),
+        entry.leaderboardVisible ||
+        entry.id === session.user.id ||
+        canViewHiddenLeaderboardEntries(session.user.role),
     )
     .map((entry) => {
       const bestPerSet = new Map<string, number>();
@@ -442,7 +500,9 @@ export default async function UserProfilePage({
   const practiceRows = leaderboardUsers
     .filter(
       (entry) =>
-        entry.leaderboardVisible || entry.id === session.user.id || isStaffRole(session.user.role),
+        entry.leaderboardVisible ||
+        entry.id === session.user.id ||
+        canViewHiddenLeaderboardEntries(session.user.role),
     )
     .map((entry) => ({
       id: entry.id,
@@ -591,11 +651,11 @@ export default async function UserProfilePage({
         </article>
         <article className="profile-grid-panel">
           <h3>Bookmarked sets</h3>
-          {user.problemSetBookmarks.length === 0 ? (
+          {visibleBookmarks.length === 0 ? (
             <p className="profile-muted">No public bookmarks yet.</p>
           ) : (
             <div className="profile-link-list">
-              {user.problemSetBookmarks.map((bookmark) => (
+              {visibleBookmarks.map((bookmark) => (
                 <Link
                   href={`/problem-sets/${bookmark.problemSet.slug}`}
                   key={bookmark.problemSet.slug}

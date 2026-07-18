@@ -108,8 +108,13 @@ export function accuracyLevel(accuracy: number): "success" | "warning" | "danger
 }
 
 export function escapeCsvField(value: string): string {
-  const safeValue = /^[=+\-@]/.test(value) ? `'${value}` : value;
-  if (safeValue.includes(",") || safeValue.includes('"') || safeValue.includes("\n")) {
+  const safeValue = /^[\t\r\n ]*[=+\-@]/.test(value) ? `'${value}` : value;
+  if (
+    safeValue.includes(",") ||
+    safeValue.includes('"') ||
+    safeValue.includes("\r") ||
+    safeValue.includes("\n")
+  ) {
     return `"${safeValue.replace(/"/g, '""')}"`;
   }
   return safeValue;

@@ -2,10 +2,15 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { FeedbackStatus } from "@prisma/client";
-import type { Prisma } from "@prisma/client";
 import { recordAuditLog } from "@/lib/audit";
 import { hasPermission } from "@/lib/permissions";
+import {
+  adminFeedbackUpdateSchema,
+  buildFeedbackUpdateData,
+  MAX_ADMIN_FEEDBACK_BODY_BYTES,
+} from "@/lib/admin-feedback-policy";
+import { readJsonBody } from "@/lib/http-body";
+import { isPrismaKnownError } from "@/lib/prisma-errors";
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -15,29 +20,22 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = (await req.json()) as { status?: unknown; adminNote?: unknown };
-    const { status, adminNote } = body;
-
-    if (
-      typeof status !== "string" ||
-      !Object.values(FeedbackStatus).includes(status as FeedbackStatus)
-    ) {
-      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    const body = await readJsonBody(req, { maxBytes: MAX_ADMIN_FEEDBACK_BODY_BYTES });
+    if (!body.ok) {
+      return NextResponse.json(
+        { error: body.reason === "too_large" ? "Request is too large" : "Invalid JSON" },
+        { status: body.reason === "too_large" ? 413 : 400 },
+      );
     }
 
-    const nextStatus = status as FeedbackStatus;
-    const updateData: Prisma.FeedbackReportUpdateInput = { status: nextStatus };
-    if (adminNote !== undefined)
-      updateData.adminNote = adminNote === null ? null : String(adminNote);
-    if (nextStatus === "RESOLVED" || nextStatus === "REJECTED") {
-      updateData.resolvedAt = new Date();
-    } else {
-      updateData.resolvedAt = null;
+    const parsed = adminFeedbackUpdateSchema.safeParse(body.value);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
     const report = await prisma.feedbackReport.update({
       where: { id },
-      data: updateData,
+      data: buildFeedbackUpdateData(parsed.data),
     });
 
     await recordAuditLog({
@@ -50,6 +48,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
     return NextResponse.json({ ok: true, report });
   } catch (error) {
+    if (isPrismaKnownError(error, "P2025")) {
+      return NextResponse.json({ error: "Report not found" }, { status: 404 });
+    }
     console.error("Failed to update feedback report:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
@@ -93,6 +94,9 @@ export async function DELETE(_: Request, { params }: { params: Promise<{ id: str
 
     return NextResponse.json({ ok: true });
   } catch (error) {
+    if (isPrismaKnownError(error, "P2025")) {
+      return NextResponse.json({ error: "Report not found" }, { status: 404 });
+    }
     console.error("Failed to delete feedback report:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

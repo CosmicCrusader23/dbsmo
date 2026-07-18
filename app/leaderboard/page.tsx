@@ -5,7 +5,7 @@ import { ArrowLeft, Heart, Target, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
-import { isStaffRole } from "@/lib/permissions";
+import { canViewHiddenLeaderboardEntries } from "@/lib/permissions";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
@@ -192,7 +192,10 @@ export default async function LeaderboardPage({
       };
     })
     .filter(
-      (u) => u.leaderboardVisible || u.id === session.user.id || isStaffRole(session.user.role),
+      (u) =>
+        u.leaderboardVisible ||
+        u.id === session.user.id ||
+        canViewHiddenLeaderboardEntries(session.user.role),
     )
     .filter((u) => scope === "all" || friendIds.has(u.id))
     .sort((a, b) => {

@@ -3,17 +3,29 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
-import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
+import {
+  storeUploadedPdf,
+  UploadedPdfValidationError,
+  type UploadedPdfPayload,
+} from "@/lib/uploaded-pdf";
 import { recordAuditLog } from "@/lib/audit";
-import { nextProblemSetOrder } from "@/lib/problem-set-order";
+import { nextProblemSetOrderFromDatabase } from "@/lib/problem-set-order";
 import {
   assertUniqueProblemNumbers,
   createProblemSetAuthoringSchema,
+  MAX_AUTHORING_BODY_BYTES,
   normalizeAuthoringProblem,
 } from "@/lib/problem-set-authoring";
 import { hasPermission } from "@/lib/permissions";
 import { decodeUploadedImageAssets } from "@/lib/import/image-assets";
-import { persistProblemSetImageAssets } from "@/lib/import/persist-image-assets";
+import {
+  applyStagedProblemSetImageAssets,
+  discardProblemSetImageStorageKeys,
+  discardStagedProblemSetImageAssets,
+  stageProblemSetImageAssets,
+} from "@/lib/import/persist-image-assets";
+import { cleanupUnreferencedImportedFiles } from "@/lib/imported-file-cleanup";
+import { readJsonBody } from "@/lib/http-body";
 
 export async function POST(req: Request) {
   try {
@@ -25,14 +37,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    let body: unknown;
-    try {
-      body = await req.json();
-    } catch {
-      return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+    const body = await readJsonBody(req, { maxBytes: MAX_AUTHORING_BODY_BYTES });
+    if (!body.ok) {
+      return NextResponse.json(
+        { error: body.reason === "too_large" ? "Request body is too large." : "Invalid JSON." },
+        { status: body.reason === "too_large" ? 413 : 400 },
+      );
     }
 
-    const parsed = createProblemSetAuthoringSchema.safeParse(body);
+    const parsed = createProblemSetAuthoringSchema.safeParse(body.value);
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Validation failed.", details: parsed.error.flatten() },
@@ -77,10 +90,7 @@ export async function POST(req: Request) {
 
     let finalOrder = order ?? "";
     if (!finalOrder) {
-      const existingSets = await prisma.problemSet.findMany({
-        select: { order: true },
-      });
-      finalOrder = nextProblemSetOrder(existingSets.map((set) => set.order));
+      finalOrder = await nextProblemSetOrderFromDatabase();
     }
 
     let problemFileId: string | null = null;
@@ -93,41 +103,79 @@ export async function POST(req: Request) {
         });
         problemFileId = uploadedPdf.id;
       } catch (error) {
-        return NextResponse.json(
-          { error: error instanceof Error ? error.message : "Invalid PDF upload." },
-          { status: 400 },
-        );
+        if (!(error instanceof UploadedPdfValidationError)) {
+          console.error("Failed to store problem-set PDF:", error);
+          return NextResponse.json({ error: "Could not store PDF upload." }, { status: 500 });
+        }
+        return NextResponse.json({ error: error.message }, { status: 400 });
       }
     }
 
-    const problemSet = await prisma.problemSet.create({
-      data: {
-        title,
+    let stagedImages;
+    try {
+      stagedImages = await stageProblemSetImageAssets({
         slug,
-        description: description || "",
-        order: finalOrder,
-        difficulty,
-        status,
-        topicTags: normalizeTagList(topicTags || []),
-        allowedGroups: [],
-        videoUrl: videoUrl || null,
-        problemFileId,
-        createdById: session.user.id,
-        problems: {
-          create: problems.map((problem, index) => normalizeAuthoringProblem(problem, index)),
-        },
-      },
-      include: { problems: true },
-    });
-
-    if (decodedImages.decoded.length > 0) {
-      await persistProblemSetImageAssets({
-        problemSetId: problemSet.id,
-        slug: problemSet.slug,
-        uploadedById: session.user.id,
         assets: decodedImages.decoded,
       });
+    } catch (error) {
+      if (problemFileId) {
+        await cleanupUnreferencedImportedFiles([problemFileId]).catch(() => undefined);
+      }
+      throw error;
     }
+
+    let created;
+    try {
+      created = await prisma.$transaction(async (tx) => {
+        const problemSet = await tx.problemSet.create({
+          data: {
+            title,
+            slug,
+            description: description || "",
+            order: finalOrder,
+            difficulty,
+            status,
+            topicTags: normalizeTagList(topicTags || []),
+            allowedGroups: [],
+            videoUrl: videoUrl || null,
+            problemFileId,
+            createdById: session.user.id,
+            problems: {
+              create: problems.map((problem, index) => normalizeAuthoringProblem(problem, index)),
+            },
+          },
+          include: { problems: true },
+        });
+        const appliedImages = await applyStagedProblemSetImageAssets({
+          tx,
+          problemSetId: problemSet.id,
+          uploadedById: session.user.id,
+          staged: stagedImages,
+        });
+        return { appliedImages, problemSet };
+      });
+    } catch (error) {
+      await discardStagedProblemSetImageAssets(stagedImages);
+      if (problemFileId) {
+        await cleanupUnreferencedImportedFiles([problemFileId]).catch((cleanupError) => {
+          console.error("Failed to clean up PDF after problem-set creation failed:", cleanupError);
+        });
+      }
+      throw error;
+    }
+
+    await discardProblemSetImageStorageKeys(created.appliedImages.unusedStorageKeys);
+    if (created.appliedImages.replacedFileIds.length > 0) {
+      await cleanupUnreferencedImportedFiles(created.appliedImages.replacedFileIds).catch(
+        (cleanupError) => {
+          console.error(
+            "Failed to clean up replaced files after problem-set creation:",
+            cleanupError,
+          );
+        },
+      );
+    }
+    const { problemSet } = created;
 
     await recordAuditLog({
       actorId: session.user.id,

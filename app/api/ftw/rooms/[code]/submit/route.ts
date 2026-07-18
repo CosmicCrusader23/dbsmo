@@ -1,46 +1,33 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
-import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { type AnswerType, gradeAnswer } from "@/lib/grading";
-import { roomScore } from "@/lib/ftw-room";
-import { advanceRoomIfDue } from "@/lib/ftw-room-server";
+import { submitRoomAnswer } from "@/lib/ftw-room-server";
+import { readJsonBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
 const submitSchema = z.object({
-  problemIndex: z.number().int().nonnegative(),
-  answer: z.string(),
+  problemIndex: z.number().int().nonnegative().max(1_000),
+  answer: z.string().max(4_000),
 });
+const MAX_FTW_REQUEST_BYTES = 16_000;
 
-const ANSWER_TYPE_MAP = {
-  EXACT: "exact",
-  INTEGER: "integer",
-  DECIMAL: "decimal",
-  FRACTION: "fraction",
-  SET: "set",
-  MULTIPLE: "multiple",
-  EXPRESSION: "expression",
-} as const satisfies Record<string, AnswerType>;
-
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ code: string }> },
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ code: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_FTW_REQUEST_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
-  const parsed = submitSchema.safeParse(body);
+  const parsed = submitSchema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 });
   }
@@ -48,68 +35,33 @@ export async function POST(
   const { code } = await params;
   const upper = code.toUpperCase();
 
-  const room = await prisma.ftwRoom.findUnique({
-    where: { code: upper },
-    include: {
-      players: { where: { userId: session.user.id, leftAt: null } },
-    },
-  });
-  if (!room || room.status !== "IN_PROGRESS") {
+  const room = await prisma.ftwRoom.findUnique({ where: { code: upper }, select: { id: true } });
+  if (!room) {
     return NextResponse.json({ error: "Room not running." }, { status: 409 });
   }
-  const player = room.players[0];
-  if (!player) {
+
+  const result = await submitRoomAnswer({
+    roomId: room.id,
+    userId: session.user.id,
+    problemIndex: parsed.data.problemIndex,
+    rawAnswer: parsed.data.answer,
+  });
+
+  if (result.kind === "room-not-running") {
+    return NextResponse.json({ error: "Room not running." }, { status: 409 });
+  }
+  if (result.kind === "not-in-room") {
     return NextResponse.json({ error: "Not in room." }, { status: 403 });
   }
-
-  const roomProblem = await prisma.ftwRoomProblem.findUnique({
-    where: { roomId_problemIndex: { roomId: room.id, problemIndex: parsed.data.problemIndex } },
-    include: { problem: true },
-  });
-  if (!roomProblem) {
+  if (result.kind === "problem-not-found") {
     return NextResponse.json({ error: "Problem not found." }, { status: 404 });
   }
-  if (roomProblem.lockedAt) {
+  if (result.kind === "problem-locked") {
     return NextResponse.json({ error: "Problem locked." }, { status: 409 });
   }
-
-  const now = Date.now();
-  const elapsedMs = now - roomProblem.servedAt.getTime();
-  const timedOut = now >= roomProblem.endsAt.getTime();
-
-  const { isCorrect } = timedOut
-    ? { isCorrect: false }
-    : gradeAnswer({
-        rawAnswer: parsed.data.answer,
-        answerType: ANSWER_TYPE_MAP[roomProblem.problem.answerType],
-        answerKey: roomProblem.problem.answerKey,
-        acceptedAnswers: roomProblem.problem.acceptedAnswers,
-        caseSensitive: roomProblem.problem.caseSensitive,
-      });
-
-  const points = timedOut ? 0 : roomScore(elapsedMs, room.problemLimitMs, isCorrect);
-
-  try {
-    await prisma.ftwRoomAnswer.create({
-      data: {
-        roomProblemId: roomProblem.id,
-        playerId: player.id,
-        userId: session.user.id,
-        rawAnswer: parsed.data.answer,
-        submittedAt: new Date(now),
-        elapsedMs,
-        isCorrect: timedOut ? false : isCorrect,
-        points,
-      },
-    });
-  } catch (err) {
-    if (isPrismaUniqueViolation(err)) {
-      return NextResponse.json({ error: "Already submitted." }, { status: 409 });
-    }
-    throw err;
+  if (result.kind === "already-submitted") {
+    return NextResponse.json({ error: "Already submitted." }, { status: 409 });
   }
-
-  await advanceRoomIfDue(room.id);
 
   return NextResponse.json({ submitted: true });
 }

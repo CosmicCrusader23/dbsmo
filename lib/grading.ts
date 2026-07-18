@@ -26,18 +26,28 @@ export type GradeResult = {
 
 export function gradeAnswer(input: GradeInput): GradeResult {
   const normalizedAnswer = normalizeAnswer(input.rawAnswer, input.answerType, input.caseSensitive);
-  const candidates = [input.answerKey, ...(input.acceptedAnswers ?? [])]
-    .filter(Boolean)
-    .map((answer) => normalizeAnswer(answer, input.answerType, input.caseSensitive));
+  const rawCandidates = [input.answerKey, ...(input.acceptedAnswers ?? [])].filter(Boolean);
+  const candidates = rawCandidates.map((answer) =>
+    normalizeAnswer(answer, input.answerType, input.caseSensitive),
+  );
 
   if (input.answerType === "decimal") {
     const tolerance = input.decimalTolerance ?? 0;
     const answerNumber = Number(normalizedAnswer);
-    const isCorrect = candidates.some((candidate) => {
+    const answerCanonical = canonicalDecimal(normalizeText(input.rawAnswer, false));
+    const isCorrect = candidates.some((candidate, index) => {
+      const candidateCanonical = canonicalDecimal(normalizeText(rawCandidates[index], false));
+      if (answerCanonical && candidateCanonical && answerCanonical === candidateCanonical) {
+        return true;
+      }
+      if (tolerance === 0) return false;
+
       const candidateNumber = Number(candidate);
       return (
         Number.isFinite(answerNumber) &&
         Number.isFinite(candidateNumber) &&
+        Math.abs(answerNumber) <= Number.MAX_SAFE_INTEGER &&
+        Math.abs(candidateNumber) <= Number.MAX_SAFE_INTEGER &&
         Math.abs(answerNumber - candidateNumber) <= tolerance
       );
     });
@@ -112,16 +122,32 @@ function normalizeText(value: string, caseSensitive: boolean): string {
 }
 
 function normalizeInteger(value: string): string {
+  if (/^[+-]?\d+$/.test(value)) {
+    try {
+      return BigInt(value).toString();
+    } catch {
+      return value;
+    }
+  }
+
   const numberValue = Number(value);
-  if (!Number.isInteger(numberValue)) {
+  if (!Number.isSafeInteger(numberValue)) {
     return value;
   }
   return String(numberValue);
 }
 
 function normalizeDecimal(value: string): string {
+  if (/^[+-]?\d+$/.test(value)) {
+    try {
+      return BigInt(value).toString();
+    } catch {
+      return value;
+    }
+  }
+
   const numberValue = Number(value);
-  if (!Number.isFinite(numberValue)) {
+  if (!Number.isFinite(numberValue) || Math.abs(numberValue) > Number.MAX_SAFE_INTEGER) {
     return value;
   }
   return String(numberValue);
@@ -129,24 +155,34 @@ function normalizeDecimal(value: string): string {
 
 function normalizeFraction(value: string): string {
   const stripped = stripMathDelimiters(value);
-  const latexFractionMatch = stripped.match(/^\\frac\{(-?\d+)\}\{(-?\d+)\}$/);
+  const latexFractionMatch = stripped.match(/^\\frac\{([+-]?\d+)\}\{([+-]?\d+)\}$/);
   const fractionValue = latexFractionMatch
     ? `${latexFractionMatch[1]}/${latexFractionMatch[2]}`
     : value;
-  const [numeratorRaw, denominatorRaw] = fractionValue.split("/");
-  if (!numeratorRaw || !denominatorRaw) {
+  const fractionParts = fractionValue.split("/");
+  if (fractionParts.length !== 2) {
     return normalizeDecimal(value);
   }
+  const [numeratorRaw, denominatorRaw] = fractionParts;
+  if (!numeratorRaw || !denominatorRaw) return normalizeDecimal(value);
 
-  const numerator = Number(numeratorRaw);
-  const denominator = Number(denominatorRaw);
-  if (!Number.isInteger(numerator) || !Number.isInteger(denominator) || denominator === 0) {
+  if (!/^[+-]?\d+$/.test(numeratorRaw) || !/^[+-]?\d+$/.test(denominatorRaw)) {
+    return value;
+  }
+  if (
+    numeratorRaw.replace(/^[+-]/, "").length > 512 ||
+    denominatorRaw.replace(/^[+-]/, "").length > 512
+  ) {
     return value;
   }
 
-  const sign = denominator < 0 ? -1 : 1;
-  const divisor = gcd(Math.abs(numerator), Math.abs(denominator));
-  return `${(sign * numerator) / divisor}/${Math.abs(denominator) / divisor}`;
+  const numerator = BigInt(numeratorRaw);
+  const denominator = BigInt(denominatorRaw);
+  if (denominator === 0n) return value;
+
+  const sign = denominator < 0n ? -1n : 1n;
+  const divisor = gcdBigInt(absBigInt(numerator), absBigInt(denominator));
+  return `${(sign * numerator) / divisor}/${absBigInt(denominator) / divisor}`;
 }
 
 function normalizeSet(value: string, caseSensitive: boolean): string {
@@ -164,15 +200,46 @@ function normalizeExpression(value: string): string {
   return Number.isFinite(evaluated) ? formatNumber(evaluated) : value;
 }
 
-function gcd(a: number, b: number): number {
+function absBigInt(value: bigint): bigint {
+  return value < 0n ? -value : value;
+}
+
+function gcdBigInt(a: bigint, b: bigint): bigint {
   let x = a;
   let y = b;
-  while (y !== 0) {
+  while (y !== 0n) {
     const next = x % y;
     x = y;
     y = next;
   }
-  return x || 1;
+  return x || 1n;
+}
+
+/**
+ * Canonical decimal identity without converting through an IEEE-754 number.
+ * Trailing zeros are folded into the base-10 scale, so equivalent exponent
+ * spellings compare exactly even above Number.MAX_SAFE_INTEGER.
+ */
+function canonicalDecimal(value: string): string | null {
+  const match = value.match(/^([+-]?)(?:(\d+)(?:\.(\d*))?|\.(\d+))(?:e([+-]?\d+))?$/i);
+  if (!match) return null;
+
+  const exponent = Number(match[5] ?? "0");
+  if (!Number.isSafeInteger(exponent) || Math.abs(exponent) > 10_000) return null;
+
+  const negative = match[1] === "-";
+  const integer = match[2] ?? "0";
+  const fraction = match[3] ?? match[4] ?? "";
+  let digits = `${integer}${fraction}`.replace(/^0+/, "");
+  let scale = fraction.length - exponent;
+  if (!digits) return "0e0";
+
+  while (digits.endsWith("0")) {
+    digits = digits.slice(0, -1);
+    scale -= 1;
+  }
+
+  return `${negative ? "-" : ""}${digits}e${-scale}`;
 }
 
 type MathToken =
@@ -283,10 +350,7 @@ function insertImplicitMultiplication(tokens: MathToken[]): MathToken[] {
   return result;
 }
 
-function shouldInsertMultiplication(
-  previous: MathToken,
-  current: MathToken,
-): boolean {
+function shouldInsertMultiplication(previous: MathToken, current: MathToken): boolean {
   const previousCanEndValue =
     previous.type === "number" ||
     previous.type === "rightParen" ||

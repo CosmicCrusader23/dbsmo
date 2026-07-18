@@ -3,22 +3,37 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
-import { storeUploadedPdf, type UploadedPdfPayload } from "@/lib/uploaded-pdf";
+import {
+  storeUploadedPdf,
+  UploadedPdfValidationError,
+  type UploadedPdfPayload,
+} from "@/lib/uploaded-pdf";
 import { recordAuditLog } from "@/lib/audit";
 import {
   assertUniqueProblemNumbers,
+  MAX_AUTHORING_BODY_BYTES,
   normalizeAuthoringProblem,
   patchProblemSetAuthoringSchema,
 } from "@/lib/problem-set-authoring";
 import { hasPermission } from "@/lib/permissions";
 import { decodeUploadedImageAssets } from "@/lib/import/image-assets";
-import { persistProblemSetImageAssets } from "@/lib/import/persist-image-assets";
+import {
+  applyStagedProblemSetImageAssets,
+  discardProblemSetImageStorageKeys,
+  discardStagedProblemSetImageAssets,
+  stageProblemSetImageAssets,
+} from "@/lib/import/persist-image-assets";
+import { cleanupUnreferencedImportedFiles } from "@/lib/imported-file-cleanup";
+import { readJsonBody } from "@/lib/http-body";
+import { lockProblemSet } from "@/lib/problem-set-locks";
 
 export const runtime = "nodejs";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
+
+class ProblemSetMutationNotFoundError extends Error {}
 
 export async function GET(_request: Request, context: RouteContext) {
   const session = await getServerSession(authOptions);
@@ -60,21 +75,22 @@ export async function PATCH(request: Request, context: RouteContext) {
 
   const existing = await prisma.problemSet.findUnique({
     where: { id },
-    select: { id: true, status: true, slug: true },
+    select: { id: true, slug: true },
   });
 
   if (!existing) {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
+  const body = await readJsonBody(request, { maxBytes: MAX_AUTHORING_BODY_BYTES });
+  if (!body.ok) {
+    return NextResponse.json(
+      { error: body.reason === "too_large" ? "Request body is too large." : "Invalid JSON." },
+      { status: body.reason === "too_large" ? 413 : 400 },
+    );
   }
 
-  const result = patchProblemSetAuthoringSchema.safeParse(body);
+  const result = patchProblemSetAuthoringSchema.safeParse(body.value);
   if (!result.success) {
     return NextResponse.json(
       { error: "Validation failed.", details: result.error.flatten() },
@@ -122,83 +138,145 @@ export async function PATCH(request: Request, context: RouteContext) {
       });
       uploadedPdfId = uploadedPdf.id;
     } catch (error) {
-      return NextResponse.json(
-        { error: error instanceof Error ? error.message : "Invalid PDF upload." },
-        { status: 400 },
-      );
+      if (!(error instanceof UploadedPdfValidationError)) {
+        console.error("Failed to store replacement problem PDF:", error);
+        return NextResponse.json({ error: "Could not store PDF upload." }, { status: 500 });
+      }
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
   }
 
-  const updated = await prisma.$transaction(async (tx) => {
-    const updatedSet = await tx.problemSet.update({
-      where: { id },
-      data: {
-        ...normalizedPatch,
-        problemFileId: uploadedPdfId,
-      },
+  let stagedImages;
+  try {
+    stagedImages = await stageProblemSetImageAssets({
+      slug: existing.slug,
+      assets: decodedImages.decoded,
     });
+  } catch (error) {
+    if (uploadedPdfId) {
+      await cleanupUnreferencedImportedFiles([uploadedPdfId]).catch(() => undefined);
+    }
+    console.error("Failed to stage problem-set images:", error);
+    return NextResponse.json({ error: "Could not store image uploads." }, { status: 500 });
+  }
 
-    if (problems) {
-      const existingProblems = await tx.problem.findMany({
-        where: { problemSetId: id },
-        select: { id: true },
+  let mutation;
+  try {
+    mutation = await prisma.$transaction(async (tx) => {
+      if (!(await lockProblemSet(tx, id))) {
+        throw new ProblemSetMutationNotFoundError();
+      }
+      const current = await tx.problemSet.findUniqueOrThrow({
+        where: { id },
+        select: { problemFileId: true, slug: true, status: true },
       });
-      const existingIds = new Set(existingProblems.map((problem) => problem.id));
-      const providedExistingIds = new Set(
-        problems
-          .map((problem) => problem.id)
-          .filter((problemId): problemId is string =>
-            Boolean(problemId && existingIds.has(problemId)),
-          ),
-      );
-
-      await tx.problem.deleteMany({
-        where: {
-          problemSetId: id,
-          id: { notIn: Array.from(providedExistingIds) },
+      const updatedSet = await tx.problemSet.update({
+        where: { id },
+        data: {
+          ...normalizedPatch,
+          problemFileId: uploadedPdfId,
         },
       });
 
-      for (const [index, problem] of problems.entries()) {
-        const data = normalizeAuthoringProblem(problem, index);
+      if (problems) {
+        const existingProblems = await tx.problem.findMany({
+          where: { problemSetId: id },
+          select: { id: true },
+        });
+        const existingIds = new Set(existingProblems.map((problem) => problem.id));
+        const providedExistingIds = new Set(
+          problems
+            .map((problem) => problem.id)
+            .filter((problemId): problemId is string =>
+              Boolean(problemId && existingIds.has(problemId)),
+            ),
+        );
 
-        if (problem.id && existingIds.has(problem.id)) {
-          await tx.problem.update({
-            where: { id: problem.id },
-            data,
-          });
-        } else {
-          await tx.problem.create({
-            data: {
-              ...data,
-              problemSetId: id,
-            },
-          });
+        await tx.problem.deleteMany({
+          where: {
+            problemSetId: id,
+            id: { notIn: Array.from(providedExistingIds) },
+          },
+        });
+
+        for (const [index, problem] of problems.entries()) {
+          const data = normalizeAuthoringProblem(problem, index);
+
+          if (problem.id && existingIds.has(problem.id)) {
+            await tx.problem.update({
+              where: { id: problem.id },
+              data,
+            });
+          } else {
+            await tx.problem.create({
+              data: {
+                ...data,
+                problemSetId: id,
+              },
+            });
+          }
         }
       }
+
+      const appliedImages = await applyStagedProblemSetImageAssets({
+        tx,
+        problemSetId: id,
+        uploadedById: session.user.id,
+        staged: stagedImages,
+      });
+
+      return {
+        appliedImages,
+        previousProblemFileId: current.problemFileId,
+        previousSlug: current.slug,
+        previousStatus: current.status,
+        updatedSet,
+      };
+    });
+  } catch (error) {
+    await discardStagedProblemSetImageAssets(stagedImages);
+    if (uploadedPdfId) {
+      await cleanupUnreferencedImportedFiles([uploadedPdfId]).catch((cleanupError) => {
+        console.error("Failed to clean up rolled-back problem PDF:", cleanupError);
+      });
     }
+    if (error instanceof ProblemSetMutationNotFoundError) {
+      return NextResponse.json({ error: "Not found." }, { status: 404 });
+    }
+    throw error;
+  }
 
-    return updatedSet;
+  await discardProblemSetImageStorageKeys(mutation.appliedImages.unusedStorageKeys);
+  await cleanupUnreferencedImportedFiles(mutation.appliedImages.replacedFileIds).catch((error) => {
+    console.error(`Failed to clean up replaced image assets for ${id}:`, error);
   });
 
-  await recordAuditLog({
-    actorId: session.user.id,
-    action: existing.status !== updated.status ? "problem_set.publish_state" : "problem_set.update",
-    targetType: "ProblemSet",
-    targetId: updated.id,
-    metadata: { slug: existing.slug, fromStatus: existing.status, toStatus: updated.status },
-  });
-
-  if (decodedImages.decoded.length > 0) {
-    await persistProblemSetImageAssets({
-      problemSetId: updated.id,
-      slug: updated.slug,
-      uploadedById: session.user.id,
-      assets: decodedImages.decoded,
+  if (
+    uploadedPdfId &&
+    mutation.previousProblemFileId &&
+    uploadedPdfId !== mutation.previousProblemFileId
+  ) {
+    await cleanupUnreferencedImportedFiles([mutation.previousProblemFileId]).catch((error) => {
+      console.error("Failed to clean up replaced problem PDF:", error);
     });
   }
 
-  return NextResponse.json(updated);
+  await recordAuditLog({
+    actorId: session.user.id,
+    action:
+      mutation.previousStatus !== mutation.updatedSet.status
+        ? "problem_set.publish_state"
+        : "problem_set.update",
+    targetType: "ProblemSet",
+    targetId: mutation.updatedSet.id,
+    metadata: {
+      slug: mutation.previousSlug,
+      fromStatus: mutation.previousStatus,
+      toStatus: mutation.updatedSet.status,
+    },
+  });
+
+  return NextResponse.json(mutation.updatedSet);
 }
 
 export async function DELETE(_request: Request, context: RouteContext) {
@@ -212,40 +290,65 @@ export async function DELETE(_request: Request, context: RouteContext) {
 
   const { id } = await context.params;
 
-  const existing = await prisma.problemSet.findUnique({
-    where: { id },
-    select: { id: true, title: true, status: true },
+  const deletion = await prisma.$transaction(async (tx) => {
+    if (!(await lockProblemSet(tx, id))) return { kind: "not_found" as const };
+
+    const existing = await tx.problemSet.findUniqueOrThrow({
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        problemFileId: true,
+        solutionFileId: true,
+        assets: { select: { fileId: true } },
+        writeups: { select: { images: { select: { fileId: true } } } },
+      },
+    });
+
+    if (existing.status !== "DRAFT" && existing.status !== "PUBLISHED") {
+      return { kind: "conflict" as const };
+    }
+
+    await tx.problemSet.delete({ where: { id } });
+    return { kind: "deleted" as const, existing };
   });
 
-  if (!existing) {
+  if (deletion.kind === "not_found") {
     return NextResponse.json({ error: "Not found." }, { status: 404 });
   }
 
-  if (existing.status !== "DRAFT" && existing.status !== "PUBLISHED") {
+  if (deletion.kind === "conflict") {
     return NextResponse.json(
       { error: "Only draft or published sets can be deleted." },
       { status: 409 },
     );
   }
 
-  await prisma.problemSet.delete({
-    where: { id },
+  const removedFileIds = [
+    deletion.existing.problemFileId,
+    deletion.existing.solutionFileId,
+    ...deletion.existing.assets.map((asset) => asset.fileId),
+    ...deletion.existing.writeups.flatMap((writeup) => writeup.images.map((image) => image.fileId)),
+  ];
+  await cleanupUnreferencedImportedFiles(removedFileIds).catch((error) => {
+    console.error(`Failed to clean up files for deleted problem set ${id}:`, error);
   });
 
   await recordAuditLog({
     actorId: session.user.id,
     action: "problem_set.delete",
     targetType: "ProblemSet",
-    targetId: existing.id,
-    metadata: { title: existing.title, status: existing.status },
+    targetId: deletion.existing.id,
+    metadata: { title: deletion.existing.title, status: deletion.existing.status },
   });
 
   return NextResponse.json({
     ok: true,
     deleted: {
-      id: existing.id,
-      title: existing.title,
-      status: existing.status,
+      id: deletion.existing.id,
+      title: deletion.existing.title,
+      status: deletion.existing.status,
     },
   });
 }

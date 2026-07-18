@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { deleteFile } from "@/lib/storage";
+import { cleanupUnreferencedImportedFiles } from "@/lib/imported-file-cleanup";
 import { isVisibleToStudent } from "@/lib/visibility";
 
 export const runtime = "nodejs";
@@ -32,7 +32,6 @@ export async function DELETE(_request: Request, context: RouteContext) {
             file: {
               select: {
                 id: true,
-                storageKey: true,
               },
             },
           },
@@ -54,13 +53,11 @@ export async function DELETE(_request: Request, context: RouteContext) {
     );
   }
 
-  const files = writeup.images.map((image) => image.file);
+  const fileIds = writeup.images.map((image) => image.file.id);
   await prisma.writeup.delete({ where: { id } });
-
-  for (const file of files) {
-    await deleteFile(file.storageKey).catch(() => {});
-    await prisma.importedFile.delete({ where: { id: file.id } }).catch(() => {});
-  }
+  await cleanupUnreferencedImportedFiles(fileIds).catch((error) => {
+    console.error(`Failed to clean up images for deleted writeup ${id}:`, error);
+  });
 
   return NextResponse.json({ ok: true });
 }

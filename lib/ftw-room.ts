@@ -1,3 +1,5 @@
+import { randomInt } from "node:crypto";
+
 export const ROOM_BASE_POINTS = 2;
 export const ROOM_SPEED_POINTS = 8;
 export const ROOM_DEFAULT_TOTAL = 10;
@@ -18,9 +20,12 @@ export function maxRoomScorePerProblem(): number {
 const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
 export function generateRoomCode(length = 5): string {
+  if (!Number.isSafeInteger(length) || length < 1 || length > 32) {
+    throw new RangeError("Room code length must be an integer from 1 to 32.");
+  }
   let out = "";
   for (let i = 0; i < length; i++) {
-    out += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+    out += CODE_ALPHABET[randomInt(CODE_ALPHABET.length)];
   }
   return out;
 }

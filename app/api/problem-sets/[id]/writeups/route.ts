@@ -4,7 +4,16 @@ import { ProblemContentFormat } from "@prisma/client";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isVisibleToStudent } from "@/lib/visibility";
-import { storeWriteupImage } from "@/lib/writeup-images";
+import {
+  cleanupStoredWriteupImages,
+  MAX_WRITEUP_IMAGE_TOTAL_BYTES,
+  prepareWriteupImages,
+  storePreparedWriteupImage,
+  WriteupImageValidationError,
+  type PreparedWriteupImage,
+  type StoredWriteupImage,
+} from "@/lib/writeup-images";
+import { readFormDataBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
@@ -12,9 +21,9 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
-const MAX_WRITEUP_IMAGES = 4;
 const MAX_WRITEUP_BODY_CHARS = 20000;
 const MAX_WRITEUP_TITLE_CHARS = 120;
+const MAX_WRITEUP_FORM_BYTES = MAX_WRITEUP_IMAGE_TOTAL_BYTES + 512 * 1024;
 
 function normalizeContentFormat(value: FormDataEntryValue | null) {
   return value === "HTML" ? ProblemContentFormat.HTML : ProblemContentFormat.LATEX;
@@ -42,15 +51,26 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  const formData = await request.formData();
+  const parsedForm = await readFormDataBody(request, { maxBytes: MAX_WRITEUP_FORM_BYTES });
+  if (!parsedForm.ok) {
+    return NextResponse.json(
+      {
+        error:
+          parsedForm.reason === "too_large"
+            ? "Writeup upload is too large."
+            : "Invalid writeup form data.",
+      },
+      { status: parsedForm.reason === "too_large" ? 413 : 400 },
+    );
+  }
+  const formData = parsedForm.value;
   const title = String(formData.get("title") ?? "")
     .trim()
     .slice(0, MAX_WRITEUP_TITLE_CHARS);
   const body = String(formData.get("body") ?? "").trim();
   const contentFormat = normalizeContentFormat(formData.get("contentFormat"));
-  const images = formData
-    .getAll("images")
-    .filter((entry): entry is File => entry instanceof File && entry.size > 0);
+  const imageEntries = formData.getAll("images");
+  const images = imageEntries.filter((entry): entry is File => entry instanceof File);
 
   if (!title) {
     return NextResponse.json({ error: "Title is required." }, { status: 400 });
@@ -61,11 +81,19 @@ export async function POST(request: Request, context: RouteContext) {
   if (!body && images.length === 0) {
     return NextResponse.json({ error: "Add LaTeX text or at least one image." }, { status: 400 });
   }
-  if (images.length > MAX_WRITEUP_IMAGES) {
-    return NextResponse.json(
-      { error: `Upload at most ${MAX_WRITEUP_IMAGES} images.` },
-      { status: 400 },
-    );
+  if (images.length !== imageEntries.length) {
+    return NextResponse.json({ error: "Images must be file uploads." }, { status: 400 });
+  }
+
+  let preparedImages: PreparedWriteupImage[];
+  try {
+    preparedImages = await prepareWriteupImages(images);
+  } catch (error) {
+    if (!(error instanceof WriteupImageValidationError)) {
+      console.error("Failed to read writeup image upload:", error);
+      return NextResponse.json({ error: "Could not read image upload." }, { status: 500 });
+    }
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 
   const writeup = await prisma.writeup.create({
@@ -79,28 +107,23 @@ export async function POST(request: Request, context: RouteContext) {
     select: { id: true },
   });
 
+  const storedImages: StoredWriteupImage[] = [];
   try {
-    for (const [index, image] of images.entries()) {
-      const file = await storeWriteupImage({
-        file: image,
+    for (const [index, image] of preparedImages.entries()) {
+      const stored = await storePreparedWriteupImage({
+        image,
         problemSetId: problemSet.id,
         writeupId: writeup.id,
         uploadedById: currentUser.id,
+        sortOrder: index,
       });
-      await prisma.writeupImage.create({
-        data: {
-          writeupId: writeup.id,
-          fileId: file.id,
-          sortOrder: index,
-        },
-      });
+      storedImages.push(stored);
     }
   } catch (error) {
     await prisma.writeup.delete({ where: { id: writeup.id } }).catch(() => {});
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Could not upload images." },
-      { status: 400 },
-    );
+    await cleanupStoredWriteupImages(storedImages);
+    console.error("Failed to persist writeup images:", error);
+    return NextResponse.json({ error: "Could not upload images." }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, writeupId: writeup.id });

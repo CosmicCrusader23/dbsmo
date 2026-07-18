@@ -1,13 +1,24 @@
 import { parse } from "csv-parse/sync";
-import yaml from "js-yaml";
+import * as yaml from "js-yaml";
 import JSZip from "jszip";
 import { z } from "zod";
 import { normalizeTagList } from "../problem-tags";
 import { answerRowSchema, type AnswerRow } from "./answer-schema";
 import { manifestSchema, type ProblemSetManifest } from "./manifest-schema";
 import { isSafeZipPath, normalizeZipPath } from "./zip-path";
+import {
+  declaredZipEntrySize,
+  readZipEntryTextBounded,
+  ZipExpandedSizeLimitError,
+} from "./zip-entry";
 
-const MAX_ZIP_BYTES = 50 * 1024 * 1024;
+export const MAX_LEGACY_ZIP_BYTES = 50 * 1024 * 1024;
+export const MAX_LEGACY_ZIP_ENTRIES = 1_000;
+export const MAX_LEGACY_MANIFEST_BYTES = 256 * 1024;
+export const MAX_LEGACY_ANSWERS_BYTES = 5 * 1024 * 1024;
+export const MAX_LEGACY_ANSWER_ROWS = 1_000;
+export const MAX_LEGACY_REFERENCED_FILE_BYTES = 50 * 1024 * 1024;
+export const MAX_LEGACY_REFERENCED_TOTAL_BYTES = 100 * 1024 * 1024;
 const REQUIRED_COLUMNS = [
   "number",
   "answerType",
@@ -54,11 +65,22 @@ export type ZipDryRunInput = {
   buffer: Buffer;
 };
 
+export function configuredMaxLegacyZipBytes(value = process.env.MAX_ZIP_UPLOAD_MB): number {
+  if (value === undefined || !/^\d+$/.test(value.trim())) return MAX_LEGACY_ZIP_BYTES;
+  const megabytes = Number(value.trim());
+  if (!Number.isSafeInteger(megabytes) || megabytes < 1) return MAX_LEGACY_ZIP_BYTES;
+  return Math.min(MAX_LEGACY_ZIP_BYTES, megabytes * 1024 * 1024);
+}
+
 export async function dryRunProblemSetZip(input: ZipDryRunInput): Promise<ZipDryRunResult> {
   const issues: ImportIssue[] = [];
+  const maxZipBytes = configuredMaxLegacyZipBytes();
 
-  if (input.sizeBytes > MAX_ZIP_BYTES) {
-    return fail(`ZIP exceeds the ${MAX_ZIP_BYTES / 1024 / 1024} MB upload limit.`);
+  if (input.sizeBytes > maxZipBytes || input.buffer.byteLength > maxZipBytes) {
+    return fail(`ZIP exceeds the ${maxZipBytes / 1024 / 1024} MB upload limit.`);
+  }
+  if (!input.fileName.toLowerCase().endsWith(".zip")) {
+    return fail("Uploaded file must be a .zip archive.");
   }
 
   if (!hasZipSignature(input.buffer)) {
@@ -72,12 +94,16 @@ export async function dryRunProblemSetZip(input: ZipDryRunInput): Promise<ZipDry
     return fail("ZIP archive could not be opened.");
   }
 
-  const files = Object.values(zip.files).filter((entry) => !entry.dir);
+  const archiveEntries = Object.values(zip.files);
+  if (archiveEntries.length > MAX_LEGACY_ZIP_ENTRIES) {
+    return fail(`ZIP has too many entries. Maximum is ${MAX_LEGACY_ZIP_ENTRIES}.`);
+  }
+  const files = archiveEntries.filter((entry) => !entry.dir);
   const unsafeFiles = files.filter((entry) => !isSafeZipPath(originalZipEntryName(entry)));
   for (const entry of unsafeFiles) {
     issues.push({
       level: "error",
-      message: `ZIP contains an unsafe path: ${originalZipEntryName(entry)}.`,
+      message: `ZIP contains an unsafe path: ${displayZipEntryName(originalZipEntryName(entry))}.`,
     });
   }
 
@@ -100,10 +126,15 @@ export async function dryRunProblemSetZip(input: ZipDryRunInput): Promise<ZipDry
   }
 
   const answers = await readAnswers(answersEntry, issues);
-  validateReferencedFile(fileNames, manifest.problemFile, "Problem file", issues);
+  const referencedEntries = [
+    validateReferencedFile(zip, fileNames, manifest.problemFile, "Problem file", issues),
+  ];
   if (manifest.solutionFile) {
-    validateReferencedFile(fileNames, manifest.solutionFile, "Solution file", issues);
+    referencedEntries.push(
+      validateReferencedFile(zip, fileNames, manifest.solutionFile, "Solution file", issues),
+    );
   }
+  validateReferencedFileSizes(referencedEntries, issues);
   validateProblemNumbers(answers, issues);
 
   const errorCount = issues.filter((issue) => issue.level === "error").length;
@@ -125,9 +156,20 @@ async function readManifest(
 ): Promise<ProblemSetManifest | null> {
   let rawManifest: unknown;
   try {
-    rawManifest = yaml.load(await entry.async("string"));
-  } catch {
-    issues.push({ level: "error", message: "manifest.yml is not valid YAML." });
+    const text = await readZipEntryTextBounded(
+      entry,
+      MAX_LEGACY_MANIFEST_BYTES,
+      `manifest.yml exceeds the ${MAX_LEGACY_MANIFEST_BYTES / 1024} KB expanded limit.`,
+    );
+    rawManifest = yaml.load(text, { maxAliases: 50 });
+  } catch (error) {
+    issues.push({
+      level: "error",
+      message:
+        error instanceof ZipExpandedSizeLimitError
+          ? error.message
+          : "manifest.yml is not valid bounded UTF-8 YAML.",
+    });
     return null;
   }
 
@@ -143,14 +185,34 @@ async function readManifest(
 async function readAnswers(entry: JSZip.JSZipObject, issues: ImportIssue[]): Promise<AnswerRow[]> {
   let records: Record<string, string>[];
   try {
-    records = parse(await entry.async("string"), {
+    const text = await readZipEntryTextBounded(
+      entry,
+      MAX_LEGACY_ANSWERS_BYTES,
+      `answers.csv exceeds the ${MAX_LEGACY_ANSWERS_BYTES / 1024 / 1024} MB expanded limit.`,
+    );
+    records = parse(text, {
       columns: true,
       bom: true,
+      max_record_size: 20_000,
       skip_empty_lines: true,
       trim: true,
     });
-  } catch {
-    issues.push({ level: "error", message: "answers.csv could not be parsed." });
+  } catch (error) {
+    issues.push({
+      level: "error",
+      message:
+        error instanceof ZipExpandedSizeLimitError
+          ? error.message
+          : "answers.csv could not be parsed as bounded UTF-8 CSV.",
+    });
+    return [];
+  }
+
+  if (records.length > MAX_LEGACY_ANSWER_ROWS) {
+    issues.push({
+      level: "error",
+      message: `answers.csv has too many rows. Maximum is ${MAX_LEGACY_ANSWER_ROWS}.`,
+    });
     return [];
   }
 
@@ -179,13 +241,55 @@ async function readAnswers(entry: JSZip.JSZipObject, issues: ImportIssue[]): Pro
 }
 
 function validateReferencedFile(
+  zip: JSZip,
   fileNames: Set<string>,
   fileName: string,
   label: string,
   issues: ImportIssue[],
-) {
+): JSZip.JSZipObject | null {
   if (!fileNames.has(normalizeZipPath(fileName))) {
     issues.push({ level: "error", message: `${label} does not exist in ZIP: ${fileName}.` });
+    return null;
+  }
+  return findEntry(zip, fileName) ?? null;
+}
+
+function validateReferencedFileSizes(
+  rawEntries: Array<JSZip.JSZipObject | null>,
+  issues: ImportIssue[],
+) {
+  const entries = Array.from(
+    new Map(
+      rawEntries
+        .filter((entry): entry is JSZip.JSZipObject => entry !== null)
+        .map((entry) => [entry.name, entry]),
+    ).values(),
+  );
+  let declaredTotal = 0;
+  for (const entry of entries) {
+    const declared = declaredZipEntrySize(entry);
+    if (declared.kind === "invalid") {
+      issues.push({
+        level: "error",
+        message: `ZIP contains invalid size metadata for ${displayZipEntryName(entry.name)}.`,
+      });
+      continue;
+    }
+    if (declared.kind === "unknown") continue;
+    if (declared.bytes > MAX_LEGACY_REFERENCED_FILE_BYTES) {
+      issues.push({
+        level: "error",
+        message: `${displayZipEntryName(entry.name)} expands beyond the ${MAX_LEGACY_REFERENCED_FILE_BYTES / 1024 / 1024} MB per-file limit.`,
+      });
+      continue;
+    }
+    declaredTotal += declared.bytes;
+  }
+  if (declaredTotal > MAX_LEGACY_REFERENCED_TOTAL_BYTES) {
+    issues.push({
+      level: "error",
+      message: `Referenced files expand beyond ${MAX_LEGACY_REFERENCED_TOTAL_BYTES / 1024 / 1024} MB total.`,
+    });
   }
 }
 
@@ -242,8 +346,8 @@ function buildPreview(
     videoUrl: manifest.videoUrl ?? null,
     answerTypeCounts,
     files: files.map((entry) => ({
-      name: entry.name,
-      sizeBytes: null,
+      name: displayZipEntryName(entry.name),
+      sizeBytes: previewEntrySize(entry),
     })),
   };
 }
@@ -256,6 +360,16 @@ function originalZipEntryName(entry: JSZip.JSZipObject) {
   return (
     (entry as JSZip.JSZipObject & { unsafeOriginalName?: string }).unsafeOriginalName ?? entry.name
   );
+}
+
+function displayZipEntryName(value: string): string {
+  const flattened = value.replace(/\r/g, " ").replace(/\n/g, " ");
+  return flattened.length > 200 ? `${flattened.slice(0, 197)}...` : flattened;
+}
+
+function previewEntrySize(entry: JSZip.JSZipObject): number | null {
+  const declared = declaredZipEntrySize(entry);
+  return declared.kind === "known" ? declared.bytes : null;
 }
 
 function zodIssues(label: string, error: z.ZodError): ImportIssue[] {

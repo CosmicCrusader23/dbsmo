@@ -1,37 +1,41 @@
-# Refactor Progress
+# Safety and Refactor Progress
 
 ## Goals
 
-- Fix broken functions.
-- Reduce cybersecurity risk without changing current website behavior.
-- Refactor touched code for readability.
-- Verify with local tests and browser-harness.
+- Fix exploitable or incorrect behavior without changing the UI, feature set, or database schema.
+- Put hard bounds around untrusted input, archive expansion, storage reads, exports, and expensive queries.
+- Make authorization, concurrency, and storage ownership rules explicit and reusable.
+- Preserve current behavior with focused regression tests plus the full project checks.
 
-## Progress
+## Completed Work
 
-- [x] Mapped project structure and stack.
-- [x] Identified existing worktree change: deleted screenshot, left untouched.
-- [x] Started security audit of auth, upload/import, file serving, and HTML/math rendering paths.
-- [x] Capture baseline test results: lint/typecheck pass; unit tests fail because JSON dry-run requires `DATABASE_URL`.
-- [x] Apply focused security/readability fixes.
-- [x] Run lint, typecheck, unit tests.
-- [x] Verify local website with browser-harness.
-
-## Findings To Address
-
-- [x] Developer credentials bypass remains dev-only and now has an explicit `AUTH_DEV_BYPASS=false` opt-out.
-- [x] Local storage path handling enforces that storage keys cannot escape the configured storage root.
-- [x] ZIP import paths reject absolute paths and parent-directory traversal before files are saved.
-- [x] File download headers avoid header injection and add `X-Content-Type-Options: nosniff`.
-- [x] JSON dry-run no longer initializes Prisma when no database URL is configured.
-- [x] Practice APIs no longer expose or grade problems from scheduled/expired sets for students.
-- [x] Admin create/update APIs validate slugs and duplicate problem numbers before writing.
+- [x] Navigated the live repository with CodeGraph and reconciled it with the Obsidian project notes before editing.
+- [x] Replaced unbounded API JSON and multipart parsing with streamed, route-specific body limits and schemas.
+- [x] Hardened Google-domain auth, made the developer bypass explicit and non-production-only, and invalidated sessions for deleted users.
+- [x] Aligned staff routing, page access, API permissions, private-profile visibility, leaderboard visibility, and file access with the documented permission model.
+- [x] Serialized submissions, friendships, problem-set mutations, regrades, FTW matches, and FTW room transitions where concurrent requests could violate invariants.
+- [x] Made integer, decimal, and fraction grading precision-safe for large values while preserving accepted decimal spellings and tolerance behavior.
+- [x] Added cryptographically generated FTW room codes with bounded lengths.
+- [x] Staged uploaded/imported objects under collision-resistant keys, attached metadata transactionally, and added compensating cleanup for failed or replaced writes.
+- [x] Enforced local/S3 storage configuration, traversal protection, bounded streaming reads, stored-size/checksum verification, safe download MIME/header handling, and orphan-file denial.
+- [x] Bounded JSON/image/legacy/browser-batch ZIP import by compressed bytes, actual expanded bytes, entry counts, record sizes, decoded asset totals, and schema field lengths; archive text decoding is strict UTF-8 and browser extraction is sequential.
+- [x] Paginated and capped CSV/backup exports and restores, escaped spreadsheet formulas, rate-limited synchronous export jobs, and rejected cross-site browser export requests.
+- [x] Replaced several unbounded application-side scans with bounded SQL aggregation/count/skip queries while preserving ordering and response shape used by the UI.
+- [x] Removed infrastructure-error disclosure from public API responses while retaining server-side logging.
+- [x] Pinned floating dependencies, upgraded the framework to its patched release, added response security headers, and documented production environment/proxy limits.
+- [x] Updated `CENTRAL.md`, `SETUP.md`, deployment/permission docs, and the Obsidian project brain with the verified architecture and remaining operational caveats.
 
 ## Verification
 
-- [x] `npm run lint` passes with the existing two `<img>` warnings.
 - [x] `npm run typecheck` passes.
-- [x] `npm test` passes: 6 files, 32 tests.
-- [x] `npm run build` passes after allowing the Google Fonts fetch.
-- [x] browser-harness verified landing page, dev credentials login, dashboard, admin import, problem sets, practice tags API, admin export API, and hardened 4xx API responses on `http://localhost:3001`.
-- [x] browser-harness verified the completed `suggestions.md` work: seeded fixture import, study-planner tabs, weakest-topic sorting, cohort/trend analytics, privacy controls, profile sections, post-submit coaching, CSV export, and async backup export jobs.
+- [x] `npm run lint` passes with no warnings.
+- [x] `npm test -- --run` passes: 29 files, 195 tests.
+- [x] `npm run build` passes with Next.js 16.2.10.
+- [x] `npm audit` and `npm audit --omit=dev` report zero vulnerabilities.
+- [x] `git diff --check` passes.
+- [x] No Prisma schema, stylesheet, layout, or visual-system files were changed by this safety pass; the batch import client retains the same UI and workflow.
+
+## Remaining Operational Follow-ups
+
+- A periodic orphan-object sweeper would cover process crashes or storage outages that occur between metadata and best-effort compensation.
+- FTW room realtime remains polling-based; move to SSE/WebSockets only if classroom-scale polling becomes material.

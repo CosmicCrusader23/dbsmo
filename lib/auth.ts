@@ -5,6 +5,13 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/db";
 import type { Adapter } from "next-auth/adapters";
 import { UserRole } from "@prisma/client";
+import {
+  DEFAULT_SCHOOL_EMAIL_DOMAINS,
+  isAllowedSchoolEmail,
+  isDevBypassEnabled,
+  parseSchoolEmailDomains,
+  resolveSessionAuthority,
+} from "@/lib/auth-policy";
 
 declare module "next-auth" {
   interface Session {
@@ -16,11 +23,15 @@ declare module "next-auth" {
   }
 }
 
-export const ALLOWED_EMAIL_DOMAINS = ["@g.dbs.edu.hk", "@dbs.edu.hk"];
+export const SCHOOL_EMAIL_DOMAINS = parseSchoolEmailDomains(process.env.SCHOOL_EMAIL_DOMAINS);
+export const ALLOWED_EMAIL_DOMAINS = SCHOOL_EMAIL_DOMAINS.map((domain) => `@${domain}`);
 export const ALLOWED_EMAILS = ["edwinchansjps@gmail.com"];
-export const SCHOOL_EMAIL_SUFFIX = ALLOWED_EMAIL_DOMAINS[0]; // fallback for dev bypass
-export const devBypassEnabled =
-  process.env.NODE_ENV !== "production" && process.env.AUTH_DEV_BYPASS !== "false";
+export const SCHOOL_EMAIL_SUFFIX =
+  ALLOWED_EMAIL_DOMAINS[0] ?? `@${DEFAULT_SCHOOL_EMAIL_DOMAINS[0]}`;
+export const devBypassEnabled = isDevBypassEnabled(
+  process.env.NODE_ENV,
+  process.env.AUTH_DEV_BYPASS,
+);
 export const googleAuthEnabled = Boolean(
   process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET,
 );
@@ -90,12 +101,7 @@ export const authOptions: NextAuthOptions = {
         return devBypassEnabled;
       }
 
-      const email = user.email?.toLowerCase();
-      if (
-        !email ||
-        (!ALLOWED_EMAILS.includes(email) &&
-          !ALLOWED_EMAIL_DOMAINS.some((domain) => email.endsWith(domain)))
-      ) {
+      if (!isAllowedSchoolEmail(user.email, SCHOOL_EMAIL_DOMAINS, ALLOWED_EMAILS)) {
         return false;
       }
 
@@ -119,23 +125,29 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token) {
-        session.user.id = token.id as string;
+      if (!session.user) return session;
 
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          select: { role: true, group: true, image: true },
-        });
+      const tokenId = typeof token.id === "string" ? token.id : null;
+      const dbUser = tokenId
+        ? await prisma.user.findUnique({
+            where: { id: tokenId },
+            select: { role: true, group: true, image: true },
+          })
+        : null;
+      const authority = resolveSessionAuthority(tokenId, dbUser);
 
-        if (dbUser) {
-          session.user.role = dbUser.role;
-          session.user.group = dbUser.group;
-          session.user.image = dbUser.image ?? session.user.image ?? null;
-        } else {
-          session.user.role = (token.role as UserRole) ?? "STUDENT";
-          session.user.group = null;
-        }
+      if (!authority) {
+        delete token.id;
+        delete token.role;
+        // NextAuth's v4 callback type excludes null, but its session endpoint
+        // accepts a null callback result and exposes it as unauthenticated.
+        return null as unknown as typeof session;
       }
+
+      session.user.id = authority.id;
+      session.user.role = authority.role;
+      session.user.group = authority.group;
+      session.user.image = authority.image ?? session.user.image ?? null;
       return session;
     },
   },

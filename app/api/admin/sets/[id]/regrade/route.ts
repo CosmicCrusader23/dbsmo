@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
-import { gradeAnswer, AnswerType } from "@/lib/grading";
 import { authOptions } from "@/lib/auth";
 import { recordAuditLog } from "@/lib/audit";
 import { hasPermission } from "@/lib/permissions";
+import { calculateRegrade } from "@/lib/regrade";
 
 export const runtime = "nodejs";
+const REGRADE_PAGE_SIZE = 50;
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -25,69 +27,61 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       return NextResponse.json({ error: "Set not found." }, { status: 404 });
     }
 
-    const attempts = await prisma.attempt.findMany({
-      where: { problemSetId },
-      include: { responses: true },
-    });
-
     let updatedAttempts = 0;
+    let totalAttempts = 0;
+    let cursor: string | undefined;
+    const regradedAt = new Date();
+    const problemsById = new Map(set.problems.map((problem) => [problem.id, problem]));
 
-    await prisma.$transaction(async (tx) => {
+    while (true) {
+      const attempts = await prisma.attempt.findMany({
+        where: { problemSetId },
+        include: { responses: true },
+        orderBy: { id: "asc" },
+        take: REGRADE_PAGE_SIZE,
+        ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
+      });
+      if (attempts.length === 0) break;
+
       for (const attempt of attempts) {
-        let newScore = 0;
-        let newMaxScore = 0;
-
-        for (const response of attempt.responses) {
-          const problem = set.problems.find((p) => p.id === response.problemId);
-          if (!problem) continue;
-
-          const graded = gradeAnswer({
-            answerType: problem.answerType.toLowerCase() as AnswerType,
-            answerKey: problem.answerKey,
-            rawAnswer: response.rawAnswer,
-            acceptedAnswers: problem.acceptedAnswers,
-            caseSensitive: problem.caseSensitive,
-          });
-
-          const newPointsAwarded = graded.isCorrect ? problem.points : 0;
-          newScore += newPointsAwarded;
-          newMaxScore += problem.points;
-
-          if (
-            response.isCorrect !== graded.isCorrect ||
-            response.pointsAwarded !== newPointsAwarded ||
-            response.normalizedAnswer !== graded.normalizedAnswer
-          ) {
-            await tx.response.update({
-              where: { id: response.id },
-              data: {
-                isCorrect: graded.isCorrect,
-                pointsAwarded: newPointsAwarded,
-                normalizedAnswer: graded.normalizedAnswer,
-              },
-            });
-          }
-        }
-
-        if (attempt.score !== newScore || attempt.maxScore !== newMaxScore) {
-          await tx.attempt.update({
+        const result = calculateRegrade(problemsById, attempt.responses);
+        const updates: Prisma.PrismaPromise<unknown>[] = result.changedResponses.map((response) =>
+          prisma.response.update({
+            where: { id: response.id },
+            data: {
+              isCorrect: response.isCorrect,
+              pointsAwarded: response.pointsAwarded,
+              normalizedAnswer: response.normalizedAnswer,
+            },
+          }),
+        );
+        updates.push(
+          prisma.attempt.update({
             where: { id: attempt.id },
-            data: { score: newScore, maxScore: newMaxScore },
-          });
+            data: { score: result.score, maxScore: result.maxScore, gradedAt: regradedAt },
+          }),
+        );
+        await prisma.$transaction(updates);
+
+        if (attempt.score !== result.score || attempt.maxScore !== result.maxScore) {
           updatedAttempts++;
         }
+        totalAttempts++;
       }
-    });
+
+      cursor = attempts.at(-1)?.id;
+      if (attempts.length < REGRADE_PAGE_SIZE) break;
+    }
 
     await recordAuditLog({
       actorId: session.user.id,
       action: "problem_set.regrade",
       targetType: "ProblemSet",
       targetId: problemSetId,
-      metadata: { updatedAttempts, totalAttempts: attempts.length },
+      metadata: { updatedAttempts, totalAttempts },
     });
 
-    return NextResponse.json({ ok: true, updatedAttempts, totalAttempts: attempts.length });
+    return NextResponse.json({ ok: true, updatedAttempts, totalAttempts });
   } catch (error) {
     console.error("Regrade failed:", error);
     return NextResponse.json({ error: "Internal server error." }, { status: 500 });

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { validateClassName, buildCompletionMap } from "@/lib/classes";
 import { displayNameFor } from "@/lib/display-name";
+import { readJsonBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
@@ -110,6 +111,7 @@ export async function GET(_req: Request, ctx: RouteContext) {
 }
 
 const patchSchema = z.object({ name: z.string().min(1).max(120) });
+const MAX_CLASS_BODY_BYTES = 2_048;
 
 export async function PATCH(request: Request, ctx: RouteContext) {
   const session = await getServerSession(authOptions);
@@ -120,13 +122,14 @@ export async function PATCH(request: Request, ctx: RouteContext) {
   const auth = await loadAuthorizedClass(id, session.user.id);
   if ("error" in auth) return auth.error;
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_CLASS_BODY_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
-  const parsed = patchSchema.safeParse(body);
+  const parsed = patchSchema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 });
   }

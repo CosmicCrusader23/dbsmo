@@ -2,20 +2,15 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { readJsonBody } from "@/lib/http-body";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { MAX_WRITEUP_VOTE_BODY_BYTES, writeupVoteSchema } from "@/lib/writeup-vote-policy";
 
 export const runtime = "nodejs";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
-
-function normalizeVote(value: unknown) {
-  if (value === 1 || value === "1") return 1;
-  if (value === -1 || value === "-1") return -1;
-  if (value === 0 || value === "0" || value === null) return 0;
-  return null;
-}
 
 export async function POST(request: Request, context: RouteContext) {
   const session = await getServerSession(authOptions);
@@ -33,7 +28,6 @@ export async function POST(request: Request, context: RouteContext) {
       where: { id },
       include: {
         problemSet: true,
-        votes: { select: { value: true } },
       },
     }),
   ]);
@@ -45,11 +39,18 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  const body = (await request.json().catch(() => null)) as { value?: unknown } | null;
-  const value = normalizeVote(body?.value);
-  if (value === null) {
+  const body = await readJsonBody(request, { maxBytes: MAX_WRITEUP_VOTE_BODY_BYTES });
+  if (!body.ok) {
+    return NextResponse.json(
+      { error: body.reason === "too_large" ? "Request is too large." : "Invalid JSON." },
+      { status: body.reason === "too_large" ? 413 : 400 },
+    );
+  }
+  const parsed = writeupVoteSchema.safeParse(body.value);
+  if (!parsed.success) {
     return NextResponse.json({ error: "Vote must be -1, 0, or 1." }, { status: 400 });
   }
+  const value = parsed.data;
 
   if (value === 0) {
     await prisma.writeupVote.deleteMany({ where: { writeupId: id, userId: currentUser.id } });
@@ -70,14 +71,25 @@ export async function POST(request: Request, context: RouteContext) {
     });
   }
 
-  const votes = await prisma.writeupVote.findMany({
-    where: { writeupId: id },
-    select: { value: true, userId: true },
-  });
+  const [score, myVote] = await Promise.all([
+    prisma.writeupVote.aggregate({
+      where: { writeupId: id },
+      _sum: { value: true },
+    }),
+    prisma.writeupVote.findUnique({
+      where: {
+        writeupId_userId: {
+          writeupId: id,
+          userId: currentUser.id,
+        },
+      },
+      select: { value: true },
+    }),
+  ]);
 
   return NextResponse.json({
     ok: true,
-    score: votes.reduce((sum, vote) => sum + vote.value, 0),
-    myVote: votes.find((vote) => vote.userId === currentUser.id)?.value ?? 0,
+    score: score._sum.value ?? 0,
+    myVote: myVote?.value ?? 0,
   });
 }

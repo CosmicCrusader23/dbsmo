@@ -12,48 +12,32 @@ export async function GET() {
   }
 
   const now = new Date();
-  const [problems, practiceScore] = await Promise.all([
-    prisma.problem.findMany({
-      where: {
-        problemSet: {
-          status: "PUBLISHED",
-          AND: [
-            { OR: [{ visibleFrom: null }, { visibleFrom: { lte: now } }] },
-            { OR: [{ visibleTo: null }, { visibleTo: { gte: now } }] },
-          ],
-        },
-        practiceSolves: {
-          none: {
-            userId: session.user.id,
-          },
-        },
-      },
-      select: {
-        topicTags: true,
-      },
-    }),
+  const [tagRows, practiceScore] = await Promise.all([
+    prisma.$queryRaw<Array<{ tag: string }>>`
+      SELECT lower(trim(tag_value)) AS "tag"
+      FROM "Problem" AS problem
+      JOIN "ProblemSet" AS problem_set
+        ON problem_set."id" = problem."problemSetId"
+      CROSS JOIN LATERAL unnest(problem."topicTags") AS tags(tag_value)
+      WHERE problem_set."status" = 'PUBLISHED'
+        AND (problem_set."visibleFrom" IS NULL OR problem_set."visibleFrom" <= ${now})
+        AND (problem_set."visibleTo" IS NULL OR problem_set."visibleTo" >= ${now})
+        AND trim(tag_value) <> ''
+        AND NOT EXISTS (
+          SELECT 1
+          FROM "PracticeSolve" AS solve
+          WHERE solve."problemId" = problem."id"
+            AND solve."userId" = ${session.user.id}
+        )
+      GROUP BY lower(trim(tag_value))
+      HAVING COUNT(*) > 10
+      ORDER BY lower(trim(tag_value))
+      LIMIT 500
+    `,
     prisma.practiceSolve.count({
       where: { userId: session.user.id },
     }),
   ]);
 
-  const tagCounts: Record<string, number> = {};
-
-  for (const problem of problems) {
-    for (const tag of problem.topicTags) {
-      const normalized = tag.trim().toLowerCase();
-      if (!normalized) continue;
-      // Use original casing from the first occurrence, or just use lowercase
-      // Let's keep original casing but group by lowercase
-      const key = normalized;
-      tagCounts[key] = (tagCounts[key] || 0) + 1;
-    }
-  }
-
-  const validTags = Object.entries(tagCounts)
-    .filter(([, count]) => count > 10)
-    .map(([tag]) => tag)
-    .sort();
-
-  return NextResponse.json({ tags: ["Endless", ...validTags], practiceScore });
+  return NextResponse.json({ tags: ["Endless", ...tagRows.map(({ tag }) => tag)], practiceScore });
 }

@@ -43,8 +43,25 @@ NEXTAUTH_URL=https://your.domain.example
 NEXTAUTH_SECRET=<run: openssl rand -base64 32>
 GOOGLE_CLIENT_ID=...
 GOOGLE_CLIENT_SECRET=...
+SCHOOL_EMAIL_DOMAINS=g.dbs.edu.hk,dbs.edu.hk
 AUTH_DEV_BYPASS=false
+STORAGE_DRIVER=local
+LOCAL_STORAGE_ROOT=./storage
+MAX_JSON_UPLOAD_MB=5
+MAX_ZIP_UPLOAD_MB=50
 ```
+
+`SCHOOL_EMAIL_DOMAINS` is an exact, comma-separated allowlist. Keep
+`AUTH_DEV_BYPASS=false` in production; the credentials bypass is available only when
+it is explicitly set to `true` outside production.
+
+Local storage is appropriate on a VPS when `LOCAL_STORAGE_ROOT` is persistent. For
+an S3-compatible backend, set `STORAGE_DRIVER=s3` and also configure
+`S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, and
+optionally `S3_REGION`.
+
+`MAX_JSON_UPLOAD_MB` and `MAX_ZIP_UPLOAD_MB` may be lowered for a smaller deployment;
+the application hard-caps them at 5 MB and 50 MB respectively.
 
 Generate the secret if you don't have one:
 
@@ -125,6 +142,10 @@ Minimal nginx site file at `/etc/nginx/sites-available/dbsmo`:
 server {
   server_name your.domain.example;
 
+  # App routes enforce their own lower, route-specific streamed body limits.
+  # This ceiling accommodates the largest supported image/PDF authoring request.
+  client_max_body_size 180m;
+
   location / {
     proxy_pass http://127.0.0.1:3000;
     proxy_set_header Host $host;
@@ -139,6 +160,11 @@ server {
   listen 80;
 }
 ```
+
+The application rejects oversized JSON, multipart, PDF, image, ZIP, backup, and
+restore payloads while streaming them. Keep nginx's ceiling at `180m` so supported
+admin authoring requests reach those route-specific checks; do not set it to
+`unlimited`.
 
 Enable + TLS:
 
@@ -212,7 +238,7 @@ new indexes). Back up first (`pg_dump`, see §8) if a change is
 destructive or you're not sure.
 
 If you ever need to switch this repo to migration files, run
-`prisma migrate dev --name baseline` on dev *once* to capture the
+`prisma migrate dev --name baseline` on dev _once_ to capture the
 current state, commit `prisma/migrations/`, and from then on use
 `prisma migrate deploy` on the VPS.
 

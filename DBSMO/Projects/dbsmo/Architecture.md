@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-28
+updated: 2026-07-18
 type: architecture
 tags: [project, architecture, system-design, dbsmo]
 ai-first: true
@@ -11,7 +11,7 @@ scanned-commit: f7e0c74
 
 ## For future Claude
 
-This note describes the [[dbsmo]] system architecture and data flow, source-verified on 2026-06-26. It focuses on how Next.js routes, auth, Prisma, grading, imports, storage, analytics, classes, and FTW features fit together.
+This note describes the [[dbsmo]] system architecture and data flow, with the safety-sensitive paths source-verified again on 2026-07-18. It focuses on how Next.js routes, auth, Prisma, grading, imports, storage, analytics, classes, and FTW features fit together.
 
 ## Architectural Shape
 
@@ -42,11 +42,13 @@ flowchart TD
 
 ## Auth and Authorization
 
-Authentication is configured in `lib/auth.ts`. Google OAuth is enabled only when `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set; a credentials "Developer Bypass" provider exists outside production unless `AUTH_DEV_BYPASS=false` (source: `lib/auth.ts`). Sessions use JWT strategy, but the session callback reloads current role/group from Prisma so role changes are reflected without trusting stale token state (source: `lib/auth.ts`).
+Authentication is configured in `lib/auth.ts`. Google OAuth is enabled only when its credentials are set and the email domain exactly matches the configured allowlist. The credentials "Developer Bypass" provider requires `AUTH_DEV_BYPASS=true` and is always unavailable in production (sources: `lib/auth.ts`, `lib/auth-policy.ts`). Sessions use JWT strategy, but the session callback reloads the current user from Prisma; deleted/missing users produce no runtime session rather than retaining stale token authority (source: `lib/auth.ts`).
 
-Route-level middleware in `proxy.ts` requires a token for `/admin`, `/dashboard`, and `/problem-sets`, and redirects non-admin users away from `/admin` to `/dashboard?notice=admin-required` (source: `proxy.ts`). This is only the first gate: admin pages and APIs also check role permissions via `lib/permissions.ts` and `hasPermission(...)` (sources: `lib/permissions.ts`, `app/api/admin/sets/[id]/route.ts`, `app/api/admin/export-jobs/route.ts`, `app/api/admin/classes/[id]/route.ts`).
+Route-level middleware in `proxy.ts` requires a token for `/admin`, `/dashboard`, and `/problem-sets`, and uses `admin:view` as the broad staff boundary for `/admin` (sources: `proxy.ts`, `lib/permissions.ts`). This is only the first gate: every admin page and API checks its exact permission via `hasPermission(...)` (sources: `app/api/admin/sets/[id]/route.ts`, `app/api/admin/export-jobs/route.ts`, `app/api/admin/classes/[id]/route.ts`).
 
-Important nuance: `proxy.ts` treats `/admin` as admin-only by raw role, but `lib/permissions.ts` defines non-admin staff roles (`TEACHER`, `CONTENT_EDITOR`, `ANALYST`) that can have `admin:view` or other admin permissions. This is a potential mismatch; see [[Risks and Pitfalls]] (sources: `proxy.ts`, `lib/permissions.ts`).
+Private profile bypass requires `admin:users`; hidden leaderboard analytics require `admin:analytics`. These narrower checks must not be replaced with a generic staff-role test (sources: `app/users/[username]/page.tsx`, `app/users/page.tsx`, `app/leaderboard/page.tsx`).
+
+Role mutations acquire a global PostgreSQL advisory transaction lock and re-read the actor's current role before updating the target. This prevents two administrators from concurrently revoking each other's authority after both passed a stale preflight (source: `app/api/admin/users/[id]/role/route.ts`).
 
 ## Problem Set Flow
 
@@ -56,7 +58,7 @@ Problem detail is handled by `app/problem-sets/[slug]/page.tsx`. It loads the se
 
 The answer grid is client-side and posts to `/api/submit`. It autosaves draft answers to `localStorage`, stores "review later" state in `localStorage`, supports feedback report submission, clears autosave after successful submission, and blocks answer entry/submission controls when a perfect attempt locks the set while keeping problem statements visible (source: `app/problem-sets/[slug]/answer-grid.tsx`).
 
-Submission is persisted in `app/api/submit/route.ts`: it checks session, validates JSON with Zod, loads the `ProblemSet`, checks visibility, prevents new attempts after a perfect attempt, grades each problem through `gradeAnswer(...)`, creates an `Attempt`, creates `Response` records, and returns score/results (sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`).
+Submission is persisted in `app/api/submit/route.ts`: it reads bounded JSON, validates through `lib/submission.ts`, checks visibility, grades through `gradeAnswer(...)`, and creates the `Attempt`/`Response` records in a serializable transaction with bounded retries. Perfect-score locking and attempt numbering are decided inside that transaction so concurrent submissions cannot bypass them (sources: `app/api/submit/route.ts`, `lib/submission.ts`, `lib/grading.ts`).
 
 ## Writeup Flow
 
@@ -64,31 +66,31 @@ Problem-set writeups are a separate readable/community surface at `/problem-sets
 
 The client feed posts multipart form data to `POST /api/problem-sets/[id]/writeups`, supports LaTeX/HTML bodies and up to four images, renders bodies through `LatexStatement`, sends vote mutations to `POST /api/writeups/[id]/vote`, and shows a confirm-delete control for author/admin deletion through `DELETE /api/writeups/[id]` (sources: `app/problem-sets/[slug]/writeups/writeups-client.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`, `app/api/writeups/[id]/route.ts`).
 
-Writeup images reuse the existing storage/file-serving boundary: `lib/writeup-images.ts` validates and stores image bytes, `WriteupImage` ties the resulting `ImportedFile` to the writeup, and `app/api/files/[id]/route.ts` grants access if the related problem set is visible or the requester is admin (sources: `lib/writeup-images.ts`, `prisma/schema.prisma`, `app/api/files/[id]/route.ts`).
+Writeup images reuse the existing storage/file-serving boundary: `lib/writeup-images.ts` validates and stores image bytes under collision-resistant keys, `WriteupImage` ties the resulting `ImportedFile` to the writeup, and `app/api/files/[id]/route.ts` grants access if the related problem set is visible or the requester has `admin:content` (sources: `lib/writeup-images.ts`, `prisma/schema.prisma`, `app/api/files/[id]/route.ts`).
 
 ## Grading Flow
 
-`lib/grading.ts` is the deterministic grading engine. It normalizes answers by answer type and supports exact, integer, decimal, fraction, set, multiple, and expression answers (source: `lib/grading.ts`). It is used by normal submissions, practice submissions, admin regrade, FTW solo, and FTW room submissions (source: CodeGraph callers for `gradeAnswer`, plus `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`).
+`lib/grading.ts` is the deterministic grading engine. It normalizes exact, integer, decimal, fraction, set, multiple, and expression answers. Integer/fraction reduction uses bounded `BigInt` work, and zero-tolerance decimals use a canonical base-10 identity so values above `Number.MAX_SAFE_INTEGER` do not collapse together (source: `lib/grading.ts`). It is used by normal submissions, practice submissions, admin regrade, FTW solo, and FTW room submissions (source: CodeGraph callers for `gradeAnswer`, plus `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`).
 
 ## Import and Authoring Flow
 
 Manual/admin authoring uses `lib/problem-set-authoring.ts` for slug validation, uploaded PDF payload schema, create/patch schemas, problem normalization, answer-key splitting, and duplicate problem-number checks (source: `lib/problem-set-authoring.ts`). The admin edit route updates problem set metadata and replaces/updates/deletes child problems inside a Prisma transaction (source: `app/api/admin/sets/[id]/route.ts`).
 
-JSON import uses `lib/import/json-import.ts`: it validates a problem set JSON payload, supports import dry-run, import commit, and import-to-editor draft, normalizes statement format and answer types, validates assets, persists problem sets/problems, and can replace an existing set while preserving its ID/order path where applicable (source: `lib/import/json-import.ts`).
+JSON import uses `lib/import/json-import.ts`: it validates a bounded problem-set JSON payload, supports import dry-run, import commit, and import-to-editor draft, normalizes statement format and answer types, validates assets, persists problem sets/problems, and can replace an existing set while preserving its ID/order path where applicable. Image bytes are staged first and attached to locked set/file metadata in the same database transaction; rollback removes staged objects and successful replacement cleans unreferenced objects best-effort (sources: `lib/import/json-import.ts`, `lib/import/persist-image-assets.ts`, `lib/problem-set-locks.ts`, `lib/imported-file-cleanup.ts`).
 
-ZIP import uses `lib/import/zip-dry-run.ts` and `lib/import/zip-import.ts`: it checks ZIP signature and size, blocks unsafe paths, requires `manifest.yml`/`manifest.yaml`, parses `answers.csv`, validates referenced files, validates duplicate/problem-number sequencing, builds a preview, then persists files and set records (sources: `lib/import/zip-dry-run.ts`, `lib/import/zip-import.ts`, `lib/import/zip-path.ts`, `lib/import/manifest-schema.ts`, `lib/import/answer-schema.ts`).
+ZIP import uses `lib/import/zip-dry-run.ts` and `lib/import/zip-import.ts`: it checks signature/compressed size/entry count, blocks absolute/traversal/overlong paths, reads strict UTF-8 manifest/CSV through `lib/import/zip-entry.ts`, bounds actual inflated bytes instead of trusting archive metadata, and validates schema/row/file totals before persistence. Referenced objects are staged one at a time under a random batch prefix and removed if metadata creation fails. The browser JSON batch panel applies its own compressed/entry/per-file/aggregate limits and extracts sequentially through `lib/import/client-zip-entry.ts` before sending each child to the same server validators (sources: `lib/import/zip-dry-run.ts`, `lib/import/zip-import.ts`, `lib/import/zip-entry.ts`, `lib/import/client-zip-entry.ts`, `lib/import/zip-path.ts`, `lib/import/manifest-schema.ts`, `lib/import/answer-schema.ts`, `app/admin/import/json-zip-import-panel.tsx`).
 
 ## Storage Flow
 
 Binary files are represented in Prisma by `ImportedFile` and stored under storage keys. `lib/storage.ts` supports local filesystem storage by default and an S3-compatible request-signing path when `STORAGE_DRIVER=s3` (source: `lib/storage.ts`). Uploaded PDFs are validated as base64 `data:application/pdf` URLs with a 25 MB limit and saved through `storeUploadedPdf(...)` (source: `lib/uploaded-pdf.ts`).
 
-File downloads are served by `app/api/files/[id]/route.ts`, which checks the requested `ImportedFile`, finds related problem sets/assets, allows admins or users who can see at least one related set, reads bytes via `readFileBuffer(...)`, and returns security headers including `nosniff` and a restrictive CSP sandbox (source: `app/api/files/[id]/route.ts`).
+File downloads are served by `app/api/files/[id]/route.ts`, which checks narrow file relations, allows `admin:content` or users who can see at least one related set, and denies orphan files. It reads through `readFileBufferBounded(...)`; the response verifies stored size/checksum and uses safe MIME plus `nosniff`/sandbox headers (sources: `app/api/files/[id]/route.ts`, `lib/storage.ts`).
 
 ## Classes, Assignment, and Announcement Flow
 
 Classes and assignments are persisted by `Class`, `ClassMember`, and `Assignment` models; class messages use `Announcement` linked to one or more `Class` rows (source: `prisma/schema.prisma`). Admin class detail APIs call `loadAuthorizedClass(...)` to require `admin:users`, restrict non-admin teachers to their own class, and compute assignment completion from attempts after assignment creation using `buildCompletionMap(...)` (sources: `app/api/admin/classes/[id]/route.ts`, `lib/classes.ts`).
 
-The student dashboard includes `AssignmentsWidget`, which fetches `/api/assignments/mine`, sorts incomplete items before complete items and nearer due dates first, then shows up to five assigned problem sets (source: `app/dashboard/assignments-widget.tsx`).
+The student dashboard includes `AssignmentsWidget`, which fetches `/api/assignments/mine`, then shows up to five assigned problem sets. The API computes completion/problem counts in one bounded SQL query and preserves incomplete-first, nearer-due-date ordering (sources: `app/dashboard/assignments-widget.tsx`, `app/api/assignments/mine/route.ts`). Practice tags similarly use bounded database aggregation rather than loading every unsolved problem (source: `app/api/practice/tags/route.ts`).
 
 Announcements are created from `/classes` through `AnnouncementComposer` and `POST /api/admin/announcements`; non-admin teachers can target only their own classes. `DashboardPage` reads announcements for classes where the current user is a member and renders them above the hero on each page load; there is no realtime push or polling (sources: `app/classes/announcement-composer.tsx`, `app/api/admin/announcements/route.ts`, `app/dashboard/page.tsx`).
 
@@ -98,13 +100,13 @@ Analytics helpers in `lib/analytics.ts` compute topic accuracy, score buckets, q
 
 Audit logs are stored in `AuditLog` and written through `recordAuditLog(...)` for meaningful admin actions such as set updates/deletes and export jobs (sources: `prisma/schema.prisma`, `lib/audit.ts`, `app/api/admin/sets/[id]/route.ts`, `app/api/admin/export-jobs/route.ts`).
 
-Export jobs are synchronous API work persisted as `ExportJob` records. `app/api/admin/export-jobs/route.ts` validates `ExportJobType`, creates a `RUNNING` job, builds CSV or backup JSON through `lib/admin-exports.ts`, stores content in `payload`, and marks the job completed/failed (sources: `app/api/admin/export-jobs/route.ts`, `lib/admin-exports.ts`).
+Export jobs are synchronous API work persisted as `ExportJob` records. They reserve a bounded/cooldown-controlled job, build paginated and size-capped CSV or backup JSON, store a capped payload, and mark the job completed/failed. CSV values neutralize spreadsheet formulas; direct/job/set downloads reject cross-site browser GETs. Backup restore validates body, record, decoded-byte, checksum, relation, and storage-key limits (sources: `app/api/admin/export-jobs/route.ts`, `lib/admin-exports.ts`, `lib/admin-export-safety.ts`, `lib/analytics.ts`, `lib/http-body.ts`).
 
 ## FTW and Playground Flow
 
 FTW solo mode creates `FtwMatch` and `FtwAnswer` records and scores answers by correctness plus elapsed time (sources: `lib/ftw.ts`, `app/api/ftw/matches/route.ts`, `app/api/ftw/matches/[id]/problem/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `prisma/schema.prisma`).
 
-FTW rooms use `FtwRoom`, `FtwRoomPlayer`, `FtwRoomProblem`, and `FtwRoomAnswer`. Room host transfer/close behavior is pure logic in `lib/ftw-room-host.ts`; room progression and due-time advancement are in `lib/ftw-room-server.ts`; client polling/interaction lives in `app/ftw/room/[code]/room-client.tsx` (sources: `lib/ftw-room.ts`, `lib/ftw-room-host.ts`, `lib/ftw-room-server.ts`, `app/ftw/room/[code]/room-client.tsx`).
+FTW rooms use `FtwRoom`, `FtwRoomPlayer`, `FtwRoomProblem`, and `FtwRoomAnswer`. Room codes use `crypto.randomInt`; host transfer/close behavior is pure logic in `lib/ftw-room-host.ts`; canonical transitions live in `lib/ftw-room-transition.ts`/`lib/ftw-room-server.ts`. Every mutating solo/room route serializes on its parent row through `lib/ftw-locks.ts`; the client continues to poll in `app/ftw/room/[code]/room-client.tsx` (sources: named files).
 
 Playground boss battles are a separate client/game surface driven by static boss definitions in `lib/playground/bosses.ts` and a localStorage trophy key in `app/playground/[slug]/battle.tsx`; it is not backed by Prisma in the inspected paths (sources: `lib/playground/bosses.ts`, `app/playground/[slug]/battle.tsx`).
 

@@ -5,7 +5,7 @@ import {
   isSupportedProblemContentFormat,
   normalizeProblemContentFormat,
 } from "../problem-content-format";
-import { nextProblemSetOrder } from "../problem-set-order";
+import { nextProblemSetOrderFromDatabase } from "../problem-set-order";
 import type { JsonImportEditorDraft } from "./json-draft-storage";
 import type { ImportIssue } from "./zip-dry-run";
 import {
@@ -13,14 +13,32 @@ import {
   imageKeyFromFileName,
   imageAssetSchema,
   extractTokens,
+  MAX_IMAGES_PER_SET,
+  MAX_TOTAL_IMAGE_BYTES,
   MIME_TO_EXTENSION,
   type DecodedAsset,
 } from "./image-assets";
 import { parseImageZip, type ImageZipInput } from "./image-zip";
-import { persistProblemSetImageAssets } from "./persist-image-assets";
+import {
+  applyStagedProblemSetImageAssets,
+  discardProblemSetImageStorageKeys,
+  discardStagedProblemSetImageAssets,
+  stageProblemSetImageAssets,
+} from "./persist-image-assets";
+import { cleanupUnreferencedImportedFiles } from "../imported-file-cleanup";
+import { lockProblemSet } from "../problem-set-locks";
 
-const MAX_JSON_BYTES = 5 * 1024 * 1024;
+export const MAX_JSON_BYTES = 5 * 1024 * 1024;
 const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+class ReplacementTargetMissingError extends Error {}
+
+export function configuredMaxJsonBytes(value = process.env.MAX_JSON_UPLOAD_MB): number {
+  if (value === undefined || !/^\d+$/.test(value.trim())) return MAX_JSON_BYTES;
+  const megabytes = Number(value.trim());
+  if (!Number.isSafeInteger(megabytes) || megabytes <= 0) return MAX_JSON_BYTES;
+  return Math.min(MAX_JSON_BYTES, megabytes * 1024 * 1024);
+}
 
 const STATUS_MAP: Record<string, ProblemSetStatus> = {
   archived: "ARCHIVED",
@@ -39,52 +57,57 @@ const ANSWER_TYPE_MAP: Record<string, AnswerType> = {
   set: "SET",
 };
 
+const boundedAnswerListSchema = z.array(z.string().max(4_000)).max(200);
+const boundedImageRefListSchema = z.array(z.string().max(255)).max(MAX_IMAGES_PER_SET);
+
 const jsonProblemSchema = z.object({
-  number: z.number().int().positive().optional(),
-  statement: z.string().optional().default(""),
+  number: z.number().int().positive().max(1_000_000).optional(),
+  statement: z.string().max(200_000).optional().default(""),
   statementFormat: z
     .string()
+    .max(20)
     .optional()
     .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
       message: "Invalid statementFormat. Use LATEX or HTML.",
     }),
-  answerType: z.string().optional().default("EXACT"),
-  answerKey: z.string().optional(),
-  answer: z.string().optional(),
-  acceptedAnswers: z.union([z.array(z.string()), z.string()]).optional(),
+  answerType: z.string().max(20).optional().default("EXACT"),
+  answerKey: z.string().max(4_000).optional(),
+  answer: z.string().max(4_000).optional(),
+  acceptedAnswers: z.union([boundedAnswerListSchema, z.string().max(20_000)]).optional(),
   caseSensitive: z.boolean().optional().default(false),
-  topicTags: z.array(z.string()).optional().default([]),
-  points: z.coerce.number().int().positive().optional().default(1),
-  explanationNote: z.string().nullable().optional(),
-  solution: z.string().nullable().optional(),
-  image: z.string().optional(),
-  imageRef: z.string().optional(),
-  imageRefs: z.union([z.array(z.string()), z.string()]).optional(),
-  imageFiles: z.union([z.array(z.string()), z.string()]).optional(),
-  images: z.union([z.array(z.string()), z.string()]).optional(),
+  topicTags: z.array(z.string().max(64)).max(50).optional().default([]),
+  points: z.coerce.number().int().positive().max(1_000_000).optional().default(1),
+  explanationNote: z.string().max(200_000).nullable().optional(),
+  solution: z.string().max(200_000).nullable().optional(),
+  image: z.string().max(255).optional(),
+  imageRef: z.string().max(255).optional(),
+  imageRefs: z.union([boundedImageRefListSchema, z.string().max(255)]).optional(),
+  imageFiles: z.union([boundedImageRefListSchema, z.string().max(255)]).optional(),
+  images: z.union([boundedImageRefListSchema, z.string().max(255)]).optional(),
 });
 
 const jsonProblemSetSchema = z.object({
-  slug: z.string().trim().min(1).regex(PROBLEM_SET_SLUG_PATTERN, {
+  slug: z.string().trim().min(1).max(100).regex(PROBLEM_SET_SLUG_PATTERN, {
     message: "Slug must use lowercase letters, numbers, and single hyphens.",
   }),
-  title: z.string().min(1),
-  description: z.string().optional().default(""),
+  title: z.string().min(1).max(200),
+  description: z.string().max(20_000).optional().default(""),
   statementFormat: z
     .string()
+    .max(20)
     .optional()
     .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
       message: "Invalid statementFormat. Use LATEX or HTML.",
     }),
-  order: z.coerce.string().trim().optional().default(""),
-  status: z.string().optional().default("DRAFT"),
+  order: z.coerce.string().trim().max(100).optional().default(""),
+  status: z.string().max(20).optional().default("DRAFT"),
   visibleFrom: z.string().datetime().nullable().optional(),
   visibleTo: z.string().datetime().nullable().optional(),
-  topicTags: z.array(z.string()).optional().default([]),
+  topicTags: z.array(z.string().max(64)).max(50).optional().default([]),
   difficulty: z.coerce.number().int().min(1).max(10).optional().default(1),
-  videoUrl: z.string().url().nullable().optional(),
-  images: z.array(imageAssetSchema).optional().default([]),
-  problems: z.array(jsonProblemSchema).min(1),
+  videoUrl: z.string().max(2_048).url().nullable().optional(),
+  images: z.array(imageAssetSchema).max(MAX_IMAGES_PER_SET).optional().default([]),
+  problems: z.array(jsonProblemSchema).min(1).max(1_000),
 });
 
 type ParsedProblemSetJson = z.infer<typeof jsonProblemSetSchema>;
@@ -239,7 +262,7 @@ export async function importProblemSetJson(
   if (options.replaceSetId) {
     const target = await prisma.problemSet.findUnique({
       where: { id: options.replaceSetId },
-      select: { id: true, order: true },
+      select: { id: true },
     });
 
     if (!target) {
@@ -268,55 +291,101 @@ export async function importProblemSetJson(
       };
     }
 
-    const finalOrder = data.order || target.order;
-    const problemSet = await prisma.$transaction(async (tx) => {
-      await tx.problemSet.delete({
-        where: { id: target.id },
-      });
-
-      return tx.problemSet.create({
-        data: {
-          id: target.id,
-          slug: data.slug,
-          title: data.title,
-          description: data.description,
-          order: finalOrder,
-          status: data.status,
-          visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
-          visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,
-          allowedGroups: [],
-          topicTags: data.topicTags,
-          difficulty: data.difficulty,
-          videoUrl: data.videoUrl ?? null,
-          createdById: input.uploadedById,
-          problemFileId: null,
-          solutionFileId: null,
-          problems: {
-            create: data.problems.map((problem) => ({
-              number: problem.number,
-              statement: statementWithImageRefs(problem.statement, problem.imageRefs),
-              contentFormat: problem.statementFormat,
-              answerKey: problem.answerKey,
-              answerType: problem.answerType,
-              acceptedAnswers: problem.acceptedAnswers,
-              caseSensitive: problem.caseSensitive,
-              explanationNote: problem.solution ?? null,
-              topicTags: problem.topicTags,
-              points: problem.points,
-            })),
+    const stagedImages = await stageProblemSetImageAssets({
+      slug: data.slug,
+      assets: assetCollection.assets,
+    });
+    let replacement;
+    try {
+      replacement = await prisma.$transaction(async (tx) => {
+        if (!(await lockProblemSet(tx, target.id))) {
+          throw new ReplacementTargetMissingError();
+        }
+        const current = await tx.problemSet.findUniqueOrThrow({
+          where: { id: target.id },
+          select: {
+            order: true,
+            problemFileId: true,
+            solutionFileId: true,
+            assets: { select: { fileId: true } },
+            writeups: { select: { images: { select: { fileId: true } } } },
           },
-        },
+        });
+        const replacedFileIds = [
+          current.problemFileId,
+          current.solutionFileId,
+          ...current.assets.map((asset) => asset.fileId),
+          ...current.writeups.flatMap((writeup) => writeup.images.map((image) => image.fileId)),
+        ];
+
+        await tx.problemSet.delete({ where: { id: target.id } });
+        const problemSet = await tx.problemSet.create({
+          data: {
+            id: target.id,
+            slug: data.slug,
+            title: data.title,
+            description: data.description,
+            order: data.order || current.order,
+            status: data.status,
+            visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
+            visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,
+            allowedGroups: [],
+            topicTags: data.topicTags,
+            difficulty: data.difficulty,
+            videoUrl: data.videoUrl ?? null,
+            createdById: input.uploadedById,
+            problemFileId: null,
+            solutionFileId: null,
+            problems: {
+              create: data.problems.map((problem) => ({
+                number: problem.number,
+                statement: statementWithImageRefs(problem.statement, problem.imageRefs),
+                contentFormat: problem.statementFormat,
+                answerKey: problem.answerKey,
+                answerType: problem.answerType,
+                acceptedAnswers: problem.acceptedAnswers,
+                caseSensitive: problem.caseSensitive,
+                explanationNote: problem.solution ?? null,
+                topicTags: problem.topicTags,
+                points: problem.points,
+              })),
+            },
+          },
+        });
+        const appliedImages = await applyStagedProblemSetImageAssets({
+          tx,
+          problemSetId: problemSet.id,
+          uploadedById: input.uploadedById,
+          staged: stagedImages,
+        });
+        return { appliedImages, problemSet, replacedFileIds };
       });
+    } catch (error) {
+      await discardStagedProblemSetImageAssets(stagedImages);
+      if (error instanceof ReplacementTargetMissingError) {
+        return {
+          ok: false,
+          issues: [
+            {
+              level: "error",
+              message: "The target problem set for replacement no longer exists.",
+            },
+          ],
+          created: null,
+        };
+      }
+      throw error;
+    }
+
+    await discardProblemSetImageStorageKeys(replacement.appliedImages.unusedStorageKeys);
+    await cleanupUnreferencedImportedFiles(replacement.replacedFileIds).catch((error) => {
+      console.error(
+        `Failed to clean up files replaced with problem set ${replacement.problemSet.id}:`,
+        error,
+      );
     });
 
-    if (assetCollection.assets.length > 0) {
-      await persistProblemSetImageAssets({
-        problemSetId: problemSet.id,
-        slug: problemSet.slug,
-        uploadedById: input.uploadedById,
-        assets: assetCollection.assets,
-      });
-    }
+    const { problemSet } = replacement;
 
     return {
       ok: true,
@@ -350,51 +419,61 @@ export async function importProblemSetJson(
 
   let finalOrder = data.order;
   if (!finalOrder) {
-    const existingSets = await prisma.problemSet.findMany({
-      select: { order: true },
-    });
-    finalOrder = nextProblemSetOrder(existingSets.map((set) => set.order));
+    finalOrder = await nextProblemSetOrderFromDatabase();
   }
 
-  const problemSet = await prisma.problemSet.create({
-    data: {
-      slug: data.slug,
-      title: data.title,
-      description: data.description,
-      order: finalOrder,
-      status: data.status,
-      visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
-      visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,
-      allowedGroups: [],
-      topicTags: data.topicTags,
-      difficulty: data.difficulty,
-      videoUrl: data.videoUrl ?? null,
-      createdById: input.uploadedById,
-      problems: {
-        create: data.problems.map((problem) => ({
-          number: problem.number,
-          statement: statementWithImageRefs(problem.statement, problem.imageRefs),
-          contentFormat: problem.statementFormat,
-          answerKey: problem.answerKey,
-          answerType: problem.answerType,
-          acceptedAnswers: problem.acceptedAnswers,
-          caseSensitive: problem.caseSensitive,
-          explanationNote: problem.solution ?? null,
-          topicTags: problem.topicTags,
-          points: problem.points,
-        })),
-      },
-    },
+  const stagedImages = await stageProblemSetImageAssets({
+    slug: data.slug,
+    assets: assetCollection.assets,
   });
-
-  if (assetCollection.assets.length > 0) {
-    await persistProblemSetImageAssets({
-      problemSetId: problemSet.id,
-      slug: problemSet.slug,
-      uploadedById: input.uploadedById,
-      assets: assetCollection.assets,
+  let creation;
+  try {
+    creation = await prisma.$transaction(async (tx) => {
+      const problemSet = await tx.problemSet.create({
+        data: {
+          slug: data.slug,
+          title: data.title,
+          description: data.description,
+          order: finalOrder,
+          status: data.status,
+          visibleFrom: data.visibleFrom ? new Date(data.visibleFrom) : null,
+          visibleTo: data.visibleTo ? new Date(data.visibleTo) : null,
+          allowedGroups: [],
+          topicTags: data.topicTags,
+          difficulty: data.difficulty,
+          videoUrl: data.videoUrl ?? null,
+          createdById: input.uploadedById,
+          problems: {
+            create: data.problems.map((problem) => ({
+              number: problem.number,
+              statement: statementWithImageRefs(problem.statement, problem.imageRefs),
+              contentFormat: problem.statementFormat,
+              answerKey: problem.answerKey,
+              answerType: problem.answerType,
+              acceptedAnswers: problem.acceptedAnswers,
+              caseSensitive: problem.caseSensitive,
+              explanationNote: problem.solution ?? null,
+              topicTags: problem.topicTags,
+              points: problem.points,
+            })),
+          },
+        },
+      });
+      const appliedImages = await applyStagedProblemSetImageAssets({
+        tx,
+        problemSetId: problemSet.id,
+        uploadedById: input.uploadedById,
+        staged: stagedImages,
+      });
+      return { appliedImages, problemSet };
     });
+  } catch (error) {
+    await discardStagedProblemSetImageAssets(stagedImages);
+    throw error;
   }
+
+  await discardProblemSetImageStorageKeys(creation.appliedImages.unusedStorageKeys);
+  const { problemSet } = creation;
 
   return {
     ok: true,
@@ -419,7 +498,12 @@ export async function createProblemSetJsonDraft(
   if (input.sizeBytes > MAX_JSON_BYTES) {
     return {
       ok: false,
-      issues: [{ level: "error", message: `JSON exceeds the ${MAX_JSON_BYTES / 1024 / 1024} MB upload limit.` }],
+      issues: [
+        {
+          level: "error",
+          message: `JSON exceeds the ${MAX_JSON_BYTES / 1024 / 1024} MB upload limit.`,
+        },
+      ],
       draft: null,
     };
   }
@@ -612,7 +696,9 @@ async function collectImportAssets(
   }
 
   if (imageZip) {
-    const zip = await parseImageZip(imageZip);
+    const zip = await parseImageZip(imageZip, {
+      maxAssets: Math.max(0, MAX_IMAGES_PER_SET - data.images.length),
+    });
     issues.push(...zip.issues);
     for (const asset of zip.assets) {
       if (seen.has(asset.key)) {
@@ -625,6 +711,14 @@ async function collectImportAssets(
       seen.add(asset.key);
       assets.push(asset);
     }
+  }
+
+  const totalImageBytes = assets.reduce((sum, asset) => sum + asset.sizeBytes, 0);
+  if (totalImageBytes > MAX_TOTAL_IMAGE_BYTES) {
+    issues.push({
+      level: "error",
+      message: `Images exceed the ${MAX_TOTAL_IMAGE_BYTES / 1024 / 1024} MB total expanded limit.`,
+    });
   }
 
   return { issues, assets };
@@ -734,7 +828,9 @@ function buildPreview(
   };
 }
 
-function normalizeProblemImageRefs(problem: ParsedProblemSetJson["problems"][number]): NormalizedImageRef[] {
+function normalizeProblemImageRefs(
+  problem: ParsedProblemSetJson["problems"][number],
+): NormalizedImageRef[] {
   const rawRefs = [
     ...normalizeStringOrStringArray(problem.image),
     ...normalizeStringOrStringArray(problem.imageRef),
@@ -828,7 +924,10 @@ function normalizeLooseJson(raw: unknown, fileName: string): unknown | null {
     videoUrl: typeof record.videoUrl === "string" ? record.videoUrl : null,
     images: Array.isArray(record.images) ? record.images : [],
     problems: problemsRaw
-      .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object" && !Array.isArray(item))
+      .filter(
+        (item): item is Record<string, unknown> =>
+          Boolean(item) && typeof item === "object" && !Array.isArray(item),
+      )
       .map((problem, index) => ({
         ...problem,
         number: integerValue(problem.number) ?? index + 1,

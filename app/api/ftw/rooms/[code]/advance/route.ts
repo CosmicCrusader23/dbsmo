@@ -6,10 +6,7 @@ import { advanceRoomNow } from "@/lib/ftw-room-server";
 
 export const runtime = "nodejs";
 
-export async function POST(
-  _req: Request,
-  { params }: { params: Promise<{ code: string }> },
-) {
+export async function POST(_req: Request, { params }: { params: Promise<{ code: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -22,7 +19,7 @@ export async function POST(
     return NextResponse.json({ error: "Only the host can advance." }, { status: 403 });
   }
 
-  const result = await advanceRoomNow(room.id);
+  const result = await advanceRoomNow(room.id, session.user.id);
   if (!result.ok) {
     return NextResponse.json({ error: result.reason ?? "Cannot advance." }, { status: 409 });
   }

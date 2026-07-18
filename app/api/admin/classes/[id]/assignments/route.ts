@@ -5,13 +5,15 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { isPrismaUniqueViolation } from "@/lib/prisma-errors";
+import { readJsonBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
 const schema = z.object({
-  problemSetId: z.string().min(1),
+  problemSetId: z.string().min(1).max(128),
   dueAt: z.string().datetime().nullable().optional(),
 });
+const MAX_ASSIGNMENT_BODY_BYTES = 2_048;
 
 export async function POST(request: Request, ctx: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
@@ -32,13 +34,14 @@ export async function POST(request: Request, ctx: { params: Promise<{ id: string
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_ASSIGNMENT_BODY_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
-  const parsed = schema.safeParse(body);
+  const parsed = schema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 });
   }
@@ -67,10 +70,7 @@ export async function POST(request: Request, ctx: { params: Promise<{ id: string
     return NextResponse.json({ id: created.id }, { status: 201 });
   } catch (err) {
     if (isPrismaUniqueViolation(err)) {
-      return NextResponse.json(
-        { error: "Already assigned to this class." },
-        { status: 409 },
-      );
+      return NextResponse.json({ error: "Already assigned to this class." }, { status: 409 });
     }
     throw err;
   }

@@ -2,14 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { pickNextRoomProblem } from "@/lib/ftw-room-server";
+import { startRoom } from "@/lib/ftw-room-server";
 
 export const runtime = "nodejs";
 
-export async function POST(
-  _req: Request,
-  { params }: { params: Promise<{ code: string }> },
-) {
+export async function POST(_req: Request, { params }: { params: Promise<{ code: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id || session.user.role !== "ADMIN") {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -18,30 +15,24 @@ export async function POST(
   const { code } = await params;
   const room = await prisma.ftwRoom.findUnique({
     where: { code: code.toUpperCase() },
-    include: { players: true },
+    select: { id: true },
   });
   if (!room) return NextResponse.json({ error: "Room not found." }, { status: 404 });
-  if (room.hostId !== session.user.id) {
+
+  const result = await startRoom(room.id, session.user.id);
+  if (result.kind === "room-not-found") {
+    return NextResponse.json({ error: "Room not found." }, { status: 404 });
+  }
+  if (result.kind === "not-host") {
     return NextResponse.json({ error: "Only host can start." }, { status: 403 });
   }
-  if (room.status !== "LOBBY") {
+  if (result.kind === "already-started") {
     return NextResponse.json({ error: "Already started." }, { status: 409 });
   }
-  if (room.players.length === 0) {
+  if (result.kind === "no-players") {
     return NextResponse.json({ error: "No players." }, { status: 400 });
   }
-
-  await prisma.ftwRoom.update({
-    where: { id: room.id },
-    data: { status: "IN_PROGRESS", startedAt: new Date(), currentIndex: -1 },
-  });
-
-  const next = await pickNextRoomProblem(room.id);
-  if (!next) {
-    await prisma.ftwRoom.update({
-      where: { id: room.id },
-      data: { status: "COMPLETED", completedAt: new Date() },
-    });
+  if (result.kind === "no-problems") {
     return NextResponse.json({ error: "No problems available." }, { status: 400 });
   }
 

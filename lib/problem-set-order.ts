@@ -46,3 +46,21 @@ export function nextProblemSetOrder(orders: string[]): string {
 
   return String(maxOrder + 1n);
 }
+
+/** Compute the next numeric order without materializing every set in Node. */
+export async function nextProblemSetOrderFromDatabase(): Promise<string> {
+  const { prisma } = await import("@/lib/db");
+  const [row] = await prisma.$queryRaw<Array<{ maxOrder: string }>>`
+    SELECT COALESCE(
+      MAX(
+        CASE
+          WHEN trim("order") ~ '^[0-9]+$' THEN trim("order")::numeric
+          ELSE 0
+        END
+      ),
+      0
+    )::text AS "maxOrder"
+    FROM "ProblemSet"
+  `;
+  return String(BigInt(row?.maxOrder ?? "0") + 1n);
+}

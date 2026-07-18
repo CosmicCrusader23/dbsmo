@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
-import { buildAttemptsCsv, buildStudentsCsv } from "@/lib/admin-exports";
+import { AdminExportLimitError, buildAttemptsCsv, buildStudentsCsv } from "@/lib/admin-exports";
+import { isCrossSiteBrowserRequest } from "@/lib/http-body";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  if (isCrossSiteBrowserRequest(req)) {
+    return NextResponse.json({ error: "Cross-site export request rejected." }, { status: 403 });
+  }
   const session = await getServerSession(authOptions);
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -17,10 +21,18 @@ export async function GET(req: NextRequest) {
 
   const type = req.nextUrl.searchParams.get("type") ?? "attempts";
 
-  if (type === "students") {
-    return exportStudents();
+  try {
+    if (type === "students") {
+      return await exportStudents();
+    }
+    return await exportAttempts();
+  } catch (error) {
+    if (error instanceof AdminExportLimitError) {
+      return NextResponse.json({ error: error.message }, { status: 413 });
+    }
+    console.error("Failed to build admin CSV export:", error);
+    return NextResponse.json({ error: "Export could not be generated." }, { status: 500 });
   }
-  return exportAttempts();
 }
 
 async function exportStudents() {

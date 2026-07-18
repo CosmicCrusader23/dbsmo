@@ -2,25 +2,13 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { normalizeDisplayText } from "@/lib/display-name";
-
-const MAX_AVATAR_URL_LENGTH = 700_000;
-
-function normalizeAvatarUrl(value: unknown): string | null | undefined {
-  if (value === undefined) return undefined;
-  if (value === null) return null;
-
-  const trimmed = String(value).trim();
-  if (!trimmed) return null;
-  return trimmed;
-}
-
-function isAllowedAvatarUrl(value: string) {
-  return (
-    /^https?:\/\/[^\s]+$/i.test(value) ||
-    /^data:image\/(png|jpeg|jpg|webp|gif);base64,[a-z0-9+/=]+$/i.test(value)
-  );
-}
+import { readJsonBody } from "@/lib/http-body";
+import {
+  isAllowedAvatarUrl,
+  MAX_SETTINGS_BODY_BYTES,
+  normalizeSettingsPatch,
+  settingsPatchSchema,
+} from "@/lib/settings-policy";
 
 export async function GET() {
   try {
@@ -29,54 +17,56 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        image: true,
-        displayName: true,
-        avatarUrl: true,
-        role: true,
-        group: true,
-        profileVisible: true,
-        leaderboardVisible: true,
-        theme: true,
-        greetingSettings: true,
-        attempts: {
-          select: { score: true, maxScore: true, problemSetId: true },
+    const [user, attemptStats] = await Promise.all([
+      prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          image: true,
+          displayName: true,
+          avatarUrl: true,
+          role: true,
+          group: true,
+          profileVisible: true,
+          leaderboardVisible: true,
+          theme: true,
+          greetingSettings: true,
+          _count: {
+            select: { practiceSolves: true },
+          },
         },
-        _count: {
-          select: { practiceSolves: true },
-        },
-      },
-    });
+      }),
+      prisma.$queryRaw<
+        Array<{ attemptedSets: number; averageScore: number; totalAttempts: number }>
+      >`
+        SELECT
+          COUNT(*)::int AS "totalAttempts",
+          COUNT(DISTINCT "problemSetId")::int AS "attemptedSets",
+          COALESCE(
+            ROUND(AVG(CASE WHEN "maxScore" > 0 THEN "score"::numeric / "maxScore" * 100 ELSE 0 END)),
+            0
+          )::int AS "averageScore"
+        FROM "Attempt"
+        WHERE "userId" = ${session.user.id}
+      `,
+    ]);
 
     if (!user) {
       return NextResponse.json({ user: null });
     }
 
-    const attemptedSets = new Set(user.attempts.map((attempt) => attempt.problemSetId));
-    const averageScore =
-      user.attempts.length > 0
-        ? Math.round(
-            user.attempts.reduce(
-              (sum, attempt) =>
-                sum + (attempt.maxScore > 0 ? (attempt.score / attempt.maxScore) * 100 : 0),
-              0,
-            ) / user.attempts.length,
-          )
-        : 0;
-    const { attempts, _count, ...profile } = user;
+    const { _count, ...profile } = user;
+    const stats = attemptStats[0] ?? { attemptedSets: 0, averageScore: 0, totalAttempts: 0 };
 
     return NextResponse.json({
       user: {
         ...profile,
         stats: {
-          attemptedSets: attemptedSets.size,
-          totalAttempts: attempts.length,
-          averageScore,
+          attemptedSets: stats.attemptedSets,
+          totalAttempts: stats.totalAttempts,
+          averageScore: stats.averageScore,
           practiceScore: _count.practiceSolves,
         },
       },
@@ -94,41 +84,22 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    let body: {
-      avatarUrl?: unknown;
-      displayName?: unknown;
-      leaderboardVisible?: unknown;
-      profileVisible?: unknown;
-      theme?: unknown;
-      greetingSettings?: unknown;
-    };
-    try {
-      body = (await req.json()) as typeof body;
-    } catch {
+    const body = await readJsonBody(req, { maxBytes: MAX_SETTINGS_BODY_BYTES });
+    if (!body.ok) {
+      if (body.reason === "too_large") {
+        return NextResponse.json({ error: "Settings payload is too large." }, { status: 413 });
+      }
       return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
     }
-    const { displayName, avatarUrl, profileVisible, leaderboardVisible, theme, greetingSettings } =
-      body;
-    const normalizedAvatarUrl = normalizeAvatarUrl(avatarUrl);
-
-    if (displayName !== undefined && displayName !== null) {
-      const trimmed = normalizeDisplayText(String(displayName)) ?? "";
-      if (trimmed.length > 50) {
-        return NextResponse.json(
-          { error: "Display name must be 50 characters or fewer." },
-          { status: 400 },
-        );
-      }
+    const parsed = settingsPatchSchema.safeParse(body.value);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid settings." }, { status: 422 });
     }
+    const { avatarUrl, displayName, profileVisible, leaderboardVisible, theme, greetingSettings } =
+      normalizeSettingsPatch(parsed.data);
 
-    if (typeof normalizedAvatarUrl === "string") {
-      if (normalizedAvatarUrl.length > MAX_AVATAR_URL_LENGTH) {
-        return NextResponse.json(
-          { error: "Profile picture is too large. Use an image under 512 KB." },
-          { status: 400 },
-        );
-      }
-      if (!isAllowedAvatarUrl(normalizedAvatarUrl)) {
+    if (typeof avatarUrl === "string") {
+      if (!isAllowedAvatarUrl(avatarUrl)) {
         return NextResponse.json(
           { error: "Profile picture must be an http(s) URL or uploaded image." },
           { status: 400 },
@@ -139,14 +110,12 @@ export async function PATCH(req: Request) {
     const updated = await prisma.user.update({
       where: { id: session.user.id },
       data: {
-        displayName:
-          displayName !== undefined ? normalizeDisplayText(String(displayName)) : undefined,
-        avatarUrl: normalizedAvatarUrl,
-        profileVisible: typeof profileVisible === "boolean" ? profileVisible : undefined,
-        leaderboardVisible:
-          typeof leaderboardVisible === "boolean" ? leaderboardVisible : undefined,
-        theme: typeof theme === "string" ? theme : undefined,
-        greetingSettings: typeof greetingSettings === "string" ? greetingSettings : undefined,
+        displayName,
+        avatarUrl,
+        profileVisible,
+        leaderboardVisible,
+        theme,
+        greetingSettings,
       },
       select: {
         id: true,

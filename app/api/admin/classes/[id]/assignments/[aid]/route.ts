@@ -4,12 +4,14 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { readJsonBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
 const patchSchema = z.object({
   dueAt: z.string().datetime().nullable(),
 });
+const MAX_ASSIGNMENT_BODY_BYTES = 2_048;
 
 async function authorize(classId: string, assignmentId: string, userId: string) {
   const user = await prisma.user.findUnique({
@@ -44,13 +46,14 @@ export async function PATCH(
   const auth = await authorize(id, aid, session.user.id);
   if ("error" in auth) return auth.error;
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
+  const body = await readJsonBody(request, { maxBytes: MAX_ASSIGNMENT_BODY_BYTES });
+  if (!body.ok) {
+    if (body.reason === "too_large") {
+      return NextResponse.json({ error: "Request is too large." }, { status: 413 });
+    }
     return NextResponse.json({ error: "Invalid JSON." }, { status: 400 });
   }
-  const parsed = patchSchema.safeParse(body);
+  const parsed = patchSchema.safeParse(body.value);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid request." }, { status: 422 });
   }
@@ -62,10 +65,7 @@ export async function PATCH(
   return NextResponse.json({ ok: true });
 }
 
-export async function DELETE(
-  _req: Request,
-  ctx: { params: Promise<{ id: string; aid: string }> },
-) {
+export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string; aid: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });

@@ -2,9 +2,15 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { FeedbackStatus } from "@prisma/client";
 import { recordAuditLog } from "@/lib/audit";
 import { hasPermission } from "@/lib/permissions";
+import {
+  buildFeedbackUpdateData,
+  legacyAdminFeedbackUpdateSchema,
+  MAX_ADMIN_FEEDBACK_BODY_BYTES,
+} from "@/lib/admin-feedback-policy";
+import { readJsonBody } from "@/lib/http-body";
+import { isPrismaKnownError } from "@/lib/prisma-errors";
 
 export async function PATCH(req: Request) {
   try {
@@ -22,26 +28,22 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 });
     }
 
-    const body = await req.json();
-    const { reportId, status, adminNote } = body;
-
-    if (!reportId || !status) {
-      return NextResponse.json({ error: "Missing reportId or status" }, { status: 400 });
+    const body = await readJsonBody(req, { maxBytes: MAX_ADMIN_FEEDBACK_BODY_BYTES });
+    if (!body.ok) {
+      return NextResponse.json(
+        { error: body.reason === "too_large" ? "Request is too large" : "Invalid JSON" },
+        { status: body.reason === "too_large" ? 413 : 400 },
+      );
     }
 
-    if (!Object.values(FeedbackStatus).includes(status)) {
-      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
-    }
-
-    const update: Record<string, unknown> = { status: status as FeedbackStatus };
-    if (adminNote !== undefined) update.adminNote = adminNote;
-    if (status === "RESOLVED" || status === "REJECTED") {
-      update.resolvedAt = new Date();
+    const parsed = legacyAdminFeedbackUpdateSchema.safeParse(body.value);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
     const report = await prisma.feedbackReport.update({
-      where: { id: reportId },
-      data: update,
+      where: { id: parsed.data.reportId },
+      data: buildFeedbackUpdateData(parsed.data),
     });
 
     await recordAuditLog({
@@ -54,6 +56,9 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json({ ok: true, report });
   } catch (error) {
+    if (isPrismaKnownError(error, "P2025")) {
+      return NextResponse.json({ error: "Report not found" }, { status: 404 });
+    }
     console.error("Failed to update feedback:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

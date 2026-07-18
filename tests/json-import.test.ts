@@ -1,7 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { Readable } from "node:stream";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import JSZip from "jszip";
 import { createProblemSetJsonDraft, dryRunProblemSetJson } from "../lib/import/json-import";
-import { parseImageZip } from "../lib/import/image-zip";
+import { MAX_IMAGE_BYTES, MAX_IMAGES_PER_SET } from "../lib/import/image-assets";
+import { MAX_IMAGE_ZIP_BYTES, MAX_IMAGE_ZIP_FILES, parseImageZip } from "../lib/import/image-zip";
 
 const PNG_1X1 = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=",
@@ -15,6 +17,34 @@ async function imageZip(files: Record<string, Buffer>) {
   }
   return Buffer.from(await zip.generateAsync({ type: "nodebuffer" }));
 }
+
+function fakeZipEntry(
+  name: string,
+  uncompressedSize: number,
+  nodeStream = vi.fn(() => Readable.from([PNG_1X1])),
+) {
+  return {
+    _data: { uncompressedSize },
+    dir: false,
+    name,
+    nodeStream,
+    unsafeOriginalName: name,
+  } as unknown as JSZip.JSZipObject;
+}
+
+function mockLoadedZip(entries: JSZip.JSZipObject[]) {
+  vi.spyOn(JSZip, "loadAsync").mockResolvedValue({
+    files: Object.fromEntries(entries.map((entry, index) => [`${index}-${entry.name}`, entry])),
+  } as unknown as JSZip);
+}
+
+function zipSignatureBuffer() {
+  return Buffer.from([0x50, 0x4b, 0x03, 0x04]);
+}
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("dryRunProblemSetJson", () => {
   it("validates inline LaTeX statements, answer types, and solutions", async () => {
@@ -220,5 +250,108 @@ describe("parseImageZip", () => {
 
     expect(result.ok).toBe(false);
     expect(result.issues.some((issue) => issue.message.includes("unsafe path"))).toBe(true);
+  });
+
+  it("stops before extraction when the archive has too many entries", async () => {
+    const nodeStream = vi.fn(() => Readable.from([PNG_1X1]));
+    mockLoadedZip(
+      Array.from({ length: MAX_IMAGE_ZIP_FILES + 1 }, (_, index) =>
+        fakeZipEntry(`image-${index}.png`, PNG_1X1.byteLength, nodeStream),
+      ),
+    );
+
+    const result = await parseImageZip({
+      fileName: "too-many.zip",
+      sizeBytes: 4,
+      buffer: zipSignatureBuffer(),
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues[0]?.message).toContain("too many files");
+    expect(nodeStream).not.toHaveBeenCalled();
+  });
+
+  it("rejects declared per-entry expansion before inflating bytes", async () => {
+    const nodeStream = vi.fn(() => Readable.from([PNG_1X1]));
+    mockLoadedZip([fakeZipEntry("oversize.png", MAX_IMAGE_BYTES + 1, nodeStream)]);
+
+    const result = await parseImageZip({
+      fileName: "oversize.zip",
+      sizeBytes: 4,
+      buffer: zipSignatureBuffer(),
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues[0]?.message).toContain("per-image limit");
+    expect(nodeStream).not.toHaveBeenCalled();
+  });
+
+  it("rejects declared aggregate expansion before inflating bytes", async () => {
+    const nodeStream = vi.fn(() => Readable.from([PNG_1X1]));
+    const entryCount = Math.floor(MAX_IMAGE_ZIP_BYTES / MAX_IMAGE_BYTES) + 1;
+    mockLoadedZip(
+      Array.from({ length: entryCount }, (_, index) =>
+        fakeZipEntry(`aggregate-${index}.png`, MAX_IMAGE_BYTES, nodeStream),
+      ),
+    );
+
+    const result = await parseImageZip({
+      fileName: "aggregate.zip",
+      sizeBytes: 4,
+      buffer: zipSignatureBuffer(),
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.message.includes("expands beyond 100 MB"))).toBe(
+      true,
+    );
+    expect(nodeStream).not.toHaveBeenCalled();
+  });
+
+  it("bounds actual output when ZIP size metadata understates an entry", async () => {
+    const nodeStream = vi.fn(() => Readable.from([Buffer.alloc(MAX_IMAGE_BYTES + 1)]));
+    mockLoadedZip([fakeZipEntry("lying.png", 1, nodeStream)]);
+
+    const result = await parseImageZip({
+      fileName: "lying.zip",
+      sizeBytes: 4,
+      buffer: zipSignatureBuffer(),
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues[0]?.message).toContain("per-image limit");
+    expect(nodeStream).toHaveBeenCalledOnce();
+  });
+
+  it("caps the combined inline and ZIP image count", async () => {
+    const inlineImages = Array.from({ length: MAX_IMAGES_PER_SET - 1 }, (_, index) => ({
+      key: `inline-${index}`,
+      mimeType: "image/png",
+      data: PNG_1X1.toString("base64"),
+    }));
+    const text = JSON.stringify({
+      slug: "too-many-combined-images",
+      title: "Too many combined images",
+      images: inlineImages,
+      problems: [{ answerKey: "1" }],
+    });
+    const buffer = await imageZip({
+      "zip-one.png": PNG_1X1,
+      "zip-two.png": PNG_1X1,
+    });
+
+    const result = await dryRunProblemSetJson({
+      fileName: "too-many-combined-images.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+      imageZip: {
+        fileName: "too-many-combined-images.zip",
+        sizeBytes: buffer.byteLength,
+        buffer,
+      },
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.issues.some((issue) => issue.message.includes("Maximum is 50"))).toBe(true);
   });
 });

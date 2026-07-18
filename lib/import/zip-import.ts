@@ -1,12 +1,24 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { AnswerType, ProblemSetStatus } from "@prisma/client";
 import JSZip from "jszip";
 import { prisma } from "@/lib/db";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { saveFile, deleteFile } from "@/lib/storage";
 import type { ImportIssue } from "./zip-dry-run";
-import { dryRunProblemSetZip, type ZipDryRunInput } from "./zip-dry-run";
+import {
+  dryRunProblemSetZip,
+  MAX_LEGACY_ANSWERS_BYTES,
+  MAX_LEGACY_REFERENCED_FILE_BYTES,
+  MAX_LEGACY_REFERENCED_TOTAL_BYTES,
+  MAX_LEGACY_MANIFEST_BYTES,
+  type ZipDryRunInput,
+} from "./zip-dry-run";
 import { safeZipPath } from "./zip-path";
+import {
+  readZipEntryBufferBounded,
+  readZipEntryTextBounded,
+  ZipExpandedSizeLimitError,
+} from "./zip-entry";
 
 export type ImportResult = {
   ok: boolean;
@@ -84,56 +96,56 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
     };
   }
 
-  /* ── Extract ZIP ─────────────────────────────────────────────── */
   const zip = await JSZip.loadAsync(zipInput.buffer);
 
-  /* ── Save files to local storage ─────────────────────────────── */
-  async function extractAndSave(fileName: string): Promise<{
-    storageKey: string;
-    buffer: Buffer;
-    checksum: string;
-    sizeBytes: number;
-  }> {
-    const normalizedFileName = safeZipPath(fileName);
-    const entry = zip.file(normalizedFileName);
-    if (!entry) {
-      throw new Error(`File not found in ZIP: ${fileName}`);
-    }
-
-    const buf = Buffer.from(await entry.async("nodebuffer"));
-    const storageKey = `imports/${preview.slug}/${normalizedFileName}`;
-    const checksum = createHash("sha256").update(buf).digest("hex");
-
-    await saveFile(storageKey, buf);
-
-    return { storageKey, buffer: buf, checksum, sizeBytes: buf.byteLength };
-  }
-
-  const problemFileInfo = await extractAndSave(preview.problemFile);
-  const savedKeys: string[] = [problemFileInfo.storageKey];
-
-  let solutionFileInfo: Awaited<ReturnType<typeof extractAndSave>> | null = null;
-  if (preview.solutionFile) {
-    solutionFileInfo = await extractAndSave(preview.solutionFile);
-    savedKeys.push(solutionFileInfo.storageKey);
-  }
-
-  /* ── Parse answers from dry-run (re-read from ZIP) ───────────── */
+  /* ── Parse bounded metadata from the already-validated archive ── */
   const { parse } = await import("csv-parse/sync");
   const { answerRowSchema } = await import("./answer-schema");
   const { manifestSchema } = await import("./manifest-schema");
   const yaml = await import("js-yaml");
 
   const manifestEntry = zip.file("manifest.yml") ?? zip.file("manifest.yaml");
-  const manifest = manifestSchema.parse(yaml.load(await manifestEntry!.async("string")));
+  if (!manifestEntry) {
+    return {
+      ok: false,
+      issues: [{ level: "error", message: "Missing manifest.yml." }],
+      created: null,
+    };
+  }
 
-  const answersEntry = zip.file(manifest.answersFile);
-  const records: Record<string, string>[] = parse(await answersEntry!.async("string"), {
-    columns: true,
-    bom: true,
-    skip_empty_lines: true,
-    trim: true,
-  });
+  let manifest: ReturnType<typeof manifestSchema.parse>;
+  let records: Record<string, string>[];
+  try {
+    const manifestText = await readZipEntryTextBounded(
+      manifestEntry,
+      MAX_LEGACY_MANIFEST_BYTES,
+      "manifest.yml exceeds its expanded limit.",
+    );
+    manifest = manifestSchema.parse(yaml.load(manifestText, { maxAliases: 50 }));
+    const answersEntry = zip.file(manifest.answersFile);
+    if (!answersEntry) throw new Error("Missing answers file after validation.");
+    const answersText = await readZipEntryTextBounded(
+      answersEntry,
+      MAX_LEGACY_ANSWERS_BYTES,
+      "answers.csv exceeds its expanded limit.",
+    );
+    records = parse(answersText, {
+      columns: true,
+      bom: true,
+      max_record_size: 20_000,
+      skip_empty_lines: true,
+      trim: true,
+    });
+  } catch (error) {
+    if (!(error instanceof ZipExpandedSizeLimitError)) {
+      console.error("Failed to re-read validated legacy import metadata:", error);
+    }
+    return {
+      ok: false,
+      issues: [{ level: "error", message: "ZIP metadata could not be read safely." }],
+      created: null,
+    };
+  }
 
   const answers: Array<ReturnType<typeof answerRowSchema.parse>> = [];
   const rowFailures: string[] = [];
@@ -149,13 +161,71 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
   });
 
   if (rowFailures.length > 0) {
-    await Promise.all(savedKeys.map((k) => deleteFile(k).catch(() => {})));
     return {
       ok: false,
       issues: [
         {
           level: "error",
           message: `Refusing to import: answers.csv has ${rowFailures.length} invalid row(s). ${rowFailures.slice(0, 3).join(" | ")}${rowFailures.length > 3 ? " | …" : ""}`,
+        },
+      ],
+      created: null,
+    };
+  }
+
+  /* ── Stage referenced files under collision-resistant keys ───── */
+  type ExtractedFileInfo = { storageKey: string; checksum: string; sizeBytes: number };
+  const storagePrefix = `imports/${preview.slug}/${randomUUID()}`;
+  const extractedByPath = new Map<string, ExtractedFileInfo>();
+  const savedKeys = new Set<string>();
+  let expandedTotalBytes = 0;
+
+  async function extractAndSave(fileName: string): Promise<ExtractedFileInfo> {
+    const normalizedFileName = safeZipPath(fileName);
+    const cached = extractedByPath.get(normalizedFileName);
+    if (cached) return cached;
+
+    const entry = zip.file(normalizedFileName);
+    if (!entry) throw new Error("Referenced ZIP entry disappeared.");
+    const remainingBytes = MAX_LEGACY_REFERENCED_TOTAL_BYTES - expandedTotalBytes;
+    const buffer = await readZipEntryBufferBounded(
+      entry,
+      Math.min(MAX_LEGACY_REFERENCED_FILE_BYTES, remainingBytes),
+      `${normalizedFileName} exceeds the legacy import expanded-file limit.`,
+    );
+    expandedTotalBytes += buffer.byteLength;
+
+    const storageKey = `${storagePrefix}/${normalizedFileName}`;
+    const info = {
+      storageKey,
+      checksum: createHash("sha256").update(buffer).digest("hex"),
+      sizeBytes: buffer.byteLength,
+    };
+    savedKeys.add(storageKey);
+    await saveFile(storageKey, buffer);
+    extractedByPath.set(normalizedFileName, info);
+    return info;
+  }
+
+  let problemFileInfo: ExtractedFileInfo;
+  let solutionFileInfo: ExtractedFileInfo | null = null;
+  try {
+    problemFileInfo = await extractAndSave(preview.problemFile);
+    if (preview.solutionFile) solutionFileInfo = await extractAndSave(preview.solutionFile);
+  } catch (error) {
+    await Promise.all(Array.from(savedKeys, (key) => deleteFile(key).catch(() => undefined)));
+    if (!(error instanceof ZipExpandedSizeLimitError)) {
+      console.error("Failed to stage legacy ZIP files:", error);
+    }
+    return {
+      ok: false,
+      issues: [
+        {
+          level: "error",
+          message:
+            error instanceof ZipExpandedSizeLimitError
+              ? error.message
+              : "Referenced ZIP files could not be stored safely.",
         },
       ],
       created: null,
@@ -179,16 +249,19 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
 
       let solutionFile: { id: string } | null = null;
       if (solutionFileInfo && preview.solutionFile) {
-        solutionFile = await tx.importedFile.create({
-          data: {
-            storageKey: solutionFileInfo.storageKey,
-            originalName: preview.solutionFile,
-            mimeType: guessMime(preview.solutionFile),
-            sizeBytes: solutionFileInfo.sizeBytes,
-            checksum: solutionFileInfo.checksum,
-            uploadedById,
-          },
-        });
+        solutionFile =
+          solutionFileInfo.storageKey === problemFileInfo.storageKey
+            ? problemFile
+            : await tx.importedFile.create({
+                data: {
+                  storageKey: solutionFileInfo.storageKey,
+                  originalName: preview.solutionFile,
+                  mimeType: guessMime(preview.solutionFile),
+                  sizeBytes: solutionFileInfo.sizeBytes,
+                  checksum: solutionFileInfo.checksum,
+                  uploadedById,
+                },
+              });
       }
 
       const problemSet = await tx.problemSet.create({
@@ -223,13 +296,14 @@ export async function importProblemSetZip(input: ZipImportInput): Promise<Import
       return problemSet;
     });
   } catch (err) {
-    await Promise.all(savedKeys.map((k) => deleteFile(k).catch(() => {})));
+    await Promise.all(Array.from(savedKeys, (key) => deleteFile(key).catch(() => undefined)));
+    console.error("Legacy ZIP database import failed:", err);
     return {
       ok: false,
       issues: [
         {
           level: "error",
-          message: `Database write failed and uploaded files were rolled back. ${err instanceof Error ? err.message : "Unknown error."}`,
+          message: "Database write failed and staged files were rolled back.",
         },
       ],
       created: null,

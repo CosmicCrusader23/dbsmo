@@ -49,3 +49,28 @@ export function hasPermission(role: UserRole, permission: Permission): boolean {
 export function isStaffRole(role: UserRole): boolean {
   return hasPermission(role, "admin:view");
 }
+
+const USER_ROLES: readonly UserRole[] = [
+  "STUDENT",
+  "TEACHER",
+  "CONTENT_EDITOR",
+  "ANALYST",
+  "ADMIN",
+];
+
+function isUserRole(role: unknown): role is UserRole {
+  return typeof role === "string" && USER_ROLES.includes(role as UserRole);
+}
+
+/** Broad middleware gate; individual admin pages and APIs remain authoritative. */
+export function canAccessAdminArea(role: unknown): boolean {
+  return isUserRole(role) && hasPermission(role, "admin:view");
+}
+
+export function canViewPrivateProfiles(role: UserRole): boolean {
+  return hasPermission(role, "admin:users");
+}
+
+export function canViewHiddenLeaderboardEntries(role: UserRole): boolean {
+  return hasPermission(role, "admin:analytics");
+}

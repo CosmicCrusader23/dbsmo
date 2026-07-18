@@ -7,13 +7,10 @@ import { z } from "zod";
 
 const MAX_ASSET_BYTES = 4 * 1024 * 1024;
 const MAX_ASSETS_PER_SET = 50;
+export const MAX_TOTAL_IMAGE_BYTES = 100 * 1024 * 1024;
+export const MAX_ENCODED_ASSET_CHARS = Math.ceil(MAX_ASSET_BYTES / 3) * 4 + 4;
 const ASSET_KEY_PATTERN = /^[a-z0-9][a-z0-9_-]{0,63}$/;
-export const SUPPORTED_IMAGE_MIME = new Set([
-  "image/png",
-  "image/jpeg",
-  "image/gif",
-  "image/webp",
-]);
+export const SUPPORTED_IMAGE_MIME = new Set(["image/png", "image/jpeg", "image/gif", "image/webp"]);
 
 export const MIME_TO_EXTENSION: Record<string, string> = {
   "image/png": "png",
@@ -25,17 +22,33 @@ export const MIME_TO_EXTENSION: Record<string, string> = {
 const MIME_MAGIC_BYTES: Record<string, (b: Buffer) => boolean> = {
   "image/png": (b) =>
     b.length >= 8 &&
-    b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 &&
-    b[4] === 0x0d && b[5] === 0x0a && b[6] === 0x1a && b[7] === 0x0a,
+    b[0] === 0x89 &&
+    b[1] === 0x50 &&
+    b[2] === 0x4e &&
+    b[3] === 0x47 &&
+    b[4] === 0x0d &&
+    b[5] === 0x0a &&
+    b[6] === 0x1a &&
+    b[7] === 0x0a,
   "image/jpeg": (b) => b.length >= 3 && b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff,
   "image/gif": (b) =>
     b.length >= 6 &&
-    b[0] === 0x47 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x38 &&
-    (b[4] === 0x37 || b[4] === 0x39) && b[5] === 0x61,
+    b[0] === 0x47 &&
+    b[1] === 0x49 &&
+    b[2] === 0x46 &&
+    b[3] === 0x38 &&
+    (b[4] === 0x37 || b[4] === 0x39) &&
+    b[5] === 0x61,
   "image/webp": (b) =>
     b.length >= 12 &&
-    b[0] === 0x52 && b[1] === 0x49 && b[2] === 0x46 && b[3] === 0x46 &&
-    b[8] === 0x57 && b[9] === 0x45 && b[10] === 0x42 && b[11] === 0x50,
+    b[0] === 0x52 &&
+    b[1] === 0x49 &&
+    b[2] === 0x46 &&
+    b[3] === 0x46 &&
+    b[8] === 0x57 &&
+    b[9] === 0x45 &&
+    b[10] === 0x42 &&
+    b[11] === 0x50,
 };
 
 export const ASSET_TOKEN_REGEX = /\[\[img:([a-z0-9][a-z0-9_-]{0,63})\]\]/g;
@@ -47,7 +60,10 @@ export const imageAssetSchema = z.object({
   mimeType: z.string().refine((v) => SUPPORTED_IMAGE_MIME.has(v), {
     message: "Image mimeType must be one of png/jpeg/gif/webp.",
   }),
-  data: z.string().min(1, { message: "Image data (base64) is required." }),
+  data: z
+    .string()
+    .min(1, { message: "Image data (base64) is required." })
+    .max(MAX_ENCODED_ASSET_CHARS, { message: "Encoded image data exceeds the 4 MB limit." }),
 });
 
 export type ImageAssetInput = z.infer<typeof imageAssetSchema>;
@@ -56,11 +72,14 @@ export const uploadedImageAssetSchema = z.object({
   key: z.string().regex(ASSET_KEY_PATTERN, {
     message: "Image key must be lowercase letters, digits, '-' or '_' (≤64 chars).",
   }),
-  name: z.string().min(1),
+  name: z.string().min(1).max(255),
   mimeType: z.string().refine((v) => SUPPORTED_IMAGE_MIME.has(v), {
     message: "Image mimeType must be one of png/jpeg/gif/webp.",
   }),
-  dataUrl: z.string().min(1),
+  dataUrl: z
+    .string()
+    .min(1)
+    .max(MAX_ENCODED_ASSET_CHARS + 64),
 });
 
 export type UploadedImageAssetInput = z.infer<typeof uploadedImageAssetSchema>;
@@ -80,6 +99,16 @@ export function detectImageMime(buffer: Buffer): string | null {
     }
   }
   return null;
+}
+
+function decodeBase64Strict(value: string): Buffer | null {
+  if (value.length === 0 || value.length > MAX_ENCODED_ASSET_CHARS) return null;
+  if (!/^[a-z0-9+/]+={0,2}$/i.test(value)) return null;
+
+  const buffer = Buffer.from(value, "base64");
+  const canonicalInput = value.replace(/=+$/, "");
+  const canonicalDecoded = buffer.toString("base64").replace(/=+$/, "");
+  return canonicalInput === canonicalDecoded ? buffer : null;
 }
 
 export function imageKeyFromFileName(fileName: string): string | null {
@@ -146,6 +175,7 @@ export function decodeAssets(assets: ImageAssetInput[]): {
 } {
   const errors: string[] = [];
   const decoded: DecodedAsset[] = [];
+  let totalBytes = 0;
 
   if (assets.length > MAX_ASSETS_PER_SET) {
     errors.push(`Too many images: ${assets.length}. Maximum is ${MAX_ASSETS_PER_SET}.`);
@@ -159,11 +189,9 @@ export function decodeAssets(assets: ImageAssetInput[]): {
       continue;
     }
     seen.add(asset.key);
-    let buf: Buffer;
-    try {
-      buf = Buffer.from(asset.data, "base64");
-    } catch {
-      errors.push(`Image ${asset.key}: base64 decode failed.`);
+    const buf = decodeBase64Strict(asset.data);
+    if (!buf) {
+      errors.push(`Image ${asset.key}: base64 data is invalid or too large.`);
       continue;
     }
     const validated = validateDecodedImage({
@@ -174,6 +202,13 @@ export function decodeAssets(assets: ImageAssetInput[]): {
     if (!validated.ok) {
       errors.push(validated.error);
       continue;
+    }
+    totalBytes += validated.asset.sizeBytes;
+    if (totalBytes > MAX_TOTAL_IMAGE_BYTES) {
+      errors.push(
+        `Images exceed the ${MAX_TOTAL_IMAGE_BYTES / 1024 / 1024} MB total expanded limit.`,
+      );
+      break;
     }
     decoded.push(validated.asset);
   }
@@ -188,6 +223,7 @@ export function decodeUploadedImageAssets(assets: UploadedImageAssetInput[]): {
 } {
   const errors: string[] = [];
   const decoded: DecodedAsset[] = [];
+  let totalBytes = 0;
 
   if (assets.length > MAX_ASSETS_PER_SET) {
     errors.push(`Too many images: ${assets.length}. Maximum is ${MAX_ASSETS_PER_SET}.`);
@@ -202,7 +238,11 @@ export function decodeUploadedImageAssets(assets: UploadedImageAssetInput[]): {
     }
     seen.add(asset.key);
 
-    const match = asset.dataUrl.match(/^data:([^;,]+);base64,(.+)$/);
+    if (asset.dataUrl.length > MAX_ENCODED_ASSET_CHARS + 64) {
+      errors.push(`Image ${asset.key}: encoded upload exceeds the 4 MB limit.`);
+      continue;
+    }
+    const match = asset.dataUrl.match(/^data:([^;,]+);base64,([a-z0-9+/]+={0,2})$/i);
     if (!match) {
       errors.push(`Image ${asset.key}: upload data must be a base64 data URL.`);
       continue;
@@ -213,7 +253,11 @@ export function decodeUploadedImageAssets(assets: UploadedImageAssetInput[]): {
       continue;
     }
 
-    const buffer = Buffer.from(base64, "base64");
+    const buffer = decodeBase64Strict(base64);
+    if (!buffer) {
+      errors.push(`Image ${asset.key}: base64 data is invalid or too large.`);
+      continue;
+    }
     const validated = validateDecodedImage({
       key: asset.key,
       mimeType: asset.mimeType,
@@ -223,6 +267,13 @@ export function decodeUploadedImageAssets(assets: UploadedImageAssetInput[]): {
     if (!validated.ok) {
       errors.push(validated.error);
       continue;
+    }
+    totalBytes += validated.asset.sizeBytes;
+    if (totalBytes > MAX_TOTAL_IMAGE_BYTES) {
+      errors.push(
+        `Images exceed the ${MAX_TOTAL_IMAGE_BYTES / 1024 / 1024} MB total expanded limit.`,
+      );
+      break;
     }
     decoded.push(validated.asset);
   }
@@ -238,10 +289,7 @@ export function extractTokens(text: string): string[] {
   return Array.from(out);
 }
 
-export function rewriteAssetTokens(
-  text: string,
-  resolve: (key: string) => string | null,
-): string {
+export function rewriteAssetTokens(text: string, resolve: (key: string) => string | null): string {
   return text.replace(ASSET_TOKEN_REGEX, (match, key) => {
     const url = resolve(key);
     return url ? `<img src="${url}" alt="" class="problem-image" />` : match;

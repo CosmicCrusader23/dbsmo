@@ -19,6 +19,19 @@ import {
   saveJsonImportDraft,
   type JsonImportEditorDraft,
 } from "@/lib/import/json-draft-storage";
+import {
+  ClientZipExpandedSizeLimitError,
+  readClientZipEntryBounded,
+} from "@/lib/import/client-zip-entry";
+import { isSafeZipPath } from "@/lib/import/zip-path";
+
+const MEBIBYTE = 1024 * 1024;
+const MAX_BATCH_ARCHIVE_BYTES = 120 * MEBIBYTE;
+const MAX_BATCH_ENTRIES = 250;
+const MAX_BATCH_JSON_FILES = 100;
+const MAX_BATCH_JSON_BYTES = 5 * MEBIBYTE;
+const MAX_BATCH_IMAGE_ZIP_BYTES = 100 * MEBIBYTE;
+const MAX_BATCH_EXPANDED_BYTES = 110 * MEBIBYTE;
 
 type DryRunResult = {
   ok: boolean;
@@ -83,6 +96,10 @@ function isIgnoredZipEntry(path: string) {
   return normalizedPath.startsWith("__MACOSX/") || fileName.startsWith("._");
 }
 
+function originalZipEntryName(entry: JSZip.JSZipObject) {
+  return entry.unsafeOriginalName ?? entry.name;
+}
+
 export function JsonZipImportPanel() {
   const router = useRouter();
   const [zipFile, setZipFile] = useState<File | null>(null);
@@ -136,13 +153,26 @@ export function JsonZipImportPanel() {
       setZipError("Please upload a .zip archive.");
       return;
     }
+    if (nextZip.size > MAX_BATCH_ARCHIVE_BYTES) {
+      setZipError(`Batch ZIP must be ${MAX_BATCH_ARCHIVE_BYTES / MEBIBYTE} MB or smaller.`);
+      return;
+    }
 
     setIsReadingZip(true);
     try {
       const zip = await JSZip.loadAsync(await nextZip.arrayBuffer());
-      const files = Object.values(zip.files).filter(
-        (entry) => !entry.dir && !isIgnoredZipEntry(entry.name),
+      const archiveEntries = Object.values(zip.files);
+      if (archiveEntries.length > MAX_BATCH_ENTRIES) {
+        setZipError(`Batch ZIP has too many entries. Maximum is ${MAX_BATCH_ENTRIES}.`);
+        return;
+      }
+      const files = archiveEntries.filter(
+        (entry) => !entry.dir && !isIgnoredZipEntry(originalZipEntryName(entry)),
       );
+      if (files.some((entry) => !isSafeZipPath(originalZipEntryName(entry)))) {
+        setZipError("Batch ZIP contains an unsafe or overlong path.");
+        return;
+      }
       const invalidFiles = files.filter((entry) => {
         const name = entry.name.toLowerCase();
         return !name.endsWith(".json") && !name.endsWith(".zip");
@@ -161,6 +191,20 @@ export function JsonZipImportPanel() {
       if (jsonFiles.length === 0) {
         setZipError("This ZIP does not contain any .json files.");
         return;
+      }
+      if (jsonFiles.length > MAX_BATCH_JSON_FILES) {
+        setZipError(`Batch ZIP has too many JSON files. Maximum is ${MAX_BATCH_JSON_FILES}.`);
+        return;
+      }
+
+      const jsonBaseNames = new Set<string>();
+      for (const entry of jsonFiles) {
+        const key = baseName(entry.name, ".json");
+        if (jsonBaseNames.has(key)) {
+          setZipError(`More than one JSON file uses the base name ${key}.`);
+          return;
+        }
+        jsonBaseNames.add(key);
       }
 
       const imageZipByBase = new Map<string, typeof imageZipFiles>();
@@ -181,39 +225,56 @@ export function JsonZipImportPanel() {
         }
       }
 
-      const jsonEntries = await Promise.all(
-        jsonFiles
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .map(async (entry) => {
-            const content = await entry.async("uint8array");
-            const bytes = new Uint8Array(content.byteLength);
-            bytes.set(content);
-            const imageZipEntry = imageZipByBase.get(baseName(entry.name, ".json"))?.[0];
-            let imageZipFile: File | undefined;
-            if (imageZipEntry) {
-              const imageZipContent = await imageZipEntry.async("uint8array");
-              const imageZipBytes = new Uint8Array(imageZipContent.byteLength);
-              imageZipBytes.set(imageZipContent);
-              imageZipFile = new File(
-                [imageZipBytes],
-                imageZipEntry.name.split("/").pop() || imageZipEntry.name,
-                { type: "application/zip" },
-              );
-            }
-            return {
-              name: entry.name,
-              file: new File([bytes], entry.name.split("/").pop() || entry.name, {
-                type: "application/json",
-              }),
-              imageZipFile,
-              imageZipName: imageZipEntry?.name,
-            };
+      const jsonEntries: JsonZipEntry[] = [];
+      let expandedBytes = 0;
+      for (const entry of jsonFiles.sort((a, b) => a.name.localeCompare(b.name))) {
+        const remainingJsonBytes = MAX_BATCH_EXPANDED_BYTES - expandedBytes;
+        const jsonLimit = Math.min(MAX_BATCH_JSON_BYTES, remainingJsonBytes);
+        const jsonLimitMessage =
+          remainingJsonBytes < MAX_BATCH_JSON_BYTES
+            ? `Batch ZIP expands beyond ${MAX_BATCH_EXPANDED_BYTES / MEBIBYTE} MB total.`
+            : `${entry.name} expands beyond the ${MAX_BATCH_JSON_BYTES / MEBIBYTE} MB JSON limit.`;
+        const bytes = await readClientZipEntryBounded(entry, jsonLimit, jsonLimitMessage);
+        expandedBytes += bytes.byteLength;
+
+        const imageZipEntry = imageZipByBase.get(baseName(entry.name, ".json"))?.[0];
+        let imageZipFile: File | undefined;
+        if (imageZipEntry) {
+          const remainingImageBytes = MAX_BATCH_EXPANDED_BYTES - expandedBytes;
+          const imageLimit = Math.min(MAX_BATCH_IMAGE_ZIP_BYTES, remainingImageBytes);
+          const imageLimitMessage =
+            remainingImageBytes < MAX_BATCH_IMAGE_ZIP_BYTES
+              ? `Batch ZIP expands beyond ${MAX_BATCH_EXPANDED_BYTES / MEBIBYTE} MB total.`
+              : `${imageZipEntry.name} expands beyond the ${MAX_BATCH_IMAGE_ZIP_BYTES / MEBIBYTE} MB image ZIP limit.`;
+          const imageZipBytes = await readClientZipEntryBounded(
+            imageZipEntry,
+            imageLimit,
+            imageLimitMessage,
+          );
+          expandedBytes += imageZipBytes.byteLength;
+          imageZipFile = new File(
+            [imageZipBytes],
+            imageZipEntry.name.split("/").pop() || imageZipEntry.name,
+            { type: "application/zip" },
+          );
+        }
+        jsonEntries.push({
+          name: entry.name,
+          file: new File([bytes], entry.name.split("/").pop() || entry.name, {
+            type: "application/json",
           }),
-      );
+          imageZipFile,
+          imageZipName: imageZipEntry?.name,
+        });
+      }
 
       setEntries(jsonEntries);
-    } catch {
-      setZipError("Could not read that ZIP archive.");
+    } catch (error) {
+      setZipError(
+        error instanceof ClientZipExpandedSizeLimitError
+          ? error.message
+          : "Could not read that ZIP archive.",
+      );
     } finally {
       setIsReadingZip(false);
     }

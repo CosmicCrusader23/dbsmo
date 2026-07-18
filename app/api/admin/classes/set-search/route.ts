@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Forbidden." }, { status: 403 });
   }
   const { searchParams } = new URL(request.url);
-  const q = (searchParams.get("q") ?? "").trim();
+  const q = (searchParams.get("q") ?? "").trim().slice(0, 100);
 
   const sets = await prisma.problemSet.findMany({
     where: {

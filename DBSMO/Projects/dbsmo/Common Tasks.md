@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-13
+updated: 2026-07-18
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
@@ -37,7 +37,7 @@ Watch for uppercase Prisma enum values versus lowercase `lib/grading.ts` values 
 
 ## Change Grading Behavior
 
-Edit `lib/grading.ts` first. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts`.
+Edit `lib/grading.ts` first. Preserve the bounded `BigInt` normalization for integers/fractions and canonical base-10 comparison for zero-tolerance decimals; converting those paths directly through `Number` can merge distinct answers above `Number.MAX_SAFE_INTEGER`. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts`.
 
 ## Change LaTeX Statement Support
 
@@ -60,11 +60,11 @@ Edit:
 
 Start with `lib/visibility.ts`. Then inspect every caller because visibility is enforced at multiple boundaries: catalog, set detail, submit, practice submit, and file serving (sources: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/files/[id]/route.ts`).
 
-If implementing group restrictions, note that `ProblemSet.allowedGroups` and `User.group` exist, but the inspected `isVisibleToStudent(...)` does not use groups (sources: `prisma/schema.prisma`, `lib/visibility.ts`). Add tests in `tests/visibility.test.ts`.
+Do not implement group restrictions as a routine visibility fix. `ProblemSet.allowedGroups` and `User.group` exist, but the classes/assignments design intentionally leaves them dormant. Enabling them is a product-policy change that needs an explicit decision, a full caller audit, and tests in `tests/visibility.test.ts` (sources: `prisma/schema.prisma`, `lib/visibility.ts`, `docs/superpowers/specs/2026-05-28-classes-and-assignments-design.md`).
 
 ## Change Permissions or Staff Access
 
-Edit `lib/permissions.ts` for permission strings and role mappings. Also inspect `proxy.ts`, because it currently redirects any non-`ADMIN` role from `/admin` even though `TEACHER`, `CONTENT_EDITOR`, and `ANALYST` have admin permissions in `lib/permissions.ts` (sources: `proxy.ts`, `lib/permissions.ts`).
+Edit `lib/permissions.ts` for permission strings and role mappings. Also inspect `proxy.ts`, which intentionally uses `canAccessAdminArea(...)`/`admin:view` only as a broad staff gate. Preserve the exact permission check in every page/API; private profiles require `admin:users` and hidden leaderboard analytics require `admin:analytics` (sources: `proxy.ts`, `lib/permissions.ts`, `app/users/[username]/page.tsx`, `app/leaderboard/page.tsx`).
 
 Update `docs/permissions.md` and admin/sidebar behavior in `app/site-sidebar.tsx` if the navigation surface changes.
 
@@ -79,6 +79,7 @@ JSON path:
 - `lib/import/json-import.ts`
 - `lib/import/image-assets.ts` if image/token behavior changes.
 - `lib/import/image-zip.ts`, `lib/import/uploaded-image-zip.ts`, `lib/import/persist-image-assets.ts` if optional image ZIP/manual image upload behavior changes.
+- `lib/import/client-zip-entry.ts` and `app/admin/import/json-zip-import-panel.tsx` for outer browser batch ZIP extraction.
 - `app/admin/import/json-zip-import-panel.tsx`
 - `app/admin/import/zip-import-panel.tsx`
 - `app/api/admin/import/dry-run/route.ts`, `/commit/route.ts`, `/draft/route.ts`
@@ -92,13 +93,16 @@ ZIP path:
 - `lib/import/answer-schema.ts`
 - `lib/import/zip-dry-run.ts`
 - `lib/import/zip-import.ts`
+- `lib/import/zip-entry.ts`
 - `lib/import/zip-path.ts`
 - `app/admin/import/zip-import-panel.tsx`
 - `tests/zip-dry-run.test.ts`
 
+Keep compressed-body limits, central-directory preflight, and actual streamed expanded-byte limits together. Archive metadata is an optimization only; `readZipEntryBufferBounded(...)`/`readZipEntryTextBounded(...)` are the authoritative server ZIP-bomb boundary, while `readClientZipEntryBounded(...)` protects the browser batch path. Extract batch children sequentially. Stage referenced server files under a unique batch prefix and clean staged objects when the database transaction fails.
+
 ## Change File Storage
 
-Edit `lib/storage.ts` for driver/path semantics and `lib/uploaded-pdf.ts` for PDF-specific validation. File serving behavior lives in `app/api/files/[id]/route.ts`. Backup export reads files through `readFileBuffer(...)` in `lib/admin-exports.ts`. Add/update `tests/storage.test.ts`.
+Edit `lib/storage.ts` for driver/path semantics and `lib/uploaded-pdf.ts` for PDF-specific validation. File serving behavior lives in `app/api/files/[id]/route.ts`. File serving and backup export use `readFileBufferBounded(...)`; preserve actual streamed-byte limits for both local and S3 drivers. Orphan files are intentionally unreadable, and hidden-set bypass requires `admin:content`. Add/update `tests/storage.test.ts`.
 
 If adding a new production storage dependency or required env var, update `SETUP.md` in the same commit.
 
@@ -148,10 +152,14 @@ Room FTW:
 
 - `lib/ftw-room.ts`
 - `lib/ftw-room-host.ts`
+- `lib/ftw-locks.ts`
+- `lib/ftw-room-transition.ts`
 - `lib/ftw-room-server.ts`
 - `app/api/ftw/rooms/**`
 - `app/ftw/room/[code]/room-client.tsx`
-- `tests/ftw-room-host.test.ts`, `tests/ftw-scoring.test.ts`
+- `tests/ftw-room-host.test.ts`, `tests/ftw-room-transition.test.ts`, `tests/ftw-scoring.test.ts`
+
+All mutating solo and room routes serialize on the parent match/room row. Preserve that lock boundary when changing join, leave, start, submit, scoring, advance, or problem selection. Room codes must continue to use `crypto.randomInt` with the bounded, ambiguity-free alphabet.
 
 ## Change User Profile, Friends, or Leaderboard
 
@@ -187,7 +195,7 @@ Edit:
 - `app/problem-sets/[slug]/writeups/writeups-client.tsx` - composer, image selection, optimistic vote state, confirm-delete state, and feed rendering.
 - `app/api/problem-sets/[id]/writeups/route.ts` - writeup creation, multipart validation, and image persistence.
 - `app/api/writeups/[id]/vote/route.ts` - vote mutation and score response.
-- `app/api/writeups/[id]/route.ts` - author/admin deletion and best-effort image file cleanup.
+- `app/api/writeups/[id]/route.ts` and `lib/imported-file-cleanup.ts` - author/admin deletion, unreferenced metadata deletion, and best-effort backing-object cleanup.
 - `lib/writeup-images.ts` and `app/api/files/[id]/route.ts` - image validation, storage, and read access.
 - `docs/student-guide.md` and [[Data and Storage]] when behavior changes.
 

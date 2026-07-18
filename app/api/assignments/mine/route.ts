@@ -11,73 +11,71 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
   }
 
-  const memberships = await prisma.classMember.findMany({
-    where: { studentId: session.user.id },
-    select: {
-      class: {
-        select: {
-          id: true,
-          name: true,
-          assignments: {
-            include: {
-              problemSet: {
-                select: { id: true, slug: true, title: true, _count: { select: { problems: true } } },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-
-  type Row = {
+  type AssignmentRow = {
     assignmentId: string;
     classId: string;
     className: string;
-    problemSet: { id: string; slug: string; title: string; totalProblems: number };
+    problemSetId: string;
+    problemSetSlug: string;
+    problemSetTitle: string;
+    totalProblems: number;
     dueAt: Date | null;
     createdAt: Date;
     completedAt: Date | null;
   };
 
-  const rows: Row[] = [];
-  const setIds = new Set<string>();
-  for (const m of memberships) {
-    for (const a of m.class.assignments) {
-      setIds.add(a.problemSetId);
-      rows.push({
-        assignmentId: a.id,
-        classId: m.class.id,
-        className: m.class.name,
-        problemSet: {
-          id: a.problemSet.id,
-          slug: a.problemSet.slug,
-          title: a.problemSet.title,
-          totalProblems: a.problemSet._count.problems,
-        },
-        dueAt: a.dueAt,
-        createdAt: a.createdAt,
-        completedAt: null,
-      });
-    }
-  }
+  const rows = await prisma.$queryRaw<AssignmentRow[]>`
+    WITH assignment_rows AS (
+      SELECT
+      a."id" AS "assignmentId",
+      cls."id" AS "classId",
+      cls."name" AS "className",
+      ps."id" AS "problemSetId",
+      ps."slug" AS "problemSetSlug",
+      ps."title" AS "problemSetTitle",
+      (
+        SELECT COUNT(*)::int
+        FROM "Problem" AS problem
+        WHERE problem."problemSetId" = ps."id"
+      ) AS "totalProblems",
+      a."dueAt" AS "dueAt",
+      a."createdAt" AS "createdAt",
+      (
+        SELECT MIN(attempt."submittedAt")
+        FROM "Attempt" AS attempt
+        WHERE attempt."userId" = ${session.user.id}
+          AND attempt."problemSetId" = a."problemSetId"
+          AND attempt."submittedAt" > a."createdAt"
+      ) AS "completedAt"
+      FROM "Assignment" AS a
+      JOIN "Class" AS cls ON cls."id" = a."classId"
+      JOIN "ClassMember" AS membership ON membership."classId" = cls."id"
+      JOIN "ProblemSet" AS ps ON ps."id" = a."problemSetId"
+      WHERE membership."studentId" = ${session.user.id}
+    )
+    SELECT *
+    FROM assignment_rows
+    ORDER BY
+      ("completedAt" IS NOT NULL) ASC,
+      "dueAt" ASC NULLS LAST,
+      "createdAt" DESC
+    LIMIT 501
+  `;
+  const truncated = rows.length > 500;
+  const assignments = rows.slice(0, 500).map((row) => ({
+    assignmentId: row.assignmentId,
+    classId: row.classId,
+    className: row.className,
+    problemSet: {
+      id: row.problemSetId,
+      slug: row.problemSetSlug,
+      title: row.problemSetTitle,
+      totalProblems: row.totalProblems,
+    },
+    dueAt: row.dueAt,
+    createdAt: row.createdAt,
+    completedAt: row.completedAt,
+  }));
 
-  if (rows.length > 0) {
-    const attempts = await prisma.attempt.findMany({
-      where: {
-        userId: session.user.id,
-        problemSetId: { in: Array.from(setIds) },
-      },
-      select: { problemSetId: true, submittedAt: true },
-      orderBy: { submittedAt: "asc" },
-    });
-    for (const r of rows) {
-      const earliest = attempts.find(
-        (a) => a.problemSetId === r.problemSet.id && a.submittedAt > r.createdAt,
-      );
-      r.completedAt = earliest?.submittedAt ?? null;
-    }
-  }
-
-  return NextResponse.json({ assignments: rows });
+  return NextResponse.json({ assignments, truncated });
 }
