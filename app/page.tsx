@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { AuthButton } from "./auth-button";
-import { authOptions, googleAuthEnabled } from "@/lib/auth";
+import { authOptions, devBypassEnabled, googleAuthEnabled } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
 
 export const dynamic = "force-dynamic";
@@ -52,10 +52,14 @@ export default async function LandingPage() {
               <h2>sign in with your school gmail</h2>
             </div>
 
-            <AuthButton canUseGoogle={googleAuthEnabled} mode="stacked" session={session} />
+            <AuthButton
+              canUseBypass={devBypassEnabled}
+              canUseGoogle={googleAuthEnabled}
+              mode="stacked"
+              session={session}
+            />
           </aside>
         </div>
-
       </div>
     </main>
   );

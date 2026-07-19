@@ -9,6 +9,7 @@ describe("AnswerGrid", () => {
       React.createElement(AnswerGrid, {
         problemSetId: "set-1",
         problemNumbers: [1],
+        lockedAttemptId: "attempt-1",
         lockedAttemptNumber: 1,
         problemSummaries: [
           {
@@ -25,6 +26,8 @@ describe("AnswerGrid", () => {
     expect(html).toContain("Solve ");
     expect(html).toContain("Attempt #1 solved this set, so submissions are locked.");
     expect(html).toContain("Submission locked");
+    expect(html).toContain('href="/attempts/attempt-1"');
+    expect(html).toContain("Review attempt");
     expect(html).not.toContain("Submit set");
     expect(html).not.toContain("Enter answer");
   });

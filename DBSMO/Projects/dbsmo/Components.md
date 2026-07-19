@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-13
+updated: 2026-07-19
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -33,8 +33,9 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `MetricCard` in `app/dashboard/page.tsx`: local component for dashboard metric cards. Dashboard and admin metric cards intentionally share a neutral border without per-card colored edge accents (sources: `app/dashboard/page.tsx`, `app/admin/analytics/page.tsx`, `app/admin/feedback/page.tsx`, `app/admin/sets/[id]/analytics/page.tsx`, `app/admin/students/[id]/page.tsx`, `app/globals.css`).
 - `AssignmentsWidget` in `app/dashboard/assignments-widget.tsx`: client component that fetches `/api/assignments/mine`, sorts assignments, and renders up to five dashboard assignment links.
 - `ProblemSetsPage` in `app/problem-sets/page.tsx`: route page that handles catalog filtering/sorting/views/recommendations/pagination and renders set cards/links.
-- `ProblemSetPage` in `app/problem-sets/[slug]/page.tsx`: route page that loads a set by slug and chooses inline-statement vs PDF/file layout.
-- `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, missed-topic next action, and feedback report dialog. When `ProblemSetPage` detects the set tag `Tests`, it passes the test layout so answer-only/PDF sets render as a 20×3 test answer sheet for 60 underlying `Problem` rows.
+- `ProblemSetPage` in `app/problem-sets/[slug]/page.tsx`: route page that loads a set by slug, chooses inline-statement vs PDF/file layout, and exposes the current user's five most recent saved attempt reviews.
+- `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, direct saved-review links, missed-topic next action, and feedback report dialog. When `ProblemSetPage` detects the set tag `Tests`, it passes the test layout so answer-only/PDF sets render as a 20×3 test answer sheet for 60 underlying `Problem` rows.
+- `AttemptReviewPage` in `app/attempts/[id]/page.tsx`: server-rendered [[Attempt Review]] with a submission identity/verdict summary and expandable question-result rows. It renders statements/assets and accepted answers through `LatexStatement`, and uses `lib/attempt-review.ts` for status, percentage, answer-list, and duration helpers.
 - `BookmarkButton` in `app/problem-sets/[slug]/bookmark-button.tsx`: client bookmark toggle backed by `/api/problem-sets/[id]/bookmark`.
 - Writeup header link in `app/problem-sets/[slug]/page.tsx`: icon link next to `BookmarkButton` that opens `/problem-sets/[slug]/writeups`.
 - `WriteupsPage` and `WriteupsClient` in `app/problem-sets/[slug]/writeups/`: server/client pair for set writeups. The server page handles auth, set visibility, sorting, and initial data; the client component handles the composer, image selection, optimistic voting, confirm-delete controls, and feed cards rendered with `LatexStatement`.

@@ -122,7 +122,11 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
                             {a.problemSet.title}
                           </Link>
                         </td>
-                        <td>#{a.attemptNumber}</td>
+                        <td>
+                          <Link href={`/attempts/${a.id}`} className="text-link">
+                            #{a.attemptNumber}
+                          </Link>
+                        </td>
                         <td>
                           {a.score}/{a.maxScore} ({Math.round(pct(a))}%)
                         </td>

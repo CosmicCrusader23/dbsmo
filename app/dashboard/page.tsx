@@ -547,8 +547,19 @@ export default async function DashboardPage() {
                   ) : (
                     attempts.slice(0, 8).map((attempt) => (
                       <tr key={attempt.id}>
-                        <td>{attempt.problemSet.title}</td>
-                        <td>#{attempt.attemptNumber}</td>
+                        <td>
+                          <Link
+                            className="text-link"
+                            href={`/problem-sets/${attempt.problemSet.slug}`}
+                          >
+                            {attempt.problemSet.title}
+                          </Link>
+                        </td>
+                        <td>
+                          <Link className="text-link" href={`/attempts/${attempt.id}`}>
+                            #{attempt.attemptNumber}
+                          </Link>
+                        </td>
                         <td>
                           {attempt.score}/{attempt.maxScore} (
                           {attempt.maxScore > 0

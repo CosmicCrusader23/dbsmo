@@ -52,7 +52,8 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 4. Finds previous attempts and blocks new submission if a perfect attempt already exists.
 5. Grades each answer with `gradeAnswer(...)`.
 6. Creates one `Attempt` and many `Response` records in a transaction.
-7. Returns attempt number, score, percentage, and per-problem result summary.
+
+Saved attempts are read by `/attempts/[id]` for [[Attempt Review]]. The page joins `Attempt.user`, `Attempt.problemSet` assets/file, and each `Response.problem`, then sorts responses by `Problem.number`. It exposes raw/normalized answers, correctness, points, accepted answers, grader notes, and explanations only to the attempt owner or a user with `admin:analytics`; unauthorized IDs resolve through `notFound()` (sources: `app/attempts/[id]/page.tsx`, `lib/attempt-review.ts`, `lib/permissions.ts`). 7. Returns attempt number, score, percentage, and per-problem result summary.
 
 Sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`.
 

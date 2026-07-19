@@ -7,6 +7,7 @@ import {
   ArrowLeft,
   BarChart3,
   CheckCircle2,
+  ClipboardCheck,
   ExternalLink,
   FileText,
   Maximize2,
@@ -83,10 +84,11 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
   }
   const previousAttempts = await prisma.attempt.findMany({
     where: { userId: user.id, problemSetId: problemSet.id, maxScore: { gt: 0 } },
-    select: { attemptNumber: true, score: true, maxScore: true },
+    select: { id: true, attemptNumber: true, score: true, maxScore: true },
     orderBy: { attemptNumber: "asc" },
   });
   const perfectAttempt = previousAttempts.find((attempt) => attempt.score === attempt.maxScore);
+  const recentAttempts = previousAttempts.slice(-5).reverse();
 
   return (
     <main className="single-page">
@@ -139,6 +141,28 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
           </div>
         </header>
 
+        {recentAttempts.length > 0 ? (
+          <nav className="set-attempt-history" aria-label="Previous attempts">
+            <span className="set-attempt-history-label">
+              <ClipboardCheck size={17} />
+              Your attempts
+            </span>
+            <div className="set-attempt-history-links">
+              {recentAttempts.map((attempt) => (
+                <Link href={`/attempts/${attempt.id}`} key={attempt.id}>
+                  <span>#{attempt.attemptNumber}</span>
+                  <strong>
+                    {attempt.maxScore > 0
+                      ? Math.round((attempt.score / attempt.maxScore) * 100)
+                      : 0}
+                    %
+                  </strong>
+                </Link>
+              ))}
+            </div>
+          </nav>
+        ) : null}
+
         {hasInlineStatements ? (
           <section className="problem-inline-shell">
             <article className="panel statement-panel problem-inline-panel">
@@ -159,6 +183,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 </div>
               ) : null}
               <AnswerGrid
+                lockedAttemptId={perfectAttempt?.id ?? null}
                 lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
                 problemNumbers={problemSet.problems.map((problem) => problem.number)}
                 problemSummaries={problemSet.problems.map((problem) => ({
@@ -286,6 +311,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 </div>
               ) : null}
               <AnswerGrid
+                lockedAttemptId={perfectAttempt?.id ?? null}
                 lockedAttemptNumber={perfectAttempt?.attemptNumber ?? null}
                 problemNumbers={problemSet.problems.map((problem) => problem.number)}
                 problemSummaries={problemSet.problems.map((problem) => ({

@@ -71,6 +71,7 @@ The same tab lists existing announcements. Admins can delete any announcement; t
    - Attempt history and scores.
    - Topic accuracy breakdown.
    - Per-set performance.
+4. Click an attempt number to review its per-question responses, accepted answers, awarded marks, and available explanations. Attempt numbers in per-set analytics open the same review.
 
 ## Viewing Analytics
 

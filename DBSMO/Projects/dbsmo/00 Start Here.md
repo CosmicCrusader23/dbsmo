@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-18
+updated: 2026-07-19
 type: project-index
 tags:
   - project
@@ -28,6 +28,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - [[Common Tasks]] - where to edit for likely future changes.
 - [[Risks and Pitfalls]] - fragile or confusing areas to avoid breaking.
 - [[Glossary]] - project-specific terms and abbreviations.
+- [[Attempt Review]] - saved submission review UI, authorization, data flow, and entry points.
 
 ## Fast Orientation
 
@@ -38,6 +39,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Main UI routes live under `app/`; API handlers live under `app/api/`.
 - Current import notes include optional same-name image ZIPs for JSON imports, per-problem image uploads in the problem maker, tolerant JSON editor drafts, and compressed/actual-expanded archive limits shared through `lib/import/zip-entry.ts` (sources: `lib/import/json-import.ts`, `lib/import/image-zip.ts`, `lib/import/zip-dry-run.ts`, `app/admin/create/page-client.tsx`).
 - Current class/community notes include authored tasks, a mastery heatmap, problem-set writeups with image uploads/voting/deletion, and class announcements pinned on dashboards (sources: `app/users/[username]/page.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/writeups/page.tsx`, `app/classes/announcement-composer.tsx`, `app/dashboard/page.tsx`, `prisma/schema.prisma`).
+- Saved submissions have an owner/staff-gated [[Attempt Review]] with links from submit results, solved-set locks, set/dashboard history, student detail, and per-set analytics (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/dashboard/page.tsx`).
 
 ## Source Inspection Basis
 

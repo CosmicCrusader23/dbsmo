@@ -61,5 +61,7 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Fixed every unsupported expression found in a production sweep of the 1985-1998 AJHSME sets: position-qualified `tabular` layouts now convert to safe KaTeX arrays for 1987 Q8/Q23, 1989 Q14/Q22, 1990 Q9, and 1991 Q6. Added safely portable MathLive notation aliases without enabling HTML/resource-loading commands.
 - Removed the rectangular `border-image` frames that appeared outside existing rounded controls, simplified search focus to one cyan stroke, and softened repeated structural borders in dark mode.
 - Removed colored edge accents from every metric card and increased selected problem-set tag count contrast in both themes.
+- Added DBSOJ-inspired attempt reviews at `/attempts/[id]`: a compact submission verdict/score header and expandable per-question rows with submitted and normalized answers, accepted answers, marks, topics, statements, images, grader notes, and explanations. Reviews are linked from submission results, solved-set locks, set history, dashboard history, student detail, and per-set analytics; students can only open their own attempts while analytics staff can review student attempts.
+- Restored the explicitly configured development-only bypass controls on the local sign-in page so authenticated browser QA remains possible without weakening production authentication.
 
 © 2026 Cosmic Crusader

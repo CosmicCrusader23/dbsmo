@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-18
+updated: 2026-07-19
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
@@ -37,7 +37,11 @@ Optional image ZIP imports derive asset keys from image filenames by lowercasing
 
 ## Full-Set Perfect Score Locks Further Attempts
 
-`POST /api/submit` blocks new attempts if any previous attempt has `score === maxScore`; the check and next attempt number are computed inside a serializable transaction with bounded retries. `ProblemSetPage` passes `lockedAttemptNumber` to `AnswerGrid`. The locked UI must still render problem statements/PDF context and only remove answer entry/submission controls. Any change to attempt/retake semantics needs to update both server logic and UI messaging (sources: `app/api/submit/route.ts`, `lib/submission.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
+`POST /api/submit` blocks new attempts if any previous attempt has `score === maxScore`; the check and next attempt number are computed inside a serializable transaction with bounded retries. `ProblemSetPage` passes the locked attempt ID/number to `AnswerGrid` so the student can still review that saved submission. The locked UI must still render problem statements/PDF context and only remove answer entry/submission controls. Any change to attempt/retake semantics needs to update both server logic and UI messaging (sources: `app/api/submit/route.ts`, `lib/submission.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
+
+## Attempt Reviews Expose Answer Keys
+
+`/attempts/[id]` intentionally shows accepted answers and explanations after submission. Its database join therefore handles assessment-sensitive data. Preserve both checks in `app/attempts/[id]/page.tsx`: ordinary users must own the `Attempt`, and non-owners must have `admin:analytics`. Keep unauthorized IDs on the same `notFound()` path as missing IDs, and do not move answer keys into a client API without an equivalent exact authorization boundary (sources: `app/attempts/[id]/page.tsx`, `lib/permissions.ts`, [[Attempt Review]]).
 
 Writeups intentionally remain accessible even when submissions are locked or the user has not submitted. Do not reuse submission-lock logic to hide `/problem-sets/[slug]/writeups`; only normal auth and set visibility should gate that page (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`).
 

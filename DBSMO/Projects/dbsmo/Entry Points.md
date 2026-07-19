@@ -32,7 +32,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 - `app/api/auth/[...nextauth]/route.ts` exposes NextAuth.
 - `lib/auth.ts` configures providers, session callback, JWT callback, allowed email domains, allowed email exceptions, and dev bypass.
-- `proxy.ts` protects `/admin/:path*`, `/dashboard`, `/dashboard/:path*`, and `/problem-sets/:path*`; it requires a token and redirects non-ADMIN users away from `/admin`.
+- `proxy.ts` protects `/admin/:path*`, `/attempts/:path*`, `/dashboard`, `/dashboard/:path*`, and `/problem-sets/:path*`; it requires a token and applies the broad staff gate to `/admin`. Individual pages remain responsible for exact permissions.
 - `lib/permissions.ts` defines finer admin permissions used inside pages/APIs.
 
 ## Public/Auth App Routes
@@ -48,6 +48,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 - `/problem-sets` - browse/filter/sort problem sets with recommendations, assignments/bookmarks/practice views, media/status/category filters, search, and pagination (source: `app/problem-sets/page.tsx`).
 - `/problem-sets/[slug]` - set detail and answer entry, with inline statements or PDF fallback and file/video/solution display (source: `app/problem-sets/[slug]/page.tsx`).
+- `/attempts/[id]` - saved [[Attempt Review]] for the attempt owner or staff with `admin:analytics`; unauthorized and unknown IDs both return 404 (source: `app/attempts/[id]/page.tsx`).
 - `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
 - `/writeups` - global writeups directory from the sidebar with latest/top views and problem-set search (source: `app/writeups/page.tsx`).
 - `/practice` - practice-mode UI backed by tags/next/submit APIs (source: `app/practice/page.tsx`).

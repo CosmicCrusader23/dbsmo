@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-18
+updated: 2026-07-19
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
@@ -38,6 +38,10 @@ Watch for uppercase Prisma enum values versus lowercase `lib/grading.ts` values 
 ## Change Grading Behavior
 
 Edit `lib/grading.ts` first. Preserve the bounded `BigInt` normalization for integers/fractions and canonical base-10 comparison for zero-tolerance decimals; converting those paths directly through `Number` can merge distinct answers above `Number.MAX_SAFE_INTEGER`. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts`.
+
+## Change Attempt Review
+
+Start with [[Attempt Review]]. The server page and exact owner/staff authorization live in `app/attempts/[id]/page.tsx`; summary/status helpers and unit tests live in `lib/attempt-review.ts` and `tests/attempt-review.test.ts`. Entry links are spread across `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/dashboard/page.tsx`, `app/admin/students/[id]/page.tsx`, and `app/admin/sets/[id]/analytics/page.tsx`. Keep `/attempts/:path*` in `proxy.ts`, but do not rely on middleware for the per-attempt ownership check.
 
 ## Change LaTeX Statement Support
 

@@ -1,15 +1,23 @@
 "use client";
 
+import Link from "next/link";
 import type { CSSProperties, FormEvent } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CheckCircle2, MessageSquareWarning, RotateCcw, XCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  ClipboardCheck,
+  MessageSquareWarning,
+  RotateCcw,
+  XCircle,
+} from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { mathInputToTex } from "@/lib/math-input";
 import { LatexStatement } from "./latex-statement";
 
 type SubmitResult = {
   ok: boolean;
+  attemptId: string;
   attemptNumber: number;
   score: number;
   maxScore: number;
@@ -35,6 +43,7 @@ type Props = {
   problemNumbers: number[];
   problemSummaries?: ProblemSummary[];
   videoUrl?: string | null;
+  lockedAttemptId?: string | null;
   lockedAttemptNumber?: number | null;
   assets?: Record<string, string>;
   answerLayout?: "standard" | "test";
@@ -65,6 +74,7 @@ export function AnswerGrid({
   problemNumbers,
   problemSummaries = [],
   videoUrl = null,
+  lockedAttemptId = null,
   lockedAttemptNumber = null,
   assets,
   answerLayout = "standard",
@@ -432,6 +442,12 @@ export function AnswerGrid({
       return (
         <>
           <span className="fill-count locked-fill-count">{lockedMessage}</span>
+          {lockedAttemptId ? (
+            <Link className="secondary-action" href={`/attempts/${lockedAttemptId}`}>
+              <ClipboardCheck size={18} />
+              Review attempt
+            </Link>
+          ) : null}
           <button
             className="secondary-action"
             type="button"
@@ -451,6 +467,10 @@ export function AnswerGrid({
             {submitResult.results.filter((result) => result.isCorrect).length}/
             {submitResult.results.length} correct
           </span>
+          <Link className="secondary-action" href={`/attempts/${submitResult.attemptId}`}>
+            <ClipboardCheck size={18} />
+            Review attempt
+          </Link>
           <button
             className="secondary-action"
             type="button"
@@ -735,6 +755,12 @@ export function AnswerGrid({
           )}
 
           <div className="problem-actions">
+            {lockedAttemptId ? (
+              <Link className="secondary-action" href={`/attempts/${lockedAttemptId}`}>
+                <ClipboardCheck size={18} />
+                Review attempt
+              </Link>
+            ) : null}
             <button
               className="secondary-action"
               type="button"
@@ -817,6 +843,10 @@ export function AnswerGrid({
           )}
 
           <div className="problem-actions">
+            <Link className="secondary-action" href={`/attempts/${submitResult.attemptId}`}>
+              <ClipboardCheck size={18} />
+              Review attempt
+            </Link>
             <button
               className="secondary-action"
               type="button"

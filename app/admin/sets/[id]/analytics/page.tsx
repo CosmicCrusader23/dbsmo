@@ -184,7 +184,11 @@ export default async function SetAnalyticsPage({ params }: Props) {
                               {a.user.name ?? a.user.email}
                             </Link>
                           </td>
-                          <td>#{a.attemptNumber}</td>
+                          <td>
+                            <Link href={`/attempts/${a.id}`} className="text-link">
+                              #{a.attemptNumber}
+                            </Link>
+                          </td>
                           <td>
                             {a.score}/{a.maxScore} ({Math.round(pct(a))}%)
                           </td>
