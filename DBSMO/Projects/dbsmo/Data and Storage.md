@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-18
+updated: 2026-07-19
 type: data-storage
 tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
@@ -113,7 +113,9 @@ Class announcements are created through `POST /api/admin/announcements`, which r
 
 ## Exports and Backups
 
-`buildStudentsCsv()` exports student name/email/group/sets attempted/average score/attempt count. `buildAttemptsCsv()` exports attempt rows. Both neutralize formula-leading spreadsheet cells. `buildBackupJson()` exports problem sets in import JSON shape and safely restorable imported-file relations/content. All three paginate database reads and enforce row/output/file caps; download routes reject cross-site browser GETs (sources: `lib/admin-exports.ts`, `lib/admin-export-safety.ts`, `lib/analytics.ts`, `lib/http-body.ts`).
+`buildStudentsCsv()` exports student identity plus all derived [[Performance Analytics|Performance Profile]] fields: sets attempted, Mastery Index, best-set average, consistency floor, mastery rate, evidence, and attempt count. `buildAttemptsCsv()` exports attempt rows. Both neutralize formula-leading spreadsheet cells. `buildBackupJson()` exports problem sets in import JSON shape and safely restorable imported-file relations/content. All three paginate database reads and enforce row/output/file caps; download routes reject cross-site browser GETs (sources: `lib/admin-exports.ts`, `lib/admin-export-safety.ts`, `lib/analytics.ts`, `lib/http-body.ts`).
+
+The Performance Profile is not database state. It is recalculated from `Attempt` rows and currently visible `ProblemSet` rows so no invalidation job or schema migration is needed (sources: `lib/analytics.ts`, `app/api/settings/route.ts`, `prisma/schema.prisma`).
 
 `ExportJob` stores job status, type, requester, filename, MIME type, payload, error, creation/completion times. The API reserves one bounded/cooldown-controlled job, builds synchronously, and stores a capped JSON payload; it is not a worker queue (sources: `app/api/admin/export-jobs/route.ts`, `lib/admin-export-safety.ts`, `prisma/schema.prisma`).
 

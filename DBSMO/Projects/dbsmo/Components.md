@@ -29,7 +29,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Student Dashboard and Catalog
 
-- `DashboardPage` in `app/dashboard/page.tsx`: server-rendered dashboard that loads current user, class announcements, visible sets, attempts, student rows for admins, computes completion/score/topic metrics, and renders pinned announcements, metric cards, next actions, and recent set rows.
+- `DashboardPage` in `app/dashboard/page.tsx`: server-rendered dashboard that loads current user, class announcements, visible sets, attempts, student rows for admins, computes completion/topic metrics plus the shared [[Performance Analytics|Performance Profile]], and renders pinned announcements, metric cards, next actions, and recent set rows.
 - `MetricCard` in `app/dashboard/page.tsx`: local component for dashboard metric cards. Dashboard and admin metric cards intentionally share a neutral border without per-card colored edge accents (sources: `app/dashboard/page.tsx`, `app/admin/analytics/page.tsx`, `app/admin/feedback/page.tsx`, `app/admin/sets/[id]/analytics/page.tsx`, `app/admin/students/[id]/page.tsx`, `app/globals.css`).
 - `AssignmentsWidget` in `app/dashboard/assignments-widget.tsx`: client component that fetches `/api/assignments/mine`, sorts assignments, and renders up to five dashboard assignment links.
 - `ProblemSetsPage` in `app/problem-sets/page.tsx`: route page that handles catalog filtering/sorting/views/recommendations/pagination and renders set cards/links.
@@ -87,7 +87,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `UserProfilePage` in `app/users/[username]/page.tsx`: server-rendered public profile with avatar, friend/admin actions, progress stats, topic/completion/bookmark summaries, authored tasks table, mastery heatmap, and set/problem progress grid. Authored tasks come from `User.createdProblemSets` and show visible sets to public viewers while owners/staff can see private authored sets. The heatmap is derived from recent attempts and marks days where the user mastered visible sets.
 - `FriendButton` in `app/users/[username]/friend-button.tsx`: client heart button backed by `PATCH /api/friends/[userId]`.
 - `PromoteUserButton` in `app/users/[username]/promote-user-button.tsx`: admin role change UI backed by `PATCH /api/admin/users/[id]/role`.
-- `LeaderboardPage` in `app/leaderboard/page.tsx`: leaderboard route with local `RankBadge` and shared `Avatar`.
+- `LeaderboardPage` in `app/leaderboard/page.tsx`: leaderboard route with local `RankBadge` and shared `Avatar`; standard mode defaults to Mastery Index, offers best-set average ordering, and exposes mastery/breadth/evidence components from `computePerformanceProfile(...)` (sources: route file, `lib/analytics.ts`).
 
 ## Rendering and State Patterns
 

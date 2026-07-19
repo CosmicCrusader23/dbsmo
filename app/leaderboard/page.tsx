@@ -8,6 +8,7 @@ import { profilePathFromEmail } from "@/lib/user-profile";
 import { canViewHiddenLeaderboardEntries } from "@/lib/permissions";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { displayNameFor } from "@/lib/display-name";
+import { computePerformanceProfile, performanceEvidenceLabel } from "@/lib/analytics";
 import { Avatar } from "@/app/avatar";
 
 export const dynamic = "force-dynamic";
@@ -25,14 +26,7 @@ type LeaderboardSearchParams = Promise<{
   sort?: string;
 }>;
 
-type StandardSortMode = "mastery" | "average";
-
-type BestAttempt = {
-  score: number;
-  maxScore: number;
-  pct: number;
-  submittedAt: Date;
-};
+type StandardSortMode = "index" | "accuracy";
 
 const ROLE_LABELS: Record<string, string> = {
   ADMIN: "Admin",
@@ -46,13 +40,6 @@ function roleLabel(role: string) {
   return ROLE_LABELS[role] ?? role.replace(/_/g, " ").toLowerCase();
 }
 
-function betterAttempt(next: BestAttempt, current: BestAttempt | undefined) {
-  if (!current) return true;
-  if (next.pct !== current.pct) return next.pct > current.pct;
-  if (next.score !== current.score) return next.score > current.score;
-  return next.submittedAt > current.submittedAt;
-}
-
 export default async function LeaderboardPage({
   searchParams,
 }: {
@@ -64,7 +51,8 @@ export default async function LeaderboardPage({
   const params = (await searchParams) ?? {};
   const mode = params.mode === "practice" ? "practice" : "standard";
   const scope = params.scope === "friends" ? "friends" : "all";
-  const sortMode: StandardSortMode = params.sort === "average" ? "average" : "mastery";
+  const sortMode: StandardSortMode =
+    params.sort === "accuracy" || params.sort === "average" ? "accuracy" : "index";
 
   function leaderboardHref(next: {
     mode?: "standard" | "practice";
@@ -132,28 +120,23 @@ export default async function LeaderboardPage({
   const visibleSetIds = new Set(
     problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
   );
-  const bestPerSetByUser = new Map<string, Map<string, BestAttempt>>();
+  const attemptsByUser = new Map<
+    string,
+    Array<{ score: number; maxScore: number; problemSetId: string }>
+  >();
   const totalAttemptsByUser = new Map<string, number>();
   for (const attempt of attempts) {
     if (!visibleSetIds.has(attempt.problemSetId) || !isVisibleToStudent(attempt.problemSet)) {
       continue;
     }
     totalAttemptsByUser.set(attempt.userId, (totalAttemptsByUser.get(attempt.userId) ?? 0) + 1);
-    if (attempt.maxScore <= 0) {
-      continue;
-    }
-
-    const next = {
+    const userAttempts = attemptsByUser.get(attempt.userId) ?? [];
+    userAttempts.push({
       score: attempt.score,
       maxScore: attempt.maxScore,
-      pct: (attempt.score / attempt.maxScore) * 100,
-      submittedAt: attempt.submittedAt,
-    };
-    const perSet = bestPerSetByUser.get(attempt.userId) ?? new Map<string, BestAttempt>();
-    if (betterAttempt(next, perSet.get(attempt.problemSetId))) {
-      perSet.set(attempt.problemSetId, next);
-      bestPerSetByUser.set(attempt.userId, perSet);
-    }
+      problemSetId: attempt.problemSetId,
+    });
+    attemptsByUser.set(attempt.userId, userAttempts);
   }
 
   const friendIds = new Set<string>([session.user.id]);
@@ -165,13 +148,11 @@ export default async function LeaderboardPage({
 
   const rows = users
     .map((u) => {
-      const perSet = Array.from(bestPerSetByUser.get(u.id)?.values() ?? []);
-      const attemptedSets = perSet.length;
+      const performance = computePerformanceProfile(
+        attemptsByUser.get(u.id) ?? [],
+        visibleSetIds.size,
+      );
       const totalAttempts = totalAttemptsByUser.get(u.id) ?? 0;
-      const masteredSets = perSet.filter((s) => s.pct >= 80).length;
-      const bestPoints = perSet.reduce((sum, attempt) => sum + attempt.score, 0);
-      const possiblePoints = perSet.reduce((sum, attempt) => sum + attempt.maxScore, 0);
-      const bestAverage = possiblePoints > 0 ? Math.round((bestPoints / possiblePoints) * 100) : 0;
 
       return {
         id: u.id,
@@ -181,12 +162,7 @@ export default async function LeaderboardPage({
         image: u.image,
         role: u.role,
         leaderboardVisible: u.leaderboardVisible,
-        masteredSets,
-        attemptedSets,
-        bestAverage,
-        bestPoints,
-        possiblePoints,
-        masteryPoints: bestPoints,
+        performance,
         totalAttempts,
         practiceScore: u._count.practiceSolves,
       };
@@ -203,26 +179,25 @@ export default async function LeaderboardPage({
         return b.practiceScore - a.practiceScore || a.displayLabel.localeCompare(b.displayLabel);
       }
 
-      if (sortMode === "average") {
+      if (sortMode === "accuracy") {
         return (
-          b.bestAverage - a.bestAverage ||
-          b.masteryPoints - a.masteryPoints ||
-          b.masteredSets - a.masteredSets ||
+          b.performance.bestSetAverage - a.performance.bestSetAverage ||
+          b.performance.masteryIndex - a.performance.masteryIndex ||
+          b.performance.attemptedSets - a.performance.attemptedSets ||
           a.displayLabel.localeCompare(b.displayLabel)
         );
       }
 
       return (
-        b.masteryPoints - a.masteryPoints ||
-        b.masteredSets - a.masteredSets ||
-        b.bestAverage - a.bestAverage ||
-        b.attemptedSets - a.attemptedSets ||
+        b.performance.masteryIndex - a.performance.masteryIndex ||
+        b.performance.proficiency - a.performance.proficiency ||
+        b.performance.attemptedSets - a.performance.attemptedSets ||
         a.displayLabel.localeCompare(b.displayLabel)
       );
     })
     .map((u, i) => ({ ...u, rank: i + 1 }));
   const topRow = rows[0] ?? null;
-  const activeStandardUsers = rows.filter((row) => row.attemptedSets > 0).length;
+  const activeStandardUsers = rows.filter((row) => row.performance.attemptedSets > 0).length;
 
   return (
     <main className={`leaderboard-shell leaderboard-shell-${mode}`}>
@@ -290,16 +265,16 @@ export default async function LeaderboardPage({
             <span className="leaderboard-control-label">Order by</span>
             <div className="segmented-control">
               <Link
-                className={`segmented-button${sortMode === "mastery" ? " active" : ""}`}
-                href={leaderboardHref({ sort: "mastery" })}
+                className={`segmented-button${sortMode === "index" ? " active" : ""}`}
+                href={leaderboardHref({ sort: "index" })}
               >
-                Mastery
+                Mastery index
               </Link>
               <Link
-                className={`segmented-button${sortMode === "average" ? " active" : ""}`}
-                href={leaderboardHref({ sort: "average" })}
+                className={`segmented-button${sortMode === "accuracy" ? " active" : ""}`}
+                href={leaderboardHref({ sort: "accuracy" })}
               >
-                Best average
+                Best-set average
               </Link>
             </div>
           </div>
@@ -312,9 +287,9 @@ export default async function LeaderboardPage({
           <strong>
             {mode === "practice"
               ? "Practice solves"
-              : sortMode === "average"
-                ? "Weighted best average"
-                : "Mastery points"}
+              : sortMode === "accuracy"
+                ? "Best-set average"
+                : "Mastery Index"}
           </strong>
           <span>
             {mode === "practice"
@@ -336,8 +311,10 @@ export default async function LeaderboardPage({
         </article>
         <article>
           <small>Signal</small>
-          <strong>{mode === "practice" ? "Drill volume" : "Breadth × accuracy"}</strong>
-          <span>Designed to reward useful progress</span>
+          <strong>{mode === "practice" ? "Drill volume" : "Quality + breadth"}</strong>
+          <span>
+            {mode === "practice" ? "Correct practice answers" : "Best sets with evidence control"}
+          </span>
         </article>
       </section>
 
@@ -349,11 +326,11 @@ export default async function LeaderboardPage({
               <th>User</th>
               {mode === "standard" ? (
                 <>
-                  <th>Mastery</th>
+                  <th>Mastery index</th>
+                  <th>Best-set avg</th>
                   <th>Mastered</th>
-                  <th>Best avg</th>
                   <th>Coverage</th>
-                  <th>Attempts</th>
+                  <th>Evidence</th>
                 </>
               ) : (
                 <th>Practice Score</th>
@@ -398,7 +375,7 @@ export default async function LeaderboardPage({
                         <small className="leaderboard-mobile-meta">
                           {mode === "practice"
                             ? `Score ${u.practiceScore}`
-                            : `${u.masteryPoints} pts · ${u.bestAverage}% avg`}
+                            : `${u.performance.masteryIndex.toFixed(1)} index · ${u.performance.bestSetAverage.toFixed(1)}% avg`}
                         </small>
                       </div>
                     </div>
@@ -407,46 +384,44 @@ export default async function LeaderboardPage({
                     <>
                       <td>
                         <div className="leaderboard-score-cell">
-                          <strong>{u.masteryPoints}</strong>
-                          <small>
-                            {u.bestPoints}/{u.possiblePoints || 0} best points
-                          </small>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="leaderboard-score-cell">
-                          <strong>{u.masteredSets}</strong>
-                          <small>sets at 80%+</small>
+                          <strong>{u.performance.masteryIndex.toFixed(1)}</strong>
+                          <small>{u.performance.consistency.toFixed(1)}% consistency floor</small>
                         </div>
                       </td>
                       <td>
                         <div className="leaderboard-score-cell">
                           <span
                             className={`score-color ${
-                              u.bestAverage >= 80
+                              u.performance.bestSetAverage >= 80
                                 ? "score-high"
-                                : u.bestAverage >= 50
+                                : u.performance.bestSetAverage >= 50
                                   ? "score-mid"
                                   : "score-low"
                             }`}
                           >
-                            {u.bestAverage}%
+                            {u.performance.bestSetAverage.toFixed(1)}%
                           </span>
-                          <small>weighted by points</small>
+                          <small>equal weight per set</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="leaderboard-score-cell">
+                          <strong>{u.performance.masteredSets}</strong>
+                          <small>{u.performance.masteryRate.toFixed(1)}% at 80%+</small>
                         </div>
                       </td>
                       <td>
                         <div className="leaderboard-score-cell">
                           <strong>
-                            {u.attemptedSets}/{visibleSetIds.size}
+                            {u.performance.attemptedSets}/{visibleSetIds.size}
                           </strong>
-                          <small>sets tried</small>
+                          <small>{u.performance.breadth.toFixed(1)} breadth</small>
                         </div>
                       </td>
                       <td>
                         <div className="leaderboard-score-cell">
-                          <strong>{u.totalAttempts}</strong>
-                          <small>submitted</small>
+                          <strong>{performanceEvidenceLabel(u.performance.evidence)}</strong>
+                          <small>{u.totalAttempts} submissions</small>
                         </div>
                       </td>
                     </>

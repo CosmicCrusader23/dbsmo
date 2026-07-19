@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-18
+updated: 2026-07-19
 type: architecture
 tags: [project, architecture, system-design, dbsmo]
 ai-first: true
@@ -96,7 +96,7 @@ Announcements are created from `/classes` through `AnnouncementComposer` and `PO
 
 ## Analytics, Audit, Export
 
-Analytics helpers in `lib/analytics.ts` compute topic accuracy, score buckets, question stats, CSV escaping, and best-average score (source: `lib/analytics.ts`). Admin analytics pages and charts render filtered attempts/completions/averages with UI filters and an SVG trend chart (sources: `app/admin/analytics/page.tsx`, `app/admin/analytics/filters.tsx`, `app/admin/analytics/trend-chart.tsx`).
+Analytics helpers in `lib/analytics.ts` compute topic accuracy, score buckets, question stats, CSV escaping, and the shared [[Performance Analytics|Performance Profile]]. The profile is derived from best attempts on currently visible sets and is not persisted, preventing stale ratings after attempts, regrades, or visibility changes (sources: `lib/analytics.ts`, `prisma/schema.prisma`). Admin analytics pages and charts render filtered attempts/completions/averages with UI filters and an SVG trend chart; the leaders table uses the same evidence-aware profile as the dashboard and leaderboard (sources: `app/admin/analytics/page.tsx`, `app/admin/analytics/filters.tsx`, `app/admin/analytics/trend-chart.tsx`).
 
 Audit logs are stored in `AuditLog` and written through `recordAuditLog(...)` for meaningful admin actions such as set updates/deletes and export jobs (sources: `prisma/schema.prisma`, `lib/audit.ts`, `app/api/admin/sets/[id]/route.ts`, `app/api/admin/export-jobs/route.ts`).
 

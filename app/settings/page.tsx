@@ -50,7 +50,8 @@ interface UserProfile {
   stats?: {
     attemptedSets: number;
     totalAttempts: number;
-    averageScore: number;
+    masteryIndex: number;
+    bestSetAverage: number;
     practiceScore: number;
   };
 }
@@ -293,8 +294,8 @@ export default function SettingsPage() {
             <span>Sets tried</span>
           </div>
           <div>
-            <strong>{user.stats?.averageScore ?? 0}%</strong>
-            <span>Average</span>
+            <strong>{(user.stats?.masteryIndex ?? 0).toFixed(1)}</strong>
+            <span>Mastery index</span>
           </div>
           <div>
             <strong>{user.stats?.practiceScore ?? 0}</strong>

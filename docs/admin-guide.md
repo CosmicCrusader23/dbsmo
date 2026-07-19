@@ -65,8 +65,10 @@ The same tab lists existing announcements. Admins can delete any announcement; t
 ## Managing Students
 
 1. Click **Students** in the sidebar to see all registered students.
-2. The table shows name, email, group, sets completed, average score, joining date, and last active date.
-   - **Average Score Logic:** The average score is calculated from each student's **best attempt per problem set**, weighted by the set's possible points. This rewards mastery while making larger sets count proportionally.
+2. The table shows name, email, group, visible sets tried, Mastery Index, best-set average, evidence level, attempt count, joining date, and last active date.
+   - **Mastery Index:** Combines confidence-adjusted proficiency (65%), breadth (20%), and a lower-quartile consistency floor (15%).
+   - **Best-set average:** Keeps the best attempt per visible set and gives every set equal weight, regardless of its maximum marks.
+   - **Evidence:** Limited for 1-4 attempted sets, developing for 5-14, and established for 15 or more.
 3. Click a student name to see their **detail page** with:
    - Attempt history and scores.
    - Topic accuracy breakdown.
@@ -81,6 +83,8 @@ The same tab lists existing announcements. Admins can delete any announcement; t
    - **Topic accuracy heatmap** with color-coded cards.
    - **Hardest questions** ranked by lowest accuracy.
 3. Click **Export CSV** to download attempt or student data.
+
+Student CSV exports include every Performance Profile component. The exact formulas and 100-student × 100-set validation are documented in [Performance Model](./performance-model.md).
 
 ### Per-Set Analytics
 

@@ -143,6 +143,8 @@ Admin analytics:
 
 Add tests around pure helper changes in `lib/analytics.ts` when possible.
 
+For cross-set student scoring or leaderboard ranking, start with [[Performance Analytics]] and `computePerformanceProfile(...)` in `lib/analytics.ts`. Keep dashboard, profiles, settings API, admin students/analytics, leaderboard, and CSV exports on that helper. After changing priors/weights/thresholds, run `tests/analytics.test.ts` and `npm run simulate:performance` against the deterministic 100 × 100 cohort (sources: `lib/analytics.ts`, `scripts/simulate-performance-model.ts`).
+
 ## Change FTW Scoring or Room Flow
 
 Solo FTW:

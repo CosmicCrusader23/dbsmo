@@ -1,10 +1,11 @@
 import { createHash } from "node:crypto";
 import { prisma } from "@/lib/db";
-import { computeBestAverageScore, toCsvRow } from "@/lib/analytics";
+import { computePerformanceProfile, performanceEvidenceLabel, toCsvRow } from "@/lib/analytics";
 import { problemSetToImportJson } from "@/lib/import/problem-set-json-export";
 import { readFileBufferBounded } from "@/lib/storage";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { ADMIN_EXPORT_LIMITS } from "@/lib/admin-export-safety";
+import { isVisibleToStudent } from "@/lib/visibility";
 
 type ExportBuildOptions = {
   maxOutputBytes?: number;
@@ -51,7 +52,11 @@ export async function buildStudentsCsv(options: ExportBuildOptions = {}) {
     "Email",
     "Group",
     "Sets Attempted",
-    "Average Score %",
+    "Mastery Index",
+    "Best Set Average %",
+    "Consistency Floor %",
+    "Mastery Rate %",
+    "Evidence",
     "Total Attempts",
   ]);
   const csv = createCsvAccumulator(header, maxOutputBytes);
@@ -59,6 +64,12 @@ export async function buildStudentsCsv(options: ExportBuildOptions = {}) {
   let studentCursor: string | undefined;
   let studentCount = 0;
   let attemptCount = 0;
+  const problemSets = await prisma.problemSet.findMany({
+    select: { id: true, status: true, visibleFrom: true, visibleTo: true },
+  });
+  const visibleSetIds = new Set(
+    problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
+  );
 
   while (true) {
     const students = await prisma.user.findMany({
@@ -78,7 +89,10 @@ export async function buildStudentsCsv(options: ExportBuildOptions = {}) {
 
     const remainingAttempts = ADMIN_EXPORT_LIMITS.csvAttemptCount - attemptCount;
     const attempts = await prisma.attempt.findMany({
-      where: { userId: { in: students.map((student) => student.id) } },
+      where: {
+        userId: { in: students.map((student) => student.id) },
+        problemSetId: { in: Array.from(visibleSetIds) },
+      },
       select: { userId: true, score: true, maxScore: true, problemSetId: true },
       take: remainingAttempts + 1,
     });
@@ -97,16 +111,19 @@ export async function buildStudentsCsv(options: ExportBuildOptions = {}) {
     }
     for (const student of students) {
       const studentAttempts = attemptsByUser.get(student.id) ?? [];
-      const sets = new Set(studentAttempts.map((attempt) => attempt.problemSetId));
-      const avg = computeBestAverageScore(studentAttempts);
+      const performance = computePerformanceProfile(studentAttempts, visibleSetIds.size);
       appendCsvRow(
         csv,
         toCsvRow([
           student.name ?? "",
           student.email,
           student.group ?? "",
-          String(sets.size),
-          String(avg),
+          String(performance.attemptedSets),
+          performance.masteryIndex.toFixed(1),
+          performance.bestSetAverage.toFixed(1),
+          performance.consistency.toFixed(1),
+          performance.masteryRate.toFixed(1),
+          performanceEvidenceLabel(performance.evidence),
           String(studentAttempts.length),
         ]),
       );

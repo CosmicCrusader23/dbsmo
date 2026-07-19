@@ -4,9 +4,10 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { computeBestAverageScore } from "@/lib/analytics";
+import { computePerformanceProfile, performanceEvidenceLabel } from "@/lib/analytics";
 import { hasPermission } from "@/lib/permissions";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
+import { isVisibleToStudent } from "@/lib/visibility";
 
 export const dynamic = "force-dynamic";
 
@@ -30,22 +31,32 @@ export default async function AdminStudentsPage({
   const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
   const pageSize = 25;
 
-  const students = await prisma.user.findMany({
-    where: { role: "STUDENT" },
-    include: {
-      attempts: {
-        select: { score: true, maxScore: true, submittedAt: true, problemSetId: true },
-        orderBy: { submittedAt: "desc" },
-        take: 100,
+  const [students, problemSets] = await Promise.all([
+    prisma.user.findMany({
+      where: { role: "STUDENT" },
+      include: {
+        attempts: {
+          select: { score: true, maxScore: true, submittedAt: true, problemSetId: true },
+          orderBy: { submittedAt: "desc" },
+          take: 1000,
+        },
       },
-    },
-    orderBy: { name: "asc" },
-  });
+      orderBy: { name: "asc" },
+    }),
+    prisma.problemSet.findMany({
+      select: { id: true, status: true, visibleFrom: true, visibleTo: true },
+    }),
+  ]);
+  const visibleSetIds = new Set(
+    problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
+  );
 
   const rows = students
     .map((s) => {
-      const uniqueSets = new Set(s.attempts.map((a) => a.problemSetId));
-      const avgScore = computeBestAverageScore(s.attempts);
+      const performance = computePerformanceProfile(
+        s.attempts.filter((attempt) => visibleSetIds.has(attempt.problemSetId)),
+        visibleSetIds.size,
+      );
       const lastActive =
         s.attempts.length > 0
           ? s.attempts.reduce(
@@ -54,7 +65,7 @@ export default async function AdminStudentsPage({
             )
           : s.lastLoginAt;
 
-      return { ...s, setsCompleted: uniqueSets.size, avgScore, lastActive };
+      return { ...s, performance, lastActive };
     })
     .filter((row) => {
       if (!normalizedQuery) return true;
@@ -171,7 +182,9 @@ export default async function AdminStudentsPage({
                     <th>Email</th>
                     <th>Group</th>
                     <th>Sets</th>
-                    <th>Avg score</th>
+                    <th>Mastery index</th>
+                    <th>Best-set avg</th>
+                    <th>Evidence</th>
                     <th>Attempts</th>
                     <th>Joined</th>
                     <th>Last active</th>
@@ -186,8 +199,10 @@ export default async function AdminStudentsPage({
                       </td>
                       <td>{row.email}</td>
                       <td>{row.group ?? "—"}</td>
-                      <td>{row.setsCompleted}</td>
-                      <td>{row.avgScore}%</td>
+                      <td>{row.performance.attemptedSets}</td>
+                      <td>{row.performance.masteryIndex.toFixed(1)}</td>
+                      <td>{row.performance.bestSetAverage.toFixed(1)}%</td>
+                      <td>{performanceEvidenceLabel(row.performance.evidence)}</td>
                       <td>{row.attempts.length}</td>
                       <td>{row.createdAt.toLocaleDateString()}</td>
                       <td>{row.lastActive ? row.lastActive.toLocaleDateString() : "—"}</td>

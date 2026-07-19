@@ -4,8 +4,14 @@ import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { computeTopicAccuracy, accuracyLevel, computeBestAverageScore } from "@/lib/analytics";
+import {
+  computeTopicAccuracy,
+  accuracyLevel,
+  computePerformanceProfile,
+  performanceEvidenceLabel,
+} from "@/lib/analytics";
 import { hasPermission } from "@/lib/permissions";
+import { isVisibleToStudent } from "@/lib/visibility";
 
 export const dynamic = "force-dynamic";
 
@@ -26,24 +32,41 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
   const query = (await searchParams) ?? {};
   const currentPage = Math.max(1, Number(query.page ?? "1") || 1);
   const pageSize = 20;
-  const student = await prisma.user.findUnique({
-    where: { id },
-    include: {
-      attempts: {
-        include: {
-          problemSet: { select: { title: true, slug: true } },
-          responses: { include: { problem: { select: { topicTags: true, points: true } } } },
+  const [student, problemSets] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id },
+      include: {
+        attempts: {
+          include: {
+            problemSet: {
+              select: {
+                title: true,
+                slug: true,
+                status: true,
+                visibleFrom: true,
+                visibleTo: true,
+              },
+            },
+            responses: { include: { problem: { select: { topicTags: true, points: true } } } },
+          },
+          orderBy: { submittedAt: "desc" },
         },
-        orderBy: { submittedAt: "desc" },
       },
-    },
-  });
+    }),
+    prisma.problemSet.findMany({
+      select: { id: true, status: true, visibleFrom: true, visibleTo: true },
+    }),
+  ]);
   if (!student) notFound();
 
-  const sets = new Set(student.attempts.map((a) => a.problemSetId));
+  const visibleSetIds = new Set(
+    problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
+  );
   const n = student.attempts.length;
-  const avg = computeBestAverageScore(student.attempts);
-  const best = n > 0 ? Math.round(Math.max(...student.attempts.map(pct))) : 0;
+  const performance = computePerformanceProfile(
+    student.attempts.filter((attempt) => visibleSetIds.has(attempt.problemSetId)),
+    visibleSetIds.size,
+  );
   const topics = computeTopicAccuracy(student.attempts.flatMap((a) => a.responses));
   const totalPages = Math.max(1, Math.ceil(student.attempts.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
@@ -74,20 +97,28 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
         </header>
         <section className="metric-grid" aria-label="Student metrics">
           <article className="metric-card">
-            <small>Sets attempted</small>
-            <strong>{sets.size}</strong>
+            <small>Visible sets tried</small>
+            <strong>{performance.attemptedSets}</strong>
           </article>
           <article className="metric-card">
-            <small>Average score</small>
-            <strong>{avg}%</strong>
+            <small>Mastery index</small>
+            <strong>{performance.masteryIndex.toFixed(1)}</strong>
           </article>
           <article className="metric-card">
-            <small>Best score</small>
-            <strong>{best}%</strong>
+            <small>Best-set average</small>
+            <strong>{performance.bestSetAverage.toFixed(1)}%</strong>
           </article>
           <article className="metric-card">
-            <small>Total attempts</small>
-            <strong>{n}</strong>
+            <small>Consistency floor</small>
+            <strong>{performance.consistency.toFixed(1)}%</strong>
+          </article>
+          <article className="metric-card">
+            <small>Mastery rate</small>
+            <strong>{performance.masteryRate.toFixed(1)}%</strong>
+          </article>
+          <article className="metric-card">
+            <small>Evidence</small>
+            <strong>{performanceEvidenceLabel(performance.evidence)}</strong>
           </article>
         </section>
 

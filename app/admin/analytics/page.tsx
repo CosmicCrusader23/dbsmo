@@ -12,6 +12,8 @@ import {
   computeTopicAccuracy,
   computeQuestionStats,
   computeScoreBuckets,
+  computePerformanceProfile,
+  performanceEvidenceLabel,
   accuracyLevel,
 } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
@@ -405,35 +407,34 @@ export default async function AnalyticsOverviewPage({
   );
   const totalDistAttempts = scoreBuckets.reduce((s, b) => s + b.count, 0);
 
-  // Top students by best-attempt average across the filtered scope
-  type StudentRow = { id: string; name: string; sets: number; avg: number; recent: number };
-  const studentAgg = new Map<string, { totalPct: number; setKeys: Set<string>; recent: number }>();
-  for (const [key, pct] of bestAttemptByUserSet.entries()) {
-    const [userId, setId] = key.split(":");
-    const entry = studentAgg.get(userId) ?? {
-      totalPct: 0,
-      setKeys: new Set<string>(),
-      recent: 0,
-    };
-    entry.totalPct += pct;
-    entry.setKeys.add(setId);
-    studentAgg.set(userId, entry);
-  }
+  // Top students use the same evidence-aware profile as dashboard and leaderboard surfaces.
+  type StudentRow = {
+    id: string;
+    name: string;
+    profile: ReturnType<typeof computePerformanceProfile>;
+    recent: number;
+  };
+  const attemptsByStudent = new Map<string, typeof attempts>();
   for (const a of attempts) {
-    if (a.submittedAt >= recentCutoff) {
-      const entry = studentAgg.get(a.userId);
-      if (entry) entry.recent += 1;
-    }
+    const studentAttempts = attemptsByStudent.get(a.userId) ?? [];
+    studentAttempts.push(a);
+    attemptsByStudent.set(a.userId, studentAttempts);
   }
-  const topStudents: StudentRow[] = Array.from(studentAgg.entries())
-    .map(([id, v]) => ({
+  const profileSetCount = selectedSet
+    ? 1
+    : problemSets.filter((set) => set.status === "PUBLISHED").length;
+  const topStudents: StudentRow[] = Array.from(attemptsByStudent.entries())
+    .map(([id, studentAttempts]) => ({
       id,
       name: studentMap.get(id) ?? "—",
-      sets: v.setKeys.size,
-      avg: v.setKeys.size > 0 ? Math.round(v.totalPct / v.setKeys.size) : 0,
-      recent: v.recent,
+      profile: computePerformanceProfile(studentAttempts, profileSetCount),
+      recent: studentAttempts.filter((attempt) => attempt.submittedAt >= recentCutoff).length,
     }))
-    .sort((a, b) => b.avg - a.avg || b.sets - a.sets)
+    .sort(
+      (a, b) =>
+        b.profile.masteryIndex - a.profile.masteryIndex ||
+        b.profile.bestSetAverage - a.profile.bestSetAverage,
+    )
     .slice(0, 8);
 
   // Set completion rates
@@ -751,8 +752,10 @@ export default async function AnalyticsOverviewPage({
                   <thead>
                     <tr>
                       <th>Student</th>
+                      <th>Index</th>
                       <th>Sets</th>
-                      <th>Avg best</th>
+                      <th>Best-set avg</th>
+                      <th>Evidence</th>
                       <th>Last 7d</th>
                     </tr>
                   </thead>
@@ -760,8 +763,16 @@ export default async function AnalyticsOverviewPage({
                     {topStudents.map((s) => (
                       <tr key={s.id}>
                         <td>{s.name}</td>
-                        <td>{s.sets}</td>
-                        <td style={{ color: `var(--color-${accuracyLevel(s.avg)})` }}>{s.avg}%</td>
+                        <td>{s.profile.masteryIndex.toFixed(1)}</td>
+                        <td>{s.profile.attemptedSets}</td>
+                        <td
+                          style={{
+                            color: `var(--color-${accuracyLevel(s.profile.bestSetAverage)})`,
+                          }}
+                        >
+                          {s.profile.bestSetAverage.toFixed(1)}%
+                        </td>
+                        <td>{performanceEvidenceLabel(s.profile.evidence)}</td>
                         <td>{s.recent}</td>
                       </tr>
                     ))}

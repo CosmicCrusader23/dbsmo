@@ -5,7 +5,7 @@ import { ArrowLeft, Calendar, ClipboardList, Grid2x2, Mail } from "lucide-react"
 import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
-import { computeBestAverageScore } from "@/lib/analytics";
+import { computePerformanceProfile } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { usernameFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
@@ -230,6 +230,8 @@ export default async function UserProfilePage({
       },
     })
     .then((sets) => sets.sort(compareProblemSetRecords));
+  const performanceSets = allSets.filter((set) => isVisibleToStudent(set));
+  const performanceSetIds = new Set(performanceSets.map((set) => set.id));
 
   const isOwnProfile = user.id === session.user.id;
   const canViewPrivateProfile = isOwnProfile || canViewPrivateProfiles(session.user.role);
@@ -279,25 +281,10 @@ export default async function UserProfilePage({
   const profileUsername = usernameFromEmail(user.email);
   const canManageContent = hasPermission(session.user.role, "admin:content");
   const canViewAnalytics = hasPermission(session.user.role, "admin:analytics");
-  const uniqueSets = new Set(user.attempts.map((a) => a.problemSetId)).size;
-  const totalAttempts = user.attempts.length;
-  const avgScore =
-    totalAttempts > 0
-      ? Math.round(
-          user.attempts.reduce(
-            (s, a) => s + (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0),
-            0,
-          ) / totalAttempts,
-        )
-      : 0;
-  const bestScore =
-    totalAttempts > 0
-      ? Math.round(
-          Math.max(
-            ...user.attempts.map((a) => (a.maxScore > 0 ? (a.score / a.maxScore) * 100 : 0)),
-          ),
-        )
-      : 0;
+  const performance = computePerformanceProfile(
+    user.attempts.filter((attempt) => performanceSetIds.has(attempt.problemSetId)),
+    performanceSets.length,
+  );
 
   const setScores = new Map<
     string,
@@ -473,26 +460,20 @@ export default async function UserProfilePage({
         canViewHiddenLeaderboardEntries(session.user.role),
     )
     .map((entry) => {
-      const bestPerSet = new Map<string, number>();
-      for (const attempt of entry.attempts) {
-        const pct = attempt.maxScore > 0 ? (attempt.score / attempt.maxScore) * 100 : 0;
-        bestPerSet.set(
-          attempt.problemSetId,
-          Math.max(bestPerSet.get(attempt.problemSetId) ?? 0, pct),
-        );
-      }
-
       return {
         id: entry.id,
         displayLabel: displayNameFor(entry),
-        solvedSets: [...bestPerSet.values()].filter((pct) => pct >= 80).length,
-        avgScore: computeBestAverageScore(entry.attempts),
+        performance: computePerformanceProfile(
+          entry.attempts.filter((attempt) => performanceSetIds.has(attempt.problemSetId)),
+          performanceSets.length,
+        ),
       };
     })
     .sort(
       (a, b) =>
-        b.solvedSets - a.solvedSets ||
-        b.avgScore - a.avgScore ||
+        b.performance.masteryIndex - a.performance.masteryIndex ||
+        b.performance.bestSetAverage - a.performance.bestSetAverage ||
+        b.performance.attemptedSets - a.performance.attemptedSets ||
         a.displayLabel.localeCompare(b.displayLabel),
     )
     .map((entry, index) => ({ ...entry, rank: index + 1 }));
@@ -584,24 +565,24 @@ export default async function UserProfilePage({
 
       <div className="profile-stats-row">
         <div className="profile-stat">
-          <span className="profile-stat-value">{uniqueSets}</span>
-          <span className="profile-stat-label">Sets tried</span>
+          <span className="profile-stat-value">{performance.masteryIndex.toFixed(1)}</span>
+          <span className="profile-stat-label">Mastery index</span>
         </div>
         <div className="profile-stat">
-          <span className="profile-stat-value">{solvedSets.length}</span>
-          <span className="profile-stat-label">Solved (≥80%)</span>
+          <span className="profile-stat-value">{performance.attemptedSets}</span>
+          <span className="profile-stat-label">Visible sets tried</span>
         </div>
         <div className="profile-stat">
-          <span className="profile-stat-value">{avgScore}%</span>
-          <span className="profile-stat-label">Average</span>
+          <span className="profile-stat-value">{performance.bestSetAverage.toFixed(1)}%</span>
+          <span className="profile-stat-label">Best-set average</span>
         </div>
         <div className="profile-stat">
-          <span className="profile-stat-value">{bestScore}%</span>
-          <span className="profile-stat-label">Best score</span>
+          <span className="profile-stat-value">{performance.consistency.toFixed(1)}%</span>
+          <span className="profile-stat-label">Consistency floor</span>
         </div>
         <div className="profile-stat">
-          <span className="profile-stat-value">{totalAttempts}</span>
-          <span className="profile-stat-label">Attempts</span>
+          <span className="profile-stat-value">{performance.masteryRate.toFixed(1)}%</span>
+          <span className="profile-stat-label">Mastery rate</span>
         </div>
         <div className="profile-stat">
           <span className="profile-stat-value">{standardRank ? `#${standardRank}` : "—"}</span>

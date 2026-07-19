@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-28
+updated: 2026-07-19
 type: entry-points
 tags: [project, architecture, routes, apis, dbsmo]
 ai-first: true
@@ -25,6 +25,7 @@ Commands are declared in `package.json`:
 - `npm run test` / `npm run test:watch` - Vitest.
 - `npm run prisma:generate`, `npm run prisma:migrate`, `npm run db:seed` - Prisma generation/migration-dev/seed commands.
 - `npm run convert:amc-aime` - runs `scripts/convert-amc-aime-to-json.mjs`.
+- `npm run simulate:performance` - runs the deterministic 100-student × 100-set [[Performance Analytics]] calibration in `scripts/simulate-performance-model.ts`.
 
 Deployment flow is documented in `SETUP.md`: install dependencies, run `npx prisma generate`, run `npx prisma db push`, build, then reload PM2 (source: `SETUP.md`). CI uses Node 22, Postgres 16, `npx prisma db push`, seed, lint, typecheck, tests, build, and browser-harness smoke (source: `.github/workflows/ci.yml`).
 

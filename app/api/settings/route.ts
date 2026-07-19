@@ -9,6 +9,8 @@ import {
   normalizeSettingsPatch,
   settingsPatchSchema,
 } from "@/lib/settings-policy";
+import { computePerformanceProfile } from "@/lib/analytics";
+import { isVisibleToStudent } from "@/lib/visibility";
 
 export async function GET() {
   try {
@@ -17,7 +19,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const [user, attemptStats] = await Promise.all([
+    const [user, attempts, problemSets] = await Promise.all([
       prisma.user.findUnique({
         where: { id: session.user.id },
         select: {
@@ -38,19 +40,13 @@ export async function GET() {
           },
         },
       }),
-      prisma.$queryRaw<
-        Array<{ attemptedSets: number; averageScore: number; totalAttempts: number }>
-      >`
-        SELECT
-          COUNT(*)::int AS "totalAttempts",
-          COUNT(DISTINCT "problemSetId")::int AS "attemptedSets",
-          COALESCE(
-            ROUND(AVG(CASE WHEN "maxScore" > 0 THEN "score"::numeric / "maxScore" * 100 ELSE 0 END)),
-            0
-          )::int AS "averageScore"
-        FROM "Attempt"
-        WHERE "userId" = ${session.user.id}
-      `,
+      prisma.attempt.findMany({
+        where: { userId: session.user.id },
+        select: { score: true, maxScore: true, problemSetId: true },
+      }),
+      prisma.problemSet.findMany({
+        select: { id: true, status: true, visibleFrom: true, visibleTo: true },
+      }),
     ]);
 
     if (!user) {
@@ -58,15 +54,22 @@ export async function GET() {
     }
 
     const { _count, ...profile } = user;
-    const stats = attemptStats[0] ?? { attemptedSets: 0, averageScore: 0, totalAttempts: 0 };
+    const visibleSetIds = new Set(
+      problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
+    );
+    const performance = computePerformanceProfile(
+      attempts.filter((attempt) => visibleSetIds.has(attempt.problemSetId)),
+      visibleSetIds.size,
+    );
 
     return NextResponse.json({
       user: {
         ...profile,
         stats: {
-          attemptedSets: stats.attemptedSets,
-          totalAttempts: stats.totalAttempts,
-          averageScore: stats.averageScore,
+          attemptedSets: performance.attemptedSets,
+          totalAttempts: attempts.length,
+          masteryIndex: performance.masteryIndex,
+          bestSetAverage: performance.bestSetAverage,
           practiceScore: _count.practiceSolves,
         },
       },

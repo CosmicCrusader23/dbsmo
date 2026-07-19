@@ -13,7 +13,7 @@ Your dashboard shows:
 
 - **Pinned announcements**: Messages from teachers for your classes, shown at the top when available.
 - **Progress ring**: How many sets you've completed out of the total available.
-- **Metric cards**: Attempted sets, average score (calculated from your **best score** on each set), latest score.
+- **Metric cards**: Attempted sets, Mastery Index, best-set average, and latest score.
 - **Problem sets list**: All published sets with your best score for each.
 - **Topic map**: Your accuracy broken down by mathematical topic (algebra, number theory, combinatorics, geometry, etc.).
 
@@ -67,7 +67,8 @@ Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answ
 The dashboard shows your overall progress:
 
 - **Completion percentage** shown in the progress ring.
-- **Best average** based on your best attempt for each attempted set, weighted by each set's possible points.
+- **Mastery Index** combining best-set proficiency, breadth across visible sets, and a consistency floor. A three-set confidence prior prevents one lucky result from looking like established mastery.
+- **Best-set average** gives every attempted set equal weight and keeps only the best attempt on each set.
 - **Topic strengths** shown as colored bars (higher = better).
 - **Set list** with status indicators:
   - 🔴 Not started
@@ -76,7 +77,7 @@ The dashboard shows your overall progress:
 
 ## Leaderboard
 
-The standard leaderboard ranks useful progress instead of raw attempts. By default, **Mastery** sorts by best points earned across currently published sets. **Best average** sorts by each user's weighted best-attempt average. Staff role badges show the user's actual role, such as Admin, Teacher, Content Editor, or Analyst.
+The standard leaderboard ranks useful progress instead of raw attempts. By default, **Mastery Index** combines proficiency, breadth, and consistency using currently visible published sets. **Best-set average** is available as an alternate order and gives each attempted set equal weight. The evidence label distinguishes limited (1-4 sets), developing (5-14), and established (15+) profiles. Staff role badges show the user's actual role, such as Admin, Teacher, Content Editor, or Analyst. See [Performance Model](./performance-model.md) for the exact calculation.
 
 ## Profile Picture
 
@@ -123,6 +124,6 @@ Every page footer shows version `v0.67.0`, links to the DBSMO GitHub repository,
 
 - **Start with lower-numbered sets** — they're generally ordered by difficulty.
 - **Review your topic map** to identify weak areas and focus your practice.
-- **Retry sets** — retrying doesn't hurt your average score! The system only counts your **best score** per set toward your overall average.
+- **Retry sets** — retrying does not lower your profile. The system keeps your **best score** per set, while repeated attempts do not increase breadth.
 - **Watch the teaching videos** before attempting — they cover the key concepts.
 - **Report issues promptly** — the admin team fixes answer key errors quickly.

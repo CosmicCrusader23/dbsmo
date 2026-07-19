@@ -19,7 +19,7 @@ import { ThemeToggle } from "@/app/theme-toggle";
 import { TypewriterGreeting } from "@/app/typewriter-greeting";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { profilePathFromEmail } from "@/lib/user-profile";
-import { computeBestAverageScore } from "@/lib/analytics";
+import { computePerformanceProfile, performanceEvidenceLabel } from "@/lib/analytics";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { displayNameFor, normalizeDisplayText } from "@/lib/display-name";
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
         },
       },
       orderBy: { submittedAt: "desc" },
-      take: 200,
+      take: 1000,
     }),
     session.user.role === "ADMIN"
       ? prisma.user.findMany({
@@ -94,7 +94,7 @@ export default async function DashboardPage() {
             attempts: {
               select: { score: true, maxScore: true, submittedAt: true, problemSetId: true },
               orderBy: { submittedAt: "desc" },
-              take: 100,
+              take: 1000,
             },
           },
         })
@@ -126,6 +126,8 @@ export default async function DashboardPage() {
   const visibleSets = (
     currentUser.role === "ADMIN" ? allSets : allSets.filter((set) => isVisibleToStudent(set))
   ).sort(compareProblemSetRecords);
+  const performanceSets = allSets.filter((set) => isVisibleToStudent(set));
+  const performanceSetIds = new Set(performanceSets.map((set) => set.id));
 
   const attemptsBySet = new Map<
     string,
@@ -180,7 +182,10 @@ export default async function DashboardPage() {
   const completedSets = attemptedRows.length;
   const totalSets = visibleSets.length;
   const completionPercent = totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
-  const averageScore = computeBestAverageScore(attempts);
+  const performance = computePerformanceProfile(
+    attempts.filter((attempt) => performanceSetIds.has(attempt.problemSetId)),
+    performanceSets.length,
+  );
   const latestAttempt = attempts[0] ?? null;
   const latestScore =
     latestAttempt && latestAttempt.maxScore > 0
@@ -246,8 +251,10 @@ export default async function DashboardPage() {
     currentUser.role === "ADMIN"
       ? studentRows
           .map((student) => {
-            const uniqueSets = new Set(student.attempts.map((attempt) => attempt.problemSetId));
-            const average = computeBestAverageScore(student.attempts);
+            const performance = computePerformanceProfile(
+              student.attempts.filter((attempt) => performanceSetIds.has(attempt.problemSetId)),
+              performanceSets.length,
+            );
             const lastSeen =
               student.attempts.length > 0
                 ? student.attempts.reduce(
@@ -259,13 +266,19 @@ export default async function DashboardPage() {
 
             return {
               name: displayNameFor(student, "Anonymous"),
-              completed: uniqueSets.size,
-              average,
-              weakTopic: average < 60 ? "Needs review" : average < 80 ? "Mixed" : "Stable",
+              completed: performance.attemptedSets,
+              masteryIndex: performance.masteryIndex,
+              bestSetAverage: performance.bestSetAverage,
+              evidence: performanceEvidenceLabel(performance.evidence),
               lastSeen: lastSeen ? lastSeen.toLocaleDateString() : "—",
             };
           })
-          .sort((a, b) => b.completed - a.completed || b.average - a.average)
+          .sort(
+            (a, b) =>
+              b.masteryIndex - a.masteryIndex ||
+              b.completed - a.completed ||
+              b.bestSetAverage - a.bestSetAverage,
+          )
           .slice(0, 6)
       : [];
 
@@ -377,7 +390,7 @@ export default async function DashboardPage() {
             </div>
             <div className="orbit-card orbit-card-one">
               <CheckCircle2 size={18} />
-              {averageScore}% best avg
+              {performance.masteryIndex.toFixed(1)} mastery
             </div>
             {currentUser.role === "ADMIN" ? (
               <div className="orbit-card orbit-card-two">
@@ -392,7 +405,11 @@ export default async function DashboardPage() {
 
         <section className="metric-grid" aria-label="Student progress metrics">
           <MetricCard label="Attempted" value={`${completedSets}/${totalSets || 0}`} />
-          <MetricCard label="Best average" value={`${averageScore}%`} />
+          <MetricCard label="Mastery index" value={performance.masteryIndex.toFixed(1)} />
+          <MetricCard
+            label="Best-set average"
+            value={`${performance.bestSetAverage.toFixed(1)}%`}
+          />
           <MetricCard label="Latest score" value={`${latestScore}%`} />
           {currentUser.role === "ADMIN" ? (
             <MetricCard label="Open reports" value={`${openReports}`} />
@@ -506,23 +523,25 @@ export default async function DashboardPage() {
                   <tr>
                     <th>Student</th>
                     <th>Completed</th>
-                    <th>Average</th>
-                    <th>Weak topic</th>
+                    <th>Mastery index</th>
+                    <th>Best-set avg</th>
+                    <th>Evidence</th>
                     <th>Last seen</th>
                   </tr>
                 </thead>
                 <tbody>
                   {adminRows.length === 0 ? (
                     <tr>
-                      <td colSpan={5}>No student activity yet.</td>
+                      <td colSpan={6}>No student activity yet.</td>
                     </tr>
                   ) : (
                     adminRows.map((row) => (
                       <tr key={row.name}>
                         <td>{row.name}</td>
                         <td>{row.completed}</td>
-                        <td>{row.average}%</td>
-                        <td>{row.weakTopic}</td>
+                        <td>{row.masteryIndex.toFixed(1)}</td>
+                        <td>{row.bestSetAverage.toFixed(1)}%</td>
+                        <td>{row.evidence}</td>
                         <td>{row.lastSeen}</td>
                       </tr>
                     ))

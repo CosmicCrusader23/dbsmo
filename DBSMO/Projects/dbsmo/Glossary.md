@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-26
+updated: 2026-07-19
 type: glossary
 tags: [project, glossary, dbsmo]
 ai-first: true
@@ -10,6 +10,7 @@ scanned-commit: f7e0c74
 ---
 
 ## For future Claude
+
 This is the [[dbsmo]] glossary. Terms are source-grounded from code/docs inspected on 2026-06-26; use it to resolve naming before editing routes, models, or UI.
 
 ## Terms
@@ -18,6 +19,9 @@ This is the [[dbsmo]] glossary. Terms are source-grounded from code/docs inspect
 - `ProblemSet` - a collection of ordered answer-only problems with slug/title/status/visibility/tags/files/video/assets/assignments (source: `prisma/schema.prisma`).
 - `Problem` - a question within a `ProblemSet`, with statement, answer key/type, accepted answers, tags, points, and optional explanation (source: `prisma/schema.prisma`).
 - `Attempt` - one full submission of a problem set by a user, with score/max score/attempt number/duration (source: `prisma/schema.prisma`, `app/api/submit/route.ts`).
+- `PerformanceProfile` - derived cross-set analytics object containing Mastery Index, best-set average, proficiency, breadth, consistency floor, mastery rate, counts, and evidence level; it is calculated from visible-set attempts rather than persisted (source: `lib/analytics.ts`).
+- `Mastery Index` - one-decimal composite of 65% confidence-adjusted proficiency, 20% breadth, and 15% lower-quartile consistency floor (source: `lib/analytics.ts`; see [[Performance Analytics]]).
+- `Evidence` - sample-size label for a Performance Profile: limited at 1-4 sets, developing at 5-14, and established at 15+ (source: `lib/analytics.ts`).
 - `Response` - one graded answer within an `Attempt`, storing raw answer, normalized answer, correctness, and points (source: `prisma/schema.prisma`).
 - `PracticeSolve` - durable record that a user correctly solved a practice problem; unique per user/problem (source: `prisma/schema.prisma`, `app/api/practice/submit/route.ts`).
 - `AnswerType` - persisted answer classification: `EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION` (source: `prisma/schema.prisma`).

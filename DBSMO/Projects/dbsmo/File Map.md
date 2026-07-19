@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-06-28
+updated: 2026-07-19
 type: file-map
 tags: [project, architecture, file-map, dbsmo]
 ai-first: true
@@ -15,7 +15,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 
 ## Root Files
 
-- `package.json` - scripts and dependency manifest. Important scripts: `dev`, `build`, `start`, `lint`, `typecheck`, `test`, `db:seed`, `convert:amc-aime` (source: `package.json`).
+- `package.json` - scripts and dependency manifest. Important scripts: `dev`, `build`, `start`, `lint`, `typecheck`, `test`, `simulate:performance`, `db:seed`, `convert:amc-aime` (source: `package.json`).
 - `README.md` - short product description and links to docs (source: `README.md`).
 - `SETUP.md` - VPS deployment runbook using npm, PM2, nginx, PostgreSQL, `prisma generate`, and `prisma db push` (source: `SETUP.md`).
 - `AGENTS.md` - repo-level AI instructions, including CodeGraph-first navigation and checkpoint policy (source: `AGENTS.md`).
@@ -66,6 +66,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, optional image ZIP parsing, ZIP path safety, JSON draft storage, image asset persistence, and JSON export conversion (sources: `lib/import/**`).
 - `lib/storage.ts`, `lib/uploaded-pdf.ts`, `lib/writeup-images.ts` - local/S3 storage, uploaded PDF handling, and validated writeup image storage (sources: named files).
 - `lib/analytics.ts`, `lib/admin-exports.ts`, `lib/audit.ts` - analytics computations, export builders, and audit log writes (sources: named files).
+- `scripts/simulate-performance-model.ts` - deterministic 100-student × 100-set calibration and regression gate for the [[Performance Analytics|Mastery Index]] (source: script file).
 - `lib/classes.ts` - class name validation and assignment completion mapping (source: `lib/classes.ts`).
 - `lib/ftw.ts`, `lib/ftw-room.ts`, `lib/ftw-room-host.ts`, `lib/ftw-room-server.ts` - FTW scoring, room scoring, host transition, and room progression (sources: named files).
 - `lib/playground/bosses.ts` plus images in `lib/playground/` - static boss battle content/assets (source: `lib/playground/*`).
@@ -83,6 +84,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `docs/grading.md` - human-readable grading rules and regrading expectations.
 - `docs/permissions.md` - permission strings and role mapping, with `lib/permissions.ts` named as source of truth.
 - `docs/admin-guide.md`, `docs/student-guide.md`, `docs/deployment.md` - user/admin/deployment guides.
+- `docs/performance-model.md` - exact Performance Profile formulas, product surfaces, and simulation results.
 - `docs/superpowers/` - planning/spec notes for classes and assignments.
 
 ## `tests/`
