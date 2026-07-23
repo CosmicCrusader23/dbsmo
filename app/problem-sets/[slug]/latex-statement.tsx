@@ -102,13 +102,20 @@ function findCommandDelimiterEnd(value: string, start: number, closing: string):
 }
 
 function findDollarDelimiterEnd(value: string, start: number, displayMode: boolean): number | null {
+  const currencyOpening = !displayMode && /\d/.test(value[start] ?? "");
   let cursor = start;
   while (cursor < value.length) {
     const match = value.indexOf("$", cursor);
     if (match === -1) return null;
     if (!isEscaped(value, match)) {
       if (displayMode && value.startsWith("$$", match)) return match;
-      if (!displayMode && value[match - 1] !== "$" && value[match + 1] !== "$") return match;
+      if (!displayMode && value[match - 1] !== "$" && value[match + 1] !== "$") {
+        if (currencyOpening && /\d/.test(value[match + 1] ?? "")) {
+          cursor = match + 1;
+          continue;
+        }
+        return match;
+      }
     }
     cursor = match + 1;
   }

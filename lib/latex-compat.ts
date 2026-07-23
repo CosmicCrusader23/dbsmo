@@ -223,7 +223,7 @@ function removeNestedMathDelimiters(value: string): string {
     if (value[cursor] === "$" && !isEscaped(value, cursor)) continue;
     if (
       value[cursor] === "\\" &&
-      (value[cursor + 1] === "(" || value[cursor + 1] === ")") &&
+      ["(", ")", "[", "]"].includes(value[cursor + 1]) &&
       !isEscaped(value, cursor)
     ) {
       cursor += 1;
@@ -285,6 +285,27 @@ function renameEnvironment(value: string, from: string, to: string): string {
     .replace(new RegExp(String.raw`\\end\{${escapedFrom}\}`, "g"), `\\end{${to}}`);
 }
 
+function convertListEnvironment(
+  value: string,
+  environment: "itemize" | "enumerate",
+): string {
+  const pattern = new RegExp(
+    String.raw`\\begin\{${environment}\}([\s\S]*?)\\end\{${environment}\}`,
+    "g",
+  );
+
+  return value.replace(pattern, (_match, body: string) => {
+    const parts = body.split(/\\item(?:\s*\[[^\]]*\])?\s*/);
+    const preamble = parts.shift()?.trim();
+    const items = parts.map((item) => item.trim()).filter(Boolean);
+    const lines = items.map((item, index) =>
+      environment === "enumerate" ? `${index + 1}. ${item}` : `• ${item}`,
+    );
+    if (preamble) lines.unshift(preamble);
+    return lines.length ? `\n${lines.join("\n")}\n` : "\n";
+  });
+}
+
 export function normalizeLatexStatementSource(value: string): string {
   const documentBody = value.match(/\\begin\{document\}([\s\S]*?)\\end\{document\}/);
   let normalized = documentBody ? documentBody[1] : value;
@@ -296,11 +317,14 @@ export function normalizeLatexStatementSource(value: string): string {
   normalized = normalized.replace(/\\begin\{(?:center|flushleft|flushright)\}/g, "");
   normalized = normalized.replace(/\\end\{(?:center|flushleft|flushright)\}/g, "");
   normalized = normalized.replace(/(?:^|\n)[ \t]*\\centering\s*/g, "\n");
+  normalized = convertListEnvironment(normalized, "itemize");
+  normalized = convertListEnvironment(normalized, "enumerate");
   return normalized.trim();
 }
 
 export function normalizeLatexForKatex(value: string): string {
   let normalized = normalizeLatexStatementSource(value);
+  normalized = removeNestedMathDelimiters(normalized);
   normalized = normalized.replace(/(^|[^\\])\\(?=\d)/g, "$1\\$");
   normalized = convertTabularEnvironment(normalized, "tabular*");
   normalized = convertTabularEnvironment(normalized, "tabularx");

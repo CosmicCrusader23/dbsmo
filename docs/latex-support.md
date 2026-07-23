@@ -12,6 +12,8 @@ DBSMO renders mathematical LaTeX with KaTeX `0.17.x` in `app/problem-sets/[slug]
 - Safe notation aliases used by MathLive, including `\set`, `\Set`, `\rd`, `\rD`, `\scriptCapitalE`, `\gothicCapitalR`, `\imaginaryI`, `\exponentialE`, and `\differentialD`. These expand only to known KaTeX primitives.
 - Basic `siunitx`-style notation such as `\SI{9.8}{\metre\per\second\squared}`, `\unit{kg}`, `\num{1000}`, and `\ang{30}`.
 - Legacy contest imports that encode currency as an invalid backslash-number sequence such as `\54`; this is normalized to `\$54` before rendering.
+- Plain-text currency amounts such as `$10 and $1000` remain text instead of being paired as an accidental math expression.
+- Simple `itemize` and `enumerate` environments are converted to readable line-based lists. Their item contents still use the normal math delimiters.
 - HTML-format imports using `<math>`, `<imath>`, and `<cmath>` tags. Their contents are converted to unambiguous TeX delimiters while all remaining HTML tags and attributes become inert text.
 - Imported image tokens such as `[[img:diagram1]]`; images remain separate from LaTeX and are served through the application's validated asset path.
 

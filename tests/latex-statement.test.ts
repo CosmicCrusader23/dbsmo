@@ -177,6 +177,37 @@ A coat originally costs $\textdollar180$. Choose $\text{(A)}\ \54 \qquad \text{(
     expect(html).not.toContain("katex-error");
   });
 
+  it("keeps adjacent currency amounts out of math delimiters", () => {
+    const html = renderToStaticMarkup(
+      React.createElement(LatexStatement, {
+        statement: "The pot is $10 and you have $1000 behind.",
+        format: "LATEX",
+      }),
+    );
+
+    expect(html).toContain("The pot is $10 and you have $1000 behind.");
+    expect(html).not.toContain("statement-math-inline");
+    expect(html).not.toContain("10andyouhave");
+  });
+
+  it("converts document-style lists and removes nested display delimiters", () => {
+    const html = renderToStaticMarkup(
+      React.createElement(LatexStatement, {
+        statement: String.raw`\begin{itemize}
+\item $x=1$
+\item $\textbf{y}=\dfrac{1}{2}.\]$
+\end{itemize}`,
+        format: "LATEX",
+      }),
+    );
+
+    expect(html).toContain("• ");
+    expect(html).toContain("statement-math-inline");
+    expect(html).not.toContain("itemize");
+    expect(html).not.toContain("\\item");
+    expect(html).not.toContain("katex-error");
+  });
+
   it("supports conservative package-style aliases and legacy display environments", () => {
     const html = renderToStaticMarkup(
       React.createElement(LatexStatement, {
