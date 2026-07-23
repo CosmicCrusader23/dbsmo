@@ -56,34 +56,81 @@ export function gradeAnswer(input: GradeInput): GradeResult {
   }
 
   if (input.answerType === "expression") {
-    const tolerance = input.decimalTolerance ?? 1e-9;
-    const answerNumber = evaluateMathExpression(input.rawAnswer);
-    const evaluatedCandidates = [input.answerKey, ...(input.acceptedAnswers ?? [])]
-      .filter(Boolean)
-      .map((answer) => evaluateMathExpression(answer));
-    const normalizedCandidates = evaluatedCandidates.map((candidate) =>
-      Number.isFinite(candidate) ? formatNumber(candidate) : "",
+    return gradeExpressionCandidates(
+      input.rawAnswer,
+      rawCandidates,
+      normalizedAnswer,
+      input.decimalTolerance ?? 1e-9,
     );
-    const isCorrect =
-      Number.isFinite(answerNumber) &&
-      evaluatedCandidates.some(
-        (candidate) =>
-          Number.isFinite(candidate) && numbersMatch(answerNumber, candidate, tolerance),
-      );
+  }
 
-    return {
-      isCorrect,
-      normalizedAnswer: Number.isFinite(answerNumber)
-        ? formatNumber(answerNumber)
-        : normalizedAnswer,
-      normalizedAcceptedAnswers: normalizedCandidates,
+  if (input.answerType === "exact") {
+    const literalResult = {
+      isCorrect: candidates.includes(normalizedAnswer),
+      normalizedAnswer,
+      normalizedAcceptedAnswers: candidates,
     };
+    if (literalResult.isCorrect) {
+      return literalResult;
+    }
+
+    const expressionResult = gradeExpressionCandidates(
+      input.rawAnswer,
+      rawCandidates,
+      normalizedAnswer,
+      input.decimalTolerance ?? 1e-9,
+      true,
+    );
+    return expressionResult.isCorrect ? expressionResult : literalResult;
   }
 
   return {
     isCorrect: candidates.includes(normalizedAnswer),
     normalizedAnswer,
     normalizedAcceptedAnswers: candidates,
+  };
+}
+
+function gradeExpressionCandidates(
+  rawAnswer: string,
+  rawCandidates: string[],
+  fallbackNormalizedAnswer: string,
+  tolerance: number,
+  preserveExactNumericIdentity = false,
+): GradeResult {
+  const answerNumber = evaluateMathExpression(rawAnswer);
+  const evaluatedCandidates = rawCandidates.map((answer) => evaluateMathExpression(answer));
+  const normalizedCandidates = evaluatedCandidates.map((candidate) =>
+    Number.isFinite(candidate) ? formatNumber(candidate) : "",
+  );
+  const answerCanonical = preserveExactNumericIdentity
+    ? canonicalDecimal(normalizeText(rawAnswer, false))
+    : null;
+  const isCorrect =
+    Number.isFinite(answerNumber) &&
+    evaluatedCandidates.some((candidate, index) => {
+      const candidateCanonical = preserveExactNumericIdentity
+        ? canonicalDecimal(normalizeText(rawCandidates[index], false))
+        : null;
+      if (answerCanonical && candidateCanonical) {
+        return answerCanonical === candidateCanonical;
+      }
+      if (
+        preserveExactNumericIdentity &&
+        (Math.abs(answerNumber) > Number.MAX_SAFE_INTEGER ||
+          Math.abs(candidate) > Number.MAX_SAFE_INTEGER)
+      ) {
+        return false;
+      }
+      return Number.isFinite(candidate) && numbersMatch(answerNumber, candidate, tolerance);
+    });
+
+  return {
+    isCorrect,
+    normalizedAnswer: Number.isFinite(answerNumber)
+      ? formatNumber(answerNumber)
+      : fallbackNormalizedAnswer,
+    normalizedAcceptedAnswers: normalizedCandidates,
   };
 }
 

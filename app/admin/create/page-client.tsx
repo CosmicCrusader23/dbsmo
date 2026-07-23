@@ -58,7 +58,11 @@ const ANSWER_TYPE_OPTIONS: { value: AnswerType; label: string; hint: string }[] 
   { value: "INTEGER", label: "Integer", hint: "e.g. 42" },
   { value: "DECIMAL", label: "Decimal", hint: "e.g. 3.14" },
   { value: "FRACTION", label: "Fraction", hint: "e.g. 3/7" },
-  { value: "EXACT", label: "Exact match", hint: "e.g. triangle" },
+  {
+    value: "EXACT",
+    label: "Exact match",
+    hint: "Text, or equivalent numeric/LaTeX expressions",
+  },
   { value: "SET", label: "Set", hint: "e.g. 1,2,5" },
   { value: "MULTIPLE", label: "Multiple accepted", hint: "Use semicolons (e.g. 3/7; 0.4286)" },
   { value: "EXPRESSION", label: "Expression", hint: "e.g. sqrt(2), 2^0.5, pi/3" },

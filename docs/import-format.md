@@ -117,7 +117,7 @@ Per-problem `topicTags` drive Practice mode.
 
 ## Answer Evaluation Rules
 
-- `EXACT`: normalized string match
+- `EXACT`: normalized string match, with automatic numeric/LaTeX expression fallback
 - `INTEGER`: integer normalization
 - `DECIMAL`: decimal normalization
 - `FRACTION`: simplified fraction comparison
@@ -128,6 +128,8 @@ Per-problem `topicTags` drive Practice mode.
 ### Notes
 
 - Fraction answers like `2/4` are simplified to `1/2`.
+- `EXACT` preserves ordinary text matching, but numeric or LaTeX answers such as
+  `\frac{5}{4}` also accept equivalent expression input such as `5/4` or `1.25`.
 - `FRACTION` does not automatically treat `1/2` and `0.5` as equal. Use `EXPRESSION` if decimal and fractional forms should both pass.
 - `EXPRESSION` supports inputs like `sqrt(2)`, `2^0.5`, `pi/3`, `2pi`, and `3(1+2)`.
 - `EXPRESSION` is numeric only. Symbolic algebra such as `x+1` is not supported.

@@ -139,6 +139,55 @@ describe("gradeAnswer", () => {
     expect(result.isCorrect).toBe(true);
   });
 
+  it("automatically evaluates LaTeX answer keys configured as exact", () => {
+    expect(
+      gradeAnswer({
+        answerType: "exact",
+        answerKey: "$\\frac{5}{4}$",
+        rawAnswer: "5/4",
+      }),
+    ).toMatchObject({
+      isCorrect: true,
+      normalizedAnswer: "1.25",
+    });
+
+    expect(
+      gradeAnswer({
+        answerType: "exact",
+        answerKey: "$\\frac{1}{6^{3/2}}$",
+        rawAnswer: "1/(6*sqrt(6))",
+      }).isCorrect,
+    ).toBe(true);
+  });
+
+  it("preserves literal matching for non-mathematical exact answers", () => {
+    expect(
+      gradeAnswer({
+        answerType: "exact",
+        answerKey: "No",
+        rawAnswer: " no ",
+      }).isCorrect,
+    ).toBe(true);
+
+    expect(
+      gradeAnswer({
+        answerType: "exact",
+        answerKey: "No",
+        rawAnswer: "Yes",
+      }).isCorrect,
+    ).toBe(false);
+  });
+
+  it("does not collapse distinct unsafe integers during exact expression fallback", () => {
+    expect(
+      gradeAnswer({
+        answerType: "exact",
+        answerKey: "9007199254740992",
+        rawAnswer: "9007199254740993",
+      }).isCorrect,
+    ).toBe(false);
+  });
+
   it("evaluates coefficients before LaTeX functions", () => {
     const result = gradeAnswer({
       answerType: "expression",
