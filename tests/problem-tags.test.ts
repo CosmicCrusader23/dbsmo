@@ -18,4 +18,8 @@ describe("normalizeTagList", () => {
   it("canonicalizes the Tests problem-set category", () => {
     expect(normalizeTagList(["test", "Tests", "tests"])).toEqual(["Tests"]);
   });
+
+  it("canonicalizes the HLE problem-set category", () => {
+    expect(normalizeTagList(["hle", "Hle", "HLE", "Humanity's Last Exam"])).toEqual(["HLE"]);
+  });
 });
