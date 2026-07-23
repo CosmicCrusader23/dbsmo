@@ -593,7 +593,7 @@ export function SetEditForm({ set }: { set: SetData }) {
             </div>
 
             <label className="form-field">
-              <span className="form-label">Set tags</span>
+              <span className="form-label">Set tags (new tags allowed)</span>
               <input
                 className="form-input"
                 value={topicTags}
@@ -601,8 +601,8 @@ export function SetEditForm({ set }: { set: SetData }) {
                 onChange={(e) => setTopicTags(e.target.value)}
               />
               <small className="form-hint">
-                These describe the whole set. Practice pools are built from the optional question
-                tags on each problem.
+                Type any new tag name; it is created when you save. These describe the whole set.
+                Practice pools are built from the optional question tags on each problem.
               </small>
               <div className="tag-chip-group">
                 {TAG_OPTIONS.map((option) => (
@@ -868,8 +868,8 @@ export function SetEditForm({ set }: { set: SetData }) {
                         placeholder="Algebra, Linear Equations"
                       />
                       <small className="form-hint">
-                        Optional. These tags place the question into Practice pools once more than
-                        10 published questions share the same tag.
+                        Type any new tag name to create it. These tags place the question into
+                        Practice pools once more than 10 published questions share the same tag.
                       </small>
                       <div className="tag-chip-group">
                         {TAG_OPTIONS.map((option) => (

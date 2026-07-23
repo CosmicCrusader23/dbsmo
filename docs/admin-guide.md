@@ -11,9 +11,11 @@
 1. Click **Create Set** in the sidebar.
 2. Fill out the set title, slug, topic tags, and settings.
    - **Order ID:** The identifier shown in the set grid (e.g. `1`, `2`, `20212`, `A1`). Accepts any text and uses natural sorting, so `2` appears before `10`. If left blank, the system assigns the next available number.
+   - **Set tags:** Enter comma-separated names or use the suggested chips. New names are created when the set is saved and become filterable categories in the problem-set catalog.
    - **Tests tag:** Use the set tag `Tests` for school test papers that have 20 problems with levels `(1)`, `(2)`, and `(3)`. Store these as 60 answerable questions so the student page renders a grouped 20×3 answer sheet.
 3. Add problems one-by-one, including statement, answer type, and answer key.
    - **Problem Number:** A positive integer (e.g. 1, 2, 3). If you leave it as-is, new problems default to sequential numbers.
+   - **Question tags:** Enter any comma-separated names to create or reuse Practice topics. A topic appears in Practice after more than 10 published, unsolved questions use that tag.
 4. For each problem, use the **LaTeX / HTML** toggle next to the statement field.
    - Use **LaTeX** for `$...$`/`$$...$$` style input.
    - Table environments (`tabular`, `tabular*`, `tabularx`, and `longtable`) and chemistry with `\ce{...}` are supported through the compatibility renderer; see [LaTeX rendering support](./latex-support.md).

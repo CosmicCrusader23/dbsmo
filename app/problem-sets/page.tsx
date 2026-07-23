@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db";
 import {
   OTHER_PROBLEM_SET_TAG,
   STANDARD_PROBLEM_SET_TAGS,
+  canonicalizeProblemTag,
   categorizeProblemSetTags,
   normalizeTagList,
   normalizeProblemTag,
@@ -36,8 +37,6 @@ type SetRow = {
   weakMatch: number;
   recommendationScore: number;
 };
-
-const CATEGORY_ORDER = [...STANDARD_PROBLEM_SET_TAGS, OTHER_PROBLEM_SET_TAG];
 
 type ProblemSetsSearchParams = Promise<{
   category?: string;
@@ -97,10 +96,8 @@ export default async function ProblemSetsPage({
   const hideSolved = params.hideSolved === "1";
   const query = params.q?.trim() ?? "";
   const normalizedQuery = query.toLowerCase();
-  const activeCategory =
-    CATEGORY_ORDER.find(
-      (category) => normalizeProblemTag(category) === normalizeProblemTag(params.category ?? ""),
-    ) ?? null;
+  const requestedCategory = params.category?.trim().slice(0, 64) ?? "";
+  const activeCategory = requestedCategory ? canonicalizeProblemTag(requestedCategory) : null;
 
   function problemSetsHref(next: {
     category?: string | null;
@@ -247,8 +244,9 @@ export default async function ProblemSetsPage({
 
   const setRows: SetRow[] = visibleSets.map((set) => {
     const progress = attemptMap.get(set.id) ?? { bestScore: 0, attempts: 0 };
+    const setTags = normalizeTagList(set.topicTags);
     const allTags = normalizeTagList([
-      ...set.topicTags,
+      ...setTags,
       ...set.problems.flatMap((problem) => problem.topicTags),
     ]);
     const solvedUsers = new Set(
@@ -262,7 +260,7 @@ export default async function ProblemSetsPage({
       title: set.title,
       order: set.order,
       createdAt: set.createdAt,
-      categories: categorizeProblemSetTags(allTags),
+      categories: categorizeProblemSetTags(setTags),
       tags: allTags,
       problemCount: set._count.problems,
       bestScore: progress.bestScore,
@@ -336,8 +334,25 @@ export default async function ProblemSetsPage({
   });
   const filteredRows = hideSolved ? mediaRows.filter((set) => set.bestScore < 100) : mediaRows;
 
+  const availableCategories = new Set(filteredRows.flatMap((set) => set.categories));
+  const categoryOrder = [
+    ...STANDARD_PROBLEM_SET_TAGS.filter((category) => availableCategories.has(category)),
+    ...Array.from(availableCategories)
+      .filter(
+        (category) =>
+          category !== OTHER_PROBLEM_SET_TAG &&
+          !STANDARD_PROBLEM_SET_TAGS.some(
+            (standard) => normalizeProblemTag(standard) === normalizeProblemTag(category),
+          ),
+      )
+      .sort((left, right) => left.localeCompare(right)),
+    ...(availableCategories.has(OTHER_PROBLEM_SET_TAG) ? [OTHER_PROBLEM_SET_TAG] : []),
+  ];
+  if (activeCategory && !categoryOrder.includes(activeCategory)) {
+    categoryOrder.push(activeCategory);
+  }
   const groupedRows = new Map<string, SetRow[]>(
-    CATEGORY_ORDER.map((category) => [
+    categoryOrder.map((category) => [
       category,
       filteredRows.filter((set) => {
         const matchesSearch =
@@ -611,7 +626,7 @@ export default async function ProblemSetsPage({
           All
           <span className="category-pill-count">{filteredRows.length}</span>
         </Link>
-        {CATEGORY_ORDER.map((category) => {
+        {categoryOrder.map((category) => {
           const rows = groupedRows.get(category) ?? [];
           if (rows.length === 0 && activeCategory !== category) return null;
           return (

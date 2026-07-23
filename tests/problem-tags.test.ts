@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeTagList } from "../lib/problem-tags";
+import { categorizeProblemSetTags, normalizeTagList } from "../lib/problem-tags";
 
 describe("normalizeTagList", () => {
   it("canonicalizes aliases and duplicate casing", () => {
@@ -21,5 +21,18 @@ describe("normalizeTagList", () => {
 
   it("canonicalizes the HLE problem-set category", () => {
     expect(normalizeTagList(["hle", "Hle", "HLE", "Humanity's Last Exam"])).toEqual(["HLE"]);
+  });
+});
+
+describe("categorizeProblemSetTags", () => {
+  it("promotes custom set tags to filterable categories", () => {
+    expect(categorizeProblemSetTags(["algebra", "olympiad shortlist"])).toEqual([
+      "Algebra",
+      "Olympiad Shortlist",
+    ]);
+  });
+
+  it("uses Others only when a set has no tags", () => {
+    expect(categorizeProblemSetTags([])).toEqual(["Others"]);
   });
 });

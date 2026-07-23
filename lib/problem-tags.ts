@@ -123,20 +123,16 @@ export function normalizeTagList(tags: string[]): string[] {
 export function categorizeProblemSetTags(tags: string[]): string[] {
   const normalizedTags = normalizeTagList(tags);
   const categories: string[] = [];
-  let hasCustom = false;
 
   for (const tag of normalizedTags) {
     const standardTag = standardTagLookup.get(normalizeProblemTag(tag));
-    if (standardTag) {
-      if (!categories.includes(standardTag)) {
-        categories.push(standardTag);
-      }
-    } else {
-      hasCustom = true;
+    const category = standardTag ?? tag;
+    if (!categories.includes(category)) {
+      categories.push(category);
     }
   }
 
-  if (categories.length === 0 || hasCustom) {
+  if (categories.length === 0) {
     categories.push(OTHER_PROBLEM_SET_TAG);
   }
 

@@ -615,7 +615,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
           </div>
 
           <div className="form-field">
-            <label htmlFor="set-topics">Set tags (comma-separated)</label>
+            <label htmlFor="set-topics">Set tags (comma-separated; new tags allowed)</label>
             <input
               id="set-topics"
               type="text"
@@ -624,8 +624,8 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
               onChange={(e) => setTopicTags(e.target.value)}
             />
             <small className="form-hint">
-              These describe the whole set. Practice pools are built from the optional question tags
-              on each problem below.
+              Type any new tag name; it is created when you save. These describe the whole set.
+              Practice pools are built from the optional question tags on each problem below.
             </small>
             <div className="tag-chip-group">
               {TAG_OPTIONS.map((option) => (
@@ -898,8 +898,8 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
                     onChange={(e) => updateProblem(p.id, "topicTags", e.target.value)}
                   />
                   <small className="form-hint">
-                    Add tags if this question should feed Practice mode. A tag appears in Practice
-                    after more than 10 published questions use it.
+                    Type any new tag name to create it. A tag appears in Practice after more than 10
+                    published questions use it.
                   </small>
                   <div className="tag-chip-group">
                     {TAG_OPTIONS.map((option) => (
