@@ -173,7 +173,7 @@ export default async function AdminStudentsPage({
               <Users size={20} />
             </div>
             <div className="table-wrap">
-              <table>
+              <table className="students-table">
                 <thead>
                   <tr>
                     <th>Name</th>
