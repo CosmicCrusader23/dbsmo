@@ -699,7 +699,7 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
   return (
     <div className="battle-shell" ref={wrapRef}>
       <header className="battle-header">
-        <PageBackLink compact destination="Playground" href="/playground" />
+        <PageBackLink destination="Playground" href="/playground" />
         <div className="battle-header-stats">
           <span className="battle-clock" data-low={clock <= 20}>
             ⏱ {Math.floor(clock / 60)}:{String(clock % 60).padStart(2, "0")}
@@ -798,7 +798,7 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
             <strong>{boss.trophyTitle}</strong>
             <p>{boss.trophyFlavor}</p>
           </div>
-          <PageBackLink compact destination="Playground" href="/playground" />
+          <PageBackLink destination="Playground" href="/playground" />
         </div>
       ) : null}
 

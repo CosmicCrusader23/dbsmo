@@ -118,7 +118,7 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
             <Trophy size={16} />
             Leaderboard
           </Link>
-          <PageBackLink compact destination="Dashboard" href="/dashboard" />
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

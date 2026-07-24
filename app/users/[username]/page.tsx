@@ -241,7 +241,7 @@ export default async function UserProfilePage({
       <main className="profile-shell">
         <header className="profile-header">
           <div className="topbar-actions">
-            <PageBackLink compact destination="Users" href="/users" />
+            <PageBackLink destination="Users" href="/users" />
           </div>
         </header>
         <section className="profile-section">
@@ -503,7 +503,7 @@ export default async function UserProfilePage({
     <main className="profile-shell">
       <header className="profile-header">
         <div className="topbar-actions">
-          <PageBackLink compact destination="Users" href="/users" />
+          <PageBackLink destination="Users" href="/users" />
         </div>
       </header>
 

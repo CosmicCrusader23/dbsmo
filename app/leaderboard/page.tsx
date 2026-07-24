@@ -215,7 +215,7 @@ export default async function LeaderboardPage({
             <Users size={16} />
             All users
           </Link>
-          <PageBackLink compact destination="Dashboard" href="/dashboard" />
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

@@ -150,7 +150,7 @@ export function ClassDetailClient({ classId }: { classId: string }) {
             {deleting ? <MathCurveLoader size={16} label="Deleting class" /> : <Trash2 size={16} />}
             {deleting ? "Deleting..." : "Delete class"}
           </button>
-          <PageBackLink compact destination="Classes" href="/admin/classes" />
+          <PageBackLink destination="Classes" href="/classes" />
         </div>
       </header>
 

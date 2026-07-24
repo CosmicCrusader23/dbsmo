@@ -7,6 +7,7 @@ import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { buildCompletionMap } from "@/lib/classes";
 import { displayNameFor } from "@/lib/display-name";
+import { PageBackLink } from "@/app/page-back-link";
 import { AnnouncementComposer } from "./announcement-composer";
 import { DeleteAnnouncementButton } from "./delete-announcement-button";
 
@@ -94,11 +95,14 @@ export default async function ClassesPage({
             <GraduationCap size={26} /> Classes
           </h1>
         </div>
-        {canTeach ? (
-          <Link href="/admin/classes/new" className="primary-action">
-            <Plus size={16} /> New class
-          </Link>
-        ) : null}
+        <div className="topbar-actions">
+          <PageBackLink destination="Dashboard" href="/dashboard" />
+          {canTeach ? (
+            <Link href="/admin/classes/new" className="primary-action">
+              <Plus size={16} /> New class
+            </Link>
+          ) : null}
+        </div>
       </header>
 
       {canTeach ? (

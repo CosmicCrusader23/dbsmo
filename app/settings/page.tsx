@@ -228,7 +228,7 @@ export default function SettingsPage() {
           <p className="eyebrow">Account</p>
           <h1>Settings</h1>
         </div>
-        <PageBackLink compact destination="Dashboard" href="/dashboard" />
+        <PageBackLink destination="Dashboard" href="/dashboard" />
       </header>
 
       {error && (

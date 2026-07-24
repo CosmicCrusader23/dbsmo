@@ -414,7 +414,7 @@ export default async function ProblemSetsPage({
           <Link className="secondary-action" href={profileHref}>
             My profile
           </Link>
-          <PageBackLink compact destination="Dashboard" href="/dashboard" />
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

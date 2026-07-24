@@ -12245,3 +12245,14 @@ html:is(.light, .dark) .notfound-digit-zero {
     width: 100%;
   }
 }
+
+/* Keep page-exit controls identical across every header and responsive layout. */
+.secondary-action.page-back-link {
+  flex: 0 0 auto;
+  width: auto;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.9rem;
+  line-height: 1;
+}

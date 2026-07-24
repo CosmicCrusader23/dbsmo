@@ -35,7 +35,7 @@ export function PlaygroundHub({ bosses, userId }: { bosses: Boss[]; userId: stri
           </h1>
         </div>
         <div className="topbar-actions">
-          <PageBackLink compact destination="Dashboard" href="/dashboard" />
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

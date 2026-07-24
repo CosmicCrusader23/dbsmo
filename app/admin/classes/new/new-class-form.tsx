@@ -59,7 +59,7 @@ export function NewClassForm() {
   return (
     <main className="classes-shell">
       <header className="topbar">
-        <PageBackLink compact destination="Classes" href="/admin/classes" />
+        <PageBackLink destination="Classes" href="/classes" />
       </header>
 
       <form className="classes-form" onSubmit={submit}>

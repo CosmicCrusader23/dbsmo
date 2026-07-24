@@ -343,7 +343,7 @@ export function ZipImportPanel() {
               <ExternalLink size={16} />
               View draft
             </Link>
-            <PageBackLink compact destination="Manage Sets" href="/admin/sets" />
+            <PageBackLink destination="Manage Sets" href="/admin/sets" />
           </div>
           {importResult.created.warnings.length > 0 && (
             <div className="issue-list">

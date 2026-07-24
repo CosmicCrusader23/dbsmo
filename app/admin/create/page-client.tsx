@@ -467,7 +467,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
           <h1>{importDraftKey ? "Fix JSON Draft" : "Create Problem Set"}</h1>
         </div>
         <div className="create-set-header-actions">
-          <PageBackLink compact destination="Manage Sets" href="/admin/sets" />
+          <PageBackLink destination="Manage Sets" href="/admin/sets" />
           <button className="primary-action" onClick={handleSubmit} disabled={saving}>
             {saving ? <MathCurveLoader size={16} label="Saving problem set" /> : <Save size={16} />}
             {saving ? "Saving..." : "Save problem set"}
