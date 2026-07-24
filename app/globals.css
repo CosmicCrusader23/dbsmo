@@ -459,6 +459,19 @@ body.has-site-sidebar .app-footer {
   padding: 0 14px;
 }
 
+.page-back-link {
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.page-back-link svg {
+  flex: 0 0 auto;
+}
+
+.feedback-back-link {
+  justify-self: start;
+}
+
 .icon-button {
   width: 44px;
   color: var(--color-text);

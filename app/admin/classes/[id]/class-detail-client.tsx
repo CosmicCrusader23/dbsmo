@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, CheckCircle2, Plus, Trash2, X } from "lucide-react";
+import { CheckCircle2, Plus, Trash2, X } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 
 type Member = { id: string; name: string; email: string; addedAt: string };
 type SetSummary = { id: string; slug: string; title: string };
@@ -150,9 +150,7 @@ export function ClassDetailClient({ classId }: { classId: string }) {
             {deleting ? <MathCurveLoader size={16} label="Deleting class" /> : <Trash2 size={16} />}
             {deleting ? "Deleting..." : "Delete class"}
           </button>
-          <Link href="/admin/classes" className="secondary-action">
-            <ArrowLeft size={16} /> Back
-          </Link>
+          <PageBackLink compact destination="Classes" href="/admin/classes" />
         </div>
       </header>
 

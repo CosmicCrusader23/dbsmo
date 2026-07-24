@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, LayoutGrid, Search } from "lucide-react";
+import { LayoutGrid, Search } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import {
@@ -16,6 +16,7 @@ import { profilePathFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { compareProblemSetOrder, compareProblemSetRecords } from "@/lib/problem-set-order";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -413,10 +414,7 @@ export default async function ProblemSetsPage({
           <Link className="secondary-action" href={profileHref}>
             My profile
           </Link>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+          <PageBackLink compact destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

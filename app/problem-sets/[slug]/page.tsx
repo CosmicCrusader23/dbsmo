@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import "katex/dist/katex.min.css";
 
 import {
-  ArrowLeft,
   BarChart3,
   CheckCircle2,
   ClipboardCheck,
@@ -16,6 +15,7 @@ import {
   Settings,
 } from "lucide-react";
 import { ThemeToggle } from "@/app/theme-toggle";
+import { PageBackLink } from "@/app/page-back-link";
 import { AnswerGrid } from "./answer-grid";
 import { BookmarkButton } from "./bookmark-button";
 import { LatexStatement } from "./latex-statement";
@@ -134,10 +134,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 </Link>
               </>
             )}
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
+            <PageBackLink destination="Problem Sets" href="/problem-sets" />
           </div>
         </header>
 

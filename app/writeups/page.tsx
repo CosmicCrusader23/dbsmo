@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, MessageSquareText, Search, TrendingUp } from "lucide-react";
+import { MessageSquareText, Search, TrendingUp } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { displayNameFor } from "@/lib/display-name";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { WriteupsClient } from "@/app/problem-sets/[slug]/writeups/writeups-client";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -153,10 +154,7 @@ export default async function WriteupsPage({
             </h1>
           </div>
           <div className="topbar-actions">
-            <Link className="secondary-action" href="/problem-sets">
-              <ArrowLeft size={18} />
-              Problem sets
-            </Link>
+            <PageBackLink destination="Dashboard" href="/dashboard" />
             <Link className="secondary-action" href={writeupsHref({ q: query, view: "top" })}>
               <TrendingUp size={16} />
               Top

@@ -23,12 +23,10 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { activeSidebarHref, type SidebarNavLink } from "@/lib/sidebar-navigation";
 
-type SidebarLink = {
-  href: string;
-  label: string;
+type SidebarLink = Omit<SidebarNavLink, "icon"> & {
   icon: keyof typeof ICON_MAP;
-  match?: string;
 };
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -54,6 +52,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
   const pathname = usePathname() ?? "/";
   const navRef = useRef<HTMLElement | null>(null);
+  const activeHref = activeSidebarHref(pathname, links);
 
   useEffect(() => {
     const sidebar = navRef.current?.closest(".sidebar") as HTMLElement | null;
@@ -74,11 +73,10 @@ export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
     <nav className="nav-list" ref={navRef}>
       {links.map((link) => {
         const Icon = ICON_MAP[link.icon];
-        const matchPrefix = link.match ?? link.href;
-        const isActive =
-          pathname === link.href || (matchPrefix !== "/" && pathname.startsWith(matchPrefix));
+        const isActive = activeHref === link.href;
         return (
           <Link
+            aria-current={isActive ? "page" : undefined}
             key={link.href}
             className={`nav-item${isActive ? " active" : ""}`}
             href={link.href}

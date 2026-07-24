@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
-  ArrowLeft,
   BarChart3,
   CheckCircle2,
   ChevronDown,
@@ -20,6 +19,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { CANONICAL_TAGS, normalizeProblemTag, normalizeTagList } from "@/lib/problem-tags";
 import { DeleteSetButton } from "../delete-set-button";
@@ -499,14 +499,7 @@ export function SetEditForm({ set }: { set: SetData }) {
             {isSaving ? <MathCurveLoader size={18} label="Saving set" /> : <Save size={18} />}
             {isSaving ? "Saving…" : "Save changes"}
           </button>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={18} />
-            Dashboard
-          </Link>
-          <Link className="secondary-action" href="/admin/sets" style={{ marginLeft: "10px" }}>
-            <ArrowLeft size={18} />
-            All sets
-          </Link>
+          <PageBackLink destination="Manage Sets" href="/admin/sets" />
         </div>
       </header>
 

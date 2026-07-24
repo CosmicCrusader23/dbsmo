@@ -13,6 +13,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 import {
   createJsonImportDraftKey,
   saveJsonImportDraft,
@@ -342,9 +343,7 @@ export function ZipImportPanel() {
               <ExternalLink size={16} />
               View draft
             </Link>
-            <Link className="secondary-action compact" href="/admin/sets">
-              All sets
-            </Link>
+            <PageBackLink compact destination="Manage Sets" href="/admin/sets" />
           </div>
           {importResult.created.warnings.length > 0 && (
             <div className="issue-list">

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { PageBackLink } from "@/app/page-back-link";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import {
@@ -85,14 +85,7 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
             <h1>{student.name ?? student.email}</h1>
           </div>
           <div className="topbar-actions">
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
-            <Link className="secondary-action" href="/admin/students">
-              <ArrowLeft size={18} />
-              All students
-            </Link>
+            <PageBackLink destination="Students" href="/admin/students" />
           </div>
         </header>
         <section className="metric-grid" aria-label="Student metrics">

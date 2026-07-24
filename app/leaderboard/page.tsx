@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Heart, Target, Trophy, Users } from "lucide-react";
+import { Heart, Target, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
@@ -10,6 +10,7 @@ import { isVisibleToStudent } from "@/lib/visibility";
 import { displayNameFor } from "@/lib/display-name";
 import { computePerformanceProfile, performanceEvidenceLabel } from "@/lib/analytics";
 import { Avatar } from "@/app/avatar";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -214,10 +215,7 @@ export default async function LeaderboardPage({
             <Users size={16} />
             All users
           </Link>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+          <PageBackLink compact destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

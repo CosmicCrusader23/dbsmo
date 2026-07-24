@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import katex from "katex";
-import { ArrowLeft, Heart, Trophy } from "lucide-react";
+import { Heart, Trophy } from "lucide-react";
 import type { Boss, Phase } from "@/lib/playground/bosses";
 import { isCorrect } from "@/lib/playground/bosses";
+import { PageBackLink } from "@/app/page-back-link";
 
 type GameState =
   | { kind: "intro"; line: number }
@@ -698,10 +699,7 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
   return (
     <div className="battle-shell" ref={wrapRef}>
       <header className="battle-header">
-        <Link href="/playground" className="secondary-action compact">
-          <ArrowLeft size={16} />
-          Leave fight
-        </Link>
+        <PageBackLink compact destination="Playground" href="/playground" />
         <div className="battle-header-stats">
           <span className="battle-clock" data-low={clock <= 20}>
             ⏱ {Math.floor(clock / 60)}:{String(clock % 60).padStart(2, "0")}
@@ -800,9 +798,7 @@ export function BossBattle({ boss, userId }: { boss: Boss; userId: string }) {
             <strong>{boss.trophyTitle}</strong>
             <p>{boss.trophyFlavor}</p>
           </div>
-          <Link href="/playground" className="secondary-action compact">
-            Back to Playground
-          </Link>
+          <PageBackLink compact destination="Playground" href="/playground" />
         </div>
       ) : null}
 

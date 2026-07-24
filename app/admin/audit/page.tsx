@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, ShieldCheck, Search } from "lucide-react";
+import { ShieldCheck, Search } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { AuditFilters } from "./audit-filters";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -133,10 +133,7 @@ export default async function AdminAuditPage({
               Audit log
             </h1>
           </div>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={18} />
-            Dashboard
-          </Link>
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </header>
 
         <section className="audit-stat-grid">

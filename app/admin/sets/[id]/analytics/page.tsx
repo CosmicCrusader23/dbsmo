@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { notFound, redirect } from "next/navigation";
-import { ArrowLeft, BarChart3 } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { computeScoreBuckets, accuracyLevel } from "@/lib/analytics";
 import { hasPermission } from "@/lib/permissions";
 import { AnalyticsMotion } from "@/app/admin/analytics/analytics-motion";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -70,14 +71,7 @@ export default async function SetAnalyticsPage({ params }: Props) {
             <h1>{set.title}</h1>
           </div>
           <div className="topbar-actions">
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
-            <Link className="secondary-action" href={`/admin/sets/${id}`}>
-              <ArrowLeft size={18} />
-              Back to set
-            </Link>
+            <PageBackLink destination="Set" href={`/admin/sets/${id}`} />
           </div>
         </header>
         <section className="metric-grid" aria-label="Set analytics">

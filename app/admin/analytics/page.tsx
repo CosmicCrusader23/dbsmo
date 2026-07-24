@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Download, Flame } from "lucide-react";
+import { Download, Flame } from "lucide-react";
 import type { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
@@ -19,6 +19,7 @@ import {
 import { normalizeTagList } from "@/lib/problem-tags";
 import { hasPermission } from "@/lib/permissions";
 import { displayNameFor } from "@/lib/display-name";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -525,9 +526,7 @@ export default async function AnalyticsOverviewPage({
             <a className="secondary-action compact" href="/api/admin/export?type=attempts" download>
               <Download size={16} /> Export CSV
             </a>
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} /> Dashboard
-            </Link>
+            <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
 

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import Link from "next/link";
-import { ArrowLeft, Save, User, CheckCircle2, AlertCircle, Moon, Sun } from "lucide-react";
+import { Save, User, CheckCircle2, AlertCircle, Moon, Sun } from "lucide-react";
 import { Avatar } from "@/app/avatar";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 import { normalizeDisplayText } from "@/lib/display-name";
 
 const MAX_AVATAR_BYTES = 512 * 1024;
@@ -228,10 +228,7 @@ export default function SettingsPage() {
           <p className="eyebrow">Account</p>
           <h1>Settings</h1>
         </div>
-        <Link className="secondary-action" href="/dashboard">
-          <ArrowLeft size={16} />
-          Dashboard
-        </Link>
+        <PageBackLink compact destination="Dashboard" href="/dashboard" />
       </header>
 
       {error && (

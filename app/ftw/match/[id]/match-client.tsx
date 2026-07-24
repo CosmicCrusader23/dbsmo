@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, Hourglass, Send, Timer, XCircle } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 
 type ProblemPayload = {
@@ -180,9 +181,7 @@ export function FtwMatchClient({ matchId, tag, totalProblems, maxScore, initialS
           <Link href="/ftw" className="primary-action">
             Play again <ArrowRight size={18} />
           </Link>
-          <Link href="/dashboard" className="secondary-action">
-            Dashboard
-          </Link>
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </div>
       </section>
     );

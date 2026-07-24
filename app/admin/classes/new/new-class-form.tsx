@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 
 type Match = { id: string; name: string; email: string };
 
@@ -59,9 +59,7 @@ export function NewClassForm() {
   return (
     <main className="classes-shell">
       <header className="topbar">
-        <Link href="/admin/classes" className="secondary-action">
-          <ArrowLeft size={16} /> Classes
-        </Link>
+        <PageBackLink compact destination="Classes" href="/admin/classes" />
       </header>
 
       <form className="classes-form" onSubmit={submit}>

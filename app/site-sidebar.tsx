@@ -55,7 +55,7 @@ export async function SiteSidebar() {
 
   links.push(
     { href: "/users", label: "Users", icon: "Users" },
-    { href: profileHref, label: "My Profile", icon: "User", match: "/users/" },
+    { href: profileHref, label: "My Profile", icon: "User" },
     { href: "/leaderboard", label: "Leaderboard", icon: "Trophy" },
     { href: "/settings", label: "Settings", icon: "Settings" },
   );

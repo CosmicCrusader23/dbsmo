@@ -1,11 +1,11 @@
-import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, FileJson } from "lucide-react";
+import { FileJson } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 import { JsonZipImportPanel } from "./json-zip-import-panel";
 import { ZipImportPanel } from "./zip-import-panel";
+import { PageBackLink } from "@/app/page-back-link";
 
 export default async function ImportPage() {
   const session = await getServerSession(authOptions);
@@ -26,10 +26,7 @@ export default async function ImportPage() {
             <p className="eyebrow">Admin</p>
             <h1>JSON Import</h1>
           </div>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={18} />
-            Dashboard
-          </Link>
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </header>
 
         <section className="import-layout">

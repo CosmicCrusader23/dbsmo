@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { notFound, redirect } from "next/navigation";
 import {
-  ArrowLeft,
   BookOpen,
   CheckCircle2,
   ChevronDown,
@@ -16,6 +15,7 @@ import "katex/dist/katex.min.css";
 
 import { Avatar } from "@/app/avatar";
 import { ThemeToggle } from "@/app/theme-toggle";
+import { PageBackLink } from "@/app/page-back-link";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 import { authOptions } from "@/lib/auth";
 import {
@@ -118,10 +118,7 @@ export default async function AttemptReviewPage({ params }: Props) {
           </div>
           <div className="topbar-actions">
             <ThemeToggle />
-            <Link className="secondary-action" href={backHref}>
-              <ArrowLeft size={18} />
-              {backLabel}
-            </Link>
+            <PageBackLink destination={backLabel} href={backHref} />
             <Link className="secondary-action" href={`/problem-sets/${attempt.problemSet.slug}`}>
               <BookOpen size={18} />
               Open set

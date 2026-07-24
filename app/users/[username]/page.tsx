@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect, notFound } from "next/navigation";
-import { ArrowLeft, Calendar, ClipboardList, Grid2x2, Mail } from "lucide-react";
+import { Calendar, ClipboardList, Grid2x2, Mail } from "lucide-react";
 import type { CSSProperties } from "react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
@@ -18,6 +18,7 @@ import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { canLinkProblemSetFromProfile } from "@/lib/profile-visibility";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
+import { PageBackLink } from "@/app/page-back-link";
 import { AuthoredTasksTable } from "./authored-tasks-table";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
@@ -240,14 +241,7 @@ export default async function UserProfilePage({
       <main className="profile-shell">
         <header className="profile-header">
           <div className="topbar-actions">
-            <Link className="secondary-action" href="/users">
-              <ArrowLeft size={16} />
-              All users
-            </Link>
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={16} />
-              Dashboard
-            </Link>
+            <PageBackLink compact destination="Users" href="/users" />
           </div>
         </header>
         <section className="profile-section">
@@ -509,14 +503,7 @@ export default async function UserProfilePage({
     <main className="profile-shell">
       <header className="profile-header">
         <div className="topbar-actions">
-          <Link className="secondary-action" href="/users">
-            <ArrowLeft size={16} />
-            All users
-          </Link>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+          <PageBackLink compact destination="Users" href="/users" />
         </div>
       </header>
 

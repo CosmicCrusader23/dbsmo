@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, MessageSquareWarning } from "lucide-react";
+import { MessageSquareWarning } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { ThemeToggle } from "@/app/theme-toggle";
 import { hasPermission } from "@/lib/permissions";
 import { FeedbackActions } from "./feedback-actions";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +31,11 @@ export default async function AdminFeedbackPage({
         <div className="page-frame">
           <div className="panel" style={{ display: "grid", gap: 12, padding: 24 }}>
             <p>Unauthorized - Admin access required</p>
-            <Link className="secondary-action" href="/dashboard" style={{ width: "fit-content" }}>
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
+            <PageBackLink
+              className="feedback-back-link"
+              destination="Dashboard"
+              href="/dashboard"
+            />
           </div>
         </div>
       </main>
@@ -74,10 +76,7 @@ export default async function AdminFeedbackPage({
           </div>
           <div className="topbar-actions">
             <ThemeToggle />
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
+            <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
 

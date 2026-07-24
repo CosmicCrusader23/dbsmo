@@ -1,10 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
-  ArrowLeft,
   CheckCircle2,
   Copy,
   Play,
@@ -14,6 +12,7 @@ import {
 } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
+import { PageBackLink } from "@/app/page-back-link";
 
 type Player = {
   id: string;
@@ -222,10 +221,7 @@ export function FtwRoomClient({
             </button>
           </h1>
         </div>
-        <Link className="secondary-action" href="/ftw">
-          <ArrowLeft size={18} />
-          Lobby
-        </Link>
+        <PageBackLink destination="FTW" href="/ftw" />
       </header>
 
       <div className="ftw-room-grid">
@@ -419,9 +415,7 @@ export function FtwRoomClient({
                 {sortedPlayers[0]?.score ?? 0} / {totalScored}
               </p>
               <div className="ftw-result-actions">
-                <Link href="/ftw" className="primary-action">
-                  Back to lobby
-                </Link>
+                <PageBackLink destination="FTW" href="/ftw" />
               </div>
             </section>
           )}

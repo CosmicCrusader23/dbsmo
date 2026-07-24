@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, BarChart3, Download, ExternalLink, FileJson, Plus, Search } from "lucide-react";
+import { BarChart3, Download, ExternalLink, FileJson, Plus, Search } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
@@ -9,6 +9,7 @@ import { statusLabel, statusColor } from "@/lib/visibility";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { DeleteSetButton } from "./delete-set-button";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -119,10 +120,7 @@ export default async function AdminSetsPage({
               <Plus size={18} />
               Import JSON
             </Link>
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
+            <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
 

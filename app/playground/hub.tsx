@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Sparkles, Trophy } from "lucide-react";
+import { Sparkles, Trophy } from "lucide-react";
 import type { Boss } from "@/lib/playground/bosses";
+import { PageBackLink } from "@/app/page-back-link";
 
 export function PlaygroundHub({ bosses, userId }: { bosses: Boss[]; userId: string }) {
   const [trophies, setTrophies] = useState<Record<string, number>>({});
@@ -34,10 +35,7 @@ export function PlaygroundHub({ bosses, userId }: { bosses: Boss[]; userId: stri
           </h1>
         </div>
         <div className="topbar-actions">
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+          <PageBackLink compact destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

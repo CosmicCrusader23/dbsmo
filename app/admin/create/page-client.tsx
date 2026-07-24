@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  ArrowLeft,
   Plus,
   Trash2,
   GripVertical,
@@ -26,6 +24,7 @@ import {
   type ImportIssue,
 } from "@/lib/import/json-draft-storage";
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
+import { PageBackLink } from "@/app/page-back-link";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 
 type AnswerType = "INTEGER" | "DECIMAL" | "FRACTION" | "EXACT" | "SET" | "MULTIPLE" | "EXPRESSION";
@@ -468,14 +467,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
           <h1>{importDraftKey ? "Fix JSON Draft" : "Create Problem Set"}</h1>
         </div>
         <div className="create-set-header-actions">
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
-          <Link className="secondary-action" href="/admin/sets">
-            <ArrowLeft size={16} />
-            Back to sets
-          </Link>
+          <PageBackLink compact destination="Manage Sets" href="/admin/sets" />
           <button className="primary-action" onClick={handleSubmit} disabled={saving}>
             {saving ? <MathCurveLoader size={16} label="Saving problem set" /> : <Save size={16} />}
             {saving ? "Saving..." : "Save problem set"}

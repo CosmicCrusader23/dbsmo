@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
@@ -15,6 +14,7 @@ import {
   Search,
 } from "lucide-react";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import { PageBackLink } from "@/app/page-back-link";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { LatexStatement } from "../problem-sets/[slug]/latex-statement";
 import { mathInputToTex } from "@/lib/math-input";
@@ -187,10 +187,7 @@ export default function PracticePage() {
                 <strong>{practiceScore}</strong>
               </div>
             ) : null}
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
+            <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
 

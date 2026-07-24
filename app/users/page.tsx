@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Search, Trophy, Users } from "lucide-react";
+import { Search, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { profilePathFromEmail } from "@/lib/user-profile";
@@ -9,6 +9,7 @@ import { canViewPrivateProfiles } from "@/lib/permissions";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -117,10 +118,7 @@ export default async function UsersPage({ searchParams }: { searchParams?: Users
             <Trophy size={16} />
             Leaderboard
           </Link>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={16} />
-            Dashboard
-          </Link>
+          <PageBackLink compact destination="Dashboard" href="/dashboard" />
         </div>
       </header>
 

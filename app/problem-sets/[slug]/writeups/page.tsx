@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MessageSquareText } from "lucide-react";
+import { MessageSquareText } from "lucide-react";
+import { PageBackLink } from "@/app/page-back-link";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isVisibleToStudent } from "@/lib/visibility";
@@ -114,13 +115,7 @@ export default async function ProblemSetWriteupsPage({ params, searchParams }: W
             </h1>
           </div>
           <div className="topbar-actions">
-            <Link className="secondary-action" href={`/problem-sets/${problemSet.slug}`}>
-              <ArrowLeft size={18} />
-              Problem set
-            </Link>
-            <Link className="secondary-action" href="/dashboard">
-              Dashboard
-            </Link>
+            <PageBackLink destination="Problem Set" href={`/problem-sets/${problemSet.slug}`} />
           </div>
         </header>
 

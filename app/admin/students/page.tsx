@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Download, ExternalLink, Search, Users } from "lucide-react";
+import { Download, ExternalLink, Search, Users } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
@@ -8,6 +8,7 @@ import { computePerformanceProfile, performanceEvidenceLabel } from "@/lib/analy
 import { hasPermission } from "@/lib/permissions";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -126,10 +127,7 @@ export default async function AdminStudentsPage({
               <Download size={16} />
               Export CSV
             </a>
-            <Link className="secondary-action" href="/dashboard">
-              <ArrowLeft size={18} />
-              Dashboard
-            </Link>
+            <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
 

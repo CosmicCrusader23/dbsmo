@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import { ArrowLeft, Crown, Flame, Swords, Trophy, Users } from "lucide-react";
+import { Crown, Flame, Swords, Trophy, Users } from "lucide-react";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
 import { normalizeTagList } from "@/lib/problem-tags";
 import { FTW_PROBLEMS_PER_MATCH, FTW_PROBLEM_LIMIT_SEC } from "@/lib/ftw";
 import { displayNameFor } from "@/lib/display-name";
 import { FtwLobbyForm } from "./lobby-form";
+import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
@@ -191,10 +191,7 @@ export default async function FtwHomePage() {
             <p className="eyebrow">Speed round</p>
             <h1>FTW</h1>
           </div>
-          <Link className="secondary-action" href="/dashboard">
-            <ArrowLeft size={18} />
-            Dashboard
-          </Link>
+          <PageBackLink destination="Dashboard" href="/dashboard" />
         </header>
 
         <section className="ftw-hero">
