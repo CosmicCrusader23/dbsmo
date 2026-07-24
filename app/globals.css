@@ -12279,3 +12279,17 @@ html:is(.light, .dark) .notfound-digit-zero {
 .leaderboard-table tbody tr:hover {
   background: color-mix(in srgb, var(--paper-blue) 55%, transparent);
 }
+
+/* Preserve horizontal math scrolling without painting a scrollbar under every formula. */
+.statement-math-inline,
+.statement-math-block {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.statement-math-inline::-webkit-scrollbar,
+.statement-math-block::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}

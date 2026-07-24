@@ -34,6 +34,10 @@ Legacy display environments `eqnarray`, `flalign`, `multline`, and `displaymath`
 
 Full-document wrappers are tolerated for imports: DBSMO extracts the content inside `\begin{document}...\end{document}` and ignores `\documentclass`, `\usepackage`, and outer centering environments. Packages named in `\usepackage` are not downloaded or executed.
 
+## Responsive Rendering
+
+Inline and display math retain local horizontal scrolling when an expression is wider than its problem card. The browser scrollbar is visually hidden so short KaTeX expressions do not acquire grey scrollbar pills; touch, trackpad, and wheel scrolling remain available for long expressions.
+
 ## MathLive Compatibility
 
 MathLive is an interactive math editor with its own command dictionary; it is not a full TeX package runtime or a drop-in replacement for KaTeX. Its documented table examples use the `array` environment, which KaTeX already supports. DBSMO adds conservative aliases for MathLive's predefined notation macros when they have a direct KaTeX equivalent.
