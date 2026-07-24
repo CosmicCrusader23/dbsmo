@@ -7121,6 +7121,12 @@ html.dark .theme-choice-button.active {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   background: var(--color-card-bg);
+  scroll-margin-top: 1rem;
+}
+
+.writeup-post:target {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-blue) 18%, transparent);
 }
 
 .writeup-post-votes {
@@ -7198,6 +7204,17 @@ html.dark .theme-choice-button.active {
   font-size: 1rem;
 }
 
+.writeup-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.writeup-title-link:hover {
+  color: var(--color-blue);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .writeup-set-pill {
   display: inline-flex;
   margin-top: 0.45rem;
@@ -7228,13 +7245,51 @@ html.dark .theme-choice-button.active {
   margin-top: 0.75rem;
 }
 
-.writeup-image-grid img {
-  width: 100%;
-  max-height: 320px;
-  object-fit: contain;
+.writeup-image-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
   border: 1px solid var(--color-border);
   border-radius: 10px;
   background: #050507;
+  cursor: zoom-in;
+}
+
+.writeup-image-grid img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+}
+
+.writeup-image-link > span {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 30px;
+  padding: 0 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 9999px;
+  background: rgba(5, 5, 7, 0.82);
+  color: #fff;
+  font-size: 0.74rem;
+  font-weight: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+
+.writeup-image-link:hover > span,
+.writeup-image-link:focus-visible > span {
+  opacity: 1;
+}
+
+.writeup-image-link:focus-visible {
+  outline: 3px solid var(--color-blue);
+  outline-offset: 3px;
 }
 
 .writeup-post-actions {
@@ -7248,6 +7303,8 @@ html.dark .theme-choice-button.active {
 
 .writeup-set-link {
   display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   color: var(--color-muted);
   font-size: 0.78rem;
   font-weight: 900;

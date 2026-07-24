@@ -3,10 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowDown, ArrowUp, Check, ImagePlus, Send, Sigma, Trash2, X } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  Check,
+  ExternalLink,
+  ImagePlus,
+  Maximize2,
+  Send,
+  Sigma,
+  Trash2,
+  X,
+} from "lucide-react";
 import { Avatar } from "@/app/avatar";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { displayNameFor } from "@/lib/display-name";
+import { writeupPostHref, writeupPostId } from "@/lib/writeup-links";
 import { LatexStatement } from "../latex-statement";
 
 type WriteupPost = {
@@ -283,8 +295,9 @@ export function WriteupsClient({
             const authorLabel = displayNameFor(writeup.author);
             const setSlug = writeup.problemSet?.slug ?? problemSetSlug;
             const setTitle = writeup.problemSet?.title;
+            const postHref = setSlug === undefined ? null : writeupPostHref(setSlug, writeup.id);
             return (
-              <article className="writeup-post" key={writeup.id}>
+              <article className="writeup-post" id={writeupPostId(writeup.id)} key={writeup.id}>
                 <div className="writeup-post-votes">
                   <button
                     type="button"
@@ -312,7 +325,15 @@ export function WriteupsClient({
                         <strong>{authorLabel}</strong>
                         <span>posted {timeAgo(writeup.createdAt)}</span>
                       </div>
-                      <h3>{writeup.title}</h3>
+                      <h3>
+                        {writeup.problemSet && postHref ? (
+                          <Link className="writeup-title-link" href={postHref}>
+                            {writeup.title}
+                          </Link>
+                        ) : (
+                          writeup.title
+                        )}
+                      </h3>
                       {setTitle && setSlug ? (
                         <Link className="writeup-set-pill" href={`/problem-sets/${setSlug}`}>
                           {setTitle}
@@ -328,15 +349,39 @@ export function WriteupsClient({
                   {writeup.images.length > 0 ? (
                     <div className="writeup-image-grid">
                       {writeup.images.map((image) => (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img src={image.url} alt={image.name} key={image.id} />
+                        <a
+                          aria-label={`Open image ${image.name} full size`}
+                          className="writeup-image-link"
+                          href={image.url}
+                          key={image.id}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          title={`Open ${image.name} full size`}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={image.url} alt={image.name} />
+                          <span>
+                            <Maximize2 aria-hidden="true" size={14} />
+                            Open image
+                          </span>
+                        </a>
                       ))}
                     </div>
                   ) : null}
                   <div className="writeup-post-actions">
-                    {setSlug ? (
-                      <Link className="writeup-set-link" href={`/problem-sets/${setSlug}`}>
-                        {writeup.problemSet ? "Open set" : "Back to set"}
+                    {setSlug && postHref ? (
+                      <Link
+                        className="writeup-set-link"
+                        href={writeup.problemSet ? postHref : `/problem-sets/${setSlug}`}
+                      >
+                        {writeup.problemSet ? (
+                          <>
+                            <ExternalLink aria-hidden="true" size={14} />
+                            Open writeup
+                          </>
+                        ) : (
+                          "Back to set"
+                        )}
                       </Link>
                     ) : null}
                     {writeup.canDelete ? (
