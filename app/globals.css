@@ -1291,6 +1291,8 @@ td {
 }
 
 .statement-text {
+  min-width: 0;
+  max-width: 100%;
   margin: 0;
   color: var(--color-text-strong);
   font-size: 1rem;
@@ -1301,7 +1303,12 @@ td {
 
 .statement-math-inline {
   display: inline-block;
+  max-width: 100%;
   margin: 0 0.15rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
+  -webkit-overflow-scrolling: touch;
 }
 
 .statement-math-block {
@@ -1384,6 +1391,8 @@ img.avatar {
 
 .problem-workspace {
   display: block;
+  min-width: 0;
+  max-width: 100%;
   padding: 20px;
 }
 
@@ -1487,7 +1496,10 @@ img.avatar {
 
 .problem-question-card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
+  min-width: 0;
+  max-width: 100%;
   padding: 18px;
   scroll-margin-top: 24px;
 }
@@ -1554,6 +1566,8 @@ img.avatar {
 .question-answer-block {
   display: grid;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .question-answer-label {
@@ -2655,6 +2669,24 @@ html:not(.light) .problem-jump-button {
 
   .problem-jump-grid.compact {
     grid-template-columns: repeat(auto-fit, minmax(68px, 1fr));
+  }
+
+  .problem-workspace {
+    padding: 12px;
+  }
+
+  .problem-question-card {
+    padding: 14px;
+  }
+
+  .question-card-head {
+    flex-wrap: wrap;
+  }
+
+  .statement-math-inline,
+  .statement-math-block {
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
   }
 
   .preview-grid {
