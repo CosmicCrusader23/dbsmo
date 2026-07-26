@@ -4,7 +4,6 @@ import type { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { AnalyticsFilters } from "./filters";
-import { AnalyticsMotion } from "./analytics-motion";
 import { TrendChart, type TrendPoint } from "./trend-chart";
 import { prisma } from "@/lib/db";
 import { authOptions } from "@/lib/auth";
@@ -516,7 +515,6 @@ export default async function AnalyticsOverviewPage({
         <span className="bg-spark bg-spark-two" />
       </div>
       <div className="page-frame analytics-frame">
-        <AnalyticsMotion />
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Admin</p>

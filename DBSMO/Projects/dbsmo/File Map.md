@@ -25,7 +25,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 
 ## `app/` Routes and UI
 
-- `app/layout.tsx`, `app/anime-route-effects.tsx` - root layout, Inter font, KaTeX CSS, theme bootstrap script, sidebar shell, mobile nav toggle, route-level Anime.js reveal effects, and global body wrapper (sources: named files).
+- `app/layout.tsx` - root layout, Inter/Shantell Sans fonts, KaTeX CSS, theme bootstrap script, sidebar shell, mobile nav toggle, global body wrapper, and footer. Route content renders immediately without a global entrance-animation component (source: named file).
 - `app/globals.css` - dominant styling for app shells and components (source: `app/globals.css`).
 - `app/page.tsx`, `app/login/page.tsx`, `app/dashboard/page.tsx` - landing/login/dashboard surfaces (sources: named files).
 - `app/site-sidebar.tsx`, `app/site-sidebar-nav.tsx`, `app/global-mobile-nav.tsx` - authenticated sidebar links and mobile nav behavior (sources: named files).

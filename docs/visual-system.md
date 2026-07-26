@@ -42,7 +42,7 @@ Primary references:
 1. Add or modify shared colors through the light `:root` and `html.dark` variables together.
 2. Preserve conventional borders and radii before adding experimental shape properties.
 3. Keep touch-target dimensions independent of transforms, clips, and decorative pseudo-elements.
-4. Disable nonessential motion under `prefers-reduced-motion`.
+4. Do not add staged page, panel, card, row, bar, or chart entrance animations. Content should render at its final state immediately; reserve motion for functional loading, compact feedback, and direct hover/focus interaction, with `prefers-reduced-motion` support.
 5. Verify the public landing page and at least one dense authenticated surface at desktop and mobile widths after broad CSS changes.
 6. Include a tall problem set in visual QA whenever changing shared panel geometry; checking a short mock panel is not sufficient.
 7. Keep marker colors for state and emphasis; do not restore global wavy eyebrow or page-title underlines.

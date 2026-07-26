@@ -46,7 +46,7 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Added problem-set writeups with LaTeX/HTML text, image uploads, latest/top sorting, and upvote/downvote voting. Writeups are reachable from the set header beside the bookmark action and remain accessible regardless of submission status.
 - Added owner/admin writeup deletion with an in-card confirmation step, plus a sidebar Writeups page for browsing latest/top writeups and searching by problem set.
 - Added class announcements: teachers/admins can post messages to one or more classes, and students see targeted messages pinned at the top of the dashboard on page load.
-- Switched the shared math curve loader, route-level UI reveals, and analytics chart/bar motion to Anime.js v4 while keeping reduced-motion fallbacks; stabilized the dashboard typewriter by removing the per-character text tween that caused flicker.
+- Kept Anime.js only for the shared math loading indicator and dashboard caret, while removing delayed route reveals, staggered analytics cards/bars, animated chart drawing, page fades, and floating background motion so content appears immediately.
 - Fixed mobile problem-set task cards/sidebar tap layout/dashboard account controls, added the `/classes` Announcements subtab with existing-message deletion, and normalized literal `null` display names.
 - Added direct per-set Analytics buttons on both the student-facing set header for admins and the admin set editor, and made the set-editor Delete button match the other topbar action sizing.
 - Fixed the mobile sidebar tap/focus jump by keeping the opened sheet geometry stable when nav items receive focus.

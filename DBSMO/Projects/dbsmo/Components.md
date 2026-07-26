@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-07-26
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -15,9 +15,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Global Shell
 
-- `RootLayout` in `app/layout.tsx`: imports KaTeX CSS/global CSS, configures Inter and Shantell Sans CSS variables, sets metadata/viewport, injects an early theme script from `localStorage`, renders `SiteSidebar`, optional mobile nav toggle, `AnimeRouteEffects`, and `.site-content`.
+- `RootLayout` in `app/layout.tsx`: imports KaTeX CSS/global CSS, configures Inter and Shantell Sans CSS variables, sets metadata/viewport, injects an early theme script from `localStorage`, and renders `SiteSidebar`, the optional mobile nav toggle, `.site-content`, and `AppFooter`.
 - The two final hand-drawn override sections in `app/globals.css` define paper/ink tokens, graph-paper surfaces, asymmetric squircle card/control corners, marker accents, dark-mode equivalents, and route-specific coverage. Shared functional surfaces use native borders because `border-image` produced unclipped rectangular frames around squircles; `border-shape` remains limited to bounded empty states and the landing orbit. Dark structural borders use lower-opacity ink tokens, and search inputs show a single cyan border only while focused. Global wavy eyebrow/title underlines are intentionally disabled. Shantell Sans is scoped to headings, compact controls, and tabular display text; long-form content, inputs, and math stay in Inter. `app/page.tsx` supplies the decorative math-sketch spans used by the public sign-in composition. The route audit covers all primary non-game surfaces; FTW and Playground are excluded. See [[Common Tasks]] and `docs/visual-system.md`.
-- `AnimeRouteEffects` in `app/anime-route-effects.tsx`: client-only Anime.js v4 route reveal pass for visible page panels, rows, cards, and action controls; it reruns on pathname changes and exits for `prefers-reduced-motion`.
 - `SiteSidebar` in `app/site-sidebar.tsx`: server component that loads session/user and builds sidebar links based on raw admin role plus `hasPermission(...)`. It renders the Lucide Sigma/DBSMO wordmark, `SiteSidebarNav`, and `GlobalMobileNavScrim`. At desktop widths `app/globals.css` keeps it at 64 px until hover or keyboard focus expands it to 240 px and reveals labels; at mobile widths it remains the existing off-canvas sheet. Browser metadata and the public landing brand use the matching `public/dbsmo-mark.svg` asset.
 - `SiteSidebarNav` in `app/site-sidebar-nav.tsx`: client nav that maps link icon names to lucide icons and marks active links by pathname prefix.
 - `GlobalMobileNavToggle` and `GlobalMobileNavScrim` in `app/global-mobile-nav.tsx`: mobile sidebar controls used by the root shell/sidebar. Mobile sheet sizing is fixed in `app/globals.css` so hover/focus/focus-within states keep the same top padding and do not shift the nav grid during taps.
@@ -75,8 +74,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 - `AnalyticsOverviewPage` in `app/admin/analytics/page.tsx`: server route that builds analytics summary/trend/filter options.
 - `AnalyticsFilters` and local `SearchableSelect` in `app/admin/analytics/filters.tsx`: client filter bar that edits query params and supports searchable dropdowns/date range.
-- `AnalyticsMotion` in `app/admin/analytics/analytics-motion.tsx`: client Anime.js pass for analytics pages; meter fills, score distribution bars, daily activity bars, and accuracy cards animate on page/filter changes with reduced-motion exit.
-- `TrendChart` in `app/admin/analytics/trend-chart.tsx`: client SVG chart for attempts/completions/average percent trend; Anime.js draws the line path and pops the dots in when the chart data changes.
+- Analytics metrics in `app/admin/analytics/page.tsx` and `app/admin/sets/[id]/analytics/page.tsx` render directly at their final widths and values; there is no staggered entrance pass.
+- `TrendChart` in `app/admin/analytics/trend-chart.tsx`: client SVG chart for attempts/completions/average percent trend. It renders statically and retains pointer/focus hover details without delaying the line, area, or dots.
 - `AuditFilters` and local `SearchableSelect` in `app/admin/audit/audit-filters.tsx`: audit-log filtering UI.
 - `FeedbackTable` in `app/admin/feedback/feedback-table.tsx`: feedback list/table client.
 - `FeedbackActions` in `app/admin/feedback/feedback-actions.tsx`: feedback status/admin-note actions backed by admin feedback APIs.
