@@ -581,7 +581,7 @@ export default async function UserProfilePage({
         </div>
       </div>
 
-      <section className="profile-section profile-summary-grid">
+      <section className="profile-summary-grid">
         <article className="profile-grid-panel">
           <h3>Strongest topics</h3>
           {strongestTopics.length === 0 ? (
