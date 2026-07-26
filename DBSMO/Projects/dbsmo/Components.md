@@ -72,6 +72,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Admin Analytics, Feedback, Audit
 
+- `AdminStudentsPage` in `app/admin/students/page.tsx`: paginated/searchable student performance table. It uses a route-specific fixed table layout without horizontal scrolling at desktop widths and becomes labeled cards on narrower viewports. The action column is omitted; `StudentTableRow` in `app/admin/students/student-table-row.tsx` makes row whitespace navigate while retaining one native student-detail link for keyboard and assistive-technology access.
 - `AnalyticsOverviewPage` in `app/admin/analytics/page.tsx`: server route that builds analytics summary/trend/filter options.
 - `AnalyticsFilters` and local `SearchableSelect` in `app/admin/analytics/filters.tsx`: client filter bar that edits query params and supports searchable dropdowns/date range.
 - Analytics metrics in `app/admin/analytics/page.tsx` and `app/admin/sets/[id]/analytics/page.tsx` render directly at their final widths and values; there is no staggered entrance pass.

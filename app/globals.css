@@ -12281,6 +12281,134 @@ html:is(.light, .dark) .notfound-digit-zero {
   background: color-mix(in srgb, var(--paper-blue) 55%, transparent);
 }
 
+.students-table-wrap {
+  overflow-x: clip;
+}
+
+.students-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.students-table th,
+.students-table td {
+  padding-inline: clamp(8px, 0.8vw, 14px);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.students-table th:nth-child(1) {
+  width: 13%;
+}
+
+.students-table th:nth-child(2) {
+  width: 20%;
+}
+
+.students-table th:nth-child(3) {
+  width: 7%;
+}
+
+.students-table th:nth-child(4) {
+  width: 5%;
+}
+
+.students-table th:nth-child(5),
+.students-table th:nth-child(6) {
+  width: 10%;
+}
+
+.students-table th:nth-child(7) {
+  width: 11%;
+}
+
+.students-table th:nth-child(8) {
+  width: 7%;
+}
+
+.students-table th:nth-child(9),
+.students-table th:nth-child(10) {
+  width: 8.5%;
+}
+
+.student-table-row {
+  cursor: pointer;
+}
+
+.student-row-primary-link {
+  position: relative;
+  z-index: 1;
+  color: var(--color-text-strong);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.student-row-primary-link:focus-visible {
+  outline: 2px solid var(--marker-cyan);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1050px) {
+  .students-table-wrap {
+    overflow-x: visible;
+    padding: 12px 14px 16px;
+  }
+
+  .students-table,
+  .students-table tbody {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .students-table thead {
+    display: none;
+  }
+
+  .students-table tbody {
+    display: grid;
+    gap: 12px;
+  }
+
+  .students-table .student-table-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding: 10px;
+    border: 1.5px solid var(--ink-soft);
+    border-radius: 14px 11px 15px 10px;
+    background: var(--paper-raised);
+    box-shadow: var(--drawn-shadow-small);
+  }
+
+  .students-table td {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+    padding: 8px;
+    border: 0;
+  }
+
+  .students-table td::before {
+    content: attr(data-label);
+    color: var(--ink-muted);
+    font-family: var(--font-inter), "Inter", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .students-table td:nth-child(1),
+  .students-table td:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+
+  .students-table td:nth-child(1) {
+    font-size: 1rem;
+  }
+}
+
 /* Preserve horizontal math scrolling without painting a scrollbar under every formula. */
 .statement-math-inline,
 .statement-math-block {

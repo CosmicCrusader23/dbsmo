@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Download, ExternalLink, Search, Users } from "lucide-react";
+import { Download, Search, Users } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
@@ -9,6 +9,7 @@ import { hasPermission } from "@/lib/permissions";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { PageBackLink } from "@/app/page-back-link";
+import { StudentTableRow } from "./student-table-row";
 
 export const dynamic = "force-dynamic";
 
@@ -172,7 +173,7 @@ export default async function AdminStudentsPage({
               </div>
               <Users size={20} />
             </div>
-            <div className="table-wrap">
+            <div className="table-wrap students-table-wrap">
               <table className="students-table">
                 <thead>
                   <tr>
@@ -186,35 +187,42 @@ export default async function AdminStudentsPage({
                     <th>Attempts</th>
                     <th>Joined</th>
                     <th>Last active</th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {paginatedRows.map((row) => (
-                    <tr key={row.id}>
-                      <td>
-                        <strong>{row.name ?? "—"}</strong>
-                      </td>
-                      <td>{row.email}</td>
-                      <td>{row.group ?? "—"}</td>
-                      <td>{row.performance.attemptedSets}</td>
-                      <td>{row.performance.masteryIndex.toFixed(1)}</td>
-                      <td>{row.performance.bestSetAverage.toFixed(1)}%</td>
-                      <td>{performanceEvidenceLabel(row.performance.evidence)}</td>
-                      <td>{row.attempts.length}</td>
-                      <td>{row.createdAt.toLocaleDateString()}</td>
-                      <td>{row.lastActive ? row.lastActive.toLocaleDateString() : "—"}</td>
-                      <td>
-                        <Link
-                          className="secondary-action compact"
-                          href={`/admin/students/${row.id}`}
-                        >
-                          <ExternalLink size={14} />
-                          View
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
+                  {paginatedRows.map((row) => {
+                    const href = `/admin/students/${row.id}`;
+                    return (
+                      <StudentTableRow href={href} key={row.id}>
+                        <td data-label="Name">
+                          <Link
+                            aria-label={`Open ${row.name ?? row.email}`}
+                            className="student-row-primary-link"
+                            href={href}
+                          >
+                            {row.name ?? "—"}
+                          </Link>
+                        </td>
+                        <td data-label="Email">{row.email}</td>
+                        <td data-label="Group">{row.group ?? "—"}</td>
+                        <td data-label="Sets">{row.performance.attemptedSets}</td>
+                        <td data-label="Mastery index">
+                          {row.performance.masteryIndex.toFixed(1)}
+                        </td>
+                        <td data-label="Best-set avg">
+                          {row.performance.bestSetAverage.toFixed(1)}%
+                        </td>
+                        <td data-label="Evidence">
+                          {performanceEvidenceLabel(row.performance.evidence)}
+                        </td>
+                        <td data-label="Attempts">{row.attempts.length}</td>
+                        <td data-label="Joined">{row.createdAt.toLocaleDateString()}</td>
+                        <td data-label="Last active">
+                          {row.lastActive ? row.lastActive.toLocaleDateString() : "—"}
+                        </td>
+                      </StudentTableRow>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
