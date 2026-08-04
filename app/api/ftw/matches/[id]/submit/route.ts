@@ -24,6 +24,7 @@ const ANSWER_TYPE_MAP = {
   SET: "set",
   MULTIPLE: "multiple",
   EXPRESSION: "expression",
+  MULTIPLE_CHOICE: "multiple_choice",
 } as const satisfies Record<string, AnswerType>;
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {

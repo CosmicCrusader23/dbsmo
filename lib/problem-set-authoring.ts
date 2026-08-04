@@ -20,22 +20,51 @@ export const uploadedPdfSchema = z
   .nullable()
   .optional();
 
-export const authoringProblemSchema = z.object({
-  id: z.string().min(1).max(100).optional(),
-  number: z.coerce.number().int().positive().max(1_000_000).optional(),
-  statement: z.string().max(200_000).optional().default(""),
-  contentFormat: z
-    .string()
-    .optional()
-    .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
-      message: "Invalid contentFormat. Use LATEX or HTML.",
-    }),
-  answerKey: z.string().trim().min(1).max(4_000),
-  answerType: z.nativeEnum(AnswerType),
-  topicTags: z.array(z.string().max(64)).max(50).optional().default([]),
-  points: z.coerce.number().int().positive().max(1_000_000).optional().default(1),
-  explanationNote: z.string().max(200_000).nullable().optional(),
-});
+export const authoringProblemSchema = z
+  .object({
+    id: z.string().min(1).max(100).optional(),
+    number: z.coerce.number().int().positive().max(1_000_000).optional(),
+    statement: z.string().max(200_000).optional().default(""),
+    contentFormat: z
+      .string()
+      .optional()
+      .refine((value) => value === undefined || isSupportedProblemContentFormat(value), {
+        message: "Invalid contentFormat. Use LATEX or HTML.",
+      }),
+    answerKey: z.string().trim().min(1).max(4_000),
+    answerType: z.nativeEnum(AnswerType),
+    options: z.array(z.string().trim().min(1).max(4_000)).max(20).optional().default([]),
+    topicTags: z.array(z.string().max(64)).max(50).optional().default([]),
+    points: z.coerce.number().int().positive().max(1_000_000).optional().default(1),
+    explanationNote: z.string().max(200_000).nullable().optional(),
+  })
+  .superRefine((problem, context) => {
+    if (problem.answerType !== "MULTIPLE_CHOICE") return;
+
+    if (problem.options.length < 2) {
+      context.addIssue({
+        code: "custom",
+        path: ["options"],
+        message: "Multiple-choice problems require at least two options.",
+      });
+    }
+
+    if (new Set(problem.options).size !== problem.options.length) {
+      context.addIssue({
+        code: "custom",
+        path: ["options"],
+        message: "Multiple-choice options must be unique.",
+      });
+    }
+
+    if (!problem.options.includes(problem.answerKey)) {
+      context.addIssue({
+        code: "custom",
+        path: ["answerKey"],
+        message: "The multiple-choice answer must be one of its options.",
+      });
+    }
+  });
 
 export const createProblemSetAuthoringSchema = z.object({
   title: z.string().trim().min(1).max(200),
@@ -82,7 +111,10 @@ export function splitAnswerKey(answerKey: string) {
 }
 
 export function normalizeAuthoringProblem(problem: AuthoringProblemInput, index = 0) {
-  const answer = splitAnswerKey(problem.answerKey);
+  const answer =
+    problem.answerType === "MULTIPLE_CHOICE"
+      ? { answerKey: problem.answerKey.trim(), acceptedAnswers: [] }
+      : splitAnswerKey(problem.answerKey);
   return {
     number: problem.number ?? index + 1,
     statement: problem.statement?.trim() ?? "",
@@ -90,6 +122,7 @@ export function normalizeAuthoringProblem(problem: AuthoringProblemInput, index 
     answerKey: answer.answerKey,
     acceptedAnswers: answer.acceptedAnswers,
     answerType: problem.answerType,
+    options: problem.answerType === "MULTIPLE_CHOICE" ? problem.options : [],
     topicTags: normalizeTagList(problem.topicTags ?? []),
     points: problem.points ?? 1,
     explanationNote: problem.explanationNote?.trim() || null,

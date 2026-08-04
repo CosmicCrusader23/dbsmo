@@ -46,6 +46,13 @@ Use top-level `topicTags: ["Tests"]` for school test papers with 20 problems spl
       "statement": "State the parity of 17.",
       "answerType": "exact",
       "answerKey": "odd"
+    },
+    {
+      "number": 4,
+      "statement": "Which expression equals one half?",
+      "answerType": "multiple_choice",
+      "options": ["$1/3$", "$1/2$", "$2/3$"],
+      "correctOption": 2
     }
   ]
 }
@@ -85,10 +92,12 @@ Each entry in `problems` defines one question.
 | `number`          | integer            | No       | array index + 1                      | Question identifier. Must be a positive integer.                                                                                                     |
 | `statement`       | string             | No       | `""`                                 | Problem statement. LaTeX is allowed.                                                                                                                 |
 | `statementFormat` | string             | No       | inherits top-level `statementFormat` | One of `"LATEX"` or `"HTML"`. Use `"HTML"` for content containing tags like `<math>...</math>`.                                                      |
-| `answerKey`       | string             | Yes\*    | -                                    | Primary correct answer.                                                                                                                              |
+| `answerKey`       | string             | Yes\*    | -                                    | Primary correct answer. For multiple choice, prefer `correctOption`.                                                                                 |
 | `answer`          | string             | Yes\*    | -                                    | Alias for `answerKey`.                                                                                                                               |
-| `answerType`      | string             | No       | `"EXACT"`                            | One of `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`. Lowercase values are also accepted by the importer. |
+| `answerType`      | string             | No       | `"EXACT"`                            | One of `"EXACT"`, `"INTEGER"`, `"DECIMAL"`, `"FRACTION"`, `"SET"`, `"MULTIPLE"`, `"EXPRESSION"`, `"MULTIPLE_CHOICE"`. Aliases `mc`, `mcq`, and `multiple-choice` are accepted. |
 | `acceptedAnswers` | string[] or string | No       | `[]`                                 | Alternative correct answers. A string value may use `;` as a separator.                                                                              |
+| `options`         | string[] or object[] | MC only | `[]`                                | Two to 20 unique choices. Strings support LaTeX and `[[img:key]]`; objects may contain `text` and `imageRef`.                                         |
+| `correctOption`   | integer            | MC only  | -                                    | Recommended 1-based index of the correct choice. `answerKey` may be used instead but must exactly match the stored choice content.                    |
 | `caseSensitive`   | boolean            | No       | `false`                              | Enables case-sensitive grading.                                                                                                                      |
 | `points`          | integer            | No       | `1`                                  | Points awarded for the problem.                                                                                                                      |
 | `topicTags`       | string[]           | No       | `[]`                                 | Optional question tags. These are the tags used by Practice mode.                                                                                    |
@@ -97,7 +106,7 @@ Each entry in `problems` defines one question.
 | `imageRef`        | string             | No       | -                                    | Optional image filename/key for this problem, e.g. `geomnumber1.png`. The importer appends the image below the statement.                            |
 | `imageRefs`       | string[] or string | No       | -                                    | Multiple image filenames/keys for this problem. Aliases: `image`, `imageFiles`, per-problem `images`.                                                |
 
-\* Each problem must provide either `answerKey` or `answer`.
+\* Each problem must provide `answerKey` or `answer`; a multiple-choice problem may provide `correctOption` instead.
 
 ## Statement Format
 
@@ -124,6 +133,7 @@ Per-problem `topicTags` drive Practice mode.
 - `SET`: order-insensitive set comparison
 - `MULTIPLE`: exact string grading with additional accepted answers
 - `EXPRESSION`: numeric expression evaluation
+- `MULTIPLE_CHOICE`: exact, case-sensitive grading of the stored option selected by the student
 
 ### Notes
 
@@ -142,6 +152,35 @@ Images can be supplied in two ways:
 - As an optional image ZIP uploaded with the JSON. The ZIP must have the same base name as the JSON, for example `geometry.json` and `geometry.zip`.
 
 Reference images from any `statement` or `solution` with `[[img:<key>]]`, or attach them to a problem with `imageRef` / `imageRefs`. Problem-level refs derive the key from the filename (`geomnumber1.png` becomes `geomnumber1`) and are rendered below the statement.
+
+Multiple-choice options use the same image pipeline. A choice can contain an image token
+directly, or use an object with `text` and `imageRef`:
+
+```json
+{
+  "number": 5,
+  "statement": "Which diagram is a circle?",
+  "answerType": "mcq",
+  "options": [
+    "A square",
+    { "text": "A circle", "imageRef": "circle.png" },
+    { "text": "A triangle", "imageRef": "triangle.png" }
+  ],
+  "correctOption": 2
+}
+```
+
+Supply `circle.png` and `triangle.png` through the top-level inline `images` array or the
+same-name image ZIP. `correctOption` avoids having to include the generated image token in
+the answer key.
+
+## Asymptote Source
+
+Problem statements may contain `<asy>...</asy>` blocks. The staff-only import service
+compiles each unique block in an OS sandbox, stores a validated PNG, and replaces the
+source with `[[img:asy-...]]`. Raw source is never sent to students. Rendering must be
+enabled on the server; otherwise dry run reports a clear validation issue. See
+[Asymptote diagrams](./asymptote.md) for syntax, limits, and the security model.
 
 ```json
 {

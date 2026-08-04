@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: glossary
 tags: [project, glossary, dbsmo]
 ai-first: true
@@ -17,14 +17,16 @@ This is the [[dbsmo]] glossary. Terms are source-grounded from code/docs inspect
 
 - `DBSMO` / [[dbsmo]] - DBS mathematics olympiad training platform (sources: `README.md`, `app/layout.tsx` metadata).
 - `ProblemSet` - a collection of ordered answer-only problems with slug/title/status/visibility/tags/files/video/assets/assignments (source: `prisma/schema.prisma`).
-- `Problem` - a question within a `ProblemSet`, with statement, answer key/type, accepted answers, tags, points, and optional explanation (source: `prisma/schema.prisma`).
+- `Problem` - a question within a `ProblemSet`, with statement, answer key/type, optional multiple-choice options, accepted answers, tags, points, and optional explanation (source: `prisma/schema.prisma`).
 - `Attempt` - one full submission of a problem set by a user, with score/max score/attempt number/duration (source: `prisma/schema.prisma`, `app/api/submit/route.ts`).
 - `PerformanceProfile` - derived cross-set analytics object containing Mastery Index, best-set average, proficiency, breadth, consistency floor, mastery rate, counts, and evidence level; it is calculated from visible-set attempts rather than persisted (source: `lib/analytics.ts`).
 - `Mastery Index` - one-decimal composite of 65% confidence-adjusted proficiency, 20% breadth, and 15% lower-quartile consistency floor (source: `lib/analytics.ts`; see [[Performance Analytics]]).
 - `Evidence` - sample-size label for a Performance Profile: limited at 1-4 sets, developing at 5-14, and established at 15+ (source: `lib/analytics.ts`).
 - `Response` - one graded answer within an `Attempt`, storing raw answer, normalized answer, correctness, and points (source: `prisma/schema.prisma`).
 - `PracticeSolve` - durable record that a user correctly solved a practice problem; unique per user/problem (source: `prisma/schema.prisma`, `app/api/practice/submit/route.ts`).
-- `AnswerType` - persisted answer classification: `EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION` (source: `prisma/schema.prisma`).
+- `AnswerType` - persisted answer classification: `EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION`, or `MULTIPLE_CHOICE` (source: `prisma/schema.prisma`).
+- `MULTIPLE_CHOICE` - selectable-answer mode with two to 20 stored options. Options can contain LaTeX and `[[img:key]]`; it is distinct from free-response `MULTIPLE` accepted answers (sources: `prisma/schema.prisma`, `lib/problem-set-authoring.ts`, `app/problem-sets/[slug]/answer-grid.tsx`).
+- `Asymptote` / `<asy>` - staff-only diagram source compiled in an OS sandbox to a validated PNG and replaced with an ordinary image token before student display (sources: `lib/asymptote.ts`, `docs/asymptote.md`; see [[Asymptote and Multiple Choice]]).
 - `gradeAnswer` - central deterministic grading function in `lib/grading.ts`.
 - `contentFormat` / `ProblemContentFormat` - statement rendering mode: `LATEX` or `HTML` (sources: `prisma/schema.prisma`, `lib/problem-content-format.ts`).
 - `LatexStatement` - UI renderer for problem statements/explanations and asset tokens (source: `app/problem-sets/[slug]/latex-statement.tsx`).

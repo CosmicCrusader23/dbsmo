@@ -49,10 +49,13 @@ export async function GET(request: Request) {
     id: true,
     statement: true,
     contentFormat: true,
+    answerType: true,
+    options: true,
     topicTags: true,
     problemSet: {
       select: {
         title: true,
+        assets: { select: { key: true, fileId: true } },
       },
     },
   } as const;
@@ -80,5 +83,13 @@ export async function GET(request: Request) {
     });
   }
 
-  return NextResponse.json({ problem: randomProblem });
+  return NextResponse.json({
+    problem: {
+      ...randomProblem,
+      assets: Object.fromEntries(
+        randomProblem.problemSet.assets.map((asset) => [asset.key, `/api/files/${asset.fileId}`]),
+      ),
+      problemSet: { title: randomProblem.problemSet.title },
+    },
+  });
 }

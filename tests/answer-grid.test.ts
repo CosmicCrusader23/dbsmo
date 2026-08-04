@@ -18,6 +18,8 @@ describe("AnswerGrid", () => {
             topicTags: ["Algebra"],
             explanationNote: null,
             contentFormat: "LATEX",
+            answerType: "INTEGER",
+            options: [],
           },
         ],
       }),

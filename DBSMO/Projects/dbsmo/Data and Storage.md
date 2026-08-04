@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: data-storage
 tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
@@ -23,7 +23,7 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 
 - `User`: NextAuth user plus app profile fields: Google `image`, display name, custom avatar URL, role, group, visibility flags, theme, greeting settings, login timestamps, and relations to attempts, feedback, files, problem sets, bookmarks, friendships, practice solves, audit/export jobs, FTW, and classes (source: `prisma/schema.prisma`). The shared `Avatar` component prefers custom `avatarUrl`, then Google `image`, then deterministic initials (sources: `app/avatar.tsx`, `lib/avatar.ts`).
 - `ProblemSet`: slug/title/description/order/status/visibility windows/group restrictions/tags/difficulty/video/files/creator plus problems, attempts, feedback, bookmarks, assets, and assignments (source: `prisma/schema.prisma`).
-- `Problem`: problem-set child with integer `number`, statement, `ProblemContentFormat`, answer key/type/accepted answers/case sensitivity/explanation/tags/points; unique per `(problemSetId, number)` (source: `prisma/schema.prisma`).
+- `Problem`: problem-set child with integer `number`, statement, `ProblemContentFormat`, answer key/type, zero or more multiple-choice `options`, accepted answers, case sensitivity, explanation, tags, and points; unique per `(problemSetId, number)` (source: `prisma/schema.prisma`).
 - `Tests` is a canonical problem-set category tag. It does not change storage: test papers are still represented as 60 `Problem` rows, and `AnswerGrid` groups those rows visually into 20 problems × 3 levels on tagged sets (sources: `lib/problem-tags.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
 - `Attempt` and `Response`: full problem-set attempt totals and per-problem raw/normalized answers, correctness, and awarded points (source: `prisma/schema.prisma`).
 - `PracticeSolve`: unique `(userId, problemId)` record for correct practice solves (source: `prisma/schema.prisma`).
@@ -59,7 +59,7 @@ Sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`.
 
 ## Grading Data
 
-`AnswerType` exists as a Prisma enum with uppercase values (`EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION`), while `lib/grading.ts` uses lowercase string types and callers map/lowercase Prisma values before grading. Integer/fraction normalization uses bounded `BigInt`; exact decimals use canonical digit/exponent identity before any bounded tolerance fallback. `lib/math-input.ts` strips math delimiters and converts common LaTeX forms like `$5$`, `\sqrt{5}`, `\frac{1}{2}`, braced powers, and `\pi` before expression evaluation (sources: `prisma/schema.prisma`, `lib/grading.ts`, `lib/math-input.ts`, `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`).
+`AnswerType` exists as a Prisma enum with uppercase values (`EXACT`, `INTEGER`, `DECIMAL`, `FRACTION`, `SET`, `MULTIPLE`, `EXPRESSION`, `MULTIPLE_CHOICE`), while `lib/grading.ts` uses lowercase string types and callers map/lowercase Prisma values before grading. Multiple choice compares one exact case-sensitive stored option; the other numeric/text normalizers are unchanged. Integer/fraction normalization uses bounded `BigInt`; exact decimals use canonical digit/exponent identity before any bounded tolerance fallback. `lib/math-input.ts` strips math delimiters and converts common LaTeX forms like `$5$`, `\sqrt{5}`, `\frac{1}{2}`, braced powers, and `\pi` before expression evaluation (sources: `prisma/schema.prisma`, `lib/grading.ts`, `lib/math-input.ts`, `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`).
 
 Graded responses store both raw and normalized answers in `Response`, which supports later review/export/regrade (sources: `prisma/schema.prisma`, `app/api/submit/route.ts`). Admin regrading is exposed at `app/api/admin/sets/[id]/regrade/route.ts`.
 
@@ -73,7 +73,7 @@ Practice tags are derived from unsolved problems in published visible sets. `GET
 
 ## Import Data Flow
 
-JSON import schema accepts top-level metadata, `statementFormat`, visibility windows, topic tags, difficulty, video URL, inline `images`, optional same-name image ZIP uploads, and at least one problem (source: `lib/import/json-import.ts`). It accepts `answerKey` or `answer`, accepts lowercase or uppercase answer types through answer schemas, normalizes statement format, handles accepted answers, maps `solution`/`explanationNote` into `Problem.explanationNote`, and appends `[[img:key]]` tokens for per-problem image refs so images render below statements (sources: `lib/import/json-import.ts`, `docs/import-format.md`).
+JSON import schema accepts top-level metadata, `statementFormat`, visibility windows, topic tags, difficulty, video URL, inline `images`, optional same-name image ZIP uploads, and at least one problem (source: `lib/import/json-import.ts`). It accepts `answerKey` or `answer`, accepts lowercase or uppercase answer types through answer schemas, normalizes statement format, handles accepted answers, maps `solution`/`explanationNote` into `Problem.explanationNote`, and appends `[[img:key]]` tokens for per-problem image refs so images render below statements. Multiple-choice options may be strings or `{text, imageRef}` objects with a 1-based `correctOption`; complete `<asy>` statement blocks compile into generated PNG assets before persistence. See [[Asymptote and Multiple Choice]] (sources: `lib/import/json-import.ts`, `lib/asymptote.ts`, `docs/import-format.md`).
 
 Image assets are declared as base64 image records, uploaded through the manual problem maker GUI, or supplied by optional image ZIPs. `lib/import/image-assets.ts` enforces lowercase key pattern, supported mime types, max 50 images, max 4 MB each, a 100 MB aggregate decoded cap, data URL/base64 decoding, and magic-byte matching; SVG is not accepted by the source code. `lib/import/image-zip.ts` enforces compressed and actual expanded limits, unsafe-path/entry-count rejection, duplicate-key rejection, supported-image magic bytes, and folder/direct image layouts (sources: `lib/import/image-assets.ts`, `lib/import/image-zip.ts`, `lib/import/zip-entry.ts`, `lib/import/uploaded-image-zip.ts`).
 

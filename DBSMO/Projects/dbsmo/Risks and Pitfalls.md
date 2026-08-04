@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
@@ -34,6 +34,12 @@ Role changes serialize under the `dbsmo-role-update` advisory lock and re-check 
 ## Image Import Keys Are Derived From Filenames
 
 Optional image ZIP imports derive asset keys from image filenames by lowercasing the basename and replacing unsafe characters. Files like `Geom Number 1.png` and `geom-number-1.webp` can collide after normalization; duplicates are rejected. Problem-level JSON refs such as `imageRef: "geomnumber1.png"` are converted the same way and must match a supplied inline/ZIP/manual image asset (sources: `lib/import/image-assets.ts`, `lib/import/image-zip.ts`, `lib/import/json-import.ts`).
+
+## Asymptote Is Executable Input
+
+Do not treat `<asy>` as another markup renderer. Production compilation must retain `admin:content`, the explicit enable flag, rate/concurrency limits, Asymptote `-safe`, Linux bubblewrap isolation, `prlimit`, wall/workspace limits, and PNG validation. Safe mode alone is insufficient because Asymptote can read files and some builds can read URLs; raw source must never reach students. macOS support in `lib/asymptote.ts` exists for local development only and production deliberately fails closed outside Linux. See [[Asymptote and Multiple Choice]] (sources: `lib/asymptote.ts`, `app/api/admin/asymptote/render/route.ts`, `docs/asymptote.md`).
+
+Multiple-choice images are normal problem-set assets embedded in `Problem.options`, not separate database blobs. Asset cleanup/reference scans must include options as well as statement/solution text, and the correct answer must remain exactly one stored option (sources: `lib/import/json-import.ts`, `lib/problem-set-authoring.ts`, `prisma/schema.prisma`).
 
 ## Full-Set Perfect Score Locks Further Attempts
 

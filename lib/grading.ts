@@ -7,7 +7,8 @@ export type AnswerType =
   | "fraction"
   | "set"
   | "multiple"
-  | "expression";
+  | "expression"
+  | "multiple_choice";
 
 export type GradeInput = {
   answerType: AnswerType;
@@ -25,10 +26,11 @@ export type GradeResult = {
 };
 
 export function gradeAnswer(input: GradeInput): GradeResult {
-  const normalizedAnswer = normalizeAnswer(input.rawAnswer, input.answerType, input.caseSensitive);
+  const caseSensitive = input.answerType === "multiple_choice" ? true : input.caseSensitive;
+  const normalizedAnswer = normalizeAnswer(input.rawAnswer, input.answerType, caseSensitive);
   const rawCandidates = [input.answerKey, ...(input.acceptedAnswers ?? [])].filter(Boolean);
   const candidates = rawCandidates.map((answer) =>
-    normalizeAnswer(answer, input.answerType, input.caseSensitive),
+    normalizeAnswer(answer, input.answerType, caseSensitive),
   );
 
   if (input.answerType === "decimal") {
@@ -154,6 +156,7 @@ export function normalizeAnswer(
       return normalizeExpression(compact);
     case "exact":
     case "multiple":
+    case "multiple_choice":
     default:
       return compact;
   }

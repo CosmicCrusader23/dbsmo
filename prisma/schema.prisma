@@ -41,6 +41,7 @@ enum AnswerType {
   SET
   MULTIPLE
   EXPRESSION
+  MULTIPLE_CHOICE
 }
 
 enum ProblemContentFormat {
@@ -191,6 +192,7 @@ model Problem {
   contentFormat   ProblemContentFormat @default(LATEX)
   answerKey       String
   answerType      AnswerType
+  options         String[]             @default([])
   acceptedAnswers String[]
   caseSensitive   Boolean              @default(false)
   explanationNote String?

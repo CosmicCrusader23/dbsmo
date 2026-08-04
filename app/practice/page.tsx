@@ -23,6 +23,9 @@ type Problem = {
   id: string;
   statement: string;
   contentFormat: "LATEX" | "HTML";
+  answerType: string;
+  options: string[];
+  assets: Record<string, string>;
   topicTags: string[];
   problemSet: {
     title: string;
@@ -160,7 +163,10 @@ export default function PracticePage() {
     if (!q) return tags;
     return tags.filter((t) => t.toLowerCase().includes(q));
   }, [tagQuery, tags]);
-  const answerPreviewTex = useMemo(() => mathInputToTex(answer), [answer]);
+  const answerPreviewTex = useMemo(
+    () => (problem?.answerType === "MULTIPLE_CHOICE" ? "" : mathInputToTex(answer)),
+    [answer, problem?.answerType],
+  );
 
   return (
     <main className="single-page">
@@ -313,7 +319,11 @@ export default function PracticePage() {
               ) : problem ? (
                 <>
                   <div className="practice-statement">
-                    <LatexStatement statement={problem.statement} format={problem.contentFormat} />
+                    <LatexStatement
+                      statement={problem.statement}
+                      format={problem.contentFormat}
+                      assets={problem.assets}
+                    />
                   </div>
 
                   <form onSubmit={submitAnswer} className="practice-answer-form">
@@ -322,15 +332,41 @@ export default function PracticePage() {
                         <LatexStatement statement={`$${answerPreviewTex}$`} />
                       </div>
                     ) : null}
-                    <input
-                      type="text"
-                      className="practice-answer-input"
-                      placeholder="Enter your answer…"
-                      value={answer}
-                      onChange={(e) => setAnswer(e.target.value)}
-                      disabled={isSubmitting || isCorrect === true}
-                      autoFocus
-                    />
+                    {problem.answerType === "MULTIPLE_CHOICE" ? (
+                      <div className="mc-choice-grid" role="radiogroup" aria-label="Answer choices">
+                        {problem.options.map((option, index) => (
+                          <label
+                            className={`mc-choice${answer === option ? " selected" : ""}`}
+                            key={index}
+                          >
+                            <input
+                              checked={answer === option}
+                              disabled={isSubmitting || isCorrect === true}
+                              name="practice-answer"
+                              onChange={() => setAnswer(option)}
+                              type="radio"
+                              value={option}
+                            />
+                            <span className="mc-choice-letter">
+                              {String.fromCharCode(65 + index)}
+                            </span>
+                            <span className="mc-choice-content">
+                              <LatexStatement statement={option} assets={problem.assets} />
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    ) : (
+                      <input
+                        type="text"
+                        className="practice-answer-input"
+                        placeholder="Enter your answer…"
+                        value={answer}
+                        onChange={(e) => setAnswer(e.target.value)}
+                        disabled={isSubmitting || isCorrect === true}
+                        autoFocus
+                      />
+                    )}
                     <div className="practice-answer-actions">
                       {isCorrect !== true ? (
                         <>

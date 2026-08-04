@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
@@ -39,6 +39,8 @@ Watch for uppercase Prisma enum values versus lowercase `lib/grading.ts` values 
 
 Edit `lib/grading.ts` first. Preserve the bounded `BigInt` normalization for integers/fractions and canonical base-10 comparison for zero-tolerance decimals; converting those paths directly through `Number` can merge distinct answers above `Number.MAX_SAFE_INTEGER`. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts`.
 
+For multiple-choice changes, also update `Problem.options` in `prisma/schema.prisma`, schemas in `lib/problem-set-authoring.ts` and `lib/import/json-import.ts`, shared controls in `app/admin/problem-authoring-controls.tsx`, standard/Test rendering in `app/problem-sets/[slug]/answer-grid.tsx`, and Practice rendering/API payloads. Choices may contain `[[img:key]]`; preserve the normal asset resolver and the two-to-20 bound. See [[Asymptote and Multiple Choice]].
+
 ## Change Attempt Review
 
 Start with [[Attempt Review]]. The server page and exact owner/staff authorization live in `app/attempts/[id]/page.tsx`; summary/status helpers and unit tests live in `lib/attempt-review.ts` and `tests/attempt-review.test.ts`. Entry links are spread across `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/dashboard/page.tsx`, `app/admin/students/[id]/page.tsx`, and `app/admin/sets/[id]/analytics/page.tsx`. Keep `/attempts/:path*` in `proxy.ts`, but do not rely on middleware for the per-attempt ownership check.
@@ -46,6 +48,10 @@ Start with [[Attempt Review]]. The server page and exact owner/staff authorizati
 ## Change LaTeX Statement Support
 
 Edit `lib/latex-compat.ts` for source normalization, table/display conversion, and conservative compatibility macros. Edit `app/problem-sets/[slug]/latex-statement.tsx` for the escape-aware tokenizer, HTML math-tag normalization, and KaTeX security options. Keep `trust: false`, `globalGroup: false`, fresh macros per expression, and finite `maxSize`/`maxExpand` limits. Add normal syntax, production-regression, and hostile-input tests in `tests/latex-statement.test.ts`. Do not replace the tokenizer with delimiter regexes or treat `\usepackage` as permission to load code/files; document supported fallbacks in `docs/latex-support.md` (sources: named files).
+
+## Change Asymptote Rendering
+
+Start with `lib/asymptote.ts` and [[Asymptote and Multiple Choice]]. Keep the authorization/rate limit in `app/api/admin/asymptote/render/route.ts`, automatic create/edit/import conversion, PNG validation, process/time/workspace limits, and Linux bubblewrap boundary aligned. Any new package, executable, environment variable, or sandbox mount also requires a same-commit `SETUP.md` update. Never serve raw source or relax production to Asymptote `-safe` without the OS sandbox.
 
 ## Add a Problem Set Field
 

@@ -14,6 +14,9 @@ sudo apt-get install -y nodejs
 # PostgreSQL
 sudo apt-get install -y postgresql postgresql-contrib
 
+# Sandboxed Asymptote diagram rendering
+sudo apt-get install -y asymptote bubblewrap imagemagick ghostscript texlive-latex-base
+
 # PM2 (global, runs as your deploy user)
 sudo npm install -g pm2
 ```
@@ -49,6 +52,8 @@ STORAGE_DRIVER=local
 LOCAL_STORAGE_ROOT=./storage
 MAX_JSON_UPLOAD_MB=5
 MAX_ZIP_UPLOAD_MB=50
+ASYMPTOTE_ENABLED=true
+ASYMPTOTE_RENDER_TIMEOUT_MS=10000
 ```
 
 `SCHOOL_EMAIL_DOMAINS` is an exact, comma-separated allowlist. Keep
@@ -62,6 +67,13 @@ optionally `S3_REGION`.
 
 `MAX_JSON_UPLOAD_MB` and `MAX_ZIP_UPLOAD_MB` may be lowered for a smaller deployment;
 the application hard-caps them at 5 MB and 50 MB respectively.
+
+`ASYMPTOTE_ENABLED=true` enables staff-only diagram compilation. Production requires
+Linux `bubblewrap`; there is intentionally no unsandboxed fallback. The renderer also
+uses `/usr/bin/prlimit` (provided by Ubuntu's `util-linux`) and defaults to
+`/usr/bin/asy` plus `/usr/bin/bwrap`. Override `ASYMPTOTE_BIN`,
+`ASYMPTOTE_BWRAP_BIN`, or `ASYMPTOTE_PRLIMIT_BIN` only when the packages are installed
+elsewhere. `ASYMPTOTE_RENDER_TIMEOUT_MS` accepts 1,000-30,000 milliseconds.
 
 Generate the secret if you don't have one:
 
@@ -188,6 +200,9 @@ pm2 reload dbsmo            # zero-downtime reload
 pm2 logs dbsmo --lines 30
 ```
 
+When `.env` changes, reload with `pm2 reload dbsmo --update-env`. Verify the running
+process received the renderer setting with `pm2 env <id> | grep ASYMPTOTE`.
+
 If you only changed CSS or a static asset, `pm2 restart dbsmo` is fine.
 
 > **Important:** `prisma generate` must run before `pm2 reload` whenever
@@ -207,6 +222,27 @@ psql -U dbsmo -h localhost dbsmo -c '\d "ProblemSetAsset"'
 ```
 
 You should see columns `id, problemSetId, key, fileId, createdAt`.
+
+### Deploying this pull (Asymptote and multiple choice)
+
+Install the renderer packages from section 1, add the `ASYMPTOTE_*` environment values,
+then run the standard redeploy block. `prisma db push` adds `MULTIPLE_CHOICE` to the
+`AnswerType` enum and the non-null `Problem.options` text array.
+
+Verify the database and Linux sandbox:
+
+```bash
+psql "${DATABASE_URL%%\?*}" -c '\d "Problem"'
+sudo -u judge_user bwrap --unshare-all --ro-bind /usr /usr /usr/bin/true
+command -v asy bwrap prlimit gs
+command -v magick || command -v convert
+pm2 reload dbsmo --update-env
+```
+
+The `Problem` table should include `options text[]`, and the bubblewrap command should
+exit successfully without output. If the PM2 process runs as another account, use that
+account instead of `judge_user` for the sandbox check. Do not enable an unsandboxed
+renderer to work around a failed check; fix user namespaces/package paths instead.
 
 ### Deploying this pull (classes and assignments)
 
@@ -269,3 +305,5 @@ Cron it:
 - **Prisma can't connect** — verify `DATABASE_URL`, run `psql "$DATABASE_URL" -c '\dt'` to confirm credentials.
 - **Google sign-in loops** — `NEXTAUTH_URL` must be your public HTTPS URL exactly, and the OAuth redirect URI in Google Cloud must include `https://your.domain.example/api/auth/callback/google`.
 - **Schema out of sync** — re-run `npx prisma db push` then `pm2 reload dbsmo`. If `pm2 logs --err` shows "Unknown field" or "Unknown model", the running pm2 process is loading a stale `@prisma/client`. Run `npx prisma generate` then `pm2 reload dbsmo`.
+- **Asymptote returns 503** — confirm `ASYMPTOTE_ENABLED=true` is visible in `pm2 env`, all renderer commands exist, and PM2 was reloaded with `--update-env`.
+- **Asymptote sandbox fails** — run the bubblewrap check from section 6 as the PM2 account. Do not set `-nosafe` or bypass bubblewrap; the source is executable input.

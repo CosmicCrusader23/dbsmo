@@ -85,6 +85,29 @@ describe("normalizeAnswer", () => {
 });
 
 describe("gradeAnswer", () => {
+  it("grades a selected multiple-choice option exactly", () => {
+    expect(
+      gradeAnswer({
+        answerType: "multiple_choice",
+        answerKey: String.raw`$\frac{1}{2}$`,
+        rawAnswer: String.raw`$\frac{1}{2}$`,
+      }).isCorrect,
+    ).toBe(true);
+    expect(
+      gradeAnswer({
+        answerType: "multiple_choice",
+        answerKey: "Red",
+        rawAnswer: "Blue",
+      }).isCorrect,
+    ).toBe(false);
+    expect(
+      gradeAnswer({
+        answerType: "multiple_choice",
+        answerKey: "Red",
+        rawAnswer: "red",
+      }).isCorrect,
+    ).toBe(false);
+  });
   it("accepts configured alternate answers", () => {
     const result = gradeAnswer({
       answerType: "multiple",

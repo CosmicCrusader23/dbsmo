@@ -189,6 +189,8 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                   topicTags: problem.topicTags,
                   explanationNote: problem.explanationNote,
                   contentFormat: problem.contentFormat,
+                  answerType: problem.answerType,
+                  options: problem.options,
                 }))}
                 problemSetId={problemSet.id}
                 videoUrl={problemSet.videoUrl}
@@ -317,6 +319,8 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                   topicTags: problem.topicTags,
                   explanationNote: problem.explanationNote,
                   contentFormat: problem.contentFormat,
+                  answerType: problem.answerType,
+                  options: problem.options,
                 }))}
                 problemSetId={problemSet.id}
                 videoUrl={problemSet.videoUrl}

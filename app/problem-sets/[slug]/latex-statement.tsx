@@ -261,7 +261,6 @@ function decodeHtmlEntities(value: string): string {
 function normalizeHtmlStatement(raw: string): string {
   let value = raw;
   value = value.replace(/<!--[\s\S]*?-->/g, " ");
-  value = value.replace(/<asy\b[^>]*>[\s\S]*?<\/asy>/gi, " ");
   value = value.replace(/<cmath\b[^>]*>([\s\S]*?)<\/cmath>/gi, (_, math: string) => {
     const tex = math.trim();
     return tex ? ` \\[${tex}\\] ` : " ";
@@ -292,7 +291,12 @@ function normalizeHtmlStatement(raw: string): string {
 }
 
 function normalizeStatementInput(statement: string, format: ProblemContentFormat): string {
-  const value = statement.trim();
+  const value = statement
+    .trim()
+    .replace(
+      /<asy\b[^>]*>[\s\S]*?<\/asy>/gi,
+      " [Asymptote diagram must be rendered by an author] ",
+    );
   if (!value) {
     return "";
   }

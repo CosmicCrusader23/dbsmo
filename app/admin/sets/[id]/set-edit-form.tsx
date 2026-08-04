@@ -23,6 +23,11 @@ import { PageBackLink } from "@/app/page-back-link";
 import { statusLabel, statusColor } from "@/lib/visibility";
 import { CANONICAL_TAGS, normalizeProblemTag, normalizeTagList } from "@/lib/problem-tags";
 import { DeleteSetButton } from "../delete-set-button";
+import {
+  AsymptoteAuthoringControl,
+  MultipleChoiceAuthoringControl,
+  type AuthoringImageAsset,
+} from "@/app/admin/problem-authoring-controls";
 
 type ProblemData = {
   id: string;
@@ -30,7 +35,16 @@ type ProblemData = {
   statement: string;
   contentFormat: "LATEX" | "HTML";
   answerKey: string;
-  answerType: "EXACT" | "INTEGER" | "DECIMAL" | "FRACTION" | "SET" | "MULTIPLE" | "EXPRESSION";
+  answerType:
+    | "EXACT"
+    | "INTEGER"
+    | "DECIMAL"
+    | "FRACTION"
+    | "SET"
+    | "MULTIPLE"
+    | "EXPRESSION"
+    | "MULTIPLE_CHOICE";
+  options: string[];
   topicTags: string[];
   points: number;
   explanationNote: string | null;
@@ -55,6 +69,7 @@ type SetData = {
   videoUrl: string | null;
   problemFile: { originalName: string; mimeType: string } | null;
   solutionFile: { originalName: string; mimeType: string } | null;
+  assetUrls: Record<string, string>;
   problems: ProblemData[];
 };
 
@@ -69,6 +84,7 @@ const ANSWER_TYPES: Array<{
   { value: "SET", label: "Set" },
   { value: "MULTIPLE", label: "Multiple" },
   { value: "EXPRESSION", label: "Expression" },
+  { value: "MULTIPLE_CHOICE", label: "Multiple choice" },
 ];
 const TAG_OPTIONS = CANONICAL_TAGS.filter((tag) => tag.kind === "problem_set_category");
 
@@ -98,6 +114,7 @@ function newProblem(number: number | string) {
     contentFormat: "LATEX" as const,
     answerKey: "",
     answerType: "INTEGER" as const,
+    options: [] as string[],
     topicTags: [],
     topicTagsInput: "",
     points: 1,
@@ -127,12 +144,23 @@ function imageTokens(statement: string) {
   );
 }
 
-function statementWithProblemImages(statement: string, assets: UploadedImageAsset[]) {
-  const existing = imageTokens(statement);
+function statementWithProblemImages(
+  statement: string,
+  assets: UploadedImageAsset[],
+  options: string[] = [],
+) {
+  const existing = new Set([
+    ...imageTokens(statement),
+    ...options.flatMap((option) => [...imageTokens(option)]),
+  ]);
   const tokens = assets
     .filter((asset) => !existing.has(asset.key))
     .map((asset) => `[[img:${asset.key}]]`);
   return tokens.length ? [statement.trim(), ...tokens].filter(Boolean).join("\n\n") : statement;
+}
+
+function imageAssetMap(assets: UploadedImageAsset[]) {
+  return Object.fromEntries(assets.map((asset) => [asset.key, asset.dataUrl]));
 }
 
 function readFileAsDataUrl(file: File): Promise<string> {
@@ -208,6 +236,7 @@ export function SetEditForm({ set }: { set: SetData }) {
         statementFormat: p.contentFormat,
         answerType: p.answerType,
         answerKey: p.answerKey,
+        options: p.answerType === "MULTIPLE_CHOICE" ? p.options : undefined,
         points: p.points,
         topicTags: parseTagInput(p.topicTagsInput),
         solution: p.explanationNoteInput,
@@ -240,6 +269,64 @@ export function SetEditForm({ set }: { set: SetData }) {
   ) {
     setProblems((prev) =>
       prev.map((problem) => (problem.id === problemId ? { ...problem, [field]: value } : problem)),
+    );
+  }
+
+  function setProblemAnswerType(problemId: string, answerType: ProblemData["answerType"]) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        if (answerType !== "MULTIPLE_CHOICE") return { ...problem, answerType, options: [] };
+        const options = problem.options.length >= 2 ? problem.options : ["Choice A", "Choice B"];
+        return {
+          ...problem,
+          answerType,
+          options,
+          answerKey: options.includes(problem.answerKey) ? problem.answerKey : options[0],
+        };
+      }),
+    );
+  }
+
+  function updateChoice(problemId: string, index: number, value: string) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const previous = problem.options[index];
+        const options = problem.options.map((option, optionIndex) =>
+          optionIndex === index ? value : option,
+        );
+        return {
+          ...problem,
+          options,
+          answerKey: problem.answerKey === previous ? value : problem.answerKey,
+        };
+      }),
+    );
+  }
+
+  function addChoice(problemId: string) {
+    setProblems((prev) =>
+      prev.map((problem) =>
+        problem.id === problemId && problem.options.length < 20
+          ? { ...problem, options: [...problem.options, `Choice ${problem.options.length + 1}`] }
+          : problem,
+      ),
+    );
+  }
+
+  function removeChoice(problemId: string, index: number) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId || problem.options.length <= 2) return problem;
+        const removed = problem.options[index];
+        const options = problem.options.filter((_, optionIndex) => optionIndex !== index);
+        return {
+          ...problem,
+          options,
+          answerKey: problem.answerKey === removed ? options[0] : problem.answerKey,
+        };
+      }),
     );
   }
 
@@ -287,7 +374,11 @@ export function SetEditForm({ set }: { set: SetData }) {
     reader.readAsDataURL(file);
   }
 
-  async function handleImageFiles(problemId: string, files: FileList | null) {
+  async function handleImageFiles(
+    problemId: string,
+    files: FileList | File[] | null,
+    choiceIndex?: number,
+  ) {
     setError(null);
     const selected = Array.from(files ?? []);
     if (selected.length === 0) {
@@ -325,21 +416,66 @@ export function SetEditForm({ set }: { set: SetData }) {
     }
 
     setProblems((prev) =>
-      prev.map((problem) =>
-        problem.id === problemId
-          ? { ...problem, imageAssets: [...problem.imageAssets, ...nextAssets] }
-          : problem,
-      ),
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const previousChoice = choiceIndex === undefined ? null : problem.options[choiceIndex];
+        const nextChoice = previousChoice !== null
+          ? [previousChoice.trim(), ...nextAssets.map((asset) => `[[img:${asset.key}]]`)]
+              .filter(Boolean)
+              .join("\n\n")
+          : null;
+        return {
+          ...problem,
+          imageAssets: [...problem.imageAssets, ...nextAssets],
+          options:
+            choiceIndex === undefined || nextChoice === null
+              ? problem.options
+              : problem.options.map((option, index) =>
+                  index === choiceIndex ? nextChoice : option,
+                ),
+          answerKey:
+            previousChoice !== null && problem.answerKey === previousChoice
+              ? (nextChoice ?? problem.answerKey)
+              : problem.answerKey,
+        };
+      }),
+    );
+  }
+
+  function attachAsymptote(problemId: string, asset: AuthoringImageAsset) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const token = `[[img:${asset.key}]]`;
+        return {
+          ...problem,
+          statement: problem.statement.includes(token)
+            ? problem.statement
+            : [problem.statement.trim(), token].filter(Boolean).join("\n\n"),
+          imageAssets: problem.imageAssets.some((image) => image.key === asset.key)
+            ? problem.imageAssets
+            : [...problem.imageAssets, asset],
+        };
+      }),
     );
   }
 
   function removeImage(problemId: string, key: string) {
     setProblems((prev) =>
-      prev.map((problem) =>
-        problem.id === problemId
-          ? { ...problem, imageAssets: problem.imageAssets.filter((asset) => asset.key !== key) }
-          : problem,
-      ),
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const selectedIndex = problem.options.findIndex((option) => option === problem.answerKey);
+        const options = problem.options.map((option) =>
+          option.replaceAll(`[[img:${key}]]`, "").trim(),
+        );
+        return {
+          ...problem,
+          statement: problem.statement.replaceAll(`[[img:${key}]]`, "").trim(),
+          options,
+          answerKey: selectedIndex >= 0 ? options[selectedIndex] : problem.answerKey,
+          imageAssets: problem.imageAssets.filter((asset) => asset.key !== key),
+        };
+      }),
     );
   }
 
@@ -380,10 +516,15 @@ export function SetEditForm({ set }: { set: SetData }) {
           problems: problems.map((problem) => ({
             id: problem.id.startsWith("new-") ? undefined : problem.id,
             number: problem.number,
-            statement: statementWithProblemImages(problem.statement, problem.imageAssets).trim(),
+            statement: statementWithProblemImages(
+              problem.statement,
+              problem.imageAssets,
+              problem.options,
+            ).trim(),
             contentFormat: problem.contentFormat,
             answerKey: problem.answerKey.trim(),
             answerType: problem.answerType,
+            options: problem.answerType === "MULTIPLE_CHOICE" ? problem.options : [],
             topicTags: parseTagInput(problem.topicTagsInput),
             points: Number(problem.points),
             explanationNote: problem.explanationNoteInput.trim() || null,
@@ -758,6 +899,9 @@ export function SetEditForm({ set }: { set: SetData }) {
                         onChange={(e) => updateProblem(problem.id, "statement", e.target.value)}
                       />
                     </label>
+                    <AsymptoteAuthoringControl
+                      onRendered={(asset) => attachAsymptote(problem.id, asset)}
+                    />
 
                     <div className="form-field form-field-full image-upload-box">
                       <span className="form-label">
@@ -804,7 +948,12 @@ export function SetEditForm({ set }: { set: SetData }) {
                         <select
                           className="form-input form-select"
                           value={problem.answerType}
-                          onChange={(e) => updateProblem(problem.id, "answerType", e.target.value)}
+                          onChange={(e) =>
+                            setProblemAnswerType(
+                              problem.id,
+                              e.target.value as ProblemData["answerType"],
+                            )
+                          }
                         >
                           {ANSWER_TYPES.map((type) => (
                             <option key={type.value} value={type.value}>
@@ -813,29 +962,36 @@ export function SetEditForm({ set }: { set: SetData }) {
                           ))}
                         </select>
                       </label>
-                      <label className="form-field">
-                        <span className="form-label">Answer key</span>
-                        <input
-                          className="form-input"
-                          value={problem.answerKey}
-                          onChange={(e) => {
-                            updateProblem(problem.id, "answerKey", e.target.value);
-                            setValidationErrors((prev) => {
-                              const next = new Set(prev);
-                              next.delete(`problem-${problem.id}-answerKey`);
-                              return next;
-                            });
-                          }}
-                          style={
-                            validationErrors.has(`problem-${problem.id}-answerKey`)
-                              ? {
-                                  borderColor: "var(--color-danger, #ef4444)",
-                                  outline: "1px solid var(--color-danger, #ef4444)",
-                                }
-                              : {}
-                          }
-                        />
-                      </label>
+                      {problem.answerType !== "MULTIPLE_CHOICE" ? (
+                        <label className="form-field">
+                          <span className="form-label">Answer key</span>
+                          <input
+                            className="form-input"
+                            value={problem.answerKey}
+                            onChange={(e) => {
+                              updateProblem(problem.id, "answerKey", e.target.value);
+                              setValidationErrors((prev) => {
+                                const next = new Set(prev);
+                                next.delete(`problem-${problem.id}-answerKey`);
+                                return next;
+                              });
+                            }}
+                            style={
+                              validationErrors.has(`problem-${problem.id}-answerKey`)
+                                ? {
+                                    borderColor: "var(--color-danger, #ef4444)",
+                                    outline: "1px solid var(--color-danger, #ef4444)",
+                                  }
+                                : {}
+                            }
+                          />
+                        </label>
+                      ) : (
+                        <div className="form-field">
+                          <span className="form-label">Correct choice</span>
+                          <strong>{problem.answerKey || "Select a choice below"}</strong>
+                        </div>
+                      )}
                       <label className="form-field form-field-sm">
                         <span className="form-label">Points</span>
                         <input
@@ -849,6 +1005,24 @@ export function SetEditForm({ set }: { set: SetData }) {
                         />
                       </label>
                     </div>
+
+                    {problem.answerType === "MULTIPLE_CHOICE" ? (
+                      <MultipleChoiceAuthoringControl
+                        answerKey={problem.answerKey}
+                        assets={{ ...set.assetUrls, ...imageAssetMap(problem.imageAssets) }}
+                        groupName={problem.id}
+                        onAdd={() => addChoice(problem.id)}
+                        onAnswerChange={(answerKey) =>
+                          updateProblem(problem.id, "answerKey", answerKey)
+                        }
+                        onChange={(index, value) => updateChoice(problem.id, index, value)}
+                        onImage={(index, file) => {
+                          if (file) void handleImageFiles(problem.id, [file], index);
+                        }}
+                        onRemove={(index) => removeChoice(problem.id, index)}
+                        options={problem.options}
+                      />
+                    ) : null}
 
                     <label className="form-field">
                       <span className="form-label">Question tags for Practice</span>

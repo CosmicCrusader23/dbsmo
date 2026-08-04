@@ -27,6 +27,7 @@ import {
 } from "./persist-image-assets";
 import { cleanupUnreferencedImportedFiles } from "../imported-file-cleanup";
 import { lockProblemSet } from "../problem-set-locks";
+import { AsymptoteRenderError, renderEmbeddedAsymptoteStatements } from "../asymptote";
 
 export const MAX_JSON_BYTES = 5 * 1024 * 1024;
 const PROBLEM_SET_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -54,11 +55,22 @@ const ANSWER_TYPE_MAP: Record<string, AnswerType> = {
   fraction: "FRACTION",
   integer: "INTEGER",
   multiple: "MULTIPLE",
+  mc: "MULTIPLE_CHOICE",
+  mcq: "MULTIPLE_CHOICE",
+  "multiple-choice": "MULTIPLE_CHOICE",
+  multiple_choice: "MULTIPLE_CHOICE",
   set: "SET",
 };
 
 const boundedAnswerListSchema = z.array(z.string().max(4_000)).max(200);
 const boundedImageRefListSchema = z.array(z.string().max(255)).max(MAX_IMAGES_PER_SET);
+const jsonChoiceSchema = z.union([
+  z.string().trim().min(1).max(4_000),
+  z.object({
+    text: z.string().max(4_000).optional().default(""),
+    imageRef: z.string().max(255).optional(),
+  }),
+]);
 
 const jsonProblemSchema = z.object({
   number: z.number().int().positive().max(1_000_000).optional(),
@@ -73,7 +85,9 @@ const jsonProblemSchema = z.object({
   answerType: z.string().max(20).optional().default("EXACT"),
   answerKey: z.string().max(4_000).optional(),
   answer: z.string().max(4_000).optional(),
+  correctOption: z.number().int().min(1).max(20).optional(),
   acceptedAnswers: z.union([boundedAnswerListSchema, z.string().max(20_000)]).optional(),
+  options: z.array(jsonChoiceSchema).max(20).optional().default([]),
   caseSensitive: z.boolean().optional().default(false),
   topicTags: z.array(z.string().max(64)).max(50).optional().default([]),
   points: z.coerce.number().int().positive().max(1_000_000).optional().default(1),
@@ -343,6 +357,7 @@ export async function importProblemSetJson(
                 contentFormat: problem.statementFormat,
                 answerKey: problem.answerKey,
                 answerType: problem.answerType,
+                options: problem.options,
                 acceptedAnswers: problem.acceptedAnswers,
                 caseSensitive: problem.caseSensitive,
                 explanationNote: problem.solution ?? null,
@@ -450,6 +465,7 @@ export async function importProblemSetJson(
               contentFormat: problem.statementFormat,
               answerKey: problem.answerKey,
               answerType: problem.answerType,
+              options: problem.options,
               acceptedAnswers: problem.acceptedAnswers,
               caseSensitive: problem.caseSensitive,
               explanationNote: problem.solution ?? null,
@@ -556,10 +572,11 @@ export async function createProblemSetJsonDraft(
         contentFormat: problem.statementFormat,
         answerKey: problem.answerKey,
         answerType: problem.answerType,
+        options: problem.options,
         topicTags: problem.topicTags,
         points: problem.points,
         explanationNote: problem.solution,
-        imageRefs: problem.imageRefs.map((ref) => ref.source),
+        imageRefs: [...problem.imageRefs, ...problem.optionImageRefs].map((ref) => ref.source),
       })),
       imageAssets: assetCollection.assets.map((asset) => ({
         key: asset.key,
@@ -659,22 +676,32 @@ function normalizeParsedJson(data: ParsedProblemSetJson) {
     topicTags: normalizeTagList(data.topicTags),
     videoUrl: data.videoUrl?.trim() || null,
     images: data.images ?? [],
-    problems: data.problems.map((problem, index) => ({
-      number: problem.number ?? index + 1,
-      statement: problem.statement.trim(),
-      statementFormat: normalizeProblemContentFormat(
-        problem.statementFormat ?? data.statementFormat,
-        defaultStatementFormat,
-      ),
-      answerKey: (problem.answerKey ?? problem.answer ?? "").trim(),
-      answerType: normalizeAnswerType(problem.answerType),
-      acceptedAnswers: normalizeAcceptedAnswers(problem.acceptedAnswers),
-      caseSensitive: problem.caseSensitive,
-      topicTags: normalizeTagList(problem.topicTags),
-      points: problem.points,
-      solution: (problem.solution ?? problem.explanationNote ?? null)?.trim() || null,
-      imageRefs: normalizeProblemImageRefs(problem),
-    })),
+    problems: data.problems.map((problem, index) => {
+      const choices = normalizeProblemChoices(problem.options);
+      const rawAnswerKey = (problem.answerKey ?? problem.answer ?? "").trim();
+      const answerKey =
+        normalizeAnswerType(problem.answerType) === "MULTIPLE_CHOICE" && problem.correctOption
+          ? (choices.options[problem.correctOption - 1] ?? "")
+          : rawAnswerKey;
+      return {
+        number: problem.number ?? index + 1,
+        statement: problem.statement.trim(),
+        statementFormat: normalizeProblemContentFormat(
+          problem.statementFormat ?? data.statementFormat,
+          defaultStatementFormat,
+        ),
+        answerKey,
+        answerType: normalizeAnswerType(problem.answerType),
+        options: choices.options,
+        optionImageRefs: choices.imageRefs,
+        acceptedAnswers: normalizeAcceptedAnswers(problem.acceptedAnswers),
+        caseSensitive: problem.caseSensitive,
+        topicTags: normalizeTagList(problem.topicTags),
+        points: problem.points,
+        solution: (problem.solution ?? problem.explanationNote ?? null)?.trim() || null,
+        imageRefs: normalizeProblemImageRefs(problem),
+      };
+    }),
   };
 }
 
@@ -711,6 +738,39 @@ async function collectImportAssets(
       seen.add(asset.key);
       assets.push(asset);
     }
+  }
+
+  try {
+    const rendered = await renderEmbeddedAsymptoteStatements(
+      data.problems.map((problem) => problem.statement),
+    );
+    rendered.statements.forEach((statement, index) => {
+      data.problems[index].statement = statement;
+    });
+    for (const asset of rendered.assets) {
+      if (seen.has(asset.key)) {
+        issues.push({
+          level: "error",
+          message: `Image key "${asset.key}" is reserved for a generated Asymptote diagram.`,
+        });
+        continue;
+      }
+      seen.add(asset.key);
+      assets.push(asset);
+    }
+  } catch (error) {
+    if (error instanceof AsymptoteRenderError) {
+      issues.push({ level: "error", message: error.message });
+    } else {
+      throw error;
+    }
+  }
+
+  if (assets.length > MAX_IMAGES_PER_SET) {
+    issues.push({
+      level: "error",
+      message: `Too many images and generated diagrams. Maximum is ${MAX_IMAGES_PER_SET}.`,
+    });
   }
 
   const totalImageBytes = assets.reduce((sum, asset) => sum + asset.sizeBytes, 0);
@@ -757,7 +817,28 @@ function validateNormalizedJson(
       });
     }
 
-    for (const ref of problem.imageRefs) {
+    if (problem.answerType === "MULTIPLE_CHOICE") {
+      if (problem.options.length < 2) {
+        issues.push({
+          level: "error",
+          message: `Problem ${problem.number} needs at least two multiple-choice options.`,
+        });
+      }
+      if (new Set(problem.options).size !== problem.options.length) {
+        issues.push({
+          level: "error",
+          message: `Problem ${problem.number} has duplicate multiple-choice options.`,
+        });
+      }
+      if (!problem.options.includes(problem.answerKey)) {
+        issues.push({
+          level: "error",
+          message: `Problem ${problem.number} answerKey must exactly match one multiple-choice option.`,
+        });
+      }
+    }
+
+    for (const ref of [...problem.imageRefs, ...problem.optionImageRefs]) {
       if (!ref.key) {
         issues.push({
           level: "error",
@@ -786,7 +867,11 @@ function validateNormalizedJson(
     });
   }
 
-  const statementsAndSolutions = data.problems.flatMap((p) => [p.statement, p.solution ?? ""]);
+  const statementsAndSolutions = data.problems.flatMap((p) => [
+    p.statement,
+    p.solution ?? "",
+    ...p.options,
+  ]);
   const referenced = new Set<string>();
   for (const text of statementsAndSolutions) {
     for (const key of extractTokens(text)) {
@@ -849,6 +934,30 @@ function normalizeProblemImageRefs(
     refs.push({ source: trimmed, key: imageKeyFromFileName(trimmed) });
   }
   return refs;
+}
+
+function normalizeProblemChoices(choices: ParsedProblemSetJson["problems"][number]["options"]): {
+  options: string[];
+  imageRefs: NormalizedImageRef[];
+} {
+  const options: string[] = [];
+  const imageRefs: NormalizedImageRef[] = [];
+
+  for (const choice of choices) {
+    if (typeof choice === "string") {
+      options.push(choice.trim());
+      continue;
+    }
+
+    const text = choice.text.trim();
+    const source = choice.imageRef?.trim();
+    const key = source ? imageKeyFromFileName(source) : null;
+    if (source) imageRefs.push({ source, key });
+    const token = key ? `[[img:${key}]]` : "";
+    options.push([text, token].filter(Boolean).join("\n\n"));
+  }
+
+  return { options, imageRefs };
 }
 
 function statementWithImageRefs(statement: string, refs: NormalizedImageRef[]) {
@@ -934,6 +1043,8 @@ function normalizeLooseJson(raw: unknown, fileName: string): unknown | null {
         statement: stringValue(problem.statement),
         answerType: stringValue(problem.answerType) || "EXACT",
         answerKey: stringValue(problem.answerKey) || stringValue(problem.answer),
+        correctOption: integerValue(problem.correctOption),
+        options: Array.isArray(problem.options) ? problem.options : [],
         acceptedAnswers: Array.isArray(problem.acceptedAnswers)
           ? problem.acceptedAnswers
           : stringValue(problem.acceptedAnswers),

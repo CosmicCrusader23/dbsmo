@@ -26,8 +26,21 @@ import {
 import { LatexStatement } from "@/app/problem-sets/[slug]/latex-statement";
 import { PageBackLink } from "@/app/page-back-link";
 import { MathCurveLoader } from "@/app/math-curve-loader";
+import {
+  AsymptoteAuthoringControl,
+  MultipleChoiceAuthoringControl,
+  type AuthoringImageAsset,
+} from "@/app/admin/problem-authoring-controls";
 
-type AnswerType = "INTEGER" | "DECIMAL" | "FRACTION" | "EXACT" | "SET" | "MULTIPLE" | "EXPRESSION";
+type AnswerType =
+  | "INTEGER"
+  | "DECIMAL"
+  | "FRACTION"
+  | "EXACT"
+  | "SET"
+  | "MULTIPLE"
+  | "EXPRESSION"
+  | "MULTIPLE_CHOICE";
 
 type ContentFormat = "LATEX" | "HTML";
 
@@ -38,6 +51,7 @@ interface ProblemEntry {
   contentFormat: ContentFormat;
   answerType: AnswerType;
   answerKey: string;
+  options: string[];
   topicTags: string;
   points: number;
   explanationNote: string;
@@ -51,7 +65,7 @@ type UploadedImageAsset = {
   dataUrl: string;
 };
 
-type EditableProblemField = Exclude<keyof ProblemEntry, "id" | "imageAssets">;
+type EditableProblemField = Exclude<keyof ProblemEntry, "id" | "imageAssets" | "options">;
 
 const ANSWER_TYPE_OPTIONS: { value: AnswerType; label: string; hint: string }[] = [
   { value: "INTEGER", label: "Integer", hint: "e.g. 42" },
@@ -65,6 +79,11 @@ const ANSWER_TYPE_OPTIONS: { value: AnswerType; label: string; hint: string }[] 
   { value: "SET", label: "Set", hint: "e.g. 1,2,5" },
   { value: "MULTIPLE", label: "Multiple accepted", hint: "Use semicolons (e.g. 3/7; 0.4286)" },
   { value: "EXPRESSION", label: "Expression", hint: "e.g. sqrt(2), 2^0.5, pi/3" },
+  {
+    value: "MULTIPLE_CHOICE",
+    label: "Multiple choice",
+    hint: "Select the correct option below",
+  },
 ];
 const TAG_OPTIONS = CANONICAL_TAGS.filter((tag) => tag.kind === "problem_set_category");
 
@@ -72,14 +91,15 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-function emptyProblem(n: number | string): ProblemEntry {
+function emptyProblem(n: number | string, id = uid()): ProblemEntry {
   return {
-    id: uid(),
+    id,
     number: typeof n === "number" ? n : Number(n) || 1,
     statement: "",
     contentFormat: "LATEX",
     answerType: "INTEGER",
     answerKey: "",
+    options: [],
     topicTags: "",
     points: 1,
     explanationNote: "",
@@ -164,8 +184,15 @@ function imageTokens(statement: string) {
   );
 }
 
-function statementWithProblemImages(statement: string, assets: UploadedImageAsset[]) {
-  const existing = imageTokens(statement);
+function statementWithProblemImages(
+  statement: string,
+  assets: UploadedImageAsset[],
+  options: string[] = [],
+) {
+  const existing = new Set([
+    ...imageTokens(statement),
+    ...options.flatMap((option) => [...imageTokens(option)]),
+  ]);
   const tokens = assets
     .filter((asset) => !existing.has(asset.key))
     .map((asset) => `[[img:${asset.key}]]`);
@@ -210,7 +237,9 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
   const [videoUrl, setVideoUrl] = useState("");
   const [problemPdf, setProblemPdf] = useState<{ name: string; dataUrl: string } | null>(null);
 
-  const [problems, setProblems] = useState<ProblemEntry[]>([emptyProblem(1)]);
+  const [problems, setProblems] = useState<ProblemEntry[]>([
+    emptyProblem(1, "initial-problem"),
+  ]);
   const [showPreview, setShowPreview] = useState<Record<string, boolean>>({});
 
   const [saving, setSaving] = useState(false);
@@ -255,6 +284,10 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
             contentFormat: problem.contentFormat,
             answerType: problem.answerType,
             answerKey: problem.answerKey,
+            options:
+              problem.answerType === "MULTIPLE_CHOICE" && (problem.options ?? []).length < 2
+                ? ["Choice A", "Choice B"]
+                : (problem.options ?? []),
             topicTags: problem.topicTags.join(", "),
             points: problem.points,
             explanationNote: problem.explanationNote ?? "",
@@ -315,7 +348,69 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
     setProblems((prev) => prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)));
   }
 
-  async function handleImageFiles(problemId: string, files: FileList | null) {
+  function setProblemAnswerType(id: string, answerType: AnswerType) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== id) return problem;
+        if (answerType !== "MULTIPLE_CHOICE") return { ...problem, answerType, options: [] };
+        const options = problem.options.length >= 2 ? problem.options : ["Choice A", "Choice B"];
+        return {
+          ...problem,
+          answerType,
+          options,
+          answerKey: options.includes(problem.answerKey) ? problem.answerKey : options[0],
+        };
+      }),
+    );
+  }
+
+  function updateChoice(problemId: string, index: number, value: string) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const previous = problem.options[index];
+        const options = problem.options.map((option, optionIndex) =>
+          optionIndex === index ? value : option,
+        );
+        return {
+          ...problem,
+          options,
+          answerKey: problem.answerKey === previous ? value : problem.answerKey,
+        };
+      }),
+    );
+  }
+
+  function addChoice(problemId: string) {
+    setProblems((prev) =>
+      prev.map((problem) =>
+        problem.id === problemId && problem.options.length < 20
+          ? { ...problem, options: [...problem.options, `Choice ${problem.options.length + 1}`] }
+          : problem,
+      ),
+    );
+  }
+
+  function removeChoice(problemId: string, index: number) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId || problem.options.length <= 2) return problem;
+        const removed = problem.options[index];
+        const options = problem.options.filter((_, optionIndex) => optionIndex !== index);
+        return {
+          ...problem,
+          options,
+          answerKey: problem.answerKey === removed ? options[0] : problem.answerKey,
+        };
+      }),
+    );
+  }
+
+  async function handleImageFiles(
+    problemId: string,
+    files: FileList | File[] | null,
+    choiceIndex?: number,
+  ) {
     setError(null);
     const selected = Array.from(files ?? []);
     if (selected.length === 0) {
@@ -350,21 +445,66 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
     }
 
     setProblems((prev) =>
-      prev.map((problem) =>
-        problem.id === problemId
-          ? { ...problem, imageAssets: [...problem.imageAssets, ...nextAssets] }
-          : problem,
-      ),
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const previousChoice = choiceIndex === undefined ? null : problem.options[choiceIndex];
+        const nextChoice = previousChoice !== null
+          ? [previousChoice.trim(), ...nextAssets.map((asset) => `[[img:${asset.key}]]`)]
+              .filter(Boolean)
+              .join("\n\n")
+          : null;
+        return {
+          ...problem,
+          imageAssets: [...problem.imageAssets, ...nextAssets],
+          options:
+            choiceIndex === undefined || nextChoice === null
+              ? problem.options
+              : problem.options.map((option, index) =>
+                  index === choiceIndex ? nextChoice : option,
+                ),
+          answerKey:
+            previousChoice !== null && problem.answerKey === previousChoice
+              ? (nextChoice ?? problem.answerKey)
+              : problem.answerKey,
+        };
+      }),
+    );
+  }
+
+  function attachAsymptote(problemId: string, asset: AuthoringImageAsset) {
+    setProblems((prev) =>
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const token = `[[img:${asset.key}]]`;
+        return {
+          ...problem,
+          statement: problem.statement.includes(token)
+            ? problem.statement
+            : [problem.statement.trim(), token].filter(Boolean).join("\n\n"),
+          imageAssets: problem.imageAssets.some((image) => image.key === asset.key)
+            ? problem.imageAssets
+            : [...problem.imageAssets, asset],
+        };
+      }),
     );
   }
 
   function removeImage(problemId: string, key: string) {
     setProblems((prev) =>
-      prev.map((problem) =>
-        problem.id === problemId
-          ? { ...problem, imageAssets: problem.imageAssets.filter((asset) => asset.key !== key) }
-          : problem,
-      ),
+      prev.map((problem) => {
+        if (problem.id !== problemId) return problem;
+        const selectedIndex = problem.options.findIndex((option) => option === problem.answerKey);
+        const options = problem.options.map((option) =>
+          option.replaceAll(`[[img:${key}]]`, "").trim(),
+        );
+        return {
+          ...problem,
+          statement: problem.statement.replaceAll(`[[img:${key}]]`, "").trim(),
+          options,
+          answerKey: selectedIndex >= 0 ? options[selectedIndex] : problem.answerKey,
+          imageAssets: problem.imageAssets.filter((asset) => asset.key !== key),
+        };
+      }),
     );
   }
 
@@ -425,10 +565,11 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
           imageAssets: problems.flatMap((p) => p.imageAssets),
           problems: problems.map((p) => ({
             number: p.number,
-            statement: statementWithProblemImages(p.statement, p.imageAssets).trim(),
+            statement: statementWithProblemImages(p.statement, p.imageAssets, p.options).trim(),
             contentFormat: p.contentFormat,
             answerKey: p.answerKey.trim(),
             answerType: p.answerType,
+            options: p.answerType === "MULTIPLE_CHOICE" ? p.options : [],
             topicTags: p.topicTags
               .split(",")
               .map((t) => t.trim())
@@ -799,6 +940,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
                     assets={imageAssetMap(p.imageAssets)}
                   />
                 )}
+                <AsymptoteAuthoringControl onRendered={(asset) => attachAsymptote(p.id, asset)} />
               </div>
 
               <div className="form-field form-field-full image-upload-box">
@@ -846,7 +988,7 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
                   <label>Answer type</label>
                   <select
                     value={p.answerType}
-                    onChange={(e) => updateProblem(p.id, "answerType", e.target.value)}
+                    onChange={(e) => setProblemAnswerType(p.id, e.target.value as AnswerType)}
                   >
                     {ANSWER_TYPE_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -859,15 +1001,22 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
                   </small>
                 </div>
 
-                <div className="form-field">
-                  <label>Answer</label>
-                  <input
-                    type="text"
-                    placeholder={ANSWER_TYPE_OPTIONS.find((o) => o.value === p.answerType)?.hint}
-                    value={p.answerKey}
-                    onChange={(e) => updateProblem(p.id, "answerKey", e.target.value)}
-                  />
-                </div>
+                {p.answerType !== "MULTIPLE_CHOICE" ? (
+                  <div className="form-field">
+                    <label>Answer</label>
+                    <input
+                      type="text"
+                      placeholder={ANSWER_TYPE_OPTIONS.find((o) => o.value === p.answerType)?.hint}
+                      value={p.answerKey}
+                      onChange={(e) => updateProblem(p.id, "answerKey", e.target.value)}
+                    />
+                  </div>
+                ) : (
+                  <div className="form-field">
+                    <label>Correct choice</label>
+                    <strong>{p.answerKey || "Select a choice below"}</strong>
+                  </div>
+                )}
 
                 <div className="form-field form-field-sm">
                   <label>Points</label>
@@ -879,6 +1028,23 @@ export function CreateSetPageClient({ importDraftKey }: CreateSetPageClientProps
                   />
                 </div>
               </div>
+
+              {p.answerType === "MULTIPLE_CHOICE" ? (
+                <MultipleChoiceAuthoringControl
+                  answerKey={p.answerKey}
+                  assets={imageAssetMap(p.imageAssets)}
+                  groupName={p.id}
+                  onAdd={() => addChoice(p.id)}
+                  onAnswerChange={(answerKey) => updateProblem(p.id, "answerKey", answerKey)}
+                  onChange={(index, value) => updateChoice(p.id, index, value)}
+                  onImage={(index, file) => {
+                    if (!file) return;
+                    void handleImageFiles(p.id, [file], index);
+                  }}
+                  onRemove={(index) => removeChoice(p.id, index)}
+                  options={p.options}
+                />
+              ) : null}
 
               <div className="problem-extra-row">
                 <div className="form-field">

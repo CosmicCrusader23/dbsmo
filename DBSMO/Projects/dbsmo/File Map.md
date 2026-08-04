@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: file-map
 tags: [project, architecture, file-map, dbsmo]
 ai-first: true
@@ -31,6 +31,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/site-sidebar.tsx`, `app/site-sidebar-nav.tsx`, `app/global-mobile-nav.tsx` - authenticated sidebar links and mobile nav behavior (sources: named files).
 - `app/auth-button.tsx`, `app/avatar.tsx`, `app/theme-toggle.tsx`, `app/typewriter-greeting.tsx` - shared app UI atoms/widgets (sources: named files).
 - `app/problem-sets/` - catalog, problem-set detail page, answering grid, bookmarking, writeups, LaTeX/HTML statement rendering (sources: `app/problem-sets/page.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/latex-statement.tsx`, `app/problem-sets/[slug]/bookmark-button.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`).
+- `app/admin/problem-authoring-controls.tsx` - shared Asymptote rendering and variable multiple-choice/image option controls used by create/edit forms (source: named file; see [[Asymptote and Multiple Choice]]).
 - `app/writeups/page.tsx` - global writeups directory with latest/top tabs and problem-set search (source: route file).
 - `app/practice/page.tsx` - practice-mode client surface backed by `/api/practice/*` (source: `app/practice/page.tsx`).
 - `app/classes/page.tsx` and `app/classes/announcement-composer.tsx` - student-facing classes route plus teacher/admin class-announcement composer (sources: named files).
@@ -52,6 +53,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `app/api/assignments/mine/route.ts` - current student's assignments for dashboard widget (source: route file).
 - `app/api/admin/announcements/route.ts` - teacher/admin creation endpoint for class-targeted announcements (source: route file).
 - `app/api/admin/**` - admin/staff APIs for backup, classes, content, imports, exports, feedback, role changes, and set editing/regrading/export (sources: `app/api/admin/**`).
+- `app/api/admin/asymptote/render/route.ts` - authorized/rate-limited manual Asymptote preview endpoint returning a validated PNG data URL (source: named file).
 - `app/api/ftw/**` - FTW solo matches and room lifecycle/state/submit endpoints (sources: `app/api/ftw/**`).
 
 ## `lib/` Domain Modules
@@ -61,6 +63,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/permissions.ts` - role-to-permission mapping and `hasPermission` helper (source: `lib/permissions.ts`).
 - `lib/grading.ts`, `lib/math-input.ts` - deterministic answer normalization and grading engine plus math-input helpers for stripping delimiters, converting common LaTeX forms, and rendering practice answer previews (sources: named files).
 - `lib/latex-compat.ts` - safe statement-rendering compatibility for document wrappers, common table environments, booktabs-style rules, shorthand macros, and bounded column expansion before KaTeX rendering (sources: named file, `app/problem-sets/[slug]/latex-statement.tsx`, `tests/latex-statement.test.ts`).
+- `lib/asymptote.ts` - `<asy>` parsing/deduplication, OS-sandbox command construction, process/workspace limits, and PNG output validation (source: named file; see [[Asymptote and Multiple Choice]]).
 - `lib/visibility.ts` - student visibility/status helpers for problem sets (source: `lib/visibility.ts`).
 - `lib/problem-tags.ts`, `lib/problem-content-format.ts`, `lib/problem-set-order.ts`, `lib/problem-set-authoring.ts` - problem metadata normalization, ordering, and authoring validation (sources: named files).
 - `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, optional image ZIP parsing, ZIP path safety, JSON draft storage, image asset persistence, and JSON export conversion (sources: `lib/import/**`).
@@ -84,6 +87,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `docs/grading.md` - human-readable grading rules and regrading expectations.
 - `docs/permissions.md` - permission strings and role mapping, with `lib/permissions.ts` named as source of truth.
 - `docs/admin-guide.md`, `docs/student-guide.md`, `docs/deployment.md` - user/admin/deployment guides.
+- `docs/asymptote.md` - author syntax, limits, security boundary, and VPS reference for diagram compilation.
 - `docs/performance-model.md` - exact Performance Profile formulas, product surfaces, and simulation results.
 - `docs/superpowers/` - planning/spec notes for classes and assignments.
 

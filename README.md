@@ -14,6 +14,7 @@ Statements can be rendered in Latex or HTML math tags.
 - [Deployment Guide](./docs/deployment.md)
 - [Visual System](./docs/visual-system.md)
 - [Latex Support](./docs/latex-support.md)
+- [Asymptote Diagrams](./docs/asymptote.md)
 - [Performance Model](./docs/performance-model.md)
 
 ## PATCHNOTES
@@ -65,5 +66,7 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Added DBSOJ-inspired attempt reviews at `/attempts/[id]`: a compact submission verdict/score header and expandable per-question rows with submitted and normalized answers, accepted answers, marks, topics, statements, images, grader notes, and explanations. Reviews are linked from submission results, solved-set locks, set history, dashboard history, student detail, and per-set analytics; students can only open their own attempts while analytics staff can review student attempts.
 - Restored the explicitly configured development-only bypass controls on the local sign-in page so authenticated browser QA remains possible without weakening production authentication.
 - Replaced the points-weighted best average with one shared evidence-aware Performance Profile across dashboards, profiles, settings, student administration, analytics, leaderboard ranking, and CSV exports. The new Mastery Index combines Bayesian-smoothed proficiency, breadth, and a lower-quartile consistency floor while preserving best-set average and mastery rate as auditable components. A deterministic 100-student × 100-set simulation achieved `0.980` rank correlation with latent ability and 89 distinct index values.
+- Added sandboxed Asymptote diagrams for staff authoring and JSON imports. Raw `<asy>...</asy>` source is compiled to a validated PNG behind authorization, rate/size/time limits, Asymptote safe mode, and an OS sandbox; students only receive ordinary authenticated image assets.
+- Added variable-length multiple-choice problems with two to 20 options across the GUI problem maker, JSON import/export, standard sets, compact Tests layouts, and Practice. Choices support LaTeX plus uploaded or ZIP-supplied images, including image-only choices.
 
 © 2026 Cosmic Crusader

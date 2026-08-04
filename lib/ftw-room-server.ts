@@ -15,6 +15,7 @@ const ANSWER_TYPE_MAP = {
   SET: "set",
   MULTIPLE: "multiple",
   EXPRESSION: "expression",
+  MULTIPLE_CHOICE: "multiple_choice",
 } as const satisfies Record<string, AnswerType>;
 
 async function pickNextRoomProblemLocked(

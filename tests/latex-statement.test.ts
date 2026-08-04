@@ -32,6 +32,22 @@ describe("LatexStatement", () => {
     expect(html).toContain('class="problem-image"');
   });
 
+  it.each(["LATEX", "HTML"])(
+    "replaces uncompiled Asymptote source with a safe placeholder in %s statements",
+    (format) => {
+      const html = renderToStaticMarkup(
+        React.createElement(LatexStatement, {
+          statement: "Diagram: <asy>system(\"unsafe\"); draw(unitcircle);</asy>",
+          format,
+        }),
+      );
+
+      expect(html).toContain("Asymptote diagram must be rendered by an author");
+      expect(html).not.toContain("system");
+      expect(html).not.toContain("unitcircle");
+    },
+  );
+
   it("renders a bare tabular environment mixed with statement prose", () => {
     const html = renderToStaticMarkup(
       React.createElement(LatexStatement, {

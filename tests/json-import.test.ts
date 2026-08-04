@@ -47,6 +47,43 @@ afterEach(() => {
 });
 
 describe("dryRunProblemSetJson", () => {
+  it("accepts variable multiple-choice options with an image choice", async () => {
+    const text = JSON.stringify({
+      slug: "json-multiple-choice",
+      title: "JSON Multiple Choice",
+      problems: [
+        {
+          number: 1,
+          statement: "Which diagram is a circle?",
+          answerType: "mcq",
+          options: [
+            "A square",
+            { text: "A circle", imageRef: "circle.png" },
+            "A triangle",
+            "A pentagon",
+            "A hexagon",
+          ],
+          correctOption: 2,
+        },
+      ],
+    });
+    const buffer = await imageZip({ "choices/circle.png": PNG_1X1 });
+
+    const result = await dryRunProblemSetJson({
+      fileName: "json-multiple-choice.json",
+      sizeBytes: Buffer.byteLength(text),
+      text,
+      imageZip: {
+        fileName: "json-multiple-choice.zip",
+        sizeBytes: buffer.byteLength,
+        buffer,
+      },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.preview?.answerTypeCounts.MULTIPLE_CHOICE).toBe(1);
+    expect(result.preview?.imageCount).toBe(1);
+  });
   it("validates inline LaTeX statements, answer types, and solutions", async () => {
     const text = JSON.stringify({
       slug: "json-latex-smoke",

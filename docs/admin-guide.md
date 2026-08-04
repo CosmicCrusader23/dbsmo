@@ -16,12 +16,14 @@
 3. Add problems one-by-one, including statement, answer type, and answer key.
    - **Problem Number:** A positive integer (e.g. 1, 2, 3). If you leave it as-is, new problems default to sequential numbers.
    - **Question tags:** Enter any comma-separated names to create or reuse Practice topics. A topic appears in Practice after more than 10 published, unsolved questions use that tag.
+   - **Multiple choice:** Select **Multiple choice**, add between two and 20 choices, and mark one correct choice. Choice text supports LaTeX. Use the image control on a choice for an image-backed or image-only option.
 4. For each problem, use the **LaTeX / HTML** toggle next to the statement field.
    - Use **LaTeX** for `$...$`/`$$...$$` style input.
    - Table environments (`tabular`, `tabular*`, `tabularx`, and `longtable`) and chemistry with `\ce{...}` are supported through the compatibility renderer; see [LaTeX rendering support](./latex-support.md).
    - Use **HTML** for content that includes tags like `<math>...</math>`.
 5. You can preview the statement live before saving.
    - If you upload per-problem images, **Toggle Previews** renders them below the statement using the same image tokens used on the student problem page.
+   - Expand **Asymptote diagram** to render diagram source and attach the resulting PNG. The server must have the sandboxed renderer enabled; see [Asymptote diagrams](./asymptote.md).
 6. Click **Save problem set** to finish. The set will show you as the uploader.
 
 ## Uploading a Problem Set (JSON)
@@ -34,6 +36,8 @@
 4. If the preview looks correct, click **Import draft** to create the set as a draft.
    - Optional field: `statementFormat` (default: `LATEX`). Set it to `HTML` for statements using `<math>` tags.
    - For test papers, set top-level `topicTags` to include `Tests` and import 60 problem entries in order.
+   - Multiple-choice entries use `answerType: "multiple_choice"`, an `options` array of two to 20 choices, and a 1-based `correctOption`.
+   - Choice objects may use `imageRef`; place those files in the same-name companion image ZIP. Statements may use `<asy>...</asy>` when the server renderer is enabled.
 
 See [import-format.md](./import-format.md) for the JSON format specification.
 

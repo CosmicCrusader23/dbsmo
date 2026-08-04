@@ -8,7 +8,16 @@ export type JsonProblemDraft = {
   statement: string;
   contentFormat: "LATEX" | "HTML";
   answerKey: string;
-  answerType: "EXACT" | "INTEGER" | "DECIMAL" | "FRACTION" | "SET" | "MULTIPLE" | "EXPRESSION";
+  answerType:
+    | "EXACT"
+    | "INTEGER"
+    | "DECIMAL"
+    | "FRACTION"
+    | "SET"
+    | "MULTIPLE"
+    | "EXPRESSION"
+    | "MULTIPLE_CHOICE";
+  options: string[];
   topicTags: string[];
   points: number;
   explanationNote: string | null;

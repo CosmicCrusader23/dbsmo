@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: project-index
 tags:
   - project
@@ -30,6 +30,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - [[Glossary]] - project-specific terms and abbreviations.
 - [[Attempt Review]] - saved submission review UI, authorization, data flow, and entry points.
 - [[Performance Analytics]] - shared Mastery Index, component metrics, validation, and change guidance.
+- [[Asymptote and Multiple Choice]] - diagram sandbox, variable choices, image-backed options, authoring/import flow, and deploy constraints.
 
 ## Fast Orientation
 
@@ -42,6 +43,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Current class/community notes include authored tasks, a mastery heatmap, problem-set writeups with image uploads/voting/deletion, and class announcements pinned on dashboards (sources: `app/users/[username]/page.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/writeups/page.tsx`, `app/classes/announcement-composer.tsx`, `app/dashboard/page.tsx`, `prisma/schema.prisma`).
 - Saved submissions have an owner/staff-gated [[Attempt Review]] with links from submit results, solved-set locks, set/dashboard history, student detail, and per-set analytics (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/dashboard/page.tsx`).
 - Cross-set student metrics use the shared evidence-aware [[Performance Analytics]] model; Mastery Index combines proficiency, breadth, and a consistency floor while keeping best-set average/mastery rate visible (sources: `lib/analytics.ts`, `app/leaderboard/page.tsx`).
+- Authoring and imports support sandboxed Asymptote-to-PNG diagrams plus `MULTIPLE_CHOICE` problems with two to 20 LaTeX/image-capable choices; see [[Asymptote and Multiple Choice]] (sources: `lib/asymptote.ts`, `lib/problem-set-authoring.ts`, `lib/import/json-import.ts`, `app/admin/problem-authoring-controls.tsx`).
 
 ## Source Inspection Basis
 

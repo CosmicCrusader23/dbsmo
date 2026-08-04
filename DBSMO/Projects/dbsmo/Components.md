@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-26
+updated: 2026-08-04
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
@@ -53,9 +53,9 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Admin Content Components
 
-- `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`; supports per-problem image uploads and preview through `LatexStatement`. Uploaded images are appended as `[[img:key]]` tokens for preview/save when not already referenced.
+- `CreateSetPageClient` in `app/admin/create/page-client.tsx`: client form for manual set creation and import-draft editing, backed by `/api/admin/create-set`; supports per-problem images, Asymptote-to-image attachment, and variable multiple-choice options through the shared controls in `app/admin/problem-authoring-controls.tsx`. Option images use the same `[[img:key]]` preview/save path as statement images.
 - `StatementPreview` in `app/admin/create/page-client.tsx`: local preview for statement content/format, including problem image assets rendered by `LatexStatement`.
-- `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF upload, image upload, status, problem list, answer keys/types, points, explanations, and save to `/api/admin/sets/[id]`. It shares the same per-problem image-token append behavior before save.
+- `SetEditForm` in `app/admin/sets/[id]/set-edit-form.tsx`: edit form for metadata, tags, PDF/image upload, Asymptote diagrams, multiple-choice options, status, problems, answers, points, explanations, and save to `/api/admin/sets/[id]`. See [[Asymptote and Multiple Choice]].
 - `DeleteSetButton` in `app/admin/sets/delete-set-button.tsx`: client delete action used by set management/detail flows and backed by `DELETE /api/admin/sets/[id]`; it supports compact row sizing and full topbar sizing.
 - `JsonZipImportPanel` in `app/admin/import/json-zip-import-panel.tsx`: batch JSON ZIP import UI; unpacks `.json` files plus optional same-basename nested image ZIPs and runs dry-run/draft/commit per entry.
 - `ZipImportPanel` in `app/admin/import/zip-import-panel.tsx`: single JSON import UI; accepts optional same-basename image ZIP and runs dry-run/draft/commit flow.

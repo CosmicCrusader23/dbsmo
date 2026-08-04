@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: entry-points
 tags: [project, architecture, routes, apis, dbsmo]
 ai-first: true
@@ -93,8 +93,9 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 ## Admin API Routes
 
-- `POST /api/admin/create-set` - create manual problem set, including PDF and problem image uploads (source: `app/api/admin/create-set/route.ts`).
-- `GET/PATCH/DELETE /api/admin/sets/[id]` - fetch/update/delete set; patch can update metadata, upload PDF/images, and replace/update/delete problems transactionally (source: `app/api/admin/sets/[id]/route.ts`).
+- `POST /api/admin/create-set` - create a manual problem set, including PDF/images, multiple-choice options, and server conversion of embedded Asymptote blocks (source: `app/api/admin/create-set/route.ts`).
+- `GET/PATCH/DELETE /api/admin/sets/[id]` - fetch/update/delete set; patch can update metadata, upload PDF/images, convert embedded Asymptote, and replace/update/delete problems transactionally (source: `app/api/admin/sets/[id]/route.ts`).
+- `POST /api/admin/asymptote/render` - `admin:content` manual preview endpoint with bounded JSON, per-user rate limiting, sandboxed compilation, and PNG data URL response (sources: `app/api/admin/asymptote/render/route.ts`, `lib/asymptote.ts`).
 - `POST /api/admin/sets/[id]/regrade` - regrade existing responses after answer changes (source: `app/api/admin/sets/[id]/regrade/route.ts`).
 - `GET /api/admin/sets/[id]/export` - export a set as JSON import format (source: `app/api/admin/sets/[id]/export/route.ts`).
 - `POST /api/admin/import/dry-run`, `POST /api/admin/import/commit`, `POST /api/admin/import/draft` - JSON import validation, commit, and editor draft paths; each accepts an optional same-basename image ZIP through `imageZip` form data (sources: `app/api/admin/import/*`, `lib/import/*`).

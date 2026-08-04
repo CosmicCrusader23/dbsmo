@@ -17,6 +17,7 @@ type ExportableProblemSet = {
     contentFormat: ProblemContentFormat;
     answerKey: string;
     answerType: AnswerType;
+    options: string[];
     acceptedAnswers: string[];
     caseSensitive: boolean;
     topicTags: string[];
@@ -38,17 +39,23 @@ export function problemSetToImportJson(set: ExportableProblemSet) {
     topicTags: set.topicTags,
     difficulty: set.difficulty,
     videoUrl: set.videoUrl,
-    problems: set.problems.map((problem) => ({
-      number: problem.number,
-      statement: problem.statement,
-      statementFormat: problem.contentFormat,
-      answerType: problem.answerType,
-      answerKey: problem.answerKey,
-      acceptedAnswers: problem.acceptedAnswers,
-      caseSensitive: problem.caseSensitive,
-      topicTags: problem.topicTags,
-      points: problem.points,
-      solution: problem.explanationNote,
-    })),
+    problems: set.problems.map((problem) => {
+      const multipleChoice = problem.answerType === "MULTIPLE_CHOICE";
+      const correctOption = multipleChoice ? problem.options.indexOf(problem.answerKey) : -1;
+      return {
+        number: problem.number,
+        statement: problem.statement,
+        statementFormat: problem.contentFormat,
+        answerType: problem.answerType,
+        answerKey: multipleChoice && correctOption >= 0 ? undefined : problem.answerKey,
+        options: multipleChoice ? problem.options : undefined,
+        correctOption: multipleChoice && correctOption >= 0 ? correctOption + 1 : undefined,
+        acceptedAnswers: problem.acceptedAnswers,
+        caseSensitive: problem.caseSensitive,
+        topicTags: problem.topicTags,
+        points: problem.points,
+        solution: problem.explanationNote,
+      };
+    }),
   };
 }

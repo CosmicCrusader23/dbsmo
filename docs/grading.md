@@ -10,6 +10,9 @@ The grading engine is deterministic and stores both the raw answer and the norma
 - `fraction`: rational equivalence, so `3/6` equals `1/2`.
 - `set`: unordered collection of values. `1, 2` is equivalent to `2; 1`. Useful for problems with multiple answers.
 - `multiple`: any answer in the list of `acceptedAnswers` is correct (e.g., choice A or B).
+- `multiple_choice`: two to 20 visible options; the exact, case-sensitive stored option selected by the student
+  is graded. Choices may contain LaTeX and safe problem image tokens. This is distinct
+  from `multiple`, which is a free-response field with alternative accepted answers.
 - `expression`: numeric evaluation. The system calculates the numeric value of the `answerKey` and compares it to the value of the student's input.
   - **Equivalency:** `0.5` matches `1/2`. `sqrt(2)` matches `2^0.5`.
   - **Implicit Math:** `2pi` is recognized as `2 * pi`.

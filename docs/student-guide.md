@@ -34,7 +34,7 @@ Click **Continue** or **Open current set** to jump straight to the recommended s
    - **Problem PDF**: View or download the problem statements.
    - **Teaching video**: Watch the attached video if available.
    - **Answer grid**: Enter your answers for each question.
-3. Type your answer in the input field for each problem number.
+3. Type your answer in the input field, or select one choice for a multiple-choice problem.
 4. Your answers **autosave** to your browser — you can close and come back later without losing progress.
 5. When ready, click **Submit** to grade your answers.
 6. If you have already solved a set with a perfect score, the problem page stays readable but answer inputs and new submissions are locked.
@@ -51,6 +51,7 @@ Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answ
 | Set        | `1,2,5`    | Order doesn't matter (e.g., `2,5,1` is correct)                                                        |
 | Exact      | `triangle` | Exact text match                                                                                       |
 | Expression | `sqrt(2)`  | Mathematical formulas (`2^0.5`, `pi/2`, `0.5`, `1/2`). Equivalent values are automatically recognized! |
+| Multiple choice | Select an option | Two to 20 choices may include rendered LaTeX, an image, or both. |
 
 ### After Submission
 

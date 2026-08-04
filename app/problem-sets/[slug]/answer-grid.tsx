@@ -36,6 +36,8 @@ type ProblemSummary = {
   topicTags: string[];
   explanationNote: string | null;
   contentFormat: "LATEX" | "HTML";
+  answerType: string;
+  options: string[];
 };
 
 type Props = {
@@ -393,12 +395,45 @@ export function AnswerGrid({
   }
 
   function answerPreview(problemNumber: number, className = "set-answer-preview") {
+    if (problemSummaryMap.get(problemNumber)?.answerType === "MULTIPLE_CHOICE") return null;
     const tex = mathInputToTex(answers[problemNumber] ?? "");
     if (!tex) return null;
 
     return (
       <div className={className} aria-live="polite">
         <LatexStatement statement={`$${tex}$`} />
+      </div>
+    );
+  }
+
+  function multipleChoiceInput(problemNumber: number, compact = false) {
+    const summary = problemSummaryMap.get(problemNumber);
+    if (summary?.answerType !== "MULTIPLE_CHOICE" || summary.options.length === 0) return null;
+
+    return (
+      <div
+        aria-label={`Choices for question ${questionLabel(problemNumber)}`}
+        className={`mc-choice-grid${compact ? " compact" : ""}`}
+        role="radiogroup"
+      >
+        {summary.options.map((option, index) => {
+          const selected = answers[problemNumber] === option;
+          return (
+            <label className={`mc-choice${selected ? " selected" : ""}`} key={index}>
+              <input
+                checked={selected}
+                name={`answer-${problemNumber}`}
+                onChange={() => onAnswerChange(problemNumber, option)}
+                type="radio"
+                value={option}
+              />
+              <span className="mc-choice-letter">{String.fromCharCode(65 + index)}</span>
+              <span className="mc-choice-content">
+                <LatexStatement statement={option} assets={assets} />
+              </span>
+            </label>
+          );
+        })}
       </div>
     );
   }
@@ -597,7 +632,7 @@ export function AnswerGrid({
                     </div>
                   ) : null}
 
-                  <label className="question-answer-block">
+                  <div className="question-answer-block">
                     <span className="question-answer-label">Answer</span>
                     {submitResult ? (
                       <div className={`question-graded-box ${stateClass}`.trim()}>
@@ -615,18 +650,22 @@ export function AnswerGrid({
                       </div>
                     ) : (
                       <>
-                        {answerPreview(number)}
-                        <input
-                          className="question-answer-input"
-                          aria-label={`Answer ${number}`}
-                          name={`answer-${number}`}
-                          placeholder="Enter answer"
-                          value={answers[number] ?? ""}
-                          onChange={(e) => onAnswerChange(number, e.target.value)}
-                        />
+                        {multipleChoiceInput(number) ?? (
+                          <>
+                            {answerPreview(number)}
+                            <input
+                              className="question-answer-input"
+                              aria-label={`Answer ${number}`}
+                              name={`answer-${number}`}
+                              placeholder="Enter answer"
+                              value={answers[number] ?? ""}
+                              onChange={(e) => onAnswerChange(number, e.target.value)}
+                            />
+                          </>
+                        )}
                       </>
                     )}
-                  </label>
+                  </div>
 
                   {submitResult && summary?.explanationNote && result && !result.isCorrect ? (
                     <details className="solution-note" open>
@@ -703,15 +742,21 @@ export function AnswerGrid({
                             </div>
                           ) : (
                             <>
-                              {answerPreview(cell.problemNumber, "test-answer-preview")}
-                              <input
-                                className="test-answer-input"
-                                aria-label={`Answer ${cell.label}`}
-                                name={`answer-${cell.problemNumber}`}
-                                placeholder={cell.label}
-                                value={answers[cell.problemNumber] ?? ""}
-                                onChange={(e) => onAnswerChange(cell.problemNumber, e.target.value)}
-                              />
+                              {multipleChoiceInput(cell.problemNumber, true) ?? (
+                                <>
+                                  {answerPreview(cell.problemNumber, "test-answer-preview")}
+                                  <input
+                                    className="test-answer-input"
+                                    aria-label={`Answer ${cell.label}`}
+                                    name={`answer-${cell.problemNumber}`}
+                                    placeholder={cell.label}
+                                    value={answers[cell.problemNumber] ?? ""}
+                                    onChange={(e) =>
+                                      onAnswerChange(cell.problemNumber, e.target.value)
+                                    }
+                                  />
+                                </>
+                              )}
                             </>
                           )}
                         </td>
@@ -875,18 +920,22 @@ export function AnswerGrid({
         ) : (
           <form className="answer-grid" onSubmit={(e) => e.preventDefault()}>
             {problemNumbers.map((number) => (
-              <label className="answer-cell" key={number}>
+              <div className="answer-cell" key={number}>
                 <span className="answer-cell-label">Question {number}</span>
-                {answerPreview(number, "answer-cell-preview")}
-                <input
-                  className="answer-cell-input"
-                  aria-label={`Answer ${number}`}
-                  name={`answer-${number}`}
-                  placeholder="answer"
-                  value={answers[number] ?? ""}
-                  onChange={(e) => onAnswerChange(number, e.target.value)}
-                />
-              </label>
+                {multipleChoiceInput(number, true) ?? (
+                  <>
+                    {answerPreview(number, "answer-cell-preview")}
+                    <input
+                      className="answer-cell-input"
+                      aria-label={`Answer ${number}`}
+                      name={`answer-${number}`}
+                      placeholder="answer"
+                      value={answers[number] ?? ""}
+                      onChange={(e) => onAnswerChange(number, e.target.value)}
+                    />
+                  </>
+                )}
+              </div>
             ))}
           </form>
         )}

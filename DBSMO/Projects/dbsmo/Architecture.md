@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-07-19
+updated: 2026-08-04
 type: architecture
 tags: [project, architecture, system-design, dbsmo]
 ai-first: true
@@ -75,6 +75,8 @@ Writeup images reuse the existing storage/file-serving boundary: `lib/writeup-im
 ## Import and Authoring Flow
 
 Manual/admin authoring uses `lib/problem-set-authoring.ts` for slug validation, uploaded PDF payload schema, create/patch schemas, problem normalization, answer-key splitting, and duplicate problem-number checks (source: `lib/problem-set-authoring.ts`). The admin edit route updates problem set metadata and replaces/updates/deletes child problems inside a Prisma transaction (source: `app/api/admin/sets/[id]/route.ts`).
+
+Asymptote and multiple-choice authoring are a focused extension of this path. Raw `<asy>` source is accepted only on staff create/edit/import surfaces, compiled to validated PNG in `lib/asymptote.ts`, and persisted through ordinary `ProblemSetAsset` records; students never execute or receive source. `MULTIPLE_CHOICE` persists two to 20 strings in `Problem.options`, with image tokens sharing the existing asset resolver. See [[Asymptote and Multiple Choice]] (sources: `app/admin/problem-authoring-controls.tsx`, `app/api/admin/asymptote/render/route.ts`, `prisma/schema.prisma`).
 
 JSON import uses `lib/import/json-import.ts`: it validates a bounded problem-set JSON payload, supports import dry-run, import commit, and import-to-editor draft, normalizes statement format and answer types, validates assets, persists problem sets/problems, and can replace an existing set while preserving its ID/order path where applicable. Image bytes are staged first and attached to locked set/file metadata in the same database transaction; rollback removes staged objects and successful replacement cleans unreferenced objects best-effort (sources: `lib/import/json-import.ts`, `lib/import/persist-image-assets.ts`, `lib/problem-set-locks.ts`, `lib/imported-file-cleanup.ts`).
 

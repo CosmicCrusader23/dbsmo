@@ -26,6 +26,8 @@ import {
 import { cleanupUnreferencedImportedFiles } from "@/lib/imported-file-cleanup";
 import { readJsonBody } from "@/lib/http-body";
 import { lockProblemSet } from "@/lib/problem-set-locks";
+import { AsymptoteRenderError, renderEmbeddedAsymptoteStatements } from "@/lib/asymptote";
+import { MAX_IMAGES_PER_SET, MAX_TOTAL_IMAGE_BYTES } from "@/lib/import/image-assets";
 
 export const runtime = "nodejs";
 
@@ -128,6 +130,52 @@ export async function PATCH(request: Request, context: RouteContext) {
     );
   }
 
+  let preparedProblems = problems;
+  let renderedImages = [] as Awaited<
+    ReturnType<typeof renderEmbeddedAsymptoteStatements>
+  >["assets"];
+  if (problems) {
+    try {
+      const rendered = await renderEmbeddedAsymptoteStatements(
+        problems.map((problem) => problem.statement),
+      );
+      preparedProblems = problems.map((problem, index) => ({
+        ...problem,
+        statement: rendered.statements[index],
+      }));
+      renderedImages = rendered.assets;
+    } catch (error) {
+      if (error instanceof AsymptoteRenderError) {
+        return NextResponse.json(
+          { error: error.message },
+          { status: error.code === "unavailable" ? 503 : error.code === "busy" ? 429 : 422 },
+        );
+      }
+      throw error;
+    }
+  }
+
+  const uploadedKeys = new Set(decodedImages.decoded.map((asset) => asset.key));
+  const generatedCollision = renderedImages.find((asset) => uploadedKeys.has(asset.key));
+  if (generatedCollision) {
+    return NextResponse.json(
+      {
+        error: `Image key "${generatedCollision.key}" is reserved for a generated Asymptote diagram.`,
+      },
+      { status: 422 },
+    );
+  }
+  const allImages = [...decodedImages.decoded, ...renderedImages];
+  if (
+    allImages.length > MAX_IMAGES_PER_SET ||
+    allImages.reduce((sum, asset) => sum + asset.sizeBytes, 0) > MAX_TOTAL_IMAGE_BYTES
+  ) {
+    return NextResponse.json(
+      { error: "Uploaded and generated images exceed the problem-set asset limits." },
+      { status: 422 },
+    );
+  }
+
   let uploadedPdfId: string | null | undefined;
   if (problemPdf) {
     try {
@@ -150,7 +198,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   try {
     stagedImages = await stageProblemSetImageAssets({
       slug: existing.slug,
-      assets: decodedImages.decoded,
+      assets: allImages,
     });
   } catch (error) {
     if (uploadedPdfId) {
@@ -178,14 +226,14 @@ export async function PATCH(request: Request, context: RouteContext) {
         },
       });
 
-      if (problems) {
+      if (preparedProblems) {
         const existingProblems = await tx.problem.findMany({
           where: { problemSetId: id },
           select: { id: true },
         });
         const existingIds = new Set(existingProblems.map((problem) => problem.id));
         const providedExistingIds = new Set(
-          problems
+          preparedProblems
             .map((problem) => problem.id)
             .filter((problemId): problemId is string =>
               Boolean(problemId && existingIds.has(problemId)),
@@ -199,7 +247,7 @@ export async function PATCH(request: Request, context: RouteContext) {
           },
         });
 
-        for (const [index, problem] of problems.entries()) {
+        for (const [index, problem] of preparedProblems.entries()) {
           const data = normalizeAuthoringProblem(problem, index);
 
           if (problem.id && existingIds.has(problem.id)) {

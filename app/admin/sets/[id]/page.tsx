@@ -24,6 +24,7 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
       problems: { orderBy: { number: "asc" } },
       problemFile: true,
       solutionFile: true,
+      assets: { include: { file: true } },
     },
   });
 
@@ -39,7 +40,14 @@ export default async function SetDetailPage({ params }: SetDetailPageProps) {
         <span className="bg-spark bg-spark-one" />
       </div>
 
-      <SetEditForm set={set} />
+      <SetEditForm
+        set={{
+          ...set,
+          assetUrls: Object.fromEntries(
+            set.assets.map((asset) => [asset.key, `/api/files/${asset.file.id}`]),
+          ),
+        }}
+      />
     </main>
   );
 }

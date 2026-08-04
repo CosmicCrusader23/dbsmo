@@ -26,6 +26,8 @@ import {
 } from "@/lib/import/persist-image-assets";
 import { cleanupUnreferencedImportedFiles } from "@/lib/imported-file-cleanup";
 import { readJsonBody } from "@/lib/http-body";
+import { AsymptoteRenderError, renderEmbeddedAsymptoteStatements } from "@/lib/asymptote";
+import { MAX_IMAGES_PER_SET, MAX_TOTAL_IMAGE_BYTES } from "@/lib/import/image-assets";
 
 export async function POST(req: Request) {
   try {
@@ -88,6 +90,48 @@ export async function POST(req: Request) {
       );
     }
 
+    let renderedStatements;
+    try {
+      renderedStatements = await renderEmbeddedAsymptoteStatements(
+        problems.map((problem) => problem.statement),
+      );
+    } catch (error) {
+      if (error instanceof AsymptoteRenderError) {
+        return NextResponse.json(
+          { error: error.message },
+          { status: error.code === "unavailable" ? 503 : error.code === "busy" ? 429 : 422 },
+        );
+      }
+      throw error;
+    }
+
+    const uploadedKeys = new Set(decodedImages.decoded.map((asset) => asset.key));
+    const generatedCollision = renderedStatements.assets.find((asset) =>
+      uploadedKeys.has(asset.key),
+    );
+    if (generatedCollision) {
+      return NextResponse.json(
+        {
+          error: `Image key "${generatedCollision.key}" is reserved for a generated Asymptote diagram.`,
+        },
+        { status: 422 },
+      );
+    }
+    const allImages = [...decodedImages.decoded, ...renderedStatements.assets];
+    if (
+      allImages.length > MAX_IMAGES_PER_SET ||
+      allImages.reduce((sum, asset) => sum + asset.sizeBytes, 0) > MAX_TOTAL_IMAGE_BYTES
+    ) {
+      return NextResponse.json(
+        { error: "Uploaded and generated images exceed the problem-set asset limits." },
+        { status: 422 },
+      );
+    }
+    const preparedProblems = problems.map((problem, index) => ({
+      ...problem,
+      statement: renderedStatements.statements[index],
+    }));
+
     let finalOrder = order ?? "";
     if (!finalOrder) {
       finalOrder = await nextProblemSetOrderFromDatabase();
@@ -115,7 +159,7 @@ export async function POST(req: Request) {
     try {
       stagedImages = await stageProblemSetImageAssets({
         slug,
-        assets: decodedImages.decoded,
+        assets: allImages,
       });
     } catch (error) {
       if (problemFileId) {
@@ -141,7 +185,9 @@ export async function POST(req: Request) {
             problemFileId,
             createdById: session.user.id,
             problems: {
-              create: problems.map((problem, index) => normalizeAuthoringProblem(problem, index)),
+              create: preparedProblems.map((problem, index) =>
+                normalizeAuthoringProblem(problem, index),
+              ),
             },
           },
           include: { problems: true },

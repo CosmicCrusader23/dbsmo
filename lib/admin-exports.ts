@@ -283,6 +283,7 @@ export async function buildBackupJson(options: ExportBuildOptions = {}) {
             contentFormat: true,
             answerKey: true,
             answerType: true,
+            options: true,
             acceptedAnswers: true,
             caseSensitive: true,
             topicTags: true,
