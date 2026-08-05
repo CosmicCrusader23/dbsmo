@@ -64,6 +64,8 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 ## Admin App Routes
 
+- `/admin` - staff-only permission-aware directory for administrative tools. The sidebar exposes this single entry instead of listing every admin destination. It groups content, people/classes, and insights/operations according to the current role (source: `app/admin/page.tsx`).
+
 - `/admin/sets` - set management list with direct view, per-set analytics, JSON export, and delete actions (source: `app/admin/sets/page.tsx`).
 - `/admin/sets/[id]` - set detail/edit page and `SetEditForm` client (sources: `app/admin/sets/[id]/page.tsx`, `app/admin/sets/[id]/set-edit-form.tsx`).
 - `/admin/sets/[id]/analytics` - per-set analytics, gated by `admin:analytics` (source: `app/admin/sets/[id]/analytics/page.tsx`).

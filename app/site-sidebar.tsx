@@ -28,29 +28,7 @@ export async function SiteSidebar() {
   ];
 
   if (hasPermission(user.role, "admin:view")) {
-    if (hasPermission(user.role, "admin:content")) {
-      links.push(
-        { href: "/admin/sets", label: "Manage Sets", icon: "ListChecks" },
-        { href: "/admin/create", label: "Create Set", icon: "PenLine" },
-        { href: "/admin/import", label: "JSON Import", icon: "FileJson" },
-      );
-    }
-    if (hasPermission(user.role, "admin:users")) {
-      links.push({ href: "/admin/students", label: "Students", icon: "Users" });
-    }
-    if (hasPermission(user.role, "admin:analytics")) {
-      links.push({ href: "/admin/analytics", label: "Analytics", icon: "BarChart3" });
-    }
-    if (hasPermission(user.role, "admin:feedback")) {
-      links.push({
-        href: "/admin/feedback",
-        label: "Feedback",
-        icon: "MessageSquareWarning",
-      });
-    }
-    if (hasPermission(user.role, "admin:audit")) {
-      links.push({ href: "/admin/audit", label: "Audit", icon: "CheckCircle2" });
-    }
+    links.push({ href: "/admin", label: "Admin Panel", icon: "LayoutGrid", match: "/admin" });
   }
 
   links.push(

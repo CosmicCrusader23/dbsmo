@@ -90,6 +90,8 @@ type JsonZipEntry = {
   imageZipName?: string;
 };
 
+type BatchAction = "dry-run" | "publish-draft" | "upload";
+
 function isIgnoredZipEntry(path: string) {
   const normalizedPath = path.replace(/\\/g, "/");
   const fileName = normalizedPath.split("/").pop() ?? normalizedPath;
@@ -114,13 +116,16 @@ export function JsonZipImportPanel() {
   const [importResults, setImportResults] = useState<Record<string, ImportResult | null>>({});
   const [importErrors, setImportErrors] = useState<Record<string, string | null>>({});
   const [isImporting, setIsImporting] = useState<Record<string, boolean>>({});
+  const [batchAction, setBatchAction] = useState<BatchAction | null>(null);
+  const [batchCompleted, setBatchCompleted] = useState(0);
+  const [batchTotal, setBatchTotal] = useState(0);
 
   const validation = useMemo(() => {
     if (!zipFile) {
       return [
         { label: "ZIP selected", ok: false },
         { label: "JSON files plus optional matching image ZIPs", ok: false },
-        { label: "Ready to process individually", ok: false },
+        { label: "Ready for bulk actions", ok: false },
       ];
     }
 
@@ -130,7 +135,7 @@ export function JsonZipImportPanel() {
     return [
       { label: "ZIP selected", ok: isZip },
       { label: "JSON files plus optional matching image ZIPs", ok: Boolean(hasOnlyJson) },
-      { label: "Ready to process individually", ok: Boolean(isZip && hasOnlyJson) },
+      { label: "Ready for bulk actions", ok: Boolean(isZip && hasOnlyJson) },
     ];
   }, [entries.length, zipError, zipFile]);
 
@@ -280,7 +285,7 @@ export function JsonZipImportPanel() {
     }
   }
 
-  async function onDryRun(entry: JsonZipEntry) {
+  async function onDryRun(entry: JsonZipEntry): Promise<DryRunResult | null> {
     const formData = new FormData();
     formData.append("file", entry.file);
     if (entry.imageZipFile) {
@@ -305,14 +310,16 @@ export function JsonZipImportPanel() {
           [entry.name]: result.issues[0]?.message ?? "Dry run failed.",
         }));
       }
+      return result;
     } catch {
       setDryRunErrors((current) => ({ ...current, [entry.name]: "Dry run request failed." }));
+      return null;
     } finally {
       setIsDryRunning((current) => ({ ...current, [entry.name]: false }));
     }
   }
 
-  async function onImport(entry: JsonZipEntry) {
+  async function onImport(entry: JsonZipEntry): Promise<ImportResult | null> {
     const formData = new FormData();
     formData.append("file", entry.file);
     if (entry.imageZipFile) {
@@ -335,10 +342,91 @@ export function JsonZipImportPanel() {
           [entry.name]: result.issues[0]?.message ?? "Import failed.",
         }));
       }
+      return result;
     } catch {
       setImportErrors((current) => ({ ...current, [entry.name]: "Import request failed." }));
+      return null;
     } finally {
       setIsImporting((current) => ({ ...current, [entry.name]: false }));
+    }
+  }
+
+  async function runBatch<T>(
+    batchEntries: JsonZipEntry[],
+    task: (entry: JsonZipEntry) => Promise<T | null>,
+  ) {
+    const results = new Map<string, T | null>();
+    let nextIndex = 0;
+    const workerCount = Math.min(4, batchEntries.length);
+
+    async function worker() {
+      while (nextIndex < batchEntries.length) {
+        const entry = batchEntries[nextIndex++];
+        if (!entry) return;
+        results.set(entry.name, await task(entry));
+        setBatchCompleted((current) => current + 1);
+      }
+    }
+
+    await Promise.all(Array.from({ length: workerCount }, () => worker()));
+    return results;
+  }
+
+  const canBatchPublishDraft =
+    entries.length > 0 &&
+    entries.every(
+      (entry) => dryRunResults[entry.name]?.ok === true && !importResults[entry.name]?.ok,
+    );
+
+  async function onBatchDryRun() {
+    if (!entries.length || batchAction) return;
+    setDryRunResults({});
+    setDryRunErrors({});
+    setImportResults({});
+    setImportErrors({});
+    setBatchAction("dry-run");
+    setBatchCompleted(0);
+    setBatchTotal(entries.length);
+    try {
+      await runBatch(entries, onDryRun);
+    } finally {
+      setBatchAction(null);
+    }
+  }
+
+  async function onBatchPublishDraft() {
+    if (!canBatchPublishDraft || batchAction) return;
+    setImportResults({});
+    setImportErrors({});
+    setBatchAction("publish-draft");
+    setBatchCompleted(0);
+    setBatchTotal(entries.length);
+    try {
+      await runBatch(entries, onImport);
+    } finally {
+      setBatchAction(null);
+    }
+  }
+
+  async function onBatchUpload() {
+    if (!entries.length || batchAction) return;
+    setDryRunResults({});
+    setDryRunErrors({});
+    setImportResults({});
+    setImportErrors({});
+    setBatchAction("upload");
+    setBatchCompleted(0);
+    setBatchTotal(entries.length);
+    try {
+      const results = await runBatch(entries, onDryRun);
+      const readyEntries = entries.filter((entry) => results.get(entry.name)?.ok === true);
+      if (readyEntries.length !== entries.length) return;
+
+      setBatchCompleted(0);
+      setBatchTotal(readyEntries.length);
+      await runBatch(readyEntries, onImport);
+    } finally {
+      setBatchAction(null);
     }
   }
 
@@ -421,6 +509,57 @@ export function JsonZipImportPanel() {
             <MathCurveLoader size={16} label="Reading ZIP archive" />
             <span>Reading ZIP archive…</span>
           </div>
+        </div>
+      ) : null}
+
+      {entries.length > 0 ? (
+        <div className="import-actions batch-import-actions">
+          <button
+            className="secondary-action"
+            type="button"
+            disabled={Boolean(batchAction)}
+            onClick={() => void onBatchDryRun()}
+          >
+            {batchAction === "dry-run" ? (
+              <MathCurveLoader size={18} label="Dry-running everything" />
+            ) : (
+              <ShieldCheck size={18} />
+            )}
+            {batchAction === "dry-run" ? "Dry-running everything…" : "Dry run everything"}
+          </button>
+          <button
+            className="secondary-action"
+            type="button"
+            disabled={!canBatchPublishDraft || Boolean(batchAction)}
+            onClick={() => void onBatchPublishDraft()}
+          >
+            {batchAction === "publish-draft" ? (
+              <MathCurveLoader size={18} label="Publishing or drafting everything" />
+            ) : (
+              <UploadCloud size={18} />
+            )}
+            {batchAction === "publish-draft"
+              ? "Publishing/Drafting…"
+              : "Publish/Draft everything"}
+          </button>
+          <button
+            className="primary-action"
+            type="button"
+            disabled={Boolean(batchAction)}
+            onClick={() => void onBatchUpload()}
+          >
+            {batchAction === "upload" ? (
+              <MathCurveLoader size={18} label="Uploading everything" />
+            ) : (
+              <UploadCloud size={18} />
+            )}
+            {batchAction === "upload" ? "Uploading everything…" : "Upload everything"}
+          </button>
+          {batchAction ? (
+            <span className="batch-progress" aria-live="polite">
+              {batchCompleted} / {batchTotal} files processed
+            </span>
+          ) : null}
         </div>
       ) : null}
 

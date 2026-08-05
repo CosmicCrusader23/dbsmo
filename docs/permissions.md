@@ -31,5 +31,7 @@ This doc describes the current permission strings and which roles receive them. 
 - `isStaffRole(role)` is true when the role includes `admin:view`.
 - `canAccessAdminArea(role)` is the broad middleware gate for documented staff roles;
   each page and API still checks its specific permission.
+- The `/admin` Admin Panel is a permission-aware navigation directory. It filters tool
+  links by these permissions, but does not replace the exact checks on each route/API.
 - Private profiles require `admin:users` to bypass a user's profile preference, while
   hidden leaderboard entries require `admin:analytics`.

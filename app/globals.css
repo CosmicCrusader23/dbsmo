@@ -1029,6 +1029,199 @@ td {
   padding: 0 20px;
 }
 
+.batch-import-actions {
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 20px;
+}
+
+.batch-import-actions .primary-action,
+.batch-import-actions .secondary-action {
+  min-height: 42px;
+}
+
+.batch-progress {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.admin-panel-page .page-frame {
+  padding-top: 34px;
+}
+
+.admin-panel-header {
+  align-items: flex-end;
+  border-bottom: 2px solid var(--color-border-strong);
+  padding-bottom: 22px;
+}
+
+.admin-panel-lede {
+  margin: 10px 0 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.admin-panel-intro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 18px 20px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 18px 14px 20px 15px;
+  background: var(--color-surface-alt);
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-panel-intro-icon,
+.admin-tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 1.5px solid currentColor;
+}
+
+.admin-panel-intro-icon {
+  width: 50px;
+  height: 50px;
+  color: var(--color-pink);
+  border-radius: 15px 11px 16px 12px;
+  background: color-mix(in srgb, var(--color-pink) 12%, var(--color-surface));
+}
+
+.admin-panel-intro h2,
+.admin-tool-group-heading h2 {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: 1.28rem;
+  font-weight: 850;
+}
+
+.admin-panel-intro p:last-child,
+.admin-tool-group-heading > p {
+  margin: 5px 0 0;
+  color: var(--color-muted);
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+
+.admin-tool-groups {
+  display: grid;
+  gap: 30px;
+}
+
+.admin-tool-group {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-tool-group-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 4px;
+}
+
+.admin-tool-group-heading .eyebrow {
+  margin-bottom: 5px;
+}
+
+.admin-tool-group-heading > p {
+  max-width: 440px;
+  text-align: right;
+}
+
+.admin-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-tool-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 13px;
+  min-height: 112px;
+  padding: 16px;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: 16px 13px 18px 12px;
+  background: var(--color-surface-alt);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-text-strong);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.admin-tool-card:hover,
+.admin-tool-card:focus-visible {
+  border-color: var(--color-text-strong);
+  box-shadow: var(--shadow-strong);
+  transform: translateY(-2px) rotate(-0.2deg);
+}
+
+.admin-tool-card:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-cyan) 55%, transparent);
+  outline-offset: 3px;
+}
+
+.admin-tool-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px 10px 14px 11px;
+  background: var(--color-surface);
+}
+
+.admin-tool-copy {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.admin-tool-copy strong {
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.admin-tool-copy span {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.admin-tool-arrow {
+  color: var(--color-muted);
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.admin-tool-card.tone-pink .admin-tool-icon { color: var(--color-pink); }
+.admin-tool-card.tone-blue .admin-tool-icon { color: var(--color-blue); }
+.admin-tool-card.tone-yellow .admin-tool-icon { color: var(--color-warning); }
+.admin-tool-card.tone-green .admin-tool-icon { color: var(--color-success); }
+
+@media (max-width: 820px) {
+  .admin-tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .batch-import-actions { align-items: stretch; }
+  .batch-import-actions > * { flex: 1 1 100%; }
+  .batch-progress { text-align: center; }
+  .admin-panel-header { align-items: flex-start; flex-direction: column; }
+  .admin-panel-header .page-back-link { width: 100%; }
+  .admin-tool-group-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .admin-tool-group-heading > p { max-width: none; text-align: left; }
+  .admin-tool-grid { grid-template-columns: 1fr; }
+}
+
 .dry-run-result {
   display: grid;
   gap: 12px;

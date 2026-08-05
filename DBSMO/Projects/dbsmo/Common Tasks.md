@@ -82,6 +82,8 @@ Update `docs/permissions.md` and admin/sidebar behavior in `app/site-sidebar.tsx
 
 Add the route under `app/admin/...`, gate it with session and `hasPermission(...)`, then add sidebar link logic in `app/site-sidebar.tsx` if it should be navigable. Add matching API under `app/api/admin/...` if the page has client-side mutations. Audit meaningful mutations through `recordAuditLog(...)` when appropriate (sources: `lib/permissions.ts`, `app/site-sidebar.tsx`, `lib/audit.ts`).
 
+The staff navigation now points to `/admin`, where `app/admin/page.tsx` presents permission-aware grouped links for content, people/classes, and insights/operations. Add a new tool to the matching `ADMIN_GROUPS` entry and preserve the destination's own permission gate; avoid re-expanding the main sidebar with individual admin links.
+
 ## Change Problem Set Import Format
 
 JSON path:
@@ -108,7 +110,7 @@ ZIP path:
 - `app/admin/import/zip-import-panel.tsx`
 - `tests/zip-dry-run.test.ts`
 
-Keep compressed-body limits, central-directory preflight, and actual streamed expanded-byte limits together. Archive metadata is an optimization only; `readZipEntryBufferBounded(...)`/`readZipEntryTextBounded(...)` are the authoritative server ZIP-bomb boundary, while `readClientZipEntryBounded(...)` protects the browser batch path. Extract batch children sequentially. Stage referenced server files under a unique batch prefix and clean staged objects when the database transaction fails.
+Keep compressed-body limits, central-directory preflight, and actual streamed expanded-byte limits together. Archive metadata is an optimization only; `readZipEntryBufferBounded(...)`/`readZipEntryTextBounded(...)` are the authoritative server ZIP-bomb boundary, while `readClientZipEntryBounded(...)` protects the browser batch path. Batch actions use bounded workers and run dry-run-all before publish/draft-all or upload-all; do not bypass per-file server validation. Stage referenced server files under a unique batch prefix and clean staged objects when the database transaction fails.
 
 ## Change File Storage
 

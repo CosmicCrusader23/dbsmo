@@ -69,5 +69,7 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Added sandboxed Asymptote diagrams for staff authoring and JSON imports. Raw `<asy>...</asy>` source is compiled to a validated PNG behind authorization, rate/size/time limits, Asymptote safe mode, and an OS sandbox; students only receive ordinary authenticated image assets.
 - Added variable-length multiple-choice problems with two to 20 options across the GUI problem maker, JSON import/export, standard sets, compact Tests layouts, and Practice. Choices support LaTeX plus uploaded or ZIP-supplied images, including image-only choices.
 - Fixed multiple-choice previews for delimiter-free mixed-number LaTeX such as `18\\frac{1}{2}` and `5\\sqrt{2}-7`; command-bearing standalone expressions now render through the same bounded KaTeX path.
+- Added a permission-aware `/admin` panel that groups content, people/classes, analytics, feedback, and audit tools behind one compact sidebar entry.
+- Added three explicit batch JSON ZIP actions: **Dry run everything**, **Publish/Draft everything**, and **Upload everything**, with bounded concurrency and live child-file progress.
 
 © 2026 Cosmic Crusader

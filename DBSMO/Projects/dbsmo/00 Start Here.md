@@ -31,6 +31,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - [[Attempt Review]] - saved submission review UI, authorization, data flow, and entry points.
 - [[Performance Analytics]] - shared Mastery Index, component metrics, validation, and change guidance.
 - [[Asymptote and Multiple Choice]] - diagram sandbox, variable choices, image-backed options, authoring/import flow, and deploy constraints.
+- [[Entry Points]] - now includes the permission-aware `/admin` panel and its grouped staff routes.
 
 ## Fast Orientation
 
@@ -39,7 +40,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Authentication uses NextAuth with exact-domain Google OAuth plus a credentials bypass that requires an explicit `AUTH_DEV_BYPASS=true` outside production. Route protection starts with the broad boundary in `proxy.ts` and continues with exact API/page permissions (sources: `lib/auth.ts`, `lib/auth-policy.ts`, `proxy.ts`, `lib/permissions.ts`).
 - Most business logic sits in `lib/`: grading, visibility, permissions, imports, storage, FTW scoring, classes, analytics, and exports.
 - Main UI routes live under `app/`; API handlers live under `app/api/`.
-- Current import notes include optional same-name image ZIPs for JSON imports, per-problem image uploads in the problem maker, tolerant JSON editor drafts, and compressed/actual-expanded archive limits shared through `lib/import/zip-entry.ts` (sources: `lib/import/json-import.ts`, `lib/import/image-zip.ts`, `lib/import/zip-dry-run.ts`, `app/admin/create/page-client.tsx`).
+- Current import notes include optional same-name image ZIPs for JSON imports, per-problem image uploads in the problem maker, tolerant JSON editor drafts, and explicit all-file batch dry-run/publish/upload actions with compressed/actual-expanded archive limits (sources: `lib/import/json-import.ts`, `lib/import/image-zip.ts`, `lib/import/zip-dry-run.ts`, `app/admin/create/page-client.tsx`, `app/admin/import/json-zip-import-panel.tsx`).
 - Current class/community notes include authored tasks, a mastery heatmap, problem-set writeups with image uploads/voting/deletion, and class announcements pinned on dashboards (sources: `app/users/[username]/page.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/writeups/page.tsx`, `app/classes/announcement-composer.tsx`, `app/dashboard/page.tsx`, `prisma/schema.prisma`).
 - Saved submissions have an owner/staff-gated [[Attempt Review]] with links from submit results, solved-set locks, set/dashboard history, student detail, and per-set analytics (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/dashboard/page.tsx`).
 - Cross-set student metrics use the shared evidence-aware [[Performance Analytics]] model; Mastery Index combines proficiency, breadth, and a consistency floor while keeping best-set average/mastery rate visible (sources: `lib/analytics.ts`, `app/leaderboard/page.tsx`).

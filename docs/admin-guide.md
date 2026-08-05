@@ -6,9 +6,19 @@
 2. After sign-in you land on the **Training Dashboard** with a Teacher View badge.
 3. On phones and tablets, tap the **DBSMO** topbar menu button to open the compact sidebar sheet. The popup is designed to fit without its own scroll area.
 
+## Admin Panel
+
+Staff-only tools are grouped under **Admin Panel** in the sidebar so the primary navigation stays compact. The panel is available at `/admin` and only shows tools allowed by the signed-in role:
+
+- **Content:** Manage sets, create a set, and JSON import.
+- **People & classes:** Students and Classes, including assignments and announcements.
+- **Insights & operations:** Analytics, Feedback queue, and Audit log.
+
+Each destination keeps its own server-side permission check; hiding a tile is only a navigation convenience, not an authorization boundary.
+
 ## Creating a Problem Set (GUI)
 
-1. Click **Create Set** in the sidebar.
+1. Open **Admin Panel** and click **Create a set**.
 2. Fill out the set title, slug, topic tags, and settings.
    - **Order ID:** The identifier shown in the set grid (e.g. `1`, `2`, `20212`, `A1`). Accepts any text and uses natural sorting, so `2` appears before `10`. If left blank, the system assigns the next available number.
    - **Set tags:** Enter comma-separated names or use the suggested chips. New names are created when the set is saved and become filterable categories in the problem-set catalog.
@@ -28,7 +38,7 @@
 
 ## Uploading a Problem Set (JSON)
 
-1. Click **JSON Import** in the sidebar.
+1. Open **Admin Panel** and click **JSON import**.
 2. Drag-and-drop or click to select a `.json` file (max 5 MB).
 3. The system performs a **dry-run** validation and shows a preview:
    - Set title, slug, problem count.
@@ -41,9 +51,19 @@
 
 See [import-format.md](./import-format.md) for the JSON format specification.
 
+### Batch ZIP actions
+
+For a parent ZIP containing multiple JSON files and optional same-name image ZIPs, the batch importer provides three explicit actions:
+
+1. **Dry run everything** validates every child archive concurrently and shows each preview without creating sets.
+2. **Publish/Draft everything** commits only the files whose dry runs passed. The server still applies each JSON file's requested status and permission checks.
+3. **Upload everything** runs validation for all files and commits the whole batch only when every dry run passes.
+
+The progress indicator reports completed child files. Browser and server ZIP limits remain in force, including path traversal checks, compressed/expanded byte limits, entry limits, and image-only companion ZIP validation.
+
 ## Managing Sets
 
-1. Go to **Manage Sets** in the sidebar.
+1. Open **Admin Panel** -> **Manage sets**.
    - Use the **Search bar** to find sets by title, slug, order, tag, or status.
    - Use the **Status filter** to view All, Published, Draft, or Archived sets.
    - **Shortcut:** Admins also see a "Manage Set" gear icon directly on the public problem set page, next to the bookmark button.
@@ -70,7 +90,7 @@ The same tab lists existing announcements. Admins can delete any announcement; t
 
 ## Managing Students
 
-1. Click **Students** in the sidebar to see all registered students.
+1. Open **Admin Panel** -> **Students** to see all registered students.
 2. The table shows name, email, group, visible sets tried, Mastery Index, best-set average, evidence level, attempt count, joining date, and last active date.
    - **Mastery Index:** Combines confidence-adjusted proficiency (65%), breadth (20%), and a lower-quartile consistency floor (15%).
    - **Best-set average:** Keeps the best attempt per visible set and gives every set equal weight, regardless of its maximum marks.
@@ -83,7 +103,7 @@ The same tab lists existing announcements. Admins can delete any announcement; t
 
 ## Viewing Analytics
 
-1. Click **Analytics** in the sidebar.
+1. Open **Admin Panel** -> **Analytics**.
 2. The overview page shows:
    - Total responses, overall accuracy, topics tracked, problem sets.
    - **Topic accuracy heatmap** with color-coded cards.
@@ -99,7 +119,7 @@ Student CSV exports include every Performance Profile component. The exact formu
 
 ## Handling Feedback
 
-1. Click **Feedback** in the sidebar to open the admin feedback queue.
+1. Open **Admin Panel** -> **Feedback queue**.
 2. Reports are listed with reporter, set, question number, type, message, status, and date.
 3. For each report you can:
    - **Review**: Mark as "Reviewing" to indicate you're looking into it.

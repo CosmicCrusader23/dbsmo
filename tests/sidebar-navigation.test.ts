@@ -25,4 +25,12 @@ describe("activeSidebarHref", () => {
   it("normalizes trailing slashes", () => {
     expect(activeSidebarHref("/dashboard/", links)).toBe("/dashboard");
   });
+
+  it("keeps the admin panel active for nested admin routes", () => {
+    const adminLinks: SidebarNavLink[] = [
+      ...links,
+      { href: "/admin", label: "Admin Panel", icon: "LayoutGrid", match: "/admin" },
+    ];
+    expect(activeSidebarHref("/admin/import", adminLinks)).toBe("/admin");
+  });
 });
