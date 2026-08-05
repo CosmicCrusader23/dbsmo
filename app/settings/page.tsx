@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
-import { Save, User, CheckCircle2, AlertCircle, Moon, Sun } from "lucide-react";
+import { Save, User, CheckCircle2, AlertCircle, LayoutGrid, Moon, Sun } from "lucide-react";
+import type { UserRole } from "@prisma/client";
 import { Avatar } from "@/app/avatar";
 import { MathCurveLoader } from "@/app/math-curve-loader";
 import { PageBackLink } from "@/app/page-back-link";
 import { normalizeDisplayText } from "@/lib/display-name";
+import { buildDefaultSidebarLinks } from "@/lib/sidebar-defaults";
+import { isStaffRole } from "@/lib/permissions";
+import { profilePathFromEmail } from "@/lib/user-profile";
+import { SidebarSettings } from "./sidebar-settings";
 
 const MAX_AVATAR_BYTES = 512 * 1024;
 const THEME_STORAGE_KEY = "mo-theme";
@@ -41,7 +46,7 @@ interface UserProfile {
   image: string | null;
   displayName: string | null;
   avatarUrl: string | null;
-  role: string;
+  role: UserRole;
   group: string | null;
   profileVisible: boolean;
   leaderboardVisible: boolean;
@@ -66,6 +71,7 @@ export default function SettingsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<"account" | "sidebar">("account");
   const [typewriterSettings, setTypewriterSettings] = useState({
     typeSpeed: 42,
     deleteSpeed: 22,
@@ -220,6 +226,10 @@ export default function SettingsPage() {
   const customAvatar = avatarUrl.trim();
   const currentAvatar = customAvatar || user.image?.trim() || "";
   const previewName = normalizeDisplayText(displayName) ?? normalizeDisplayText(user.name) ?? "";
+  const sidebarDefaults = buildDefaultSidebarLinks(
+    profilePathFromEmail(user.email),
+    isStaffRole(user.role),
+  );
 
   return (
     <main className="settings-shell">
@@ -230,6 +240,29 @@ export default function SettingsPage() {
         </div>
         <PageBackLink destination="Dashboard" href="/dashboard" />
       </header>
+
+      <div className="settings-tabs" role="tablist" aria-label="Settings sections">
+        <button
+          aria-selected={activeTab === "account"}
+          className={activeTab === "account" ? "active" : ""}
+          role="tab"
+          type="button"
+          onClick={() => setActiveTab("account")}
+        >
+          <User size={17} />
+          Account
+        </button>
+        <button
+          aria-selected={activeTab === "sidebar"}
+          className={activeTab === "sidebar" ? "active" : ""}
+          role="tab"
+          type="button"
+          onClick={() => setActiveTab("sidebar")}
+        >
+          <LayoutGrid size={17} />
+          Sidebar
+        </button>
+      </div>
 
       {error && (
         <div className="create-set-alert create-set-alert-error">
@@ -244,7 +277,9 @@ export default function SettingsPage() {
         </div>
       )}
 
-      <section className="settings-card">
+      {activeTab === "sidebar" ? <SidebarSettings defaultLinks={sidebarDefaults} /> : null}
+
+      {activeTab === "account" ? <section className="settings-card">
         <div className="settings-avatar-section">
           <div className="settings-avatar-preview">
             {currentAvatar ? (
@@ -282,25 +317,6 @@ export default function SettingsPage() {
           <div className="settings-avatar-info">
             <h3>{previewName || "MO Student"}</h3>
             <p className="settings-role-badge">{user.role}</p>
-          </div>
-        </div>
-
-        <div className="settings-stats-row">
-          <div>
-            <strong>{user.stats?.attemptedSets ?? 0}</strong>
-            <span>Sets tried</span>
-          </div>
-          <div>
-            <strong>{(user.stats?.masteryIndex ?? 0).toFixed(1)}</strong>
-            <span>Mastery index</span>
-          </div>
-          <div>
-            <strong>{user.stats?.practiceScore ?? 0}</strong>
-            <span>Practice</span>
-          </div>
-          <div>
-            <strong>{user.stats?.totalAttempts ?? 0}</strong>
-            <span>Attempts</span>
           </div>
         </div>
 
@@ -525,7 +541,7 @@ export default function SettingsPage() {
             {saving ? "Saving…" : "Save"}
           </button>
         </div>
-      </section>
+      </section> : null}
     </main>
   );
 }

@@ -3,6 +3,9 @@ export type SidebarNavLink = {
   label: string;
   icon: string;
   match?: string;
+  external?: boolean;
+  preferenceKey?: string;
+  custom?: boolean;
 };
 
 function normalizePath(path: string): string {

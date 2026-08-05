@@ -2,20 +2,26 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BarChart3,
   CheckCircle2,
+  BookOpen,
   ClipboardList,
+  Code2,
   FileJson,
+  FileText,
   Gauge,
+  Globe2,
   GraduationCap,
   LayoutGrid,
+  Link2,
   ListChecks,
   MessageSquareText,
   MessageSquareWarning,
   PenLine,
   Settings,
+  Star,
   Sparkles,
   Swords,
   Target,
@@ -25,10 +31,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { activeSidebarHref, type SidebarNavLink } from "@/lib/sidebar-navigation";
+import {
+  EMPTY_SIDEBAR_PREFERENCES,
+  SIDEBAR_PREFERENCES_EVENT,
+  readSidebarPreferences,
+  visibleSidebarLinks,
+} from "@/lib/sidebar-preferences";
 
-type SidebarLink = Omit<SidebarNavLink, "icon"> & {
-  icon: keyof typeof ICON_MAP;
-};
+type SidebarLink = SidebarNavLink;
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Gauge,
@@ -49,12 +59,31 @@ const ICON_MAP: Record<string, LucideIcon> = {
   User,
   Trophy,
   Settings,
+  BookOpen,
+  Code2,
+  FileText,
+  Globe2,
+  Link2,
+  Star,
 };
 
 export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
   const pathname = usePathname() ?? "/";
   const navRef = useRef<HTMLElement | null>(null);
-  const activeHref = activeSidebarHref(pathname, links);
+  const [preferences, setPreferences] = useState(EMPTY_SIDEBAR_PREFERENCES);
+  const visibleLinks = visibleSidebarLinks(links, preferences);
+  const activeHref = activeSidebarHref(pathname, visibleLinks);
+
+  useEffect(() => {
+    const update = () => setPreferences(readSidebarPreferences());
+    update();
+    window.addEventListener("storage", update);
+    window.addEventListener(SIDEBAR_PREFERENCES_EVENT, update);
+    return () => {
+      window.removeEventListener("storage", update);
+      window.removeEventListener(SIDEBAR_PREFERENCES_EVENT, update);
+    };
+  }, []);
 
   useEffect(() => {
     const sidebar = navRef.current?.closest(".sidebar") as HTMLElement | null;
@@ -73,15 +102,17 @@ export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
 
   return (
     <nav className="nav-list" ref={navRef}>
-      {links.map((link) => {
-        const Icon = ICON_MAP[link.icon];
+      {visibleLinks.map((link) => {
+        const Icon = ICON_MAP[link.icon] ?? Link2;
         const isActive = activeHref === link.href;
         return (
           <Link
             aria-current={isActive ? "page" : undefined}
-            key={link.href}
+            key={link.preferenceKey ?? link.href}
             className={`nav-item${isActive ? " active" : ""}`}
             href={link.href}
+            rel={link.external ? "noreferrer" : undefined}
+            target={link.external ? "_blank" : undefined}
             onClick={(e) => {
               e.currentTarget.blur();
               window.dispatchEvent(new Event("dbsmo:mobile-nav-close"));

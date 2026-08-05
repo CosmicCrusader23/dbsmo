@@ -12812,3 +12812,252 @@ html:is(.light, .dark) .notfound-digit-zero {
   width: 0;
   height: 0;
 }
+
+/* Settings uses one clean workspace; the controls keep their own boundaries. */
+html:is(.light, .dark) .settings-card,
+html:is(.light, .dark) .settings-avatar-section,
+html:is(.light, .dark) .settings-row,
+html:is(.light, .dark) .settings-toggle-row,
+html:is(.light, .dark) .theme-choice {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.settings-card {
+  padding: 0;
+}
+
+.settings-avatar-section {
+  margin-bottom: 2rem;
+  padding: 0 0 1.5rem;
+}
+
+.settings-tabs {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  margin: 0 0 1.8rem;
+  overflow: hidden;
+  border: 2px solid var(--ink-line);
+  border-radius: 14px 10px 13px 9px;
+  background: var(--paper-raised);
+  box-shadow: var(--drawn-shadow-small);
+}
+
+.settings-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 9px 18px;
+  border-right: 1.5px solid var(--ink-soft);
+  background: transparent;
+  color: var(--ink-muted);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.settings-tabs button:last-child {
+  border-right: 0;
+}
+
+.settings-tabs button.active {
+  background: var(--paper-yellow);
+  color: var(--ink);
+  box-shadow: inset -3px -3px 0 color-mix(in srgb, var(--marker-yellow) 35%, transparent);
+}
+
+.settings-tabs button:focus-visible {
+  outline: 3px solid var(--marker-cyan);
+  outline-offset: -4px;
+}
+
+.sidebar-settings-panel {
+  display: grid;
+  gap: 22px;
+}
+
+.sidebar-settings-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sidebar-settings-header h2,
+.sidebar-custom-form h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 850;
+}
+
+.sidebar-settings-header p:last-child,
+.sidebar-custom-form p:last-child {
+  margin: 5px 0 0;
+  color: var(--ink-muted);
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.sidebar-settings-list {
+  display: grid;
+  gap: 7px;
+}
+
+.sidebar-settings-item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 9px 0;
+  border-bottom: 1.5px solid var(--ink-soft);
+}
+
+.sidebar-settings-item.is-hidden {
+  opacity: 0.5;
+}
+
+.sidebar-settings-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 11px 8px 12px 7px;
+  background: var(--paper-raised);
+  color: var(--ink);
+}
+
+.sidebar-settings-item-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.sidebar-settings-item-copy strong {
+  color: var(--ink);
+  font-weight: 850;
+}
+
+.sidebar-settings-item-copy small {
+  overflow: hidden;
+  color: var(--ink-muted);
+  font-family: var(--font-inter), "Inter", sans-serif;
+  font-size: 0.74rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-settings-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sidebar-settings-item-actions .icon-button.compact {
+  width: 34px;
+  min-width: 34px;
+  height: 34px;
+  min-height: 34px;
+  padding: 0;
+}
+
+.sidebar-settings-item-actions .icon-button.danger {
+  color: var(--color-danger);
+}
+
+.sidebar-custom-form {
+  display: grid;
+  gap: 15px;
+  padding-top: 8px;
+}
+
+.sidebar-custom-fields {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.8fr) minmax(180px, 1.5fr) 130px auto;
+  align-items: end;
+  gap: 10px;
+}
+
+.sidebar-custom-fields label {
+  display: grid;
+  gap: 5px;
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.sidebar-custom-fields input,
+.sidebar-custom-fields select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: var(--drawn-control-radius);
+  background: var(--color-input-bg);
+  color: var(--ink);
+  font-family: var(--font-inter), "Inter", sans-serif;
+}
+
+.sidebar-custom-fields input:focus,
+.sidebar-custom-fields select:focus {
+  border-color: var(--marker-cyan);
+  outline: none;
+}
+
+.sidebar-custom-form code {
+  font-family: var(--font-inter), "Inter", sans-serif;
+  font-size: 0.78rem;
+}
+
+.sidebar-settings-error {
+  margin: 0;
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+@media (max-width: 720px) {
+  .settings-tabs {
+    display: flex;
+    width: 100%;
+  }
+
+  .settings-tabs button {
+    flex: 1 1 50%;
+    justify-content: center;
+  }
+
+  .sidebar-settings-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sidebar-custom-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sidebar-custom-fields .primary-action {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-settings-item {
+    grid-template-columns: 38px minmax(0, 1fr);
+  }
+
+  .sidebar-settings-item-actions {
+    grid-column: 2;
+  }
+
+  .sidebar-custom-fields {
+    grid-template-columns: 1fr;
+  }
+}

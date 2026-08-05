@@ -16,6 +16,17 @@ Staff-only tools are grouped under **Admin Panel** in the sidebar so the primary
 
 Each destination keeps its own server-side permission check; hiding a tile is only a navigation convenience, not an authorization boundary.
 
+## Sidebar Settings
+
+Open **Settings** and switch from **Account** to **Sidebar** using the section switcher. Sidebar preferences are saved locally in the browser and apply immediately to the signed-in navigation.
+
+- Use the up/down controls to reorder links.
+- Use the eye control to show or hide a link. At least one link remains visible so navigation cannot be completely lost.
+- Add an internal path or an `http(s)` URL with a label and Lucide icon. External links open in a new tab.
+- **Reset to default** removes custom links and restores the current default order.
+
+These preferences are client-side layout settings, not permissions. Admin pages and APIs still enforce their server-side role checks.
+
 ## Creating a Problem Set (GUI)
 
 1. Open **Admin Panel** and click **Create a set**.

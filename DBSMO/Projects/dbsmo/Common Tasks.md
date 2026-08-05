@@ -78,6 +78,10 @@ Edit `lib/permissions.ts` for permission strings and role mappings. Also inspect
 
 Update `docs/permissions.md` and admin/sidebar behavior in `app/site-sidebar.tsx` if the navigation surface changes.
 
+## Customize Sidebar Behavior
+
+The default server-provided links are assembled in `lib/sidebar-defaults.ts`. Client-side order, hidden keys, and custom safe links are normalized in `lib/sidebar-preferences.ts`, edited in `app/settings/sidebar-settings.tsx`, and applied in `app/site-sidebar-nav.tsx`. Keep custom URL validation limited to same-origin paths and `http(s)` URLs; never treat a custom link as permission or access control. Update `tests/sidebar-navigation.test.ts` for preference behavior.
+
 ## Add an Admin Page
 
 Add the route under `app/admin/...`, gate it with session and `hasPermission(...)`, then add sidebar link logic in `app/site-sidebar.tsx` if it should be navigable. Add matching API under `app/api/admin/...` if the page has client-side mutations. Audit meaningful mutations through `recordAuditLog(...)` when appropriate (sources: `lib/permissions.ts`, `app/site-sidebar.tsx`, `lib/audit.ts`).

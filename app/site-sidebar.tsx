@@ -6,7 +6,8 @@ import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { GlobalMobileNavScrim } from "./global-mobile-nav";
-import { SiteSidebarNav, type SidebarLink } from "./site-sidebar-nav";
+import { buildDefaultSidebarLinks } from "@/lib/sidebar-defaults";
+import { SiteSidebarNav } from "./site-sidebar-nav";
 
 export async function SiteSidebar() {
   const session = await getServerSession(authOptions);
@@ -18,24 +19,9 @@ export async function SiteSidebar() {
   });
   if (!user) return null;
 
-  const profileHref = profilePathFromEmail(user.email);
-  const links: SidebarLink[] = [
-    { href: "/dashboard", label: "Dashboard", icon: "Gauge" },
-    { href: "/problem-sets", label: "Problem Sets", icon: "ClipboardList" },
-    { href: "/writeups", label: "Writeups", icon: "MessageSquareText" },
-    { href: "/practice", label: "Practice", icon: "Target" },
-    { href: "/classes", label: "Classes", icon: "GraduationCap" },
-  ];
-
-  if (hasPermission(user.role, "admin:view")) {
-    links.push({ href: "/admin", label: "Admin Panel", icon: "LayoutGrid", match: "/admin" });
-  }
-
-  links.push(
-    { href: "/users", label: "Users", icon: "Users" },
-    { href: profileHref, label: "My Profile", icon: "User" },
-    { href: "/leaderboard", label: "Leaderboard", icon: "Trophy" },
-    { href: "/settings", label: "Settings", icon: "Settings" },
+  const links = buildDefaultSidebarLinks(
+    profilePathFromEmail(user.email),
+    hasPermission(user.role, "admin:view"),
   );
 
   return (
