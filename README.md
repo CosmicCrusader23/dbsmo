@@ -2,7 +2,7 @@
 
 Self-paced mathematics olympiad training platform for DBS. Complete with features such as answer-only problem sets, automatic grading, progress tracking, teaching videos, solution links, feedback reports, and teacher analytics.
 
-Statements can be rendered in Latex or HTML math tags.
+Statements can be rendered in Latex or HTML math tags. For help with setup, refer to [SETUP](./SETUP.md)
 
 ## Important Docs
 
