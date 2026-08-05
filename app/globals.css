@@ -12819,10 +12819,10 @@ html:is(.light, .dark) .settings-avatar-section,
 html:is(.light, .dark) .settings-row,
 html:is(.light, .dark) .settings-toggle-row,
 html:is(.light, .dark) .theme-choice {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .settings-card {
@@ -12832,6 +12832,18 @@ html:is(.light, .dark) .theme-choice {
 .settings-avatar-section {
   margin-bottom: 2rem;
   padding: 0 0 1.5rem;
+}
+
+.settings-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.settings-save-header {
+  min-height: 44px;
 }
 
 .settings-tabs {
@@ -13024,6 +13036,15 @@ html:is(.light, .dark) .theme-choice {
 }
 
 @media (max-width: 720px) {
+  .settings-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .settings-header-actions > * {
+    flex: 1 1 auto;
+  }
+
   .settings-tabs {
     display: flex;
     width: 100%;

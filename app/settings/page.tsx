@@ -238,7 +238,15 @@ export default function SettingsPage() {
           <p className="eyebrow">Account</p>
           <h1>Settings</h1>
         </div>
-        <PageBackLink destination="Dashboard" href="/dashboard" />
+        <div className="settings-header-actions">
+          {activeTab === "account" ? (
+            <button className="primary-action settings-save-header" onClick={handleSave} disabled={saving}>
+              {saving ? <MathCurveLoader size={16} label="Saving settings" /> : <Save size={16} />}
+              {saving ? "Saving…" : "Save"}
+            </button>
+          ) : null}
+          <PageBackLink destination="Dashboard" href="/dashboard" />
+        </div>
       </header>
 
       <div className="settings-tabs" role="tablist" aria-label="Settings sections">
@@ -536,10 +544,6 @@ export default function SettingsPage() {
             </div>
           )}
 
-          <button className="primary-action settings-save" onClick={handleSave} disabled={saving}>
-            {saving ? <MathCurveLoader size={16} label="Saving settings" /> : <Save size={16} />}
-            {saving ? "Saving…" : "Save"}
-          </button>
         </div>
       </section> : null}
     </main>
