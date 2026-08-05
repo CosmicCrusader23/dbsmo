@@ -71,6 +71,7 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Fixed multiple-choice previews for delimiter-free mixed-number LaTeX such as `18\\frac{1}{2}` and `5\\sqrt{2}-7`; command-bearing standalone expressions now render through the same bounded KaTeX path.
 - Added a permission-aware `/admin` panel that groups content, people/classes, analytics, feedback, and audit tools behind one compact sidebar entry.
 - Added three explicit batch JSON ZIP actions: **Dry run everything**, **Publish/Draft everything**, and **Upload everything**, with bounded concurrency and live child-file progress.
-- Removed redundant settings metric/grey-card surfaces and added an Account/Sidebar settings switcher with local sidebar reorder, hide/show, safe custom links, icon choices, and reset-to-default behavior.
+- Removed redundant settings metric/grey-card surfaces and added an Account/Sidebar settings switcher with reorder, hide/show, and reset-to-default behavior.
+- Made sidebar settings account-scoped and server-persisted, added native drag/drop ordering with keyboard-friendly arrow controls, and replaced arbitrary custom links with permission-aware Admin Panel tool selection. Legacy custom-link data is ignored and the settings/API paths remain bounded and safe.
 
 © 2026 Cosmic Crusader

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { availableAdminTools } from "../lib/admin-tools";
 import { activeSidebarHref, type SidebarNavLink } from "../lib/sidebar-navigation";
 import {
   mergeSidebarLinks,
-  normalizeSidebarHref,
   parseSidebarPreferences,
   visibleSidebarLinks,
 } from "../lib/sidebar-preferences";
@@ -40,38 +40,42 @@ describe("activeSidebarHref", () => {
     expect(activeSidebarHref("/admin/import", adminLinks)).toBe("/admin");
   });
 
-  it("accepts internal and http(s) custom links but rejects executable schemes", () => {
-    expect(normalizeSidebarHref("/writeups")).toBe("/writeups");
-    expect(normalizeSidebarHref("https://example.com/resources")).toBe(
-      "https://example.com/resources",
-    );
-    expect(normalizeSidebarHref("javascript:alert(1)")).toBeNull();
-    expect(normalizeSidebarHref("//example.com")).toBeNull();
-  });
-
-  it("orders, hides, and parses custom sidebar links", () => {
+  it("orders, hides, and enables approved sidebar tools", () => {
     const defaults: SidebarNavLink[] = [
       { href: "/dashboard", label: "Dashboard", icon: "Gauge" },
       { href: "/settings", label: "Settings", icon: "Settings" },
     ];
+    const tools: SidebarNavLink[] = [
+      { href: "/admin/sets", label: "Manage sets", icon: "ListChecks" },
+    ];
     const preferences = parseSidebarPreferences(
       JSON.stringify({
-        order: ["custom:notes", "/settings", "/dashboard"],
+        order: ["/admin/sets", "/settings", "/dashboard"],
         hidden: ["/settings"],
-        custom: [
-          { id: "notes", label: "Notes", href: "/notes", icon: "BookOpen", external: false },
-        ],
+        enabled: ["/admin/sets"],
+        custom: [{ id: "notes", label: "Notes", href: "https://example.com" }],
       }),
     );
 
-    expect(mergeSidebarLinks(defaults, preferences).map((link) => link.label)).toEqual([
-      "Notes",
+    expect(mergeSidebarLinks(defaults, preferences, tools).map((link) => link.label)).toEqual([
+      "Manage sets",
       "Settings",
       "Dashboard",
     ]);
-    expect(visibleSidebarLinks(defaults, preferences).map((link) => link.label)).toEqual([
-      "Notes",
+    expect(visibleSidebarLinks(defaults, preferences, tools).map((link) => link.label)).toEqual([
+      "Manage sets",
       "Dashboard",
     ]);
+  });
+});
+
+describe("availableAdminTools", () => {
+  it("filters the sidebar catalog by the server-side role permissions", () => {
+    expect(availableAdminTools("CONTENT_EDITOR").map((tool) => tool.href)).toEqual([
+      "/admin/sets",
+      "/admin/create",
+      "/admin/import",
+    ]);
+    expect(availableAdminTools("ANALYST").map((tool) => tool.href)).toEqual(["/admin/analytics"]);
   });
 });

@@ -85,7 +85,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Users and Settings
 
-- `SidebarSettings` in `app/settings/sidebar-settings.tsx`: Account-settings Sidebar tab with reorder, show/hide, custom safe internal/http(s) links, Lucide icon selection, deletion, and reset-to-default controls. Preferences stay in browser localStorage and are consumed by `SiteSidebarNav`.
+- `SidebarSettings` in `app/settings/sidebar-settings.tsx`: Account-settings Sidebar tab with native drag/drop ordering, keyboard-friendly move controls, show/hide, reset-to-default, and a permission-filtered selector for the known Admin Panel tools. It persists normalized preferences through `/api/settings` and keeps an account-scoped local cache consumed by `SiteSidebarNav`.
 
 - `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, falls back to Google `User.image` when no custom avatar is set, writes theme/typewriter settings to `localStorage`, validates and patches account settings.
 - `UserProfilePage` in `app/users/[username]/page.tsx`: server-rendered public profile with avatar, friend/admin actions, progress stats, topic/completion/bookmark summaries, authored tasks table, mastery heatmap, and set/problem progress grid. The three summary cards use an unframed responsive grid so their individual card borders are not wrapped in another `profile-section` border. Authored tasks come from `User.createdProblemSets` and show visible sets to public viewers while owners/staff can see private authored sets. The heatmap is derived from recent attempts and marks days where the user mastered visible sets.

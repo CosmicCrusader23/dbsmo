@@ -1,27 +1,39 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  BookOpen,
+  BarChart3,
+  CheckCircle2,
   ChevronDown,
   ChevronUp,
-  Code2,
+  ClipboardList,
   Eye,
   EyeOff,
+  FileJson,
   FileText,
-  Globe2,
-  Link2,
-  Plus,
+  Gauge,
+  GraduationCap,
+  GripVertical,
+  LayoutGrid,
+  ListChecks,
+  MessageSquareText,
+  MessageSquareWarning,
+  PenLine,
   RotateCcw,
+  Settings,
+  Sparkles,
   Star,
-  Trash2,
+  Swords,
+  Target,
+  Trophy,
+  User,
+  Users,
+  type LucideIcon,
 } from "lucide-react";
 import type { SidebarNavLink } from "@/lib/sidebar-navigation";
 import {
   EMPTY_SIDEBAR_PREFERENCES,
   mergeSidebarLinks,
-  normalizeSidebarHref,
-  parseSidebarPreferences,
   readSidebarPreferences,
   resetSidebarPreferences,
   sidebarPreferenceKey,
@@ -29,68 +41,107 @@ import {
   writeSidebarPreferences,
 } from "@/lib/sidebar-preferences";
 
-const EMPTY_PREFERENCES_SNAPSHOT = JSON.stringify(EMPTY_SIDEBAR_PREFERENCES);
-
-function getSidebarPreferencesSnapshot() {
-  return typeof window === "undefined"
-    ? EMPTY_PREFERENCES_SNAPSHOT
-    : JSON.stringify(readSidebarPreferences());
-}
-
-function subscribeSidebarPreferences(callback: () => void) {
-  window.addEventListener("storage", callback);
-  window.addEventListener("dbsmo:sidebar-preferences-change", callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener("dbsmo:sidebar-preferences-change", callback);
-  };
-}
-
-const ICON_OPTIONS = [
-  { value: "Link2", label: "Link", icon: Link2 },
-  { value: "BookOpen", label: "Book", icon: BookOpen },
-  { value: "FileText", label: "Page", icon: FileText },
-  { value: "Globe2", label: "Web", icon: Globe2 },
-  { value: "Code2", label: "Code", icon: Code2 },
-  { value: "Star", label: "Star", icon: Star },
-] as const;
+const ICON_MAP: Record<string, LucideIcon> = {
+  BarChart3,
+  CheckCircle2,
+  ClipboardList,
+  FileJson,
+  FileText,
+  Gauge,
+  GraduationCap,
+  LayoutGrid,
+  ListChecks,
+  MessageSquareText,
+  MessageSquareWarning,
+  PenLine,
+  Settings,
+  Sparkles,
+  Star,
+  Swords,
+  Target,
+  Trophy,
+  User,
+  Users,
+};
 
 function SidebarSettingsIcon({ name }: { name: string }) {
-  const option = ICON_OPTIONS.find((item) => item.value === name);
-  const Icon = option?.icon ?? Link2;
+  const Icon = ICON_MAP[name] ?? LayoutGrid;
   return <Icon size={19} />;
 }
 
-function newCustomId() {
-  return typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : Math.random().toString(36).slice(2);
-}
+type SidebarSettingsProps = {
+  defaultLinks: SidebarNavLink[];
+  optionalLinks: SidebarNavLink[];
+  initialPreferences: SidebarPreferences;
+  userId: string;
+  onPersist: (preferences: SidebarPreferences) => Promise<void>;
+};
 
-export function SidebarSettings({ defaultLinks }: { defaultLinks: SidebarNavLink[] }) {
-  const preferencesSnapshot = useSyncExternalStore(
-    subscribeSidebarPreferences,
-    getSidebarPreferencesSnapshot,
-    () => EMPTY_PREFERENCES_SNAPSHOT,
-  );
-  const preferences = useMemo(
-    () => parseSidebarPreferences(preferencesSnapshot),
-    [preferencesSnapshot],
-  );
-  const [label, setLabel] = useState("");
-  const [href, setHref] = useState("");
-  const [icon, setIcon] = useState("Link2");
-  const [formError, setFormError] = useState<string | null>(null);
+export function SidebarSettings({
+  defaultLinks,
+  optionalLinks,
+  initialPreferences,
+  userId,
+  onPersist,
+}: SidebarSettingsProps) {
+  const [preferences, setPreferences] = useState(initialPreferences);
+  const [dragKey, setDragKey] = useState<string | null>(null);
+  const [dragOverKey, setDragOverKey] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const saveQueue = useRef(Promise.resolve());
+  const confirmedPreferences = useRef(initialPreferences);
+  const latestRequestedPreferences = useRef(initialPreferences);
+
+  useEffect(() => {
+    const update = () => setPreferences((current) => readSidebarPreferences(userId, current));
+    window.addEventListener("storage", update);
+    window.addEventListener("dbsmo:sidebar-preferences-change", update);
+    return () => {
+      window.removeEventListener("storage", update);
+      window.removeEventListener("dbsmo:sidebar-preferences-change", update);
+    };
+  }, [userId]);
 
   const orderedLinks = useMemo(
-    () => mergeSidebarLinks(defaultLinks, preferences),
-    [defaultLinks, preferences],
+    () => mergeSidebarLinks(defaultLinks, preferences, optionalLinks),
+    [defaultLinks, optionalLinks, preferences],
+  );
+  const defaultKeys = useMemo(
+    () => new Set(defaultLinks.map(sidebarPreferenceKey)),
+    [defaultLinks],
   );
   const hidden = new Set(preferences.hidden);
-  const visibleCount = orderedLinks.filter((link) => !hidden.has(sidebarPreferenceKey(link))).length;
+  const enabled = new Set(preferences.enabled);
+  const visibleCount = orderedLinks.filter(
+    (link) => !hidden.has(sidebarPreferenceKey(link)),
+  ).length;
 
   function save(next: SidebarPreferences) {
-    writeSidebarPreferences(next);
+    latestRequestedPreferences.current = next;
+    setPreferences(next);
+    setSaveError(null);
+    setSaved(false);
+    writeSidebarPreferences(next, userId);
+    setIsSaving(true);
+
+    saveQueue.current = saveQueue.current
+      .catch(() => undefined)
+      .then(async () => {
+        await onPersist(next);
+        confirmedPreferences.current = next;
+        setSaved(true);
+      })
+      .catch((error: unknown) => {
+        // A later queued change may still succeed; only roll back the latest request.
+        if (latestRequestedPreferences.current === next) {
+          setPreferences(confirmedPreferences.current);
+          writeSidebarPreferences(confirmedPreferences.current, userId);
+        }
+        setSaveError(error instanceof Error ? error.message : "Could not save sidebar settings.");
+      })
+      .finally(() => setIsSaving(false));
   }
 
   function moveLink(index: number, direction: -1 | 1) {
@@ -98,6 +149,17 @@ export function SidebarSettings({ defaultLinks }: { defaultLinks: SidebarNavLink
     if (targetIndex < 0 || targetIndex >= orderedLinks.length) return;
     const nextOrder = orderedLinks.map(sidebarPreferenceKey);
     [nextOrder[index], nextOrder[targetIndex]] = [nextOrder[targetIndex], nextOrder[index]];
+    save({ ...preferences, order: nextOrder });
+  }
+
+  function reorderLinks(sourceKey: string, targetKey: string) {
+    if (sourceKey === targetKey) return;
+    const nextOrder = orderedLinks.map(sidebarPreferenceKey);
+    const sourceIndex = nextOrder.indexOf(sourceKey);
+    const targetIndex = nextOrder.indexOf(targetKey);
+    if (sourceIndex < 0 || targetIndex < 0) return;
+    nextOrder.splice(sourceIndex, 1);
+    nextOrder.splice(nextOrder.indexOf(targetKey), 0, sourceKey);
     save({ ...preferences, order: nextOrder });
   }
 
@@ -113,53 +175,44 @@ export function SidebarSettings({ defaultLinks }: { defaultLinks: SidebarNavLink
     });
   }
 
-  function removeCustomLink(link: SidebarNavLink) {
+  function toggleAdminTool(link: SidebarNavLink) {
     const key = sidebarPreferenceKey(link);
-    const id = key.startsWith("custom:") ? key.slice("custom:".length) : "";
+    if (defaultKeys.has(key)) return;
+    const isEnabled = enabled.has(key);
     save({
       ...preferences,
-      custom: preferences.custom.filter((item) => item.id !== id),
-      order: preferences.order.filter((item) => item !== key),
-      hidden: preferences.hidden.filter((item) => item !== key),
+      enabled: isEnabled
+        ? preferences.enabled.filter((item) => item !== key)
+        : [...preferences.enabled, key],
+      order:
+        !isEnabled && !preferences.order.includes(key)
+          ? [...preferences.order, key]
+          : preferences.order,
     });
-  }
-
-  function addCustomLink(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setFormError(null);
-    const cleanLabel = label.trim().slice(0, 40);
-    const cleanHref = normalizeSidebarHref(href);
-    if (!cleanLabel || !cleanHref) {
-      setFormError("Enter a label and a safe path or http(s) URL.");
-      return;
-    }
-    if (
-      [...defaultLinks.map((link) => link.href), ...preferences.custom.map((link) => link.href)].includes(
-        cleanHref,
-      )
-    ) {
-      setFormError("That page is already in your sidebar.");
-      return;
-    }
-
-    const id = newCustomId();
-    const key = `custom:${id}`;
-    save({
-      ...preferences,
-      custom: [
-        ...preferences.custom,
-        { id, label: cleanLabel, href: cleanHref, icon, external: !cleanHref.startsWith("/") },
-      ],
-      order: [...preferences.order, key],
-    });
-    setLabel("");
-    setHref("");
-    setIcon("Link2");
   }
 
   function reset() {
-    resetSidebarPreferences();
-    setFormError(null);
+    latestRequestedPreferences.current = EMPTY_SIDEBAR_PREFERENCES;
+    resetSidebarPreferences(userId);
+    setSaveError(null);
+    setSaved(false);
+    setPreferences(EMPTY_SIDEBAR_PREFERENCES);
+    setIsSaving(true);
+    saveQueue.current = saveQueue.current
+      .catch(() => undefined)
+      .then(async () => {
+        await onPersist(EMPTY_SIDEBAR_PREFERENCES);
+        confirmedPreferences.current = EMPTY_SIDEBAR_PREFERENCES;
+        setSaved(true);
+      })
+      .catch((error: unknown) => {
+        if (latestRequestedPreferences.current === EMPTY_SIDEBAR_PREFERENCES) {
+          setPreferences(confirmedPreferences.current);
+          writeSidebarPreferences(confirmedPreferences.current, userId);
+        }
+        setSaveError(error instanceof Error ? error.message : "Could not reset sidebar settings.");
+      })
+      .finally(() => setIsSaving(false));
   }
 
   return (
@@ -168,20 +221,67 @@ export function SidebarSettings({ defaultLinks }: { defaultLinks: SidebarNavLink
         <div>
           <p className="eyebrow">Personal layout</p>
           <h2 id="sidebar-settings-title">Sidebar</h2>
-          <p>Reorder or hide links, then add pages you use often.</p>
+          <p>Drag links to reorder them, or use the arrow controls. Changes save automatically.</p>
         </div>
-        <button className="secondary-action compact" type="button" onClick={reset}>
-          <RotateCcw size={16} />
-          Reset to default
-        </button>
+        <div className="sidebar-settings-status" aria-live="polite">
+          {isSaving ? "Saving…" : saved ? "Saved" : null}
+          <button
+            className="secondary-action compact"
+            type="button"
+            onClick={reset}
+            disabled={isSaving}
+          >
+            <RotateCcw size={16} />
+            Reset to default
+          </button>
+        </div>
       </header>
 
-      <div className="sidebar-settings-list">
+      {saveError ? (
+        <p className="sidebar-settings-error" role="alert">
+          {saveError}
+        </p>
+      ) : null}
+
+      <div className="sidebar-settings-list" aria-label="Sidebar links">
         {orderedLinks.map((link, index) => {
           const key = sidebarPreferenceKey(link);
           const isHidden = hidden.has(key);
           return (
-            <div className={`sidebar-settings-item${isHidden ? " is-hidden" : ""}`} key={key}>
+            <div
+              className={`sidebar-settings-item${isHidden ? " is-hidden" : ""}${dragKey === key ? " is-dragging" : ""}${dragOverKey === key ? " is-drag-over" : ""}`}
+              draggable
+              key={key}
+              onDragEnd={() => {
+                setDragKey(null);
+                setDragOverKey(null);
+              }}
+              onDragOver={(event) => {
+                if (!dragKey || dragKey === key) return;
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "move";
+                setDragOverKey(key);
+              }}
+              onDragStart={(event) => {
+                setDragKey(key);
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", key);
+              }}
+              onDrop={(event) => {
+                event.preventDefault();
+                const sourceKey = event.dataTransfer.getData("text/plain") || dragKey;
+                if (sourceKey) reorderLinks(sourceKey, key);
+                setDragKey(null);
+                setDragOverKey(null);
+              }}
+            >
+              <span
+                className="sidebar-settings-drag-handle"
+                title="Drag to reorder"
+                aria-hidden="true"
+              >
+                <GripVertical size={18} />
+              </span>
               <span className="sidebar-settings-item-icon" aria-hidden="true">
                 <SidebarSettingsIcon name={link.icon} />
               </span>
@@ -220,55 +320,46 @@ export function SidebarSettings({ defaultLinks }: { defaultLinks: SidebarNavLink
                 >
                   <ChevronDown size={16} />
                 </button>
-                {link.custom ? (
-                  <button
-                    aria-label={`Delete ${link.label}`}
-                    className="icon-button compact danger"
-                    title="Delete custom page"
-                    type="button"
-                    onClick={() => removeCustomLink(link)}
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                ) : null}
               </div>
             </div>
           );
         })}
       </div>
 
-      <form className="sidebar-custom-form" onSubmit={addCustomLink}>
+      <section className="sidebar-tool-picker" aria-labelledby="sidebar-tool-picker-title">
         <div>
-          <p className="eyebrow">Add a page</p>
-          <h3>Custom sidebar link</h3>
-          <p>Use an internal path like <code>/writeups</code> or a trusted http(s) URL.</p>
+          <p className="eyebrow">Admin console</p>
+          <h3 id="sidebar-tool-picker-title">Add approved tools</h3>
+          <p>Choose from the tools available to your role. No custom URLs are allowed.</p>
         </div>
-        <div className="sidebar-custom-fields">
-          <label>
-            <span>Label</span>
-            <input maxLength={40} placeholder="My resources" value={label} onChange={(event) => setLabel(event.target.value)} />
-          </label>
-          <label>
-            <span>Path or URL</span>
-            <input maxLength={500} placeholder="/problem-sets" value={href} onChange={(event) => setHref(event.target.value)} />
-          </label>
-          <label>
-            <span>Icon</span>
-            <select value={icon} onChange={(event) => setIcon(event.target.value)}>
-              {ICON_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button className="primary-action compact" type="submit">
-            <Plus size={16} />
-            Add page
-          </button>
+        <div className="sidebar-tool-picker-list">
+          {optionalLinks.map((link) => {
+            const key = sidebarPreferenceKey(link);
+            const alwaysIncluded = defaultKeys.has(key);
+            const checked = alwaysIncluded || enabled.has(key);
+            return (
+              <label
+                className={`sidebar-tool-option${alwaysIncluded ? " is-included" : ""}`}
+                key={key}
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  disabled={alwaysIncluded}
+                  onChange={() => toggleAdminTool(link)}
+                />
+                <span className="sidebar-tool-option-icon" aria-hidden="true">
+                  <SidebarSettingsIcon name={link.icon} />
+                </span>
+                <span className="sidebar-tool-option-copy">
+                  <strong>{link.label}</strong>
+                  <small>{alwaysIncluded ? "Already in your sidebar" : link.href}</small>
+                </span>
+              </label>
+            );
+          })}
         </div>
-        {formError ? <p className="sidebar-settings-error">{formError}</p> : null}
-      </form>
+      </section>
     </section>
   );
 }

@@ -255,6 +255,28 @@ psql -U dbsmo -h localhost dbsmo -c '\d "ClassMember"'
 psql -U dbsmo -h localhost dbsmo -c '\d "Assignment"'
 ```
 
+### Deploying this pull (account-scoped sidebar settings)
+
+The settings sidebar now stores its normalized layout in the optional
+`User.sidebarPreferences` column. Run the standard redeploy block above so
+`prisma generate` updates the client and `prisma db push` adds the column:
+
+```bash
+npx prisma generate
+npx prisma db push
+pm2 reload dbsmo
+```
+
+Verify the additive schema change with:
+
+```bash
+psql -U dbsmo -h localhost dbsmo -c '\d "User"'
+```
+
+Existing users start with the default sidebar. The browser cache is scoped to
+the authenticated user ID; the database value remains authoritative across
+browsers and devices. Do not manually write sidebar URLs into the column.
+
 ## 7. Database schema changes
 
 This repo uses `prisma db push` (not `prisma migrate`), so any

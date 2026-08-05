@@ -18,7 +18,7 @@ Each destination keeps its own server-side permission check; hiding a tile is on
 
 ## Sidebar Settings
 
-Open **Settings** and switch from **Account** to **Sidebar** using the section switcher. Sidebar preferences are saved locally in the browser and apply immediately to the signed-in navigation.
+Open **Settings** and switch from **Account** to **Sidebar** using the section switcher. Drag links to reorder them, use the eye and arrow controls to hide or move them, and select approved tools from the Admin Panel catalog. Preferences are normalized and saved to the signed-in account, with an account-scoped browser cache for immediate updates. There is no arbitrary custom URL field.
 
 - Use the up/down controls to reorder links.
 - Use the eye control to show or hide a link. At least one link remains visible so navigation cannot be completely lost.

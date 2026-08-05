@@ -7,6 +7,8 @@ import { hasPermission } from "@/lib/permissions";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { GlobalMobileNavScrim } from "./global-mobile-nav";
 import { buildDefaultSidebarLinks } from "@/lib/sidebar-defaults";
+import { availableAdminTools } from "@/lib/admin-tools";
+import { parseSidebarPreferences } from "@/lib/sidebar-preferences";
 import { SiteSidebarNav } from "./site-sidebar-nav";
 
 export async function SiteSidebar() {
@@ -15,7 +17,7 @@ export async function SiteSidebar() {
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { email: true, role: true },
+    select: { email: true, role: true, sidebarPreferences: true },
   });
   if (!user) return null;
 
@@ -23,6 +25,11 @@ export async function SiteSidebar() {
     profilePathFromEmail(user.email),
     hasPermission(user.role, "admin:view"),
   );
+  const optionalLinks = availableAdminTools(user.role).map((tool) => ({
+    href: tool.href,
+    label: tool.label,
+    icon: tool.icon,
+  }));
 
   return (
     <>
@@ -34,7 +41,12 @@ export async function SiteSidebar() {
           </span>
           <strong>DBSMO</strong>
         </Link>
-        <SiteSidebarNav links={links} />
+        <SiteSidebarNav
+          links={links}
+          optionalLinks={optionalLinks}
+          initialPreferences={parseSidebarPreferences(user.sidebarPreferences)}
+          userId={session.user.id}
+        />
         <div className="sidebar-footer" />
       </aside>
     </>

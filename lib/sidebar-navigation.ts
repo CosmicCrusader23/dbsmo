@@ -5,7 +5,6 @@ export type SidebarNavLink = {
   match?: string;
   external?: boolean;
   preferenceKey?: string;
-  custom?: boolean;
 };
 
 function normalizePath(path: string): string {

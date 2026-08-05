@@ -67,23 +67,32 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Star,
 };
 
-export function SiteSidebarNav({ links }: { links: SidebarLink[] }) {
+export function SiteSidebarNav({
+  links,
+  optionalLinks = [],
+  initialPreferences,
+  userId,
+}: {
+  links: SidebarLink[];
+  optionalLinks?: SidebarLink[];
+  initialPreferences: typeof EMPTY_SIDEBAR_PREFERENCES;
+  userId: string;
+}) {
   const pathname = usePathname() ?? "/";
   const navRef = useRef<HTMLElement | null>(null);
-  const [preferences, setPreferences] = useState(EMPTY_SIDEBAR_PREFERENCES);
-  const visibleLinks = visibleSidebarLinks(links, preferences);
+  const [preferences, setPreferences] = useState(initialPreferences);
+  const visibleLinks = visibleSidebarLinks(links, preferences, optionalLinks);
   const activeHref = activeSidebarHref(pathname, visibleLinks);
 
   useEffect(() => {
-    const update = () => setPreferences(readSidebarPreferences());
-    update();
+    const update = () => setPreferences((current) => readSidebarPreferences(userId, current));
     window.addEventListener("storage", update);
     window.addEventListener(SIDEBAR_PREFERENCES_EVENT, update);
     return () => {
       window.removeEventListener("storage", update);
       window.removeEventListener(SIDEBAR_PREFERENCES_EVENT, update);
     };
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const sidebar = navRef.current?.closest(".sidebar") as HTMLElement | null;

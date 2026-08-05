@@ -9,6 +9,7 @@ import {
   normalizeSettingsPatch,
   settingsPatchSchema,
 } from "@/lib/settings-policy";
+import { parseSidebarPreferences } from "@/lib/sidebar-preferences";
 import { computePerformanceProfile } from "@/lib/analytics";
 import { isVisibleToStudent } from "@/lib/visibility";
 
@@ -35,6 +36,7 @@ export async function GET() {
           leaderboardVisible: true,
           theme: true,
           greetingSettings: true,
+          sidebarPreferences: true,
           _count: {
             select: { practiceSolves: true },
           },
@@ -98,8 +100,21 @@ export async function PATCH(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid settings." }, { status: 422 });
     }
-    const { avatarUrl, displayName, profileVisible, leaderboardVisible, theme, greetingSettings } =
-      normalizeSettingsPatch(parsed.data);
+    const {
+      avatarUrl,
+      displayName,
+      profileVisible,
+      leaderboardVisible,
+      theme,
+      greetingSettings,
+      sidebarPreferences,
+    } = normalizeSettingsPatch(parsed.data);
+    const normalizedSidebarPreferences =
+      sidebarPreferences === undefined
+        ? undefined
+        : sidebarPreferences === null
+          ? null
+          : JSON.stringify(parseSidebarPreferences(sidebarPreferences));
 
     if (typeof avatarUrl === "string") {
       if (!isAllowedAvatarUrl(avatarUrl)) {
@@ -119,6 +134,7 @@ export async function PATCH(req: Request) {
         leaderboardVisible,
         theme,
         greetingSettings,
+        sidebarPreferences: normalizedSidebarPreferences,
       },
       select: {
         id: true,
@@ -133,6 +149,7 @@ export async function PATCH(req: Request) {
         leaderboardVisible: true,
         theme: true,
         greetingSettings: true,
+        sidebarPreferences: true,
       },
     });
 

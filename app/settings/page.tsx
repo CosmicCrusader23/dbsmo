@@ -8,7 +8,9 @@ import { MathCurveLoader } from "@/app/math-curve-loader";
 import { PageBackLink } from "@/app/page-back-link";
 import { normalizeDisplayText } from "@/lib/display-name";
 import { buildDefaultSidebarLinks } from "@/lib/sidebar-defaults";
+import { availableAdminTools } from "@/lib/admin-tools";
 import { isStaffRole } from "@/lib/permissions";
+import { parseSidebarPreferences, type SidebarPreferences } from "@/lib/sidebar-preferences";
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { SidebarSettings } from "./sidebar-settings";
 
@@ -52,6 +54,7 @@ interface UserProfile {
   leaderboardVisible: boolean;
   theme?: string;
   greetingSettings?: string;
+  sidebarPreferences?: string | null;
   stats?: {
     attemptedSets: number;
     totalAttempts: number;
@@ -204,6 +207,24 @@ export default function SettingsPage() {
     }
   }
 
+  async function persistSidebarPreferences(preferences: SidebarPreferences) {
+    const res = await fetch("/api/settings", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sidebarPreferences: JSON.stringify(preferences) }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Failed to save sidebar settings.");
+    setUser((currentUser) =>
+      currentUser
+        ? {
+            ...currentUser,
+            sidebarPreferences: data.user?.sidebarPreferences ?? JSON.stringify(preferences),
+          }
+        : currentUser,
+    );
+  }
+
   if (loading) {
     return (
       <main className="settings-shell">
@@ -230,6 +251,12 @@ export default function SettingsPage() {
     profilePathFromEmail(user.email),
     isStaffRole(user.role),
   );
+  const adminToolLinks = availableAdminTools(user.role).map((tool) => ({
+    href: tool.href,
+    label: tool.label,
+    icon: tool.icon,
+  }));
+  const sidebarPreferences = parseSidebarPreferences(user.sidebarPreferences ?? null);
 
   return (
     <main className="settings-shell">
@@ -240,7 +267,11 @@ export default function SettingsPage() {
         </div>
         <div className="settings-header-actions">
           {activeTab === "account" ? (
-            <button className="primary-action settings-save-header" onClick={handleSave} disabled={saving}>
+            <button
+              className="primary-action settings-save-header"
+              onClick={handleSave}
+              disabled={saving}
+            >
               {saving ? <MathCurveLoader size={16} label="Saving settings" /> : <Save size={16} />}
               {saving ? "Saving…" : "Save"}
             </button>
@@ -285,267 +316,282 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {activeTab === "sidebar" ? <SidebarSettings defaultLinks={sidebarDefaults} /> : null}
+      {activeTab === "sidebar" ? (
+        <SidebarSettings
+          defaultLinks={sidebarDefaults}
+          optionalLinks={adminToolLinks}
+          initialPreferences={sidebarPreferences}
+          userId={user.id}
+          onPersist={persistSidebarPreferences}
+        />
+      ) : null}
 
-      {activeTab === "account" ? <section className="settings-card">
-        <div className="settings-avatar-section">
-          <div className="settings-avatar-preview">
-            {currentAvatar ? (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                src={currentAvatar}
-                alt="Profile"
-                className="settings-avatar-img"
-                onError={() => {
-                  if (customAvatar) {
-                    setAvatarUrl("");
-                    setError("That profile picture could not be loaded.");
-                  } else {
-                    setError("Your Google profile picture could not be loaded.");
-                  }
-                }}
+      {activeTab === "account" ? (
+        <section className="settings-card">
+          <div className="settings-avatar-section">
+            <div className="settings-avatar-preview">
+              {currentAvatar ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={currentAvatar}
+                  alt="Profile"
+                  className="settings-avatar-img"
+                  onError={() => {
+                    if (customAvatar) {
+                      setAvatarUrl("");
+                      setError("That profile picture could not be loaded.");
+                    } else {
+                      setError("Your Google profile picture could not be loaded.");
+                    }
+                  }}
+                />
+              ) : (
+                <Avatar
+                  user={{
+                    id: user?.id ?? null,
+                    email: user?.email ?? null,
+                    displayName:
+                      normalizeDisplayText(displayName) ??
+                      normalizeDisplayText(user?.displayName) ??
+                      normalizeDisplayText(user?.name),
+                    name: normalizeDisplayText(user?.name),
+                    image: user?.image ?? null,
+                  }}
+                  size="lg"
+                  className="settings-avatar-img"
+                />
+              )}
+            </div>
+            <div className="settings-avatar-info">
+              <h3>{previewName || "MO Student"}</h3>
+              <p className="settings-role-badge">{user.role}</p>
+            </div>
+          </div>
+
+          <div className="settings-form">
+            <div className="settings-row">
+              <label>
+                <User size={14} />
+                Username (email)
+              </label>
+              <input type="text" value={user.email} readOnly className="settings-readonly" />
+              <small className="form-hint">Your username cannot be changed.</small>
+            </div>
+
+            <div className="settings-row">
+              <label>
+                <User size={14} />
+                Real name
+              </label>
+              <input type="text" value={user.name || "—"} readOnly className="settings-readonly" />
+              <small className="form-hint">
+                You can only change your name by contacting the admin.
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Display name</label>
+              <input
+                type="text"
+                placeholder="Enter a display name"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                maxLength={50}
               />
-            ) : (
-              <Avatar
-                user={{
-                  id: user?.id ?? null,
-                  email: user?.email ?? null,
-                  displayName:
-                    normalizeDisplayText(displayName) ??
-                    normalizeDisplayText(user?.displayName) ??
-                    normalizeDisplayText(user?.name),
-                  name: normalizeDisplayText(user?.name),
-                  image: user?.image ?? null,
-                }}
-                size="lg"
-                className="settings-avatar-img"
+              <small className="form-hint">
+                This is shown in greetings, leaderboards, and your profile. Max 50 characters.
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Profile picture</label>
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                onChange={(e) => handleAvatarFile(e.target.files?.[0])}
               />
+              <small className="form-hint">Upload an image under 512 KB.</small>
+            </div>
+
+            <div className="settings-row">
+              <label>Profile picture URL</label>
+              <input
+                type="url"
+                placeholder="https://example.com/avatar.png"
+                value={avatarUrl}
+                onChange={(e) => setAvatarUrl(e.target.value)}
+              />
+              <small className="form-hint">
+                Paste a URL or leave this empty to use your Google profile picture when available.
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Theme</label>
+              <div className="theme-choice" role="group" aria-label="Theme preference">
+                <button
+                  className={`theme-choice-button ${themePreference === "light" ? "active" : ""}`}
+                  type="button"
+                  aria-pressed={themePreference === "light"}
+                  onClick={() => handleThemePreference("light")}
+                >
+                  <Sun size={16} />
+                  Light
+                </button>
+                <button
+                  className={`theme-choice-button ${themePreference === "dark" ? "active" : ""}`}
+                  type="button"
+                  aria-pressed={themePreference === "dark"}
+                  onClick={() => handleThemePreference("dark")}
+                >
+                  <Moon size={16} />
+                  Dark
+                </button>
+              </div>
+              <small className="form-hint">Saved on this browser.</small>
+            </div>
+
+            <div className="settings-row">
+              <label>Greeting Typing Speed (ms)</label>
+              <input
+                type="number"
+                min="10"
+                max="500"
+                value={typewriterSettings.typeSpeed}
+                onChange={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    typeSpeed: Number(e.target.value),
+                  })
+                }
+                onBlur={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)),
+                  })
+                }
+              />
+              <small className="form-hint">
+                Time between typing each character. Range: 10 - 500. Default: 42
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Greeting Deleting Speed (ms)</label>
+              <input
+                type="number"
+                min="10"
+                max="500"
+                value={typewriterSettings.deleteSpeed}
+                onChange={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    deleteSpeed: Number(e.target.value),
+                  })
+                }
+                onBlur={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    deleteSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 22)),
+                  })
+                }
+              />
+              <small className="form-hint">
+                Time between deleting each character. Range: 10 - 500. Default: 22
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Greeting Hold Time (ms)</label>
+              <input
+                type="number"
+                min="500"
+                max="15000"
+                value={typewriterSettings.holdMs}
+                onChange={(e) =>
+                  setTypewriterSettings({ ...typewriterSettings, holdMs: Number(e.target.value) })
+                }
+                onBlur={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    holdMs: Math.max(500, Math.min(15000, Number(e.target.value) || 3676)),
+                  })
+                }
+              />
+              <small className="form-hint">
+                Read time before deleting. Range: 500 - 15000. Default: 3676
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Time Between Greetings (ms)</label>
+              <input
+                type="number"
+                min="100"
+                max="5000"
+                value={typewriterSettings.betweenMs}
+                onChange={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    betweenMs: Number(e.target.value),
+                  })
+                }
+                onBlur={(e) =>
+                  setTypewriterSettings({
+                    ...typewriterSettings,
+                    betweenMs: Math.max(100, Math.min(5000, Number(e.target.value) || 280)),
+                  })
+                }
+              />
+              <small className="form-hint">
+                Pause before the next greeting starts. Range: 100 - 5000. Default: 280
+              </small>
+            </div>
+
+            <div className="settings-row">
+              <label>Privacy</label>
+              <div className="settings-toggle-list">
+                <label className="settings-toggle-row">
+                  <input
+                    checked={profileVisible}
+                    type="checkbox"
+                    onChange={(event) => setProfileVisible(event.target.checked)}
+                  />
+                  <span>Show my public profile to other students</span>
+                </label>
+                <label className="settings-toggle-row">
+                  <input
+                    checked={leaderboardVisible}
+                    type="checkbox"
+                    onChange={(event) => setLeaderboardVisible(event.target.checked)}
+                  />
+                  <span>Include me on leaderboards</span>
+                </label>
+              </div>
+              <small className="form-hint">
+                Teachers can still view training records for class management.
+              </small>
+            </div>
+
+            {customAvatar ? (
+              <button
+                className="secondary-action compact settings-clear-avatar"
+                type="button"
+                onClick={() => setAvatarUrl("")}
+              >
+                Use Google/default avatar
+              </button>
+            ) : null}
+
+            {user.group && (
+              <div className="settings-row">
+                <label>Group</label>
+                <input type="text" value={user.group} readOnly className="settings-readonly" />
+              </div>
             )}
           </div>
-          <div className="settings-avatar-info">
-            <h3>{previewName || "MO Student"}</h3>
-            <p className="settings-role-badge">{user.role}</p>
-          </div>
-        </div>
-
-        <div className="settings-form">
-          <div className="settings-row">
-            <label>
-              <User size={14} />
-              Username (email)
-            </label>
-            <input type="text" value={user.email} readOnly className="settings-readonly" />
-            <small className="form-hint">Your username cannot be changed.</small>
-          </div>
-
-          <div className="settings-row">
-            <label>
-              <User size={14} />
-              Real name
-            </label>
-            <input type="text" value={user.name || "—"} readOnly className="settings-readonly" />
-            <small className="form-hint">
-              You can only change your name by contacting the admin.
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Display name</label>
-            <input
-              type="text"
-              placeholder="Enter a display name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              maxLength={50}
-            />
-            <small className="form-hint">
-              This is shown in greetings, leaderboards, and your profile. Max 50 characters.
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Profile picture</label>
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp,image/gif"
-              onChange={(e) => handleAvatarFile(e.target.files?.[0])}
-            />
-            <small className="form-hint">Upload an image under 512 KB.</small>
-          </div>
-
-          <div className="settings-row">
-            <label>Profile picture URL</label>
-            <input
-              type="url"
-              placeholder="https://example.com/avatar.png"
-              value={avatarUrl}
-              onChange={(e) => setAvatarUrl(e.target.value)}
-            />
-            <small className="form-hint">
-              Paste a URL or leave this empty to use your Google profile picture when available.
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Theme</label>
-            <div className="theme-choice" role="group" aria-label="Theme preference">
-              <button
-                className={`theme-choice-button ${themePreference === "light" ? "active" : ""}`}
-                type="button"
-                aria-pressed={themePreference === "light"}
-                onClick={() => handleThemePreference("light")}
-              >
-                <Sun size={16} />
-                Light
-              </button>
-              <button
-                className={`theme-choice-button ${themePreference === "dark" ? "active" : ""}`}
-                type="button"
-                aria-pressed={themePreference === "dark"}
-                onClick={() => handleThemePreference("dark")}
-              >
-                <Moon size={16} />
-                Dark
-              </button>
-            </div>
-            <small className="form-hint">Saved on this browser.</small>
-          </div>
-
-          <div className="settings-row">
-            <label>Greeting Typing Speed (ms)</label>
-            <input
-              type="number"
-              min="10"
-              max="500"
-              value={typewriterSettings.typeSpeed}
-              onChange={(e) =>
-                setTypewriterSettings({ ...typewriterSettings, typeSpeed: Number(e.target.value) })
-              }
-              onBlur={(e) =>
-                setTypewriterSettings({
-                  ...typewriterSettings,
-                  typeSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 42)),
-                })
-              }
-            />
-            <small className="form-hint">
-              Time between typing each character. Range: 10 - 500. Default: 42
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Greeting Deleting Speed (ms)</label>
-            <input
-              type="number"
-              min="10"
-              max="500"
-              value={typewriterSettings.deleteSpeed}
-              onChange={(e) =>
-                setTypewriterSettings({
-                  ...typewriterSettings,
-                  deleteSpeed: Number(e.target.value),
-                })
-              }
-              onBlur={(e) =>
-                setTypewriterSettings({
-                  ...typewriterSettings,
-                  deleteSpeed: Math.max(10, Math.min(500, Number(e.target.value) || 22)),
-                })
-              }
-            />
-            <small className="form-hint">
-              Time between deleting each character. Range: 10 - 500. Default: 22
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Greeting Hold Time (ms)</label>
-            <input
-              type="number"
-              min="500"
-              max="15000"
-              value={typewriterSettings.holdMs}
-              onChange={(e) =>
-                setTypewriterSettings({ ...typewriterSettings, holdMs: Number(e.target.value) })
-              }
-              onBlur={(e) =>
-                setTypewriterSettings({
-                  ...typewriterSettings,
-                  holdMs: Math.max(500, Math.min(15000, Number(e.target.value) || 3676)),
-                })
-              }
-            />
-            <small className="form-hint">
-              Read time before deleting. Range: 500 - 15000. Default: 3676
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Time Between Greetings (ms)</label>
-            <input
-              type="number"
-              min="100"
-              max="5000"
-              value={typewriterSettings.betweenMs}
-              onChange={(e) =>
-                setTypewriterSettings({ ...typewriterSettings, betweenMs: Number(e.target.value) })
-              }
-              onBlur={(e) =>
-                setTypewriterSettings({
-                  ...typewriterSettings,
-                  betweenMs: Math.max(100, Math.min(5000, Number(e.target.value) || 280)),
-                })
-              }
-            />
-            <small className="form-hint">
-              Pause before the next greeting starts. Range: 100 - 5000. Default: 280
-            </small>
-          </div>
-
-          <div className="settings-row">
-            <label>Privacy</label>
-            <div className="settings-toggle-list">
-              <label className="settings-toggle-row">
-                <input
-                  checked={profileVisible}
-                  type="checkbox"
-                  onChange={(event) => setProfileVisible(event.target.checked)}
-                />
-                <span>Show my public profile to other students</span>
-              </label>
-              <label className="settings-toggle-row">
-                <input
-                  checked={leaderboardVisible}
-                  type="checkbox"
-                  onChange={(event) => setLeaderboardVisible(event.target.checked)}
-                />
-                <span>Include me on leaderboards</span>
-              </label>
-            </div>
-            <small className="form-hint">
-              Teachers can still view training records for class management.
-            </small>
-          </div>
-
-          {customAvatar ? (
-            <button
-              className="secondary-action compact settings-clear-avatar"
-              type="button"
-              onClick={() => setAvatarUrl("")}
-            >
-              Use Google/default avatar
-            </button>
-          ) : null}
-
-          {user.group && (
-            <div className="settings-row">
-              <label>Group</label>
-              <input type="text" value={user.group} readOnly className="settings-readonly" />
-            </div>
-          )}
-
-        </div>
-      </section> : null}
+        </section>
+      ) : null}
     </main>
   );
 }

@@ -15,119 +15,41 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
+import { ADMIN_TOOL_DEFINITIONS } from "@/lib/admin-tools";
 import { PageBackLink } from "@/app/page-back-link";
 
 export const dynamic = "force-dynamic";
 
-type AdminTool = {
-  href: string;
-  label: string;
-  description: string;
-  icon: LucideIcon;
-  permission: Parameters<typeof hasPermission>[1];
-  tone: "pink" | "blue" | "yellow" | "green";
+const ADMIN_ICON_MAP: Record<string, LucideIcon> = {
+  BarChart3,
+  CheckCircle2,
+  FileJson,
+  GraduationCap,
+  ListChecks,
+  MessageSquareWarning,
+  PenLine,
+  Users,
 };
-
-type AdminGroup = {
-  label: string;
-  description: string;
-  tools: AdminTool[];
-};
-
-const ADMIN_GROUPS: AdminGroup[] = [
-  {
-    label: "Content",
-    description: "Create, import, publish, and maintain problem sets.",
-    tools: [
-      {
-        href: "/admin/sets",
-        label: "Manage sets",
-        description: "Edit metadata, questions, answers, status, and set analytics.",
-        icon: ListChecks,
-        permission: "admin:content",
-        tone: "pink",
-      },
-      {
-        href: "/admin/create",
-        label: "Create a set",
-        description: "Build a problem set in the authoring interface.",
-        icon: PenLine,
-        permission: "admin:content",
-        tone: "yellow",
-      },
-      {
-        href: "/admin/import",
-        label: "JSON import",
-        description: "Validate and upload single files or batch ZIP archives.",
-        icon: FileJson,
-        permission: "admin:content",
-        tone: "blue",
-      },
-    ],
-  },
-  {
-    label: "People & classes",
-    description: "Manage rosters, assignments, and classroom activity.",
-    tools: [
-      {
-        href: "/admin/students",
-        label: "Students",
-        description: "Review student progress, attempts, and performance evidence.",
-        icon: Users,
-        permission: "admin:users",
-        tone: "green",
-      },
-      {
-        href: "/classes",
-        label: "Classes",
-        description: "Manage classes, assignments, members, and announcements.",
-        icon: GraduationCap,
-        permission: "admin:users",
-        tone: "yellow",
-      },
-    ],
-  },
-  {
-    label: "Insights & operations",
-    description: "Measure performance and keep the platform healthy.",
-    tools: [
-      {
-        href: "/admin/analytics",
-        label: "Analytics",
-        description: "Explore accuracy, mastery, trends, and set performance.",
-        icon: BarChart3,
-        permission: "admin:analytics",
-        tone: "blue",
-      },
-      {
-        href: "/admin/feedback",
-        label: "Feedback queue",
-        description: "Review and resolve reports submitted by students.",
-        icon: MessageSquareWarning,
-        permission: "admin:feedback",
-        tone: "pink",
-      },
-      {
-        href: "/admin/audit",
-        label: "Audit log",
-        description: "Inspect important administrative changes and actions.",
-        icon: CheckCircle2,
-        permission: "admin:audit",
-        tone: "green",
-      },
-    ],
-  },
-];
 
 export default async function AdminPanelPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/");
   if (!hasPermission(session.user.role, "admin:view")) redirect("/dashboard");
 
-  const groups = ADMIN_GROUPS.map((group) => ({
-    ...group,
-    tools: group.tools.filter((tool) => hasPermission(session.user.role, tool.permission)),
-  })).filter((group) => group.tools.length > 0);
+  const groups = Array.from(
+    ADMIN_TOOL_DEFINITIONS.filter((tool) => hasPermission(session.user.role, tool.permission))
+      .reduce((groupMap, tool) => {
+        const group = groupMap.get(tool.group) ?? {
+          label: tool.group,
+          description: tool.groupDescription,
+          tools: [],
+        };
+        group.tools.push(tool);
+        groupMap.set(tool.group, group);
+        return groupMap;
+      }, new Map<string, { label: string; description: string; tools: (typeof ADMIN_TOOL_DEFINITIONS)[number][] }>())
+      .values(),
+  );
 
   return (
     <main className="single-page admin-panel-page">
@@ -142,9 +64,7 @@ export default async function AdminPanelPage() {
           <div>
             <p className="eyebrow">Staff workspace</p>
             <h1>Admin Panel</h1>
-            <p className="admin-panel-lede">
-              One place for the tools used to run DBSMO.
-            </p>
+            <p className="admin-panel-lede">One place for the tools used to run DBSMO.</p>
           </div>
           <PageBackLink destination="Dashboard" href="/dashboard" />
         </header>
@@ -172,9 +92,13 @@ export default async function AdminPanelPage() {
               </div>
               <div className="admin-tool-grid">
                 {group.tools.map((tool) => {
-                  const Icon = tool.icon;
+                  const Icon = ADMIN_ICON_MAP[tool.icon] ?? CheckCircle2;
                   return (
-                    <Link className={`admin-tool-card tone-${tool.tone}`} href={tool.href} key={tool.href}>
+                    <Link
+                      className={`admin-tool-card tone-${tool.tone}`}
+                      href={tool.href}
+                      key={tool.href}
+                    >
                       <span className="admin-tool-icon" aria-hidden="true">
                         <Icon size={22} />
                       </span>

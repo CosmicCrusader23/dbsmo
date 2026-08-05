@@ -3,45 +3,32 @@ import type { SidebarNavLink } from "./sidebar-navigation";
 export const SIDEBAR_PREFERENCES_STORAGE_KEY = "dbsmo-sidebar-preferences";
 export const SIDEBAR_PREFERENCES_EVENT = "dbsmo:sidebar-preferences-change";
 
-const MAX_CUSTOM_LINKS = 12;
 const MAX_ORDER_ITEMS = 40;
 const MAX_HIDDEN_ITEMS = 40;
-
-export type CustomSidebarLink = {
-  id: string;
-  label: string;
-  href: string;
-  icon: string;
-  external: boolean;
-};
+const MAX_ENABLED_ITEMS = 20;
 
 export type SidebarPreferences = {
   order: string[];
   hidden: string[];
-  custom: CustomSidebarLink[];
+  enabled: string[];
 };
 
 export const EMPTY_SIDEBAR_PREFERENCES: SidebarPreferences = {
   order: [],
   hidden: [],
-  custom: [],
+  enabled: [],
 };
 
-function cleanText(value: unknown, maxLength: number) {
-  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
-}
-
-export function normalizeSidebarHref(value: string): string | null {
-  const trimmed = value.trim();
-  if (!trimmed || trimmed.length > 500 || trimmed.startsWith("//")) return null;
-  if (trimmed.startsWith("/")) return trimmed;
-
-  try {
-    const url = new URL(trimmed);
-    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : null;
-  } catch {
-    return null;
-  }
+function cleanKeys(value: unknown, maxLength: number) {
+  if (!Array.isArray(value)) return [];
+  return Array.from(
+    new Set(
+      value
+        .filter((item): item is string => typeof item === "string")
+        .map((item) => item.trim().slice(0, 120))
+        .filter(Boolean),
+    ),
+  ).slice(0, maxLength);
 }
 
 export function sidebarPreferenceKey(link: SidebarNavLink) {
@@ -51,21 +38,17 @@ export function sidebarPreferenceKey(link: SidebarNavLink) {
 export function mergeSidebarLinks(
   defaultLinks: SidebarNavLink[],
   preferences: SidebarPreferences,
+  optionalLinks: SidebarNavLink[] = [],
 ): SidebarNavLink[] {
-  const customLinks = preferences.custom.map((link) => ({
-    href: link.href,
-    label: link.label,
-    icon: link.icon,
-    external: link.external,
-    custom: true,
-    preferenceKey: `custom:${link.id}`,
-  }));
-  const allLinks = [...defaultLinks, ...customLinks];
+  const enabled = new Set(preferences.enabled);
+  const defaultKeys = new Set(defaultLinks.map(sidebarPreferenceKey));
+  const selectedOptionalLinks = optionalLinks.filter(
+    (link) =>
+      enabled.has(sidebarPreferenceKey(link)) && !defaultKeys.has(sidebarPreferenceKey(link)),
+  );
+  const allLinks = [...defaultLinks, ...selectedOptionalLinks];
   const byKey = new Map(allLinks.map((link) => [sidebarPreferenceKey(link), link]));
-  const orderedKeys = [
-    ...preferences.order,
-    ...allLinks.map((link) => sidebarPreferenceKey(link)),
-  ];
+  const orderedKeys = [...preferences.order, ...allLinks.map(sidebarPreferenceKey)];
   const seen = new Set<string>();
 
   return orderedKeys.reduce<SidebarNavLink[]>((result, key) => {
@@ -80,9 +63,10 @@ export function mergeSidebarLinks(
 export function visibleSidebarLinks(
   defaultLinks: SidebarNavLink[],
   preferences: SidebarPreferences,
+  optionalLinks: SidebarNavLink[] = [],
 ) {
   const hidden = new Set(preferences.hidden);
-  return mergeSidebarLinks(defaultLinks, preferences).filter(
+  return mergeSidebarLinks(defaultLinks, preferences, optionalLinks).filter(
     (link) => !hidden.has(sidebarPreferenceKey(link)),
   );
 }
@@ -91,59 +75,52 @@ export function parseSidebarPreferences(value: string | null): SidebarPreference
   if (!value) return EMPTY_SIDEBAR_PREFERENCES;
   try {
     const parsed = JSON.parse(value) as Partial<SidebarPreferences>;
-    const custom: CustomSidebarLink[] = [];
-    for (const item of Array.isArray(parsed.custom) ? parsed.custom : []) {
-      if (!item || typeof item !== "object") continue;
-      const raw = item as Partial<CustomSidebarLink>;
-      const label = cleanText(raw.label, 40);
-      const href = typeof raw.href === "string" ? normalizeSidebarHref(raw.href) : null;
-      const id = cleanText(raw.id, 48);
-      if (!id || !label || !href || custom.some((existing) => existing.id === id)) continue;
-      custom.push({
-        id,
-        label,
-        href,
-        icon: cleanText(raw.icon, 32) || "Link2",
-        external: raw.external === true,
-      });
-      if (custom.length >= MAX_CUSTOM_LINKS) break;
-    }
-
     return {
-      order: Array.isArray(parsed.order)
-        ? parsed.order.filter((item): item is string => typeof item === "string").slice(0, MAX_ORDER_ITEMS)
-        : [],
-      hidden: Array.isArray(parsed.hidden)
-        ? parsed.hidden.filter((item): item is string => typeof item === "string").slice(0, MAX_HIDDEN_ITEMS)
-        : [],
-      custom,
+      order: cleanKeys(parsed.order, MAX_ORDER_ITEMS),
+      hidden: cleanKeys(parsed.hidden, MAX_HIDDEN_ITEMS),
+      enabled: cleanKeys(parsed.enabled, MAX_ENABLED_ITEMS),
     };
   } catch {
     return EMPTY_SIDEBAR_PREFERENCES;
   }
 }
 
-export function readSidebarPreferences(): SidebarPreferences {
-  if (typeof window === "undefined") return EMPTY_SIDEBAR_PREFERENCES;
+export function sidebarPreferencesStorageKey(userId?: string | null) {
+  const normalizedUserId = typeof userId === "string" ? userId.trim().slice(0, 120) : "";
+  return normalizedUserId
+    ? `${SIDEBAR_PREFERENCES_STORAGE_KEY}:${encodeURIComponent(normalizedUserId)}`
+    : SIDEBAR_PREFERENCES_STORAGE_KEY;
+}
+
+export function readSidebarPreferences(
+  userId?: string | null,
+  fallback: SidebarPreferences = EMPTY_SIDEBAR_PREFERENCES,
+): SidebarPreferences {
+  if (typeof window === "undefined") return fallback;
   try {
-    return parseSidebarPreferences(localStorage.getItem(SIDEBAR_PREFERENCES_STORAGE_KEY));
+    const stored = localStorage.getItem(sidebarPreferencesStorageKey(userId));
+    return stored === null ? fallback : parseSidebarPreferences(stored);
   } catch {
-    return EMPTY_SIDEBAR_PREFERENCES;
+    return fallback;
   }
 }
 
-export function writeSidebarPreferences(preferences: SidebarPreferences) {
+export function writeSidebarPreferences(preferences: SidebarPreferences, userId?: string | null) {
   try {
-    localStorage.setItem(SIDEBAR_PREFERENCES_STORAGE_KEY, JSON.stringify(preferences));
+    localStorage.setItem(sidebarPreferencesStorageKey(userId), JSON.stringify(preferences));
     window.dispatchEvent(new Event(SIDEBAR_PREFERENCES_EVENT));
   } catch {
     // Private browsing/storage restrictions should not break navigation.
   }
 }
 
-export function resetSidebarPreferences() {
+export function resetSidebarPreferences(userId?: string | null) {
   try {
-    localStorage.removeItem(SIDEBAR_PREFERENCES_STORAGE_KEY);
+    // Keep an explicit empty value so listeners can distinguish reset from a missing cache.
+    localStorage.setItem(
+      sidebarPreferencesStorageKey(userId),
+      JSON.stringify(EMPTY_SIDEBAR_PREFERENCES),
+    );
     window.dispatchEvent(new Event(SIDEBAR_PREFERENCES_EVENT));
   } catch {
     // Private browsing/storage restrictions should not break navigation.

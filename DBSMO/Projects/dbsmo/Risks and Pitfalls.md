@@ -27,6 +27,10 @@ Role changes serialize under the `dbsmo-role-update` advisory lock and re-check 
 
 `SETUP.md` documents `prisma db push`, not migrations, for VPS deployment. Migration files exist in `prisma/migrations/`, but the deploy runbook says `db push` is the live flow. Be careful with destructive schema changes; `db push` can prompt on destructive changes and is not the same as a committed migration workflow (sources: `SETUP.md`, `prisma/migrations/`).
 
+## Sidebar Preferences Are User Input
+
+`User.sidebarPreferences` is a bounded JSON string supplied by the settings client. `lib/sidebar-preferences.ts` keeps only short string keys in `order`, `hidden`, and `enabled`; `mergeSidebarLinks(...)` resolves those keys against server-generated default links and permission-filtered `ADMIN_TOOL_DEFINITIONS`. Legacy custom-link fields are ignored. Do not reintroduce arbitrary labels, URLs, external targets, or client-provided icons, and do not treat sidebar visibility as an authorization check (sources: `lib/sidebar-preferences.ts`, `lib/admin-tools.ts`, `app/api/settings/route.ts`, `app/site-sidebar.tsx`).
+
 ## Storage Driver Has S3 Path But Needs Full Env
 
 `lib/storage.ts` supports `STORAGE_DRIVER=s3`, but S3 mode requires `S3_ENDPOINT`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, and optional `S3_REGION`. File serving and backup export share `readFileBufferBounded(...)`, which enforces actual streamed-byte limits for local and S3 objects. Keep the environment documentation and both read paths aligned (sources: `lib/storage.ts`, `lib/admin-exports.ts`, `SETUP.md`).

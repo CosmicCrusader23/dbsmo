@@ -42,7 +42,7 @@ flowchart TD
 
 ## Auth and Authorization
 
-The staff navigation presents `/admin` as a permission-aware directory. `AdminPanelPage` filters tool cards by the current role's `admin:*` permissions, but the individual pages and APIs remain the authoritative checks (sources: `app/admin/page.tsx`, `app/site-sidebar.tsx`, `lib/permissions.ts`).
+The staff navigation presents `/admin` as a permission-aware directory. `AdminPanelPage` and the Sidebar settings tool picker share the `ADMIN_TOOL_DEFINITIONS` catalog and filter it by the current role's `admin:*` permissions, but the individual pages and APIs remain the authoritative checks (sources: `app/admin/page.tsx`, `lib/admin-tools.ts`, `app/site-sidebar.tsx`, `lib/permissions.ts`).
 
 Authentication is configured in `lib/auth.ts`. Google OAuth is enabled only when its credentials are set and the email domain exactly matches the configured allowlist. The credentials "Developer Bypass" provider requires `AUTH_DEV_BYPASS=true` and is always unavailable in production (sources: `lib/auth.ts`, `lib/auth-policy.ts`). Sessions use JWT strategy, but the session callback reloads the current user from Prisma; deleted/missing users produce no runtime session rather than retaining stale token authority (source: `lib/auth.ts`).
 

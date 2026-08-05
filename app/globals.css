@@ -12899,7 +12899,7 @@ html:is(.light, .dark) .theme-choice {
 }
 
 .sidebar-settings-header h2,
-.sidebar-custom-form h3 {
+.sidebar-tool-picker h3 {
   margin: 0;
   color: var(--ink);
   font-size: 1.35rem;
@@ -12907,7 +12907,7 @@ html:is(.light, .dark) .theme-choice {
 }
 
 .sidebar-settings-header p:last-child,
-.sidebar-custom-form p:last-child {
+.sidebar-tool-picker p:last-child {
   margin: 5px 0 0;
   color: var(--ink-muted);
   font-size: 0.84rem;
@@ -12921,12 +12921,26 @@ html:is(.light, .dark) .theme-choice {
 
 .sidebar-settings-item {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) auto;
+  grid-template-columns: 24px 42px minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
   min-height: 64px;
   padding: 9px 0;
   border-bottom: 1.5px solid var(--ink-soft);
+  cursor: grab;
+  transition: opacity 120ms ease, border-color 120ms ease;
+}
+
+.sidebar-settings-item:active {
+  cursor: grabbing;
+}
+
+.sidebar-settings-item.is-dragging {
+  opacity: 0.45;
+}
+
+.sidebar-settings-item.is-drag-over {
+  border-top: 2px solid var(--marker-cyan);
 }
 
 .sidebar-settings-item.is-hidden {
@@ -12943,6 +12957,13 @@ html:is(.light, .dark) .theme-choice {
   border-radius: 11px 8px 12px 7px;
   background: var(--paper-raised);
   color: var(--ink);
+}
+
+.sidebar-settings-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
 }
 
 .sidebar-settings-item-copy {
@@ -12983,49 +13004,81 @@ html:is(.light, .dark) .theme-choice {
   color: var(--color-danger);
 }
 
-.sidebar-custom-form {
+.sidebar-tool-picker {
   display: grid;
   gap: 15px;
   padding-top: 8px;
 }
 
-.sidebar-custom-fields {
+.sidebar-tool-picker-list {
   display: grid;
-  grid-template-columns: minmax(130px, 0.8fr) minmax(180px, 1.5fr) 130px auto;
-  align-items: end;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sidebar-tool-option {
+  display: grid;
+  grid-template-columns: auto 34px minmax(0, 1fr);
+  align-items: center;
   gap: 10px;
-}
-
-.sidebar-custom-fields label {
-  display: grid;
-  gap: 5px;
-  color: var(--ink-muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.sidebar-custom-fields input,
-.sidebar-custom-fields select {
-  width: 100%;
-  min-height: 42px;
-  padding: 8px 10px;
+  min-height: 58px;
+  padding: 9px 11px;
   border: 1.5px solid var(--ink-soft);
-  border-radius: var(--drawn-control-radius);
-  background: var(--color-input-bg);
+  border-radius: 11px 8px 12px 7px;
+  background: var(--paper-raised);
   color: var(--ink);
-  font-family: var(--font-inter), "Inter", sans-serif;
+  cursor: pointer;
 }
 
-.sidebar-custom-fields input:focus,
-.sidebar-custom-fields select:focus {
-  border-color: var(--marker-cyan);
-  outline: none;
+.sidebar-tool-option:has(input:focus-visible) {
+  outline: 3px solid var(--marker-cyan);
+  outline-offset: 2px;
 }
 
-.sidebar-custom-form code {
+.sidebar-tool-option.is-included {
+  cursor: default;
+  opacity: 0.68;
+}
+
+.sidebar-tool-option input {
+  accent-color: var(--marker-pink);
+}
+
+.sidebar-tool-option-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+}
+
+.sidebar-tool-option-copy {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.sidebar-tool-option-copy strong {
+  font-weight: 850;
+}
+
+.sidebar-tool-option-copy small {
+  overflow: hidden;
+  color: var(--ink-muted);
   font-family: var(--font-inter), "Inter", sans-serif;
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-settings-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-width: max-content;
+  color: var(--ink-muted);
   font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .sidebar-settings-error {
@@ -13060,25 +13113,23 @@ html:is(.light, .dark) .theme-choice {
     flex-direction: column;
   }
 
-  .sidebar-custom-fields {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .sidebar-custom-fields .primary-action {
+  .sidebar-settings-status {
     width: 100%;
+    justify-content: space-between;
   }
 }
 
 @media (max-width: 480px) {
   .sidebar-settings-item {
-    grid-template-columns: 38px minmax(0, 1fr);
+    grid-template-columns: 22px 38px minmax(0, 1fr);
   }
 
   .sidebar-settings-item-actions {
-    grid-column: 2;
+    grid-column: 3;
+    justify-content: flex-start;
   }
 
-  .sidebar-custom-fields {
+  .sidebar-tool-picker-list {
     grid-template-columns: 1fr;
   }
 }

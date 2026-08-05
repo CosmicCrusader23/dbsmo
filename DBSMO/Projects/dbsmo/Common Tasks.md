@@ -80,13 +80,13 @@ Update `docs/permissions.md` and admin/sidebar behavior in `app/site-sidebar.tsx
 
 ## Customize Sidebar Behavior
 
-The default server-provided links are assembled in `lib/sidebar-defaults.ts`. Client-side order, hidden keys, and custom safe links are normalized in `lib/sidebar-preferences.ts`, edited in `app/settings/sidebar-settings.tsx`, and applied in `app/site-sidebar-nav.tsx`. Keep custom URL validation limited to same-origin paths and `http(s)` URLs; never treat a custom link as permission or access control. Update `tests/sidebar-navigation.test.ts` for preference behavior.
+The default server-provided links are assembled in `lib/sidebar-defaults.ts`. Account-scoped order, hidden keys, and approved optional tool keys are normalized in `lib/sidebar-preferences.ts`, edited in `app/settings/sidebar-settings.tsx`, stored by `app/api/settings/route.ts`, and applied in `app/site-sidebar-nav.tsx`. Optional destinations must come from `lib/admin-tools.ts` and be filtered by `hasPermission(...)`; do not add user-supplied URLs or treat sidebar visibility as access control. Update `tests/sidebar-navigation.test.ts` for preference behavior.
 
 ## Add an Admin Page
 
 Add the route under `app/admin/...`, gate it with session and `hasPermission(...)`, then add sidebar link logic in `app/site-sidebar.tsx` if it should be navigable. Add matching API under `app/api/admin/...` if the page has client-side mutations. Audit meaningful mutations through `recordAuditLog(...)` when appropriate (sources: `lib/permissions.ts`, `app/site-sidebar.tsx`, `lib/audit.ts`).
 
-The staff navigation now points to `/admin`, where `app/admin/page.tsx` presents permission-aware grouped links for content, people/classes, and insights/operations. Add a new tool to the matching `ADMIN_GROUPS` entry and preserve the destination's own permission gate; avoid re-expanding the main sidebar with individual admin links.
+The staff navigation now points to `/admin`, where `app/admin/page.tsx` presents permission-aware grouped links for content, people/classes, and insights/operations. Add a new tool to `ADMIN_TOOL_DEFINITIONS` in `lib/admin-tools.ts`, preserve the destination's own permission gate, and avoid re-expanding the main sidebar with individual admin links.
 
 ## Change Problem Set Import Format
 

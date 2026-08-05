@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-05
 type: data-storage
 tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
@@ -21,7 +21,7 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 
 ## Core Models
 
-- `User`: NextAuth user plus app profile fields: Google `image`, display name, custom avatar URL, role, group, visibility flags, theme, greeting settings, login timestamps, and relations to attempts, feedback, files, problem sets, bookmarks, friendships, practice solves, audit/export jobs, FTW, and classes (source: `prisma/schema.prisma`). The shared `Avatar` component prefers custom `avatarUrl`, then Google `image`, then deterministic initials (sources: `app/avatar.tsx`, `lib/avatar.ts`).
+- `User`: NextAuth user plus app profile fields: Google `image`, display name, custom avatar URL, role, group, visibility flags, theme, greeting settings, normalized account-scoped `sidebarPreferences`, login timestamps, and relations to attempts, feedback, files, problem sets, bookmarks, friendships, practice solves, audit/export jobs, FTW, and classes (source: `prisma/schema.prisma`). The shared `Avatar` component prefers custom `avatarUrl`, then Google `image`, then deterministic initials (sources: `app/avatar.tsx`, `lib/avatar.ts`).
 - `ProblemSet`: slug/title/description/order/status/visibility windows/group restrictions/tags/difficulty/video/files/creator plus problems, attempts, feedback, bookmarks, assets, and assignments (source: `prisma/schema.prisma`).
 - `Problem`: problem-set child with integer `number`, statement, `ProblemContentFormat`, answer key/type, zero or more multiple-choice `options`, accepted answers, case sensitivity, explanation, tags, and points; unique per `(problemSetId, number)` (source: `prisma/schema.prisma`).
 - `Tests` is a canonical problem-set category tag. It does not change storage: test papers are still represented as 60 `Problem` rows, and `AnswerGrid` groups those rows visually into 20 problems × 3 levels on tagged sets (sources: `lib/problem-tags.ts`, `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`).
@@ -133,6 +133,7 @@ Durable browser-local state:
 - Review-later marks: `mo-review-${problemSetId}` in `AnswerGrid`.
 - Theme: `mo-theme` read by `app/layout.tsx` and settings/theme controls.
 - Typewriter settings: `mo-typewriter-settings` in `app/settings/page.tsx`.
+- Sidebar cache: `dbsmo-sidebar-preferences:{userId}` in `lib/sidebar-preferences.ts`; the normalized server copy is `User.sidebarPreferences` and is written through `PATCH /api/settings`, so it survives browser changes and new sessions.
 - Playground trophies: `localStorage` via `trophyKey(...)` in `app/playground/[slug]/battle.tsx`.
 
 These are not mirrored to Prisma except settings fields patched through `/api/settings` (sources: named files).
