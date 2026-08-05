@@ -57,6 +57,7 @@ Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answ
 
 - Your score appears immediately with correct/incorrect indicators for each question.
 - Select **Review attempt** to open the full submission breakdown. It shows the verdict, score, accuracy, correct/skipped counts, and time taken.
+- Open **Submissions** beside the set theme control to browse the 20 newest attempts. Filter between everyone and friends, or search by display name. Scores and verdicts are visible to signed-in viewers; your own answers remain reviewable, while other submitted answers unlock after you solve the set perfectly or for analytics staff.
 - In the review, select any question row to compare your submitted and normalized answers with the accepted answers and to read the statement, grader note, or explanation when available.
 - Your attempt is recorded in the **attempt history**.
 - Attempt numbers on the dashboard and the recent attempt chips on the set page link back to that saved review.

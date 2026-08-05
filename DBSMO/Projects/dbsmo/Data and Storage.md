@@ -6,7 +6,7 @@ tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-05
 ---
 
 ## For future Claude
@@ -53,7 +53,9 @@ Deployment docs currently use `npx prisma db push` and `npx prisma generate`, no
 5. Grades each answer with `gradeAnswer(...)`.
 6. Creates one `Attempt` and many `Response` records in a transaction.
 
-Saved attempts are read by `/attempts/[id]` for [[Attempt Review]]. The page joins `Attempt.user`, `Attempt.problemSet` assets/file, and each `Response.problem`, then sorts responses by `Problem.number`. It exposes raw/normalized answers, correctness, points, accepted answers, grader notes, and explanations only to the attempt owner or a user with `admin:analytics`; unauthorized IDs resolve through `notFound()` (sources: `app/attempts/[id]/page.tsx`, `lib/attempt-review.ts`, `lib/permissions.ts`). 7. Returns attempt number, score, percentage, and per-problem result summary.
+Saved attempts are read by `/attempts/[id]` for [[Attempt Review]]. The page joins `Attempt.user`, `Attempt.problemSet` assets/file, and each `Response.problem`, then sorts responses by `Problem.number`. It exposes raw/normalized answers, correctness, points, accepted answers, grader notes, and explanations only to a viewer with a perfect attempt for that set or a user with `admin:analytics`; unauthorized IDs resolve through `notFound()` (sources: `app/attempts/[id]/page.tsx`, `lib/attempt-review.ts`, `lib/permissions.ts`, `lib/submissions.ts`). It returns attempt number, score, percentage, and per-problem result summary.
+
+`/problem-sets/[slug]/submissions` is a redacted attempt index. It queries at most 20 rows per page, filters by all/friends scope and display name, and selects only attempt summary fields plus display-safe user identity. It never selects `Response` rows. `lib/submissions.ts` centralizes the page-size, verdict, percentage, and answer-visibility rules. The set is still visible to students only through `isVisibleToStudent(...)` (sources: `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`, `lib/visibility.ts`).
 
 Sources: `app/api/submit/route.ts`, `lib/grading.ts`, `prisma/schema.prisma`.
 

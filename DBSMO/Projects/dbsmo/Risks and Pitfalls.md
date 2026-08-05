@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-05
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-05
 ---
 
 ## For future Claude
@@ -51,7 +51,7 @@ Multiple-choice images are normal problem-set assets embedded in `Problem.option
 
 ## Attempt Reviews Expose Answer Keys
 
-`/attempts/[id]` intentionally shows accepted answers and explanations after submission. Its database join therefore handles assessment-sensitive data. Preserve both checks in `app/attempts/[id]/page.tsx`: ordinary users must own the `Attempt`, and non-owners must have `admin:analytics`. Keep unauthorized IDs on the same `notFound()` path as missing IDs, and do not move answer keys into a client API without an equivalent exact authorization boundary (sources: `app/attempts/[id]/page.tsx`, `lib/permissions.ts`, [[Attempt Review]]).
+`/attempts/[id]` intentionally shows accepted answers and explanations after submission. Its database join therefore handles assessment-sensitive data. Preserve the check in `app/attempts/[id]/page.tsx`: the submitter may review their own attempt, while another viewer must have a perfect attempt for the same visible set or `admin:analytics`. The submissions index must remain redacted and must not select `Response` rows. Keep unauthorized IDs on the same `notFound()` path as missing IDs, and do not move answer keys into a client API without an equivalent exact authorization boundary (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`, `lib/permissions.ts`, [[Attempt Review]]).
 
 Writeups intentionally remain accessible even when submissions are locked or the user has not submitted. Do not reuse submission-lock logic to hide `/problem-sets/[slug]/writeups`; only normal auth and set visibility should gate that page (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`).
 

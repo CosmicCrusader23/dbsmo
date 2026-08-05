@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-05
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-05
 ---
 
 ## For future Claude
@@ -43,7 +43,7 @@ For multiple-choice changes, also update `Problem.options` in `prisma/schema.pri
 
 ## Change Attempt Review
 
-Start with [[Attempt Review]]. The server page and exact owner/staff authorization live in `app/attempts/[id]/page.tsx`; summary/status helpers and unit tests live in `lib/attempt-review.ts` and `tests/attempt-review.test.ts`. Entry links are spread across `app/problem-sets/[slug]/answer-grid.tsx`, `app/problem-sets/[slug]/page.tsx`, `app/dashboard/page.tsx`, `app/admin/students/[id]/page.tsx`, and `app/admin/sets/[id]/analytics/page.tsx`. Keep `/attempts/:path*` in `proxy.ts`, but do not rely on middleware for the per-attempt ownership check.
+Start with [[Attempt Review]]. The server page and exact perfect-solve/staff authorization live in `app/attempts/[id]/page.tsx`; summary/status helpers and unit tests live in `lib/attempt-review.ts`, `lib/submissions.ts`, and `tests/attempt-review.test.ts`/`tests/submissions.test.ts`. The set submission index is `app/problem-sets/[slug]/submissions/page.tsx`, linked beside the theme control in `app/problem-sets/[slug]/page.tsx`; it owns pagination, friend filtering, name search, and redacted list selection. Keep `/attempts/:path*` and `/problem-sets/:path*` in `proxy.ts`, but do not rely on middleware for the per-attempt answer check.
 
 ## Change LaTeX Statement Support
 

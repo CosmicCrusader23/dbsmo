@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-05
 type: entry-points
 tags: [project, architecture, routes, apis, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-05
 ---
 
 ## For future Claude
@@ -49,7 +49,8 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 - `/problem-sets` - browse/filter/sort problem sets with recommendations, assignments/bookmarks/practice views, media/status/category filters, search, and pagination (source: `app/problem-sets/page.tsx`).
 - `/problem-sets/[slug]` - set detail and answer entry, with inline statements or PDF fallback and file/video/solution display (source: `app/problem-sets/[slug]/page.tsx`).
-- `/attempts/[id]` - saved [[Attempt Review]] for the attempt owner or staff with `admin:analytics`; unauthorized and unknown IDs both return 404 (source: `app/attempts/[id]/page.tsx`).
+- `/attempts/[id]` - saved [[Attempt Review]] for the attempt owner, for a viewer who has solved the set perfectly, or for staff with `admin:analytics`; unauthorized and unknown IDs both return 404 (source: `app/attempts/[id]/page.tsx`, `lib/submissions.ts`).
+- `/problem-sets/[slug]/submissions` - authenticated recent-submission directory for a visible set. It shows 20 newest attempts per page, supports all/friends scope and bounded name search, exposes verdict/score to signed-in viewers, and links to answer review only after a perfect solve or for analytics staff (source: `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`).
 - `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
 - `/writeups` - global writeups directory from the sidebar with latest/top views and problem-set search (source: `app/writeups/page.tsx`).
 - `/practice` - practice-mode UI backed by tags/next/submit APIs (source: `app/practice/page.tsx`).

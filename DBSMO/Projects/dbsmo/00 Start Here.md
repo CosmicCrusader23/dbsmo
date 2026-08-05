@@ -29,6 +29,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - [[Risks and Pitfalls]] - fragile or confusing areas to avoid breaking.
 - [[Glossary]] - project-specific terms and abbreviations.
 - [[Attempt Review]] - saved submission review UI, authorization, data flow, and entry points.
+- [[Submissions]] - per-set recent submission directory, friends/name filters, pagination, and answer privacy.
 - [[Performance Analytics]] - shared Mastery Index, component metrics, validation, and change guidance.
 - [[Asymptote and Multiple Choice]] - diagram sandbox, variable choices, image-backed options, authoring/import flow, and deploy constraints.
 - [[Entry Points]] - now includes the permission-aware `/admin` panel and its grouped staff routes.
@@ -42,7 +43,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Main UI routes live under `app/`; API handlers live under `app/api/`.
 - Current import notes include optional same-name image ZIPs for JSON imports, per-problem image uploads in the problem maker, tolerant JSON editor drafts, and explicit all-file batch dry-run/publish/upload actions with compressed/actual-expanded archive limits (sources: `lib/import/json-import.ts`, `lib/import/image-zip.ts`, `lib/import/zip-dry-run.ts`, `app/admin/create/page-client.tsx`, `app/admin/import/json-zip-import-panel.tsx`).
 - Current class/community notes include authored tasks, a mastery heatmap, problem-set writeups with image uploads/voting/deletion, and class announcements pinned on dashboards (sources: `app/users/[username]/page.tsx`, `app/problem-sets/[slug]/writeups/page.tsx`, `app/writeups/page.tsx`, `app/classes/announcement-composer.tsx`, `app/dashboard/page.tsx`, `prisma/schema.prisma`).
-- Saved submissions have an owner/staff-gated [[Attempt Review]] with links from submit results, solved-set locks, set/dashboard history, student detail, and per-set analytics (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/dashboard/page.tsx`).
+- Saved submissions have a perfect-solve/staff-gated [[Attempt Review]] plus a redacted per-set [[Submissions]] directory with 20-row pagination, friends/name filters, and score/verdict visibility (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/dashboard/page.tsx`).
 - Cross-set student metrics use the shared evidence-aware [[Performance Analytics]] model; Mastery Index combines proficiency, breadth, and a consistency floor while keeping best-set average/mastery rate visible (sources: `lib/analytics.ts`, `app/leaderboard/page.tsx`).
 - Authoring and imports support sandboxed Asymptote-to-PNG diagrams plus `MULTIPLE_CHOICE` problems with two to 20 LaTeX/image-capable choices; see [[Asymptote and Multiple Choice]] (sources: `lib/asymptote.ts`, `lib/problem-set-authoring.ts`, `lib/import/json-import.ts`, `app/admin/problem-authoring-controls.tsx`).
 

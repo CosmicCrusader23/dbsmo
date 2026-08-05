@@ -7287,6 +7287,258 @@ html.dark .theme-choice-button.active {
   color: var(--color-blue);
 }
 
+.submissions-header-link {
+  white-space: nowrap;
+}
+
+.submissions-page .page-frame {
+  max-width: 1280px;
+}
+
+.submissions-toolbar,
+.submissions-panel {
+  border: 2px solid var(--ink-soft);
+  border-radius: 15px 10px 17px 9px;
+  corner-shape: squircle bevel squircle scoop;
+  background: var(--paper-raised);
+  box-shadow: var(--drawn-shadow-small);
+}
+
+.submissions-toolbar {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.submissions-toolbar-heading,
+.submissions-panel-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.submissions-toolbar-heading h2,
+.submissions-panel-heading h2 {
+  margin: 0.1rem 0 0;
+  color: var(--ink);
+  font-size: 1.55rem;
+}
+
+.submissions-toolbar-heading > span,
+.submissions-panel-heading > span {
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.submissions-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.submissions-scope-tabs {
+  display: inline-flex;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 10px 7px 11px 6px;
+  background: var(--paper);
+}
+
+.submissions-scope-tab {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.8rem;
+  border-radius: 7px 5px 8px 4px;
+  color: var(--ink-muted);
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.submissions-scope-tab.active {
+  background: var(--paper-blue);
+  color: var(--ink);
+}
+
+.submissions-search {
+  display: flex;
+  min-width: min(100%, 360px);
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.25rem 0.35rem 0.25rem 0.75rem;
+  border: 1.5px solid var(--ink-soft);
+  border-radius: 10px 7px 11px 6px;
+  background: var(--paper);
+  color: var(--ink-muted);
+}
+
+.submissions-search input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+}
+
+.submissions-search input:focus {
+  outline: 0;
+}
+
+.submissions-privacy-note {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.submissions-panel {
+  margin-top: 1.2rem;
+  overflow: hidden;
+}
+
+.submissions-panel-heading {
+  padding: 1.15rem 1.25rem 1rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+.submissions-table-wrap {
+  overflow-x: auto;
+}
+
+.submissions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.submissions-table th,
+.submissions-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1.5px solid var(--ink-soft);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.submissions-table th {
+  background: var(--paper-blue);
+  color: var(--ink-muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.submissions-table td {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.submissions-table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--paper-yellow) 10%, transparent);
+}
+
+.submissions-table tbody tr:hover {
+  background: color-mix(in srgb, var(--marker-cyan) 10%, var(--paper-raised));
+}
+
+.submissions-table td > small,
+.submission-user small {
+  display: block;
+  margin-top: 0.18rem;
+  color: var(--ink-muted);
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.submission-user {
+  display: flex;
+  min-width: 150px;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.submission-user a,
+.submission-user > span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.submission-user a:hover {
+  color: var(--marker-cyan);
+}
+
+.submission-verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.submission-verdict.verdict-accepted {
+  color: var(--marker-green);
+}
+
+.submission-verdict.verdict-partial {
+  color: var(--marker-yellow);
+}
+
+.submission-verdict.verdict-wrong {
+  color: var(--color-danger);
+}
+
+.submission-verdict.verdict-recorded,
+.submission-hidden-answer {
+  color: var(--ink-muted);
+}
+
+.submission-hidden-answer {
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.submissions-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.45rem;
+  padding: 3rem 1rem;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.submissions-empty strong {
+  color: var(--ink);
+}
+
+.submissions-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1rem;
+  border-top: 1.5px solid var(--ink-soft);
+  color: var(--ink-muted);
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.submissions-pagination .disabled {
+  pointer-events: none;
+  opacity: 0.42;
+}
+
 .writeups-page .page-frame {
   max-width: 1180px;
 }
@@ -10078,6 +10330,52 @@ html:not(.light) .ftw-rank.rank-1 {
   .admin-students-shell .table-wrap,
   .panel.table-panel:not(.problem-hub-table-panel) .table-wrap { overflow-x: auto; }
   .panel.table-panel:not(.problem-hub-table-panel) table { min-width: 720px; }
+
+  .submissions-toolbar-heading,
+  .submissions-panel-heading,
+  .submissions-controls { align-items: stretch; flex-direction: column; }
+  .submissions-search { width: 100%; min-width: 0; }
+  .submissions-table-wrap { overflow-x: visible; }
+  .submissions-table,
+  .submissions-table tbody,
+  .submissions-table tr,
+  .submissions-table td { display: block; width: 100%; }
+  .submissions-table thead { display: none; }
+  .submissions-table tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem 1rem;
+    padding: 1rem;
+    border-bottom: 1.5px solid var(--ink-soft);
+  }
+  .submissions-table td {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.7rem;
+    padding: 0;
+    border: 0;
+    white-space: normal;
+  }
+  .submissions-table td::before {
+    flex: 0 0 auto;
+    color: var(--ink-muted);
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .submissions-table td[data-label="User"],
+  .submissions-table td[data-label="Date / time"] {
+    grid-column: 1 / -1;
+  }
+  .submissions-table td[data-label="User"] { align-items: center; }
+  .submissions-table td[data-label="User"]::before { align-self: center; }
+  .submission-user { min-width: 0; flex: 1; justify-content: flex-end; }
+  .submission-user a,
+  .submission-user > span { max-width: 70%; }
+  .submissions-table .secondary-action { min-height: 38px; }
 }
 
 @media (max-width: 480px) {

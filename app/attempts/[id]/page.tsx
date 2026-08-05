@@ -28,6 +28,8 @@ import {
 import { prisma } from "@/lib/db";
 import { displayNameFor } from "@/lib/display-name";
 import { hasPermission } from "@/lib/permissions";
+import { canViewSubmissionAnswers } from "@/lib/submissions";
+import { isVisibleToStudent } from "@/lib/visibility";
 
 export const dynamic = "force-dynamic";
 
@@ -85,7 +87,20 @@ export default async function AttemptReviewPage({ params }: Props) {
 
   const isOwner = attempt.userId === viewer.id;
   const canReviewStudentAttempts = hasPermission(viewer.role, "admin:analytics");
-  if (!isOwner && !canReviewStudentAttempts) notFound();
+  const viewerSolvedSet = canReviewStudentAttempts
+    ? false
+    : (
+        await prisma.attempt.findMany({
+          where: { userId: viewer.id, problemSetId: attempt.problemSetId, maxScore: { gt: 0 } },
+          select: { score: true, maxScore: true },
+        })
+      ).some((viewerAttempt) => viewerAttempt.score >= viewerAttempt.maxScore);
+  if (
+    !canViewSubmissionAnswers(canReviewStudentAttempts, viewerSolvedSet, isOwner) ||
+    (!canReviewStudentAttempts && !isOwner && !isVisibleToStudent(attempt.problemSet))
+  ) {
+    notFound();
+  }
 
   const responses = [...attempt.responses].sort(
     (left, right) => left.problem.number - right.problem.number,
@@ -100,8 +115,16 @@ export default async function AttemptReviewPage({ params }: Props) {
     attempt.problemSet.assets.map((asset) => [asset.key, `/api/files/${asset.fileId}`]),
   );
   const studentName = displayNameFor(attempt.user);
-  const backHref = isOwner ? "/dashboard#analytics" : `/admin/students/${attempt.userId}`;
-  const backLabel = isOwner ? "Attempt history" : "Student profile";
+  const backHref = isOwner
+    ? "/dashboard#analytics"
+    : canReviewStudentAttempts
+      ? `/admin/students/${attempt.userId}`
+      : `/problem-sets/${attempt.problemSet.slug}/submissions`;
+  const backLabel = isOwner
+    ? "Attempt history"
+    : canReviewStudentAttempts
+      ? "Student profile"
+      : "Submissions";
 
   return (
     <main className="single-page attempt-review-page">

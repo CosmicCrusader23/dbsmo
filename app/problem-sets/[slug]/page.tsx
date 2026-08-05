@@ -122,6 +122,15 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
           </div>
           <div className="topbar-actions">
             <ThemeToggle />
+            <Link
+              aria-label="Open submissions"
+              className="secondary-action submissions-header-link"
+              href={`/problem-sets/${problemSet.slug}/submissions`}
+              title="Open submissions"
+            >
+              <ClipboardCheck size={18} />
+              Submissions
+            </Link>
             {user.role === "ADMIN" && (
               <>
                 <Link className="secondary-action" href={`/admin/sets/${problemSet.id}/analytics`}>

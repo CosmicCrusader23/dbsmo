@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-05
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-05
 ---
 
 ## For future Claude
@@ -35,6 +35,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - `ProblemSetPage` in `app/problem-sets/[slug]/page.tsx`: route page that loads a set by slug, chooses inline-statement vs PDF/file layout, and exposes the current user's five most recent saved attempt reviews.
 - `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer form, autosave, review-later state, submit-to-`/api/submit`, result display, direct saved-review links, missed-topic next action, and feedback report dialog. When `ProblemSetPage` detects the set tag `Tests`, it passes the test layout so answer-only/PDF sets render as a 20×3 test answer sheet for 60 underlying `Problem` rows.
 - `AttemptReviewPage` in `app/attempts/[id]/page.tsx`: server-rendered [[Attempt Review]] with a submission identity/verdict summary and expandable question-result rows. It renders statements/assets and accepted answers through `LatexStatement`, and uses `lib/attempt-review.ts` for status, percentage, answer-list, and duration helpers.
+- `ProblemSetSubmissionsPage` in `app/problem-sets/[slug]/submissions/page.tsx`: server-rendered 20-row recent-submission table with all/friends scope, bounded name search, score/verdict rows, responsive mobile cards, and answer-review links gated by a perfect set solve or `admin:analytics`. `lib/submissions.ts` holds the page and visibility helpers.
 - `BookmarkButton` in `app/problem-sets/[slug]/bookmark-button.tsx`: client bookmark toggle backed by `/api/problem-sets/[id]/bookmark`.
 - Writeup header link in `app/problem-sets/[slug]/page.tsx`: icon link next to `BookmarkButton` that opens `/problem-sets/[slug]/writeups`.
 - `WriteupsPage` and `WriteupsClient` in `app/problem-sets/[slug]/writeups/`: server/client pair for set writeups. The server page handles auth, set visibility, sorting, and initial data; the client component handles the composer, image selection, optimistic voting, confirm-delete controls, and feed cards rendered with `LatexStatement`.

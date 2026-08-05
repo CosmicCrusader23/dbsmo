@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-05
 type: architecture
 tags: [project, architecture, system-design, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-05
 ---
 
 ## For future Claude
@@ -61,6 +61,8 @@ Problem detail is handled by `app/problem-sets/[slug]/page.tsx`. It loads the se
 The answer grid is client-side and posts to `/api/submit`. It autosaves draft answers to `localStorage`, stores "review later" state in `localStorage`, supports feedback report submission, clears autosave after successful submission, and blocks answer entry/submission controls when a perfect attempt locks the set while keeping problem statements visible (source: `app/problem-sets/[slug]/answer-grid.tsx`).
 
 Submission is persisted in `app/api/submit/route.ts`: it reads bounded JSON, validates through `lib/submission.ts`, checks visibility, grades through `gradeAnswer(...)`, and creates the `Attempt`/`Response` records in a serializable transaction with bounded retries. Perfect-score locking and attempt numbering are decided inside that transaction so concurrent submissions cannot bypass them (sources: `app/api/submit/route.ts`, `lib/submission.ts`, `lib/grading.ts`).
+
+The set header links to `/problem-sets/[slug]/submissions`. That server-rendered directory queries only the current 20-row page, orders by submission time, supports friend IDs from `Friendship` and a bounded display-name search, and keeps raw `Response` data out of the list. Verdict and score are visible to authenticated viewers; the submitter can review their own attempt, while other answer reviews require a perfect attempt for the same visible set or `admin:analytics` (sources: `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `app/attempts/[id]/page.tsx`, `lib/submissions.ts`, `prisma/schema.prisma`).
 
 ## Writeup Flow
 
