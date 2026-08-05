@@ -242,9 +242,13 @@ function tokenizeStatement(value: string): StatementSegment[] {
 }
 
 function looksLikeStandaloneMath(value: string) {
+  const hasLatexCommand = /\\[a-zA-Z]+/.test(value);
+  const hasMathSyntax = /[\^_{}=+\-*/]/.test(value);
+
   return (
     /^\\[a-zA-Z]+/.test(value) ||
-    (/^[\s\d\\^_{}=+\-*/().,|<>:;]+$/.test(value) && /[\\^_{}=+\-*/]/.test(value))
+    (hasLatexCommand && hasMathSyntax) ||
+    (/^[\s\d\\^_{}=+\-*/().,|<>:;]+$/.test(value) && hasMathSyntax)
   );
 }
 

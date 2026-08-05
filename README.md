@@ -68,5 +68,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Replaced the points-weighted best average with one shared evidence-aware Performance Profile across dashboards, profiles, settings, student administration, analytics, leaderboard ranking, and CSV exports. The new Mastery Index combines Bayesian-smoothed proficiency, breadth, and a lower-quartile consistency floor while preserving best-set average and mastery rate as auditable components. A deterministic 100-student × 100-set simulation achieved `0.980` rank correlation with latent ability and 89 distinct index values.
 - Added sandboxed Asymptote diagrams for staff authoring and JSON imports. Raw `<asy>...</asy>` source is compiled to a validated PNG behind authorization, rate/size/time limits, Asymptote safe mode, and an OS sandbox; students only receive ordinary authenticated image assets.
 - Added variable-length multiple-choice problems with two to 20 options across the GUI problem maker, JSON import/export, standard sets, compact Tests layouts, and Practice. Choices support LaTeX plus uploaded or ZIP-supplied images, including image-only choices.
+- Fixed multiple-choice previews for delimiter-free mixed-number LaTeX such as `18\\frac{1}{2}` and `5\\sqrt{2}-7`; command-bearing standalone expressions now render through the same bounded KaTeX path.
 
 © 2026 Cosmic Crusader

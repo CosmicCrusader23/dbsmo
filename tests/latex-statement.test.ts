@@ -165,6 +165,22 @@ A coat originally costs $\textdollar180$. Choose $\text{(A)}\ \54 \qquad \text{(
     expect(html).not.toContain("katex-error");
   });
 
+  it.each([
+    [String.raw`18\frac{1}{2}`, "mfrac"],
+    [String.raw`5\sqrt{2}-7`, "msqrt"],
+  ])("renders embedded LaTeX commands in standalone option math: %s", (option, markup) => {
+    const html = renderToStaticMarkup(
+      React.createElement(LatexStatement, {
+        statement: option,
+        format: "LATEX",
+      }),
+    );
+
+    expect(html).toContain("katex");
+    expect(html).toContain(markup);
+    expect(html).not.toContain("katex-error");
+  });
+
   it("keeps escaped currency inside HTML math tags from closing the delimiter", () => {
     const html = renderToStaticMarkup(
       React.createElement(LatexStatement, {

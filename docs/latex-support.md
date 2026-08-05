@@ -6,6 +6,7 @@ DBSMO renders mathematical LaTeX with KaTeX `0.17.x` in `app/problem-sets/[slug]
 
 - Inline math: `$...$` and `\(...\)`, including multiline content and escaped currency such as `$\$2000$`.
 - Display math: `$$...$$` and `\[...\]`.
+- Standalone expression text, which is useful for multiple-choice options, may omit delimiters when it contains a LaTeX command inside an otherwise math-shaped expression, for example `18\frac{1}{2}` or `5\sqrt{2}-7`. Delimiters are still recommended for prose containing embedded math.
 - Bare display environments mixed with prose, including `array`, matrix variants, `align`, `gather`, `equation`, `cases`, and `CD`. Delimiters and matching environments are parsed with escape awareness instead of a regular-expression split.
 - Chemistry through KaTeX's official `mhchem` extension, for example `$\ce{2H2 + O2 -> 2H2O}$`.
 - Common shorthand macros for blackboard symbols, paired delimiters, vectors, conjugates, elementary derivatives, angles, and text symbols. Examples include `\RR`, `\mathbbm{1}`, `\bm{x}`, `\abs{x}`, `\norm{x}`, `\ceil{x}`, `\floor{x}`, `\vect{x}`, `\dv{y}{x}`, `\degree`, `\textdollar`, and `\textpercent`.
