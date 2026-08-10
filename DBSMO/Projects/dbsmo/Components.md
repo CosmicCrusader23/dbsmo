@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-05
+updated: 2026-08-10
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-10
 ---
 
 ## For future Claude
@@ -19,7 +19,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 - The two final hand-drawn override sections in `app/globals.css` define paper/ink tokens, graph-paper surfaces, asymmetric squircle card/control corners, marker accents, dark-mode equivalents, and route-specific coverage. Shared functional surfaces use native borders because `border-image` produced unclipped rectangular frames around squircles; `border-shape` remains limited to bounded empty states and the landing orbit. Dark structural borders use lower-opacity ink tokens, and search inputs show a single cyan border only while focused. Global wavy eyebrow/title underlines are intentionally disabled. Shantell Sans is scoped to headings, compact controls, and tabular display text; long-form content, inputs, and math stay in Inter. `app/page.tsx` supplies the decorative math-sketch spans used by the public sign-in composition. The route audit covers all primary non-game surfaces; FTW and Playground are excluded. See [[Common Tasks]] and `docs/visual-system.md`.
 - `SiteSidebar` in `app/site-sidebar.tsx`: server component that loads session/user and builds sidebar links based on raw admin role plus `hasPermission(...)`. It renders the Lucide Sigma/DBSMO wordmark, `SiteSidebarNav`, and `GlobalMobileNavScrim`. At desktop widths `app/globals.css` keeps it at 64 px until hover or keyboard focus expands it to 240 px and reveals labels; at mobile widths it remains the existing off-canvas sheet. Browser metadata and the public landing brand use the matching `public/dbsmo-mark.svg` asset.
 - `SiteSidebarNav` in `app/site-sidebar-nav.tsx`: client nav that maps link icon names to lucide icons and marks active links by pathname prefix.
-- `GlobalMobileNavToggle` and `GlobalMobileNavScrim` in `app/global-mobile-nav.tsx`: mobile sidebar controls used by the root shell/sidebar. Mobile sheet sizing is fixed in `app/globals.css` so hover/focus/focus-within states keep the same top padding and do not shift the nav grid during taps.
+- `GlobalMobileNavToggle` and `GlobalMobileNavScrim` in `app/global-mobile-nav.tsx`: mobile sidebar controls used by the root shell/sidebar. Mobile sheet sizing is fixed in `app/globals.css` so hover/focus/focus-within states keep the same top padding and do not shift the nav grid during taps. The root scrollbar gutter also remains reserved while the body is locked, preventing the fixed menu button from moving sideways when the sheet opens.
 - `AuthButton` in `app/auth-button.tsx`: sign-in/sign-out control. It renders Google sign-in, optional bypass buttons, session badge, and profile avatar link.
 - `Avatar` in `app/avatar.tsx`: shared avatar display; deterministic fallback initial/tint helper lives in `lib/avatar.ts`.
 - `ThemeToggle` in `app/theme-toggle.tsx`: theme control used on dashboard and problem set pages.
@@ -88,7 +88,7 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 - `SidebarSettings` in `app/settings/sidebar-settings.tsx`: Account-settings Sidebar tab with native drag/drop ordering, keyboard-friendly move controls, show/hide, reset-to-default, and a permission-filtered selector for the known Admin Panel tools. It persists normalized preferences through `/api/settings` and keeps an account-scoped local cache consumed by `SiteSidebarNav`.
 
-- `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, falls back to Google `User.image` when no custom avatar is set, writes theme/typewriter settings to `localStorage`, validates and patches account settings.
+- `SettingsPage` in `app/settings/page.tsx`: client settings editor. It fetches `/api/settings`, handles local avatar file conversion to data URL, falls back to Google `User.image` when no custom avatar is set, writes theme/typewriter settings to `localStorage`, validates and patches account settings. Account rows are deliberately unframed around their conventionally bordered controls, all controls have explicit programmatic labels/hints, and the header actions become a contained two-column mobile grid.
 - `UserProfilePage` in `app/users/[username]/page.tsx`: server-rendered public profile with avatar, friend/admin actions, progress stats, topic/completion/bookmark summaries, authored tasks table, mastery heatmap, and set/problem progress grid. The three summary cards use an unframed responsive grid so their individual card borders are not wrapped in another `profile-section` border. Authored tasks come from `User.createdProblemSets` and show visible sets to public viewers while owners/staff can see private authored sets. The heatmap is derived from recent attempts and marks days where the user mastered visible sets.
 - `FriendButton` in `app/users/[username]/friend-button.tsx`: client heart button backed by `PATCH /api/friends/[userId]`.
 - `PromoteUserButton` in `app/users/[username]/promote-user-button.tsx`: admin role change UI backed by `PATCH /api/admin/users/[id]/role`.

@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-10
 type: project-index
 tags:
   - project
@@ -10,7 +10,7 @@ tags:
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-10
 ---
 
 ## For future Claude
@@ -32,7 +32,6 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - [[Submissions]] - per-set recent submission directory, friends/name filters, pagination, and answer privacy.
 - [[Performance Analytics]] - shared Mastery Index, component metrics, validation, and change guidance.
 - [[Asymptote and Multiple Choice]] - diagram sandbox, variable choices, image-backed options, authoring/import flow, and deploy constraints.
-- [[Entry Points]] - now includes the permission-aware `/admin` panel and its grouped staff routes.
 
 ## Fast Orientation
 
@@ -46,6 +45,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Saved submissions have a perfect-solve/staff-gated [[Attempt Review]] plus a redacted per-set [[Submissions]] directory with 20-row pagination, friends/name filters, and score/verdict visibility (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `app/problem-sets/[slug]/answer-grid.tsx`, `app/dashboard/page.tsx`).
 - Cross-set student metrics use the shared evidence-aware [[Performance Analytics]] model; Mastery Index combines proficiency, breadth, and a consistency floor while keeping best-set average/mastery rate visible (sources: `lib/analytics.ts`, `app/leaderboard/page.tsx`).
 - Authoring and imports support sandboxed Asymptote-to-PNG diagrams plus `MULTIPLE_CHOICE` problems with two to 20 LaTeX/image-capable choices; see [[Asymptote and Multiple Choice]] (sources: `lib/asymptote.ts`, `lib/problem-set-authoring.ts`, `lib/import/json-import.ts`, `app/admin/problem-authoring-controls.tsx`).
+- The 2026-08-10 shared UI audit verified primary signed-in routes at desktop and 390 px mobile widths. Current responsive invariants include unframed Settings rows around labelled native controls, a cardified mobile Students table, a stable mobile menu toggle, and Anime.js v4 caret easing without deprecation warnings (sources: `app/settings/page.tsx`, `app/settings/sidebar-settings.tsx`, `app/typewriter-greeting.tsx`, `app/globals.css`, `tests/browser_harness_smoke.py`).
 
 ## Source Inspection Basis
 
@@ -57,4 +57,4 @@ This vault was built from:
 
 ## Staleness Note
 
-The original scan reported git commit `f7e0c74` with a dirty worktree. Auth, API bounds, imports/storage, submissions, exports, profiles, and FTW concurrency were source-verified again on 2026-07-18 using CodeGraph plus direct inspection; still verify current source before editing behavior.
+The original scan reported git commit `f7e0c74` with a dirty worktree. Auth, API bounds, imports/storage, submissions, exports, profiles, and FTW concurrency were source-verified again on 2026-07-18. Shared route structure, Settings/sidebar behavior, responsive Students layout, and the global shell were source-verified on 2026-08-10 using CodeGraph, direct inspection, and production browser smoke tests; still verify current source before editing behavior.

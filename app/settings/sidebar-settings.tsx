@@ -35,7 +35,6 @@ import {
   EMPTY_SIDEBAR_PREFERENCES,
   mergeSidebarLinks,
   readSidebarPreferences,
-  resetSidebarPreferences,
   sidebarPreferenceKey,
   type SidebarPreferences,
   writeSidebarPreferences,
@@ -91,6 +90,7 @@ export function SidebarSettings({
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const saveQueue = useRef(Promise.resolve());
+  const saveVersion = useRef(0);
   const confirmedPreferences = useRef(initialPreferences);
   const latestRequestedPreferences = useRef(initialPreferences);
 
@@ -119,6 +119,7 @@ export function SidebarSettings({
   ).length;
 
   function save(next: SidebarPreferences) {
+    const version = ++saveVersion.current;
     latestRequestedPreferences.current = next;
     setPreferences(next);
     setSaveError(null);
@@ -131,17 +132,22 @@ export function SidebarSettings({
       .then(async () => {
         await onPersist(next);
         confirmedPreferences.current = next;
-        setSaved(true);
+        if (saveVersion.current === version) {
+          setSaveError(null);
+          setSaved(true);
+        }
       })
       .catch((error: unknown) => {
-        // A later queued change may still succeed; only roll back the latest request.
-        if (latestRequestedPreferences.current === next) {
+        // A later queued change may still succeed; only surface or roll back the latest request.
+        if (saveVersion.current === version && latestRequestedPreferences.current === next) {
           setPreferences(confirmedPreferences.current);
           writeSidebarPreferences(confirmedPreferences.current, userId);
+          setSaveError(error instanceof Error ? error.message : "Could not save sidebar settings.");
         }
-        setSaveError(error instanceof Error ? error.message : "Could not save sidebar settings.");
       })
-      .finally(() => setIsSaving(false));
+      .finally(() => {
+        if (saveVersion.current === version) setIsSaving(false);
+      });
   }
 
   function moveLink(index: number, direction: -1 | 1) {
@@ -192,27 +198,7 @@ export function SidebarSettings({
   }
 
   function reset() {
-    latestRequestedPreferences.current = EMPTY_SIDEBAR_PREFERENCES;
-    resetSidebarPreferences(userId);
-    setSaveError(null);
-    setSaved(false);
-    setPreferences(EMPTY_SIDEBAR_PREFERENCES);
-    setIsSaving(true);
-    saveQueue.current = saveQueue.current
-      .catch(() => undefined)
-      .then(async () => {
-        await onPersist(EMPTY_SIDEBAR_PREFERENCES);
-        confirmedPreferences.current = EMPTY_SIDEBAR_PREFERENCES;
-        setSaved(true);
-      })
-      .catch((error: unknown) => {
-        if (latestRequestedPreferences.current === EMPTY_SIDEBAR_PREFERENCES) {
-          setPreferences(confirmedPreferences.current);
-          writeSidebarPreferences(confirmedPreferences.current, userId);
-        }
-        setSaveError(error instanceof Error ? error.message : "Could not reset sidebar settings.");
-      })
-      .finally(() => setIsSaving(false));
+    save(EMPTY_SIDEBAR_PREFERENCES);
   }
 
   return (

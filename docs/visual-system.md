@@ -17,6 +17,8 @@ The shared and route-specific selectors cover the dashboard, problem-set catalog
 
 Desktop and 390 px mobile visualizations were rendered from representative real class names. The production `/problem-sets/1991-ajhsme` route was also inspected in the signed-in Chrome session. The audit checks included stable header actions, horizontal containment, readable status badges, compact tables, analytics controls, announcements, writeup voting, tall problem panels, and the mobile navigation sheet. Desktop navigation is a 64 px icon rail that expands to 240 px on hover or keyboard focus; the existing off-canvas sheet remains the mobile behavior.
 
+Settings is intentionally one unframed workspace: labels and hints do not create a second outline around their native form controls. On phones its title and action group stack, while the actions share the available width. The Students table is excluded from generic mobile table minimum widths so its route-specific labeled-card layout can collapse without horizontal scrolling. The root reserves a stable scrollbar gutter so opening the fixed mobile sidebar does not move the menu toggle.
+
 The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon metadata and the public landing brand. The sidebar renders the matching Lucide `Sigma`, keeping the navigation icon crisp without duplicating image assets in the component.
 
 ## CSS Shape APIs
@@ -48,5 +50,6 @@ Primary references:
 7. Keep marker colors for state and emphasis; do not restore global wavy eyebrow or page-title underlines.
 8. Keep search inputs borderless at rest inside their search panel and use one cyan border on focus; do not combine a colored border with a second outline ring.
 9. Keep selected filter labels and their count badges on opaque theme surfaces with ink-level contrast.
+10. Exclude route-specific mobile card tables from generic minimum-width table rules; otherwise selector specificity silently restores horizontal scrolling.
 
 The visual update adds a bundled `next/font` face but no package, environment, schema, or server-step dependency.

@@ -1,6 +1,6 @@
 "use client";
 
-import { animate } from "animejs";
+import { animate, steps } from "animejs";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 
 const DEFAULT_TYPE_SPEED_MS = 42;
@@ -160,7 +160,7 @@ function GreetingTyper({ name }: { name: string }) {
       opacity: [1, 0.16],
       scaleY: [1, 0.72],
       duration: 620,
-      ease: "steps(2)",
+      ease: steps(2),
       loop: true,
       alternate: true,
     });

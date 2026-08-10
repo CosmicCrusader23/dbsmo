@@ -113,16 +113,3 @@ export function writeSidebarPreferences(preferences: SidebarPreferences, userId?
     // Private browsing/storage restrictions should not break navigation.
   }
 }
-
-export function resetSidebarPreferences(userId?: string | null) {
-  try {
-    // Keep an explicit empty value so listeners can distinguish reset from a missing cache.
-    localStorage.setItem(
-      sidebarPreferencesStorageKey(userId),
-      JSON.stringify(EMPTY_SIDEBAR_PREFERENCES),
-    );
-    window.dispatchEvent(new Event(SIDEBAR_PREFERENCES_EVENT));
-  } catch {
-    // Private browsing/storage restrictions should not break navigation.
-  }
-}

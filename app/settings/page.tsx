@@ -370,64 +370,88 @@ export default function SettingsPage() {
 
           <div className="settings-form">
             <div className="settings-row">
-              <label>
+              <label htmlFor="settings-email">
                 <User size={14} />
                 Username (email)
               </label>
-              <input type="text" value={user.email} readOnly className="settings-readonly" />
-              <small className="form-hint">Your username cannot be changed.</small>
+              <input
+                aria-describedby="settings-email-hint"
+                className="settings-readonly"
+                id="settings-email"
+                readOnly
+                type="text"
+                value={user.email}
+              />
+              <small className="form-hint" id="settings-email-hint">
+                Your username cannot be changed.
+              </small>
             </div>
 
             <div className="settings-row">
-              <label>
+              <label htmlFor="settings-real-name">
                 <User size={14} />
                 Real name
               </label>
-              <input type="text" value={user.name || "—"} readOnly className="settings-readonly" />
-              <small className="form-hint">
+              <input
+                aria-describedby="settings-real-name-hint"
+                className="settings-readonly"
+                id="settings-real-name"
+                readOnly
+                type="text"
+                value={user.name || "—"}
+              />
+              <small className="form-hint" id="settings-real-name-hint">
                 You can only change your name by contacting the admin.
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Display name</label>
+              <label htmlFor="settings-display-name">Display name</label>
               <input
+                aria-describedby="settings-display-name-hint"
+                id="settings-display-name"
                 type="text"
                 placeholder="Enter a display name"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 maxLength={50}
               />
-              <small className="form-hint">
+              <small className="form-hint" id="settings-display-name-hint">
                 This is shown in greetings, leaderboards, and your profile. Max 50 characters.
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Profile picture</label>
+              <label htmlFor="settings-avatar-file">Profile picture</label>
               <input
+                aria-describedby="settings-avatar-file-hint"
                 type="file"
+                id="settings-avatar-file"
                 accept="image/png,image/jpeg,image/webp,image/gif"
                 onChange={(e) => handleAvatarFile(e.target.files?.[0])}
               />
-              <small className="form-hint">Upload an image under 512 KB.</small>
+              <small className="form-hint" id="settings-avatar-file-hint">
+                Upload an image under 512 KB.
+              </small>
             </div>
 
             <div className="settings-row">
-              <label>Profile picture URL</label>
+              <label htmlFor="settings-avatar-url">Profile picture URL</label>
               <input
+                aria-describedby="settings-avatar-url-hint"
+                id="settings-avatar-url"
                 type="url"
                 placeholder="https://example.com/avatar.png"
                 value={avatarUrl}
                 onChange={(e) => setAvatarUrl(e.target.value)}
               />
-              <small className="form-hint">
+              <small className="form-hint" id="settings-avatar-url-hint">
                 Paste a URL or leave this empty to use your Google profile picture when available.
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Theme</label>
+              <span className="settings-field-label">Theme</span>
               <div className="theme-choice" role="group" aria-label="Theme preference">
                 <button
                   className={`theme-choice-button ${themePreference === "light" ? "active" : ""}`}
@@ -452,8 +476,10 @@ export default function SettingsPage() {
             </div>
 
             <div className="settings-row">
-              <label>Greeting Typing Speed (ms)</label>
+              <label htmlFor="settings-type-speed">Greeting Typing Speed (ms)</label>
               <input
+                aria-describedby="settings-type-speed-hint"
+                id="settings-type-speed"
                 type="number"
                 min="10"
                 max="500"
@@ -471,14 +497,16 @@ export default function SettingsPage() {
                   })
                 }
               />
-              <small className="form-hint">
+              <small className="form-hint" id="settings-type-speed-hint">
                 Time between typing each character. Range: 10 - 500. Default: 42
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Greeting Deleting Speed (ms)</label>
+              <label htmlFor="settings-delete-speed">Greeting Deleting Speed (ms)</label>
               <input
+                aria-describedby="settings-delete-speed-hint"
+                id="settings-delete-speed"
                 type="number"
                 min="10"
                 max="500"
@@ -496,14 +524,16 @@ export default function SettingsPage() {
                   })
                 }
               />
-              <small className="form-hint">
+              <small className="form-hint" id="settings-delete-speed-hint">
                 Time between deleting each character. Range: 10 - 500. Default: 22
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Greeting Hold Time (ms)</label>
+              <label htmlFor="settings-hold-time">Greeting Hold Time (ms)</label>
               <input
+                aria-describedby="settings-hold-time-hint"
+                id="settings-hold-time"
                 type="number"
                 min="500"
                 max="15000"
@@ -518,14 +548,16 @@ export default function SettingsPage() {
                   })
                 }
               />
-              <small className="form-hint">
+              <small className="form-hint" id="settings-hold-time-hint">
                 Read time before deleting. Range: 500 - 15000. Default: 3676
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Time Between Greetings (ms)</label>
+              <label htmlFor="settings-between-time">Time Between Greetings (ms)</label>
               <input
+                aria-describedby="settings-between-time-hint"
+                id="settings-between-time"
                 type="number"
                 min="100"
                 max="5000"
@@ -543,13 +575,13 @@ export default function SettingsPage() {
                   })
                 }
               />
-              <small className="form-hint">
+              <small className="form-hint" id="settings-between-time-hint">
                 Pause before the next greeting starts. Range: 100 - 5000. Default: 280
               </small>
             </div>
 
             <div className="settings-row">
-              <label>Privacy</label>
+              <span className="settings-field-label">Privacy</span>
               <div className="settings-toggle-list">
                 <label className="settings-toggle-row">
                   <input
@@ -585,8 +617,14 @@ export default function SettingsPage() {
 
             {user.group && (
               <div className="settings-row">
-                <label>Group</label>
-                <input type="text" value={user.group} readOnly className="settings-readonly" />
+                <label htmlFor="settings-group">Group</label>
+                <input
+                  className="settings-readonly"
+                  id="settings-group"
+                  readOnly
+                  type="text"
+                  value={user.group}
+                />
               </div>
             )}
           </div>

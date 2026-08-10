@@ -140,9 +140,24 @@ wait(0.5)
 settings_text = js("document.body.innerText")
 settings_text_lower = settings_text.lower()
 check(
-    "settings training stats render",
-    "Sets tried" in settings_text and "Practice" in settings_text and "Attempts" in settings_text,
+    "settings omits obsolete training stats",
+    "Sets tried" not in settings_text
+    and "Mastery index" not in settings_text
+    and "Attempts" not in settings_text,
 )
+unlabeled_settings_controls = js(
+    """
+[...document.querySelectorAll('.settings-form input, .settings-form textarea, .settings-form select')]
+  .filter((control) => {
+    if (control.type === 'hidden') return false;
+    if (control.closest('label')) return false;
+    if (control.getAttribute('aria-label') || control.getAttribute('aria-labelledby')) return false;
+    return !control.id || !document.querySelector(`label[for="${CSS.escape(control.id)}"]`);
+  })
+  .length
+"""
+)
+check("settings controls have programmatic labels", unlabeled_settings_controls == 0)
 check(
     "settings privacy controls render",
     "privacy" in settings_text_lower

@@ -56,6 +56,7 @@ html {
   font-family: var(--font-inter), "Inter", "Avenir Next", "Segoe UI", sans-serif;
   letter-spacing: 0;
   scrollbar-width: thin;
+  scrollbar-gutter: stable;
   scrollbar-color: var(--scroll-thumb, rgba(120, 132, 168, 0.45)) transparent;
   scroll-behavior: auto;
 }
@@ -4926,10 +4927,10 @@ html.dark .confetti-triangles span {
 }
 
 .settings-card {
-  background: var(--color-card-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  padding: 2rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
 }
 
 .settings-stats-row,
@@ -4972,7 +4973,7 @@ html.dark .confetti-triangles span {
   gap: 1.5rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 0;
 }
 
 .settings-avatar-preview {
@@ -5018,7 +5019,8 @@ html.dark .confetti-triangles span {
   gap: 0.3rem;
 }
 
-.settings-row label {
+.settings-row > label,
+.settings-row > .settings-field-label {
   font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -10067,7 +10069,7 @@ html:not(.light) .ftw-rank.rank-1 {
 
   /* Tables that aren't already cardified */
   .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .table-wrap table { font-size: 0.85rem; min-width: 520px; }
+  .table-wrap table:not(.students-table) { font-size: 0.85rem; min-width: 520px; }
 
   /* Confetti band — keep but reduce so it doesn't dominate */
   .confetti-triangles { opacity: 0.7; }
@@ -10326,10 +10328,10 @@ html:not(.light) .ftw-rank.rank-1 {
   .search-panel button,
   .search-panel .secondary-action { flex: 1 1 auto; }
 
-  /* Admin students table: scroll horizontally rather than crop */
+  /* Dense admin tables scroll; the students table has its own card layout below. */
   .admin-students-shell .table-wrap,
   .panel.table-panel:not(.problem-hub-table-panel) .table-wrap { overflow-x: auto; }
-  .panel.table-panel:not(.problem-hub-table-panel) table { min-width: 720px; }
+  .panel.table-panel:not(.problem-hub-table-panel) table:not(.students-table) { min-width: 720px; }
 
   .submissions-toolbar-heading,
   .submissions-panel-heading,
@@ -11305,7 +11307,6 @@ html:is(.light, .dark) :is(
     .problem-statement-card,
     .problem-inline-panel,
     .test-answer-shell,
-    .settings-card,
     .user-card,
     .profile-section,
     .profile-mastery-section,
@@ -11905,10 +11906,6 @@ html:is(.light, .dark)
     .classes-assignments li,
     .student-class-assignments li a,
     .assignments-widget li a,
-    .settings-avatar-section,
-    .settings-row,
-    .settings-toggle-row,
-    .theme-choice,
     .profile-stat,
     .profile-set-tile,
     .profile-authored-table-wrap,
@@ -13111,22 +13108,6 @@ html:is(.light, .dark) .notfound-digit-zero {
   height: 0;
 }
 
-/* Settings uses one clean workspace; the controls keep their own boundaries. */
-html:is(.light, .dark) .settings-card,
-html:is(.light, .dark) .settings-avatar-section,
-html:is(.light, .dark) .settings-row,
-html:is(.light, .dark) .settings-toggle-row,
-html:is(.light, .dark) .theme-choice {
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-.settings-card {
-  padding: 0;
-}
-
 .settings-avatar-section {
   margin-bottom: 2rem;
   padding: 0 0 1.5rem;
@@ -13387,13 +13368,22 @@ html:is(.light, .dark) .theme-choice {
 }
 
 @media (max-width: 720px) {
+  .settings-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .settings-header-actions {
+    display: grid;
+    grid-template-columns: minmax(90px, 0.7fr) minmax(0, 1.3fr);
     width: 100%;
-    justify-content: flex-start;
+    justify-content: stretch;
   }
 
   .settings-header-actions > * {
-    flex: 1 1 auto;
+    justify-content: center;
+    min-width: 0;
+    width: 100%;
   }
 
   .settings-tabs {
