@@ -27,8 +27,9 @@ The Mastery Index is shown with one decimal place to reduce ranking ties. It rem
 
 ## Product Surfaces
 
-- Dashboard and settings show Mastery Index as the primary summary and best-set average as a supporting measure (`app/dashboard/page.tsx`, `app/settings/page.tsx`, `app/api/settings/route.ts`).
+- Dashboard shows Mastery Index as the primary summary and best-set average as a supporting measure (`app/dashboard/page.tsx`). Settings intentionally contains account/navigation controls rather than performance statistics (`app/settings/page.tsx`, `app/api/settings/route.ts`).
 - Profiles expose Mastery Index, best-set average, consistency floor, mastery rate, and visible sets tried (`app/users/[username]/page.tsx`).
+- The Users directory shows Mastery Index and best-set average from the same visible-set/best-attempt helper rather than a retry-weighted raw average (`app/users/page.tsx`).
 - The standard leaderboard sorts by Mastery Index by default and offers best-set average as an alternate order (`app/leaderboard/page.tsx`).
 - Staff student lists/details and the analytics leader table use the same helper (`app/admin/students/page.tsx`, `app/admin/students/[id]/page.tsx`, `app/admin/analytics/page.tsx`).
 - Student CSV exports include every profile component and evidence level (`lib/admin-exports.ts`).

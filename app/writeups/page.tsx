@@ -9,12 +9,13 @@ import { displayNameFor } from "@/lib/display-name";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { WriteupsClient } from "@/app/problem-sets/[slug]/writeups/writeups-client";
 import { PageBackLink } from "@/app/page-back-link";
+import { firstQueryParam, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
 type WriteupsSearchParams = Promise<{
-  q?: string;
-  view?: string;
+  q?: QueryParamValue;
+  view?: QueryParamValue;
 }>;
 
 function writeupsHref(next: { q?: string; view?: "latest" | "top" }) {
@@ -36,9 +37,9 @@ export default async function WriteupsPage({
   }
 
   const params = (await searchParams) ?? {};
-  const query = params.q?.trim() ?? "";
+  const query = normalizeQueryText(params.q);
   const normalizedQuery = query.toLowerCase();
-  const viewMode = params.view === "top" ? "top" : "latest";
+  const viewMode = firstQueryParam(params.view) === "top" ? "top" : "latest";
 
   const [currentUser, writeups] = await Promise.all([
     prisma.user.findUnique({

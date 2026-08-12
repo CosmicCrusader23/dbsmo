@@ -16,29 +16,82 @@ import { SidebarSettings } from "./sidebar-settings";
 
 const MAX_AVATAR_BYTES = 512 * 1024;
 const THEME_STORAGE_KEY = "mo-theme";
+const THEME_CHANGE_EVENT = "dbsmo:theme-change";
 
 type ThemePreference = "light" | "dark";
+let inMemoryThemePreference: ThemePreference = "light";
+
+type TypewriterSettings = {
+  typeSpeed: number;
+  deleteSpeed: number;
+  holdMs: number;
+  betweenMs: number;
+};
+
+const DEFAULT_TYPEWRITER_SETTINGS: TypewriterSettings = {
+  typeSpeed: 42,
+  deleteSpeed: 22,
+  holdMs: 3676,
+  betweenMs: 280,
+};
 
 function isThemePreference(value: string | null): value is ThemePreference {
   return value === "light" || value === "dark";
 }
 
 function applyThemePreference(theme: ThemePreference) {
+  inMemoryThemePreference = theme;
   document.documentElement.classList.remove("light", "dark");
   document.documentElement.classList.add(theme);
-  localStorage.setItem(THEME_STORAGE_KEY, theme);
-  window.dispatchEvent(new Event("storage"));
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch {
+    // Storage restrictions should not prevent the in-memory theme from changing.
+  }
+  window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
 }
 
 function getThemeSnapshot(): ThemePreference {
   if (typeof window === "undefined") return "light";
-  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-  return isThemePreference(storedTheme) ? storedTheme : "light";
+  try {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    return isThemePreference(storedTheme) ? storedTheme : inMemoryThemePreference;
+  } catch {
+    return inMemoryThemePreference;
+  }
 }
 
 function subscribeThemePreference(callback: () => void) {
   window.addEventListener("storage", callback);
-  return () => window.removeEventListener("storage", callback);
+  window.addEventListener(THEME_CHANGE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(THEME_CHANGE_EVENT, callback);
+  };
+}
+
+function boundedNumber(value: unknown, minimum: number, maximum: number, fallback: number) {
+  const numeric = Number(value);
+  return Number.isFinite(numeric) ? Math.max(minimum, Math.min(maximum, numeric)) : fallback;
+}
+
+function normalizeTypewriterSettings(value: unknown): TypewriterSettings {
+  const settings =
+    typeof value === "object" && value !== null && !Array.isArray(value)
+      ? (value as Record<string, unknown>)
+      : {};
+
+  return {
+    typeSpeed: boundedNumber(settings.typeSpeed, 10, 500, DEFAULT_TYPEWRITER_SETTINGS.typeSpeed),
+    deleteSpeed: boundedNumber(
+      settings.deleteSpeed,
+      10,
+      500,
+      DEFAULT_TYPEWRITER_SETTINGS.deleteSpeed,
+    ),
+    holdMs: boundedNumber(settings.holdMs, 500, 15_000, DEFAULT_TYPEWRITER_SETTINGS.holdMs),
+    betweenMs: boundedNumber(settings.betweenMs, 100, 5_000, DEFAULT_TYPEWRITER_SETTINGS.betweenMs),
+  };
 }
 
 interface UserProfile {
@@ -55,13 +108,28 @@ interface UserProfile {
   theme?: string;
   greetingSettings?: string;
   sidebarPreferences?: string | null;
-  stats?: {
-    attemptedSets: number;
-    totalAttempts: number;
-    masteryIndex: number;
-    bestSetAverage: number;
-    practiceScore: number;
-  };
+}
+
+type SettingsApiResponse = {
+  error?: string;
+  user?: UserProfile | null;
+};
+
+async function readSettingsApiResponse(response: Response): Promise<SettingsApiResponse> {
+  try {
+    const value: unknown = await response.json();
+    if (typeof value !== "object" || value === null) return {};
+    const record = value as Record<string, unknown>;
+    return {
+      error: typeof record.error === "string" ? record.error : undefined,
+      user:
+        record.user === null || (typeof record.user === "object" && record.user !== null)
+          ? (record.user as UserProfile | null)
+          : undefined,
+    };
+  } catch {
+    return {};
+  }
 }
 
 export default function SettingsPage() {
@@ -75,12 +143,9 @@ export default function SettingsPage() {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"account" | "sidebar">("account");
-  const [typewriterSettings, setTypewriterSettings] = useState({
-    typeSpeed: 42,
-    deleteSpeed: 22,
-    holdMs: 3676,
-    betweenMs: 280,
-  });
+  const [typewriterSettings, setTypewriterSettings] = useState<TypewriterSettings>(
+    DEFAULT_TYPEWRITER_SETTINGS,
+  );
   const themePreference = useSyncExternalStore<ThemePreference>(
     subscribeThemePreference,
     getThemeSnapshot,
@@ -112,40 +177,66 @@ export default function SettingsPage() {
   }
 
   useEffect(() => {
-    fetch("/api/settings")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.user) {
-          setUser(data.user);
-          setDisplayName(normalizeDisplayText(data.user.displayName) ?? "");
-          setAvatarUrl(data.user.avatarUrl || "");
-          setProfileVisible(data.user.profileVisible ?? true);
-          setLeaderboardVisible(data.user.leaderboardVisible ?? true);
+    const controller = new AbortController();
 
-          if (data.user.theme && isThemePreference(data.user.theme)) {
-            applyThemePreference(data.user.theme);
-          }
-          if (data.user.greetingSettings) {
+    async function loadSettings() {
+      try {
+        const response = await fetch("/api/settings", {
+          cache: "no-store",
+          signal: controller.signal,
+        });
+        const data = await readSettingsApiResponse(response);
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to load settings.");
+        }
+        if (!data.user) {
+          throw new Error("Your account could not be loaded.");
+        }
+
+        setUser(data.user);
+        setDisplayName(normalizeDisplayText(data.user.displayName) ?? "");
+        setAvatarUrl(data.user.avatarUrl || "");
+        setProfileVisible(data.user.profileVisible ?? true);
+        setLeaderboardVisible(data.user.leaderboardVisible ?? true);
+
+        if (data.user.theme && isThemePreference(data.user.theme)) {
+          applyThemePreference(data.user.theme);
+        }
+        if (data.user.greetingSettings) {
+          try {
+            const normalized = normalizeTypewriterSettings(JSON.parse(data.user.greetingSettings));
+            const serialized = JSON.stringify(normalized);
+            setTypewriterSettings(normalized);
             try {
-              const parsed = JSON.parse(data.user.greetingSettings);
-              setTypewriterSettings((prev) => ({ ...prev, ...parsed }));
-              localStorage.setItem("mo-typewriter-settings", data.user.greetingSettings);
-            } catch {}
+              localStorage.setItem("mo-typewriter-settings", serialized);
+            } catch {
+              // The server-backed value remains usable when local storage is unavailable.
+            }
+          } catch {
+            setTypewriterSettings(DEFAULT_TYPEWRITER_SETTINGS);
           }
         }
-      })
-      .catch(() => setError("Failed to load profile."))
-      .finally(() => setLoading(false));
+      } catch (loadError) {
+        if (loadError instanceof DOMException && loadError.name === "AbortError") return;
+        setError(loadError instanceof Error ? loadError.message : "Failed to load settings.");
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }
+
+    void loadSettings();
 
     try {
       const storedThemeSettings = localStorage.getItem("mo-typewriter-settings");
       if (storedThemeSettings) {
-        const parsedSettings = JSON.parse(storedThemeSettings);
+        const parsedSettings = normalizeTypewriterSettings(JSON.parse(storedThemeSettings));
         queueMicrotask(() => {
-          setTypewriterSettings((prev) => ({ ...prev, ...parsedSettings }));
+          setTypewriterSettings(parsedSettings);
         });
       }
     } catch {}
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -162,15 +253,10 @@ export default function SettingsPage() {
     setSaving(true);
 
     let parsedTypewriter = typewriterSettings;
+    parsedTypewriter = normalizeTypewriterSettings(typewriterSettings);
+    setTypewriterSettings(parsedTypewriter);
     try {
-      parsedTypewriter = {
-        typeSpeed: Math.max(10, Math.min(500, Number(typewriterSettings.typeSpeed) || 42)),
-        deleteSpeed: Math.max(10, Math.min(500, Number(typewriterSettings.deleteSpeed) || 22)),
-        holdMs: Math.max(500, Math.min(15000, Number(typewriterSettings.holdMs) || 3676)),
-        betweenMs: Math.max(100, Math.min(5000, Number(typewriterSettings.betweenMs) || 280)),
-      };
       localStorage.setItem("mo-typewriter-settings", JSON.stringify(parsedTypewriter));
-      setTypewriterSettings(parsedTypewriter);
       window.dispatchEvent(new Event("storage"));
     } catch {}
 
@@ -188,16 +274,17 @@ export default function SettingsPage() {
         }),
       });
 
-      const data = await res.json();
+      const data = await readSettingsApiResponse(res);
       if (!res.ok) {
         setError(data.error || "Failed to save.");
         return;
       }
+      if (!data.user) {
+        setError("The server returned an incomplete settings response.");
+        return;
+      }
 
-      setUser((currentUser) => ({
-        ...data.user,
-        stats: currentUser?.stats,
-      }));
+      setUser(data.user);
       setSuccess("Settings saved!");
       setTimeout(() => setSuccess(null), 3000);
     } catch {
@@ -213,13 +300,15 @@ export default function SettingsPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sidebarPreferences: JSON.stringify(preferences) }),
     });
-    const data = await res.json();
+    const data = await readSettingsApiResponse(res);
     if (!res.ok) throw new Error(data.error || "Failed to save sidebar settings.");
+    if (!data.user) throw new Error("The server returned an incomplete settings response.");
+    const persistedSidebarPreferences = data.user.sidebarPreferences ?? JSON.stringify(preferences);
     setUser((currentUser) =>
       currentUser
         ? {
             ...currentUser,
-            sidebarPreferences: data.user?.sidebarPreferences ?? JSON.stringify(preferences),
+            sidebarPreferences: persistedSidebarPreferences,
           }
         : currentUser,
     );
@@ -239,7 +328,9 @@ export default function SettingsPage() {
   if (!user) {
     return (
       <main className="settings-shell">
-        <p className="settings-loading">Not signed in.</p>
+        <p className="settings-loading" role={error ? "alert" : undefined}>
+          {error || "Not signed in."}
+        </p>
       </main>
     );
   }
@@ -271,6 +362,7 @@ export default function SettingsPage() {
               className="primary-action settings-save-header"
               onClick={handleSave}
               disabled={saving}
+              type="button"
             >
               {saving ? <MathCurveLoader size={16} label="Saving settings" /> : <Save size={16} />}
               {saving ? "Saving…" : "Save"}
@@ -280,11 +372,10 @@ export default function SettingsPage() {
         </div>
       </header>
 
-      <div className="settings-tabs" role="tablist" aria-label="Settings sections">
+      <div className="settings-tabs" role="group" aria-label="Settings sections">
         <button
-          aria-selected={activeTab === "account"}
+          aria-pressed={activeTab === "account"}
           className={activeTab === "account" ? "active" : ""}
-          role="tab"
           type="button"
           onClick={() => setActiveTab("account")}
         >
@@ -292,9 +383,8 @@ export default function SettingsPage() {
           Account
         </button>
         <button
-          aria-selected={activeTab === "sidebar"}
+          aria-pressed={activeTab === "sidebar"}
           className={activeTab === "sidebar" ? "active" : ""}
-          role="tab"
           type="button"
           onClick={() => setActiveTab("sidebar")}
         >
@@ -304,13 +394,13 @@ export default function SettingsPage() {
       </div>
 
       {error && (
-        <div className="create-set-alert create-set-alert-error">
+        <div className="create-set-alert create-set-alert-error" role="alert">
           <AlertCircle size={18} />
           <span>{error}</span>
         </div>
       )}
       {success && (
-        <div className="create-set-alert create-set-alert-success">
+        <div className="create-set-alert create-set-alert-success" role="status">
           <CheckCircle2 size={18} />
           <span>{success}</span>
         </div>

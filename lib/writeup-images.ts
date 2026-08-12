@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { deleteFile, saveFile } from "@/lib/storage";
 import { detectImageMime } from "@/lib/import/image-assets";
+import { cleanupUnreferencedImportedFiles } from "@/lib/imported-file-cleanup";
 
 export const MAX_WRITEUP_IMAGES = 4;
 export const MAX_WRITEUP_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -202,9 +203,12 @@ export async function cleanupStoredWriteupImages(
 ): Promise<void> {
   if (images.length === 0) return;
 
-  const { prisma } = await import("@/lib/db");
-  for (const image of [...images].reverse()) {
-    await prisma.importedFile.delete({ where: { id: image.fileId } }).catch(() => {});
-    await deleteFile(image.storageKey).catch(() => {});
-  }
+  // The writeup deletion may itself have failed. Reuse the reference-aware
+  // cleanup path so a live WriteupImage can never be left pointing at an
+  // object that compensation removed from storage.
+  await cleanupUnreferencedImportedFiles([...images].reverse().map((image) => image.fileId)).catch(
+    (error) => {
+      console.error("Failed to compensate stored writeup images:", error);
+    },
+  );
 }

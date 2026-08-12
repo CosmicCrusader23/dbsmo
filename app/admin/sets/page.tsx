@@ -10,13 +10,14 @@ import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { DeleteSetButton } from "./delete-set-button";
 import { PageBackLink } from "@/app/page-back-link";
+import { normalizePageNumber, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
 type AdminSetsSearchParams = Promise<{
-  page?: string;
-  q?: string;
-  status?: string;
+  page?: QueryParamValue;
+  q?: QueryParamValue;
+  status?: QueryParamValue;
 }>;
 
 type SetStatusFilter = "all" | "PUBLISHED" | "DRAFT" | "ARCHIVED";
@@ -31,7 +32,7 @@ export default async function AdminSetsPage({
   if (!hasPermission(session.user.role, "admin:content")) redirect("/dashboard");
 
   const params = (await searchParams) ?? {};
-  const query = params.q?.trim() ?? "";
+  const query = normalizeQueryText(params.q);
   const normalizedQuery = query.toLowerCase();
   const statusFilter: SetStatusFilter =
     params.status === "published"
@@ -41,7 +42,7 @@ export default async function AdminSetsPage({
         : params.status === "archived"
           ? "ARCHIVED"
           : "all";
-  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const currentPage = normalizePageNumber(params.page);
   const pageSize = 25;
 
   const sets = await prisma.problemSet.findMany({

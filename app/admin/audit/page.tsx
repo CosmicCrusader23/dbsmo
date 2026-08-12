@@ -8,13 +8,14 @@ import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { AuditFilters } from "./audit-filters";
 import { PageBackLink } from "@/app/page-back-link";
+import { normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
 type AuditSearchParams = Promise<{
-  q?: string;
-  action?: string;
-  actor?: string;
+  q?: QueryParamValue;
+  action?: QueryParamValue;
+  actor?: QueryParamValue;
 }>;
 
 function timeAgo(d: Date) {
@@ -48,9 +49,9 @@ export default async function AdminAuditPage({
   if (!hasPermission(session.user.role, "admin:audit")) redirect("/dashboard");
 
   const params = (await searchParams) ?? {};
-  const q = params.q?.trim() ?? "";
-  const actionFilter = params.action?.trim() ?? "";
-  const actorFilter = params.actor?.trim() ?? "";
+  const q = normalizeQueryText(params.q, 120);
+  const actionFilter = normalizeQueryText(params.action, 120);
+  const actorFilter = normalizeQueryText(params.actor, 120);
 
   const where = {
     ...(actionFilter ? { action: actionFilter } : {}),

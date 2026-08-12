@@ -19,7 +19,7 @@ Desktop and 390 px mobile visualizations were rendered from representative real 
 
 Settings is intentionally one unframed workspace: labels and hints do not create a second outline around their native form controls. On phones its title and action group stack, while the actions share the available width. The Students table is excluded from generic mobile table minimum widths so its route-specific labeled-card layout can collapse without horizontal scrolling. The root reserves a stable scrollbar gutter so opening the fixed mobile sidebar does not move the menu toggle.
 
-The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon metadata and the public landing brand. The sidebar renders the matching Lucide `Sigma`, keeping the navigation icon crisp without duplicating image assets in the component.
+The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon metadata and the public landing brand. The sidebar renders the matching Lucide `Sigma`, keeping the navigation icon crisp without duplicating image assets in the component. On mobile, the closed sheet is `inert`/`aria-hidden`; opening it makes the page content inert, and closing it restores focus to the menu toggle. Primary navigation controls share an explicit cyan `:focus-visible` ring (`app/global-mobile-nav.tsx`, `app/site-sidebar-nav.tsx`, `app/globals.css`).
 
 ## CSS Shape APIs
 

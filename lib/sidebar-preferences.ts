@@ -19,6 +19,9 @@ export const EMPTY_SIDEBAR_PREFERENCES: SidebarPreferences = {
   enabled: [],
 };
 
+const SIDEBAR_PREFERENCE_FIELDS = ["order", "hidden", "enabled"] as const;
+const SIDEBAR_PREFERENCE_FIELD_SET = new Set<string>(SIDEBAR_PREFERENCE_FIELDS);
+
 function cleanKeys(value: unknown, maxLength: number) {
   if (!Array.isArray(value)) return [];
   return Array.from(
@@ -66,9 +69,44 @@ export function visibleSidebarLinks(
   optionalLinks: SidebarNavLink[] = [],
 ) {
   const hidden = new Set(preferences.hidden);
-  return mergeSidebarLinks(defaultLinks, preferences, optionalLinks).filter(
-    (link) => !hidden.has(sidebarPreferenceKey(link)),
-  );
+  const merged = mergeSidebarLinks(defaultLinks, preferences, optionalLinks);
+  const visible = merged.filter((link) => !hidden.has(sidebarPreferenceKey(link)));
+
+  // The editor prevents this state, but old or manually submitted preferences
+  // should never make the primary navigation completely inaccessible.
+  return visible.length > 0 ? visible : merged.slice(0, 1);
+}
+
+function isPreferenceRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+export function parseSidebarPreferencesInput(value: string): SidebarPreferences | null {
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!isPreferenceRecord(parsed)) return null;
+    if (Object.keys(parsed).some((key) => !SIDEBAR_PREFERENCE_FIELD_SET.has(key))) {
+      return null;
+    }
+
+    for (const field of SIDEBAR_PREFERENCE_FIELDS) {
+      const entries = parsed[field];
+      if (
+        entries !== undefined &&
+        (!Array.isArray(entries) || entries.some((item) => typeof item !== "string"))
+      ) {
+        return null;
+      }
+    }
+
+    return {
+      order: cleanKeys(parsed.order, MAX_ORDER_ITEMS),
+      hidden: cleanKeys(parsed.hidden, MAX_HIDDEN_ITEMS),
+      enabled: cleanKeys(parsed.enabled, MAX_ENABLED_ITEMS),
+    };
+  } catch {
+    return null;
+  }
 }
 
 export function parseSidebarPreferences(value: string | null): SidebarPreferences {
@@ -83,6 +121,24 @@ export function parseSidebarPreferences(value: string | null): SidebarPreference
   } catch {
     return EMPTY_SIDEBAR_PREFERENCES;
   }
+}
+
+export function setOptionalSidebarLinkEnabled(
+  preferences: SidebarPreferences,
+  key: string,
+  isEnabled: boolean,
+): SidebarPreferences {
+  const enabled = preferences.enabled.filter((item) => item !== key);
+
+  return {
+    ...preferences,
+    enabled: isEnabled ? [...enabled, key] : enabled,
+    hidden: preferences.hidden.filter((item) => item !== key),
+    order:
+      isEnabled && !preferences.order.includes(key)
+        ? [...preferences.order, key]
+        : preferences.order,
+  };
 }
 
 export function sidebarPreferencesStorageKey(userId?: string | null) {

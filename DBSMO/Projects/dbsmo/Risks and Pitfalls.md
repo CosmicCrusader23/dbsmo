@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-05
+updated: 2026-08-12
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -29,7 +29,7 @@ Role changes serialize under the `dbsmo-role-update` advisory lock and re-check 
 
 ## Sidebar Preferences Are User Input
 
-`User.sidebarPreferences` is a bounded JSON string supplied by the settings client. `lib/sidebar-preferences.ts` keeps only short string keys in `order`, `hidden`, and `enabled`; `mergeSidebarLinks(...)` resolves those keys against server-generated default links and permission-filtered `ADMIN_TOOL_DEFINITIONS`. Legacy custom-link fields are ignored. Do not reintroduce arbitrary labels, URLs, external targets, or client-provided icons, and do not treat sidebar visibility as an authorization check (sources: `lib/sidebar-preferences.ts`, `lib/admin-tools.ts`, `app/api/settings/route.ts`, `app/site-sidebar.tsx`).
+`User.sidebarPreferences` is a bounded JSON string supplied by the settings client. The PATCH schema strictly accepts only string arrays named `order`, `hidden`, and `enabled`, canonicalizes their values, and rejects malformed/custom fields rather than silently resetting them. `mergeSidebarLinks(...)` resolves keys against server-generated defaults and permission-filtered `ADMIN_TOOL_DEFINITIONS`; `visibleSidebarLinks(...)` retains one trusted destination if persisted data hides everything. Do not reintroduce arbitrary labels, URLs, external targets, or client-provided icons, and do not treat sidebar visibility as authorization (sources: `lib/settings-policy.ts`, `lib/sidebar-preferences.ts`, `lib/admin-tools.ts`, `app/api/settings/route.ts`).
 
 ## Storage Driver Has S3 Path But Needs Full Env
 
@@ -51,11 +51,13 @@ Multiple-choice images are normal problem-set assets embedded in `Problem.option
 
 ## Attempt Reviews Expose Answer Keys
 
-`/attempts/[id]` intentionally shows accepted answers and explanations after submission. Its database join therefore handles assessment-sensitive data. Preserve the check in `app/attempts/[id]/page.tsx`: the submitter may review their own attempt, while another viewer must have a perfect attempt for the same visible set or `admin:analytics`. The submissions index must remain redacted and must not select `Response` rows. Keep unauthorized IDs on the same `notFound()` path as missing IDs, and do not move answer keys into a client API without an equivalent exact authorization boundary (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`, `lib/permissions.ts`, [[Attempt Review]]).
+`/attempts/[id]` intentionally shows accepted answers and explanations, so its database join handles assessment-sensitive data. Preserve the two-stage check in `app/attempts/[id]/page.tsx`: non-staff viewers, including the attempt owner, need an exact perfect attempt for the set; `score > maxScore`, `maxScore <= 0`, and ownership alone must not unlock answers. Only after authorization may the route select `Response.problem` data. The submissions index must remain redacted and must not select `Response` rows. Keep unauthorized IDs on the same `notFound()` path as missing IDs, and do not move answer keys into a client API without an equivalent boundary (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`, `lib/permissions.ts`, [[Attempt Review]]).
 
 Writeups intentionally remain accessible even when submissions are locked or the user has not submitted. Do not reuse submission-lock logic to hide `/problem-sets/[slug]/writeups`; only normal auth and set visibility should gate that page (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`).
 
-Writeup deletion is allowed only for the author or an admin. After the writeup relation is removed, `cleanupUnreferencedImportedFiles(...)` deletes unreferenced metadata before best-effort storage cleanup, avoiding live metadata that points at a missing object. Process crashes/storage outages can still leave physical orphans, so an offline sweeper remains useful (sources: `app/api/writeups/[id]/route.ts`, `lib/imported-file-cleanup.ts`).
+Writeup deletion is allowed only for the author or an admin, including an author whose set later becomes hidden. After the relation is removed, `cleanupUnreferencedImportedFiles(...)` deletes metadata only when no live problem/file/asset/writeup relation remains, then attempts backing-object removal. Creation compensation reuses the same reference-aware path so it cannot delete an object still referenced after a failed rollback. Process crashes/storage outages can still leave physical orphans, so an offline sweeper remains useful (sources: `app/api/writeups/[id]/route.ts`, `lib/writeup-images.ts`, `lib/imported-file-cleanup.ts`).
+
+Writeup and announcement mutations reject cross-site browser requests before session/database work through `isCrossSiteBrowserRequest(...)`. Announcement class ownership is rechecked in the same serializable transaction that creates the announcement. Preserve both layers when adding community mutation endpoints; cookie authentication alone is not a CSRF boundary (sources: `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/writeups/[id]/vote/route.ts`, `app/api/admin/announcements/route.ts`, `lib/http-body.ts`).
 
 ## Practice Completion Counts Only Correct Answers
 

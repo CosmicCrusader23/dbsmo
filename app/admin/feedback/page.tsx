@@ -8,10 +8,11 @@ import { ThemeToggle } from "@/app/theme-toggle";
 import { hasPermission } from "@/lib/permissions";
 import { FeedbackActions } from "./feedback-actions";
 import { PageBackLink } from "@/app/page-back-link";
+import { normalizePageNumber, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
-type FeedbackSearchParams = Promise<{ page?: string }>;
+type FeedbackSearchParams = Promise<{ page?: QueryParamValue }>;
 
 export default async function AdminFeedbackPage({
   searchParams,
@@ -43,7 +44,7 @@ export default async function AdminFeedbackPage({
   }
 
   const params = (await searchParams) ?? {};
-  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const currentPage = normalizePageNumber(params.page);
   const pageSize = 25;
 
   const reports = await prisma.feedbackReport.findMany({

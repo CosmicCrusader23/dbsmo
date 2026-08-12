@@ -28,7 +28,7 @@ export default async function LandingPage() {
               <small>sign in to continue</small>
             </span>
           </Link>
-          <ThemeToggle />
+          <ThemeToggle persist={false} />
         </header>
 
         <div className="login-layout">

@@ -20,10 +20,15 @@ import { ThemeToggle } from "@/app/theme-toggle";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { displayNameFor } from "@/lib/display-name";
-import { hasPermission } from "@/lib/permissions";
+import { canViewPrivateProfiles, hasPermission } from "@/lib/permissions";
 import {
+  canLinkSubmissionProfile,
+  canShowSubmissionIdentity,
   canViewSubmissionAnswers,
+  isPerfectSubmission,
   normalizeSubmissionPage,
+  normalizeSubmissionSearch,
+  normalizeSubmissionView,
   SUBMISSIONS_PAGE_SIZE,
   submissionPercentage,
   submissionVerdict,
@@ -35,7 +40,11 @@ export const dynamic = "force-dynamic";
 
 type SubmissionsPageProps = {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<{ page?: string; q?: string; view?: string }>;
+  searchParams?: Promise<{
+    page?: string | string[];
+    q?: string | string[];
+    view?: string | string[];
+  }>;
 };
 
 const dateTimeFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -63,8 +72,8 @@ export default async function ProblemSetSubmissionsPage({
   if (!session?.user?.id) notFound();
 
   const [{ slug }, query] = await Promise.all([params, searchParams]);
-  const searchQuery = query?.q?.trim().slice(0, 80) ?? "";
-  const view = query?.view === "friends" ? "friends" : "all";
+  const searchQuery = normalizeSubmissionSearch(query?.q);
+  const view = normalizeSubmissionView(query?.view);
   const requestedPage = normalizeSubmissionPage(query?.page);
 
   const [currentUser, problemSet] = await Promise.all([
@@ -89,6 +98,7 @@ export default async function ProblemSetSubmissionsPage({
   if (currentUser.role !== "ADMIN" && !isVisibleToStudent(problemSet)) notFound();
 
   const canReviewStudentAttempts = hasPermission(currentUser.role, "admin:analytics");
+  const canViewPrivateStudentProfiles = canViewPrivateProfiles(currentUser.role);
   const [friendships, viewerAttempts] = await Promise.all([
     view === "friends"
       ? prisma.friendship.findMany({
@@ -98,10 +108,12 @@ export default async function ProblemSetSubmissionsPage({
           select: { requesterId: true, receiverId: true },
         })
       : Promise.resolve([]),
-    prisma.attempt.findMany({
-      where: { userId: currentUser.id, problemSetId: problemSet.id, maxScore: { gt: 0 } },
-      select: { score: true, maxScore: true },
-    }),
+    canReviewStudentAttempts
+      ? Promise.resolve([])
+      : prisma.attempt.findMany({
+          where: { userId: currentUser.id, problemSetId: problemSet.id, maxScore: { gt: 0 } },
+          select: { score: true, maxScore: true },
+        }),
   ]);
 
   const friendIds = new Set<string>([currentUser.id]);
@@ -112,16 +124,20 @@ export default async function ProblemSetSubmissionsPage({
   }
 
   const userFilters: Prisma.UserWhereInput[] = [];
-  if (!canReviewStudentAttempts) {
-    userFilters.push({ OR: [{ leaderboardVisible: true }, { id: currentUser.id }] });
-  }
   if (searchQuery) {
-    userFilters.push({
+    const nameFilter: Prisma.UserWhereInput = {
       OR: [
         { displayName: { contains: searchQuery, mode: "insensitive" } },
         { name: { contains: searchQuery, mode: "insensitive" } },
       ],
-    });
+    };
+    userFilters.push(
+      canReviewStudentAttempts
+        ? nameFilter
+        : {
+            AND: [{ OR: [{ leaderboardVisible: true }, { id: currentUser.id }] }, nameFilter],
+          },
+    );
   }
 
   const where: Prisma.AttemptWhereInput = {
@@ -152,13 +168,16 @@ export default async function ProblemSetSubmissionsPage({
           displayName: true,
           image: true,
           avatarUrl: true,
+          profileVisible: true,
           leaderboardVisible: true,
         },
       },
     },
   });
 
-  const viewerSolvedSet = viewerAttempts.some((attempt) => attempt.score >= attempt.maxScore);
+  const viewerSolvedSet = viewerAttempts.some((attempt) =>
+    isPerfectSubmission(attempt.score, attempt.maxScore),
+  );
   return (
     <main className="single-page submissions-page">
       <div className="background-layers" aria-hidden="true">
@@ -223,8 +242,8 @@ export default async function ProblemSetSubmissionsPage({
             </form>
           </div>
           <p className="submissions-privacy-note">
-            Scores and verdicts are public. Your own answers stay reviewable; other answers unlock
-            after you solve the set or for admins.
+            Scores and verdicts are public. Detailed answers unlock after you solve the set or for
+            staff with review access.
           </p>
         </section>
 
@@ -272,10 +291,17 @@ export default async function ProblemSetSubmissionsPage({
                     const canReviewAnswers = canViewSubmissionAnswers(
                       canReviewStudentAttempts,
                       viewerSolvedSet,
-                      isOwner,
                     );
-                    const visibleName =
-                      attempt.user.leaderboardVisible || isOwner || canReviewStudentAttempts;
+                    const visibleName = canShowSubmissionIdentity(
+                      attempt.user.leaderboardVisible,
+                      isOwner,
+                      canReviewStudentAttempts,
+                    );
+                    const canOpenProfile = canLinkSubmissionProfile(
+                      attempt.user.profileVisible,
+                      isOwner,
+                      canViewPrivateStudentProfiles,
+                    );
                     const userLabel = visibleName
                       ? displayNameFor(attempt.user)
                       : "Anonymous student";
@@ -285,19 +311,27 @@ export default async function ProblemSetSubmissionsPage({
                         <td data-label="Attempt">
                           <strong>#{attempt.attemptNumber}</strong>
                           <small>
-                            {attempt.durationSeconds ? `${attempt.durationSeconds}s` : "—"}
+                            {attempt.durationSeconds !== null
+                              ? `${Math.max(0, attempt.durationSeconds)}s`
+                              : "—"}
                           </small>
                         </td>
                         <td data-label="User">
                           <div className="submission-user">
-                            <Avatar user={attempt.user} size="sm" />
-                            {visibleName ? (
+                            <Avatar
+                              user={visibleName ? attempt.user : { displayName: userLabel }}
+                              size="sm"
+                            />
+                            {visibleName && canOpenProfile ? (
                               <Link href={profilePathFromEmail(attempt.user.email)}>
                                 {userLabel}
                                 {isOwner ? <small>You</small> : null}
                               </Link>
                             ) : (
-                              <span>{userLabel}</span>
+                              <span>
+                                {userLabel}
+                                {isOwner ? <small>You</small> : null}
+                              </span>
                             )}
                           </div>
                         </td>

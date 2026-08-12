@@ -13,7 +13,7 @@ import {
   type PreparedWriteupImage,
   type StoredWriteupImage,
 } from "@/lib/writeup-images";
-import { readFormDataBody } from "@/lib/http-body";
+import { isCrossSiteBrowserRequest, readFormDataBody } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
@@ -26,10 +26,16 @@ const MAX_WRITEUP_TITLE_CHARS = 120;
 const MAX_WRITEUP_FORM_BYTES = MAX_WRITEUP_IMAGE_TOTAL_BYTES + 512 * 1024;
 
 function normalizeContentFormat(value: FormDataEntryValue | null) {
-  return value === "HTML" ? ProblemContentFormat.HTML : ProblemContentFormat.LATEX;
+  if (value === null || value === "LATEX") return ProblemContentFormat.LATEX;
+  if (value === "HTML") return ProblemContentFormat.HTML;
+  return null;
 }
 
 export async function POST(request: Request, context: RouteContext) {
+  if (isCrossSiteBrowserRequest(request)) {
+    return NextResponse.json({ error: "Cross-site request rejected." }, { status: 403 });
+  }
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -64,16 +70,22 @@ export async function POST(request: Request, context: RouteContext) {
     );
   }
   const formData = parsedForm.value;
-  const title = String(formData.get("title") ?? "")
-    .trim()
-    .slice(0, MAX_WRITEUP_TITLE_CHARS);
-  const body = String(formData.get("body") ?? "").trim();
+  const titleEntry = formData.get("title");
+  const bodyEntry = formData.get("body");
   const contentFormat = normalizeContentFormat(formData.get("contentFormat"));
   const imageEntries = formData.getAll("images");
   const images = imageEntries.filter((entry): entry is File => entry instanceof File);
 
+  if (typeof titleEntry !== "string" || typeof bodyEntry !== "string" || !contentFormat) {
+    return NextResponse.json({ error: "Invalid writeup fields." }, { status: 400 });
+  }
+  const title = titleEntry.trim();
+  const body = bodyEntry.trim();
   if (!title) {
     return NextResponse.json({ error: "Title is required." }, { status: 400 });
+  }
+  if (title.length > MAX_WRITEUP_TITLE_CHARS) {
+    return NextResponse.json({ error: "Writeup title is too long." }, { status: 400 });
   }
   if (body.length > MAX_WRITEUP_BODY_CHARS) {
     return NextResponse.json({ error: "Writeup text is too long." }, { status: 400 });

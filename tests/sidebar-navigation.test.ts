@@ -4,6 +4,9 @@ import { activeSidebarHref, type SidebarNavLink } from "../lib/sidebar-navigatio
 import {
   mergeSidebarLinks,
   parseSidebarPreferences,
+  parseSidebarPreferencesInput,
+  setOptionalSidebarLinkEnabled,
+  sidebarPreferencesStorageKey,
   visibleSidebarLinks,
 } from "../lib/sidebar-preferences";
 
@@ -66,6 +69,61 @@ describe("activeSidebarHref", () => {
       "Manage sets",
       "Dashboard",
     ]);
+  });
+
+  it("keeps one trusted destination visible when persisted data hides every link", () => {
+    const preferences = parseSidebarPreferences(
+      JSON.stringify({
+        order: links.map((link) => link.href),
+        hidden: links.map((link) => link.href),
+        enabled: [],
+      }),
+    );
+
+    expect(visibleSidebarLinks(links, preferences).map((link) => link.href)).toEqual([
+      "/dashboard",
+    ]);
+  });
+
+  it("strictly validates settings input while tolerating legacy persisted fields", () => {
+    expect(parseSidebarPreferencesInput("not json")).toBeNull();
+    expect(parseSidebarPreferencesInput(JSON.stringify({ order: [42] }))).toBeNull();
+    expect(
+      parseSidebarPreferencesInput(
+        JSON.stringify({
+          order: [],
+          hidden: [],
+          enabled: [],
+          custom: [{ href: "https://x.test" }],
+        }),
+      ),
+    ).toBeNull();
+    expect(
+      parseSidebarPreferences(
+        JSON.stringify({ order: [" /dashboard ", "/dashboard"], custom: [{ href: "bad" }] }),
+      ),
+    ).toEqual({ order: ["/dashboard"], hidden: [], enabled: [] });
+  });
+
+  it("makes re-enabled optional tools visible without duplicating their order", () => {
+    const preferences = {
+      order: ["/dashboard", "/admin/sets"],
+      hidden: ["/admin/sets"],
+      enabled: [],
+    };
+
+    expect(setOptionalSidebarLinkEnabled(preferences, "/admin/sets", true)).toEqual({
+      order: ["/dashboard", "/admin/sets"],
+      hidden: [],
+      enabled: ["/admin/sets"],
+    });
+  });
+
+  it("uses distinct account-scoped cache keys and encodes reserved characters", () => {
+    expect(sidebarPreferencesStorageKey(" user/one ")).toBe("dbsmo-sidebar-preferences:user%2Fone");
+    expect(sidebarPreferencesStorageKey("user-two")).not.toBe(
+      sidebarPreferencesStorageKey("user-one"),
+    );
   });
 });
 

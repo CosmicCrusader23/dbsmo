@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-04
+updated: 2026-08-12
 type: file-map
 tags: [project, architecture, file-map, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: f7e0c74
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -68,6 +68,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/problem-tags.ts`, `lib/problem-content-format.ts`, `lib/problem-set-order.ts`, `lib/problem-set-authoring.ts` - problem metadata normalization, ordering, and authoring validation (sources: named files).
 - `lib/import/` - JSON/ZIP import validation, manifest and answer schemas, image asset handling, optional image ZIP parsing, ZIP path safety, JSON draft storage, image asset persistence, and JSON export conversion (sources: `lib/import/**`).
 - `lib/storage.ts`, `lib/uploaded-pdf.ts`, `lib/writeup-images.ts` - local/S3 storage, uploaded PDF handling, and validated writeup image storage (sources: named files).
+- `lib/query-params.ts` - first-value, bounded-text, and positive-integer normalization for App Router query values, including repeated parameters (source: named file).
 - `lib/analytics.ts`, `lib/admin-exports.ts`, `lib/audit.ts` - analytics computations, export builders, and audit log writes (sources: named files).
 - `scripts/simulate-performance-model.ts` - deterministic 100-student × 100-set calibration and regression gate for the [[Performance Analytics|Mastery Index]] (source: script file).
 - `lib/classes.ts` - class name validation and assignment completion mapping (source: `lib/classes.ts`).

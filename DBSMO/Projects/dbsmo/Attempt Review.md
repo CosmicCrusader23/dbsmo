@@ -1,12 +1,12 @@
 ---
 date: 2026-07-19
-updated: 2026-08-05
+updated: 2026-08-12
 type: feature
 tags: [project, architecture, attempts, grading, ui, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## Purpose
@@ -15,10 +15,11 @@ scanned-commit: working-tree-2026-08-05
 
 ## Authorization
 
-- The submitter can review their own attempt; reviewing another user's attempt requires a perfect attempt for the same problem set.
+- A non-staff viewer can review detailed answers only after they have an exact perfect attempt (`score === maxScore` with `maxScore > 0`) for the same set. Ownership alone does not unlock a partial attempt.
 - Staff with `admin:analytics` can review any attempt. This currently covers Admin, Teacher, and Analyst according to `lib/permissions.ts`.
 - Unknown and unauthorized attempt IDs both call `notFound()` so the route does not disclose whether another student's submission exists.
-- `proxy.ts` includes `/attempts/:path*` as the broad signed-in boundary, but the page query remains authoritative (sources: `app/attempts/[id]/page.tsx`, `proxy.ts`, `lib/permissions.ts`).
+- The route first selects only access metadata, authorizes the viewer, and only then joins responses, answer keys, explanations, and assets. Hidden leaderboard identity is anonymized unless the viewer owns the attempt or has analytics access.
+- `proxy.ts` includes `/attempts/:path*` as the broad signed-in boundary, but the page query remains authoritative (sources: `app/attempts/[id]/page.tsx`, `lib/submissions.ts`, `proxy.ts`, `lib/permissions.ts`).
 
 ## Data Display
 

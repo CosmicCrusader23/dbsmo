@@ -9,13 +9,14 @@ import { hasPermission } from "@/lib/permissions";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { PageBackLink } from "@/app/page-back-link";
+import { normalizePageNumber, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 import { StudentTableRow } from "./student-table-row";
 
 export const dynamic = "force-dynamic";
 
 type AdminStudentsSearchParams = Promise<{
-  page?: string;
-  q?: string;
+  page?: QueryParamValue;
+  q?: QueryParamValue;
 }>;
 
 export default async function AdminStudentsPage({
@@ -28,9 +29,9 @@ export default async function AdminStudentsPage({
   if (!hasPermission(session.user.role, "admin:users")) redirect("/dashboard");
 
   const params = (await searchParams) ?? {};
-  const query = params.q?.trim() ?? "";
+  const query = normalizeQueryText(params.q);
   const normalizedQuery = query.toLowerCase();
-  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const currentPage = normalizePageNumber(params.page);
   const pageSize = 25;
 
   const [students, problemSets] = await Promise.all([

@@ -21,7 +21,7 @@ function applyTheme(theme: Theme) {
   root.classList.add(theme);
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ persist = true }: { persist?: boolean }) {
   const theme = useSyncExternalStore(subscribe, getSnapshot, () => "light" as Theme);
 
   useEffect(() => {
@@ -33,20 +33,24 @@ export function ThemeToggle() {
     localStorage.setItem("mo-theme", next);
     applyTheme(next);
     window.dispatchEvent(new Event("storage"));
-    try {
-      await fetch("/api/settings", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ theme: next }),
-      });
-    } catch {}
-  }, [theme]);
+    if (persist) {
+      try {
+        await fetch("/api/settings", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ theme: next }),
+        });
+      } catch {}
+    }
+  }, [persist, theme]);
 
   // Sync from DB on mount
   useEffect(() => {
+    if (!persist) return;
+
     fetch("/api/settings")
-      .then(r => r.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data?.user?.theme && (data.user.theme === "light" || data.user.theme === "dark")) {
           localStorage.setItem("mo-theme", data.user.theme);
           applyTheme(data.user.theme);
@@ -58,8 +62,7 @@ export function ThemeToggle() {
         }
       })
       .catch(() => {});
-  }, []);
-
+  }, [persist]);
 
   return (
     <button

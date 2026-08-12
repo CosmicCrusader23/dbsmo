@@ -7,12 +7,13 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { WriteupsClient } from "./writeups-client";
+import { firstQueryParam, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
 type WriteupsPageProps = {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<{ sort?: string }>;
+  searchParams?: Promise<{ sort?: QueryParamValue }>;
 };
 
 export default async function ProblemSetWriteupsPage({ params, searchParams }: WriteupsPageProps) {
@@ -22,7 +23,7 @@ export default async function ProblemSetWriteupsPage({ params, searchParams }: W
   }
 
   const [{ slug }, query] = await Promise.all([params, searchParams]);
-  const sortMode = query?.sort === "top" ? "top" : "latest";
+  const sortMode = firstQueryParam(query?.sort) === "top" ? "top" : "latest";
   const [currentUser, problemSet] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },

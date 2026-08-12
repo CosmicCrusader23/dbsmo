@@ -11,6 +11,7 @@ import { displayNameFor } from "@/lib/display-name";
 import { computePerformanceProfile, performanceEvidenceLabel } from "@/lib/analytics";
 import { Avatar } from "@/app/avatar";
 import { PageBackLink } from "@/app/page-back-link";
+import { firstQueryParam, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +23,9 @@ function RankBadge({ rank }: { rank: number }) {
 }
 
 type LeaderboardSearchParams = Promise<{
-  mode?: string;
-  scope?: string;
-  sort?: string;
+  mode?: QueryParamValue;
+  scope?: QueryParamValue;
+  sort?: QueryParamValue;
 }>;
 
 type StandardSortMode = "index" | "accuracy";
@@ -50,10 +51,11 @@ export default async function LeaderboardPage({
   if (!session?.user?.id) redirect("/");
 
   const params = (await searchParams) ?? {};
-  const mode = params.mode === "practice" ? "practice" : "standard";
-  const scope = params.scope === "friends" ? "friends" : "all";
+  const mode = firstQueryParam(params.mode) === "practice" ? "practice" : "standard";
+  const scope = firstQueryParam(params.scope) === "friends" ? "friends" : "all";
+  const requestedSort = firstQueryParam(params.sort);
   const sortMode: StandardSortMode =
-    params.sort === "accuracy" || params.sort === "average" ? "accuracy" : "index";
+    requestedSort === "accuracy" || requestedSort === "average" ? "accuracy" : "index";
 
   function leaderboardHref(next: {
     mode?: "standard" | "practice";

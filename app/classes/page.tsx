@@ -10,11 +10,12 @@ import { displayNameFor } from "@/lib/display-name";
 import { PageBackLink } from "@/app/page-back-link";
 import { AnnouncementComposer } from "./announcement-composer";
 import { DeleteAnnouncementButton } from "./delete-announcement-button";
+import { firstQueryParam, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Classes · DBSMO" };
 
-type ClassesSearchParams = Promise<{ tab?: string }>;
+type ClassesSearchParams = Promise<{ tab?: QueryParamValue }>;
 
 export default async function ClassesPage({
   searchParams,
@@ -33,7 +34,8 @@ export default async function ClassesPage({
   const canTeach = hasPermission(user.role, "admin:users");
   const isAdmin = user.role === "ADMIN";
   const params = (await searchParams) ?? {};
-  const activeTab = canTeach && params.tab === "announcements" ? "announcements" : "classes";
+  const activeTab =
+    canTeach && firstQueryParam(params.tab) === "announcements" ? "announcements" : "classes";
 
   const [memberships, teachingClasses, announcements] = await Promise.all([
     prisma.classMember.findMany({

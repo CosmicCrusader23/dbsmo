@@ -35,7 +35,10 @@ import {
   EMPTY_SIDEBAR_PREFERENCES,
   mergeSidebarLinks,
   readSidebarPreferences,
+  setOptionalSidebarLinkEnabled,
+  SIDEBAR_PREFERENCES_EVENT,
   sidebarPreferenceKey,
+  sidebarPreferencesStorageKey,
   type SidebarPreferences,
   writeSidebarPreferences,
 } from "@/lib/sidebar-preferences";
@@ -96,11 +99,14 @@ export function SidebarSettings({
 
   useEffect(() => {
     const update = () => setPreferences((current) => readSidebarPreferences(userId, current));
-    window.addEventListener("storage", update);
-    window.addEventListener("dbsmo:sidebar-preferences-change", update);
+    const updateFromStorage = (event: StorageEvent) => {
+      if (event.key === sidebarPreferencesStorageKey(userId)) update();
+    };
+    window.addEventListener("storage", updateFromStorage);
+    window.addEventListener(SIDEBAR_PREFERENCES_EVENT, update);
     return () => {
-      window.removeEventListener("storage", update);
-      window.removeEventListener("dbsmo:sidebar-preferences-change", update);
+      window.removeEventListener("storage", updateFromStorage);
+      window.removeEventListener(SIDEBAR_PREFERENCES_EVENT, update);
     };
   }, [userId]);
 
@@ -185,16 +191,8 @@ export function SidebarSettings({
     const key = sidebarPreferenceKey(link);
     if (defaultKeys.has(key)) return;
     const isEnabled = enabled.has(key);
-    save({
-      ...preferences,
-      enabled: isEnabled
-        ? preferences.enabled.filter((item) => item !== key)
-        : [...preferences.enabled, key],
-      order:
-        !isEnabled && !preferences.order.includes(key)
-          ? [...preferences.order, key]
-          : preferences.order,
-    });
+    if (isEnabled && !hidden.has(key) && visibleCount <= 1) return;
+    save(setOptionalSidebarLinkEnabled(preferences, key, !isEnabled));
   }
 
   function reset() {
@@ -209,8 +207,10 @@ export function SidebarSettings({
           <h2 id="sidebar-settings-title">Sidebar</h2>
           <p>Drag links to reorder them, or use the arrow controls. Changes save automatically.</p>
         </div>
-        <div className="sidebar-settings-status" aria-live="polite">
-          {isSaving ? "Saving…" : saved ? "Saved" : null}
+        <div className="sidebar-settings-status">
+          <span aria-live="polite" role="status">
+            {isSaving ? "Saving…" : saved ? "Saved" : null}
+          </span>
           <button
             className="secondary-action compact"
             type="button"
@@ -312,40 +312,50 @@ export function SidebarSettings({
         })}
       </div>
 
-      <section className="sidebar-tool-picker" aria-labelledby="sidebar-tool-picker-title">
-        <div>
-          <p className="eyebrow">Admin console</p>
-          <h3 id="sidebar-tool-picker-title">Add approved tools</h3>
-          <p>Choose from the tools available to your role. No custom URLs are allowed.</p>
-        </div>
-        <div className="sidebar-tool-picker-list">
-          {optionalLinks.map((link) => {
-            const key = sidebarPreferenceKey(link);
-            const alwaysIncluded = defaultKeys.has(key);
-            const checked = alwaysIncluded || enabled.has(key);
-            return (
-              <label
-                className={`sidebar-tool-option${alwaysIncluded ? " is-included" : ""}`}
-                key={key}
-              >
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  disabled={alwaysIncluded}
-                  onChange={() => toggleAdminTool(link)}
-                />
-                <span className="sidebar-tool-option-icon" aria-hidden="true">
-                  <SidebarSettingsIcon name={link.icon} />
-                </span>
-                <span className="sidebar-tool-option-copy">
-                  <strong>{link.label}</strong>
-                  <small>{alwaysIncluded ? "Already in your sidebar" : link.href}</small>
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      </section>
+      {optionalLinks.length > 0 ? (
+        <section className="sidebar-tool-picker" aria-labelledby="sidebar-tool-picker-title">
+          <div>
+            <p className="eyebrow">Admin console</p>
+            <h3 id="sidebar-tool-picker-title">Add approved tools</h3>
+            <p>Choose from the tools available to your role. No custom URLs are allowed.</p>
+          </div>
+          <div className="sidebar-tool-picker-list">
+            {optionalLinks.map((link) => {
+              const key = sidebarPreferenceKey(link);
+              const alwaysIncluded = defaultKeys.has(key);
+              const checked = alwaysIncluded || enabled.has(key);
+              const removingLastVisible =
+                !alwaysIncluded && checked && !hidden.has(key) && visibleCount <= 1;
+              return (
+                <label
+                  className={`sidebar-tool-option${alwaysIncluded ? " is-included" : ""}`}
+                  key={key}
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    disabled={alwaysIncluded || removingLastVisible}
+                    onChange={() => toggleAdminTool(link)}
+                  />
+                  <span className="sidebar-tool-option-icon" aria-hidden="true">
+                    <SidebarSettingsIcon name={link.icon} />
+                  </span>
+                  <span className="sidebar-tool-option-copy">
+                    <strong>{link.label}</strong>
+                    <small>
+                      {alwaysIncluded
+                        ? "Already in your sidebar"
+                        : removingLastVisible
+                          ? "Keep at least one sidebar link visible"
+                          : link.href}
+                    </small>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
     </section>
   );
 }

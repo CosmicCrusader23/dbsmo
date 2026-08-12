@@ -12,10 +12,14 @@ import {
 } from "@/lib/analytics";
 import { hasPermission } from "@/lib/permissions";
 import { isVisibleToStudent } from "@/lib/visibility";
+import { normalizePageNumber, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
-type Props = { params: Promise<{ id: string }>; searchParams?: Promise<{ page?: string }> };
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<{ page?: QueryParamValue }>;
+};
 
 const ACCENT = ["cyan", "purple", "pink", "orange"] as const;
 
@@ -30,7 +34,7 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
 
   const { id } = await params;
   const query = (await searchParams) ?? {};
-  const currentPage = Math.max(1, Number(query.page ?? "1") || 1);
+  const currentPage = normalizePageNumber(query.page);
   const pageSize = 20;
   const [student, problemSets] = await Promise.all([
     prisma.user.findUnique({

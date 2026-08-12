@@ -18,9 +18,9 @@ const persistence = vi.hoisted(() => {
   const importedFileCreate = vi.fn();
   const writeupImageCreate = vi.fn();
   return {
+    cleanupUnreferencedImportedFiles: vi.fn(),
     deleteFile: vi.fn(),
     importedFileCreate,
-    importedFileDelete: vi.fn(),
     saveFile: vi.fn(),
     transaction: vi.fn(async (callback: (tx: MockTransactionClient) => Promise<unknown>) =>
       callback({
@@ -37,10 +37,13 @@ vi.mock("@/lib/storage", () => ({
   saveFile: persistence.saveFile,
 }));
 
+vi.mock("@/lib/imported-file-cleanup", () => ({
+  cleanupUnreferencedImportedFiles: persistence.cleanupUnreferencedImportedFiles,
+}));
+
 vi.mock("@/lib/db", () => ({
   prisma: {
     $transaction: persistence.transaction,
-    importedFile: { delete: persistence.importedFileDelete },
   },
 }));
 
@@ -51,9 +54,12 @@ const PNG_1X1 = Buffer.from(
 
 beforeEach(() => {
   vi.clearAllMocks();
+  persistence.cleanupUnreferencedImportedFiles.mockResolvedValue({
+    deletedIds: [],
+    failedStorageKeys: [],
+  });
   persistence.deleteFile.mockResolvedValue(undefined);
   persistence.importedFileCreate.mockResolvedValue({ id: "file-1" });
-  persistence.importedFileDelete.mockResolvedValue({ id: "deleted" });
   persistence.saveFile.mockResolvedValue(undefined);
   persistence.writeupImageCreate.mockResolvedValue({ id: "link-1" });
 });
@@ -134,19 +140,26 @@ describe("writeup image validation", () => {
     );
   });
 
-  it("compensates completed metadata rows and storage in reverse order", async () => {
+  it("delegates compensation to reference-aware cleanup in reverse order", async () => {
     await cleanupStoredWriteupImages([
       { fileId: "file-1", storageKey: "writeups/set/writeup/one.png" },
       { fileId: "file-2", storageKey: "writeups/set/writeup/two.png" },
     ]);
 
-    expect(persistence.importedFileDelete.mock.calls.map(([arg]) => arg.where.id)).toEqual([
-      "file-2",
-      "file-1",
-    ]);
-    expect(persistence.deleteFile.mock.calls.map(([key]) => key)).toEqual([
-      "writeups/set/writeup/two.png",
-      "writeups/set/writeup/one.png",
-    ]);
+    expect(persistence.cleanupUnreferencedImportedFiles).toHaveBeenCalledWith(["file-2", "file-1"]);
+    expect(persistence.deleteFile).not.toHaveBeenCalled();
+  });
+
+  it("keeps cleanup best-effort when the database is unavailable", async () => {
+    persistence.cleanupUnreferencedImportedFiles.mockRejectedValueOnce(
+      new Error("database unavailable"),
+    );
+
+    await expect(
+      cleanupStoredWriteupImages([
+        { fileId: "file-1", storageKey: "writeups/set/writeup/one.png" },
+      ]),
+    ).resolves.toBeUndefined();
+    expect(persistence.deleteFile).not.toHaveBeenCalled();
   });
 });

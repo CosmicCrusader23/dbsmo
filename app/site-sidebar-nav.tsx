@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart3,
   CheckCircle2,
@@ -79,7 +79,6 @@ export function SiteSidebarNav({
   userId: string;
 }) {
   const pathname = usePathname() ?? "/";
-  const navRef = useRef<HTMLElement | null>(null);
   const [preferences, setPreferences] = useState(initialPreferences);
   const visibleLinks = visibleSidebarLinks(links, preferences, optionalLinks);
   const activeHref = activeSidebarHref(pathname, visibleLinks);
@@ -94,23 +93,8 @@ export function SiteSidebarNav({
     };
   }, [userId]);
 
-  useEffect(() => {
-    const sidebar = navRef.current?.closest(".sidebar") as HTMLElement | null;
-    if (!sidebar) return;
-    function collapse() {
-      const active = document.activeElement as HTMLElement | null;
-      if (active && sidebar?.contains(active) && typeof active.blur === "function") {
-        active.blur();
-      }
-    }
-    sidebar.addEventListener("mouseleave", collapse);
-    return () => {
-      sidebar.removeEventListener("mouseleave", collapse);
-    };
-  }, []);
-
   return (
-    <nav className="nav-list" ref={navRef}>
+    <nav aria-label="Primary navigation" className="nav-list">
       {visibleLinks.map((link) => {
         const Icon = ICON_MAP[link.icon] ?? Link2;
         const isActive = activeHref === link.href;
@@ -123,11 +107,11 @@ export function SiteSidebarNav({
             rel={link.external ? "noreferrer" : undefined}
             target={link.external ? "_blank" : undefined}
             onClick={(e) => {
-              e.currentTarget.blur();
+              if (e.detail > 0) e.currentTarget.blur();
               window.dispatchEvent(new Event("dbsmo:mobile-nav-close"));
             }}
           >
-            <Icon size={18} />
+            <Icon aria-hidden="true" size={18} />
             <span className="nav-label">{link.label}</span>
           </Link>
         );

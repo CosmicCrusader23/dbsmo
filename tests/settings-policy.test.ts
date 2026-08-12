@@ -21,6 +21,39 @@ describe("settings policy", () => {
     expect(settingsPatchSchema.safeParse({ greetingSettings: "x".repeat(2_001) }).success).toBe(
       false,
     );
+    expect(settingsPatchSchema.safeParse({ unexpected: true }).success).toBe(false);
+  });
+
+  it("validates and canonicalizes greeting settings JSON", () => {
+    const parsed = settingsPatchSchema.parse({
+      greetingSettings: '{"holdMs":1200,"typeSpeed":35}',
+    });
+
+    expect(parsed.greetingSettings).toBe('{"typeSpeed":35,"holdMs":1200}');
+    expect(settingsPatchSchema.safeParse({ greetingSettings: "not json" }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ greetingSettings: '{"typeSpeed":0}' }).success).toBe(
+      false,
+    );
+    expect(
+      settingsPatchSchema.safeParse({ greetingSettings: '{"typeSpeed":35,"extra":1}' }).success,
+    ).toBe(false);
+  });
+
+  it("rejects malformed or user-defined sidebar destinations", () => {
+    expect(
+      settingsPatchSchema.safeParse({
+        sidebarPreferences: '{"order":["/dashboard"],"hidden":[],"enabled":[]}',
+      }).success,
+    ).toBe(true);
+    expect(settingsPatchSchema.safeParse({ sidebarPreferences: "not json" }).success).toBe(false);
+    expect(settingsPatchSchema.safeParse({ sidebarPreferences: '{"order":[1]}' }).success).toBe(
+      false,
+    );
+    expect(
+      settingsPatchSchema.safeParse({
+        sidebarPreferences: '{"order":[],"custom":[{"href":"https://example.com"}]}',
+      }).success,
+    ).toBe(false);
   });
 
   it("allows only remote HTTP images or inert raster data URLs", () => {

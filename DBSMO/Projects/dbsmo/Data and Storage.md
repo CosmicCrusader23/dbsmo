@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-05
+updated: 2026-08-12
 type: data-storage
 tags: [project, architecture, data, storage, prisma, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -103,7 +103,7 @@ Writeup image uploads use `lib/writeup-images.ts`. The helper accepts only PNG, 
 
 `POST /api/writeups/[id]/vote` accepts `value` `-1`, `0`, or `1`. It verifies session and set visibility, deletes the current user's vote for `0`, otherwise upserts the vote, and returns the updated score and current user's vote (source: `app/api/writeups/[id]/vote/route.ts`).
 
-`DELETE /api/writeups/[id]` verifies session, set visibility, and author/admin ownership before deleting the writeup. `WriteupImage` and `WriteupVote` rows cascade; `cleanupUnreferencedImportedFiles(...)` removes unreferenced `ImportedFile` metadata before best-effort backing-object cleanup (sources: `app/api/writeups/[id]/route.ts`, `lib/imported-file-cleanup.ts`).
+`DELETE /api/writeups/[id]` verifies session and author/admin ownership; an author can remove their post even if the related set later becomes hidden, while a non-author receives a non-disclosing 404 for a hidden set. `WriteupImage` and `WriteupVote` rows cascade; `cleanupUnreferencedImportedFiles(...)` removes metadata only when no live relation remains before best-effort backing-object cleanup (sources: `app/api/writeups/[id]/route.ts`, `lib/imported-file-cleanup.ts`).
 
 ## Classes and Assignments
 
@@ -111,13 +111,13 @@ Class detail authorization requires session, `admin:users`, class existence, and
 
 Assignment data shown to students comes from `/api/assignments/mine`, which computes completion and problem counts in one bounded SQL query and preserves incomplete-first/due-date ordering. `AssignmentsWidget` renders the first five results (source: `app/dashboard/assignments-widget.tsx`, `app/api/assignments/mine/route.ts`).
 
-Class announcements are created through `POST /api/admin/announcements`, which requires `admin:users`; non-admin teachers can target only classes where they are `teacherId`. `/classes?tab=announcements` renders `AnnouncementComposer`, lists existing related announcements, and deletes messages through `DELETE /api/admin/announcements/[id]` for admins or the announcement author. `app/dashboard/page.tsx` loads announcements for classes where the current user is a member, ordered newest first and pinned above the dashboard hero (sources: `app/api/admin/announcements/route.ts`, `app/api/admin/announcements/[id]/route.ts`, `app/classes/announcement-composer.tsx`, `app/classes/delete-announcement-button.tsx`, `app/classes/page.tsx`, `app/dashboard/page.tsx`).
+Class announcements are created through `POST /api/admin/announcements`, which requires `admin:users`; non-admin teachers can target only classes where they are `teacherId`. Class ownership is checked inside the same serializable transaction as creation, and create/delete reject cross-site browser mutations. `/classes?tab=announcements` renders `AnnouncementComposer`, lists existing related announcements, and deletes messages through `DELETE /api/admin/announcements/[id]` for admins or the announcement author. `app/dashboard/page.tsx` loads targeted announcements newest-first on each page render (sources: `app/api/admin/announcements/route.ts`, `app/api/admin/announcements/[id]/route.ts`, `app/classes/page.tsx`, `app/dashboard/page.tsx`).
 
 ## Exports and Backups
 
 `buildStudentsCsv()` exports student identity plus all derived [[Performance Analytics|Performance Profile]] fields: sets attempted, Mastery Index, best-set average, consistency floor, mastery rate, evidence, and attempt count. `buildAttemptsCsv()` exports attempt rows. Both neutralize formula-leading spreadsheet cells. `buildBackupJson()` exports problem sets in import JSON shape and safely restorable imported-file relations/content. All three paginate database reads and enforce row/output/file caps; download routes reject cross-site browser GETs (sources: `lib/admin-exports.ts`, `lib/admin-export-safety.ts`, `lib/analytics.ts`, `lib/http-body.ts`).
 
-The Performance Profile is not database state. It is recalculated from `Attempt` rows and currently visible `ProblemSet` rows so no invalidation job or schema migration is needed (sources: `lib/analytics.ts`, `app/api/settings/route.ts`, `prisma/schema.prisma`).
+The Performance Profile is not database state. It is recalculated from `Attempt` rows and currently visible `ProblemSet` rows so no invalidation job or schema migration is needed. Dashboard, profiles, Users, leaderboard, and staff analytics call the shared helper; Settings no longer queries attempts for removed metric cards (sources: `lib/analytics.ts`, `app/users/page.tsx`, `app/api/settings/route.ts`, `prisma/schema.prisma`).
 
 `ExportJob` stores job status, type, requester, filename, MIME type, payload, error, creation/completion times. The API reserves one bounded/cooldown-controlled job, builds synchronously, and stores a capped JSON payload; it is not a worker queue (sources: `app/api/admin/export-jobs/route.ts`, `lib/admin-export-safety.ts`, `prisma/schema.prisma`).
 

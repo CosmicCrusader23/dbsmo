@@ -15,6 +15,7 @@ import {
 import { profilePathFromEmail } from "@/lib/user-profile";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { compareProblemSetOrder, compareProblemSetRecords } from "@/lib/problem-set-order";
+import { normalizePageNumber, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { PageBackLink } from "@/app/page-back-link";
 
@@ -40,14 +41,14 @@ type SetRow = {
 };
 
 type ProblemSetsSearchParams = Promise<{
-  category?: string;
-  hideSolved?: string;
-  media?: string;
-  page?: string;
-  q?: string;
-  sort?: string;
-  status?: string;
-  view?: string;
+  category?: QueryParamValue;
+  hideSolved?: QueryParamValue;
+  media?: QueryParamValue;
+  page?: QueryParamValue;
+  q?: QueryParamValue;
+  sort?: QueryParamValue;
+  status?: QueryParamValue;
+  view?: QueryParamValue;
 }>;
 
 export default async function ProblemSetsPage({
@@ -85,7 +86,7 @@ export default async function ProblemSetsPage({
             : params.view === "practice"
               ? "practice"
               : "recommended";
-  const currentPage = Math.max(1, Number(params.page ?? "1") || 1);
+  const currentPage = normalizePageNumber(params.page);
   const pageSize = 20;
   const statusFilter =
     params.status === "not-started" ||
@@ -95,9 +96,9 @@ export default async function ProblemSetsPage({
       : "all";
   const mediaFilter = params.media === "video" ? "video" : params.media === "pdf" ? "pdf" : "all";
   const hideSolved = params.hideSolved === "1";
-  const query = params.q?.trim() ?? "";
+  const query = normalizeQueryText(params.q);
   const normalizedQuery = query.toLowerCase();
-  const requestedCategory = params.category?.trim().slice(0, 64) ?? "";
+  const requestedCategory = normalizeQueryText(params.category, 64);
   const activeCategory = requestedCategory ? canonicalizeProblemTag(requestedCategory) : null;
 
   function problemSetsHref(next: {

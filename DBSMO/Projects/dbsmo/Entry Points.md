@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-05
+updated: 2026-08-12
 type: entry-points
 tags: [project, architecture, routes, apis, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -49,7 +49,7 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 
 - `/problem-sets` - browse/filter/sort problem sets with recommendations, assignments/bookmarks/practice views, media/status/category filters, search, and pagination (source: `app/problem-sets/page.tsx`).
 - `/problem-sets/[slug]` - set detail and answer entry, with inline statements or PDF fallback and file/video/solution display (source: `app/problem-sets/[slug]/page.tsx`).
-- `/attempts/[id]` - saved [[Attempt Review]] for the attempt owner, for a viewer who has solved the set perfectly, or for staff with `admin:analytics`; unauthorized and unknown IDs both return 404 (source: `app/attempts/[id]/page.tsx`, `lib/submissions.ts`).
+- `/attempts/[id]` - saved [[Attempt Review]] for a viewer who has solved the set exactly perfectly or for staff with `admin:analytics`; ownership alone does not unlock partial-attempt answers, and unauthorized/unknown IDs both return 404 (source: `app/attempts/[id]/page.tsx`, `lib/submissions.ts`).
 - `/problem-sets/[slug]/submissions` - authenticated recent-submission directory for a visible set. It shows 20 newest attempts per page, supports all/friends scope and bounded name search, exposes verdict/score to signed-in viewers, and links to answer review only after a perfect solve or for analytics staff (source: `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`).
 - `/problem-sets/[slug]/writeups` - set writeup feed/composer with latest/top sorting, image attachments, and voting (sources: `app/problem-sets/[slug]/writeups/page.tsx`, `app/problem-sets/[slug]/writeups/writeups-client.tsx`).
 - `/writeups` - global writeups directory from the sidebar with latest/top views and problem-set search (source: `app/writeups/page.tsx`).
@@ -88,8 +88,8 @@ Deployment flow is documented in `SETUP.md`: install dependencies, run `npx pris
 - `PUT/DELETE /api/problem-sets/[id]/bookmark` - create/remove current user's bookmark (source: `app/api/problem-sets/[id]/bookmark/route.ts`).
 - `POST /api/problem-sets/[id]/writeups` - create a writeup with LaTeX/HTML text and optional image uploads for a visible set (source: `app/api/problem-sets/[id]/writeups/route.ts`).
 - `POST /api/writeups/[id]/vote` - upvote, downvote, or clear the current user's vote on a visible writeup (source: `app/api/writeups/[id]/vote/route.ts`).
-- `DELETE /api/writeups/[id]` - delete a visible writeup when the requester is the author or an admin; associated uploaded image files are deleted best-effort (source: `app/api/writeups/[id]/route.ts`).
-- `GET/PATCH /api/settings` - read/update profile settings and privacy flags (source: `app/api/settings/route.ts`).
+- `DELETE /api/writeups/[id]` - author/admin deletion, including author cleanup after a set becomes hidden; related metadata/storage cleanup remains reference-aware and best-effort (sources: `app/api/writeups/[id]/route.ts`, `lib/imported-file-cleanup.ts`).
+- `GET/PATCH /api/settings` - read/update profile settings and privacy flags. PATCH strictly validates/canonicalizes greeting/sidebar JSON before persistence (sources: `app/api/settings/route.ts`, `lib/settings-policy.ts`).
 - `PATCH /api/friends/[userId]` - toggle friend relationship (source: `app/api/friends/[userId]/route.ts`).
 - `GET /api/files/[id]` - authenticated file streaming for PDFs/images with visibility checks (source: `app/api/files/[id]/route.ts`).
 - `GET /api/assignments/mine` - current student's assignment list (source: `app/api/assignments/mine/route.ts`).

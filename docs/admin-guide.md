@@ -164,7 +164,7 @@ Use the **Export CSV** button on the Analytics page for quick access.
 
 ## Dark Mode
 
-Click the theme toggle button (☀️/🌙) in the top-right topbar area to switch between light and dark mode. The preference is saved in your browser.
+Click the theme toggle button (☀️/🌙) in the top-right topbar area to switch between light and dark mode. Signed-in changes are saved to your account and cached in the browser; the signed-out switcher uses only the browser cache.
 
 ## App Footer
 

@@ -1,11 +1,12 @@
 ---
 date: 2026-07-19
-updated: 2026-07-19
+updated: 2026-08-12
 type: domain-model
 tags: [project, analytics, scoring, leaderboard, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -14,7 +15,7 @@ This is the source-grounded orientation note for cross-set student scoring in [[
 
 ## Purpose
 
-[[dbsmo]] uses a derived `PerformanceProfile` rather than one points-weighted average or a persisted rating. `computePerformanceProfile(...)` collapses retries to the best percentage per visible published set and returns the same metrics for dashboard, profile, settings, leaderboard, staff analytics, and exports (source: `lib/analytics.ts`).
+[[dbsmo]] uses a derived `PerformanceProfile` rather than one points-weighted average or a persisted rating. `computePerformanceProfile(...)` collapses retries to the best percentage per visible published set and returns the same metrics for dashboard, profiles, the Users directory, leaderboard, staff analytics, and exports (source: `lib/analytics.ts`).
 
 This is deliberately calculated at read time. Persisting the index would make it stale when attempts are regraded or a problem set becomes visible/hidden; there is no new Prisma model or migration (sources: `lib/analytics.ts`, `prisma/schema.prisma`).
 
@@ -30,7 +31,7 @@ This is deliberately calculated at read time. Persisting the index would make it
 
 ## Surfaces
 
-The primary student summary is Mastery Index; best-set average and the other components remain visible so the result is explainable (sources: `app/dashboard/page.tsx`, `app/users/[username]/page.tsx`, `app/settings/page.tsx`, `app/api/settings/route.ts`).
+The primary student summary is Mastery Index; best-set average and the other components remain visible so the result is explainable. Settings intentionally contains only account/navigation controls and does not load attempts for removed performance cards (sources: `app/dashboard/page.tsx`, `app/users/[username]/page.tsx`, `app/users/page.tsx`, `app/settings/page.tsx`, `app/api/settings/route.ts`).
 
 Standard leaderboard ranking defaults to Mastery Index and can alternatively sort by best-set average. Admin student tables/detail, filtered analytics leaders, and student CSV exports call the same helper instead of reimplementing the formula (sources: `app/leaderboard/page.tsx`, `app/admin/students/page.tsx`, `app/admin/students/[id]/page.tsx`, `app/admin/analytics/page.tsx`, `lib/admin-exports.ts`).
 

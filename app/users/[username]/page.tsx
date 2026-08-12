@@ -19,6 +19,7 @@ import { canLinkProblemSetFromProfile } from "@/lib/profile-visibility";
 import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { PageBackLink } from "@/app/page-back-link";
+import { firstQueryParam, type QueryParamValue } from "@/lib/query-params";
 import { AuthoredTasksTable } from "./authored-tasks-table";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
@@ -80,7 +81,7 @@ export default async function UserProfilePage({
   searchParams,
 }: {
   params: Promise<{ username: string }>;
-  searchParams?: Promise<{ grid?: string }>;
+  searchParams?: Promise<{ grid?: QueryParamValue }>;
 }) {
   const session = await getServerSession(authOptions);
   if (!session?.user) redirect("/");
@@ -88,7 +89,7 @@ export default async function UserProfilePage({
   const { username } = await params;
   const gridParams = (await searchParams) ?? {};
   const normalizedUsername = decodeURIComponent(username).trim().toLowerCase();
-  const gridMode = gridParams.grid === "problems" ? "problems" : "sets";
+  const gridMode = firstQueryParam(gridParams.grid) === "problems" ? "problems" : "sets";
   const profileVisibilityNow = new Date();
 
   const user = await prisma.user.findFirst({

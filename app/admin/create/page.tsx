@@ -3,10 +3,11 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { hasPermission } from "@/lib/permissions";
 import { CreateSetPageClient } from "./page-client";
+import { firstQueryParam, type QueryParamValue } from "@/lib/query-params";
 
 type CreateSetPageProps = {
   searchParams?: Promise<{
-    importDraft?: string;
+    importDraft?: QueryParamValue;
   }>;
 };
 
@@ -17,5 +18,9 @@ export default async function CreateSetPage({ searchParams }: CreateSetPageProps
 
   const resolvedSearchParams = await searchParams;
 
-  return <CreateSetPageClient importDraftKey={resolvedSearchParams?.importDraft ?? null} />;
+  return (
+    <CreateSetPageClient
+      importDraftKey={firstQueryParam(resolvedSearchParams?.importDraft) ?? null}
+    />
+  );
 }

@@ -34,7 +34,11 @@ export async function SiteSidebar() {
   return (
     <>
       <GlobalMobileNavScrim />
-      <aside className="sidebar site-sidebar" aria-label="Primary" tabIndex={0}>
+      <aside
+        id="site-sidebar-navigation"
+        className="sidebar site-sidebar"
+        aria-label="Application sidebar"
+      >
         <Link className="sidebar-wordmark" href="/dashboard" aria-label="DBSMO dashboard">
           <span className="sidebar-wordmark-mark" aria-hidden="true">
             <Sigma size={23} strokeWidth={2.4} />

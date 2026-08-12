@@ -9,9 +9,6 @@ import {
   normalizeSettingsPatch,
   settingsPatchSchema,
 } from "@/lib/settings-policy";
-import { parseSidebarPreferences } from "@/lib/sidebar-preferences";
-import { computePerformanceProfile } from "@/lib/analytics";
-import { isVisibleToStudent } from "@/lib/visibility";
 
 export async function GET() {
   try {
@@ -20,62 +17,30 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const [user, attempts, problemSets] = await Promise.all([
-      prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          image: true,
-          displayName: true,
-          avatarUrl: true,
-          role: true,
-          group: true,
-          profileVisible: true,
-          leaderboardVisible: true,
-          theme: true,
-          greetingSettings: true,
-          sidebarPreferences: true,
-          _count: {
-            select: { practiceSolves: true },
-          },
-        },
-      }),
-      prisma.attempt.findMany({
-        where: { userId: session.user.id },
-        select: { score: true, maxScore: true, problemSetId: true },
-      }),
-      prisma.problemSet.findMany({
-        select: { id: true, status: true, visibleFrom: true, visibleTo: true },
-      }),
-    ]);
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        image: true,
+        displayName: true,
+        avatarUrl: true,
+        role: true,
+        group: true,
+        profileVisible: true,
+        leaderboardVisible: true,
+        theme: true,
+        greetingSettings: true,
+        sidebarPreferences: true,
+      },
+    });
 
     if (!user) {
       return NextResponse.json({ user: null });
     }
 
-    const { _count, ...profile } = user;
-    const visibleSetIds = new Set(
-      problemSets.filter((set) => isVisibleToStudent(set)).map((set) => set.id),
-    );
-    const performance = computePerformanceProfile(
-      attempts.filter((attempt) => visibleSetIds.has(attempt.problemSetId)),
-      visibleSetIds.size,
-    );
-
-    return NextResponse.json({
-      user: {
-        ...profile,
-        stats: {
-          attemptedSets: performance.attemptedSets,
-          totalAttempts: attempts.length,
-          masteryIndex: performance.masteryIndex,
-          bestSetAverage: performance.bestSetAverage,
-          practiceScore: _count.practiceSolves,
-        },
-      },
-    });
+    return NextResponse.json({ user });
   } catch (error) {
     console.error("Failed to fetch settings:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -109,13 +74,6 @@ export async function PATCH(req: Request) {
       greetingSettings,
       sidebarPreferences,
     } = normalizeSettingsPatch(parsed.data);
-    const normalizedSidebarPreferences =
-      sidebarPreferences === undefined
-        ? undefined
-        : sidebarPreferences === null
-          ? null
-          : JSON.stringify(parseSidebarPreferences(sidebarPreferences));
-
     if (typeof avatarUrl === "string") {
       if (!isAllowedAvatarUrl(avatarUrl)) {
         return NextResponse.json(
@@ -134,7 +92,7 @@ export async function PATCH(req: Request) {
         leaderboardVisible,
         theme,
         greetingSettings,
-        sidebarPreferences: normalizedSidebarPreferences,
+        sidebarPreferences,
       },
       select: {
         id: true,

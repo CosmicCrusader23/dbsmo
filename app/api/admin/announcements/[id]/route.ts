@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { isCrossSiteBrowserRequest } from "@/lib/http-body";
 
 export const runtime = "nodejs";
 
@@ -10,7 +11,11 @@ type RouteContext = {
   params: Promise<{ id: string }>;
 };
 
-export async function DELETE(_request: Request, context: RouteContext) {
+export async function DELETE(request: Request, context: RouteContext) {
+  if (isCrossSiteBrowserRequest(request)) {
+    return NextResponse.json({ error: "Cross-site request rejected." }, { status: 403 });
+  }
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -40,6 +45,14 @@ export async function DELETE(_request: Request, context: RouteContext) {
     );
   }
 
-  await prisma.announcement.delete({ where: { id } });
+  const deleted = await prisma.announcement.deleteMany({
+    where: {
+      id,
+      ...(currentUser.role === "ADMIN" ? {} : { createdById: currentUser.id }),
+    },
+  });
+  if (deleted.count === 0) {
+    return NextResponse.json({ error: "Announcement not found." }, { status: 404 });
+  }
   return NextResponse.json({ ok: true });
 }

@@ -56,8 +56,8 @@ Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answ
 ### After Submission
 
 - Your score appears immediately with correct/incorrect indicators for each question.
-- Select **Review attempt** to open the full submission breakdown. It shows the verdict, score, accuracy, correct/skipped counts, and time taken.
-- Open **Submissions** beside the set theme control to browse the 20 newest attempts. Filter between everyone and friends, or search by display name. Scores and verdicts are visible to signed-in viewers; your own answers remain reviewable, while other submitted answers unlock after you solve the set perfectly or for analytics staff.
+- After you solve the set with an exact 100%, select **Review attempt** to open a full submission breakdown. It shows the verdict, score, accuracy, correct/skipped counts, time taken, submitted answers, accepted answers, and explanations.
+- Open **Submissions** beside the set theme control to browse the 20 newest attempts. Filter between everyone and friends, or search by display name. Scores and verdicts are visible to signed-in viewers; detailed answers for any attempt, including your own partial attempts, unlock only after you solve the set perfectly or for analytics staff. Users who hide leaderboard identity remain anonymous in this list.
 - In the review, select any question row to compare your submitted and normalized answers with the accepted answers and to read the statement, grader note, or explanation when available.
 - Your attempt is recorded in the **attempt history**.
 - Attempt numbers on the dashboard and the recent attempt chips on the set page link back to that saved review.
@@ -116,7 +116,7 @@ Your report goes to the admin feedback queue. You can check the status of your r
 
 ## Dark Mode
 
-Click the theme toggle button (☀️/🌙) in the top-right area to switch between light and dark mode. Your preference is saved in your browser.
+Click the theme toggle button (☀️/🌙) in the top-right area to switch between light and dark mode. Signed-in changes are saved to your account and cached in the browser; the signed-out switcher uses only the browser cache.
 
 ## App Footer
 

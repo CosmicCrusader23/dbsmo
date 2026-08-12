@@ -19,17 +19,18 @@ import { normalizeTagList } from "@/lib/problem-tags";
 import { hasPermission } from "@/lib/permissions";
 import { displayNameFor } from "@/lib/display-name";
 import { PageBackLink } from "@/app/page-back-link";
+import { firstQueryParam, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 
 export const dynamic = "force-dynamic";
 
 type AnalyticsSearchParams = Promise<{
-  from?: string;
-  group?: string;
-  range?: string;
-  set?: string;
-  student?: string;
-  to?: string;
-  topic?: string;
+  from?: QueryParamValue;
+  group?: QueryParamValue;
+  range?: QueryParamValue;
+  set?: QueryParamValue;
+  student?: QueryParamValue;
+  to?: QueryParamValue;
+  topic?: QueryParamValue;
 }>;
 
 function parseDateParam(value: string | undefined, endOfDay = false) {
@@ -159,9 +160,14 @@ export default async function AnalyticsOverviewPage({
   if (!hasPermission(session.user.role, "admin:analytics")) redirect("/dashboard");
 
   const params = (await searchParams) ?? {};
-  const fromDate = parseDateParam(params.from);
-  const toDate = parseDateParam(params.to, true);
-  const rangeKey = (RANGES.find((r) => r.key === params.range)?.key ?? "6m") as RangeKey;
+  const fromParam = firstQueryParam(params.from);
+  const toParam = firstQueryParam(params.to);
+  const rangeParam = firstQueryParam(params.range);
+  const setParam = firstQueryParam(params.set);
+  const studentParam = firstQueryParam(params.student);
+  const fromDate = parseDateParam(fromParam);
+  const toDate = parseDateParam(toParam, true);
+  const rangeKey = (RANGES.find((r) => r.key === rangeParam)?.key ?? "6m") as RangeKey;
   const rangeConfig = RANGES.find((r) => r.key === rangeKey)!;
 
   const [problemSets, students, allProblems] = await Promise.all([
@@ -182,10 +188,10 @@ export default async function AnalyticsOverviewPage({
     prisma.problem.findMany({ select: { topicTags: true } }),
   ]);
 
-  const selectedSet = problemSets.find((set) => set.slug === params.set) ?? null;
-  const selectedTopic = params.topic?.trim() || "";
-  const selectedGroup = params.group?.trim() || "";
-  const selectedStudent = students.find((student) => student.id === params.student) ?? null;
+  const selectedSet = problemSets.find((set) => set.slug === setParam) ?? null;
+  const selectedTopic = normalizeQueryText(params.topic, 120);
+  const selectedGroup = normalizeQueryText(params.group, 120);
+  const selectedStudent = students.find((student) => student.id === studentParam) ?? null;
   const groupOptions = Array.from(
     new Set(
       students.map((student) => student.group).filter((group): group is string => Boolean(group)),
@@ -501,8 +507,8 @@ export default async function AnalyticsOverviewPage({
     if (selectedStudent) sp.set("student", selectedStudent.id);
     if (selectedGroup) sp.set("group", selectedGroup);
     if (selectedTopic) sp.set("topic", selectedTopic);
-    if (params.from) sp.set("from", params.from);
-    if (params.to) sp.set("to", params.to);
+    if (fromParam) sp.set("from", fromParam);
+    if (toParam) sp.set("to", toParam);
     sp.set("range", key);
     return `/admin/analytics?${sp.toString()}`;
   }
@@ -530,8 +536,8 @@ export default async function AnalyticsOverviewPage({
 
         <AnalyticsFilters
           rangeKey={rangeKey}
-          fromInitial={params.from ?? ""}
-          toInitial={params.to ?? ""}
+          fromInitial={fromParam ?? ""}
+          toInitial={toParam ?? ""}
           filters={[
             {
               name: "set",

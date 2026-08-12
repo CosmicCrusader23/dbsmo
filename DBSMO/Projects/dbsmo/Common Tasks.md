@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-05
+updated: 2026-08-12
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -44,6 +44,14 @@ For multiple-choice changes, also update `Problem.options` in `prisma/schema.pri
 ## Change Attempt Review
 
 Start with [[Attempt Review]]. The server page and exact perfect-solve/staff authorization live in `app/attempts/[id]/page.tsx`; summary/status helpers and unit tests live in `lib/attempt-review.ts`, `lib/submissions.ts`, and `tests/attempt-review.test.ts`/`tests/submissions.test.ts`. The set submission index is `app/problem-sets/[slug]/submissions/page.tsx`, linked beside the theme control in `app/problem-sets/[slug]/page.tsx`; it owns pagination, friend filtering, name search, and redacted list selection. Keep `/attempts/:path*` and `/problem-sets/:path*` in `proxy.ts`, but do not rely on middleware for the per-attempt answer check.
+
+## Add Search or Pagination Parameters
+
+Use `QueryParamValue`, `firstQueryParam(...)`, `normalizeQueryText(...)`, and `normalizePageNumber(...)` from `lib/query-params.ts`. App Router search values can be repeated arrays at runtime even when a page previously declared `string`; never call `.trim()` or `Number(...)` directly on an unnormalized route parameter. Bound free-text before in-memory filtering or database queries and cover repeated/invalid values in `tests/query-params.test.ts` (sources: `lib/query-params.ts`, `app/problem-sets/page.tsx`, `app/admin/analytics/page.tsx`).
+
+## Add a Cookie-Authenticated Mutation API
+
+In addition to session, permission, body-size, and schema checks, reject cross-site browser mutations with `isCrossSiteBrowserRequest(...)` before authentication/database work. If authorization depends on mutable ownership rows, recheck them inside the same transaction as the write. Writeup and announcement routes plus `tests/community-api-routes.test.ts` are current examples (sources: `lib/http-body.ts`, `app/api/problem-sets/[id]/writeups/route.ts`, `app/api/admin/announcements/route.ts`).
 
 ## Change LaTeX Statement Support
 
@@ -155,7 +163,7 @@ Admin analytics:
 
 Add tests around pure helper changes in `lib/analytics.ts` when possible.
 
-For cross-set student scoring or leaderboard ranking, start with [[Performance Analytics]] and `computePerformanceProfile(...)` in `lib/analytics.ts`. Keep dashboard, profiles, settings API, admin students/analytics, leaderboard, and CSV exports on that helper. After changing priors/weights/thresholds, run `tests/analytics.test.ts` and `npm run simulate:performance` against the deterministic 100 × 100 cohort (sources: `lib/analytics.ts`, `scripts/simulate-performance-model.ts`).
+For cross-set student scoring or leaderboard ranking, start with [[Performance Analytics]] and `computePerformanceProfile(...)` in `lib/analytics.ts`. Keep dashboard, profiles, Users, admin students/analytics, leaderboard, and CSV exports on that helper; do not re-add performance queries to Settings unless the product surface returns. After changing priors/weights/thresholds, run `tests/analytics.test.ts` and `npm run simulate:performance` against the deterministic 100 × 100 cohort (sources: `lib/analytics.ts`, `app/users/page.tsx`, `scripts/simulate-performance-model.ts`).
 
 ## Change FTW Scoring or Room Flow
 

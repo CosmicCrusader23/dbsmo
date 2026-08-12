@@ -27,8 +27,12 @@ import {
 } from "@/lib/attempt-review";
 import { prisma } from "@/lib/db";
 import { displayNameFor } from "@/lib/display-name";
-import { hasPermission } from "@/lib/permissions";
-import { canViewSubmissionAnswers } from "@/lib/submissions";
+import { canViewPrivateProfiles, hasPermission } from "@/lib/permissions";
+import {
+  canShowSubmissionIdentity,
+  canViewSubmissionAnswers,
+  isPerfectSubmission,
+} from "@/lib/submissions";
 import { isVisibleToStudent } from "@/lib/visibility";
 
 export const dynamic = "force-dynamic";
@@ -52,55 +56,83 @@ export default async function AttemptReviewPage({ params }: Props) {
   if (!session?.user?.id) redirect("/");
 
   const { id } = await params;
-  const [viewer, attempt] = await Promise.all([
+  const [viewer, attemptAccess] = await Promise.all([
     prisma.user.findUnique({
       where: { id: session.user.id },
       select: { id: true, role: true },
     }),
     prisma.attempt.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        userId: true,
+        problemSetId: true,
         user: {
           select: {
             id: true,
-            email: true,
-            name: true,
-            displayName: true,
-            image: true,
-            avatarUrl: true,
+            leaderboardVisible: true,
           },
         },
         problemSet: {
-          include: {
-            assets: { select: { key: true, fileId: true } },
-            problemFile: { select: { id: true, originalName: true } },
+          select: {
+            status: true,
+            visibleFrom: true,
+            visibleTo: true,
           },
-        },
-        responses: {
-          include: { problem: true },
         },
       },
     }),
   ]);
 
-  if (!viewer || !attempt) notFound();
+  if (!viewer || !attemptAccess) notFound();
 
-  const isOwner = attempt.userId === viewer.id;
+  const isOwner = attemptAccess.userId === viewer.id;
   const canReviewStudentAttempts = hasPermission(viewer.role, "admin:analytics");
+  const canViewStudentProfile = canViewPrivateProfiles(viewer.role);
   const viewerSolvedSet = canReviewStudentAttempts
     ? false
     : (
         await prisma.attempt.findMany({
-          where: { userId: viewer.id, problemSetId: attempt.problemSetId, maxScore: { gt: 0 } },
+          where: {
+            userId: viewer.id,
+            problemSetId: attemptAccess.problemSetId,
+            maxScore: { gt: 0 },
+          },
           select: { score: true, maxScore: true },
         })
-      ).some((viewerAttempt) => viewerAttempt.score >= viewerAttempt.maxScore);
+      ).some((viewerAttempt) => isPerfectSubmission(viewerAttempt.score, viewerAttempt.maxScore));
   if (
-    !canViewSubmissionAnswers(canReviewStudentAttempts, viewerSolvedSet, isOwner) ||
-    (!canReviewStudentAttempts && !isOwner && !isVisibleToStudent(attempt.problemSet))
+    !canViewSubmissionAnswers(canReviewStudentAttempts, viewerSolvedSet) ||
+    (!canReviewStudentAttempts && !isOwner && !isVisibleToStudent(attemptAccess.problemSet))
   ) {
     notFound();
   }
+
+  const attempt = await prisma.attempt.findUnique({
+    where: { id: attemptAccess.id },
+    include: {
+      user: {
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          displayName: true,
+          image: true,
+          avatarUrl: true,
+        },
+      },
+      problemSet: {
+        include: {
+          assets: { select: { key: true, fileId: true } },
+          problemFile: { select: { id: true, originalName: true } },
+        },
+      },
+      responses: {
+        include: { problem: true },
+      },
+    },
+  });
+  if (!attempt) notFound();
 
   const responses = [...attempt.responses].sort(
     (left, right) => left.problem.number - right.problem.number,
@@ -114,15 +146,20 @@ export default async function AttemptReviewPage({ params }: Props) {
   const assetUrls = Object.fromEntries(
     attempt.problemSet.assets.map((asset) => [asset.key, `/api/files/${asset.fileId}`]),
   );
-  const studentName = displayNameFor(attempt.user);
+  const visibleStudentIdentity = canShowSubmissionIdentity(
+    attemptAccess.user.leaderboardVisible,
+    isOwner,
+    canReviewStudentAttempts,
+  );
+  const studentName = visibleStudentIdentity ? displayNameFor(attempt.user) : "Anonymous student";
   const backHref = isOwner
     ? "/dashboard#analytics"
-    : canReviewStudentAttempts
+    : canViewStudentProfile
       ? `/admin/students/${attempt.userId}`
       : `/problem-sets/${attempt.problemSet.slug}/submissions`;
   const backLabel = isOwner
     ? "Attempt history"
-    : canReviewStudentAttempts
+    : canViewStudentProfile
       ? "Student profile"
       : "Submissions";
 
@@ -151,7 +188,10 @@ export default async function AttemptReviewPage({ params }: Props) {
 
         <section className="attempt-submission-header" aria-label="Attempt summary">
           <div className="attempt-submission-identity">
-            <Avatar user={attempt.user} size="lg" />
+            <Avatar
+              user={visibleStudentIdentity ? attempt.user : { displayName: studentName }}
+              size="lg"
+            />
             <div>
               <p className="eyebrow">Attempt #{attempt.attemptNumber}</p>
               <h2>{studentName}</h2>

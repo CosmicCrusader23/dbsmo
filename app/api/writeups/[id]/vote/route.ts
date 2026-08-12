@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { readJsonBody } from "@/lib/http-body";
+import { isCrossSiteBrowserRequest, readJsonBody } from "@/lib/http-body";
+import { isPrismaKnownError } from "@/lib/prisma-errors";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { MAX_WRITEUP_VOTE_BODY_BYTES, writeupVoteSchema } from "@/lib/writeup-vote-policy";
 
@@ -13,6 +14,10 @@ type RouteContext = {
 };
 
 export async function POST(request: Request, context: RouteContext) {
+  if (isCrossSiteBrowserRequest(request)) {
+    return NextResponse.json({ error: "Cross-site request rejected." }, { status: 403 });
+  }
+
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
@@ -52,23 +57,30 @@ export async function POST(request: Request, context: RouteContext) {
   }
   const value = parsed.data;
 
-  if (value === 0) {
-    await prisma.writeupVote.deleteMany({ where: { writeupId: id, userId: currentUser.id } });
-  } else {
-    await prisma.writeupVote.upsert({
-      where: {
-        writeupId_userId: {
+  try {
+    if (value === 0) {
+      await prisma.writeupVote.deleteMany({ where: { writeupId: id, userId: currentUser.id } });
+    } else {
+      await prisma.writeupVote.upsert({
+        where: {
+          writeupId_userId: {
+            writeupId: id,
+            userId: currentUser.id,
+          },
+        },
+        update: { value },
+        create: {
           writeupId: id,
           userId: currentUser.id,
+          value,
         },
-      },
-      update: { value },
-      create: {
-        writeupId: id,
-        userId: currentUser.id,
-        value,
-      },
-    });
+      });
+    }
+  } catch (error) {
+    if (isPrismaKnownError(error, "P2003") || isPrismaKnownError(error, "P2025")) {
+      return NextResponse.json({ error: "Not found." }, { status: 404 });
+    }
+    throw error;
   }
 
   const [score, myVote] = await Promise.all([

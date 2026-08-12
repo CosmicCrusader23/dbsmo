@@ -1,12 +1,12 @@
 ---
 date: 2026-08-05
-updated: 2026-08-05
+updated: 2026-08-12
 type: feature
 tags: [project, submissions, attempts, privacy, ui, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-05
+scanned-commit: working-tree-2026-08-12
 ---
 
 ## For future Claude
@@ -29,7 +29,9 @@ Sources: `app/problem-sets/[slug]/page.tsx`, `app/problem-sets/[slug]/submission
 
 The list query selects only attempt summary fields and display-safe user identity. It does not select `Response` rows, raw answers, normalized answers, or answer keys. Scores and verdicts are available to authenticated users who can view the set.
 
-`/attempts/[id]` is the detailed answer review. The submitter can always review their own attempt; another user's answers require the shared `canViewSubmissionAnswers(...)` rule: an existing perfect attempt for the same set or `admin:analytics`. Non-staff viewers opening another user's attempt must also be looking at a currently visible set. Unknown and unauthorized IDs use the same `notFound()` path. This prevents a table link or guessed attempt ID from becoming an answer leak.
+`/attempts/[id]` is the detailed answer review. Ownership does not bypass the shared `canViewSubmissionAnswers(...)` rule: a non-staff viewer needs an exact perfect attempt for the same set, while `admin:analytics` can review directly. Non-staff viewers opening another user's attempt must also be looking at a currently visible set. Unknown and unauthorized IDs use the same `notFound()` path, and sensitive `Response.problem` data is queried only after this check. This prevents a table link or guessed attempt ID from becoming an answer leak.
+
+Attempts from users with `leaderboardVisible=false` remain in totals and pagination so public score activity is not distorted, but their name, avatar, and profile link are replaced with an anonymous identity for ordinary viewers. Profile links independently respect `profileVisible` (sources: `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`).
 
 Sources: `app/problem-sets/[slug]/submissions/page.tsx`, `app/attempts/[id]/page.tsx`, `lib/submissions.ts`, `lib/permissions.ts`, `lib/visibility.ts`.
 
