@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-12
+updated: 2026-09-03
 type: file-map
 tags: [project, architecture, file-map, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-12
+scanned-commit: working-tree-2026-09-03
 ---
 
 ## For future Claude
@@ -61,7 +61,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 - `lib/db.ts` - shared Prisma Client with Prisma PG adapter (source: `lib/db.ts`).
 - `lib/auth.ts`, `lib/auth-server.ts` - NextAuth configuration and server helpers (sources: named files).
 - `lib/permissions.ts` - role-to-permission mapping and `hasPermission` helper (source: `lib/permissions.ts`).
-- `lib/grading.ts`, `lib/math-input.ts` - deterministic answer normalization and grading engine plus math-input helpers for stripping delimiters, converting common LaTeX forms, and rendering practice answer previews (sources: named files).
+- `lib/grading.ts`, `lib/math-input.ts` - deterministic answer normalization and the bounded numeric-expression parser plus shared preview conversion for Alcumus-style fractions, powers, implicit multiplication, and grouped/ungrouped/indexed roots (sources: named files, `tests/grading.test.ts`, `tests/math-input.test.ts`).
 - `lib/latex-compat.ts` - safe statement-rendering compatibility for document wrappers, common table environments, booktabs-style rules, shorthand macros, and bounded column expansion before KaTeX rendering (sources: named file, `app/problem-sets/[slug]/latex-statement.tsx`, `tests/latex-statement.test.ts`).
 - `lib/asymptote.ts` - `<asy>` parsing/deduplication, OS-sandbox command construction, process/workspace limits, and PNG output validation (source: named file; see [[Asymptote and Multiple Choice]]).
 - `lib/visibility.ts` - student visibility/status helpers for problem sets (source: `lib/visibility.ts`).
@@ -85,7 +85,7 @@ This is a folder/file guide for [[dbsmo]], verified with CodeGraph and `rg --fil
 ## `docs/`
 
 - `docs/import-format.md` - JSON import format, answer types, statement formats, practice tag behavior, and image asset rules.
-- `docs/grading.md` - human-readable grading rules and regrading expectations.
+- `docs/grading.md` - human-readable grading rules, Alcumus-style numeric input grammar, ambiguity boundaries, and regrading expectations.
 - `docs/permissions.md` - permission strings and role mapping, with `lib/permissions.ts` named as source of truth.
 - `docs/admin-guide.md`, `docs/student-guide.md`, `docs/deployment.md` - user/admin/deployment guides.
 - `docs/asymptote.md` - author syntax, limits, security boundary, and VPS reference for diagram compilation.

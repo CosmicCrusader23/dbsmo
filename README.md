@@ -68,7 +68,7 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Replaced the points-weighted best average with one shared evidence-aware Performance Profile across dashboards, profiles, the Users directory, student administration, analytics, leaderboard ranking, and CSV exports. The new Mastery Index combines Bayesian-smoothed proficiency, breadth, and a lower-quartile consistency floor while preserving best-set average and mastery rate as auditable components. A deterministic 100-student × 100-set simulation achieved `0.980` rank correlation with latent ability and 89 distinct index values.
 - Added sandboxed Asymptote diagrams for staff authoring and JSON imports. Raw `<asy>...</asy>` source is compiled to a validated PNG behind authorization, rate/size/time limits, Asymptote safe mode, and an OS sandbox; students only receive ordinary authenticated image assets.
 - Added variable-length multiple-choice problems with two to 20 options across the GUI problem maker, JSON import/export, standard sets, compact Tests layouts, and Practice. Choices support LaTeX plus uploaded or ZIP-supplied images, including image-only choices.
-- Fixed multiple-choice previews for delimiter-free mixed-number LaTeX such as `18\\frac{1}{2}` and `5\\sqrt{2}-7`; command-bearing standalone expressions now render through the same bounded KaTeX path.
+- Fixed multiple-choice previews for delimiter-free mixed-number LaTeX such as `18\frac{1}{2}` and `5\sqrt{2}-7`; command-bearing standalone expressions now render through the same bounded KaTeX path.
 - Added a permission-aware `/admin` panel that groups content, people/classes, analytics, feedback, and audit tools behind one compact sidebar entry.
 - Added three explicit batch JSON ZIP actions: **Dry run everything**, **Publish/Draft everything**, and **Upload everything**, with bounded concurrency and live child-file progress.
 - Removed redundant settings metric/grey-card surfaces and added an Account/Sidebar settings switcher with reorder, hide/show, and reset-to-default behavior.
@@ -81,5 +81,6 @@ Session updates from the CodeGraph/Second Brain indexing pass onward:
 - Updated the Users directory to show the same visible-set, best-attempt Mastery Index and best-set average used by the leaderboard instead of a retry-weighted raw average.
 - Refreshed Next.js, Auth.js, Prisma, YAML, and audited transitive packages to patched compatible releases; both full and production dependency audits report zero known vulnerabilities.
 - Kept the signed-out theme switcher browser-local so it no longer emits guaranteed-unauthorized Settings requests; signed-in theme changes still persist to the user account.
+- Expanded Alcumus-style numeric answer entry: `5sqrt2-7`, spaced or LaTeX radical variants, cube/indexed roots, display/text fractions, and explicitly entered mixed fractions now normalize through the same safe preview/grading path. Indexed LaTeX roots retain their degree, and conventional signed-power precedence is enforced.
 
 © 2026 Cosmic Crusader

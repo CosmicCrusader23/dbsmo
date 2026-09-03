@@ -100,8 +100,11 @@ function gradeExpressionCandidates(
   tolerance: number,
   preserveExactNumericIdentity = false,
 ): GradeResult {
-  const answerNumber = evaluateMathExpression(rawAnswer);
-  const evaluatedCandidates = rawCandidates.map((answer) => evaluateMathExpression(answer));
+  const boundedCandidates = rawCandidates.slice(0, 201);
+  const normalizedAnswerExpression = prepareMathExpression(rawAnswer);
+  const normalizedCandidateExpressions = boundedCandidates.map(prepareMathExpression);
+  const answerNumber = evaluateNormalizedMathExpression(normalizedAnswerExpression);
+  const evaluatedCandidates = normalizedCandidateExpressions.map(evaluateNormalizedMathExpression);
   const normalizedCandidates = evaluatedCandidates.map((candidate) =>
     Number.isFinite(candidate) ? formatNumber(candidate) : "",
   );
@@ -112,10 +115,17 @@ function gradeExpressionCandidates(
     Number.isFinite(answerNumber) &&
     evaluatedCandidates.some((candidate, index) => {
       const candidateCanonical = preserveExactNumericIdentity
-        ? canonicalDecimal(normalizeText(rawCandidates[index], false))
+        ? canonicalDecimal(normalizeText(boundedCandidates[index], false))
         : null;
       if (answerCanonical && candidateCanonical) {
         return answerCanonical === candidateCanonical;
+      }
+      if (
+        (Math.abs(answerNumber) > Number.MAX_SAFE_INTEGER ||
+          Math.abs(candidate) > Number.MAX_SAFE_INTEGER) &&
+        normalizedAnswerExpression !== normalizedCandidateExpressions[index]
+      ) {
+        return false;
       }
       if (
         preserveExactNumericIdentity &&
@@ -205,10 +215,28 @@ function normalizeDecimal(value: string): string {
 
 function normalizeFraction(value: string): string {
   const stripped = stripMathDelimiters(value);
-  const latexFractionMatch = stripped.match(/^\\frac\{([+-]?\d+)\}\{([+-]?\d+)\}$/);
-  const fractionValue = latexFractionMatch
-    ? `${latexFractionMatch[1]}/${latexFractionMatch[2]}`
-    : value;
+  const latexMixedMatch = stripped.match(/^([+-]?\d+)\s*\\(?:dfrac|tfrac|frac)\{(\d+)\}\{(\d+)\}$/);
+  const plainMixedMatch = stripped.match(/^([+-]?\d+)\s+(\d+)\/(\d+)$/);
+  const mixedMatch = latexMixedMatch ?? plainMixedMatch;
+  let fractionValue = value;
+
+  if (mixedMatch) {
+    const [, wholeRaw, numeratorRaw, denominatorRaw] = mixedMatch;
+    if ([wholeRaw, numeratorRaw, denominatorRaw].some((part) => part.length > 512)) return value;
+    const denominator = BigInt(denominatorRaw);
+    if (denominator === 0n) return value;
+    const whole = BigInt(wholeRaw);
+    const numerator = BigInt(numeratorRaw);
+    const sign = whole < 0n || wholeRaw.startsWith("-") ? -1n : 1n;
+    fractionValue = `${sign * (absBigInt(whole) * denominator + numerator)}/${denominator}`;
+  } else {
+    const latexFractionMatch = stripped.match(
+      /^\\(?:dfrac|tfrac|frac)\{([+-]?\d+)\}\{([+-]?\d+)\}$/,
+    );
+    if (latexFractionMatch) {
+      fractionValue = `${latexFractionMatch[1]}/${latexFractionMatch[2]}`;
+    }
+  }
   const fractionParts = fractionValue.split("/");
   if (fractionParts.length !== 2) {
     return normalizeDecimal(value);
@@ -301,21 +329,36 @@ type MathToken =
   | { type: "comma" }
   | { type: "end" };
 
-const MATH_FUNCTIONS: Record<string, (value: number) => number> = {
-  abs: Math.abs,
-  acos: Math.acos,
-  asin: Math.asin,
-  atan: Math.atan,
-  ceil: Math.ceil,
-  cos: Math.cos,
-  exp: Math.exp,
-  floor: Math.floor,
-  ln: Math.log,
-  log: Math.log10,
-  round: Math.round,
-  sin: Math.sin,
-  sqrt: Math.sqrt,
-  tan: Math.tan,
+type MathFunction = {
+  arity: 1 | 2;
+  evaluate: (...values: number[]) => number;
+};
+
+function nthRoot(radicand: number, degree: number): number {
+  if (!Number.isFinite(radicand) || !Number.isFinite(degree) || degree === 0) return Number.NaN;
+  if (radicand < 0 && Number.isInteger(degree) && Math.abs(degree % 2) === 1) {
+    return -((-radicand) ** (1 / degree));
+  }
+  return radicand ** (1 / degree);
+}
+
+const MATH_FUNCTIONS: Record<string, MathFunction> = {
+  abs: { arity: 1, evaluate: Math.abs },
+  acos: { arity: 1, evaluate: Math.acos },
+  asin: { arity: 1, evaluate: Math.asin },
+  atan: { arity: 1, evaluate: Math.atan },
+  cbrt: { arity: 1, evaluate: Math.cbrt },
+  ceil: { arity: 1, evaluate: Math.ceil },
+  cos: { arity: 1, evaluate: Math.cos },
+  exp: { arity: 1, evaluate: Math.exp },
+  floor: { arity: 1, evaluate: Math.floor },
+  ln: { arity: 1, evaluate: Math.log },
+  log: { arity: 1, evaluate: Math.log10 },
+  root: { arity: 2, evaluate: nthRoot },
+  round: { arity: 1, evaluate: Math.round },
+  sin: { arity: 1, evaluate: Math.sin },
+  sqrt: { arity: 1, evaluate: Math.sqrt },
+  tan: { arity: 1, evaluate: Math.tan },
 };
 
 const MATH_CONSTANTS: Record<string, number> = {
@@ -324,9 +367,17 @@ const MATH_CONSTANTS: Record<string, number> = {
 };
 
 function evaluateMathExpression(rawExpression: string): number {
-  const normalized = normalizeMathInputForEvaluation(rawExpression);
+  return evaluateNormalizedMathExpression(prepareMathExpression(rawExpression));
+}
 
-  if (!normalized || normalized.length > 200) {
+function prepareMathExpression(rawExpression: string): string {
+  if (rawExpression.length > 400) return "";
+  const normalized = normalizeMathInputForEvaluation(rawExpression);
+  return normalized.length <= 200 ? normalized : "";
+}
+
+function evaluateNormalizedMathExpression(normalized: string): number {
+  if (!normalized) {
     return Number.NaN;
   }
 
@@ -412,6 +463,10 @@ function shouldInsertMultiplication(previous: MathToken, current: MathToken): bo
     return false;
   }
 
+  if (previous.type === "number" && current.type === "number") {
+    return false;
+  }
+
   return true;
 }
 
@@ -445,7 +500,7 @@ class MathExpressionParser {
   }
 
   private parseMultiplicative(): number {
-    let value = this.parsePower();
+    let value = this.parseUnary();
 
     while (true) {
       const operator = this.peek();
@@ -453,7 +508,7 @@ class MathExpressionParser {
         break;
       }
       this.consume();
-      const right = this.parsePower();
+      const right = this.parseUnary();
       value = operator.value === "*" ? value * right : value / right;
     }
 
@@ -461,12 +516,12 @@ class MathExpressionParser {
   }
 
   private parsePower(): number {
-    const base = this.parseUnary();
+    const base = this.parsePrimary();
     const operator = this.peek();
 
     if (operator.type === "operator" && operator.value === "^") {
       this.consume();
-      return base ** this.parsePower();
+      return base ** this.parseUnary();
     }
 
     return base;
@@ -485,7 +540,7 @@ class MathExpressionParser {
       return -this.parseUnary();
     }
 
-    return this.parsePrimary();
+    return this.parsePower();
   }
 
   private parsePrimary(): number {
@@ -506,15 +561,22 @@ class MathExpressionParser {
         return MATH_CONSTANTS[token.value];
       }
 
-      const fn = MATH_FUNCTIONS[token.value];
-      if (!fn) {
+      const mathFunction = MATH_FUNCTIONS[token.value];
+      if (!mathFunction) {
         throw new Error("Unknown function.");
       }
 
       this.expect("leftParen");
-      const argument = this.parseAdditive();
+      const argumentsList = [this.parseAdditive()];
+      while (this.peek().type === "comma") {
+        this.consume();
+        argumentsList.push(this.parseAdditive());
+      }
       this.expect("rightParen");
-      return fn(argument);
+      if (argumentsList.length !== mathFunction.arity) {
+        throw new Error("Unexpected function argument count.");
+      }
+      return mathFunction.evaluate(...argumentsList);
     }
 
     throw new Error("Unexpected expression token.");
@@ -540,11 +602,14 @@ class MathExpressionParser {
 
 function numbersMatch(left: number, right: number, tolerance: number): boolean {
   const absoluteDifference = Math.abs(left - right);
-  if (absoluteDifference <= tolerance) {
+  const absoluteTolerance = Math.max(0, Math.min(tolerance, 1e-7));
+  if (absoluteDifference <= absoluteTolerance) {
     return true;
   }
 
-  return absoluteDifference <= tolerance * Math.max(1, Math.abs(left), Math.abs(right));
+  const relativeTolerance = Math.min(absoluteTolerance, 1e-12);
+  const relativeDifference = absoluteDifference / Math.max(1, Math.abs(left), Math.abs(right));
+  return relativeDifference <= relativeTolerance && absoluteDifference <= 1e-7;
 }
 
 function formatNumber(value: number): string {

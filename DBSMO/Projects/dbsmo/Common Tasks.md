@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-12
+updated: 2026-09-03
 type: common-tasks
 tags: [project, architecture, maintenance, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-12
+scanned-commit: working-tree-2026-09-03
 ---
 
 ## For future Claude
@@ -37,7 +37,7 @@ Watch for uppercase Prisma enum values versus lowercase `lib/grading.ts` values 
 
 ## Change Grading Behavior
 
-Edit `lib/grading.ts` first. Preserve the bounded `BigInt` normalization for integers/fractions and canonical base-10 comparison for zero-tolerance decimals; converting those paths directly through `Number` can merge distinct answers above `Number.MAX_SAFE_INTEGER`. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts`.
+Edit `lib/grading.ts` and `lib/math-input.ts` together when changing free-response math syntax: the former owns the bounded tokenizer/evaluator and exact fallback, while the latter owns shared preview/evaluation normalization. Preserve `BigInt` normalization for integers/fractions and canonical base-10 comparison for zero-tolerance decimals; converting those paths directly through `Number` can merge distinct answers above `Number.MAX_SAFE_INTEGER`. Root shorthand intentionally consumes one numeric/constant atom (`sqrt12`) unless grouped (`sqrt(1+2)`), and unknown functions/variables stay rejected. Then inspect all callers: full submission, practice submission, admin regrade, FTW solo submit, and FTW room submit (sources: `app/api/submit/route.ts`, `app/api/practice/submit/route.ts`, `app/api/admin/sets/[id]/regrade/route.ts`, `app/api/ftw/matches/[id]/submit/route.ts`, `app/api/ftw/rooms/[code]/submit/route.ts`). Add/update `tests/grading.test.ts` and `tests/math-input.test.ts`.
 
 For multiple-choice changes, also update `Problem.options` in `prisma/schema.prisma`, schemas in `lib/problem-set-authoring.ts` and `lib/import/json-import.ts`, shared controls in `app/admin/problem-authoring-controls.tsx`, standard/Test rendering in `app/problem-sets/[slug]/answer-grid.tsx`, and Practice rendering/API payloads. Choices may contain `[[img:key]]`; preserve the normal asset resolver and the two-to-20 bound. See [[Asymptote and Multiple Choice]].
 

@@ -10,6 +10,14 @@ describe("normalizeAnswer", () => {
   it("normalizes equivalent fractions", () => {
     expect(normalizeAnswer(" 3/6 ", "fraction")).toBe("1/2");
     expect(normalizeAnswer("\\frac{3}{6}", "fraction")).toBe("1/2");
+    expect(normalizeAnswer("\\dfrac{3}{6}", "fraction")).toBe("1/2");
+    expect(normalizeAnswer("\\tfrac{3}{6}", "fraction")).toBe("1/2");
+  });
+
+  it("normalizes explicitly entered mixed numbers", () => {
+    expect(normalizeAnswer("5 1/3", "fraction")).toBe("16/3");
+    expect(normalizeAnswer("5\\frac{1}{3}", "fraction")).toBe("16/3");
+    expect(normalizeAnswer("-5 1/3", "fraction")).toBe("-16/3");
   });
 
   it("rejects fractions with extra slash-separated values", () => {
@@ -219,6 +227,120 @@ describe("gradeAnswer", () => {
     });
 
     expect(result.isCorrect).toBe(true);
+  });
+
+  it("accepts ungrouped square-root shorthand in exact and expression answers", () => {
+    for (const answerType of ["exact", "expression"] as const) {
+      for (const rawAnswer of ["5sqrt2-7", "5 sqrt 2 - 7", "5\\sqrt2-7"]) {
+        expect(
+          gradeAnswer({
+            answerType,
+            answerKey: "5\\sqrt{2}-7",
+            rawAnswer,
+          }).isCorrect,
+        ).toBe(true);
+      }
+    }
+
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "\\sqrt{12}",
+        rawAnswer: "sqrt12",
+      }).isCorrect,
+    ).toBe(true);
+  });
+
+  it("accepts documented cube-root and indexed-root forms", () => {
+    for (const rawAnswer of ["cbrt(8)", "cbrt8", "sqrt[3](8)", "\\sqrt[3]{8}"]) {
+      expect(
+        gradeAnswer({
+          answerType: "expression",
+          answerKey: "2",
+          rawAnswer,
+        }).isCorrect,
+      ).toBe(true);
+    }
+
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "-2",
+        rawAnswer: "cbrt(-8)",
+      }).isCorrect,
+    ).toBe(true);
+  });
+
+  it("uses conventional power precedence for signed bases", () => {
+    expect(
+      gradeAnswer({ answerType: "expression", answerKey: "-4", rawAnswer: "-2^2" }).isCorrect,
+    ).toBe(true);
+    expect(
+      gradeAnswer({ answerType: "expression", answerKey: "4", rawAnswer: "(-2)^2" }).isCorrect,
+    ).toBe(true);
+  });
+
+  it("rejects malformed or ambiguous root shorthand", () => {
+    for (const rawAnswer of ["sqrt", "sqrtthing", "sqrt[0](2)", "sqrt(-2)", "root(8,3,2)"]) {
+      expect(gradeAnswer({ answerType: "expression", answerKey: "2", rawAnswer }).isCorrect).toBe(
+        false,
+      );
+    }
+  });
+
+  it("rejects malformed LaTeX fractions and ambiguous number adjacency", () => {
+    for (const rawAnswer of [
+      "\\frac junk {1}{2}",
+      "\\frac{1} junk {2}",
+      "\\fraction{1}{2}",
+      "2 3",
+      "2{3}",
+    ]) {
+      expect(gradeAnswer({ answerType: "expression", answerKey: "0.5", rawAnswer }).isCorrect).toBe(
+        false,
+      );
+    }
+
+    expect(
+      gradeAnswer({ answerType: "expression", answerKey: "1", rawAnswer: "2 1/2" }).isCorrect,
+    ).toBe(false);
+  });
+
+  it("does not use magnitude-amplified tolerance for large expressions", () => {
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "10^12",
+        rawAnswer: "1000000000500",
+      }).isCorrect,
+    ).toBe(false);
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "2^53",
+        rawAnswer: "9007199254740993",
+      }).isCorrect,
+    ).toBe(false);
+    expect(
+      gradeAnswer({
+        answerType: "exact",
+        answerKey: "sqrt(10^18)",
+        rawAnswer: "1000000000.5",
+      }).isCorrect,
+    ).toBe(false);
+    expect(
+      gradeAnswer({ answerType: "expression", answerKey: "2^53", rawAnswer: "2^53" }).isCorrect,
+    ).toBe(true);
+  });
+
+  it("rejects expression inputs before recursive normalization can amplify work", () => {
+    expect(
+      gradeAnswer({
+        answerType: "expression",
+        answerKey: "1",
+        rawAnswer: `${"sqrt(".repeat(100)}1${")".repeat(100)}`,
+      }).isCorrect,
+    ).toBe(false);
   });
 
   it("evaluates LaTeX fractions and braced powers in expressions", () => {

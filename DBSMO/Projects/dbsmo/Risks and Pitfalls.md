@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-12
+updated: 2026-09-03
 type: risks
 tags: [project, architecture, risks, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-12
+scanned-commit: working-tree-2026-09-03
 ---
 
 ## For future Claude
@@ -78,6 +78,8 @@ PDF upload limit is 25 MB (`lib/uploaded-pdf.ts`), legacy problem-set ZIP import
 ## KaTeX Is Not a TeX Compiler
 
 `LatexStatement` renders math with KaTeX and a bounded compatibility pass; it does not execute arbitrary `\usepackage` declarations or compile full documents. `lib/latex-compat.ts` converts supported table/document forms, including optional table position arguments, but true `\multicolumn` spanning and arbitrary package features remain unavailable. MathLive's editor commands, Compute Engine semantics, TeX programming primitives, and HTML-affecting commands must not be copied wholesale into the renderer; only deterministic aliases to known KaTeX primitives are appropriate. Keep the escape-aware tokenizer, `trust: false`, `globalGroup: false`, per-expression macro cloning, `maxSize`, and `maxExpand` protections when expanding support, because statements and writeups are user-controlled. Do not render source HTML directly: HTML-format imports are intentionally reduced to math delimiters plus React-escaped text (sources: `app/problem-sets/[slug]/latex-statement.tsx`, `lib/latex-compat.ts`, `tests/latex-statement.test.ts`, `docs/latex-support.md`).
+
+Answer input rendering and grading are a separate path from statement compatibility. `mathInputToTex(...)` creates a preview, while `normalizeMathInputForEvaluation(...)` and the fixed parser in `lib/grading.ts` determine correctness. Keep their root/fraction grammar aligned: ungrouped `sqrt2` consumes one numeric/constant atom, compound radicands require grouping, indexed roots must preserve their degree, and unknown identifiers/functions must fail instead of being coerced. Malformed LaTeX must not be repaired by searching forward for unrelated braces, adjacent number tokens must not silently multiply, and large-magnitude comparisons must not receive an unbounded relative tolerance. Do not replace this parser with `eval` or a general computer-algebra package without a new threat model (sources: `lib/math-input.ts`, `lib/grading.ts`, `tests/math-input.test.ts`, `tests/grading.test.ts`).
 
 ## Route Handlers Often Duplicate Auth Checks
 

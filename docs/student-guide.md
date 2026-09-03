@@ -43,15 +43,15 @@ Sets tagged **Tests** use a compact test answer sheet: 20 problem rows with answ
 
 ### Answer Formats
 
-| Type       | Example    | Notes                                                                                                  |
-| ---------- | ---------- | ------------------------------------------------------------------------------------------------------ |
-| Integer    | `42`       | Whole numbers                                                                                          |
-| Decimal    | `3.14`     | Decimal numbers                                                                                        |
-| Fraction   | `3/7`      | Will be normalized (e.g., `6/14` = `3/7`)                                                              |
-| Set        | `1,2,5`    | Order doesn't matter (e.g., `2,5,1` is correct)                                                        |
-| Exact      | `triangle` | Exact text match                                                                                       |
-| Expression | `sqrt(2)`  | Mathematical formulas (`2^0.5`, `pi/2`, `0.5`, `1/2`). Equivalent values are automatically recognized! |
-| Multiple choice | Select an option | Two to 20 choices may include rendered LaTeX, an image, or both. |
+| Type            | Example          | Notes                                                                                                                                                                                                                                           |
+| --------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Integer         | `42`             | Whole numbers                                                                                                                                                                                                                                   |
+| Decimal         | `3.14`           | Decimal numbers                                                                                                                                                                                                                                 |
+| Fraction        | `3/7`            | Will be normalized (e.g., `6/14` = `3/7`)                                                                                                                                                                                                       |
+| Set             | `1,2,5`          | Order doesn't matter (e.g., `2,5,1` is correct)                                                                                                                                                                                                 |
+| Exact           | `triangle`       | Exact text match                                                                                                                                                                                                                                |
+| Expression      | `sqrt(2)`        | Mathematical formulas (`2^0.5`, `pi/2`, `0.5`, `1/2`). Common AoPS-style forms such as `5sqrt2-7`, `5\sqrt2-7`, `cbrt(8)`, and `sqrt[3](8)` are recognized, and equivalent numeric values match. Group compound roots, for example `sqrt(1+2)`. |
+| Multiple choice | Select an option | Two to 20 choices may include rendered LaTeX, an image, or both.                                                                                                                                                                                |
 
 ### After Submission
 

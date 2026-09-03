@@ -1,12 +1,12 @@
 ---
 date: 2026-06-26
-updated: 2026-08-12
+updated: 2026-09-03
 type: components
 tags: [project, architecture, components, ui, dbsmo]
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-12
+scanned-commit: working-tree-2026-09-03
 ---
 
 ## For future Claude
@@ -44,8 +44,8 @@ This note maps important [[dbsmo]] UI/components to their source files and usage
 
 ## Practice and Games
 
-- `PracticePage` in `app/practice/page.tsx`: client practice workflow using `/api/practice/tags`, `/api/practice/next`, and `/api/practice/submit`; renders `LatexStatement` and shows a live KaTeX answer preview above the answer input using `mathInputToTex(...)`.
-- `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer sheet for standard, inline-statement, and test layouts; answer inputs now show the same live KaTeX preview above each active answer box.
+- `PracticePage` in `app/practice/page.tsx`: client practice workflow using `/api/practice/tags`, `/api/practice/next`, and `/api/practice/submit`; renders `LatexStatement` and shows a live KaTeX answer preview above the answer input using `mathInputToTex(...)`. The shared converter understands grouped and ungrouped Alcumus-style roots such as `sqrt(2)`, `sqrt2`, `cbrt(8)`, and `sqrt[3](8)`.
+- `AnswerGrid` in `app/problem-sets/[slug]/answer-grid.tsx`: client answer sheet for standard, inline-statement, and test layouts; answer inputs show the same live KaTeX preview and submit through the same `lib/grading.ts` normalization used by Practice.
 - `FtwLobbyForm` in `app/ftw/lobby-form.tsx`: FTW mode entry. It filters tags, creates solo matches through `/api/ftw/matches`, creates rooms through `/api/ftw/rooms`, and joins rooms through `/api/ftw/rooms/[code]/join`.
 - `FtwMatchClient` in `app/ftw/match/[id]/match-client.tsx`: solo FTW problem/submit client.
 - `FtwRoomClient` in `app/ftw/room/[code]/room-client.tsx`: multiplayer room UI with polling state, host actions, answer submission, locked/revealed answers, scores, and current problem rendering through `LatexStatement`.

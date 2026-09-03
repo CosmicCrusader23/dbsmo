@@ -1,6 +1,6 @@
 ---
 date: 2026-06-26
-updated: 2026-08-12
+updated: 2026-09-03
 type: project-index
 tags:
   - project
@@ -10,7 +10,7 @@ tags:
 ai-first: true
 project: "[[dbsmo]]"
 confidence: high
-scanned-commit: working-tree-2026-08-12
+scanned-commit: working-tree-2026-09-03
 ---
 
 ## For future Claude
@@ -45,6 +45,7 @@ This is the starting index for the [[dbsmo]] codebase knowledge base, generated 
 - Saved submissions have an exact-perfect-solve/analytics-staff-gated [[Attempt Review]] plus a redacted per-set [[Submissions]] directory with 20-row pagination, friends/name filters, anonymous hidden-leaderboard identities, and score/verdict visibility (sources: `app/attempts/[id]/page.tsx`, `app/problem-sets/[slug]/submissions/page.tsx`, `lib/submissions.ts`).
 - Cross-set student metrics use the shared evidence-aware [[Performance Analytics]] model; Mastery Index combines proficiency, breadth, and a consistency floor while keeping best-set average/mastery rate visible (sources: `lib/analytics.ts`, `app/leaderboard/page.tsx`).
 - Authoring and imports support sandboxed Asymptote-to-PNG diagrams plus `MULTIPLE_CHOICE` problems with two to 20 LaTeX/image-capable choices; see [[Asymptote and Multiple Choice]] (sources: `lib/asymptote.ts`, `lib/problem-set-authoring.ts`, `lib/import/json-import.ts`, `app/admin/problem-authoring-controls.tsx`).
+- Free-response numeric grading accepts bounded Alcumus-style shorthand across both set and Practice answer previews: `sqrt2`, `5sqrt2-7`, `\sqrt2`, grouped/indexed roots, common LaTeX fraction commands, and explicit mixed fractions. Compound root arguments still require grouping and unknown functions remain invalid (sources: `lib/math-input.ts`, `lib/grading.ts`, `docs/grading.md`).
 - The 2026-08-12 maintenance audit tightened Settings JSON persistence, submission-answer authorization, writeup/announcement mutation safety, repeated query-parameter handling, and mobile navigation focus containment. The Users directory now uses the shared visible-set [[Performance Analytics]] model, and patched dependency versions produce zero known `npm audit` findings (sources: `app/api/settings/route.ts`, `app/attempts/[id]/page.tsx`, `app/api/problem-sets/[id]/writeups/route.ts`, `lib/query-params.ts`, `app/global-mobile-nav.tsx`, `app/users/page.tsx`, `package.json`).
 
 ## Source Inspection Basis
@@ -57,4 +58,4 @@ This vault was built from:
 
 ## Staleness Note
 
-The original scan reported git commit `f7e0c74` with a dirty worktree. Auth, API bounds, imports/storage, submissions, exports, profiles, and FTW concurrency were source-verified again on 2026-07-18. Settings/sidebar behavior, submission privacy, community mutation APIs, query parsing, mobile navigation semantics, and the Users performance summary were source-verified on 2026-08-12 using CodeGraph, direct inspection, and regression tests; still verify current source before editing behavior.
+The original scan reported git commit `f7e0c74` with a dirty worktree. Auth, API bounds, imports/storage, submissions, exports, profiles, and FTW concurrency were source-verified again on 2026-07-18. Settings/sidebar behavior, submission privacy, community mutation APIs, query parsing, mobile navigation semantics, and the Users performance summary were source-verified on 2026-08-12. Alcumus-style numeric input parsing and root/fraction normalization were source-verified on 2026-09-03 using CodeGraph, direct inspection, official AoPS formatting documentation, and regression tests; still verify current source before editing behavior.
