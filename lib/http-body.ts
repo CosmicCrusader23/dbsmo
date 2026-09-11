@@ -17,26 +17,36 @@ type BodyBytesResult =
  */
 export function isCrossSiteBrowserRequest(
   request: Request,
-  { allowSameSiteWithMatchingOrigin = false }: { allowSameSiteWithMatchingOrigin?: boolean } = {},
+  {
+    allowSameSiteWithMatchingOrigin = false,
+    expectedOrigin,
+  }: {
+    allowSameSiteWithMatchingOrigin?: boolean;
+    expectedOrigin?: string;
+  } = {},
 ): boolean {
   const fetchSite = request.headers.get("sec-fetch-site")?.trim().toLowerCase();
   const origin = request.headers.get("origin");
+
+  let originMatchesExpected = false;
+  if (origin) {
+    try {
+      const expectedOrigins = new Set<string>([new URL(request.url).origin]);
+      if (expectedOrigin) expectedOrigins.add(new URL(expectedOrigin).origin);
+      originMatchesExpected = expectedOrigins.has(new URL(origin).origin);
+      if (!originMatchesExpected) return true;
+    } catch {
+      return true;
+    }
+  }
 
   if (
     fetchSite &&
     fetchSite !== "same-origin" &&
     fetchSite !== "none" &&
-    !(allowSameSiteWithMatchingOrigin && fetchSite === "same-site" && origin)
+    !(allowSameSiteWithMatchingOrigin && fetchSite === "same-site" && originMatchesExpected)
   ) {
     return true;
-  }
-
-  if (origin) {
-    try {
-      return new URL(origin).origin !== new URL(request.url).origin;
-    } catch {
-      return true;
-    }
   }
 
   return false;

@@ -11,7 +11,12 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  if (isCrossSiteBrowserRequest(request, { allowSameSiteWithMatchingOrigin: true })) {
+  if (
+    isCrossSiteBrowserRequest(request, {
+      allowSameSiteWithMatchingOrigin: true,
+      expectedOrigin: process.env.NEXTAUTH_URL,
+    })
+  ) {
     return NextResponse.json({ error: "Cross-site student refresh rejected." }, { status: 403 });
   }
 

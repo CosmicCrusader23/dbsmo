@@ -61,6 +61,36 @@ describe("isCrossSiteBrowserRequest", () => {
     ).toBe(false);
   });
 
+  it("keeps same-site strict unless the caller opts in", () => {
+    expect(
+      isCrossSiteBrowserRequest(
+        new Request("https://dbsmo.example/api/export", {
+          headers: {
+            Origin: "https://dbsmo.example",
+            "Sec-Fetch-Site": "same-site",
+          },
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  it("allows the configured public Origin behind a reverse proxy", () => {
+    expect(
+      isCrossSiteBrowserRequest(
+        new Request("http://127.0.0.1:3000/api/export", {
+          headers: {
+            Origin: "https://dbsmo.example",
+            "Sec-Fetch-Site": "same-site",
+          },
+        }),
+        {
+          allowSameSiteWithMatchingOrigin: true,
+          expectedOrigin: "https://dbsmo.example",
+        },
+      ),
+    ).toBe(false);
+  });
+
   it("rejects same-site requests without Origin", () => {
     expect(
       isCrossSiteBrowserRequest(
