@@ -86,6 +86,7 @@ model User {
   avatarUrl             String?
   role                  UserRole             @default(STUDENT)
   group                 String?
+  grade                 Int?
   profileVisible        Boolean              @default(true)
   leaderboardVisible    Boolean              @default(true)
   theme                 String               @default("light")

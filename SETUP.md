@@ -200,6 +200,10 @@ pm2 reload dbsmo            # zero-downtime reload
 pm2 logs dbsmo --lines 30
 ```
 
+The admin student-grade recalculation uses the `User.grade` column. After
+pulling a version that adds or changes this field, keep `npx prisma generate`
+and `npx prisma db push` in the redeploy block before building.
+
 When `.env` changes, reload with `pm2 reload dbsmo --update-env`. Verify the running
 process received the renderer setting with `pm2 env <id> | grep ASYMPTOTE`.
 

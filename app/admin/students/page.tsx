@@ -12,6 +12,7 @@ import { PageBackLink } from "@/app/page-back-link";
 import { normalizePageNumber, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 import { StudentTableRow } from "./student-table-row";
 import { RefreshGoogleNamesButton } from "./refresh-google-names-button";
+import { RecalculateGradesButton } from "./recalculate-grades-button";
 
 export const dynamic = "force-dynamic";
 
@@ -131,6 +132,7 @@ export default async function AdminStudentsPage({
               Export CSV
             </a>
             <RefreshGoogleNamesButton />
+            <RecalculateGradesButton />
             <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
@@ -182,6 +184,7 @@ export default async function AdminStudentsPage({
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Grade</th>
                     <th>Group</th>
                     <th>Sets</th>
                     <th>Mastery index</th>
@@ -207,6 +210,7 @@ export default async function AdminStudentsPage({
                           </Link>
                         </td>
                         <td data-label="Email">{row.email}</td>
+                        <td data-label="Grade">{row.grade ? `G${row.grade}` : "—"}</td>
                         <td data-label="Group">{row.group ?? "—"}</td>
                         <td data-label="Sets">{row.performance.attemptedSets}</td>
                         <td data-label="Mastery index">
