@@ -445,6 +445,30 @@ body.has-site-sidebar .app-footer {
   padding: 0 14px;
 }
 
+.admin-students-refresh-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-students-refresh-status {
+  max-width: 360px;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.admin-students-refresh-icon {
+  animation: admin-students-refresh-spin 900ms linear infinite;
+}
+
+@keyframes admin-students-refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .page-back-link {
   max-width: 100%;
   white-space: nowrap;

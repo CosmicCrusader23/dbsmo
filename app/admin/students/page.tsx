@@ -11,6 +11,7 @@ import { isVisibleToStudent } from "@/lib/visibility";
 import { PageBackLink } from "@/app/page-back-link";
 import { normalizePageNumber, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
 import { StudentTableRow } from "./student-table-row";
+import { RefreshGoogleNamesButton } from "./refresh-google-names-button";
 
 export const dynamic = "force-dynamic";
 
@@ -129,6 +130,7 @@ export default async function AdminStudentsPage({
               <Download size={16} />
               Export CSV
             </a>
+            <RefreshGoogleNamesButton />
             <PageBackLink destination="Dashboard" href="/dashboard" />
           </div>
         </header>
