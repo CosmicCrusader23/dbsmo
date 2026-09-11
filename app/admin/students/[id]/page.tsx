@@ -13,6 +13,8 @@ import {
 import { hasPermission } from "@/lib/permissions";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { normalizePageNumber, type QueryParamValue } from "@/lib/query-params";
+import { gradeFromStudentEmail, studentNameWithCurrentGrade } from "@/lib/student-grade";
+import { profilePathFromEmail } from "@/lib/user-profile";
 
 export const dynamic = "force-dynamic";
 
@@ -72,6 +74,8 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
     visibleSetIds.size,
   );
   const topics = computeTopicAccuracy(student.attempts.flatMap((a) => a.responses));
+  const currentGrade = gradeFromStudentEmail(student.email) ?? student.grade;
+  const currentName = studentNameWithCurrentGrade(student.name, currentGrade);
   const totalPages = Math.max(1, Math.ceil(student.attempts.length / pageSize));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedAttempts = student.attempts.slice((safePage - 1) * pageSize, safePage * pageSize);
@@ -86,13 +90,20 @@ export default async function StudentDetailPage({ params, searchParams }: Props)
         <header className="topbar standalone">
           <div>
             <p className="eyebrow">Student</p>
-            <h1>{student.name ?? student.email}</h1>
+            <h1>{currentName ?? student.email}</h1>
           </div>
           <div className="topbar-actions">
+            <Link className="secondary-action compact" href={profilePathFromEmail(student.email)}>
+              View profile
+            </Link>
             <PageBackLink destination="Students" href="/admin/students" />
           </div>
         </header>
         <section className="metric-grid" aria-label="Student metrics">
+          <article className="metric-card">
+            <small>Current grade</small>
+            <strong>{currentGrade ? `G${currentGrade}` : "—"}</strong>
+          </article>
           <article className="metric-card">
             <small>Visible sets tried</small>
             <strong>{performance.attemptedSets}</strong>

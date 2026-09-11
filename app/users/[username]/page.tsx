@@ -20,6 +20,7 @@ import { displayNameFor } from "@/lib/display-name";
 import { Avatar } from "@/app/avatar";
 import { PageBackLink } from "@/app/page-back-link";
 import { firstQueryParam, type QueryParamValue } from "@/lib/query-params";
+import { gradeFromStudentEmail, studentNameWithCurrentGrade } from "@/lib/student-grade";
 import { AuthoredTasksTable } from "./authored-tasks-table";
 import { FriendButton } from "./friend-button";
 import { PromoteUserButton } from "./promote-user-button";
@@ -107,6 +108,7 @@ export default async function UserProfilePage({
       displayName: true,
       avatarUrl: true,
       role: true,
+      grade: true,
       group: true,
       profileVisible: true,
       leaderboardVisible: true,
@@ -272,7 +274,9 @@ export default async function UserProfilePage({
         })
         .catch(() => null)) ?? null);
 
-  const displayLabel = displayNameFor(user);
+  const currentGrade = gradeFromStudentEmail(user.email) ?? user.grade;
+  const currentName = studentNameWithCurrentGrade(user.name, currentGrade);
+  const displayLabel = displayNameFor({ ...user, name: currentName });
   const profileUsername = usernameFromEmail(user.email);
   const canManageContent = hasPermission(session.user.role, "admin:content");
   const canViewAnalytics = hasPermission(session.user.role, "admin:analytics");
@@ -529,7 +533,7 @@ export default async function UserProfilePage({
               <FriendButton targetUserId={user.id} initialIsFriend={Boolean(friendship)} />
             ) : null}
           </div>
-          {user.displayName && user.name && <p className="profile-realname">{user.name}</p>}
+          {user.displayName && currentName && <p className="profile-realname">{currentName}</p>}
           <div className="profile-badges">
             <span className="profile-role-badge">{user.role}</span>
             {user.group && <span className="profile-group-badge">{user.group}</span>}
@@ -552,6 +556,10 @@ export default async function UserProfilePage({
       </section>
 
       <div className="profile-stats-row">
+        <div className="profile-stat">
+          <span className="profile-stat-value">{currentGrade ? `G${currentGrade}` : "—"}</span>
+          <span className="profile-stat-label">Current grade</span>
+        </div>
         <div className="profile-stat">
           <span className="profile-stat-value">{performance.masteryIndex.toFixed(1)}</span>
           <span className="profile-stat-label">Mastery index</span>

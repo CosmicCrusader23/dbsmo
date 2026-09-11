@@ -5215,6 +5215,14 @@ html.dark .theme-choice-button.active {
   opacity: 0.78;
 }
 
+.students-search-panel {
+  flex-wrap: wrap;
+}
+
+.students-search-panel .search-suggest-root {
+  flex: 3 1 260px;
+}
+
 .search-suggest-root {
   position: relative;
   display: flex;
@@ -8011,6 +8019,13 @@ html.dark .theme-choice-button.active {
   background: var(--color-card-bg);
   color: var(--color-text);
   font-weight: 800;
+}
+
+.role-select-control {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .pagination-row {
@@ -11414,7 +11429,6 @@ html:is(.light, .dark) :is(
     .audit-search,
     .analytics-filter-input,
     .problem-number-input,
-    .role-select-control,
     .searchable-select-trigger
   ) {
   border: 2px solid var(--ink-soft);
@@ -11436,7 +11450,6 @@ html:is(.light, .dark) :is(
     .audit-search,
     .analytics-filter-input,
     .problem-number-input,
-    .role-select-control,
     .searchable-select-trigger
   ):focus {
   border-color: var(--marker-cyan);
@@ -13021,42 +13034,69 @@ html:is(.light, .dark) .notfound-digit-zero {
 .students-table th,
 .students-table td {
   padding-inline: clamp(8px, 0.8vw, 14px);
-  white-space: normal;
-  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+
+.students-table th {
+  line-height: 1.05;
+}
+
+.students-table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .students-table th:nth-child(1) {
-  width: 13%;
+  width: 14%;
 }
 
 .students-table th:nth-child(2) {
-  width: 20%;
+  width: 18%;
 }
 
 .students-table th:nth-child(3) {
-  width: 7%;
-}
-
-.students-table th:nth-child(4) {
   width: 5%;
 }
 
-.students-table th:nth-child(5),
-.students-table th:nth-child(6) {
-  width: 10%;
-}
-
-.students-table th:nth-child(7) {
-  width: 11%;
-}
-
-.students-table th:nth-child(8) {
+.students-table th:nth-child(4) {
   width: 7%;
 }
 
-.students-table th:nth-child(9),
+.students-table th:nth-child(5) {
+  width: 7%;
+}
+
+.students-table th:nth-child(6) {
+  width: 5%;
+}
+
+.students-table th:nth-child(7) {
+  width: 8%;
+}
+
+.students-table th:nth-child(8) {
+  width: 9%;
+}
+
+.students-table th:nth-child(9) {
+  width: 7%;
+}
+
 .students-table th:nth-child(10) {
-  width: 8.5%;
+  width: 5%;
+}
+
+.students-table th:nth-child(11) {
+  width: 6%;
+}
+
+.students-table th:nth-child(12) {
+  width: 7%;
+}
+
+.students-table th:nth-child(13) {
+  width: 7%;
 }
 
 .student-table-row {
@@ -13074,6 +13114,38 @@ html:is(.light, .dark) .notfound-digit-zero {
 .student-row-primary-link:focus-visible {
   outline: 2px solid var(--marker-cyan);
   outline-offset: 4px;
+}
+
+.student-profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding-inline: 8px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.student-filter-select {
+  flex: 1 1 120px;
+  min-width: 120px;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-input-bg);
+  color: var(--color-text-strong);
+  font-weight: 800;
+}
+
+@media (max-width: 720px) {
+  .students-search-panel .search-suggest-root {
+    flex-basis: calc(100% - 30px);
+  }
+
+  .students-search-panel .student-filter-select {
+    min-width: 0;
+  }
 }
 
 @media (max-width: 1050px) {
@@ -13115,6 +13187,9 @@ html:is(.light, .dark) .notfound-digit-zero {
     min-width: 0;
     padding: 8px;
     border: 0;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
   }
 
   .students-table td::before {

@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { gradeFromStudentEmail, schoolYearLabel, schoolYearStartYear } from "@/lib/student-grade";
+import {
+  gradeFromStudentEmail,
+  schoolYearLabel,
+  schoolYearStartYear,
+  studentNameWithCurrentGrade,
+} from "@/lib/student-grade";
 
 describe("student grade calculation", () => {
   it("calculates grade 11 for dbs22072000 during school year 2627", () => {
@@ -17,5 +22,11 @@ describe("student grade calculation", () => {
     const date = new Date("2026-09-12T00:00:00Z");
     expect(gradeFromStudentEmail("dbs22072000@dbs.edu.hk", date)).toBeNull();
     expect(gradeFromStudentEmail("student@g.dbs.edu.hk", date)).toBeNull();
+  });
+
+  it("updates a displayed class grade without changing the rest of the name", () => {
+    expect(studentNameWithCurrentGrade("BAI SHIJUN G11D-01", 12)).toBe("BAI SHIJUN G12D-01");
+    expect(studentNameWithCurrentGrade("Student", 12)).toBe("Student");
+    expect(studentNameWithCurrentGrade(null, 12)).toBeNull();
   });
 });

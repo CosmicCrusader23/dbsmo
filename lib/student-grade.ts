@@ -1,5 +1,6 @@
 const SCHOOL_TIME_ZONE = "Asia/Hong_Kong";
 const SCHOOL_EMAIL_DOMAIN = "g.dbs.edu.hk";
+const CLASS_GRADE_TOKEN = /\bG\d{1,2}(?=[A-Z](?:-\d{2})?\b)/i;
 
 function hongKongDateParts(date: Date): { year: number; month: number } {
   const parts = new Intl.DateTimeFormat("en-US", {
@@ -40,4 +41,14 @@ export function gradeFromStudentEmail(email: string, date = new Date()): number 
   const entryGrade = Number(match[2]);
   const grade = schoolYearStartYear(date) - cohortYear + entryGrade;
   return Number.isInteger(grade) && grade >= 1 && grade <= 13 ? grade : null;
+}
+
+/** Keep a displayed class label current without overwriting the raw Google name. */
+export function studentNameWithCurrentGrade(
+  name: string | null | undefined,
+  grade: number | null | undefined,
+): string | null {
+  if (!name) return null;
+  if (!grade) return name;
+  return name.replace(CLASS_GRADE_TOKEN, `G${grade}`);
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Download, Search, Users } from "lucide-react";
+import { Download, ExternalLink, Search, Users } from "lucide-react";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
@@ -10,6 +10,8 @@ import { SearchSuggestInput } from "@/app/search-suggest-input";
 import { isVisibleToStudent } from "@/lib/visibility";
 import { PageBackLink } from "@/app/page-back-link";
 import { normalizePageNumber, normalizeQueryText, type QueryParamValue } from "@/lib/query-params";
+import { gradeFromStudentEmail, studentNameWithCurrentGrade } from "@/lib/student-grade";
+import { profilePathFromEmail } from "@/lib/user-profile";
 import { StudentTableRow } from "./student-table-row";
 import { RefreshGoogleNamesButton } from "./refresh-google-names-button";
 import { RecalculateGradesButton } from "./recalculate-grades-button";
@@ -17,9 +19,14 @@ import { RecalculateGradesButton } from "./recalculate-grades-button";
 export const dynamic = "force-dynamic";
 
 type AdminStudentsSearchParams = Promise<{
+  group?: QueryParamValue;
   page?: QueryParamValue;
   q?: QueryParamValue;
+  role?: QueryParamValue;
 }>;
+
+const ROLE_FILTERS = ["STUDENT", "TEACHER", "CONTENT_EDITOR", "ANALYST", "ADMIN"] as const;
+type RoleFilter = (typeof ROLE_FILTERS)[number];
 
 export default async function AdminStudentsPage({
   searchParams,
@@ -33,12 +40,17 @@ export default async function AdminStudentsPage({
   const params = (await searchParams) ?? {};
   const query = normalizeQueryText(params.q);
   const normalizedQuery = query.toLowerCase();
+  const rawRoleFilter = normalizeQueryText(params.role).toUpperCase();
+  const roleFilter = ROLE_FILTERS.includes(rawRoleFilter as RoleFilter)
+    ? (rawRoleFilter as RoleFilter)
+    : "";
+  const groupFilter = normalizeQueryText(params.group);
+  const hasFilters = Boolean(query || roleFilter || groupFilter);
   const currentPage = normalizePageNumber(params.page);
   const pageSize = 25;
 
   const [students, problemSets] = await Promise.all([
     prisma.user.findMany({
-      where: { role: "STUDENT" },
       include: {
         attempts: {
           select: { score: true, maxScore: true, submittedAt: true, problemSetId: true },
@@ -58,6 +70,7 @@ export default async function AdminStudentsPage({
 
   const rows = students
     .map((s) => {
+      const currentGrade = gradeFromStudentEmail(s.email) ?? s.grade;
       const performance = computePerformanceProfile(
         s.attempts.filter((attempt) => visibleSetIds.has(attempt.problemSetId)),
         visibleSetIds.size,
@@ -70,11 +83,19 @@ export default async function AdminStudentsPage({
             )
           : s.lastLoginAt;
 
-      return { ...s, performance, lastActive };
+      return {
+        ...s,
+        currentGrade,
+        currentName: studentNameWithCurrentGrade(s.name, currentGrade),
+        performance,
+        lastActive,
+      };
     })
     .filter((row) => {
+      if (roleFilter && row.role !== roleFilter) return false;
+      if (groupFilter && row.group !== groupFilter) return false;
       if (!normalizedQuery) return true;
-      return [row.name ?? "", row.email, row.group ?? ""]
+      return [row.currentName ?? "", row.email, row.group ?? ""]
         .join(" ")
         .toLowerCase()
         .includes(normalizedQuery);
@@ -84,14 +105,26 @@ export default async function AdminStudentsPage({
   const paginatedRows = rows.slice((safePage - 1) * pageSize, safePage * pageSize);
   const searchSuggestions = [
     ...students.map((student) => ({
-      label: student.name || student.email,
-      value: student.name || student.email,
+      label:
+        studentNameWithCurrentGrade(
+          student.name,
+          gradeFromStudentEmail(student.email) ?? student.grade,
+        ) || student.email,
+      value:
+        studentNameWithCurrentGrade(
+          student.name,
+          gradeFromStudentEmail(student.email) ?? student.grade,
+        ) || student.email,
       detail: student.email,
     })),
     ...students.map((student) => ({
       label: student.email,
       value: student.email,
-      detail: student.name ?? "Student",
+      detail:
+        studentNameWithCurrentGrade(
+          student.name,
+          gradeFromStudentEmail(student.email) ?? student.grade,
+        ) ?? "Student",
     })),
     ...Array.from(
       new Set(
@@ -104,9 +137,17 @@ export default async function AdminStudentsPage({
     })),
   ];
 
-  function studentsHref(page: number) {
+  function studentsHref(
+    page: number,
+    overrides?: { group?: string; query?: string; role?: string },
+  ) {
     const urlParams = new URLSearchParams();
-    if (query) urlParams.set("q", query);
+    const nextQuery = overrides?.query ?? query;
+    const nextRole = overrides?.role ?? roleFilter;
+    const nextGroup = overrides?.group ?? groupFilter;
+    if (nextQuery) urlParams.set("q", nextQuery);
+    if (nextRole) urlParams.set("role", nextRole);
+    if (nextGroup) urlParams.set("group", nextGroup);
     if (page > 1) urlParams.set("page", String(page));
     const suffix = urlParams.toString();
     return suffix ? `/admin/students?${suffix}` : "/admin/students";
@@ -137,7 +178,7 @@ export default async function AdminStudentsPage({
           </div>
         </header>
 
-        <form action="/admin/students" className="search-panel" role="search">
+        <form action="/admin/students" className="search-panel students-search-panel" role="search">
           <Search size={18} />
           <SearchSuggestInput
             ariaLabel="Search students"
@@ -147,11 +188,45 @@ export default async function AdminStudentsPage({
             suggestions={searchSuggestions}
             submitOnSelect
           />
+          <select
+            aria-label="Filter by role"
+            className="student-filter-select"
+            defaultValue={roleFilter}
+            name="role"
+          >
+            <option value="">All roles</option>
+            {ROLE_FILTERS.map((role) => (
+              <option key={role} value={role}>
+                {role.replace(/_/g, " ")}
+              </option>
+            ))}
+          </select>
+          <select
+            aria-label="Filter by group"
+            className="student-filter-select"
+            defaultValue={groupFilter}
+            name="group"
+          >
+            <option value="">All groups</option>
+            {Array.from(
+              new Set(
+                students
+                  .map((student) => student.group)
+                  .filter((group): group is string => Boolean(group)),
+              ),
+            )
+              .sort((a, b) => a.localeCompare(b))
+              .map((group) => (
+                <option key={group} value={group}>
+                  {group}
+                </option>
+              ))}
+          </select>
           <button className="secondary-action compact" type="submit">
-            Search
+            Apply
           </button>
-          {query ? (
-            <Link className="text-link" href="/admin/students">
+          {hasFilters ? (
+            <Link className="text-link" href={studentsHref(1, { group: "", query: "", role: "" })}>
               Clear
             </Link>
           ) : null}
@@ -160,20 +235,20 @@ export default async function AdminStudentsPage({
         {rows.length === 0 ? (
           <section className="panel empty-state">
             <Users size={42} />
-            <strong>{query ? "No students match this search" : "No students yet"}</strong>
+            <strong>{hasFilters ? "No users match these filters" : "No users yet"}</strong>
             <p>
-              {query
-                ? "Try a different student name, email, or group."
-                : "Students will appear here after they log in and submit attempts."}
+              {hasFilters
+                ? "Try a different name, email, role, or group."
+                : "Users will appear here after they log in and submit attempts."}
             </p>
           </section>
         ) : (
           <section className="panel table-panel">
             <div className="panel-header">
               <div>
-                <p className="eyebrow">All students</p>
+                <p className="eyebrow">All users</p>
                 <h2>
-                  {rows.length} student{rows.length !== 1 ? "s" : ""}
+                  {rows.length} user{rows.length !== 1 ? "s" : ""}
                 </h2>
               </div>
               <Users size={20} />
@@ -185,6 +260,7 @@ export default async function AdminStudentsPage({
                     <th>Name</th>
                     <th>Email</th>
                     <th>Grade</th>
+                    <th>Role</th>
                     <th>Group</th>
                     <th>Sets</th>
                     <th>Mastery index</th>
@@ -193,6 +269,7 @@ export default async function AdminStudentsPage({
                     <th>Attempts</th>
                     <th>Joined</th>
                     <th>Last active</th>
+                    <th>Profile</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -202,15 +279,18 @@ export default async function AdminStudentsPage({
                       <StudentTableRow href={href} key={row.id}>
                         <td data-label="Name">
                           <Link
-                            aria-label={`Open ${row.name ?? row.email}`}
+                            aria-label={`Open ${row.currentName ?? row.email}`}
                             className="student-row-primary-link"
                             href={href}
                           >
-                            {row.name ?? "—"}
+                            {row.currentName ?? "—"}
                           </Link>
                         </td>
                         <td data-label="Email">{row.email}</td>
-                        <td data-label="Grade">{row.grade ? `G${row.grade}` : "—"}</td>
+                        <td data-label="Grade">
+                          {row.currentGrade ? `G${row.currentGrade}` : "—"}
+                        </td>
+                        <td data-label="Role">{row.role.replace(/_/g, " ")}</td>
                         <td data-label="Group">{row.group ?? "—"}</td>
                         <td data-label="Sets">{row.performance.attemptedSets}</td>
                         <td data-label="Mastery index">
@@ -226,6 +306,16 @@ export default async function AdminStudentsPage({
                         <td data-label="Joined">{row.createdAt.toLocaleDateString()}</td>
                         <td data-label="Last active">
                           {row.lastActive ? row.lastActive.toLocaleDateString() : "—"}
+                        </td>
+                        <td data-label="Profile">
+                          <Link
+                            aria-label={`View ${row.currentName ?? row.email} profile`}
+                            className="secondary-action compact student-profile-link"
+                            href={profilePathFromEmail(row.email)}
+                          >
+                            <ExternalLink size={14} />
+                            View
+                          </Link>
                         </td>
                       </StudentTableRow>
                     );
