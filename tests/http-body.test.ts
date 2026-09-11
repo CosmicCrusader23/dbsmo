@@ -46,6 +46,30 @@ describe("isCrossSiteBrowserRequest", () => {
       ),
     ).toBe(true);
   });
+
+  it("allows a matching Origin when Fetch Metadata says same-site", () => {
+    expect(
+      isCrossSiteBrowserRequest(
+        new Request("https://dbsmo.example/api/export", {
+          headers: {
+            Origin: "https://dbsmo.example",
+            "Sec-Fetch-Site": "same-site",
+          },
+        }),
+        { allowSameSiteWithMatchingOrigin: true },
+      ),
+    ).toBe(false);
+  });
+
+  it("rejects same-site requests without Origin", () => {
+    expect(
+      isCrossSiteBrowserRequest(
+        new Request("https://dbsmo.example/api/export", {
+          headers: { "Sec-Fetch-Site": "same-site" },
+        }),
+      ),
+    ).toBe(true);
+  });
 });
 
 describe("readJsonBody", () => {

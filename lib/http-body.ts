@@ -15,17 +15,31 @@ type BodyBytesResult =
  * same-origin calls, bookmarks, CLI clients, and older clients without Fetch
  * Metadata headers.
  */
-export function isCrossSiteBrowserRequest(request: Request): boolean {
+export function isCrossSiteBrowserRequest(
+  request: Request,
+  { allowSameSiteWithMatchingOrigin = false }: { allowSameSiteWithMatchingOrigin?: boolean } = {},
+): boolean {
   const fetchSite = request.headers.get("sec-fetch-site")?.trim().toLowerCase();
-  if (fetchSite && fetchSite !== "same-origin" && fetchSite !== "none") return true;
-
   const origin = request.headers.get("origin");
-  if (!origin) return false;
-  try {
-    return new URL(origin).origin !== new URL(request.url).origin;
-  } catch {
+
+  if (
+    fetchSite &&
+    fetchSite !== "same-origin" &&
+    fetchSite !== "none" &&
+    !(allowSameSiteWithMatchingOrigin && fetchSite === "same-site" && origin)
+  ) {
     return true;
   }
+
+  if (origin) {
+    try {
+      return new URL(origin).origin !== new URL(request.url).origin;
+    } catch {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function declaredBodySize(request: Request): number | null {
