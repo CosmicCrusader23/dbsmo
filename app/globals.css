@@ -7307,13 +7307,19 @@ html.dark .theme-choice-button.active {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: auto;
+  min-height: 42px;
+  padding: 0 14px;
+  gap: 8px;
   border: 1px solid var(--color-border);
-  border-radius: 50%;
+  border-radius: 14px 11px 13px 10px;
   background: var(--color-card-bg);
   color: var(--color-muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1;
   text-decoration: none;
+  white-space: nowrap;
   transition:
     transform 180ms ease,
     background-color 180ms ease,

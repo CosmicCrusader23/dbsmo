@@ -117,6 +117,7 @@ export default async function ProblemSetPage({ params }: ProblemSetPageProps) {
                 title="Open writeups"
               >
                 <MessageSquareText size={22} />
+                <span>Writeup</span>
               </Link>
             </h1>
           </div>
