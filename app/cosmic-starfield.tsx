@@ -315,7 +315,9 @@ export function CosmicStarfield({ variant }: { variant: Variant }) {
         previous = timestamp;
         return;
       }
-      if (!pausedRef.current) elapsed += Math.min(timestamp - (previous || timestamp), 48);
+      if (!pausedRef.current) {
+        elapsed += Math.min(timestamp - (previous || timestamp), 48) / (variant === "astra" ? 2.5 : 1);
+      }
       previous = timestamp;
       const ease = dragging ? 0.2 : 0.075;
       motion.x += (target.x - motion.x) * ease;
@@ -352,9 +354,10 @@ export function CosmicStarfield({ variant }: { variant: Variant }) {
         const dx = event.clientX - lastPointerX;
         const dy = event.clientY - lastPointerY;
         const sensitivity = variant === "astra" ? 0.009 : 0.004;
-        motion.yaw += dx * sensitivity;
+        const horizontalDirection = variant === "astra" ? -1 : 1;
+        motion.yaw += dx * sensitivity * horizontalDirection;
         motion.pitch = Math.max(-0.8, Math.min(0.8, motion.pitch + dy * sensitivity * 0.67));
-        yawVelocity = Math.max(-0.035, Math.min(0.035, dx * sensitivity * 0.18));
+        yawVelocity = Math.max(-0.035, Math.min(0.035, dx * sensitivity * 0.18 * horizontalDirection));
         pitchVelocity = Math.max(-0.02, Math.min(0.02, dy * sensitivity * 0.12));
       }
       lastPointerX = event.clientX;
