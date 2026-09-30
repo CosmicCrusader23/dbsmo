@@ -13565,7 +13565,7 @@ html:is(.light, .dark) .notfound-digit-zero {
   position: absolute;
   z-index: 4;
   right: 22px;
-  bottom: 22px;
+  top: 22px;
   display: grid;
   width: 36px;
   height: 36px;
@@ -13610,7 +13610,7 @@ html:is(.light, .dark) .landing-shell {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(90deg, rgba(3, 10, 14, 0.54), rgba(3, 10, 14, 0.06) 52%, rgba(3, 10, 14, 0.38));
+  background: linear-gradient(90deg, rgba(3, 10, 14, 0.38), rgba(3, 10, 14, 0.02) 52%, rgba(3, 10, 14, 0.22));
   content: "";
   pointer-events: none;
 }
@@ -13726,7 +13726,7 @@ html:is(.light, .dark) .landing-shell .auth-bypass {
 
 html:is(.light, .dark) .hero-panel.cosmic-dashboard-hero {
   isolation: isolate;
-  min-height: 350px;
+  min-height: 430px;
   border: 1px solid rgba(174, 208, 227, 0.32);
   border-radius: 17px;
   corner-shape: round;
@@ -13749,15 +13749,15 @@ html:is(.light, .dark) .hero-panel.cosmic-dashboard-hero:active {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(5, 11, 17, 0.83), rgba(5, 11, 17, 0.39) 55%, rgba(5, 11, 17, 0.05));
+  background: linear-gradient(90deg, rgba(5, 11, 17, 0.8), rgba(5, 11, 17, 0.26) 55%, rgba(5, 11, 17, 0.01));
   content: "";
   pointer-events: none;
 }
 
 .cosmic-dashboard-hero .cosmic-scene__control {
-  top: 18px;
+  top: auto;
   right: 18px;
-  bottom: auto;
+  bottom: 18px;
 }
 
 .cosmic-dashboard-hero .hero-copy,
@@ -13827,7 +13827,7 @@ html:is(.light, .dark) .landing-shell .login-card {
   background: rgba(10, 22, 30, 0.83);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .landing-shell .login-layout {
     grid-template-columns: 1fr;
     gap: 14px;
@@ -13853,8 +13853,8 @@ html:is(.light, .dark) .landing-shell .login-card {
   }
 
   .cosmic-dashboard-hero .cosmic-scene__control {
-    top: 14px;
+    top: auto;
     right: 14px;
-    bottom: auto;
+    bottom: 14px;
   }
 }
