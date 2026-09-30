@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { AuthButton } from "./auth-button";
 import { authOptions, devBypassEnabled, googleAuthEnabled } from "@/lib/auth";
 import { ThemeToggle } from "./theme-toggle";
+import { CosmicStarfield } from "./cosmic-starfield";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,7 @@ export default async function LandingPage() {
 
   return (
     <main className="landing-shell">
+      <CosmicStarfield variant="sol" />
       <div className="login-stage">
         <header className="login-topbar">
           <Link className="brand login-brand" href="/">
@@ -33,23 +35,16 @@ export default async function LandingPage() {
 
         <div className="login-layout">
           <section className="login-copy">
-            <div className="login-math-sketch" aria-hidden="true">
-              <span className="login-sketch-glyph login-sketch-pi">π</span>
-              <span className="login-sketch-glyph login-sketch-sum">∑</span>
-              <span className="login-sketch-glyph login-sketch-root">√</span>
-              <span className="login-sketch-orbit" />
-              <span className="login-sketch-axis" />
-              <span className="login-sketch-point point-one" />
-              <span className="login-sketch-point point-two" />
-              <span className="login-sketch-point point-three" />
-            </div>
+            <p className="cosmic-kicker">A place to think further <span>✦</span></p>
             <h1>sign in to proceed.</h1>
             <p className="login-copy-text">Diocesan Boys&apos; School math olympiad training.</p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
             <div className="login-card-head">
+              <p className="cosmic-card-index">DBSMO / 01</p>
               <h2>sign in with your school gmail</h2>
+              <p>Pick up where your curiosity left off.</p>
             </div>
 
             <AuthButton

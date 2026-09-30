@@ -13544,3 +13544,340 @@ html:is(.light, .dark) .notfound-digit-zero {
     grid-template-columns: 1fr;
   }
 }
+
+/* Sol and Astra inspired starfields on the two entry surfaces. */
+.cosmic-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #030a0e;
+}
+
+.cosmic-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cosmic-scene__control {
+  position: absolute;
+  z-index: 4;
+  right: 22px;
+  bottom: 22px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(231, 242, 250, 0.38);
+  border-radius: 50%;
+  color: #f5f8fa;
+  background: rgba(9, 22, 31, 0.7);
+  box-shadow: 0 0 22px rgba(139, 199, 235, 0.12);
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.cosmic-scene__control:hover {
+  background: rgba(55, 83, 100, 0.9);
+  transform: scale(1.06);
+}
+
+.cosmic-scene__control:focus-visible {
+  outline: 2px solid #b8e5ff;
+  outline-offset: 3px;
+}
+
+html:is(.light, .dark) .landing-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  padding: clamp(20px, 3vw, 44px);
+  color: #f6f7f4;
+  background: #030a0e;
+  background-image: none;
+}
+
+.landing-shell .cosmic-scene {
+  z-index: -1;
+}
+
+.landing-shell::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, rgba(3, 10, 14, 0.54), rgba(3, 10, 14, 0.06) 52%, rgba(3, 10, 14, 0.38));
+  content: "";
+  pointer-events: none;
+}
+
+.landing-shell .login-stage {
+  position: relative;
+  z-index: 1;
+  width: min(1240px, 100%);
+  min-height: calc(100svh - clamp(40px, 6vw, 88px));
+  gap: 24px;
+}
+
+.landing-shell .login-topbar {
+  border-bottom: 1px solid rgba(231, 242, 250, 0.2);
+  padding-bottom: 18px;
+}
+
+.landing-shell .login-brand {
+  color: #f6f7f4;
+}
+
+.landing-shell .login-brand strong {
+  color: #f6f7f4;
+}
+
+.landing-shell .login-brand small {
+  color: #aebdc7;
+}
+
+.landing-shell .theme-toggle {
+  color: #f6f7f4;
+  border-color: rgba(231, 242, 250, 0.3);
+  background: rgba(11, 26, 36, 0.65);
+}
+
+.landing-shell .login-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: clamp(32px, 7vw, 110px);
+}
+
+.landing-shell .login-copy {
+  min-height: 440px;
+  max-width: 650px;
+  padding: 42px 0;
+  align-content: end;
+}
+
+.cosmic-kicker {
+  margin: 0 0 6px;
+  color: #e4b27a;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.cosmic-kicker span {
+  padding-left: 6px;
+  font-size: 1rem;
+}
+
+.landing-shell .login-copy h1 {
+  max-width: 640px;
+  color: #f6f7f4;
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(4.2rem, 7.6vw, 7.3rem);
+  font-weight: 560;
+  letter-spacing: -0.085em;
+  line-height: 0.94;
+  text-shadow: 0 2px 26px rgba(0, 0, 0, 0.3);
+}
+
+.landing-shell .login-copy-text {
+  max-width: 410px;
+  color: #b5c2c9;
+  font-size: 1rem;
+  font-weight: 450;
+  line-height: 1.5;
+}
+
+.landing-shell .login-card {
+  gap: 26px;
+  padding: 34px;
+  border: 1px solid rgba(235, 245, 250, 0.23);
+  border-radius: 20px;
+  corner-shape: round;
+  color: #f6f7f4;
+  background: rgba(10, 22, 30, 0.83);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.43), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(22px);
+  transform: none;
+}
+
+.landing-shell .login-card::after,
+.landing-shell .login-card::before {
+  content: none;
+}
+
+.landing-shell .login-card-head {
+  gap: 12px;
+}
+
+.cosmic-card-index {
+  margin: 0;
+  color: #e4b27a;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.landing-shell .login-card-head h2 {
+  color: #f6f7f4;
+  font-family: var(--font-inter), sans-serif;
+  font-size: clamp(1.75rem, 2.5vw, 2.2rem);
+  font-weight: 560;
+  letter-spacing: -0.055em;
+  line-height: 1.07;
+}
+
+.landing-shell .login-card-head > p:last-child {
+  margin: 0;
+  color: #aebdc7;
+  font-size: 0.9rem;
+}
+
+html:is(.light, .dark) .landing-shell .auth-cta {
+  min-height: 54px;
+  border: 1px solid #f1e5cc;
+  border-radius: 11px;
+  corner-shape: round;
+  color: #14202a;
+  background: #f4ead4;
+  box-shadow: 0 9px 28px rgba(0, 0, 0, 0.2);
+}
+
+html:is(.light, .dark) .landing-shell .auth-bypass {
+  border-color: rgba(235, 245, 250, 0.26);
+  color: #edf3f5;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+html:is(.light, .dark) .hero-panel.cosmic-dashboard-hero {
+  isolation: isolate;
+  min-height: 350px;
+  border: 1px solid rgba(174, 208, 227, 0.32);
+  border-radius: 17px;
+  corner-shape: round;
+  color: #f5f8fa;
+  background: #050b11;
+  box-shadow: 0 15px 42px rgba(8, 22, 34, 0.16);
+}
+
+.hero-panel.cosmic-dashboard-hero::after {
+  content: none;
+}
+
+.hero-panel.cosmic-dashboard-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(5, 11, 17, 0.83), rgba(5, 11, 17, 0.39) 55%, rgba(5, 11, 17, 0.05));
+  content: "";
+  pointer-events: none;
+}
+
+.cosmic-dashboard-hero .cosmic-scene__control {
+  top: 18px;
+  right: 18px;
+  bottom: auto;
+}
+
+.cosmic-dashboard-hero .hero-copy,
+.cosmic-dashboard-hero .progress-orbit {
+  z-index: 2;
+}
+
+.cosmic-dashboard-hero .hero-copy .eyebrow,
+.cosmic-dashboard-hero .next-step-reason {
+  color: #b6d9ed;
+}
+
+html:is(.light, .dark) .cosmic-dashboard-hero .hero-copy h2,
+html:is(.light, .dark) .cosmic-dashboard-hero .hero-copy h2 .typewriter-greeting {
+  color: #f5f8fa;
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 570;
+  letter-spacing: -0.055em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+}
+
+html:is(.light, .dark) .cosmic-dashboard-hero .hero-actions .primary-action {
+  border-color: #e8dac0;
+  color: #10212b;
+  background: #f3e4c7;
+}
+
+html:is(.light, .dark) .cosmic-dashboard-hero .hero-actions .secondary-action {
+  border-color: rgba(221, 239, 250, 0.35);
+  color: #eef7fb;
+  background: rgba(13, 31, 43, 0.8);
+}
+
+.cosmic-dashboard-hero .progress-ring {
+  --progress-ring-fill: #b8e6f6;
+  --progress-ring-empty: rgba(185, 228, 247, 0.2);
+  box-shadow: 0 0 42px rgba(177, 223, 249, 0.2);
+}
+
+.cosmic-dashboard-hero .progress-ring::before {
+  border-color: rgba(232, 247, 255, 0.24);
+  background: rgba(5, 16, 24, 0.88);
+}
+
+.cosmic-dashboard-hero .progress-ring span {
+  color: #f5f8fa;
+}
+
+.cosmic-dashboard-hero .progress-ring small {
+  color: #acc7d5;
+}
+
+.cosmic-dashboard-hero .orbit-card {
+  border-color: rgba(226, 246, 255, 0.24);
+  color: #ecf6fb;
+  background: rgba(7, 24, 36, 0.82);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+}
+
+html:is(.light, .dark) .landing-shell :is(h1, h2, button),
+html:is(.light, .dark) .cosmic-dashboard-hero :is(h2, button) {
+  font-family: var(--font-inter), "Inter", sans-serif;
+}
+
+html:is(.light, .dark) .landing-shell .login-card {
+  background: rgba(10, 22, 30, 0.83);
+}
+
+@media (max-width: 760px) {
+  .landing-shell .login-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .landing-shell .login-copy {
+    min-height: 265px;
+    padding: 52px 0 10px;
+  }
+
+  .landing-shell .login-copy h1 {
+    font-size: clamp(3.5rem, 13vw, 5.3rem);
+  }
+
+  .landing-shell .login-card {
+    padding: 26px;
+  }
+
+  .landing-shell .cosmic-scene__control {
+    top: 130px;
+    right: 16px;
+    bottom: auto;
+  }
+
+  .cosmic-dashboard-hero .cosmic-scene__control {
+    top: 14px;
+    right: 14px;
+    bottom: auto;
+  }
+}

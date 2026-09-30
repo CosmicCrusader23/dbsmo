@@ -24,6 +24,7 @@ import { normalizeTagList } from "@/lib/problem-tags";
 import { compareProblemSetRecords } from "@/lib/problem-set-order";
 import { displayNameFor, normalizeDisplayText } from "@/lib/display-name";
 import { AssignmentsWidget } from "./assignments-widget";
+import { CosmicStarfield } from "@/app/cosmic-starfield";
 
 export const dynamic = "force-dynamic";
 
@@ -352,7 +353,8 @@ export default async function DashboardPage() {
           </section>
         ) : null}
 
-        <section className="hero-panel">
+        <section className="hero-panel cosmic-dashboard-hero">
+          <CosmicStarfield variant="astra" />
           <div className="hero-copy">
             <p className="eyebrow">{nextSet ? `Next set: ${nextSet.title}` : "Platform setup"}</p>
             <h2>

@@ -29,7 +29,7 @@ Stack: Next.js, NextAuth (Google + dev bypass), Prisma, KaTeX for math, Lucide i
 
 ### Now (this session)
 
-- No half-finished feature is currently tracked here.
+- **Local animation preview awaiting review** — `/` now has a warm Sol-inspired canvas starfield behind the sign-in layout, and the dashboard hero has a cooler Astra-inspired spiral around the progress display. Both are responsive, pauseable, and respect reduced-motion preferences through `app/cosmic-starfield.tsx` and route-specific styles in `app/globals.css`. The preview runs locally against an isolated `dbsmo_animation_preview` database; no deploy steps or schema changes were added, and this work has not been pushed.
 
 ### Recently landed
 
