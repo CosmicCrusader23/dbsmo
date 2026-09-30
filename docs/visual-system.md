@@ -1,29 +1,55 @@
-# Editorial Visual System
+# Hand-Drawn Visual System
 
-DBSMO uses the restrained visual language of OpenAI's GPT launch pages across its working screens: generous space, large plain type, fine dividers, and a near-black palette with small warm and cool accents. The interactive Sol and Astra scenes remain the expressive moments on sign-in and the dashboard. The app-wide layer is the final `GPT-inspired editorial shell` section of `app/globals.css`; it overrides the older hand-drawn sections without changing route markup or behavior.
+DBSMO uses a math-notebook visual language built from shared CSS rather than page-specific illustrations. The implementation is in the final `Hand-drawn shape system` and `Hand-drawn route coverage` sections of `app/globals.css`; the public sign-in sketch markup is in `app/page.tsx`, and font variables are configured in `app/layout.tsx`.
 
-## Design language
+## Design Language
 
-- **Light:** warm off-white background, quiet white panels, dark ink, and muted blue selected states.
-- **Dark:** blue-black background, charcoal panels, soft white text, subtle cool atmosphere, and a small amber accent. The existing theme toggle and stored preference still select between the two.
-- **Typography:** Inter is used for display and controls as well as body text. Tight heading tracking and restrained weights give page titles their editorial scale. Shantell Sans remains loaded for legacy surfaces and game-specific interfaces.
-- **Structure:** shared cards, inputs, pills, filters, and tables use one-pixel borders and regular rounded corners. Shadows and hand-drawn offsets are removed from the shared shell. Dense information keeps its existing layout and interaction.
-- **Motion:** Sol and Astra remain interactive on their respective pages. Other content renders at its final position; hover and focus feedback stay subtle and respect reduced-motion preferences.
+- Paper: warm graph-paper backgrounds with a dark-mode equivalent.
+- Ink: asymmetric native borders and small offset shadows create a drawn outline without adding a second rectangular frame around shaped controls.
+- Markers: cyan, pink, yellow, and green accents identify states without becoming decorative underlines.
+- Metrics: summary cards use one neutral outline on every edge; do not reintroduce per-card colored edge strips.
+- Geometry: asymmetric squircle radii make functional cards and controls feel hand-drawn while keeping dimensions stable. Cut or mixed corners are reserved for small decorative accents.
+- Typography: Shantell Sans gives headings, controls, tabs, badges, compact labels, and tabular display text a handwritten character. Inter remains the long-form body, form-entry, and math-adjacent font for scanning and accuracy.
 
-## Coverage and behavior
+## Route Coverage
 
-The shared stylesheet covers the dashboard, problem-set catalog and details, writeups, practice, classes, leaderboard, user/profile pages, settings, and admin tools. FTW and Playground keep their game-specific compositions, while inheriting the common color and type tokens where practical. The desktop sidebar remains a 64 px icon rail that expands on hover or keyboard focus; the mobile sheet keeps its current behavior.
+The shared and route-specific selectors cover the dashboard, problem-set catalog and detail pages, writeups, practice, classes, leaderboard, user/profile, settings, and admin surfaces. FTW and Playground retain their existing game-specific styling and were intentionally excluded from the route audit.
 
-The sign-in page retains its dark Sol field even when the user's general theme is light. The dashboard hero retains its Astra field, cream actions, and white type in both themes. These scenes stay legible against the surrounding editorial shell.
+Desktop and 390 px mobile visualizations were rendered from representative real class names. The production `/problem-sets/1991-ajhsme` route was also inspected in the signed-in Chrome session. The audit checks included stable header actions, horizontal containment, readable status badges, compact tables, analytics controls, announcements, writeup voting, tall problem panels, and the mobile navigation sheet. Desktop navigation is a 64 px icon rail that expands to 240 px on hover or keyboard focus; the existing off-canvas sheet remains the mobile behavior.
 
-The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon metadata and the public landing brand. On mobile, the closed navigation sheet is `inert` and `aria-hidden`; opening it makes page content inert, and closing it restores focus to the menu toggle. Keyboard focus remains visible on navigation and controls.
+Settings is intentionally one unframed workspace: labels and hints do not create a second outline around their native form controls. On phones its title and action group stack, while the actions share the available width. The Students table is excluded from generic mobile table minimum widths so its route-specific labeled-card layout can collapse without horizontal scrolling. The root reserves a stable scrollbar gutter so opening the fixed mobile sidebar does not move the menu toggle.
 
-## Maintenance
+The simplified Sigma mark in `public/dbsmo-mark.svg` is shared by browser icon metadata and the public landing brand. The sidebar renders the matching Lucide `Sigma`, keeping the navigation icon crisp without duplicating image assets in the component. On mobile, the closed sheet is `inert`/`aria-hidden`; opening it makes the page content inert, and closing it restores focus to the menu toggle. Primary navigation controls share an explicit cyan `:focus-visible` ring (`app/global-mobile-nav.tsx`, `app/site-sidebar-nav.tsx`, `app/globals.css`).
 
-1. Change the light and dark tokens together in the final editorial section of `app/globals.css`. Do not reintroduce graph-paper backgrounds, handwritten typography, staggered card borders, or broad page entrance animations into the common shell.
-2. Keep the Sol and Astra selectors more specific than generic card and button selectors so a theme change does not cover the animations or reduce their contrast.
-3. Keep conventional `border` and `border-radius` fallbacks before experimental `corner-shape` rules. Avoid percentage-based `border-shape` paths on variable-height panels.
-4. Keep search and form focus states clear without stacking several colored outlines. Check selected filter labels and counts in both themes.
-5. After shared CSS edits, inspect the public landing page and authenticated dashboard, catalog, practice, and settings screens at desktop and mobile widths. Include a tall problem set when changing panel geometry; preserve mobile card-table containment.
+## CSS Shape APIs
 
-The editorial update adds no package, environment variable, schema change, or deployment step.
+`corner-shape` changes the geometry inside a non-zero `border-radius`. DBSMO uses values such as `squircle`, `bevel`, and `scoop` on cards, actions, inputs, badges, and navigation. It is progressive enhancement because browser support is not yet universal.
+
+`border-shape` can draw a border along a `<basic-shape>`, including `shape()`. DBSMO limits it to the sign-in orbit and bounded empty states inside `@supports (border-shape: circle(50%))`. Shared cards, controls, and panels use native borders with asymmetric radii and `corner-shape`; `border-image` is intentionally avoided because it paints a rectangular frame that does not clip consistently to squircles. Every shaped element retains an ordinary border/radius fallback.
+
+Do not apply percentage-based `border-shape` paths to variable-height panels. On production, a problem panel over 7,000 px tall turned a 1-2% vertical path offset into a 70-140 px diagonal wedge. Tall panels, statement containers, tables, and question cards use ordinary borders with asymmetric squircle radii instead.
+
+`clip-path` remains the fallback for decorative tape, marker strokes, and axes. It is also used where clipping is more appropriate than changing a functional box border.
+
+Primary references:
+
+- [MDN: `corner-shape`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/corner-shape)
+- [CSS Borders and Box Decorations Level 4](https://drafts.csswg.org/css-borders/)
+- [Chrome 147: `border-shape`](https://developer.chrome.com/release-notes/147)
+- [MDN: `clip-path`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/clip-path)
+- [MDN: `shape()`](https://developer.mozilla.org/docs/Web/CSS/basic-shape/shape)
+
+## Maintenance Rules
+
+1. Add or modify shared colors through the light `:root` and `html.dark` variables together.
+2. Preserve conventional borders and radii before adding experimental shape properties.
+3. Keep touch-target dimensions independent of transforms, clips, and decorative pseudo-elements.
+4. Do not add staged page, panel, card, row, bar, or chart entrance animations. Content should render at its final state immediately; reserve motion for functional loading, compact feedback, and direct hover/focus interaction, with `prefers-reduced-motion` support.
+5. Verify the public landing page and at least one dense authenticated surface at desktop and mobile widths after broad CSS changes.
+6. Include a tall problem set in visual QA whenever changing shared panel geometry; checking a short mock panel is not sufficient.
+7. Keep marker colors for state and emphasis; do not restore global wavy eyebrow or page-title underlines.
+8. Keep search inputs borderless at rest inside their search panel and use one cyan border on focus; do not combine a colored border with a second outline ring.
+9. Keep selected filter labels and their count badges on opaque theme surfaces with ink-level contrast.
+10. Exclude route-specific mobile card tables from generic minimum-width table rules; otherwise selector specificity silently restores horizontal scrolling.
+
+The visual update adds a bundled `next/font` face but no package, environment, schema, or server-step dependency.
