@@ -35,16 +35,13 @@ export default async function LandingPage() {
 
         <div className="login-layout">
           <section className="login-copy">
-            <p className="cosmic-kicker">A place to think further <span>✦</span></p>
             <h1>sign in to proceed.</h1>
             <p className="login-copy-text">Diocesan Boys&apos; School math olympiad training.</p>
           </section>
 
           <aside className="login-card" data-testid="login-card">
             <div className="login-card-head">
-              <p className="cosmic-card-index">DBSMO / 01</p>
               <h2>sign in with your school gmail</h2>
-              <p>Pick up where your curiosity left off.</p>
             </div>
 
             <AuthButton

@@ -13599,6 +13599,7 @@ html:is(.light, .dark) .landing-shell {
   color: #f6f7f4;
   background: #030a0e;
   background-image: none;
+  user-select: none;
 }
 
 .landing-shell .cosmic-scene {
@@ -13657,21 +13658,6 @@ html:is(.light, .dark) .landing-shell {
   align-content: end;
 }
 
-.cosmic-kicker {
-  margin: 0 0 6px;
-  color: #e4b27a;
-  font-family: var(--font-inter), sans-serif;
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.cosmic-kicker span {
-  padding-left: 6px;
-  font-size: 1rem;
-}
-
 .landing-shell .login-copy h1 {
   max-width: 640px;
   color: #f6f7f4;
@@ -13713,15 +13699,6 @@ html:is(.light, .dark) .landing-shell {
   gap: 12px;
 }
 
-.cosmic-card-index {
-  margin: 0;
-  color: #e4b27a;
-  font-family: var(--font-inter), sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.17em;
-}
-
 .landing-shell .login-card-head h2 {
   color: #f6f7f4;
   font-family: var(--font-inter), sans-serif;
@@ -13729,12 +13706,6 @@ html:is(.light, .dark) .landing-shell {
   font-weight: 560;
   letter-spacing: -0.055em;
   line-height: 1.07;
-}
-
-.landing-shell .login-card-head > p:last-child {
-  margin: 0;
-  color: #aebdc7;
-  font-size: 0.9rem;
 }
 
 html:is(.light, .dark) .landing-shell .auth-cta {
@@ -13762,6 +13733,12 @@ html:is(.light, .dark) .hero-panel.cosmic-dashboard-hero {
   color: #f5f8fa;
   background: #050b11;
   box-shadow: 0 15px 42px rgba(8, 22, 34, 0.16);
+  cursor: grab;
+  user-select: none;
+}
+
+html:is(.light, .dark) .hero-panel.cosmic-dashboard-hero:active {
+  cursor: grabbing;
 }
 
 .hero-panel.cosmic-dashboard-hero::after {
