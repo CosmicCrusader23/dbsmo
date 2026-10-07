@@ -50,7 +50,8 @@ export async function PATCH(request: Request, context: RouteContext) {
   }
 
   const mutation = await prisma.$transaction(async (tx) => {
-    await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext('dbsmo-role-update'))`;
+    // Select a supported type: the lock function itself returns PostgreSQL void.
+    await tx.$queryRaw`SELECT 1 AS acquired FROM pg_advisory_xact_lock(hashtext('dbsmo-role-update'))`;
 
     const actor = await tx.user.findUnique({
       where: { id: session.user.id },

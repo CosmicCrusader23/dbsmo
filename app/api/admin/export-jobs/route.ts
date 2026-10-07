@@ -50,7 +50,7 @@ async function reserveExportJob(type: ExportJobType, requestedById: string) {
   return prisma.$transaction(async (tx) => {
     // Serialize reservations for this user without requiring a schema change.
     await tx.$queryRaw`
-      SELECT pg_advisory_xact_lock(
+      SELECT 1 AS acquired FROM pg_advisory_xact_lock(
         hashtext('dbsmo-backup-export'),
         hashtext(${requestedById})
       )

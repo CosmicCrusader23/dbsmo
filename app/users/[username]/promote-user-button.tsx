@@ -26,8 +26,8 @@ export function PromoteUserButton({ userId, currentRole }: { userId: string; cur
       });
 
       if (!response.ok) {
-        const body = await response.json();
-        setError(body.error ?? "Could not update role.");
+        const body = await response.json().catch(() => null);
+        setError(body?.error ?? "Could not update role.");
         return;
       }
 

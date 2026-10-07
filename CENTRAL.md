@@ -29,7 +29,7 @@ Stack: Next.js, NextAuth (Google + dev bypass), Prisma, KaTeX for math, Lucide i
 
 ### Now (this session)
 
-- **Animation preview awaiting review** — `/` has a dense Sol-style particle stream that sweeps in as a dark sun brightens; nearby particles bend around the pointer. The dashboard hero starts with scattered stars that gather into a bright Astra-style spiral. Dragging rotates the spiral with momentum, with horizontal drag inverted; focused arrow keys also rotate it, and a replay button repeats its entrance. Astra's timed motion runs at 40% of its previous speed. Both scenes respond to viewport size and reduced-motion preferences through `app/cosmic-starfield.tsx` and `app/globals.css`. Extra decorative login copy was removed. The local preview uses an isolated `dbsmo_animation_preview` database; no deploy steps or schema changes were added.
+- **Production role-update repair awaiting VPS deploy** — the admin role PATCH returned 500 because Prisma cannot deserialize the `void` result from PostgreSQL `pg_advisory_xact_lock`. The role, backup-file, and export-job transactions now select a supported integer result while retaining their advisory locks. The profile role control also handles non-JSON server errors without calling them network failures. The local database reproduced the old error and verified the corrected query acquires the lock. No schema or deploy-flow change is required.
 
 ### Recently landed
 

@@ -75,7 +75,7 @@ function fileLabel(value: unknown, index: number): string {
 async function deleteUnclaimedBackupFile(storageKey: string): Promise<void> {
   await prisma.$transaction(async (tx) => {
     await tx.$queryRaw`
-      SELECT pg_advisory_xact_lock(
+      SELECT 1 AS acquired FROM pg_advisory_xact_lock(
         hashtext('dbsmo-backup-file'),
         hashtext(${storageKey})
       )
@@ -394,7 +394,7 @@ export async function POST(request: Request) {
       await prisma.$transaction(
         async (tx) => {
           await tx.$queryRaw`
-            SELECT pg_advisory_xact_lock(
+            SELECT 1 AS acquired FROM pg_advisory_xact_lock(
               hashtext('dbsmo-backup-file'),
               hashtext(${plan.storageKey})
             )
