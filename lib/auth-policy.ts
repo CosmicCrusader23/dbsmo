@@ -10,6 +10,36 @@ function normalizeDomain(value: string): string | null {
   return DOMAIN_PATTERN.test(normalized) ? normalized : null;
 }
 
+export function normalizeAllowlistEntry(
+  kind: "EMAIL" | "DOMAIN",
+  value: string,
+): { kind: "EMAIL" | "DOMAIN"; value: string } | null {
+  const normalized = value.trim().toLowerCase();
+  if (kind === "DOMAIN") {
+    const domain = normalizeDomain(normalized);
+    return domain ? { kind, value: domain } : null;
+  }
+
+  const separator = normalized.indexOf("@");
+  const localPart = normalized.slice(0, separator);
+  if (
+    !normalized ||
+    normalized.length > 254 ||
+    /\s/.test(normalized) ||
+    separator <= 0 ||
+    separator !== normalized.lastIndexOf("@") ||
+    localPart.length > 64 ||
+    localPart.startsWith(".") ||
+    localPart.endsWith(".") ||
+    localPart.includes("..") ||
+    !/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+$/i.test(localPart) ||
+    !normalizeDomain(normalized.slice(separator + 1))
+  ) {
+    return null;
+  }
+  return { kind, value: normalized };
+}
+
 /**
  * Parses the comma-separated SCHOOL_EMAIL_DOMAINS setting.
  *

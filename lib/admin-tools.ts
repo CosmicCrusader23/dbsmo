@@ -93,6 +93,16 @@ export const ADMIN_TOOL_DEFINITIONS: readonly AdminToolDefinition[] = [
     group: "Insights & operations",
     groupDescription: "Measure performance and keep the platform healthy.",
   },
+  {
+    href: "/admin/access",
+    label: "Email access",
+    description: "Manage the email addresses and domains allowed to sign in.",
+    icon: "ShieldCheck",
+    permission: "admin:allowlist",
+    tone: "yellow",
+    group: "Insights & operations",
+    groupDescription: "Measure performance and keep the platform healthy.",
+  },
 ];
 
 export function availableAdminTools(role: UserRole) {

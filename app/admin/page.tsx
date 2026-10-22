@@ -28,6 +28,7 @@ const ADMIN_ICON_MAP: Record<string, LucideIcon> = {
   ListChecks,
   MessageSquareWarning,
   PenLine,
+  ShieldCheck,
   Users,
 };
 

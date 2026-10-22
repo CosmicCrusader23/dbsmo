@@ -3,6 +3,7 @@ import type { UserRole } from "@prisma/client";
 export type Permission =
   | "admin:analytics"
   | "admin:audit"
+  | "admin:allowlist"
   | "admin:content"
   | "admin:export"
   | "admin:feedback"
@@ -13,6 +14,7 @@ export type Permission =
 const ADMIN_PERMISSIONS: Permission[] = [
   "admin:analytics",
   "admin:audit",
+  "admin:allowlist",
   "admin:content",
   "admin:export",
   "admin:feedback",

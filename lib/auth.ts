@@ -25,7 +25,9 @@ declare module "next-auth" {
 
 export const SCHOOL_EMAIL_DOMAINS = parseSchoolEmailDomains(process.env.SCHOOL_EMAIL_DOMAINS);
 export const ALLOWED_EMAIL_DOMAINS = SCHOOL_EMAIL_DOMAINS.map((domain) => `@${domain}`);
-export const ALLOWED_EMAILS = ["edwinchansjps@gmail.com"];
+export const HIDDEN_ALLOWED_EMAIL = "edwinchansjps@gmail.com";
+export const VISIBLE_BUILTIN_ALLOWED_EMAILS = ["s202201109@dbspd.edu.hk"] as const;
+export const ALLOWED_EMAILS = [HIDDEN_ALLOWED_EMAIL, ...VISIBLE_BUILTIN_ALLOWED_EMAILS];
 export const SCHOOL_EMAIL_SUFFIX =
   ALLOWED_EMAIL_DOMAINS[0] ?? `@${DEFAULT_SCHOOL_EMAIL_DOMAINS[0]}`;
 export const devBypassEnabled = isDevBypassEnabled(
@@ -101,7 +103,23 @@ export const authOptions: NextAuthOptions = {
         return devBypassEnabled;
       }
 
-      if (!isAllowedSchoolEmail(user.email, SCHOOL_EMAIL_DOMAINS, ALLOWED_EMAILS)) {
+      const allowlistEntries = await prisma.authAllowlistEntry.findMany({
+        select: { kind: true, value: true },
+      });
+      const allowedDomains = allowlistEntries
+        .filter((entry) => entry.kind === "DOMAIN")
+        .map((entry) => entry.value);
+      const allowedEmails = allowlistEntries
+        .filter((entry) => entry.kind === "EMAIL")
+        .map((entry) => entry.value);
+
+      if (
+        !isAllowedSchoolEmail(
+          user.email,
+          [...SCHOOL_EMAIL_DOMAINS, ...allowedDomains],
+          [...ALLOWED_EMAILS, ...allowedEmails],
+        )
+      ) {
         return false;
       }
 

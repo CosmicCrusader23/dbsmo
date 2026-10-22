@@ -8,6 +8,7 @@ This doc describes the current permission strings and which roles receive them. 
 | ----------------- | ----------------------------------------------- |
 | `admin:analytics` | Access to analytics views and metrics.          |
 | `admin:audit`     | Access to audit-related views and records.      |
+| `admin:allowlist` | Manage email and domain sign-in allowlist.      |
 | `admin:content`   | Manage and edit content.                        |
 | `admin:export`    | Export data.                                    |
 | `admin:feedback`  | View and manage feedback.                       |
@@ -17,12 +18,12 @@ This doc describes the current permission strings and which roles receive them. 
 
 ## Role mapping
 
-| Role             | Permissions                                                                                                                     |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `ADMIN`          | `admin:analytics`, `admin:audit`, `admin:content`, `admin:export`, `admin:feedback`, `admin:roles`, `admin:users`, `admin:view` |
-| `TEACHER`        | `admin:analytics`, `admin:content`, `admin:export`, `admin:feedback`, `admin:users`, `admin:view`                               |
-| `CONTENT_EDITOR` | `admin:content`, `admin:view`                                                                                                   |
-| `ANALYST`        | `admin:analytics`, `admin:export`, `admin:view`                                                                                 |
+| Role             | Permissions                                                                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ADMIN`          | `admin:analytics`, `admin:audit`, `admin:allowlist`, `admin:content`, `admin:export`, `admin:feedback`, `admin:roles`, `admin:users`, `admin:view` |
+| `TEACHER`        | `admin:analytics`, `admin:content`, `admin:export`, `admin:feedback`, `admin:users`, `admin:view`                                                  |
+| `CONTENT_EDITOR` | `admin:content`, `admin:view`                                                                                                                      |
+| `ANALYST`        | `admin:analytics`, `admin:export`, `admin:view`                                                                                                    |
 
 ## Helpers used in code
 

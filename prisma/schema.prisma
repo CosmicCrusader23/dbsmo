@@ -27,6 +27,11 @@ enum ExportJobType {
   BACKUP_JSON
 }
 
+enum AuthAllowlistKind {
+  EMAIL
+  DOMAIN
+}
+
 enum ProblemSetStatus {
   DRAFT
   PUBLISHED
@@ -117,6 +122,15 @@ model User {
   classMemberships      ClassMember[]        @relation("ClassMembership")
   authoredAssignments   Assignment[]         @relation("AssignmentAuthor")
   authoredAnnouncements Announcement[]       @relation("AnnouncementAuthor")
+}
+
+model AuthAllowlistEntry {
+  id        String            @id @default(cuid())
+  kind      AuthAllowlistKind
+  value     String            @unique
+  createdAt DateTime          @default(now())
+
+  @@index([kind, value])
 }
 
 model Friendship {
