@@ -100,8 +100,7 @@ export default async function AdminAccessPage() {
             </table>
           </div>
           <p style={{ padding: "0 20px 18px" }}>
-            Environment domains and built-in entries are read-only here. Custom entries can be
-            removed. Your personal sign-in exception remains hidden from this list.
+            Environment domains are read-only here. Custom entries can be removed.
           </p>
         </section>
       </div>

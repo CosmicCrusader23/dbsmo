@@ -1181,14 +1181,13 @@ td {
   background: var(--color-surface-alt);
   box-shadow: var(--shadow-soft);
   color: var(--color-text-strong);
-  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  transition: box-shadow 160ms ease, border-color 160ms ease;
 }
 
 .admin-tool-card:hover,
 .admin-tool-card:focus-visible {
   border-color: var(--color-text-strong);
   box-shadow: var(--shadow-strong);
-  transform: translateY(-2px) rotate(-0.2deg);
 }
 
 .admin-tool-card:focus-visible {
