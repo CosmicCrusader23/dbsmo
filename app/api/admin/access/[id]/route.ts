@@ -9,7 +9,12 @@ import { hasPermission } from "@/lib/permissions";
 export const runtime = "nodejs";
 
 export async function DELETE(request: Request, context: { params: Promise<{ id: string }> }) {
-  if (isCrossSiteBrowserRequest(request)) {
+  if (
+    isCrossSiteBrowserRequest(request, {
+      allowSameSiteWithMatchingOrigin: true,
+      expectedOrigin: process.env.NEXTAUTH_URL,
+    })
+  ) {
     return NextResponse.json({ error: "Cross-site request rejected." }, { status: 403 });
   }
   const session = await getServerSession(authOptions);

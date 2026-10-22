@@ -133,6 +133,11 @@ model AuthAllowlistEntry {
   @@index([kind, value])
 }
 
+model AuthAllowlistState {
+  id                  String  @id
+  legacyEmailImported Boolean @default(false)
+}
+
 model Friendship {
   id          String   @id @default(cuid())
   requesterId String

@@ -1,13 +1,9 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import {
-  authOptions,
-  HIDDEN_ALLOWED_EMAIL,
-  SCHOOL_EMAIL_DOMAINS,
-  VISIBLE_BUILTIN_ALLOWED_EMAILS,
-} from "@/lib/auth";
+import { authOptions, HIDDEN_ALLOWED_EMAIL, SCHOOL_EMAIL_DOMAINS } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { hasPermission } from "@/lib/permissions";
+import { ensureLegacyAllowlistImported } from "@/lib/auth-allowlist";
 import { PageBackLink } from "@/app/page-back-link";
 import { AllowlistManager, RemoveAllowlistEntryButton } from "./allowlist-manager";
 
@@ -18,19 +14,13 @@ export default async function AdminAccessPage() {
   if (!session?.user?.id) redirect("/");
   if (!hasPermission(session.user.role, "admin:allowlist")) redirect("/dashboard");
 
+  await ensureLegacyAllowlistImported();
   const managedEntries = await prisma.authAllowlistEntry.findMany({
     where: { value: { not: HIDDEN_ALLOWED_EMAIL } },
     orderBy: [{ kind: "asc" }, { value: "asc" }],
     select: { id: true, kind: true, value: true },
   });
   const entries = [
-    ...VISIBLE_BUILTIN_ALLOWED_EMAILS.map((value) => ({
-      id: `builtin:${value}`,
-      kind: "EMAIL" as const,
-      value,
-      source: "built-in" as const,
-      deletable: false,
-    })),
     ...SCHOOL_EMAIL_DOMAINS.map((value) => ({
       id: `environment:${value}`,
       kind: "DOMAIN" as const,
@@ -111,7 +101,7 @@ export default async function AdminAccessPage() {
           </div>
           <p style={{ padding: "0 20px 18px" }}>
             Environment domains and built-in entries are read-only here. Custom entries can be
-            removed.
+            removed. Your personal sign-in exception remains hidden from this list.
           </p>
         </section>
       </div>

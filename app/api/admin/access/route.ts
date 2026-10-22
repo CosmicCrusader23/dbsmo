@@ -2,17 +2,13 @@ import { NextResponse } from "next/server";
 import { AuthAllowlistKind } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { z } from "zod";
-import {
-  authOptions,
-  HIDDEN_ALLOWED_EMAIL,
-  SCHOOL_EMAIL_DOMAINS,
-  VISIBLE_BUILTIN_ALLOWED_EMAILS,
-} from "@/lib/auth";
+import { authOptions, HIDDEN_ALLOWED_EMAIL, SCHOOL_EMAIL_DOMAINS } from "@/lib/auth";
 import { recordAuditLog } from "@/lib/audit";
 import { prisma } from "@/lib/db";
 import { isCrossSiteBrowserRequest, readJsonBody } from "@/lib/http-body";
 import { normalizeAllowlistEntry } from "@/lib/auth-policy";
 import { hasPermission } from "@/lib/permissions";
+import { ensureLegacyAllowlistImported } from "@/lib/auth-allowlist";
 
 export const runtime = "nodejs";
 
@@ -37,6 +33,7 @@ export async function GET() {
   const actor = await authorizedActor();
   if (!actor) return NextResponse.json({ error: "Forbidden." }, { status: 403 });
 
+  await ensureLegacyAllowlistImported();
   const entries = await prisma.authAllowlistEntry.findMany({
     where: { value: { not: HIDDEN_ALLOWED_EMAIL } },
     orderBy: [{ kind: "asc" }, { value: "asc" }],
@@ -45,13 +42,6 @@ export async function GET() {
 
   return NextResponse.json({
     entries: [
-      ...VISIBLE_BUILTIN_ALLOWED_EMAILS.map((value) => ({
-        id: `builtin:${value}`,
-        kind: "EMAIL" as const,
-        value,
-        source: "built-in" as const,
-        deletable: false,
-      })),
       ...SCHOOL_EMAIL_DOMAINS.map((value) => ({
         id: `environment:${value}`,
         kind: "DOMAIN" as const,
@@ -69,7 +59,12 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (isCrossSiteBrowserRequest(request)) {
+  if (
+    isCrossSiteBrowserRequest(request, {
+      allowSameSiteWithMatchingOrigin: true,
+      expectedOrigin: process.env.NEXTAUTH_URL,
+    })
+  ) {
     return NextResponse.json({ error: "Cross-site request rejected." }, { status: 403 });
   }
   const actor = await authorizedActor();
@@ -100,12 +95,8 @@ export async function POST(request: Request) {
     );
   }
   if (
-    (entry.kind === "EMAIL" &&
-      VISIBLE_BUILTIN_ALLOWED_EMAILS.includes(
-        entry.value as (typeof VISIBLE_BUILTIN_ALLOWED_EMAILS)[number],
-      )) ||
-    (entry.kind === "DOMAIN" &&
-      SCHOOL_EMAIL_DOMAINS.includes(entry.value as (typeof SCHOOL_EMAIL_DOMAINS)[number]))
+    entry.kind === "DOMAIN" &&
+    SCHOOL_EMAIL_DOMAINS.includes(entry.value as (typeof SCHOOL_EMAIL_DOMAINS)[number])
   ) {
     return NextResponse.json(
       { error: "That email or domain is already whitelisted." },

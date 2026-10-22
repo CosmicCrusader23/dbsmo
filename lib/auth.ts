@@ -26,8 +26,7 @@ declare module "next-auth" {
 export const SCHOOL_EMAIL_DOMAINS = parseSchoolEmailDomains(process.env.SCHOOL_EMAIL_DOMAINS);
 export const ALLOWED_EMAIL_DOMAINS = SCHOOL_EMAIL_DOMAINS.map((domain) => `@${domain}`);
 export const HIDDEN_ALLOWED_EMAIL = "edwinchansjps@gmail.com";
-export const VISIBLE_BUILTIN_ALLOWED_EMAILS = ["s202201109@dbspd.edu.hk"] as const;
-export const ALLOWED_EMAILS = [HIDDEN_ALLOWED_EMAIL, ...VISIBLE_BUILTIN_ALLOWED_EMAILS];
+export const ALLOWED_EMAILS = [HIDDEN_ALLOWED_EMAIL];
 export const SCHOOL_EMAIL_SUFFIX =
   ALLOWED_EMAIL_DOMAINS[0] ?? `@${DEFAULT_SCHOOL_EMAIL_DOMAINS[0]}`;
 export const devBypassEnabled = isDevBypassEnabled(
