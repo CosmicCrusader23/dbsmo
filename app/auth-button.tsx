@@ -11,6 +11,7 @@ type AuthButtonProps = {
   canUseBypass?: boolean;
   canUseGoogle?: boolean;
   mode?: "inline" | "stacked";
+  callbackUrl?: string;
   profileHref?: string;
   avatarUrl?: string | null;
   displayName?: string | null;
@@ -21,6 +22,7 @@ export function AuthButton({
   canUseBypass = false,
   canUseGoogle = true,
   mode = "inline",
+  callbackUrl = "/dashboard",
   profileHref,
   avatarUrl,
   displayName,
@@ -69,7 +71,7 @@ export function AuthButton({
         data-testid="google-signin-button"
         type="button"
         disabled={!canUseGoogle}
-        onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+        onClick={() => signIn("google", { callbackUrl })}
       >
         Sign in with Google
       </button>
@@ -80,7 +82,7 @@ export function AuthButton({
             className="secondary-action compact auth-bypass"
             data-testid="bypass-student-button"
             type="button"
-            onClick={() => signIn("credentials", { role: "STUDENT", callbackUrl: "/dashboard" })}
+            onClick={() => signIn("credentials", { role: "STUDENT", callbackUrl })}
           >
             bypass as student
           </button>
@@ -88,7 +90,7 @@ export function AuthButton({
             className="secondary-action compact auth-bypass"
             data-testid="bypass-admin-button"
             type="button"
-            onClick={() => signIn("credentials", { role: "ADMIN", callbackUrl: "/dashboard" })}
+            onClick={() => signIn("credentials", { role: "ADMIN", callbackUrl })}
           >
             bypass as admin
           </button>

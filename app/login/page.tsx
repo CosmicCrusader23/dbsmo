@@ -1,13 +1,20 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 
-export default async function LoginPage() {
+type LoginPageProps = {
+  searchParams: Promise<{ redirect?: string | string[] }>;
+};
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
   const session = await getServerSession(authOptions);
+  const query = await searchParams;
+  const callbackUrl = safeRedirectPath(query.redirect);
 
   if (session) {
-    redirect("/dashboard");
+    redirect(callbackUrl);
   }
 
-  redirect("/");
+  redirect(`/?redirect=${encodeURIComponent(callbackUrl)}`);
 }

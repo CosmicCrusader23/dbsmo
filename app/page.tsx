@@ -4,16 +4,22 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { AuthButton } from "./auth-button";
 import { authOptions, devBypassEnabled, googleAuthEnabled } from "@/lib/auth";
+import { safeRedirectPath } from "@/lib/safe-redirect";
 import { ThemeToggle } from "./theme-toggle";
 import { CosmicStarfield } from "./cosmic-starfield";
 
 export const dynamic = "force-dynamic";
 
-export default async function LandingPage() {
-  const session = await getServerSession(authOptions);
+type LandingPageProps = {
+  searchParams: Promise<{ redirect?: string | string[] }>;
+};
+
+export default async function LandingPage({ searchParams }: LandingPageProps) {
+  const [session, query] = await Promise.all([getServerSession(authOptions), searchParams]);
+  const callbackUrl = safeRedirectPath(query.redirect);
 
   if (session) {
-    redirect("/dashboard");
+    redirect(callbackUrl);
   }
 
   return (
@@ -47,6 +53,7 @@ export default async function LandingPage() {
             <AuthButton
               canUseBypass={devBypassEnabled}
               canUseGoogle={googleAuthEnabled}
+              callbackUrl={callbackUrl}
               mode="stacked"
               session={session}
             />

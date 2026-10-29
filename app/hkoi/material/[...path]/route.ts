@@ -13,17 +13,6 @@ type MaterialRouteContext = {
 };
 
 export async function GET(_request: Request, context: MaterialRouteContext) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return new Response(null, {
-      status: 307,
-      headers: {
-        "Cache-Control": "private, no-store",
-        Location: "/",
-      },
-    });
-  }
-
   const { path: segments } = await context.params;
   const fileName = segments.length === 1 ? segments[0] : "";
   if (!MATERIAL_FILES.has(fileName)) {
@@ -31,6 +20,16 @@ export async function GET(_request: Request, context: MaterialRouteContext) {
       status: 404,
       headers: { "Cache-Control": "private, no-store" },
     });
+  }
+
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    const callbackUrl = `/hkoi/material/${encodeURIComponent(fileName)}`;
+    const headers = new Headers({
+      "Cache-Control": "private, no-store",
+      Location: `/login?redirect=${encodeURIComponent(callbackUrl)}`,
+    });
+    return new Response(null, { status: 307, headers });
   }
 
   let html: Buffer;
