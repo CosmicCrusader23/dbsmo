@@ -1,27 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import { ArrowUpRight, BookOpen, Timer } from "lucide-react";
+import { ArrowUpRight, BookOpen } from "lucide-react";
 import { authOptions } from "@/lib/auth";
 import styles from "./page.module.css";
-
-const activities = [
-  {
-    title: "Timed practice",
-    description:
-      "Try a set of HKOI Heat questions at contest pace and check your results as you go.",
-    href: "/hkoi/material/HKOI%E5%88%9D%E8%B3%BD%E9%99%90%E6%99%82%E7%B7%B4%E7%BF%92.html",
-    label: "Start practice",
-    Icon: Timer,
-  },
-  {
-    title: "Key question review",
-    description:
-      "Browse selected questions by topic with answers, explanations, and related past papers.",
-    href: "/hkoi/material/HKOI%20%E5%88%9D%E8%B3%BD%E9%87%8D%E9%BB%9E%E9%A1%8C%E8%A7%A3.html",
-    label: "Browse explanations",
-    Icon: BookOpen,
-  },
-];
 
 export default async function HkoiPage() {
   const session = await getServerSession(authOptions);
@@ -32,23 +13,26 @@ export default async function HkoiPage() {
       <header className={styles.header}>
         <span className={styles.eyebrow}>Hong Kong Olympiad in Informatics</span>
         <h1>HKOI</h1>
-        <p>Practice for the HKOI Heat or review explanations for selected questions.</p>
+        <p>Open the HKOI study page to start practice or review selected questions.</p>
       </header>
 
       <nav className={styles.grid} aria-label="HKOI study materials">
-        {activities.map(({ title, description, href, label, Icon }) => (
-          <a className={styles.card} href={href} key={title} rel="noreferrer" target="_blank">
-            <span className={styles.icon} aria-hidden="true">
-              <Icon size={22} />
-            </span>
-            <h2>{title}</h2>
-            <p>{description}</p>
-            <span className={styles.action}>
-              {label}
-              <ArrowUpRight aria-hidden="true" size={17} />
-            </span>
-          </a>
-        ))}
+        <a
+          className={styles.card}
+          href="/hkoi/material/index.html"
+          rel="noreferrer"
+          target="_blank"
+        >
+          <span className={styles.icon} aria-hidden="true">
+            <BookOpen size={22} />
+          </span>
+          <h2>HKOI study materials</h2>
+          <p>Choose timed practice or browse the selected question explanations.</p>
+          <span className={styles.action}>
+            Open HKOI
+            <ArrowUpRight aria-hidden="true" size={17} />
+          </span>
+        </a>
       </nav>
     </main>
   );

@@ -31,7 +31,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 680px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 
@@ -92,12 +93,6 @@
   margin-top: auto;
   color: var(--color-cyan, #0d6680);
   font-weight: 700;
-}
-
-@media (max-width: 680px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
