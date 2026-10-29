@@ -12,11 +12,15 @@ type MaterialRouteContext = {
   params: Promise<{ path: string[] }>;
 };
 
-export async function GET(request: Request, context: MaterialRouteContext) {
+export async function GET(_request: Request, context: MaterialRouteContext) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    return NextResponse.redirect(new URL("/", request.url), {
-      headers: { "Cache-Control": "private, no-store" },
+    return new Response(null, {
+      status: 307,
+      headers: {
+        "Cache-Control": "private, no-store",
+        Location: "/",
+      },
     });
   }
 
