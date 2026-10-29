@@ -12,15 +12,11 @@ type MaterialRouteContext = {
   params: Promise<{ path: string[] }>;
 };
 
-export async function GET(_request: Request, context: MaterialRouteContext) {
+export async function GET(request: Request, context: MaterialRouteContext) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    return new NextResponse("Sign in to DBSMO to access these HKOI materials.", {
-      status: 401,
-      headers: {
-        "Cache-Control": "private, no-store",
-        "Content-Type": "text/plain; charset=utf-8",
-      },
+    return NextResponse.redirect(new URL("/", request.url), {
+      headers: { "Cache-Control": "private, no-store" },
     });
   }
 
