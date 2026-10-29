@@ -1,4 +1,7 @@
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 import { ArrowUpRight, BookOpen, Timer } from "lucide-react";
+import { authOptions } from "@/lib/auth";
 import styles from "./page.module.css";
 
 const activities = [
@@ -6,7 +9,7 @@ const activities = [
     title: "Timed practice",
     description:
       "Try a set of HKOI Heat questions at contest pace and check your results as you go.",
-    href: "/hkoi/HKOI%E5%88%9D%E8%B3%BD%E9%99%90%E6%99%82%E7%B7%B4%E7%BF%92.html",
+    href: "/hkoi/material/HKOI%E5%88%9D%E8%B3%BD%E9%99%90%E6%99%82%E7%B7%B4%E7%BF%92.html",
     label: "Start practice",
     Icon: Timer,
   },
@@ -14,13 +17,16 @@ const activities = [
     title: "Key question review",
     description:
       "Browse selected questions by topic with answers, explanations, and related past papers.",
-    href: "/hkoi/HKOI%20%E5%88%9D%E8%B3%BD%E9%87%8D%E9%BB%9E%E9%A1%8C%E8%A7%A3.html",
+    href: "/hkoi/material/HKOI%20%E5%88%9D%E8%B3%BD%E9%87%8D%E9%BB%9E%E9%A1%8C%E8%A7%A3.html",
     label: "Browse explanations",
     Icon: BookOpen,
   },
 ];
 
-export default function HkoiPage() {
+export default async function HkoiPage() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) redirect("/");
+
   return (
     <main className={styles.page}>
       <header className={styles.header}>
