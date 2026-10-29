@@ -10,6 +10,7 @@ export function buildDefaultSidebarLinks(
     { href: "/writeups", label: "Writeups", icon: "MessageSquareText" },
     { href: "/practice", label: "Practice", icon: "Target" },
     { href: "/classes", label: "Classes", icon: "GraduationCap" },
+    { href: "/hkoi", label: "HKOI", icon: "Code2" },
   ];
 
   if (includeAdminPanel) {
