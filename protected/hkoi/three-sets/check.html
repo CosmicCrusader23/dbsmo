@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>練習網站檢查</title>
+<meta name="robots" content="noindex">
+<style>
+:root {
+  --paper: #f6f8fa; --card: #ffffff; --ink: #15212c; --muted: #586776; --rule: #d8e0e7; --sheet: #edf2f6;
+  --accent: #0d6680; --accent-soft: #e2f0f4; --ok: #1a7a45; --ok-soft: #e4f3ea; --bad: #b3261e; --bad-soft: #fbe9e7;
+  --warn: #9a5b00; --warn-soft: #fbf0dc;
+  --f-body: "Noto Sans HK", "Noto Sans CJK HK", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --measure: 46rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+    --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+    --warn: #e6a94e; --warn-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+  --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+  --warn: #e6a94e; --warn-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.65; -webkit-text-size-adjust: 100%; }
+a { color: var(--accent); }
+button, input, textarea, select { font: inherit; color: inherit; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--f-mono); font-size: 0.9em; background: var(--sheet); padding: 0.05em 0.35em; border-radius: 3px; word-break: break-word; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.col { max-width: var(--measure); margin: 0 auto; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+h1 { font-size: clamp(26px, 6vw, 34px); line-height: 1.25; margin: 4px 0 0; text-wrap: balance; font-weight: 900; }
+h2 { font-size: 20px; line-height: 1.35; margin: 0; text-wrap: balance; }
+h3 { font-size: 16px; margin: 0; }
+p { margin: 0; }
+.lead { color: var(--muted); font-size: 17px; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; color: var(--muted); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--accent); text-decoration: none; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--card); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+ol, ul { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--card); }
+.seg label { color: var(--muted); padding: 4px 12px; border-radius: 999px; cursor: pointer; font-size: 14px; min-height: 32px; display: inline-flex; align-items: center; }
+.lr { position: fixed; top: 0; left: 0; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+#r-zh:checked ~ .wrap label[for="r-zh"], #r-en:checked ~ .wrap label[for="r-en"] { background: var(--accent); color: var(--card); font-weight: 700; }
+#r-zh:focus-visible ~ .wrap label[for="r-zh"], #r-en:focus-visible ~ .wrap label[for="r-en"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.L-en { display: none; }
+#r-en:checked ~ .wrap .L-zh { display: none; }
+#r-en:checked ~ .wrap .L-en { display: flex; }
+.tag { display: inline-block; font-size: 13px; border: 1px solid var(--rule); border-radius: 999px; padding: 1px 10px; color: var(--muted); }
+.tag.hot { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 700; color: var(--muted); font-size: 13px; white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+.pill { display: inline-block; border-radius: 999px; padding: 0 8px; font-size: 13px; font-weight: 700; }
+.pill.ok { background: var(--ok-soft); } .pill.bad { background: var(--bad-soft); } .pill.warn { background: var(--warn-soft); }
+footer { font-size: 13px; color: var(--muted); }
+
+.res { display: flex; flex-direction: column; gap: 10px; }
+.item { display: grid; grid-template-columns: 2.2em 1fr; gap: 4px 8px; align-items: start; }
+.item .ic { font-weight: 900; font-size: 18px; line-height: 1.5; text-align: center; border-radius: 8px; }
+.item.ok .ic { color: var(--ok); background: var(--ok-soft); }
+.item.bad .ic { color: var(--bad); background: var(--bad-soft); }
+.item.warn .ic { color: var(--warn); background: var(--warn-soft); }
+.item.info .ic { color: var(--accent); background: var(--accent-soft); }
+.item b { display: block; }
+.item p { grid-column: 2; font-size: 15px; color: var(--muted); }
+</style>
+<script src="collect.js"></script>
+</head>
+<body>
+<div class="wrap"><div class="col">
+  <div class="eyebrow">HKOI 練習網站</div>
+  <h1>上載後的檢查</h1>
+  <p class="lead">把整個資料夾上載到學校網站後，用電腦和手機各開一次這一頁。沒有紅色的項目，就可以把首頁（同一資料夾的 index.html）的網址發給同學。</p>
+  <noscript><div class="card"><div class="item bad"><span class="ic">✗</span><div><b>這個網站沒有執行 JavaScript。</b></div><p>練習頁要靠 JavaScript 計時和對答案（題解頁不受影響）。請問負責網站的同學能否容許 JavaScript，或者把資料夾放到可以直接開啟 HTML 檔案的地方（見網站指南）。</p></div></div></noscript>
+  <div class="card"><h2>檢查結果</h2><div class="res" id="res"></div></div>
+  <div class="card" id="sendbox" hidden>
+    <h2>測試自動收集</h2>
+    <p>按下面的按鈕，會送出一行以 <code>HKOI-TEST</code> 開頭的測試資料到你設定的 Google 表單。之後打開表單的「回覆」，應該在幾秒內看到它。</p>
+    <div class="row"><button type="button" class="btn primary" id="send">傳送測試</button></div>
+    <p class="small" id="sendmsg"></p>
+  </div>
+  <p class="small">這一頁只作檢查，不會收集任何資料；只有按「傳送測試」時，才會送出一行測試資料到你設定的表單。</p>
+</div></div>
+<script>
+(function () {
+  "use strict";
+  var res = document.getElementById("res");
+  function row(kind, title, detail) {
+    var d = document.createElement("div"); d.className = "item " + kind;
+    var ic = document.createElement("span"); ic.className = "ic"; ic.textContent = { ok: "✓", bad: "✗", warn: "!", info: "i" }[kind];
+    var t = document.createElement("div"); var b = document.createElement("b"); b.textContent = title; t.appendChild(b);
+    d.appendChild(ic); d.appendChild(t);
+    if (detail) { var p = document.createElement("p"); p.textContent = detail; d.appendChild(p); }
+    res.appendChild(d); return d;
+  }
+  row("ok", "JavaScript 可以執行", "練習頁的計時和對答案都需要它。");
+
+  var stored = false;
+  try { localStorage.setItem("hkoi-check", "1"); stored = localStorage.getItem("hkoi-check") === "1"; localStorage.removeItem("hkoi-check"); } catch (e) { stored = false; }
+  if (stored) row("ok", "瀏覽器可以儲存隨機編號", "用來分辨同一位同學的重複作答。");
+  else row("warn", "瀏覽器不讓網頁儲存資料", "練習照樣可以做，但成績碼的編號會是 nostore，分析時分不出重複作答。常見原因：網頁被放在另一個網頁的內嵌區塊（iframe）裏，或者瀏覽器在無痕模式。最好讓同學直接開啟這個資料夾的網址。");
+
+  var proto = location.protocol;
+  if (proto === "https:") row("ok", "網址是 https", "「複製成績碼」按鈕可以正常使用。");
+  else if (proto === "http:") row("warn", "網址是 http，不是 https", "練習可以照做，但「複製成績碼」按鈕可能不能自動複製（同學可以自己選取成績碼再複製）。如果學校網站有 https 版本，請用 https 的網址。");
+  else row("info", "你正在用本機檔案開啟這一頁", "這只能檢查一部分項目。請上載後，用網站的網址再開一次。");
+
+  var framed = false; try { framed = window.top !== window.self; } catch (e) { framed = true; }
+  if (framed) row("warn", "這一頁被放在另一個網頁裏面（iframe）", "有些網站的內嵌方式會擋住儲存或連結。最好把首頁的直接網址發給同學，而不是發內嵌了它的頁面。");
+
+  var files = ["index.html", "test-a.html", "explain-a.html", "test-b.html", "explain-b.html", "test-c.html", "explain-c.html"];
+  if (proto === "http:" || proto === "https:") {
+    var pending = row("info", "正在檢查同一資料夾的 7 個檔案……", "");
+    Promise.all(files.map(function (f) {
+      return fetch(f, { cache: "no-store" }).then(function (r) { return [f, r.ok]; }, function () { return [f, false]; });
+    })).then(function (list) {
+      pending.remove();
+      var missing = list.filter(function (x) { return !x[1]; }).map(function (x) { return x[0]; });
+      if (!missing.length) row("ok", "7 個網頁都找得到", "首頁、三份練習和三份題解都在同一個資料夾，互相的連結可以用。");
+      else row("bad", "找不到：" + missing.join("、"), "全部檔案要放在同一個資料夾，檔名要保持原樣（包括小寫和連字號）。如果網站會改檔名，請問負責網站的同學怎樣保留原檔名。");
+    });
+  }
+
+  var C = window.HKOI_COLLECT;
+  var urlOk = C && /^https:\/\/docs\.google\.com\/forms\/d\/e\/[A-Za-z0-9_-]+\/formResponse$/.test(C.formUrl || "");
+  var fieldOk = C && /^entry\.\d+$/.test(C.field || "");
+  if (!C) row("info", "沒有 collect.js：不會自動收集成績", "同學交卷後仍然會看到成績碼，可以人手交給老師。要自動收集，見網站指南「自動收集成績」。");
+  else if (!C.formUrl && !C.field) row("info", "collect.js 已上載，但未設定 Google 表單", "現在不會自動收集成績。要開啟，用分析頁的「設定自動收集」產生新的 collect.js，再上載取代這個檔案。");
+  else if (urlOk && fieldOk) { row("ok", "已設定自動收集", "表單：" + C.formUrl.replace(/^https:\/\/docs\.google\.com\/forms\/d\/e\//, "…/").replace(/\/formResponse$/, "") + "，欄位：" + C.field + "。用下面的按鈕測試一次。"); document.getElementById("sendbox").hidden = false; }
+  else row("bad", "collect.js 的設定格式不對", "formUrl 要像 https://docs.google.com/forms/d/e/……/formResponse，field 要像 entry.123456789。請用分析頁的「設定自動收集」重新產生。");
+
+  var btn = document.getElementById("send"), msg = document.getElementById("sendmsg");
+  if (btn) btn.addEventListener("click", function () {
+    var body = new URLSearchParams(); body.append(C.field, "HKOI-TEST " + new Date().toISOString());
+    msg.textContent = "傳送中……";
+    fetch(C.formUrl, { method: "POST", mode: "no-cors", body: body }).then(function () {
+      msg.textContent = "已送出。打開表單的「回覆」（或連結的試算表），看看有沒有一行以 HKOI-TEST 開頭的資料。沒有的話：檢查表單是否設定了「只限學校帳戶回覆」或「需要登入」（見網站指南）。";
+    }, function () { msg.textContent = "送不出去：這部電腦或網站擋住了連到 Google 表單的連線。同學仍然可以把成績碼人手交給老師。"; });
+  });
+})();
+</script>
+</body>
+</html>

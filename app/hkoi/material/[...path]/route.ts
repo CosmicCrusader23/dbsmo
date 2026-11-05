@@ -6,7 +6,53 @@ import { authOptions } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
-const MATERIAL_FILES = new Set(["index.html", "HKOI初賽限時練習.html", "HKOI 初賽重點題解.html"]);
+const MATERIAL_FILES: Record<string, { filePath: string[]; contentType: string }> = {
+  "index.html": { filePath: ["index.html"], contentType: "text/html; charset=utf-8" },
+  "HKOI初賽限時練習.html": {
+    filePath: ["HKOI初賽限時練習.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "HKOI 初賽重點題解.html": {
+    filePath: ["HKOI 初賽重點題解.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/index.html": {
+    filePath: ["three-sets", "index.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/check.html": {
+    filePath: ["three-sets", "check.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/collect.js": {
+    filePath: ["three-sets", "collect.js"],
+    contentType: "application/javascript; charset=utf-8",
+  },
+  "three-sets/test-a.html": {
+    filePath: ["three-sets", "test-a.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/test-b.html": {
+    filePath: ["three-sets", "test-b.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/test-c.html": {
+    filePath: ["three-sets", "test-c.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/explain-a.html": {
+    filePath: ["three-sets", "explain-a.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/explain-b.html": {
+    filePath: ["three-sets", "explain-b.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+  "three-sets/explain-c.html": {
+    filePath: ["three-sets", "explain-c.html"],
+    contentType: "text/html; charset=utf-8",
+  },
+};
 
 type MaterialRouteContext = {
   params: Promise<{ path: string[] }>;
@@ -14,17 +60,19 @@ type MaterialRouteContext = {
 
 export async function GET(_request: Request, context: MaterialRouteContext) {
   const { path: segments } = await context.params;
-  const fileName = segments.length === 1 ? segments[0] : "";
-  if (!MATERIAL_FILES.has(fileName)) {
+  const materialPath = segments.join("/");
+  if (!Object.hasOwn(MATERIAL_FILES, materialPath)) {
     return new NextResponse("Not found.", {
       status: 404,
       headers: { "Cache-Control": "private, no-store" },
     });
   }
+  const material = MATERIAL_FILES[materialPath];
 
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    const callbackUrl = `/hkoi/material/${encodeURIComponent(fileName)}`;
+    const callbackPath = segments.map(encodeURIComponent).join("/");
+    const callbackUrl = `/hkoi/material/${callbackPath}`;
     const headers = new Headers({
       "Cache-Control": "private, no-store",
       Location: `/login?redirect=${encodeURIComponent(callbackUrl)}`,
@@ -34,7 +82,7 @@ export async function GET(_request: Request, context: MaterialRouteContext) {
 
   let html: Buffer;
   try {
-    html = await readFile(path.join(process.cwd(), "protected", "hkoi", fileName));
+    html = await readFile(path.join(process.cwd(), "protected", "hkoi", ...material.filePath));
   } catch (error) {
     console.error("Failed to read HKOI material:", error);
     return new NextResponse("Not found.", {
@@ -46,7 +94,7 @@ export async function GET(_request: Request, context: MaterialRouteContext) {
   return new NextResponse(new Uint8Array(html), {
     headers: {
       "Cache-Control": "private, no-store",
-      "Content-Type": "text/html; charset=utf-8",
+      "Content-Type": material.contentType,
       "X-Content-Type-Options": "nosniff",
     },
   });
