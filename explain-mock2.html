@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>HKOI 初賽題解：模擬卷 · 卷二（C++）</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+HK:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: one reading column like a marked exam paper. Options are answer-sheet bubbles
+   (the correct one filled in), and each question ends with a 16-contest strip of past papers.
+   Both languages are in the page; a radio pair switches them with CSS alone. */
+:root {
+  --paper: #f6f8fa;
+  --card: #ffffff;
+  --ink: #15212c;
+  --muted: #586776;
+  --rule: #d8e0e7;
+  --sheet: #edf2f6;
+  --accent: #0d6680;
+  --accent-soft: #e2f0f4;
+  --ok: #1a7a45;
+  --ok-soft: #e4f3ea;
+  --bad: #b3261e;
+  --teach: #8a5300;
+  --teach-soft: #fbf0dc;
+  --f-body: "Noto Sans HK", "Noto Sans CJK HK", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --measure: 46rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+    --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d;
+    --teach: #e6a94e; --teach-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+  --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d;
+  --teach: #e6a94e; --teach-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.7; -webkit-text-size-adjust: 100%; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--card); }
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--f-mono); font-size: 0.92em; background: var(--sheet); padding: 0.05em 0.35em; border-radius: 3px; white-space: pre-wrap; word-break: break-word; }
+
+/* 語言切換：只靠 radio 和 CSS */
+.lr { position: fixed; top: 0; left: 0; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.L-en { display: none; }
+#r-en:checked ~ * .L-zh { display: none; }
+#r-en:checked ~ * .L-en { display: block; }
+#r-en:checked ~ * span.L-en { display: inline; }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--card); border-bottom: 1px solid var(--rule);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar-in { max-width: var(--measure); margin: 0 auto; display: flex; align-items: center; gap: 12px; min-height: 52px; }
+.home-link { display: inline-flex; flex: none; align-items: center; min-height: 36px; padding: 0 11px; border: 1px solid var(--rule); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.home-link:hover { border-color: var(--accent); color: var(--accent); }
+.bar-name { font-weight: 700; font-size: 15px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-name a { color: inherit; text-decoration: none; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--paper); flex: none; }
+.seg label { font-size: 14px; color: var(--muted); padding: 4px 12px; border-radius: 999px; cursor: pointer; min-height: 32px; display: inline-flex; align-items: center; user-select: none; }
+#r-zh:checked ~ .bar label[for="r-zh"], #r-en:checked ~ .bar label[for="r-en"] { background: var(--accent); color: var(--card); font-weight: 700; }
+#r-zh:focus-visible ~ .bar label[for="r-zh"], #r-en:focus-visible ~ .bar label[for="r-en"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+.col { max-width: var(--measure); margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+.intro { display: flex; flex-direction: column; gap: 12px; }
+.eyebrow { font-size: 13px; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; }
+h1 { font-size: clamp(28px, 6vw, 40px); line-height: 1.2; margin: 0; font-weight: 900; text-wrap: balance; }
+.lead { margin: 0; max-width: 40rem; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
+.facts b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border-radius: 8px; font-weight: 700; font-size: 15px; text-decoration: none; border: 1px solid var(--accent); }
+.btn.primary { background: var(--accent); color: var(--card); }
+.btn.ghost { color: var(--accent); background: transparent; }
+
+details.howto { border: 1px solid var(--rule); border-radius: 8px; background: var(--card); padding: 0 14px; font-size: 14.5px; }
+details.howto summary { cursor: pointer; padding: 10px 0; font-weight: 700; }
+details.howto ul { margin: 0 0 12px; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+
+.toc { display: flex; flex-direction: column; gap: 16px; }
+.toc h2 { font-size: 20px; margin: 0; }
+.toc-part h3 { font-size: 14px; color: var(--muted); margin: 0 0 4px; font-weight: 700; letter-spacing: 0.04em; }
+.toc-part ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 2px; }
+@media (min-width: 640px) { .toc-part ol { grid-template-columns: 1fr 1fr; column-gap: 20px; } }
+.toc-part li a { display: flex; gap: 8px; align-items: baseline; text-decoration: none; color: var(--ink); padding: 4px 0; border-bottom: 1px dotted var(--rule); }
+.toc-part li a:hover .tt { color: var(--accent); }
+.toc-part .nn { font-family: var(--f-mono); font-size: 13px; color: var(--muted); width: 2.2em; flex: none; font-variant-numeric: tabular-nums; }
+.toc-part .tt { flex: 1; min-width: 0; }
+.mini { font-size: 12px; color: var(--muted); flex: none; }
+.mini.s { color: var(--accent); }
+.mini.t { color: var(--teach); }
+
+.part-head { display: flex; align-items: baseline; gap: 10px; border-top: 3px solid var(--ink); padding-top: 10px; margin-top: 8px; scroll-margin-top: calc(64px + env(safe-area-inset-top, 0px)); }
+.part-head .pn { font-family: var(--f-mono); font-size: 13px; color: var(--muted); }
+.part-head h2 { margin: 0; font-size: 22px; }
+
+.q { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 16px 6px; display: flex; flex-direction: column; gap: 14px; scroll-margin-top: calc(64px + env(safe-area-inset-top, 0px)); min-width: 0; }
+@media (min-width: 640px) { .q { padding: 22px 24px 10px; } }
+.toc { scroll-margin-top: calc(64px + env(safe-area-inset-top, 0px)); }
+.qhead { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.qno { font-family: var(--f-mono); font-weight: 600; font-size: 13px; color: var(--card); background: var(--ink); border-radius: 4px; padding: 1px 8px; }
+.tag { font-size: 12.5px; border: 1px solid var(--rule); border-radius: 999px; padding: 0 9px; color: var(--muted); white-space: nowrap; }
+.tag.s { border-color: var(--accent); color: var(--accent); }
+.tag.t { border-color: var(--teach); color: var(--teach); background: var(--teach-soft); }
+.q h2 { margin: 0; font-size: 21px; line-height: 1.4; text-wrap: balance; }
+.point { margin: -6px 0 0; color: var(--muted); font-size: 15px; }
+.point b { color: var(--ink); font-weight: 700; }
+
+.paper { border-left: 3px solid var(--rule); padding-left: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.stem { margin: 0; font-weight: 500; }
+.codes { display: flex; flex-direction: column; gap: 8px; }
+@media (min-width: 640px) { .codes.two { flex-direction: row; } .codes.two > div { flex: 1; min-width: 0; } }
+.codelabel { font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+pre { margin: 0; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; overflow-x: auto; white-space: pre; tab-size: 4; max-width: 100%; }
+figure { margin: 0; color: var(--ink); display: flex; justify-content: center; }
+figure svg { max-width: 220px; height: auto; }
+
+.opts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.opt { display: flex; align-items: flex-start; gap: 10px; padding: 6px 8px; border-radius: 6px; min-width: 0; }
+.opt.ok { background: var(--ok-soft); }
+.bub { flex: none; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--muted); display: inline-flex; align-items: center; justify-content: center; font-family: var(--f-mono); font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 1px; }
+.opt.ok .bub { background: var(--ok); border-color: var(--ok); color: var(--card); }
+.otext { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.otext code { background: transparent; padding: 0; font-size: 14px; }
+.opt.ok .otext { font-weight: 700; }
+.mark { flex: none; font-size: 13px; color: var(--ok); font-weight: 700; margin-top: 2px; }
+
+.blk { display: flex; flex-direction: column; gap: 6px; }
+.blk h3, .hh { margin: 0; font-size: 15px; letter-spacing: 0.03em; color: var(--accent); }
+.blk p { margin: 0; }
+.ans-line { font-weight: 700; color: var(--ok); }
+.wwhead { font-weight: 700; margin-top: 4px !important; }
+.whys { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.whys li { display: flex; gap: 8px; }
+.whys .l { font-family: var(--f-mono); font-weight: 600; color: var(--bad); flex: none; }
+.teachnote { background: var(--teach-soft); border-radius: 6px; padding: 8px 12px; color: var(--ink); font-size: 15px; }
+.teachnote b { color: var(--teach); }
+ul.teach { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+
+.hist { border-top: 1px solid var(--rule); padding-top: 12px; padding-bottom: 8px; display: flex; flex-direction: column; gap: 8px; }
+.hist-sum { font-size: 15px; }
+.hist-sum b { font-variant-numeric: tabular-nums; }
+.strip { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; max-width: 30rem; }
+.strip span { height: 14px; border-radius: 2px; background: var(--sheet); border: 1px solid var(--rule); }
+.strip span.on { background: var(--accent); border-color: var(--accent); }
+.strip-ends { display: flex; justify-content: space-between; max-width: 30rem; font-size: 12px; color: var(--muted); font-family: var(--f-mono); }
+details.refs { font-size: 14.5px; }
+details.refs summary { cursor: pointer; color: var(--accent); font-weight: 700; padding: 4px 0; }
+.reflist { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.reflist li { display: flex; flex-direction: column; gap: 0; padding-left: 10px; border-left: 2px solid var(--rule); }
+.reflist .rp { font-size: 13.5px; }
+.morelist { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 4px; padding: 0; list-style: none; }
+.morelist a { display: inline-block; font-size: 13px; border: 1px solid var(--rule); border-radius: 4px; padding: 1px 7px; text-decoration: none; background: var(--paper); }
+.morehead { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+footer { font-size: 14px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+footer h2 { font-size: 15px; color: var(--ink); margin: 0; }
+footer p { margin: 0; }
+.top-link { font-size: 14px; align-self: flex-end; }
+
+/* ---- 新增：句子、填充答案、常見錯誤答案、出題說明 ---- */
+.stmts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.stmts li { display: flex; gap: 8px; align-items: baseline; }
+.stmts b { font-family: var(--f-mono); min-width: 2.2em; flex: none; }
+.stmts code { white-space: pre-wrap; }
+pre .bk { display: inline-block; border: 1.5px dashed var(--accent); border-radius: 4px; padding: 0 10px; color: var(--accent); font-weight: 600; background: var(--accent-soft); }
+.rule { margin: 0; font-size: 14.5px; color: var(--muted); background: var(--sheet); border-radius: 6px; padding: 6px 10px; }
+.blanks { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.blanks .bl { display: inline-flex; align-items: baseline; gap: 6px; }
+.blanks .box { display: inline-block; min-width: 5em; border-bottom: 2px solid var(--ink); height: 1.3em; }
+ul.wrongs { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+ul.wrongs code { font-weight: 600; }
+details.teacher { background: var(--teach-soft); border-radius: 6px; padding: 8px 12px; font-size: 15px; }
+details.teacher summary { cursor: pointer; font-weight: 700; color: var(--teach); }
+details.teacher p { margin: 6px 0 0; }
+.devs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.dev { font-size: 12.5px; border: 1px solid var(--teach); color: var(--teach); border-radius: 4px; padding: 0 7px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+@media print {
+  @page { size: A4; margin: 14mm 13mm; }
+  body { background: #fff; color: #111; font-size: 10.5pt; line-height: 1.6; }
+  body::before, .bar, .actions, .top-link, details.howto > summary { display: none !important; }
+  .wrap { padding: 0; }
+  .col { gap: 16px; max-width: none; }
+  .q { border: 0; border-top: 1.5px solid #888; border-radius: 0; padding: 12px 0 0; }
+  .part-head { break-after: avoid; }
+  .q h2, .qhead, .point { break-after: avoid; }
+  pre, .opt, .reflist li, .whys li, .teachnote, figure, .strip { break-inside: avoid; }
+  .paper { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+  .morelist a { border-color: #bbb; }
+}
+</style>
+
+<input type="radio" name="lang" id="r-zh" class="lr" checked aria-label="繁體中文">
+<input type="radio" name="lang" id="r-en" class="lr" aria-label="English">
+<header class="bar"><div class="bar-in">
+  <a class="home-link" href="index.html"><span class="L-zh">首頁</span><span class="L-en">Home</span></a>
+  <div class="bar-name"><a href="#top"><span class="L-zh">HKOI 初賽題解：模擬卷 · 卷二（C++）</span><span class="L-en">HKOI Heat explanations: Mock paper · Paper 2 (C++)</span></a></div>
+  <div class="seg" role="group" aria-label="語言 Language"><label for="r-zh" id="lab-zh">繁</label><label for="r-en" id="lab-en">EN</label></div>
+</div></header>
+<div class="wrap" id="top">
+<div class="L-zh" lang="zh-Hant-HK"><div class="col"><section class="intro" data-anchor="intro"><div class="eyebrow">HKOI 初賽 · 模擬卷 · 卷二（C++）</div><h1>題解：模擬卷 · 卷二（C++）</h1><p class="lead">照 2025/26 初級組卷二（C++）的格式、分數和時間：40 分鐘、20 分；甲部 5 題選擇題、乙部 6 題短答題、丙部 2 個程式填空，難度比真卷高一些。做完後合計兩卷，和近兩屆的晉級線比較。</p><div class="actions"><a class="btn primary" href="test-mock2.html" target="_blank" rel="noopener">開始限時練習</a><a class="btn ghost" href="#toc">看目錄</a></div><details class="howto"><summary>怎樣用這一頁</summary><ul><li>每題先自己做，再看答案和解說；填充題按題目的答案規則寫。</li><li>「常見錯誤答案」每一個都由改錯了的程式或算法實際算出，看看自己是不是錯在同一步。</li><li>棕色的「出題說明」是寫給老師的：這題比第一套難在哪裏、用了甚麼加難方法。</li></ul></details></section><nav class="toc" id="toc" data-anchor="toc" aria-label="目錄"><h2>目錄</h2><div class="toc-part"><h3>第 1 部分 · 甲部：選擇題</h3><ol><li><a href="#q-M201"><span class="nn">1</span><span class="tt">負數的整數除法和類型轉換</span></a></li><li><a href="#q-M202"><span class="nn">2</span><span class="tt">else 跟哪一個 if？</span></a></li><li><a href="#q-M203"><span class="nn">3</span><span class="tt">一個引用參數，一個普通參數</span></a></li><li><a href="#q-M204"><span class="nn">4</span><span class="tt">位元運算的優先次序</span></a></li><li><a href="#q-M205"><span class="nn">5</span><span class="tt">&amp;&amp; 和 || 裏的 ++</span></a></li></ol></div><div class="toc-part"><h3>第 2 部分 · 乙部：短答題</h3><ol><li><a href="#q-M206"><span class="nn">6</span><span class="tt">continue 之前先 i++</span></a></li><li><a href="#q-M207"><span class="nn">7</span><span class="tt">最長的上升段（程式有錯）</span></a></li><li><a href="#q-M208"><span class="nn">8</span><span class="tt">字母移位和 XOR 1</span></a></li><li><a href="#q-M209"><span class="nn">9</span><span class="tt">剛好兩個相等</span></a></li><li><a href="#q-M210"><span class="nn">10</span><span class="tt">1 至 2026 全部 XOR 起來</span></a></li><li><a href="#q-M211"><span class="nn">11</span><span class="tt">i × j ≤ 100</span></a></li></ol></div><div class="toc-part"><h3>第 3 部分 · 丙部：程式填空</h3><ol><li><a href="#q-M212"><span class="nn">12</span><span class="tt">字串壓縮</span></a></li><li><a href="#q-M213"><span class="nn">13</span><span class="tt">把方陣順時針轉 90 度</span></a></li></ol></div></nav><div class="part-head" id="p1" data-anchor="p1"><span class="pn">第 1 部分</span><h2>甲部：選擇題</h2></div><section class="q" id="q-M201" data-anchor="q-M201"><div class="qhead"><span class="qno">第 1 題</span><span class="tag">初級組及高級組</span><span class="tag">單選題</span><span class="tag">1 分 · 建議 2:00</span></div><h2>負數的整數除法和類型轉換</h2><p class="point"><b>重點：</b>整數除法向 0 取整，負數也一樣（−7 / 2 = −3），餘數和被除數同號（−7 % 2 = −1）；存入 double 也救不回小數部分；<code>(double) a / b</code> 先轉換 a，再除。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int a = -7, b = 2;
+double x = a / b;
+double y = (double) a / b;
+int z = a / b * b + a % b;
+cout &lt;&lt; x + y + z;</pre><ol class="opts"><li class="opt ok"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>-13.5</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>-14.5</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>-14</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>-13</code></span></li></ol></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：A</p><p>C++ 的整數除法向 0 取整：−7 / 2 = −3（不是 −4），而 −7 % 2 = −1（餘數和被除數同號）。x：a / b = −3，存入 double 後是 −3.0。y：(double) a 先把 a 變成 −7.0，再除以 2，得 −3.5。z：由左至右，a / b * b = −3 × 2 = −6，加上 a % b = −1，得 −7（a / b * b + a % b 一定等於 a）。x + y + z = −3 − 3.5 − 7 = −13.5，輸出 -13.5。</p><p class="wwhead">錯誤選項錯在哪裏</p><ul class="whys"><li><span class="l">B</span><span>以為整數除法向下取整（像數學的 floor），−7 / 2 = −4。C++ 的整數除法向 0 取整：−7 / 2 = −3，−7 % 2 = −1。</span></li><li><span class="l">C</span><span>以為 <code>double x = a / b</code> 會得 −3.5。a / b 兩邊都是 int，先做整數除法得 −3，存入 double 後才變成 −3.0。</span></li><li><span class="l">D</span><span>以為 <code>(double) a / b</code> 是把 a / b 的結果轉成 double（−3.0）。其實類型轉換比除法先做：a 先變成 −7.0，−7.0 / 2 = −3.5。</span></li></ul></div><div class="blk"><h3>為何會考</h3><p>整數除法在 16 屆裏有 12 屆考過（難點庫 L01），負數取模有 8 屆（L02）；2025/26 初級卷二甲部考了 (int) a + b + c。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題，四個陷阱放在同一題：負數除法的取整方向、負數的餘數、整數除法存入 double、類型轉換的次序。三個錯誤選項各錯一個地方，都由改寫後的程式實際執行得出。精選 30 題問過「哪些寫法輸出 2.5」；這題加入負數，而且要求和。</p><div class="devs"></div></details></section><section class="q" id="q-M202" data-anchor="q-M202"><div class="qhead"><span class="qno">第 2 題</span><span class="tag">初級組及高級組</span><span class="tag">單選題</span><span class="tag">1 分 · 建議 2:00</span></div><h2>else 跟哪一個 if？</h2><p class="point"><b>重點：</b>else 總是和最近的、還未有 else 的 if 配對，與縮排無關；不確定時自己加上大括號再讀。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int c = 0;
+for (int x = -2; x &lt;= 2; x++)
+    for (int y = -2; y &lt;= 2; y++)
+        if (x &gt; 0)
+            if (y &gt; 0) c += 1;
+        else
+            c += 10;
+cout &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>154</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>214</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>64</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>44</code></span></li></ol></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：C</p><p>else 跟最近的、還未配對的 if 配對，所以迴圈內等於 <code>if (x &gt; 0) { if (y &gt; 0) c += 1; else c += 10; }</code>，x ≤ 0 時甚麼都不做。x = 1、2 時：y = 1、2 各加 1，y = −2、−1、0 各加 10，每個 x 加 2 + 30 = 32。兩個 x 共 64，輸出 64。</p><p class="wwhead">錯誤選項錯在哪裏</p><ul class="whys"><li><span class="l">A</span><span>按縮排以為 else 屬於外層的 <code>if (x &gt; 0)</code>：那就是 x &gt; 0、y &gt; 0 時加 1（4 次），x ≤ 0 時加 10（15 次）。C++ 的 else 總是跟最近的、還未配對的 if，即 <code>if (y &gt; 0)</code>；縮排不影響意思。</span></li><li><span class="l">B</span><span>以為 else 在「兩個條件不是都成立」時執行：x &gt; 0 而且 y &gt; 0 時加 1（4 次），其餘 21 次都加 10。else 只屬於一個 if。</span></li><li><span class="l">D</span><span>else 的配對正確，但數漏了 y = 0：y &gt; 0 不成立的 y 有 −2、−1、0 三個，所以 x = 1、2 時各加 30。</span></li></ul></div><div class="blk"><h3>為何會考</h3><p>if/else 的結構陷阱在 16 屆裏有 9 屆考過（難點庫 L18）；2025/26 初級卷一甲部也考了 if 和 else 的規則。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題：縮排故意誤導（考到這個陷阱時通常如此），而且要在 25 組 (x, y) 中數清楚。答案和每個錯誤選項都用程式核對過：把 else 改配外層的 if 會輸出 154。</p><div class="devs"></div></details></section><section class="q" id="q-M203" data-anchor="q-M203"><div class="qhead"><span class="qno">第 3 題</span><span class="tag">初級組及高級組</span><span class="tag">單選題</span><span class="tag">1 分 · 建議 2:00</span></div><h2>一個引用參數，一個普通參數</h2><p class="point"><b>重點：</b>參數名稱前有 &amp; 才是引用：在函數裏改它，就是改調用時傳入的變量；沒有 &amp; 的參數只是副本。調轉參數次序調用時，被改的就是另一個變量。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>void g(int &amp;x, int y) {
+    x += y;
+    y += x;
+}
+int main() {
+    int a = 1, b = 2;
+    for (int i = 0; i &lt; 3; i++) {
+        g(a, b);
+        g(b, a);
+    }
+    cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b;
+}</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 2</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>379 268</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>127 65</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>21 34</code></span><span class="mark">✓</span></li></ol></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：D</p><p>g 只會改第一個參數：g(a, b) 等於 a += b，g(b, a) 等於 b += a；<code>y += x</code> 只改副本。(a, b) 依次是 (1, 2) → (3, 2) → (3, 5) → (8, 5) → (8, 13) → (21, 13) → (21, 34)，輸出 21 34。</p><p class="wwhead">錯誤選項錯在哪裏</p><ul class="whys"><li><span class="l">A</span><span>以為兩個參數都只是副本，a、b 都不變。其實 x 是引用（<code>int &amp;x</code>），改 x 就是改傳入的第一個變量。</span></li><li><span class="l">B</span><span>以為兩個參數都是引用，於是 <code>y += x</code> 也會改傳入的第二個變量。其實 y 不是引用，<code>y += x</code> 只改函數裏的副本。</span></li><li><span class="l">C</span><span>把兩個參數的角色調轉了：以為 y 是引用、x 是副本。</span></li></ul></div><div class="blk"><h3>為何會考</h3><p>引用參數與別名在 16 屆裏有 5 屆考過（難點庫 L15）；2024/25 初級卷二甲部考了 f(++a, ++b)。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題。精選 30 題考過 f(a, a)；這題一個引用、一個副本，而且交替用 g(a, b)、g(b, a) 調用六次。三個錯誤選項分別是全部當副本、全部當引用、角色調轉，都由改了 &amp; 位置的程式實際執行得出。</p><div class="devs"></div></details></section><section class="q" id="q-M204" data-anchor="q-M204"><div class="qhead"><span class="qno">第 4 題</span><span class="tag">初級組及高級組</span><span class="tag">單選題</span><span class="tag">1 分 · 建議 2:00</span></div><h2>位元運算的優先次序</h2><p class="point"><b>重點：</b>&amp;、^、| 比 == 低：a &amp; b == c 是 a &amp; (b == c)。位移 &lt;&lt;、&gt;&gt; 比 == 高，但比 +、− 低：2 &lt;&lt; 1 == 4 是 (2 &lt;&lt; 1) == 4，值為 1；1 &lt;&lt; 2 + 1 是 1 &lt;&lt; 3。&amp; 先於 ^ 先於 |。不肯定就加括號。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int a = 6, b = 13;
+cout &lt;&lt; (a &amp; b == 4) &lt;&lt; &quot; &quot; &lt;&lt; (a &lt;&lt; 1 + 1) &lt;&lt; &quot; &quot; &lt;&lt; (a ^ b | a &amp; 3);</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 24 11</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>0 24 11</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>0 13 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>1 13 3</code></span></li></ol></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：B</p><p>C++ 的優先次序：+ 先於 &lt;&lt;，&lt;&lt; 先於 ==，== 先於 &amp;，&amp; 先於 ^，^ 先於 |。第一個：b == 4 是 0，6 &amp; 0 = 0。第二個：1 + 1 = 2，6 &lt;&lt; 2 = 24。第三個：先算 a &amp; 3 = 110 &amp; 011 = 010 = 2，再算 a ^ b = 0110 ^ 1101 = 1011 = 11，最後 11 | 2 = 1011 | 0010 = 1011 = 11。輸出 0 24 11。</p><p class="wwhead">錯誤選項錯在哪裏</p><ul class="whys"><li><span class="l">A</span><span>以為 &amp; 先於 ==。其實 == 先計算：b == 4 是 0，6 &amp; 0 = 0。</span></li><li><span class="l">C</span><span>以為 &lt;&lt; 先於 +。其實 + 先計算：1 + 1 = 2，6 &lt;&lt; 2 = 24。</span></li><li><span class="l">D</span><span>全部由左至右計算：(6 &amp; 13) == 4 得 1，(6 &lt;&lt; 1) + 1 得 13，((6 ^ 13) | 6) &amp; 3 得 3。</span></li></ul></div><div class="blk"><h3>為何會考</h3><p>位元運算和優先次序在 16 屆裏有 9 屆考過（難點庫 L27）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>位元運算求值在 16 屆裏有 9 屆考過（難點庫 L27），優先次序是 Kahoot v1 第 12、13 題的考點。這題把三個優先次序陷阱放在一起，四個選項分別是全對、第一部分錯、第二部分錯和全部由左至右計算，都由程式計算得出。</p><div class="devs"><span class="dev">兩個陷阱疊加</span><span class="dev">相似選項要逐個驗證</span></div></details></section><section class="q" id="q-M205" data-anchor="q-M205"><div class="qhead"><span class="qno">第 5 題</span><span class="tag">初級組及高級組</span><span class="tag">單選題</span><span class="tag">1 分 · 建議 2:00</span></div><h2>&amp;&amp; 和 || 裏的 ++</h2><p class="point"><b>重點：</b>&amp;&amp; 先於 ||；&amp;&amp; 左邊不成立、|| 左邊成立時，右邊都不會計算，右邊的 ++ 也不會執行。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int a = 0, b = 0, c = 0;
+for (int i = 1; i &lt;= 10; i++)
+    if (i % 2 == 0 &amp;&amp; ++a &gt; 2 || i % 3 == 0 &amp;&amp; ++b &gt; 1)
+        c++;
+cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; &quot; &quot; &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>5 3 4</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>10 10 6</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>5 2 4</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>5 3 2</code></span></li></ol></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：C</p><p>&amp;&amp; 先於 ||，所以條件是「(i 是偶數 &amp;&amp; ++a &gt; 2) || (i 是 3 的倍數 &amp;&amp; ++b &gt; 1)」。&amp;&amp; 左邊不成立時不計算右邊；|| 左邊成立時也不計算右邊。偶數的 i（2、4、6、8、10）都會令 a 加 1，a 最後是 5；由 i = 6 起 <code>++a &gt; 2</code> 成立，c 在 i = 6、8、10 各加 1，而且這三次右邊都不計算。左邊不成立時才計算右邊：i = 2、4 不是 3 的倍數；i = 3 時 b 變成 1，不大於 1；i = 9 時 b 變成 2，條件成立，c 再加 1。i = 6 雖然是 3 的倍數，但左邊已經成立，<code>++b</code> 不會執行。所以 a = 5，b = 2，c = 4。</p><p class="wwhead">錯誤選項錯在哪裏</p><ul class="whys"><li><span class="l">A</span><span>以為 || 左邊成立時，右邊仍然會計算。i = 6 時左邊已經成立，右邊的 <code>++b</code> 不會執行，所以 b 只在 i = 3 和 i = 9 時加 1。</span></li><li><span class="l">B</span><span>以為 &amp;&amp; 和 || 兩邊都一定會計算，於是 <code>++a</code>、<code>++b</code> 每次都執行。其實 &amp;&amp; 左邊不成立時，右邊不會計算。</span></li><li><span class="l">D</span><span>把條件看成 <code>i % 2 == 0 &amp;&amp; (++a &gt; 2 || i % 3 == 0) &amp;&amp; ++b &gt; 1</code>。其實 &amp;&amp; 先於 ||，條件是兩個 &amp;&amp; 部分用 || 連接。</span></li></ul></div><div class="blk"><h3>為何會考</h3><p>短路求值在 16 屆裏有 3 屆考過（難點庫 L12）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>短路求值在 16 屆裏有 3 屆考過（難點庫 L12），Kahoot v1 也考過。這題把 ++ 放在兩個不同位置，三個錯誤選項分別來自完全不懂短路、只懂 &amp;&amp; 的短路和看錯優先次序，每個都由改寫後的程式實際執行得出。三個數各取最多選項的值，會得到錯誤的 5 3 4，所以不能靠選項推答案。</p><div class="devs"><span class="dev">兩個陷阱疊加</span><span class="dev">相似選項要逐個驗證</span></div></details></section><div class="part-head" id="p2" data-anchor="p2"><span class="pn">第 2 部分</span><h2>乙部：短答題</h2></div><section class="q" id="q-M206" data-anchor="q-M206"><div class="qhead"><span class="qno">第 6 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">1.5 分 · 建議 3:00</span></div><h2>continue 之前先 i++</h2><p class="point"><b>重點：</b>在迴圈裏改 i 之後再 continue，for 的 i++ 仍然會執行，等於多走一步；break 立即結束整個迴圈。要留意檢查在加之前還是之後。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int s = 0;
+for (int i = 1; i &lt;= 100; i++) {
+    if (i % 4 == 0) { i++; continue; }
+    if (s &gt; 100) break;
+    s += i;
+}
+cout &lt;&lt; s;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">L：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：L：106</p><p>i 是 4 的倍數時，先 i++，再 continue，for 的 i++ 又執行一次，所以 4、5 都被跳過，8、9 都被跳過，如此類推。加上的數依次是 1、2、3、6、7、10、11、14、15、18、19：s 依次是 1、3、6、12、19、29、40、54、69、87、106。下一個 i 是 20（4 的倍數），跳到 22；這時 s = 106 &gt; 100，break。輸出 106。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>113</code>：以為只是跳過 4 的倍數。其實 i 是 4 的倍數時，迴圈裏先 i++，continue 之後 for 又 i++，所以 4 的倍數的下一個數（5、9、13、…）也被跳過。</li><li><code>87</code>：以為 s 不會超過 100。其實檢查在加之前：i = 19 時 s = 87，不大於 100，所以加上 19 得 106；到 i = 22 時才停。</li></ul></div><div class="blk"><h3>為何會考</h3><p>break、continue 與迴圈次數在 16 屆裏有 9 屆考過（難點庫 L19）；2024/25 初級卷一乙部考了在迴圈中修改自己的邊界。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題：continue 之後 for 的 i++ 仍然執行，加上在迴圈中改 i，兩個陷阱疊在一起。答案由程式執行得出；錯誤答案 113、87 分別由刪去迴圈中的 i++、把檢查改為 s + i &gt; 100 的程式得出。</p><div class="devs"></div></details></section><section class="q" id="q-M207" data-anchor="q-M207"><div class="qhead"><span class="qno">第 7 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">1.5 分 · 建議 3:00</span></div><h2>最長的上升段（程式有錯）</h2><p class="point"><b>重點：</b>讀「想做某件事」的程式時，要照程式實際做的追蹤；找錯時特別留意初值（0 還是 1）和最後一段有沒有處理。</p><div class="paper"><p class="stem">以下程式想輸出陣列 a 之中最長的「連續上升段」的長度（例如 2 3 5 是長度 3 的上升段）。程式實際輸出甚麼？</p><pre>int a[8] = {4, 6, 7, 2, 3, 5, 8, 9};
+int best = 0, cur = 0;
+for (int i = 1; i &lt; 8; i++) {
+    if (a[i] &gt; a[i - 1]) cur++;
+    else {
+        best = max(best, cur);
+        cur = 0;
+    }
+}
+cout &lt;&lt; best;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">M：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：M：2</p><p>i = 1、2：6 &gt; 4、7 &gt; 6，cur 變成 1、2。i = 3：2 &lt; 7，best = max(0, 2) = 2，cur = 0。i = 4 至 7：3、5、8、9 都比前一個大，cur 變成 1、2、3、4，但之後再沒有不上升的情況，迴圈結束時 cur = 4 沒有和 best 比較。輸出 2。要改正：cur 的初值改為 1，上升段斷開時 cur 也重設為 1（一個數本身是長度 1 的段），並在迴圈結束後再做一次 best = max(best, cur)。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>5</code>：照程式的「目的」作答：最長的上升段是 2 3 5 8 9，長度 5。但程式有兩個錯：cur 數的是上升了幾次（比段長少 1），而且最後一段在迴圈結束後沒有和 best 比較。</li><li><code>4</code>：發現了 cur 比段長少 1，卻沒有發現最後一段 2 3 5 8 9 從未和 best 比較。</li><li><code>3</code>：發現了最後一段沒有比較，卻以為 cur 就是段長：4 6 7 的長度是 3。</li></ul></div><div class="blk"><h3>為何會考</h3><p>累加、更新與初值在 16 屆裏有 12 屆考過（難點庫 F05），2023/24 有 4 題；改錯題「拿邊界輸入去試」有 12 屆（F08）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>容易至中等題，兩個錯誤疊在一起：錯誤答案 5、4、3 分別是兩個錯都沒看到、只看到一個。答案和錯誤答案都由程式（及改正了其中一個錯的版本）實際執行得出。</p><div class="devs"></div></details></section><section class="q" id="q-M208" data-anchor="q-M208"><div class="qhead"><span class="qno">第 8 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">1.5 分 · 建議 3:00</span></div><h2>字母移位和 XOR 1</h2><p class="point"><b>重點：</b>字母變序號用 c - &#x27;A&#x27;，序號變回字母用 + &#x27;a&#x27;（小寫）或 + &#x27;A&#x27;（大寫）；^ 是 XOR，不是次方，^ 1 只改變最低的一位。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>string s = &quot;HKOI2026&quot;;
+for (int i = 0; i &lt; s.size(); i++) {
+    if (s[i] &gt;= &#x27;A&#x27; &amp;&amp; s[i] &lt;= &#x27;Z&#x27;)
+        s[i] = (s[i] - &#x27;A&#x27; + 3 * i) % 26 + &#x27;a&#x27;;
+    else
+        s[i] = s[i] ^ 1;
+}
+cout &lt;&lt; s;</pre><p class="rule">照輸出逐個字元填寫，注意大小寫，不用加空格。</p><div class="blanks"><span class="bl">N：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：N：hnur3137</p><p>大寫字母：先用 <code>s[i] - &#x27;A&#x27;</code> 變成 0 至 25 的序號，加 3 × i，取除以 26 的餘數，再加 &#x27;a&#x27; 變成小寫字母。H（7 + 0 = 7）→ h；K（10 + 3 = 13）→ n；O（14 + 6 = 20）→ u；I（8 + 9 = 17）→ r。數字字元：<code>^ 1</code> 反轉 ASCII 碼最低的一位。&#x27;2&#x27; 是 50、&#x27;0&#x27; 是 48、&#x27;6&#x27; 是 54，都是偶數，XOR 1 之後加 1，變成 &#x27;3&#x27;、&#x27;1&#x27;、&#x27;3&#x27;、&#x27;7&#x27;。輸出 hnur3137。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>hnur2026</code>：把 ^ 當成次方，以為 ^ 1 不改變數字。^ 是 XOR：&#x27;2&#x27; 是 50，50 ^ 1 = 51，即 &#x27;3&#x27;。</li><li><code>HNUR3137</code>：漏了轉成小寫：程式加的是 &#x27;a&#x27;，不是 &#x27;A&#x27;。</li></ul></div><div class="blk"><h3>為何會考</h3><p>字元與 ASCII 碼互換，16 屆裏有 9 屆考過（難點庫 L07）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>字元與數字互換在 16 屆裏有 9 屆考過（難點庫 L07）；精選 30 題考過 &#x27;q&#x27; ^ 32。這題每個位置的位移不同，數字字元又要用 XOR，兩個錯誤答案分別來自把 ^ 當成次方和漏了轉成小寫。答案用程式執行核對過。</p><div class="devs"><span class="dev">兩個陷阱疊加</span></div></details></section><section class="q" id="q-M209" data-anchor="q-M209"><div class="qhead"><span class="qno">第 9 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">1.5 分 · 建議 3:00</span></div><h2>剛好兩個相等</h2><p class="point"><b>重點：</b>比較的結果 true、false 在 C++ 裏可以當 1、0 計算：「剛好 k 個條件成立」可以寫成把條件加起來 == k。</p><div class="paper"><p class="stem">填寫空格 O，令函數在 a、b、c 之中剛好有兩個相等時傳回 true；三個都相等，或者三個互不相同時，傳回 false。</p><pre>bool twoEqual(int a, int b, int c) {
+    return <span class="bk">O</span>;
+}</pre><p class="rule">只填一個條件（運算式），可以用 a、b、c、整數和運算符，最多 40 格（空白不計）。</p><div class="blanks"><span class="bl">O：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：O：(a == b) + (b == c) + (a == c) == 1</p><p>「剛好兩個相等」等於「三個比較 a == b、b == c、a == c 之中剛好一個成立」：如果有兩個成立，例如 a == b 和 b == c，第三個 a == c 也一定成立。C++ 的 true、false 可以當作 1、0 相加，所以可以寫 <code>(a == b) + (b == c) + (a == c) == 1</code>。另一種寫法是「最少一對相等，但不是三個都相等」：<code>(a == b || b == c || a == c) &amp;&amp; !(a == b &amp;&amp; b == c)</code>。網頁會代入 a、b、c 的不同數值，和參考答案比較。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>a == b || b == c || a == c</code>：三個都相等時也會傳回 true。</li><li><code>(a == b) ^ (b == c) ^ (a == c)</code>：剛好一對相等時是 true，但三個都相等時三個比較都是 true，XOR 起來仍是 true。</li><li><code>(a == b) + (b == c) + (a == c) == 2</code>：三個比較不可能剛好兩個成立：a == b 和 b == c 都成立時，a == c 也一定成立。</li></ul></div><div class="blk"><h3>為何會考</h3><p>常見的組合條件在 16 屆裏有 14 屆考過（難點庫 F02）；2025/26 初級卷二乙部也要寫條件（IsNotEqual），這題再加上「剛好兩個相等」的組合；布爾值當整數用有 8 屆（F09）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題。最常見的錯是忘了「三個都相等」；網頁用 a、b、c 由 −3 至 3 的全部 343 組，再加 −30 至 30 之間隨機的 20000 組，和參考答案比較（這是抽樣檢查，不是證明；寫法古怪的答案，老師可以再看）；列明的接受和不接受寫法都代入核對過。</p><div class="devs"></div></details></section><section class="q" id="q-M210" data-anchor="q-M210"><div class="qhead"><span class="qno">第 10 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">1.5 分 · 建議 3:00</span></div><h2>1 至 2026 全部 XOR 起來</h2><p class="point"><b>重點：</b>大 n 的 XOR：先試小的 n 找規律；k 是偶數時 k ^ (k + 1) = 1，所以由 4 的倍數開始，每 4 個連續的數 XOR 起來是 0。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int x = 0;
+for (int i = 1; i &lt;= 2026; i++)
+    x ^= i;
+cout &lt;&lt; x;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">P：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：P：2027</p><p>先試小的 n（f(n) 是 1 至 n 全部 XOR 起來）：f(1) = 1，f(2) = 1 ^ 2 = 3，f(3) = 3 ^ 3 = 0，f(4) = 4，f(5) = 1，f(6) = 7，f(7) = 0，f(8) = 8。規律：n 除以 4 餘 0 時 f(n) = n，餘 1 時是 1，餘 2 時是 n + 1，餘 3 時是 0。原因：k 是偶數時，k 和 k + 1 只差最低一位，k ^ (k + 1) = 1；所以由 4 的倍數開始，每 4 個連續的數 XOR 起來是 1 ^ 1 = 0。2026 = 4 × 506 + 2，所以 f(2023) = 0，再 ^ 2024 ^ 2025 ^ 2026：2024 ^ 2025 = 1，1 ^ 2026 = 2027。輸出 2027。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>0</code>：以為很多個數 XOR 起來會互相抵消成 0。結果要按規律計算，不能憑項數猜：例如 1 ^ 2 ^ 3 = 0，但 1 ^ 2 ^ 3 ^ 4 = 4。本題要把每 4 個數分成一組，再看剩下的數。</li><li><code>1</code>：找到了每 4 個數一組的規律，但用錯了餘數：2026 除以 4 餘 2，結果是 n + 1；餘 1 時結果才是 1。</li><li><code>2026</code>：以為結果等於 n。f(n) = n 是 n 除以 4 餘 0 時的規律；2026 除以 4 餘 2，應該用 n + 1。</li></ul></div><div class="blk"><h3>為何會考</h3><p>XOR 的題目在 16 屆裏有 9 屆考過（難點庫 L28）；先試小的例子找規律有 7 屆（M22）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等至難題：要先試小的例子找規律，再用餘數。答案由程式執行得出，f(1) 至 f(8) 和規律也用程式核對過。</p><div class="devs"></div></details></section><section class="q" id="q-M211" data-anchor="q-M211"><div class="qhead"><span class="qno">第 11 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">1.5 分 · 建議 3:00</span></div><h2>i × j ≤ 100</h2><p class="point"><b>重點：</b>內層的邊界跟外層變時，逐個 i 寫出內層的次數；條件一開始就不成立時，內層一次也不執行。用「所有數對」和對稱可以核對答案。</p><div class="paper"><p class="stem">以下程式輸出甚麼？</p><pre>int c = 0;
+for (int i = 1; i &lt;= 100; i++)
+    for (int j = i; i * j &lt;= 100; j++)
+        c++;
+cout &lt;&lt; c;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">Q：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：Q：246</p><p>內層 j 由 i 開始，條件 i × j ≤ 100 即 j ≤ 100 / i（整數除法），所以執行 100 / i − i + 1 次；但 i ≥ 11 時第一次檢查已經是 i × i &gt; 100，一次也不執行。c = (100 − 1 + 1) + (50 − 2 + 1) + (33 − 3 + 1) + (25 − 4 + 1) + (20 − 5 + 1) + (16 − 6 + 1) + (14 − 7 + 1) + (12 − 8 + 1) + (11 − 9 + 1) + (10 − 10 + 1) = 100 + 49 + 31 + 22 + 16 + 11 + 8 + 5 + 3 + 1 = 246。核對：c 是 i ≤ j 而且 i × j ≤ 100 的數對數目。所有 i × j ≤ 100 的數對有 482 對，其中 i = j 的有 10 對，其餘的一半 i &lt; j，所以 c = (482 − 10) ÷ 2 + 10 = 246。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>482</code>：以為 j 由 1 開始：那就是所有 i × j ≤ 100 的數對 (i, j)，共 482 對。這裏 j 由 i 開始，只數 i ≤ j 的數對。</li><li><code>236</code>：內層的次數算成 100 / i − i，少了 j = i 那一次。j 由 i 走到 100 / i，共 100 / i − i + 1 次。</li><li><code>5050</code>：把條件看成 j &lt;= 100，以為內層每次執行 101 − i 次。條件是 i × j ≤ 100，i 大於 10 時內層一次也不執行。</li></ul></div><div class="blk"><h3>為何會考</h3><p>嵌套迴圈計數在 16 屆裏有 13 屆考過（難點庫 R01），2023/24 有 5 題、2024/25 有 4 題；2024/25 和 2025/26 初級卷二乙部都考了內層邊界跟外層變的迴圈。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等至難題（比真卷難）：要同時處理 j 的起點、i × j 的條件和「一次也不執行」的情況。答案由程式執行得出；錯誤答案 482、236、5050 分別由 j 由 1 開始、每個 i 少算一次、把條件看成 j &lt;= 100 的程式或算式得出。</p><div class="devs"></div></details></section><div class="part-head" id="p3" data-anchor="p3"><span class="pn">第 3 部分</span><h2>丙部：程式填空</h2></div><section class="q" id="q-M212" data-anchor="q-M212"><div class="qhead"><span class="qno">第 12 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">3 分 · 建議 6:00</span></div><h2>字串壓縮</h2><p class="point"><b>重點：</b>找一段相同的字母：j 由 i 開始，條件 <code>j &lt; n &amp;&amp; s[j] == s[i]</code>；這一段是 s[i] 至 s[j − 1]，長度 j − i，下一段由 j 開始。</p><div class="paper"><p class="stem">以下程式把只有小寫英文字母的字串壓縮：連續相同的字母寫成「字母加次數」，只出現一次的不寫次數，例如 aaabccddddd 變成 a3bc2d5。在空格 R、S、T 填上適當的內容，使程式正確。</p><pre>int main() {
+    string s, t = &quot;&quot;;
+    cin &gt;&gt; s;
+    int i = 0, n = s.size();
+    while (i &lt; n) {
+        int j = i;
+        while (j &lt; n &amp;&amp; <span class="bk">R</span>) j++;
+        t += s[i];
+        if (j &gt; i + 1) t += to_string(<span class="bk">S</span>);
+        i = <span class="bk">T</span>;
+    }
+    cout &lt;&lt; t;
+}</pre><p class="rule">R 填一個條件，例如 a[k] != 0；S、T 只填算式，可以用 i、j、整數和運算符，最多 12 格（空白不計）。每格 1 分。</p><div class="blanks"><span class="bl">R：<span class="box"></span></span><span class="bl">S：<span class="box"></span></span><span class="bl">T：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：R：s[j] == s[i]；S：j - i；T：j</p><p>j 由 i 開始向右走，走到第一個和 s[i] 不同的字母（或字串結尾）為止，所以 R 是 <code>s[j] == s[i]</code>（<code>j &lt; n</code> 寫在前面，保證不會超出字串）。這一段相同的字母是 s[i] 至 s[j − 1]，共 j − i 個；多於一個（j &gt; i + 1）才寫次數，所以 S 是 <code>j - i</code>。下一段由 j 開始，所以 T 是 <code>j</code>（即 <code>i = j</code>）。例如 aaabccddddd：aaa → a3，b → b，cc → c2，ddddd → d5，輸出 a3bc2d5。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>S：j - i + 1</code>：多算了一個。這一段是 s[i] 至 s[j − 1]，共 j − i 個字母：j 停在第一個不同的字母上。</li><li><code>T：j + 1</code>：跳過了 s[j]。s[j] 是下一段的第一個字母，下一段應由 j 開始。</li><li><code>R：s[j] == s[j + 1]</code>：比較了相鄰的兩個字母：j 停在這一段的最後一個字母上，長度少算一個；之後 i = j，下一輪 j 不會前進，程式永遠不會停（例如輸入 aaab）。應該和這一段的第一個字母 s[i] 比較。</li></ul></div><div class="blk"><h3>為何會考</h3><p>真卷丙部常要填下標和迴圈的起點（2024/25、2025/26 初級卷二丙部）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題。三個空格分別考條件、長度和下一段的起點，和真卷丙部第 1 題一樣每格 1 分。S、T 按程式中可能出現的 i、j 判分；R 列明了對和錯的寫法，其他寫法由同學自己對照參考答案。答案用程式執行核對過，每個列明的寫法也代入程式比較過。</p><div class="devs"><span class="dev">新題型</span><span class="dev">由結果反推，或數有多少個輸入</span></div></details></section><section class="q" id="q-M213" data-anchor="q-M213"><div class="qhead"><span class="qno">第 13 題</span><span class="tag">初級組及高級組</span><span class="tag">填充題</span><span class="tag">3 分 · 建議 6:00</span></div><h2>把方陣順時針轉 90 度</h2><p class="point"><b>重點：</b>二維下標：順時針轉 90 度時 (i, j) 去到 (j, n − 1 − i)。在陣列裏原地交換時，要確保每一對只交換一次，否則會換回原狀。</p><div class="paper"><p class="stem">左邊的程式讀入 n（1 ≤ n ≤ 100）和 n × n 的方陣 a，把它順時針轉 90 度存入 b，然後輸出 b。例如 n = 3 時，1 2 3 / 4 5 6 / 7 8 9 會變成 7 4 1 / 8 5 2 / 9 6 3。（a）在空格 U1、U2 填上適當的內容。（b）小明想不用 b，直接在 a 裏面轉：先把 a 沿對角線翻轉（a[i][j] 和 a[j][i] 互換），再把每一行左右反轉，然後輸出 a。他寫了右邊的程式。對上面 n = 3 的例子，小明的程式輸出的第一行是甚麼？把答案寫在 V。</p><div class="codes two"><div><div class="codelabel">原來的程式</div><pre>int n, a[100][100], b[100][100];
+cin &gt;&gt; n;
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        cin &gt;&gt; a[i][j];
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        b[<span class="bk">U1</span>][<span class="bk">U2</span>] = a[i][j];
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; b[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div><div><div class="codelabel">小明的寫法（讀入 a 之後）</div><pre>for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        swap(a[i][j], a[j][i]);
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n / 2; j++)
+        swap(a[i][j], a[i][n - 1 - j]);
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; a[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div></div><p class="rule">U1、U2 只填算式，可以用 i、j、n、整數和運算符，每格最多 8 格（空白不計）；U1、U2 都正確才得 U 的 1.5 分。V 填三個整數，用空格分隔。</p><div class="blanks"><span class="bl">U1：<span class="box"></span></span><span class="bl">U2：<span class="box"></span></span><span class="bl">V：<span class="box"></span></span></div></div><div class="blk"><h3>答案與解說</h3><p class="ans-line">答案：U1：j；U2：n - 1 - i；V：3 2 1</p><p>（a）原來第 i 行第 j 列的數，順時針轉 90 度後去到第 j 行、由右數起第 i + 1 列，即 b[j][n − 1 − i]，所以 U1 是 <code>j</code>，U2 是 <code>n - 1 - i</code>。核對：a[0][0] = 1 去到 b[0][2]（第一行最右），a[2][0] = 7 去到 b[0][0]，和例子相同。（b）小明的第一段 j 由 0 走到 n − 1：i = 0、j = 1 時交換 a[0][1] 和 a[1][0]；之後 i = 1、j = 0 時又把它們交換一次，換回原狀。每一對都交換了兩次，所以第一段完成後 a 完全沒有改變。第二段把每一行左右反轉，第一行 1 2 3 變成 3 2 1，所以 V 是 3 2 1。要改正，第一段的內層迴圈應由 j = i + 1（或 j = i）開始，每對只交換一次。</p><p class="wwhead">常見錯誤答案</p><ul class="wrongs"><li><code>U1 = n - 1 - j，U2 = i</code>：這是逆時針轉 90 度：a[0][2] = 3 會去到 b[0][0]。</li><li><code>U1 = j，U2 = i</code>：這只是沿對角線翻轉（行和列互換），不是旋轉：第一行會是 1 4 7。</li><li><code>V = 7 4 1</code>：以為小明的方法正確。他的第一段把每一對 a[i][j]、a[j][i] 交換了兩次（i &lt; j 時一次，i &gt; j 時又一次），換回原狀；所以只剩下左右反轉。</li><li><code>V = 1 4 7</code>：只做了對角線翻轉，忘了之後還要把每一行左右反轉；而且對角線翻轉其實換了兩次，沒有效果。</li></ul></div><div class="blk"><h3>為何會考</h3><p>二維下標與循環移位在 16 屆裏有 6 屆考過（難點庫 F04），2023/24 有 2 題；陣列原地更新有 8 屆（R05）。</p></div><details class="teacher"><summary>出題說明（給老師）</summary><p>中等題。U 考二維下標（兩部分都對才有分，和真卷丙部第 2 題的 U1、U2 一樣）；V 考原地交換的次數。U1、U2 按程式中可能出現的 i、j、n 判分，答案和每個錯誤答案都用程式執行核對過。</p><div class="devs"></div></details></section><a class="top-link" href="#toc">回到目錄 ↑</a><footer><h2>關於這一頁</h2><p>題目全部新寫，沒有照抄任何一屆的試題。</p><p>每題的答案、每個錯誤選項和每個「常見錯誤答案」都用程式（g++ 和 clang++）或窮舉核對過。</p><p>2026 年 11 月</p></footer></div></div>
+<div class="L-en" lang="en"><div class="col"><section class="intro" data-anchor="intro"><div class="eyebrow">HKOI Heat · Mock paper · Paper 2 (C++)</div><h1>Explanations: Mock paper · Paper 2 (C++)</h1><p class="lead">Built like the 2025/26 Junior Paper 2 (C++) in format, marks and time: 40 minutes, 20 marks; Section A has 5 multiple-choice questions, Section B 6 short answers and Section C 2 programs to complete, a little harder than the real paper. Afterwards both papers are added up and compared with the last two cut-offs.</p><div class="actions"><a class="btn primary" href="test-mock2.html" target="_blank" rel="noopener">Start timed practice</a><a class="btn ghost" href="#en-toc">Contents</a></div><details class="howto"><summary>How to use this page</summary><ul><li>Try each question first, then read the answer and explanation; for fill-in questions, follow the answer rules given.</li><li>Each &quot;common wrong answer&quot; was actually computed from a program or method with one mistake; check whether you went wrong at the same step.</li><li>The brown &quot;notes for teachers&quot; explain what makes each question harder than set 1 and which technique it uses.</li></ul></details></section><nav class="toc" id="en-toc" data-anchor="toc" aria-label="Contents"><h2>Contents</h2><div class="toc-part"><h3>Part 1 · Section A: multiple choice</h3><ol><li><a href="#en-q-M201"><span class="nn">1</span><span class="tt">Integer division of negatives, and casts</span></a></li><li><a href="#en-q-M202"><span class="nn">2</span><span class="tt">Which if does the else belong to?</span></a></li><li><a href="#en-q-M203"><span class="nn">3</span><span class="tt">One reference parameter, one value parameter</span></a></li><li><a href="#en-q-M204"><span class="nn">4</span><span class="tt">Precedence of bitwise operators</span></a></li><li><a href="#en-q-M205"><span class="nn">5</span><span class="tt">++ inside &amp;&amp; and ||</span></a></li></ol></div><div class="toc-part"><h3>Part 2 · Section B: short answers</h3><ol><li><a href="#en-q-M206"><span class="nn">6</span><span class="tt">i++ just before continue</span></a></li><li><a href="#en-q-M207"><span class="nn">7</span><span class="tt">Longest rising run (with bugs)</span></a></li><li><a href="#en-q-M208"><span class="nn">8</span><span class="tt">Shifting letters and XOR 1</span></a></li><li><a href="#en-q-M209"><span class="nn">9</span><span class="tt">Exactly two are equal</span></a></li><li><a href="#en-q-M210"><span class="nn">10</span><span class="tt">XOR of 1 to 2026</span></a></li><li><a href="#en-q-M211"><span class="nn">11</span><span class="tt">i × j ≤ 100</span></a></li></ol></div><div class="toc-part"><h3>Part 3 · Section C: complete the programs</h3><ol><li><a href="#en-q-M212"><span class="nn">12</span><span class="tt">Compressing a string</span></a></li><li><a href="#en-q-M213"><span class="nn">13</span><span class="tt">Rotating a square grid 90° clockwise</span></a></li></ol></div></nav><div class="part-head" id="en-p1" data-anchor="p1"><span class="pn">Part 1</span><h2>Section A: multiple choice</h2></div><section class="q" id="en-q-M201" data-anchor="q-M201"><div class="qhead"><span class="qno">Q1</span><span class="tag">Junior and Senior</span><span class="tag">Single answer</span><span class="tag">1 marks · suggested 2:00</span></div><h2>Integer division of negatives, and casts</h2><p class="point"><b>Key point: </b>Integer division rounds toward 0, negatives included (−7 / 2 = −3), and the remainder has the sign of the number divided (−7 % 2 = −1); storing in a double cannot bring back the fraction; <code>(double) a / b</code> converts a first, then divides.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int a = -7, b = 2;
+double x = a / b;
+double y = (double) a / b;
+int z = a / b * b + a % b;
+cout &lt;&lt; x + y + z;</pre><ol class="opts"><li class="opt ok"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>-13.5</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>-14.5</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>-14</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>-13</code></span></li></ol></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: A</p><p>C++ integer division rounds toward 0: −7 / 2 = −3 (not −4), and −7 % 2 = −1 (the remainder takes the sign of the number being divided). x: a / b = −3, stored as −3.0. y: (double) a turns a into −7.0 first, and dividing by 2 gives −3.5. z: left to right, a / b * b = −3 × 2 = −6, plus a % b = −1 gives −7 (a / b * b + a % b always equals a). x + y + z = −3 − 3.5 − 7 = −13.5, so the output is -13.5.</p><p class="wwhead">What is wrong with each wrong option</p><ul class="whys"><li><span class="l">B</span><span>Assumes integer division rounds down (like floor), so −7 / 2 = −4. C++ integer division rounds toward 0: −7 / 2 = −3 and −7 % 2 = −1.</span></li><li><span class="l">C</span><span>Thinks <code>double x = a / b</code> gives −3.5. Both sides of a / b are int, so integer division gives −3 first, which only then becomes −3.0.</span></li><li><span class="l">D</span><span>Thinks <code>(double) a / b</code> converts the result of a / b (−3.0). The cast happens before the division: a becomes −7.0, and −7.0 / 2 = −3.5.</span></li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Integer division appeared in 12 of 16 years (bank item L01) and negative remainders in 8 (L02); the 2025/26 Junior Paper 2 Section A asked about (int) a + b + c.</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question with four traps in one: the rounding direction for negatives, the sign of a negative remainder, integer division stored in a double, and the order of the cast. Each wrong option gets one of them wrong and was produced by running a changed program. 精選 30 題 asked which lines print 2.5; this one adds negatives and a sum.</p><div class="devs"></div></details></section><section class="q" id="en-q-M202" data-anchor="q-M202"><div class="qhead"><span class="qno">Q2</span><span class="tag">Junior and Senior</span><span class="tag">Single answer</span><span class="tag">1 marks · suggested 2:00</span></div><h2>Which if does the else belong to?</h2><p class="point"><b>Key point: </b>An else always pairs with the nearest if that has no else yet, whatever the indentation; when unsure, add the braces yourself and reread.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int c = 0;
+for (int x = -2; x &lt;= 2; x++)
+    for (int y = -2; y &lt;= 2; y++)
+        if (x &gt; 0)
+            if (y &gt; 0) c += 1;
+        else
+            c += 10;
+cout &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>154</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>214</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>64</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>44</code></span></li></ol></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: C</p><p>An else pairs with the nearest unmatched if, so the loop body means <code>if (x &gt; 0) { if (y &gt; 0) c += 1; else c += 10; }</code>, and nothing happens when x ≤ 0. For x = 1 and 2: y = 1, 2 each add 1 and y = −2, −1, 0 each add 10, so each x adds 2 + 30 = 32. The two give 64, so the output is 64.</p><p class="wwhead">What is wrong with each wrong option</p><ul class="whys"><li><span class="l">A</span><span>Goes by the indentation and pairs else with the outer <code>if (x &gt; 0)</code>: +1 when x &gt; 0 and y &gt; 0 (4 times), +10 when x ≤ 0 (15 times). In C++ an else always belongs to the nearest unmatched if, here <code>if (y &gt; 0)</code>; indentation changes nothing.</span></li><li><span class="l">B</span><span>Treats the else as &quot;not both conditions&quot;: +1 when x &gt; 0 and y &gt; 0 (4 times) and +10 for the other 21. An else belongs to just one if.</span></li><li><span class="l">D</span><span>Pairs the else correctly but misses y = 0: three values of y (−2, −1 and 0) fail y &gt; 0, so x = 1 and x = 2 each add 30.</span></li></ul></div><div class="blk"><h3>Why it is tested</h3><p>if/else structure traps appeared in 9 of 16 years (bank item L18); the 2025/26 Junior Paper 1 Section A also tested the rules of if and else.</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question: the indentation is misleading on purpose, as it usually is when this trap is tested, and 25 pairs (x, y) must be counted carefully. The answer and every wrong option were checked by running programs: pairing else with the outer if prints 154.</p><div class="devs"></div></details></section><section class="q" id="en-q-M203" data-anchor="q-M203"><div class="qhead"><span class="qno">Q3</span><span class="tag">Junior and Senior</span><span class="tag">Single answer</span><span class="tag">1 marks · suggested 2:00</span></div><h2>One reference parameter, one value parameter</h2><p class="point"><b>Key point: </b>Only a parameter with &amp; is a reference: changing it in the function changes the variable passed in; a parameter without &amp; is just a copy. Calling with the arguments swapped changes the other variable.</p><div class="paper"><p class="stem">What does this program print?</p><pre>void g(int &amp;x, int y) {
+    x += y;
+    y += x;
+}
+int main() {
+    int a = 1, b = 2;
+    for (int i = 0; i &lt; 3; i++) {
+        g(a, b);
+        g(b, a);
+    }
+    cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b;
+}</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 2</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>379 268</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>127 65</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>21 34</code></span><span class="mark">✓</span></li></ol></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: D</p><p>g changes only its first argument: g(a, b) means a += b and g(b, a) means b += a; <code>y += x</code> changes only the copy. (a, b) goes (1, 2) → (3, 2) → (3, 5) → (8, 5) → (8, 13) → (21, 13) → (21, 34), so the output is 21 34.</p><p class="wwhead">What is wrong with each wrong option</p><ul class="whys"><li><span class="l">A</span><span>Treats both parameters as copies, so a and b never change. But x is a reference (<code>int &amp;x</code>), so changing x changes the first variable passed in.</span></li><li><span class="l">B</span><span>Treats both as references, so <code>y += x</code> would also change the second variable. But y is not a reference; <code>y += x</code> changes only the function&#x27;s copy.</span></li><li><span class="l">C</span><span>Swaps the roles of the two parameters, treating y as the reference and x as the copy.</span></li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Reference parameters and aliasing appeared in 5 of 16 years (bank item L15); the 2024/25 Junior Paper 2 Section A asked about f(++a, ++b).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question. 精選 30 題 tested f(a, a); here one parameter is a reference and one a copy, and g(a, b) and g(b, a) alternate for six calls. The wrong options treat both as copies, both as references, or swap them, each produced by running the program with the &amp; moved.</p><div class="devs"></div></details></section><section class="q" id="en-q-M204" data-anchor="q-M204"><div class="qhead"><span class="qno">Q4</span><span class="tag">Junior and Senior</span><span class="tag">Single answer</span><span class="tag">1 marks · suggested 2:00</span></div><h2>Precedence of bitwise operators</h2><p class="point"><b>Key point: </b>&amp;, ^ and | bind more loosely than ==: a &amp; b == c means a &amp; (b == c). The shifts &lt;&lt; and &gt;&gt; bind more tightly than == but more loosely than + and −: 2 &lt;&lt; 1 == 4 means (2 &lt;&lt; 1) == 4, which is 1, and 1 &lt;&lt; 2 + 1 means 1 &lt;&lt; 3. &amp; comes before ^, which comes before |. When unsure, add brackets.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int a = 6, b = 13;
+cout &lt;&lt; (a &amp; b == 4) &lt;&lt; &quot; &quot; &lt;&lt; (a &lt;&lt; 1 + 1) &lt;&lt; &quot; &quot; &lt;&lt; (a ^ b | a &amp; 3);</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 24 11</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>0 24 11</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>0 13 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>1 13 3</code></span></li></ol></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: B</p><p>C++ precedence: + before &lt;&lt;, &lt;&lt; before ==, == before &amp;, &amp; before ^, ^ before |. First: b == 4 is 0, and 6 &amp; 0 = 0. Second: 1 + 1 = 2, and 6 &lt;&lt; 2 = 24. Third: first a &amp; 3 = 110 &amp; 011 = 010 = 2, then a ^ b = 0110 ^ 1101 = 1011 = 11, and finally 11 | 2 = 1011 | 0010 = 1011 = 11. The output is 0 24 11.</p><p class="wwhead">What is wrong with each wrong option</p><ul class="whys"><li><span class="l">A</span><span>Thinks &amp; comes before ==. In fact == is evaluated first: b == 4 is 0, and 6 &amp; 0 = 0.</span></li><li><span class="l">C</span><span>Thinks &lt;&lt; comes before +. In fact + is evaluated first: 1 + 1 = 2, and 6 &lt;&lt; 2 = 24.</span></li><li><span class="l">D</span><span>Evaluates everything left to right: (6 &amp; 13) == 4 gives 1, (6 &lt;&lt; 1) + 1 gives 13, and ((6 ^ 13) | 6) &amp; 3 gives 3.</span></li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Bitwise operations and precedence appeared in 9 of 16 years (bank item L27).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>Evaluating bitwise expressions appeared in 9 of 16 years (bank item L27), and precedence was tested in Kahoot v1 Q12 and Q13. This question puts three precedence traps together; the options are all right, the first part wrong, the second part wrong, and everything left to right, all computed by program.</p><div class="devs"><span class="dev">Two traps at once</span><span class="dev">Near-identical options</span></div></details></section><section class="q" id="en-q-M205" data-anchor="q-M205"><div class="qhead"><span class="qno">Q5</span><span class="tag">Junior and Senior</span><span class="tag">Single answer</span><span class="tag">1 marks · suggested 2:00</span></div><h2>++ inside &amp;&amp; and ||</h2><p class="point"><b>Key point: </b>&amp;&amp; binds tighter than ||; when the left side of &amp;&amp; is false or the left side of || is true, the right side is not evaluated, and any ++ on it does not run.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int a = 0, b = 0, c = 0;
+for (int i = 1; i &lt;= 10; i++)
+    if (i % 2 == 0 &amp;&amp; ++a &gt; 2 || i % 3 == 0 &amp;&amp; ++b &gt; 1)
+        c++;
+cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; &quot; &quot; &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>5 3 4</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>10 10 6</code></span></li><li class="opt ok"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>5 2 4</code></span><span class="mark">✓</span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>5 3 2</code></span></li></ol></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: C</p><p>&amp;&amp; binds tighter than ||, so the condition is (i even &amp;&amp; ++a &gt; 2) || (i a multiple of 3 &amp;&amp; ++b &gt; 1). When the left side of &amp;&amp; is false, its right side is not evaluated; when the left side of || is true, its right side is not evaluated either. Every even i (2, 4, 6, 8, 10) increases a, so a ends at 5; from i = 6 on, <code>++a &gt; 2</code> is true, so c increases at i = 6, 8 and 10, and in those three passes the right side is never evaluated. The right side is evaluated only when the left side is false: i = 2 and 4 are not multiples of 3; at i = 3, b becomes 1, which is not more than 1; at i = 9, b becomes 2, the condition holds and c increases again. Although 6 is a multiple of 3, the left side is already true at i = 6, so <code>++b</code> does not run. So a = 5, b = 2, c = 4.</p><p class="wwhead">What is wrong with each wrong option</p><ul class="whys"><li><span class="l">A</span><span>Thinks the right side of || is still evaluated when the left side is true. At i = 6 the left side is already true, so <code>++b</code> on the right does not run; b only increases at i = 3 and i = 9.</span></li><li><span class="l">B</span><span>Thinks both sides of &amp;&amp; and || are always evaluated, so <code>++a</code> and <code>++b</code> run every time. In fact, when the left side of &amp;&amp; is false, its right side is not evaluated.</span></li><li><span class="l">D</span><span>Reads the condition as <code>i % 2 == 0 &amp;&amp; (++a &gt; 2 || i % 3 == 0) &amp;&amp; ++b &gt; 1</code>. In fact &amp;&amp; binds tighter than ||, so the condition is two &amp;&amp; parts joined by ||.</span></li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Short-circuit evaluation appeared in 3 of 16 years (bank item L12).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>Short-circuit evaluation appeared in 3 of 16 years (bank item L12) and was in Kahoot v1. Here ++ sits in two places; the three wrong options come from not knowing short-circuiting, knowing it only for &amp;&amp;, and misreading the precedence, each produced by running the rewritten program. Taking the most common value in each position gives the wrong 5 3 4, so the options cannot be used to guess.</p><div class="devs"><span class="dev">Two traps at once</span><span class="dev">Near-identical options</span></div></details></section><div class="part-head" id="en-p2" data-anchor="p2"><span class="pn">Part 2</span><h2>Section B: short answers</h2></div><section class="q" id="en-q-M206" data-anchor="q-M206"><div class="qhead"><span class="qno">Q6</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">1.5 marks · suggested 3:00</span></div><h2>i++ just before continue</h2><p class="point"><b>Key point: </b>If the body changes i and then does continue, the for loop&#x27;s i++ still runs, so i moves one extra step; break ends the whole loop at once. Notice whether the check comes before or after the addition.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int s = 0;
+for (int i = 1; i &lt;= 100; i++) {
+    if (i % 4 == 0) { i++; continue; }
+    if (s &gt; 100) break;
+    s += i;
+}
+cout &lt;&lt; s;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">L:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: L: 106</p><p>When i is a multiple of 4, the body does i++, then continue, and the for loop&#x27;s i++ runs as well, so 4 and 5 are both skipped, 8 and 9 too, and so on. The numbers added are 1, 2, 3, 6, 7, 10, 11, 14, 15, 18, 19, and s goes 1, 3, 6, 12, 19, 29, 40, 54, 69, 87, 106. The next i is 20, a multiple of 4, which jumps to 22; now s = 106 &gt; 100, so the loop breaks. The output is 106.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>113</code>: Assumes only multiples of 4 are skipped. In fact when i is a multiple of 4, the body does i++ and then the for loop does i++ again after continue, so the number after each multiple of 4 (5, 9, 13, …) is skipped too.</li><li><code>87</code>: Assumes s never goes past 100. But the check comes before the addition: at i = 19, s = 87 is not more than 100, so 19 is added to make 106; the loop stops only at i = 22.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>break, continue and loop counts appeared in 9 of 16 years (bank item L19); the 2024/25 Junior Paper 1 Section B changed a loop&#x27;s own bound inside the loop.</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question with two traps on top of each other: the for loop&#x27;s i++ still runs after continue, and i is changed inside the loop. The answer comes from running the program; the wrong answers 113 and 87 come from versions without the inner i++ and with the check changed to s + i &gt; 100.</p><div class="devs"></div></details></section><section class="q" id="en-q-M207" data-anchor="q-M207"><div class="qhead"><span class="qno">Q7</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">1.5 marks · suggested 3:00</span></div><h2>Longest rising run (with bugs)</h2><p class="point"><b>Key point: </b>When a program is meant to do something, trace what it actually does; when looking for bugs, check the starting values (0 or 1?) and whether the last part is handled.</p><div class="paper"><p class="stem">This program is meant to print the length of the longest run of consecutive rising numbers in a (for example 2 3 5 is a rising run of length 3). What does it actually print?</p><pre>int a[8] = {4, 6, 7, 2, 3, 5, 8, 9};
+int best = 0, cur = 0;
+for (int i = 1; i &lt; 8; i++) {
+    if (a[i] &gt; a[i - 1]) cur++;
+    else {
+        best = max(best, cur);
+        cur = 0;
+    }
+}
+cout &lt;&lt; best;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">M:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: M: 2</p><p>i = 1, 2: 6 &gt; 4 and 7 &gt; 6, so cur becomes 1, 2. i = 3: 2 &lt; 7, so best = max(0, 2) = 2 and cur = 0. i = 4 to 7: 3, 5, 8, 9 each beat the one before, so cur becomes 1, 2, 3, 4, but the run never breaks again, so cur = 4 is never compared with best. The output is 2. To fix it, start cur at 1, reset it to 1 when a run breaks (one number alone is a run of length 1), and do best = max(best, cur) once more after the loop.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>5</code>: Answers what the program is meant to do: the longest run is 2 3 5 8 9, of length 5. But the program has two bugs: cur counts the rises (one less than the length), and the last run is never compared with best after the loop.</li><li><code>4</code>: Spots that cur is one less than the length, but not that the last run 2 3 5 8 9 is never compared with best.</li><li><code>3</code>: Spots that the last run is never compared, but takes cur as the length: 4 6 7 has length 3.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Updates and starting values appeared in 12 of 16 years (bank item F05), with 4 questions in 2023/24; finding bugs with edge-case inputs appeared in 12 (F08).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>An easy-to-medium question with two bugs on top of each other: the wrong answers 5, 4 and 3 come from seeing neither bug or only one. The answer and wrong answers were produced by running the program and versions with one bug fixed.</p><div class="devs"></div></details></section><section class="q" id="en-q-M208" data-anchor="q-M208"><div class="qhead"><span class="qno">Q8</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">1.5 marks · suggested 3:00</span></div><h2>Shifting letters and XOR 1</h2><p class="point"><b>Key point: </b>Letter to position is c - &#x27;A&#x27;; position back to letter is + &#x27;a&#x27; (lower case) or + &#x27;A&#x27; (upper case); ^ is XOR, not a power, and ^ 1 changes only the lowest bit.</p><div class="paper"><p class="stem">What does this program print?</p><pre>string s = &quot;HKOI2026&quot;;
+for (int i = 0; i &lt; s.size(); i++) {
+    if (s[i] &gt;= &#x27;A&#x27; &amp;&amp; s[i] &lt;= &#x27;Z&#x27;)
+        s[i] = (s[i] - &#x27;A&#x27; + 3 * i) % 26 + &#x27;a&#x27;;
+    else
+        s[i] = s[i] ^ 1;
+}
+cout &lt;&lt; s;</pre><p class="rule">Write the output character by character, with the right case; no spaces needed.</p><div class="blanks"><span class="bl">N:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: N: hnur3137</p><p>Capital letters: <code>s[i] - &#x27;A&#x27;</code> gives a position from 0 to 25; add 3 × i, take the remainder when divided by 26, then add &#x27;a&#x27; to get a lower-case letter. H (7 + 0 = 7) → h; K (10 + 3 = 13) → n; O (14 + 6 = 20) → u; I (8 + 9 = 17) → r. Digit characters: <code>^ 1</code> flips the lowest bit of the ASCII code. &#x27;2&#x27; is 50, &#x27;0&#x27; is 48 and &#x27;6&#x27; is 54, all even, so XOR 1 adds 1, giving &#x27;3&#x27;, &#x27;1&#x27;, &#x27;3&#x27;, &#x27;7&#x27;. The output is hnur3137.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>hnur2026</code>: Treats ^ as a power and thinks ^ 1 leaves the digits unchanged. ^ is XOR: &#x27;2&#x27; is 50, and 50 ^ 1 = 51, which is &#x27;3&#x27;.</li><li><code>HNUR3137</code>: Misses the change to lower case: the program adds &#x27;a&#x27;, not &#x27;A&#x27;.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Converting characters and ASCII codes appeared in 9 of 16 years (bank item L07).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>Converting between characters and numbers appeared in 9 of 16 years (bank item L07); 精選 30 題 tested &#x27;q&#x27; ^ 32. Here each position shifts by a different amount and the digits use XOR; the two common wrong answers come from treating ^ as a power and missing the change to lower case. The answer was checked by running the program.</p><div class="devs"><span class="dev">Two traps at once</span></div></details></section><section class="q" id="en-q-M209" data-anchor="q-M209"><div class="qhead"><span class="qno">Q9</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">1.5 marks · suggested 3:00</span></div><h2>Exactly two are equal</h2><p class="point"><b>Key point: </b>In C++ the results of comparisons count as 1 and 0, so &quot;exactly k conditions hold&quot; can be written as their sum == k.</p><div class="paper"><p class="stem">Fill in blank O so that the function returns true when exactly two of a, b, c are equal, and false when all three are equal or all three are different.</p><pre>bool twoEqual(int a, int b, int c) {
+    return <span class="bk">O</span>;
+}</pre><p class="rule">Write one condition (an expression) using a, b, c, integers and operators, in at most 40 boxes (spaces not counted).</p><div class="blanks"><span class="bl">O:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: O: (a == b) + (b == c) + (a == c) == 1</p><p>&quot;Exactly two are equal&quot; means &quot;exactly one of the comparisons a == b, b == c, a == c holds&quot;: if two hold, say a == b and b == c, then a == c holds as well. In C++, true and false add up as 1 and 0, so one answer is <code>(a == b) + (b == c) + (a == c) == 1</code>. Another is &quot;at least one pair equal, but not all three&quot;: <code>(a == b || b == c || a == c) &amp;&amp; !(a == b &amp;&amp; b == c)</code>. The page substitutes many values of a, b, c and compares with the model answer.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>a == b || b == c || a == c</code>: Also returns true when all three are equal.</li><li><code>(a == b) ^ (b == c) ^ (a == c)</code>: True when exactly one pair is equal, but when all three are equal all three comparisons are true, and their XOR is still true.</li><li><code>(a == b) + (b == c) + (a == c) == 2</code>: Exactly two of the three comparisons can never hold: if a == b and b == c, then a == c too.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Common combined conditions appeared in 14 of 16 years (bank item F02); the 2025/26 Junior Paper 2 Section B also asked for a condition (IsNotEqual), and this one adds the combination &quot;exactly two equal&quot;; using booleans as integers appeared in 8 (F09).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question. The most common slip is forgetting the all-equal case. The page compares answers with the model on all 343 triples from −3 to 3 plus 20,000 random triples from −30 to 30 (a sample check, not a proof; teachers can look again at unusual answers), and every listed accepted and rejected form was checked the same way.</p><div class="devs"></div></details></section><section class="q" id="en-q-M210" data-anchor="q-M210"><div class="qhead"><span class="qno">Q10</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">1.5 marks · suggested 3:00</span></div><h2>XOR of 1 to 2026</h2><p class="point"><b>Key point: </b>For XOR over a large range, try small n to find the pattern; for even k, k ^ (k + 1) = 1, so every 4 consecutive numbers from a multiple of 4 XOR to 0.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int x = 0;
+for (int i = 1; i &lt;= 2026; i++)
+    x ^= i;
+cout &lt;&lt; x;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">P:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: P: 2027</p><p>Try small n first (f(n) is the XOR of 1 to n): f(1) = 1, f(2) = 1 ^ 2 = 3, f(3) = 3 ^ 3 = 0, f(4) = 4, f(5) = 1, f(6) = 7, f(7) = 0, f(8) = 8. The pattern: f(n) = n for remainder 0 when divided by 4, 1 for remainder 1, n + 1 for remainder 2, and 0 for remainder 3. The reason: for even k, k and k + 1 differ only in the lowest bit, so k ^ (k + 1) = 1, and every 4 consecutive numbers starting at a multiple of 4 give 1 ^ 1 = 0. 2026 = 4 × 506 + 2, so f(2023) = 0, then ^ 2024 ^ 2025 ^ 2026: 2024 ^ 2025 = 1 and 1 ^ 2026 = 2027. The output is 2027.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>0</code>: Thinks XOR-ing many numbers cancels to 0. The result must be worked out from the pattern, not guessed from the number of terms: 1 ^ 2 ^ 3 = 0, but 1 ^ 2 ^ 3 ^ 4 = 4. Here, group the numbers in fours and look at what is left.</li><li><code>1</code>: Finds the pattern in groups of 4 but uses the wrong remainder: 2026 leaves remainder 2 when divided by 4, giving n + 1; the result is 1 only for remainder 1.</li><li><code>2026</code>: Assumes the result is n. f(n) = n is the rule for remainder 0 when divided by 4; 2026 leaves remainder 2, so use n + 1.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>XOR questions appeared in 9 of 16 years (bank item L28); trying small cases to find a pattern appeared in 7 (M22).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium-to-hard question: find the pattern from small cases, then use the remainder. The answer comes from running the program, and f(1) to f(8) and the pattern were checked by program.</p><div class="devs"></div></details></section><section class="q" id="en-q-M211" data-anchor="q-M211"><div class="qhead"><span class="qno">Q11</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">1.5 marks · suggested 3:00</span></div><h2>i × j ≤ 100</h2><p class="point"><b>Key point: </b>When the inner bound depends on the outer variable, write down the inner count for each i; if the condition fails at the start, the inner loop runs zero times. Symmetry over all pairs is a good check.</p><div class="paper"><p class="stem">What does this program print?</p><pre>int c = 0;
+for (int i = 1; i &lt;= 100; i++)
+    for (int j = i; i * j &lt;= 100; j++)
+        c++;
+cout &lt;&lt; c;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">Q:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: Q: 246</p><p>The inner j starts at i, and i × j ≤ 100 means j ≤ 100 / i (integer division), so it runs 100 / i − i + 1 times; but for i ≥ 11 the first check already has i × i &gt; 100, so it never runs. c = (100 − 1 + 1) + (50 − 2 + 1) + (33 − 3 + 1) + (25 − 4 + 1) + (20 − 5 + 1) + (16 − 6 + 1) + (14 − 7 + 1) + (12 − 8 + 1) + (11 − 9 + 1) + (10 − 10 + 1) = 100 + 49 + 31 + 22 + 16 + 11 + 8 + 5 + 3 + 1 = 246. Check: c counts pairs with i ≤ j and i × j ≤ 100. There are 482 pairs with i × j ≤ 100, 10 of them with i = j, and half of the rest have i &lt; j, so c = (482 − 10) ÷ 2 + 10 = 246.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>482</code>: Assumes j starts at 1, which counts every pair (i, j) with i × j ≤ 100, 482 in all. Here j starts at i, so only pairs with i ≤ j count.</li><li><code>236</code>: Counts the inner loop as 100 / i − i times, missing j = i. j runs from i to 100 / i, which is 100 / i − i + 1 times.</li><li><code>5050</code>: Reads the condition as j &lt;= 100, so the inner loop would run 101 − i times. The condition is i × j ≤ 100, so for i above 10 the inner loop never runs.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>Counting nested loops appeared in 13 of 16 years (bank item R01), with 5 questions in 2023/24 and 4 in 2024/25; both the 2024/25 and 2025/26 Junior Paper 2 Section B had loops whose inner bound depends on the outer one.</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium-to-hard question, harder than the real paper: students handle j&#x27;s starting point, the i × j condition and the zero-run case together. The answer comes from running the program; the wrong answers 482, 236 and 5050 come from j starting at 1, one fewer per i, and reading the condition as j &lt;= 100.</p><div class="devs"></div></details></section><div class="part-head" id="en-p3" data-anchor="p3"><span class="pn">Part 3</span><h2>Section C: complete the programs</h2></div><section class="q" id="en-q-M212" data-anchor="q-M212"><div class="qhead"><span class="qno">Q12</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">3 marks · suggested 6:00</span></div><h2>Compressing a string</h2><p class="point"><b>Key point: </b>To find a run of equal letters: start j at i with the condition <code>j &lt; n &amp;&amp; s[j] == s[i]</code>; the run is s[i] to s[j − 1], of length j − i, and the next run starts at j.</p><div class="paper"><p class="stem">This program compresses a string of lowercase letters: a run of equal letters is written as the letter followed by the count, and a letter that appears once has no count, so aaabccddddd becomes a3bc2d5. Fill in blanks R, S and T so that the program is correct.</p><pre>int main() {
+    string s, t = &quot;&quot;;
+    cin &gt;&gt; s;
+    int i = 0, n = s.size();
+    while (i &lt; n) {
+        int j = i;
+        while (j &lt; n &amp;&amp; <span class="bk">R</span>) j++;
+        t += s[i];
+        if (j &gt; i + 1) t += to_string(<span class="bk">S</span>);
+        i = <span class="bk">T</span>;
+    }
+    cout &lt;&lt; t;
+}</pre><p class="rule">For R, write a condition such as a[k] != 0; for S and T, write only an expression using i, j, integers and operators, in at most 12 boxes (spaces not counted). Each blank is worth 1 mark.</p><div class="blanks"><span class="bl">R:<span class="box"></span></span><span class="bl">S:<span class="box"></span></span><span class="bl">T:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: R: s[j] == s[i]; S: j - i; T: j</p><p>j starts at i and moves right until the first letter different from s[i] (or the end), so R is <code>s[j] == s[i]</code> (with <code>j &lt; n</code> first, so j never runs past the end). The run is s[i] to s[j − 1], j − i letters, and the count is written only when there is more than one (j &gt; i + 1), so S is <code>j - i</code>. The next run starts at j, so T is <code>j</code> (that is, <code>i = j</code>). For aaabccddddd: aaa → a3, b → b, cc → c2, ddddd → d5, giving a3bc2d5.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>S：j - i + 1</code>: One too many. The run is s[i] to s[j − 1], j − i letters: j stops on the first different letter.</li><li><code>T：j + 1</code>: Skips s[j]. s[j] is the first letter of the next run, so the next run starts at j.</li><li><code>R：s[j] == s[j + 1]</code>: Compares neighbouring letters: j stops on the run&#x27;s last letter, so the length is one short; then i = j, j cannot move on the next pass, and the program never stops (try aaab). Compare with the run&#x27;s first letter s[i] instead.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>The real Section C often asks for indices and loop starting points (2024/25 and 2025/26 Junior Paper 2).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question. The three blanks test the condition, the length and where the next run starts, 1 mark each as in the real Section C question 1. S and T are marked over the i and j that can occur in the program; R lists right and wrong forms, and other forms are self-marked against the model answer. The answers were checked by running the program, and every listed form was substituted into it.</p><div class="devs"><span class="dev">New answer format</span><span class="dev">Work backwards or count inputs</span></div></details></section><section class="q" id="en-q-M213" data-anchor="q-M213"><div class="qhead"><span class="qno">Q13</span><span class="tag">Junior and Senior</span><span class="tag">Fill in</span><span class="tag">3 marks · suggested 6:00</span></div><h2>Rotating a square grid 90° clockwise</h2><p class="point"><b>Key point: </b>2D indices: a 90° clockwise turn sends (i, j) to (j, n − 1 − i). When swapping inside an array, make sure each pair is swapped only once, or it swaps back.</p><div class="paper"><p class="stem">The program on the left reads n (1 ≤ n ≤ 100) and an n × n grid a, rotates it 90° clockwise into b, and prints b. For n = 3, 1 2 3 / 4 5 6 / 7 8 9 becomes 7 4 1 / 8 5 2 / 9 6 3. (a) Fill in blanks U1 and U2. (b) Siu Ming wants to rotate inside a without b: first flip a along the diagonal (swap a[i][j] and a[j][i]), then reverse each row, then print a. He wrote the program on the right. For the n = 3 example above, what is the first line his program prints? Write it in V.</p><div class="codes two"><div><div class="codelabel">The program</div><pre>int n, a[100][100], b[100][100];
+cin &gt;&gt; n;
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        cin &gt;&gt; a[i][j];
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        b[<span class="bk">U1</span>][<span class="bk">U2</span>] = a[i][j];
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; b[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div><div><div class="codelabel">Siu Ming&#x27;s version (after reading a)</div><pre>for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        swap(a[i][j], a[j][i]);
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n / 2; j++)
+        swap(a[i][j], a[i][n - 1 - j]);
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; a[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div></div><p class="rule">For U1 and U2, write only an expression using i, j, n, integers and operators, at most 8 boxes each (spaces not counted); U (1.5 marks) needs both right. For V, write three integers separated by spaces.</p><div class="blanks"><span class="bl">U1:<span class="box"></span></span><span class="bl">U2:<span class="box"></span></span><span class="bl">V:<span class="box"></span></span></div></div><div class="blk"><h3>Answer and explanation</h3><p class="ans-line">Answer: U1: j; U2: n - 1 - i; V: 3 2 1</p><p>(a) The number in row i, column j moves, after a 90° clockwise turn, to row j, column i + 1 counted from the right, that is b[j][n − 1 − i]; so U1 is <code>j</code> and U2 is <code>n - 1 - i</code>. Check: a[0][0] = 1 goes to b[0][2] (the right end of the first line), and a[2][0] = 7 goes to b[0][0], as in the example. (b) In Siu Ming&#x27;s first part j runs from 0 to n − 1: at i = 0, j = 1 it swaps a[0][1] and a[1][0], and later at i = 1, j = 0 it swaps them back. Every pair is swapped twice, so after the first part a is unchanged. The second part reverses each row, so the first line 1 2 3 becomes 3 2 1: V is 3 2 1. To fix it, the inner loop of the first part should start at j = i + 1 (or j = i), so each pair is swapped once.</p><p class="wwhead">Common wrong answers</p><ul class="wrongs"><li><code>U1 = n - 1 - j，U2 = i</code>: This rotates 90° anticlockwise: a[0][2] = 3 would go to b[0][0].</li><li><code>U1 = j，U2 = i</code>: This only flips along the diagonal (rows and columns swap), which is not a rotation: the first line would be 1 4 7.</li><li><code>V = 7 4 1</code>: Assumes Siu Ming&#x27;s method works. His first part swaps every pair a[i][j], a[j][i] twice (once when i &lt; j, again when i &gt; j), putting them back, so only the row reversal is left.</li><li><code>V = 1 4 7</code>: Does the diagonal flip but forgets the row reversal after it; and the flip, done twice, actually has no effect.</li></ul></div><div class="blk"><h3>Why it is tested</h3><p>2D indices and cyclic shifts appeared in 6 of 16 years (bank item F04), with 2 questions in 2023/24; updating an array in place appeared in 8 (R05).</p></div><details class="teacher"><summary>Notes for teachers</summary><p>A medium question. U tests 2D indices (both parts must be right, like U1 and U2 in the real Section C question 2); V tests how many times each pair is swapped in place. U1 and U2 are marked over the i, j and n that can occur, and the answer and every wrong answer were checked by running programs.</p><div class="devs"></div></details></section><a class="top-link" href="#en-toc">Back to contents ↑</a><footer><h2>About this page</h2><p>Every question is newly written; none is copied from a past paper.</p><p>Every answer, every wrong option and every &quot;common wrong answer&quot; was checked by running programs (g++ and clang++) or by listing all cases.</p><p>November 2026</p></footer></div></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var rz = document.getElementById("r-zh"), re = document.getElementById("r-en");
+  function lang() { return re.checked ? "en" : "zh"; }
+  try { if (localStorage.getItem("hkoi-heat-lang") === "en") re.checked = true; } catch (e) {}
+  function sync() { document.documentElement.lang = lang() === "en" ? "en" : "zh-Hant-HK"; }
+  sync();
+
+  // 切換語言時，保持在同一題的位置
+  var saved = null;
+  function visibleAnchor() {
+    var box = document.querySelector(".wrap > .L-" + lang());
+    if (!box) return null;
+    var els = box.querySelectorAll("[data-anchor]");
+    for (var i = 0; i < els.length; i++) { var r = els[i].getBoundingClientRect(); if (r.bottom > 70) return { key: els[i].getAttribute("data-anchor"), top: r.top }; }
+    return null;
+  }
+  ["lab-zh", "lab-en"].forEach(function (id) {
+    document.getElementById(id).addEventListener("click", function () { saved = visibleAnchor(); });
+  });
+  [rz, re].forEach(function (r) {
+    r.addEventListener("change", function () {
+      sync();
+      try { localStorage.setItem("hkoi-heat-lang", lang()); } catch (e) {}
+      if (saved) {
+        var s = saved; saved = null;
+        setTimeout(function () {
+          var t = document.querySelector(".wrap > .L-" + lang() + ' [data-anchor="' + s.key + '"]');
+          if (t) window.scrollBy(0, t.getBoundingClientRect().top - s.top);
+        }, 0);
+      }
+    });
+  });
+  // 由其他頁面帶着 #q-XXXX 進來時，英文版跳到對應的英文題目
+  if (location.hash && lang() === "en") {
+    var t = document.getElementById("en-" + location.hash.slice(1));
+    if (t) t.scrollIntoView();
+  }
+})();
+</script>
+
+</body>
+</html>

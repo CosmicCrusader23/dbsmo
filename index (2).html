@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HKOI 初賽限時練習</title>
+<meta name="description" content="HKOI 初賽三份限時練習：實戰篇、冷門篇、進階篇。">
+<meta property="og:title" content="HKOI 初賽限時練習">
+<meta property="og:description" content="三份限時練習：實戰篇、冷門篇、進階篇，做完即時對答案。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+HK:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  --paper: #f6f8fa; --card: #ffffff; --ink: #15212c; --muted: #586776; --rule: #d8e0e7; --sheet: #edf2f6;
+  --accent: #0d6680; --accent-soft: #e2f0f4; --ok: #1a7a45; --ok-soft: #e4f3ea; --bad: #b3261e; --bad-soft: #fbe9e7;
+  --warn: #9a5b00; --warn-soft: #fbf0dc;
+  --f-body: "Noto Sans HK", "Noto Sans CJK HK", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --measure: 46rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+    --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+    --warn: #e6a94e; --warn-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+  --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+  --warn: #e6a94e; --warn-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.65; -webkit-text-size-adjust: 100%; }
+a { color: var(--accent); }
+button, input, textarea, select { font: inherit; color: inherit; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--f-mono); font-size: 0.9em; background: var(--sheet); padding: 0.05em 0.35em; border-radius: 3px; word-break: break-word; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.col { max-width: var(--measure); margin: 0 auto; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+h1 { font-size: clamp(26px, 6vw, 34px); line-height: 1.25; margin: 4px 0 0; text-wrap: balance; font-weight: 900; }
+h2 { font-size: 20px; line-height: 1.35; margin: 0; text-wrap: balance; }
+h3 { font-size: 16px; margin: 0; }
+p { margin: 0; }
+.lead { color: var(--muted); font-size: 17px; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; color: var(--muted); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--accent); text-decoration: none; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--card); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+ol, ul { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--card); }
+.seg label { color: var(--muted); padding: 4px 12px; border-radius: 999px; cursor: pointer; font-size: 14px; min-height: 32px; display: inline-flex; align-items: center; }
+.lr { position: fixed; top: 0; left: 0; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+#r-zh:checked ~ .wrap label[for="r-zh"], #r-en:checked ~ .wrap label[for="r-en"] { background: var(--accent); color: var(--card); font-weight: 700; }
+#r-zh:focus-visible ~ .wrap label[for="r-zh"], #r-en:focus-visible ~ .wrap label[for="r-en"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.L-en { display: none; }
+#r-en:checked ~ .wrap .L-zh { display: none; }
+#r-en:checked ~ .wrap .L-en { display: flex; }
+.tag { display: inline-block; font-size: 13px; border: 1px solid var(--rule); border-radius: 999px; padding: 1px 10px; color: var(--muted); }
+.tag.hot { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 700; color: var(--muted); font-size: 13px; white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+.pill { display: inline-block; border-radius: 999px; padding: 0 8px; font-size: 13px; font-weight: 700; }
+.pill.ok { background: var(--ok-soft); } .pill.bad { background: var(--bad-soft); } .pill.warn { background: var(--warn-soft); }
+footer { font-size: 13px; color: var(--muted); }
+
+.L-zh, .L-en { flex-direction: column; gap: 18px; min-width: 0; }
+.L-zh { display: flex; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.top-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.home-link { display: inline-flex; flex: none; align-items: center; min-height: 36px; padding: 0 11px; border: 1px solid var(--rule); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.home-link:hover { border-color: var(--accent); color: var(--accent); }
+.sets { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.set h2 { font-size: 22px; }
+.set .meta { font-size: 14px; color: var(--muted); }
+.how { background: var(--accent-soft); border: 0; }
+</style>
+</head>
+<body>
+<input class="lr" type="radio" name="lang" id="r-zh" checked aria-label="繁體中文">
+<input class="lr" type="radio" name="lang" id="r-en" aria-label="English">
+<div class="wrap"><div class="col">
+  <div class="top"><div class="top-left"><a class="home-link" href="/hkoi/material/index.html"><span class="L-zh">返回 HKOI</span><span class="L-en">Back to HKOI</span></a><div class="eyebrow">HKOI 2026/27</div></div><div class="seg"><label for="r-zh">繁</label><label for="r-en">EN</label></div></div>
+  <div class="L-zh" lang="zh-Hant-HK"><h1>HKOI 初賽限時練習</h1><p class="lead">三份練習，每份 10 題、約 55 分鐘，難度對準初級組歷年最難的題目（進階篇更難），做完即時對答案。卷二的題目用 C++。</p><section class="card how"><h2>時間等級（在每份練習的開始畫面選）</h2><ul><li><b>簡單</b>：真卷時間，即熟練考生做這一題需要的時間。時間到不會跳過，可以繼續作答，只會記錄超時多少。<li><b>中等</b>：真卷時間。時間到就跳過：練習模式直接看題解，考試模式整份交卷。<li><b>困難</b>：真卷時間的七成，時間到就跳過。要做得很熟練才夠時間。</ul></section><section class="card how"><h2>怎樣用</h2><ol><li>選一份，按「開始練習」，再選練習模式或考試模式，以及時間等級。</li><li>練習模式：一題一題做，每題有建議時間，答完立即看答案和解說。考試模式：所選題目一起計時，交卷後才看答案，最接近真實考試。</li><li>交卷後會顯示「成績碼」。如果老師要求，把它交給老師。</li><li>題解頁有全部答案和解說，最好做完才看。</li></ol></section><div class="sets"><section class="card set"><div class="row"><span class="tag hot">建議先做</span></div><h2>實戰篇</h2><p>按真卷的甲、乙、丙部出題，每題代表一種歷年最難題的難度來源（例如長迴圈要找週期、要看出不變量、程式的邊界）。建議先做。</p><p class="meta">10 題 · 中等等級約 54 分鐘 · 選擇題 3 題、其他 7 題</p><div class="row"><a class="btn primary" href="test-b.html">開始練習</a><a class="btn" href="explain-b.html">題解（做完再看）</a></div></section><section class="card set"><div class="row"><span class="tag">第二份</span></div><h2>冷門篇</h2><p>初賽很少出現或從未出現的考點（例如負數進制、期望值、雙端隊列、二分搜尋答案），難度一樣對準歷年最難。</p><p class="meta">10 題 · 中等等級約 53 分鐘 · 選擇題 3 題、其他 7 題</p><div class="row"><a class="btn primary" href="test-c.html">開始練習</a><a class="btn" href="explain-c.html">題解（做完再看）</a></div></section><section class="card set"><div class="row"><span class="tag">最難</span></div><h2>進階篇</h2><p>在初賽範圍內（包括高級組考綱）盡量難，多數要一個巧妙的想法才解得快。三份之中最難。</p><p class="meta">10 題 · 中等等級約 56 分鐘 · 選擇題 2 題、其他 8 題</p><div class="row"><a class="btn primary" href="test-a.html">開始練習</a><a class="btn" href="explain-a.html">題解（做完再看）</a></div></section></div><p class="small">網頁不會記下姓名，只會在你的裝置記下一個隨機編號。和別人共用電腦時，可以在練習的開始畫面換一個新編號。</p><footer>每題答案都用程式核對過。</footer></div>
+  <div class="L-en" lang="en"><h1>HKOI Heat timed practice</h1><p class="lead">Three practice sets of 10 questions, about 55 minutes each, at the level of the hardest past Junior questions (Advanced goes further), with answers straight after. Paper 2 questions use C++.</p><section class="card how"><h2>Time levels (chosen on each practice's start screen)</h2><ul><li><b>Easy</b>: The real-exam time, that is, what a well-practised student needs for the question. When time runs out you can keep going; the page only records how far over you went.<li><b>Medium</b>: The real-exam time. When time runs out the question is skipped: practice mode shows the explanation, and exam mode hands in the whole paper.<li><b>Hard</b>: 70% of the real-exam time, and time-outs skip as in Medium. You need to be very well practised.</ul></section><section class="card how"><h2>How to use</h2><ol><li>Pick a set, press &quot;Start practice&quot;, then choose practice mode or exam mode and a time level.</li><li>Practice mode: one question at a time, each with a suggested time, and you see the answer and explanation straight away. Exam mode: the chosen questions share one time limit, with answers only after you hand in, like the real exam.</li><li>After you hand in, a &quot;result code&quot; appears. If your teacher asks, hand it in.</li><li>The explanation pages show every answer, so look at them after you finish.</li></ol></section><div class="sets"><section class="card set"><div class="row"><span class="tag hot">Start here</span></div><h2>Exam style</h2><p>Built like the real paper, with Sections A, B and C; each question stands for one source of difficulty in the hardest past questions (finding a cycle, spotting an invariant, program boundaries and more). Start here.</p><p class="meta">10 questions · about 54 minutes at Medium · 3 multiple choice, 7 other</p><div class="row"><a class="btn primary" href="test-b.html">Start practice</a><a class="btn" href="explain-b.html">Explanations (after you finish)</a></div></section><section class="card set"><div class="row"><span class="tag">Second</span></div><h2>Rarer topics</h2><p>Topics that rarely or never appear in the Heat (a negative base, expected values, deques, binary searching the answer and more), at the same hardest-past-question level.</p><p class="meta">10 questions · about 53 minutes at Medium · 3 multiple choice, 7 other</p><div class="row"><a class="btn primary" href="test-c.html">Start practice</a><a class="btn" href="explain-c.html">Explanations (after you finish)</a></div></section><section class="card set"><div class="row"><span class="tag">Hardest</span></div><h2>Advanced</h2><p>As hard as the Heat allows (including the Senior syllabus); most questions need one clever idea. The hardest of the three.</p><p class="meta">10 questions · about 56 minutes at Medium · 2 multiple choice, 8 other</p><div class="row"><a class="btn primary" href="test-a.html">Start practice</a><a class="btn" href="explain-a.html">Explanations (after you finish)</a></div></section></div><p class="small">The pages never record your name, only a random ID kept on your device. If you share a computer, you can get a new ID on a practice&#x27;s start screen.</p><footer>Every answer was checked by running code.</footer></div>
+</div></div>
+</body>
+</html>
