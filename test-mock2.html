@@ -1,0 +1,1462 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>HKOI 初賽練習：模擬卷 · 卷二（C++）</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+HK:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: one question at a time, like a timed exam. Options are answer-sheet bubbles;
+   a shrinking bar under the header shows the time left. */
+:root {
+  --paper: #f6f8fa;
+  --card: #ffffff;
+  --ink: #15212c;
+  --muted: #586776;
+  --rule: #d8e0e7;
+  --sheet: #edf2f6;
+  --accent: #0d6680;
+  --accent-soft: #e2f0f4;
+  --ok: #1a7a45;
+  --ok-soft: #e4f3ea;
+  --bad: #b3261e;
+  --bad-soft: #fbe9e7;
+  --warn: #9a5b00;
+  --teach: #8a5300;
+  --teach-soft: #fbf0dc;
+  --f-body: "Noto Sans HK", "Noto Sans CJK HK", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --measure: 44rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+    --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+    --warn: #e6a94e; --teach: #e6a94e; --teach-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+  --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+  --warn: #e6a94e; --teach: #e6a94e; --teach-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.65; -webkit-text-size-adjust: 100%; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--card); }
+a { color: var(--accent); }
+button { font: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--f-mono); font-size: 0.92em; background: var(--sheet); padding: 0.05em 0.35em; border-radius: 3px; white-space: pre-wrap; word-break: break-word; }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--card); border-bottom: 1px solid var(--rule);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar-in { max-width: var(--measure); margin: 0 auto; display: flex; align-items: center; gap: 10px; min-height: 52px; }
+.home-link { display: inline-flex; flex: none; align-items: center; min-height: 36px; padding: 0 11px; border: 1px solid var(--rule); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.home-link:hover { border-color: var(--accent); color: var(--accent); }
+.bar-name { font-weight: 700; font-size: 15px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prog { font-family: var(--f-mono); font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; flex: none; }
+.clock { flex: none; font-family: var(--f-mono); font-weight: 600; font-size: 15px; min-width: 3.6em; text-align: center; border-radius: 999px; padding: 2px 10px; background: var(--accent-soft); color: var(--accent); font-variant-numeric: tabular-nums; }
+.clock.low { background: var(--bad-soft); color: var(--bad); }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--paper); flex: none; }
+.seg label { color: var(--muted); padding: 4px 11px; border-radius: 999px; cursor: pointer; font-size: 14px; min-height: 32px; display: inline-flex; align-items: center; user-select: none; }
+#r-zh:checked ~ .bar label[for="r-zh"], #r-en:checked ~ .bar label[for="r-en"] { background: var(--accent); color: var(--card); font-weight: 700; }
+#r-zh:focus-visible ~ .bar label[for="r-zh"], #r-en:focus-visible ~ .bar label[for="r-en"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lr { position: fixed; top: 0; left: 0; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.L-en { display: none; }
+#r-en:checked ~ * .L-zh { display: none; }
+#r-en:checked ~ * .L-en { display: block; }
+#r-en:checked ~ * span.L-en { display: inline; }
+.fbnote { background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; margin: 0; font-size: 15px; }
+#fallback .col { gap: 14px; }
+#fallback .opts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+#fallback .opt { cursor: default; min-height: 0; padding: 6px 10px; }
+details.fbans summary { cursor: pointer; font-weight: 700; color: var(--accent); padding: 4px 0; }
+details.fbans .panel { margin-top: 6px; }
+.tbar { height: 4px; background: var(--sheet); }
+.tbar i { display: block; height: 100%; background: var(--accent); width: 100%; transform-origin: left; }
+.tbar.low i { background: var(--bad); }
+
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px 56px; }
+.col { max-width: var(--measure); margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+
+.eyebrow { font-size: 13px; letter-spacing: 0.06em; color: var(--accent); font-weight: 700; }
+h1 { font-size: clamp(26px, 6vw, 36px); line-height: 1.25; margin: 0; font-weight: 900; text-wrap: balance; }
+.lead { margin: 0; }
+.parts { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; border: 0; }
+.parts legend { font-weight: 700; margin-bottom: 6px; padding: 0; }
+.pick { display: flex; align-items: center; gap: 10px; border: 1px solid var(--rule); background: var(--card); border-radius: 8px; padding: 10px 12px; cursor: pointer; min-height: 48px; }
+.pick input { accent-color: var(--accent); width: 18px; height: 18px; flex: none; margin: 0; }
+.pick .pt { flex: 1; min-width: 0; }
+.pick .pm { font-size: 13px; color: var(--muted); flex: none; font-variant-numeric: tabular-nums; }
+.pick:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; border: 1px solid var(--accent); cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--card); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn[disabled] { opacity: 0.45; cursor: default; }
+.small { font-size: 14px; color: var(--muted); margin: 0; }
+
+.qcard { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+@media (min-width: 640px) { .qcard { padding: 22px 24px; } }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 12.5px; border: 1px solid var(--rule); border-radius: 999px; padding: 0 9px; color: var(--muted); white-space: nowrap; }
+.tag.s { border-color: var(--accent); color: var(--accent); }
+.tag.t { border-color: var(--teach); color: var(--teach); background: var(--teach-soft); }
+.tag.m { border-color: var(--warn); color: var(--warn); }
+.stem { margin: 0; font-weight: 500; font-size: 17px; }
+.codes { display: flex; flex-direction: column; gap: 8px; }
+@media (min-width: 640px) { .codes.two { flex-direction: row; } .codes.two > div { flex: 1; min-width: 0; } }
+.codelabel { font-size: 13px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+pre { margin: 0; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; overflow-x: auto; white-space: pre; tab-size: 4; max-width: 100%; }
+figure { margin: 0; display: flex; justify-content: center; color: var(--ink); }
+figure svg { max-width: 200px; height: auto; }
+
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 1.5px solid var(--rule); background: var(--card); color: var(--ink); border-radius: 8px; padding: 10px 12px; min-height: 52px; cursor: pointer; }
+.opt:hover:not([disabled]) { border-color: var(--accent); }
+.bub { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--muted); display: inline-flex; align-items: center; justify-content: center; font-family: var(--f-mono); font-size: 14px; font-weight: 600; color: var(--muted); }
+.otext { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.otext code { background: transparent; padding: 0; font-size: 14.5px; }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt.sel .bub { background: var(--accent); border-color: var(--accent); color: var(--card); }
+.opt[disabled] { cursor: default; }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); }
+.opt.right .bub { background: var(--ok); border-color: var(--ok); color: var(--card); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.opt.wrong .bub { background: var(--bad); border-color: var(--bad); color: var(--card); }
+.opt .res { flex: none; font-weight: 700; font-size: 14px; }
+.opt.right .res { color: var(--ok); }
+.opt.wrong .res { color: var(--bad); }
+.hint { font-size: 14px; color: var(--muted); margin: 0; }
+
+.verdict { font-weight: 900; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+.verdict.late { color: var(--warn); }
+.panel { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--rule); padding-top: 12px; }
+.panel h2 { margin: 0; font-size: 19px; line-height: 1.4; }
+.panel p { margin: 0; }
+.kv { display: flex; flex-direction: column; gap: 2px; }
+.kv b { font-size: 13px; letter-spacing: 0.04em; color: var(--accent); }
+.mine { background: var(--bad-soft); border-radius: 6px; padding: 8px 12px; }
+.teachnote { background: var(--teach-soft); border-radius: 6px; padding: 8px 12px; }
+.teachnote b { color: var(--teach); }
+.nextbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: var(--card); border-top: 1px solid var(--rule);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); }
+.nextbar-in { max-width: var(--measure); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.nextbar .run { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 0; }
+.wrap.has-next { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+.opt .res { white-space: nowrap; }
+
+.score { font-size: clamp(40px, 12vw, 64px); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.score small { font-size: 0.4em; color: var(--muted); font-weight: 700; }
+table.parts-t { border-collapse: collapse; width: 100%; font-size: 15px; }
+.parts-t th, .parts-t td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--rule); }
+.parts-t td.n { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--f-mono); }
+.wronglist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.wronglist li { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 12px; display: flex; flex-direction: column; }
+.wronglist .wt { font-weight: 700; }
+.wronglist .wa { font-size: 14px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .tbar i { transition: none; } }
+
+/* ---- 新增：填充題、考試模式、成績碼 ---- */
+.modes { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0; padding: 0; border: 0; }
+@media (min-width: 640px) { .modes { grid-template-columns: 1fr 1fr; } }
+.modes legend { font-weight: 700; margin-bottom: 6px; padding: 0; }
+.pick.mode { align-items: flex-start; }
+.pick.mode .pt b { display: block; }
+.pick.mode .pt span { font-size: 14px; color: var(--muted); }
+.stmts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.stmts li { display: flex; gap: 8px; align-items: baseline; }
+.stmts b { font-family: var(--f-mono); min-width: 2.2em; flex: none; }
+.stmts code { white-space: pre-wrap; }
+pre .bk { display: inline-block; border: 1.5px dashed var(--accent); border-radius: 4px; padding: 0 10px; color: var(--accent); font-weight: 600; background: var(--accent-soft); }
+.rule { margin: 0; font-size: 14px; color: var(--muted); background: var(--sheet); border-radius: 6px; padding: 8px 10px; }
+.fills { display: flex; flex-direction: column; gap: 10px; }
+.fill { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.fill label { font-weight: 700; min-width: 0; }
+.fill input, .ttab input { font: inherit; font-family: var(--f-mono); font-size: 16px; color: var(--ink); background: var(--card); border: 1.5px solid var(--rule); border-radius: 6px; padding: 8px 10px; min-height: 44px; min-width: 0; }
+.fill input { flex: 1 1 12em; max-width: 100%; }
+.fill input:focus, .ttab input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.fill .cnt { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.fill .cnt.over { color: var(--bad); font-weight: 600; }
+.overnote { margin: 0; font-weight: 700; color: var(--warn); }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; text-align: left; }
+.sidline { margin-top: 6px; }
+.fill.ok input, .ttab td.ok input { border-color: var(--ok); background: var(--ok-soft); }
+.fill.bad input, .ttab td.bad input { border-color: var(--bad); background: var(--bad-soft); }
+.fill .fres { font-weight: 700; font-size: 14px; }
+.fill.ok .fres { color: var(--ok); }
+.fill.bad .fres { color: var(--bad); }
+.ttab-wrap { overflow-x: auto; }
+table.ttab { border-collapse: collapse; font-size: 15px; }
+.ttab th, .ttab td { border: 1px solid var(--rule); padding: 4px 6px; text-align: center; }
+.ttab th { background: var(--sheet); font-weight: 700; }
+.ttab input { width: 5.5em; min-height: 38px; text-align: center; }
+.fb { border-radius: 6px; padding: 8px 12px; font-size: 15px; }
+.fb.bad { background: var(--bad-soft); }
+.fb.ok { background: var(--ok-soft); }
+.fb.self { background: var(--teach-soft); }
+.selfbtns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.selfbtns .btn { min-height: 40px; padding: 0 14px; font-size: 15px; }
+ul.wrongs { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+ul.wrongs li.hit { font-weight: 700; }
+.nav { display: flex; flex-wrap: wrap; gap: 6px; }
+.nav button { font: inherit; font-family: var(--f-mono); font-size: 14px; min-width: 40px; min-height: 40px; border-radius: 8px; border: 1.5px solid var(--rule); background: var(--card); color: var(--ink); cursor: pointer; }
+.nav button.done { background: var(--accent-soft); border-color: var(--accent); }
+.nav button.cur { outline: 2px solid var(--accent); outline-offset: 1px; font-weight: 700; }
+.nav button.r { background: var(--ok-soft); border-color: var(--ok); }
+.nav button.w { background: var(--bad-soft); border-color: var(--bad); }
+.confirm { background: var(--card); border: 1.5px solid var(--warn); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.codebox { font-family: var(--f-mono); font-size: 12px; word-break: break-all; background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; max-height: 7.5em; overflow-y: auto; user-select: all; }
+.sendnote { font-size: 14px; color: var(--muted); margin: 0; }
+.blanks { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.blanks .bl { display: inline-flex; align-items: baseline; gap: 6px; }
+.blanks .box { display: inline-block; min-width: 5em; border-bottom: 2px solid var(--ink); height: 1.3em; }
+.qnum { font-family: var(--f-mono); font-weight: 600; font-size: 13px; color: var(--card); background: var(--ink); border-radius: 4px; padding: 0 7px; }
+/* ---- 模擬卷 ---- */
+ul.mrules { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+.kv.nextp { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; }
+.sumline { margin: 0; font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+</style>
+
+<input type="radio" name="lang" id="r-zh" class="lr" checked aria-label="繁體中文">
+<input type="radio" name="lang" id="r-en" class="lr" aria-label="English">
+<header class="bar">
+  <div class="bar-in">
+    <a class="home-link" href="index.html"><span class="L-zh">首頁</span><span class="L-en">Home</span></a>
+    <div class="bar-name"><span class="L-zh">HKOI 初賽練習：模擬卷 · 卷二（C++）</span><span class="L-en">HKOI Heat practice: Mock paper · Paper 2 (C++)</span></div>
+    <span class="prog" id="prog" hidden></span>
+    <span class="clock" id="clock" hidden></span>
+    <div class="seg" role="group" aria-label="語言 Language"><label for="r-zh">繁</label><label for="r-en">EN</label></div>
+  </div>
+  <div class="tbar" id="tbar" hidden><i id="tfill"></i></div>
+</header>
+<div class="wrap"><div id="fallback"><div class="L-zh" lang="zh-Hant-HK"><div class="col"><div class="eyebrow">HKOI 初賽 · 模擬卷 · 卷二（C++）</div><h1>限時練習：模擬卷 · 卷二（C++）</h1><p class="fbnote">這個預覽不能執行網頁程式，所以顯示不計時的版本：每題先自己做，再按「顯示答案」。</p><div class="qcard"><div class="tags"><span class="tag">1 / 13</span><span class="tag">單選題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int a = -7, b = 2;
+double x = a / b;
+double y = (double) a / b;
+int z = a / b * b + a % b;
+cout &lt;&lt; x + y + z;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>-13.5</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>-14.5</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>-14</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>-13</code></span></li></ol><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>負數的整數除法和類型轉換</h2><div class="kv"><b>答案</b><p><strong>A</strong></p><p>C++ 的整數除法向 0 取整：−7 / 2 = −3（不是 −4），而 −7 % 2 = −1（餘數和被除數同號）。x：a / b = −3，存入 double 後是 −3.0。y：(double) a 先把 a 變成 −7.0，再除以 2，得 −3.5。z：由左至右，a / b * b = −3 × 2 = −6，加上 a % b = −1，得 −7（a / b * b + a % b 一定等於 a）。x + y + z = −3 − 3.5 − 7 = −13.5，輸出 -13.5。</p></div><div class="kv"><b>重點</b><p>整數除法向 0 取整，負數也一樣（−7 / 2 = −3），餘數和被除數同號（−7 % 2 = −1）；存入 double 也救不回小數部分；<code>(double) a / b</code> 先轉換 a，再除。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">2 / 13</span><span class="tag">單選題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int c = 0;
+for (int x = -2; x &lt;= 2; x++)
+    for (int y = -2; y &lt;= 2; y++)
+        if (x &gt; 0)
+            if (y &gt; 0) c += 1;
+        else
+            c += 10;
+cout &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>154</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>214</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>64</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>44</code></span></li></ol><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>else 跟哪一個 if？</h2><div class="kv"><b>答案</b><p><strong>C</strong></p><p>else 跟最近的、還未配對的 if 配對，所以迴圈內等於 <code>if (x &gt; 0) { if (y &gt; 0) c += 1; else c += 10; }</code>，x ≤ 0 時甚麼都不做。x = 1、2 時：y = 1、2 各加 1，y = −2、−1、0 各加 10，每個 x 加 2 + 30 = 32。兩個 x 共 64，輸出 64。</p></div><div class="kv"><b>重點</b><p>else 總是和最近的、還未有 else 的 if 配對，與縮排無關；不確定時自己加上大括號再讀。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">3 / 13</span><span class="tag">單選題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>void g(int &amp;x, int y) {
+    x += y;
+    y += x;
+}
+int main() {
+    int a = 1, b = 2;
+    for (int i = 0; i &lt; 3; i++) {
+        g(a, b);
+        g(b, a);
+    }
+    cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b;
+}</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 2</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>379 268</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>127 65</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>21 34</code></span></li></ol><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>一個引用參數，一個普通參數</h2><div class="kv"><b>答案</b><p><strong>D</strong></p><p>g 只會改第一個參數：g(a, b) 等於 a += b，g(b, a) 等於 b += a；<code>y += x</code> 只改副本。(a, b) 依次是 (1, 2) → (3, 2) → (3, 5) → (8, 5) → (8, 13) → (21, 13) → (21, 34)，輸出 21 34。</p></div><div class="kv"><b>重點</b><p>參數名稱前有 &amp; 才是引用：在函數裏改它，就是改調用時傳入的變量；沒有 &amp; 的參數只是副本。調轉參數次序調用時，被改的就是另一個變量。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">4 / 13</span><span class="tag">單選題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int a = 6, b = 13;
+cout &lt;&lt; (a &amp; b == 4) &lt;&lt; &quot; &quot; &lt;&lt; (a &lt;&lt; 1 + 1) &lt;&lt; &quot; &quot; &lt;&lt; (a ^ b | a &amp; 3);</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 24 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>0 24 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>0 13 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>1 13 3</code></span></li></ol><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>位元運算的優先次序</h2><div class="kv"><b>答案</b><p><strong>B</strong></p><p>C++ 的優先次序：+ 先於 &lt;&lt;，&lt;&lt; 先於 ==，== 先於 &amp;，&amp; 先於 ^，^ 先於 |。第一個：b == 4 是 0，6 &amp; 0 = 0。第二個：1 + 1 = 2，6 &lt;&lt; 2 = 24。第三個：先算 a &amp; 3 = 110 &amp; 011 = 010 = 2，再算 a ^ b = 0110 ^ 1101 = 1011 = 11，最後 11 | 2 = 1011 | 0010 = 1011 = 11。輸出 0 24 11。</p></div><div class="kv"><b>重點</b><p>&amp;、^、| 比 == 低：a &amp; b == c 是 a &amp; (b == c)。位移 &lt;&lt;、&gt;&gt; 比 == 高，但比 +、− 低：2 &lt;&lt; 1 == 4 是 (2 &lt;&lt; 1) == 4，值為 1；1 &lt;&lt; 2 + 1 是 1 &lt;&lt; 3。&amp; 先於 ^ 先於 |。不肯定就加括號。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">5 / 13</span><span class="tag">單選題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int a = 0, b = 0, c = 0;
+for (int i = 1; i &lt;= 10; i++)
+    if (i % 2 == 0 &amp;&amp; ++a &gt; 2 || i % 3 == 0 &amp;&amp; ++b &gt; 1)
+        c++;
+cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; &quot; &quot; &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>5 3 4</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>10 10 6</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>5 2 4</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>5 3 2</code></span></li></ol><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>&amp;&amp; 和 || 裏的 ++</h2><div class="kv"><b>答案</b><p><strong>C</strong></p><p>&amp;&amp; 先於 ||，所以條件是「(i 是偶數 &amp;&amp; ++a &gt; 2) || (i 是 3 的倍數 &amp;&amp; ++b &gt; 1)」。&amp;&amp; 左邊不成立時不計算右邊；|| 左邊成立時也不計算右邊。偶數的 i（2、4、6、8、10）都會令 a 加 1，a 最後是 5；由 i = 6 起 <code>++a &gt; 2</code> 成立，c 在 i = 6、8、10 各加 1，而且這三次右邊都不計算。左邊不成立時才計算右邊：i = 2、4 不是 3 的倍數；i = 3 時 b 變成 1，不大於 1；i = 9 時 b 變成 2，條件成立，c 再加 1。i = 6 雖然是 3 的倍數，但左邊已經成立，<code>++b</code> 不會執行。所以 a = 5，b = 2，c = 4。</p></div><div class="kv"><b>重點</b><p>&amp;&amp; 先於 ||；&amp;&amp; 左邊不成立、|| 左邊成立時，右邊都不會計算，右邊的 ++ 也不會執行。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">6 / 13</span><span class="tag">填充題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int s = 0;
+for (int i = 1; i &lt;= 100; i++) {
+    if (i % 4 == 0) { i++; continue; }
+    if (s &gt; 100) break;
+    s += i;
+}
+cout &lt;&lt; s;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">L：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>continue 之前先 i++</h2><div class="kv"><b>答案</b><p><strong>L：106</strong></p><p>i 是 4 的倍數時，先 i++，再 continue，for 的 i++ 又執行一次，所以 4、5 都被跳過，8、9 都被跳過，如此類推。加上的數依次是 1、2、3、6、7、10、11、14、15、18、19：s 依次是 1、3、6、12、19、29、40、54、69、87、106。下一個 i 是 20（4 的倍數），跳到 22；這時 s = 106 &gt; 100，break。輸出 106。</p></div><div class="kv"><b>重點</b><p>在迴圈裏改 i 之後再 continue，for 的 i++ 仍然會執行，等於多走一步；break 立即結束整個迴圈。要留意檢查在加之前還是之後。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">7 / 13</span><span class="tag">填充題</span></div><p class="stem">以下程式想輸出陣列 a 之中最長的「連續上升段」的長度（例如 2 3 5 是長度 3 的上升段）。程式實際輸出甚麼？</p><pre>int a[8] = {4, 6, 7, 2, 3, 5, 8, 9};
+int best = 0, cur = 0;
+for (int i = 1; i &lt; 8; i++) {
+    if (a[i] &gt; a[i - 1]) cur++;
+    else {
+        best = max(best, cur);
+        cur = 0;
+    }
+}
+cout &lt;&lt; best;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">M：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>最長的上升段（程式有錯）</h2><div class="kv"><b>答案</b><p><strong>M：2</strong></p><p>i = 1、2：6 &gt; 4、7 &gt; 6，cur 變成 1、2。i = 3：2 &lt; 7，best = max(0, 2) = 2，cur = 0。i = 4 至 7：3、5、8、9 都比前一個大，cur 變成 1、2、3、4，但之後再沒有不上升的情況，迴圈結束時 cur = 4 沒有和 best 比較。輸出 2。要改正：cur 的初值改為 1，上升段斷開時 cur 也重設為 1（一個數本身是長度 1 的段），並在迴圈結束後再做一次 best = max(best, cur)。</p></div><div class="kv"><b>重點</b><p>讀「想做某件事」的程式時，要照程式實際做的追蹤；找錯時特別留意初值（0 還是 1）和最後一段有沒有處理。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">8 / 13</span><span class="tag">填充題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>string s = &quot;HKOI2026&quot;;
+for (int i = 0; i &lt; s.size(); i++) {
+    if (s[i] &gt;= &#x27;A&#x27; &amp;&amp; s[i] &lt;= &#x27;Z&#x27;)
+        s[i] = (s[i] - &#x27;A&#x27; + 3 * i) % 26 + &#x27;a&#x27;;
+    else
+        s[i] = s[i] ^ 1;
+}
+cout &lt;&lt; s;</pre><p class="rule">照輸出逐個字元填寫，注意大小寫，不用加空格。</p><div class="blanks"><span class="bl">N：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>字母移位和 XOR 1</h2><div class="kv"><b>答案</b><p><strong>N：hnur3137</strong></p><p>大寫字母：先用 <code>s[i] - &#x27;A&#x27;</code> 變成 0 至 25 的序號，加 3 × i，取除以 26 的餘數，再加 &#x27;a&#x27; 變成小寫字母。H（7 + 0 = 7）→ h；K（10 + 3 = 13）→ n；O（14 + 6 = 20）→ u；I（8 + 9 = 17）→ r。數字字元：<code>^ 1</code> 反轉 ASCII 碼最低的一位。&#x27;2&#x27; 是 50、&#x27;0&#x27; 是 48、&#x27;6&#x27; 是 54，都是偶數，XOR 1 之後加 1，變成 &#x27;3&#x27;、&#x27;1&#x27;、&#x27;3&#x27;、&#x27;7&#x27;。輸出 hnur3137。</p></div><div class="kv"><b>重點</b><p>字母變序號用 c - &#x27;A&#x27;，序號變回字母用 + &#x27;a&#x27;（小寫）或 + &#x27;A&#x27;（大寫）；^ 是 XOR，不是次方，^ 1 只改變最低的一位。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">9 / 13</span><span class="tag">填充題</span></div><p class="stem">填寫空格 O，令函數在 a、b、c 之中剛好有兩個相等時傳回 true；三個都相等，或者三個互不相同時，傳回 false。</p><pre>bool twoEqual(int a, int b, int c) {
+    return <span class="bk">O</span>;
+}</pre><p class="rule">只填一個條件（運算式），可以用 a、b、c、整數和運算符，最多 40 格（空白不計）。</p><div class="blanks"><span class="bl">O：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>剛好兩個相等</h2><div class="kv"><b>答案</b><p><strong>O：(a == b) + (b == c) + (a == c) == 1</strong></p><p>「剛好兩個相等」等於「三個比較 a == b、b == c、a == c 之中剛好一個成立」：如果有兩個成立，例如 a == b 和 b == c，第三個 a == c 也一定成立。C++ 的 true、false 可以當作 1、0 相加，所以可以寫 <code>(a == b) + (b == c) + (a == c) == 1</code>。另一種寫法是「最少一對相等，但不是三個都相等」：<code>(a == b || b == c || a == c) &amp;&amp; !(a == b &amp;&amp; b == c)</code>。網頁會代入 a、b、c 的不同數值，和參考答案比較。</p></div><div class="kv"><b>重點</b><p>比較的結果 true、false 在 C++ 裏可以當 1、0 計算：「剛好 k 個條件成立」可以寫成把條件加起來 == k。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">10 / 13</span><span class="tag">填充題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int x = 0;
+for (int i = 1; i &lt;= 2026; i++)
+    x ^= i;
+cout &lt;&lt; x;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">P：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>1 至 2026 全部 XOR 起來</h2><div class="kv"><b>答案</b><p><strong>P：2027</strong></p><p>先試小的 n（f(n) 是 1 至 n 全部 XOR 起來）：f(1) = 1，f(2) = 1 ^ 2 = 3，f(3) = 3 ^ 3 = 0，f(4) = 4，f(5) = 1，f(6) = 7，f(7) = 0，f(8) = 8。規律：n 除以 4 餘 0 時 f(n) = n，餘 1 時是 1，餘 2 時是 n + 1，餘 3 時是 0。原因：k 是偶數時，k 和 k + 1 只差最低一位，k ^ (k + 1) = 1；所以由 4 的倍數開始，每 4 個連續的數 XOR 起來是 1 ^ 1 = 0。2026 = 4 × 506 + 2，所以 f(2023) = 0，再 ^ 2024 ^ 2025 ^ 2026：2024 ^ 2025 = 1，1 ^ 2026 = 2027。輸出 2027。</p></div><div class="kv"><b>重點</b><p>大 n 的 XOR：先試小的 n 找規律；k 是偶數時 k ^ (k + 1) = 1，所以由 4 的倍數開始，每 4 個連續的數 XOR 起來是 0。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">11 / 13</span><span class="tag">填充題</span></div><p class="stem">以下程式輸出甚麼？</p><pre>int c = 0;
+for (int i = 1; i &lt;= 100; i++)
+    for (int j = i; i * j &lt;= 100; j++)
+        c++;
+cout &lt;&lt; c;</pre><p class="rule">只填一個整數。</p><div class="blanks"><span class="bl">Q：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>i × j ≤ 100</h2><div class="kv"><b>答案</b><p><strong>Q：246</strong></p><p>內層 j 由 i 開始，條件 i × j ≤ 100 即 j ≤ 100 / i（整數除法），所以執行 100 / i − i + 1 次；但 i ≥ 11 時第一次檢查已經是 i × i &gt; 100，一次也不執行。c = (100 − 1 + 1) + (50 − 2 + 1) + (33 − 3 + 1) + (25 − 4 + 1) + (20 − 5 + 1) + (16 − 6 + 1) + (14 − 7 + 1) + (12 − 8 + 1) + (11 − 9 + 1) + (10 − 10 + 1) = 100 + 49 + 31 + 22 + 16 + 11 + 8 + 5 + 3 + 1 = 246。核對：c 是 i ≤ j 而且 i × j ≤ 100 的數對數目。所有 i × j ≤ 100 的數對有 482 對，其中 i = j 的有 10 對，其餘的一半 i &lt; j，所以 c = (482 − 10) ÷ 2 + 10 = 246。</p></div><div class="kv"><b>重點</b><p>內層的邊界跟外層變時，逐個 i 寫出內層的次數；條件一開始就不成立時，內層一次也不執行。用「所有數對」和對稱可以核對答案。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">12 / 13</span><span class="tag">填充題</span></div><p class="stem">以下程式把只有小寫英文字母的字串壓縮：連續相同的字母寫成「字母加次數」，只出現一次的不寫次數，例如 aaabccddddd 變成 a3bc2d5。在空格 R、S、T 填上適當的內容，使程式正確。</p><pre>int main() {
+    string s, t = &quot;&quot;;
+    cin &gt;&gt; s;
+    int i = 0, n = s.size();
+    while (i &lt; n) {
+        int j = i;
+        while (j &lt; n &amp;&amp; <span class="bk">R</span>) j++;
+        t += s[i];
+        if (j &gt; i + 1) t += to_string(<span class="bk">S</span>);
+        i = <span class="bk">T</span>;
+    }
+    cout &lt;&lt; t;
+}</pre><p class="rule">R 填一個條件，例如 a[k] != 0；S、T 只填算式，可以用 i、j、整數和運算符，最多 12 格（空白不計）。每格 1 分。</p><div class="blanks"><span class="bl">R：<span class="box"></span></span><span class="bl">S：<span class="box"></span></span><span class="bl">T：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>字串壓縮</h2><div class="kv"><b>答案</b><p><strong>R：s[j] == s[i]；S：j - i；T：j</strong></p><p>j 由 i 開始向右走，走到第一個和 s[i] 不同的字母（或字串結尾）為止，所以 R 是 <code>s[j] == s[i]</code>（<code>j &lt; n</code> 寫在前面，保證不會超出字串）。這一段相同的字母是 s[i] 至 s[j − 1]，共 j − i 個；多於一個（j &gt; i + 1）才寫次數，所以 S 是 <code>j - i</code>。下一段由 j 開始，所以 T 是 <code>j</code>（即 <code>i = j</code>）。例如 aaabccddddd：aaa → a3，b → b，cc → c2，ddddd → d5，輸出 a3bc2d5。</p></div><div class="kv"><b>重點</b><p>找一段相同的字母：j 由 i 開始，條件 <code>j &lt; n &amp;&amp; s[j] == s[i]</code>；這一段是 s[i] 至 s[j − 1]，長度 j − i，下一段由 j 開始。</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">13 / 13</span><span class="tag">填充題</span></div><p class="stem">左邊的程式讀入 n（1 ≤ n ≤ 100）和 n × n 的方陣 a，把它順時針轉 90 度存入 b，然後輸出 b。例如 n = 3 時，1 2 3 / 4 5 6 / 7 8 9 會變成 7 4 1 / 8 5 2 / 9 6 3。（a）在空格 U1、U2 填上適當的內容。（b）小明想不用 b，直接在 a 裏面轉：先把 a 沿對角線翻轉（a[i][j] 和 a[j][i] 互換），再把每一行左右反轉，然後輸出 a。他寫了右邊的程式。對上面 n = 3 的例子，小明的程式輸出的第一行是甚麼？把答案寫在 V。</p><div class="codes two"><div><div class="codelabel">原來的程式</div><pre>int n, a[100][100], b[100][100];
+cin &gt;&gt; n;
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        cin &gt;&gt; a[i][j];
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        b[<span class="bk">U1</span>][<span class="bk">U2</span>] = a[i][j];
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; b[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div><div><div class="codelabel">小明的寫法（讀入 a 之後）</div><pre>for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        swap(a[i][j], a[j][i]);
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n / 2; j++)
+        swap(a[i][j], a[i][n - 1 - j]);
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; a[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div></div><p class="rule">U1、U2 只填算式，可以用 i、j、n、整數和運算符，每格最多 8 格（空白不計）；U1、U2 都正確才得 U 的 1.5 分。V 填三個整數，用空格分隔。</p><div class="blanks"><span class="bl">U1：<span class="box"></span></span><span class="bl">U2：<span class="box"></span></span><span class="bl">V：<span class="box"></span></span></div><details class="fbans"><summary>顯示答案</summary><div class="panel"><h2>把方陣順時針轉 90 度</h2><div class="kv"><b>答案</b><p><strong>U1：j；U2：n - 1 - i；V：3 2 1</strong></p><p>（a）原來第 i 行第 j 列的數，順時針轉 90 度後去到第 j 行、由右數起第 i + 1 列，即 b[j][n − 1 − i]，所以 U1 是 <code>j</code>，U2 是 <code>n - 1 - i</code>。核對：a[0][0] = 1 去到 b[0][2]（第一行最右），a[2][0] = 7 去到 b[0][0]，和例子相同。（b）小明的第一段 j 由 0 走到 n − 1：i = 0、j = 1 時交換 a[0][1] 和 a[1][0]；之後 i = 1、j = 0 時又把它們交換一次，換回原狀。每一對都交換了兩次，所以第一段完成後 a 完全沒有改變。第二段把每一行左右反轉，第一行 1 2 3 變成 3 2 1，所以 V 是 3 2 1。要改正，第一段的內層迴圈應由 j = i + 1（或 j = i）開始，每對只交換一次。</p></div><div class="kv"><b>重點</b><p>二維下標：順時針轉 90 度時 (i, j) 去到 (j, n − 1 − i)。在陣列裏原地交換時，要確保每一對只交換一次，否則會換回原狀。</p></div></div></details></div></div></div>
+<div class="L-en" lang="en"><div class="col"><div class="eyebrow">HKOI Heat · Mock paper · Paper 2 (C++)</div><h1>Timed practice: Mock paper · Paper 2 (C++)</h1><p class="fbnote">This preview cannot run the page&#x27;s script, so the untimed version is shown: try each question, then open &quot;Show answer&quot;.</p><div class="qcard"><div class="tags"><span class="tag">1 / 13</span><span class="tag">Single answer</span></div><p class="stem">What does this program print?</p><pre>int a = -7, b = 2;
+double x = a / b;
+double y = (double) a / b;
+int z = a / b * b + a % b;
+cout &lt;&lt; x + y + z;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>-13.5</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>-14.5</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>-14</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>-13</code></span></li></ol><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Integer division of negatives, and casts</h2><div class="kv"><b>Answer</b><p><strong>A</strong></p><p>C++ integer division rounds toward 0: −7 / 2 = −3 (not −4), and −7 % 2 = −1 (the remainder takes the sign of the number being divided). x: a / b = −3, stored as −3.0. y: (double) a turns a into −7.0 first, and dividing by 2 gives −3.5. z: left to right, a / b * b = −3 × 2 = −6, plus a % b = −1 gives −7 (a / b * b + a % b always equals a). x + y + z = −3 − 3.5 − 7 = −13.5, so the output is -13.5.</p></div><div class="kv"><b>Key point</b><p>Integer division rounds toward 0, negatives included (−7 / 2 = −3), and the remainder has the sign of the number divided (−7 % 2 = −1); storing in a double cannot bring back the fraction; <code>(double) a / b</code> converts a first, then divides.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">2 / 13</span><span class="tag">Single answer</span></div><p class="stem">What does this program print?</p><pre>int c = 0;
+for (int x = -2; x &lt;= 2; x++)
+    for (int y = -2; y &lt;= 2; y++)
+        if (x &gt; 0)
+            if (y &gt; 0) c += 1;
+        else
+            c += 10;
+cout &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>154</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>214</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>64</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>44</code></span></li></ol><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Which if does the else belong to?</h2><div class="kv"><b>Answer</b><p><strong>C</strong></p><p>An else pairs with the nearest unmatched if, so the loop body means <code>if (x &gt; 0) { if (y &gt; 0) c += 1; else c += 10; }</code>, and nothing happens when x ≤ 0. For x = 1 and 2: y = 1, 2 each add 1 and y = −2, −1, 0 each add 10, so each x adds 2 + 30 = 32. The two give 64, so the output is 64.</p></div><div class="kv"><b>Key point</b><p>An else always pairs with the nearest if that has no else yet, whatever the indentation; when unsure, add the braces yourself and reread.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">3 / 13</span><span class="tag">Single answer</span></div><p class="stem">What does this program print?</p><pre>void g(int &amp;x, int y) {
+    x += y;
+    y += x;
+}
+int main() {
+    int a = 1, b = 2;
+    for (int i = 0; i &lt; 3; i++) {
+        g(a, b);
+        g(b, a);
+    }
+    cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b;
+}</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 2</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>379 268</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>127 65</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>21 34</code></span></li></ol><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>One reference parameter, one value parameter</h2><div class="kv"><b>Answer</b><p><strong>D</strong></p><p>g changes only its first argument: g(a, b) means a += b and g(b, a) means b += a; <code>y += x</code> changes only the copy. (a, b) goes (1, 2) → (3, 2) → (3, 5) → (8, 5) → (8, 13) → (21, 13) → (21, 34), so the output is 21 34.</p></div><div class="kv"><b>Key point</b><p>Only a parameter with &amp; is a reference: changing it in the function changes the variable passed in; a parameter without &amp; is just a copy. Calling with the arguments swapped changes the other variable.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">4 / 13</span><span class="tag">Single answer</span></div><p class="stem">What does this program print?</p><pre>int a = 6, b = 13;
+cout &lt;&lt; (a &amp; b == 4) &lt;&lt; &quot; &quot; &lt;&lt; (a &lt;&lt; 1 + 1) &lt;&lt; &quot; &quot; &lt;&lt; (a ^ b | a &amp; 3);</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>1 24 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>0 24 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>0 13 11</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>1 13 3</code></span></li></ol><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Precedence of bitwise operators</h2><div class="kv"><b>Answer</b><p><strong>B</strong></p><p>C++ precedence: + before &lt;&lt;, &lt;&lt; before ==, == before &amp;, &amp; before ^, ^ before |. First: b == 4 is 0, and 6 &amp; 0 = 0. Second: 1 + 1 = 2, and 6 &lt;&lt; 2 = 24. Third: first a &amp; 3 = 110 &amp; 011 = 010 = 2, then a ^ b = 0110 ^ 1101 = 1011 = 11, and finally 11 | 2 = 1011 | 0010 = 1011 = 11. The output is 0 24 11.</p></div><div class="kv"><b>Key point</b><p>&amp;, ^ and | bind more loosely than ==: a &amp; b == c means a &amp; (b == c). The shifts &lt;&lt; and &gt;&gt; bind more tightly than == but more loosely than + and −: 2 &lt;&lt; 1 == 4 means (2 &lt;&lt; 1) == 4, which is 1, and 1 &lt;&lt; 2 + 1 means 1 &lt;&lt; 3. &amp; comes before ^, which comes before |. When unsure, add brackets.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">5 / 13</span><span class="tag">Single answer</span></div><p class="stem">What does this program print?</p><pre>int a = 0, b = 0, c = 0;
+for (int i = 1; i &lt;= 10; i++)
+    if (i % 2 == 0 &amp;&amp; ++a &gt; 2 || i % 3 == 0 &amp;&amp; ++b &gt; 1)
+        c++;
+cout &lt;&lt; a &lt;&lt; &quot; &quot; &lt;&lt; b &lt;&lt; &quot; &quot; &lt;&lt; c;</pre><ol class="opts"><li class="opt"><span class="bub" aria-hidden="true">A</span><span class="otext"><code>5 3 4</code></span></li><li class="opt"><span class="bub" aria-hidden="true">B</span><span class="otext"><code>10 10 6</code></span></li><li class="opt"><span class="bub" aria-hidden="true">C</span><span class="otext"><code>5 2 4</code></span></li><li class="opt"><span class="bub" aria-hidden="true">D</span><span class="otext"><code>5 3 2</code></span></li></ol><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>++ inside &amp;&amp; and ||</h2><div class="kv"><b>Answer</b><p><strong>C</strong></p><p>&amp;&amp; binds tighter than ||, so the condition is (i even &amp;&amp; ++a &gt; 2) || (i a multiple of 3 &amp;&amp; ++b &gt; 1). When the left side of &amp;&amp; is false, its right side is not evaluated; when the left side of || is true, its right side is not evaluated either. Every even i (2, 4, 6, 8, 10) increases a, so a ends at 5; from i = 6 on, <code>++a &gt; 2</code> is true, so c increases at i = 6, 8 and 10, and in those three passes the right side is never evaluated. The right side is evaluated only when the left side is false: i = 2 and 4 are not multiples of 3; at i = 3, b becomes 1, which is not more than 1; at i = 9, b becomes 2, the condition holds and c increases again. Although 6 is a multiple of 3, the left side is already true at i = 6, so <code>++b</code> does not run. So a = 5, b = 2, c = 4.</p></div><div class="kv"><b>Key point</b><p>&amp;&amp; binds tighter than ||; when the left side of &amp;&amp; is false or the left side of || is true, the right side is not evaluated, and any ++ on it does not run.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">6 / 13</span><span class="tag">Fill in</span></div><p class="stem">What does this program print?</p><pre>int s = 0;
+for (int i = 1; i &lt;= 100; i++) {
+    if (i % 4 == 0) { i++; continue; }
+    if (s &gt; 100) break;
+    s += i;
+}
+cout &lt;&lt; s;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">L:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>i++ just before continue</h2><div class="kv"><b>Answer</b><p><strong>L: 106</strong></p><p>When i is a multiple of 4, the body does i++, then continue, and the for loop&#x27;s i++ runs as well, so 4 and 5 are both skipped, 8 and 9 too, and so on. The numbers added are 1, 2, 3, 6, 7, 10, 11, 14, 15, 18, 19, and s goes 1, 3, 6, 12, 19, 29, 40, 54, 69, 87, 106. The next i is 20, a multiple of 4, which jumps to 22; now s = 106 &gt; 100, so the loop breaks. The output is 106.</p></div><div class="kv"><b>Key point</b><p>If the body changes i and then does continue, the for loop&#x27;s i++ still runs, so i moves one extra step; break ends the whole loop at once. Notice whether the check comes before or after the addition.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">7 / 13</span><span class="tag">Fill in</span></div><p class="stem">This program is meant to print the length of the longest run of consecutive rising numbers in a (for example 2 3 5 is a rising run of length 3). What does it actually print?</p><pre>int a[8] = {4, 6, 7, 2, 3, 5, 8, 9};
+int best = 0, cur = 0;
+for (int i = 1; i &lt; 8; i++) {
+    if (a[i] &gt; a[i - 1]) cur++;
+    else {
+        best = max(best, cur);
+        cur = 0;
+    }
+}
+cout &lt;&lt; best;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">M:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Longest rising run (with bugs)</h2><div class="kv"><b>Answer</b><p><strong>M: 2</strong></p><p>i = 1, 2: 6 &gt; 4 and 7 &gt; 6, so cur becomes 1, 2. i = 3: 2 &lt; 7, so best = max(0, 2) = 2 and cur = 0. i = 4 to 7: 3, 5, 8, 9 each beat the one before, so cur becomes 1, 2, 3, 4, but the run never breaks again, so cur = 4 is never compared with best. The output is 2. To fix it, start cur at 1, reset it to 1 when a run breaks (one number alone is a run of length 1), and do best = max(best, cur) once more after the loop.</p></div><div class="kv"><b>Key point</b><p>When a program is meant to do something, trace what it actually does; when looking for bugs, check the starting values (0 or 1?) and whether the last part is handled.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">8 / 13</span><span class="tag">Fill in</span></div><p class="stem">What does this program print?</p><pre>string s = &quot;HKOI2026&quot;;
+for (int i = 0; i &lt; s.size(); i++) {
+    if (s[i] &gt;= &#x27;A&#x27; &amp;&amp; s[i] &lt;= &#x27;Z&#x27;)
+        s[i] = (s[i] - &#x27;A&#x27; + 3 * i) % 26 + &#x27;a&#x27;;
+    else
+        s[i] = s[i] ^ 1;
+}
+cout &lt;&lt; s;</pre><p class="rule">Write the output character by character, with the right case; no spaces needed.</p><div class="blanks"><span class="bl">N:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Shifting letters and XOR 1</h2><div class="kv"><b>Answer</b><p><strong>N: hnur3137</strong></p><p>Capital letters: <code>s[i] - &#x27;A&#x27;</code> gives a position from 0 to 25; add 3 × i, take the remainder when divided by 26, then add &#x27;a&#x27; to get a lower-case letter. H (7 + 0 = 7) → h; K (10 + 3 = 13) → n; O (14 + 6 = 20) → u; I (8 + 9 = 17) → r. Digit characters: <code>^ 1</code> flips the lowest bit of the ASCII code. &#x27;2&#x27; is 50, &#x27;0&#x27; is 48 and &#x27;6&#x27; is 54, all even, so XOR 1 adds 1, giving &#x27;3&#x27;, &#x27;1&#x27;, &#x27;3&#x27;, &#x27;7&#x27;. The output is hnur3137.</p></div><div class="kv"><b>Key point</b><p>Letter to position is c - &#x27;A&#x27;; position back to letter is + &#x27;a&#x27; (lower case) or + &#x27;A&#x27; (upper case); ^ is XOR, not a power, and ^ 1 changes only the lowest bit.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">9 / 13</span><span class="tag">Fill in</span></div><p class="stem">Fill in blank O so that the function returns true when exactly two of a, b, c are equal, and false when all three are equal or all three are different.</p><pre>bool twoEqual(int a, int b, int c) {
+    return <span class="bk">O</span>;
+}</pre><p class="rule">Write one condition (an expression) using a, b, c, integers and operators, in at most 40 boxes (spaces not counted).</p><div class="blanks"><span class="bl">O:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Exactly two are equal</h2><div class="kv"><b>Answer</b><p><strong>O: (a == b) + (b == c) + (a == c) == 1</strong></p><p>&quot;Exactly two are equal&quot; means &quot;exactly one of the comparisons a == b, b == c, a == c holds&quot;: if two hold, say a == b and b == c, then a == c holds as well. In C++, true and false add up as 1 and 0, so one answer is <code>(a == b) + (b == c) + (a == c) == 1</code>. Another is &quot;at least one pair equal, but not all three&quot;: <code>(a == b || b == c || a == c) &amp;&amp; !(a == b &amp;&amp; b == c)</code>. The page substitutes many values of a, b, c and compares with the model answer.</p></div><div class="kv"><b>Key point</b><p>In C++ the results of comparisons count as 1 and 0, so &quot;exactly k conditions hold&quot; can be written as their sum == k.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">10 / 13</span><span class="tag">Fill in</span></div><p class="stem">What does this program print?</p><pre>int x = 0;
+for (int i = 1; i &lt;= 2026; i++)
+    x ^= i;
+cout &lt;&lt; x;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">P:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>XOR of 1 to 2026</h2><div class="kv"><b>Answer</b><p><strong>P: 2027</strong></p><p>Try small n first (f(n) is the XOR of 1 to n): f(1) = 1, f(2) = 1 ^ 2 = 3, f(3) = 3 ^ 3 = 0, f(4) = 4, f(5) = 1, f(6) = 7, f(7) = 0, f(8) = 8. The pattern: f(n) = n for remainder 0 when divided by 4, 1 for remainder 1, n + 1 for remainder 2, and 0 for remainder 3. The reason: for even k, k and k + 1 differ only in the lowest bit, so k ^ (k + 1) = 1, and every 4 consecutive numbers starting at a multiple of 4 give 1 ^ 1 = 0. 2026 = 4 × 506 + 2, so f(2023) = 0, then ^ 2024 ^ 2025 ^ 2026: 2024 ^ 2025 = 1 and 1 ^ 2026 = 2027. The output is 2027.</p></div><div class="kv"><b>Key point</b><p>For XOR over a large range, try small n to find the pattern; for even k, k ^ (k + 1) = 1, so every 4 consecutive numbers from a multiple of 4 XOR to 0.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">11 / 13</span><span class="tag">Fill in</span></div><p class="stem">What does this program print?</p><pre>int c = 0;
+for (int i = 1; i &lt;= 100; i++)
+    for (int j = i; i * j &lt;= 100; j++)
+        c++;
+cout &lt;&lt; c;</pre><p class="rule">Write one integer.</p><div class="blanks"><span class="bl">Q:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>i × j ≤ 100</h2><div class="kv"><b>Answer</b><p><strong>Q: 246</strong></p><p>The inner j starts at i, and i × j ≤ 100 means j ≤ 100 / i (integer division), so it runs 100 / i − i + 1 times; but for i ≥ 11 the first check already has i × i &gt; 100, so it never runs. c = (100 − 1 + 1) + (50 − 2 + 1) + (33 − 3 + 1) + (25 − 4 + 1) + (20 − 5 + 1) + (16 − 6 + 1) + (14 − 7 + 1) + (12 − 8 + 1) + (11 − 9 + 1) + (10 − 10 + 1) = 100 + 49 + 31 + 22 + 16 + 11 + 8 + 5 + 3 + 1 = 246. Check: c counts pairs with i ≤ j and i × j ≤ 100. There are 482 pairs with i × j ≤ 100, 10 of them with i = j, and half of the rest have i &lt; j, so c = (482 − 10) ÷ 2 + 10 = 246.</p></div><div class="kv"><b>Key point</b><p>When the inner bound depends on the outer variable, write down the inner count for each i; if the condition fails at the start, the inner loop runs zero times. Symmetry over all pairs is a good check.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">12 / 13</span><span class="tag">Fill in</span></div><p class="stem">This program compresses a string of lowercase letters: a run of equal letters is written as the letter followed by the count, and a letter that appears once has no count, so aaabccddddd becomes a3bc2d5. Fill in blanks R, S and T so that the program is correct.</p><pre>int main() {
+    string s, t = &quot;&quot;;
+    cin &gt;&gt; s;
+    int i = 0, n = s.size();
+    while (i &lt; n) {
+        int j = i;
+        while (j &lt; n &amp;&amp; <span class="bk">R</span>) j++;
+        t += s[i];
+        if (j &gt; i + 1) t += to_string(<span class="bk">S</span>);
+        i = <span class="bk">T</span>;
+    }
+    cout &lt;&lt; t;
+}</pre><p class="rule">For R, write a condition such as a[k] != 0; for S and T, write only an expression using i, j, integers and operators, in at most 12 boxes (spaces not counted). Each blank is worth 1 mark.</p><div class="blanks"><span class="bl">R:<span class="box"></span></span><span class="bl">S:<span class="box"></span></span><span class="bl">T:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Compressing a string</h2><div class="kv"><b>Answer</b><p><strong>R: s[j] == s[i]; S: j - i; T: j</strong></p><p>j starts at i and moves right until the first letter different from s[i] (or the end), so R is <code>s[j] == s[i]</code> (with <code>j &lt; n</code> first, so j never runs past the end). The run is s[i] to s[j − 1], j − i letters, and the count is written only when there is more than one (j &gt; i + 1), so S is <code>j - i</code>. The next run starts at j, so T is <code>j</code> (that is, <code>i = j</code>). For aaabccddddd: aaa → a3, b → b, cc → c2, ddddd → d5, giving a3bc2d5.</p></div><div class="kv"><b>Key point</b><p>To find a run of equal letters: start j at i with the condition <code>j &lt; n &amp;&amp; s[j] == s[i]</code>; the run is s[i] to s[j − 1], of length j − i, and the next run starts at j.</p></div></div></details></div><div class="qcard"><div class="tags"><span class="tag">13 / 13</span><span class="tag">Fill in</span></div><p class="stem">The program on the left reads n (1 ≤ n ≤ 100) and an n × n grid a, rotates it 90° clockwise into b, and prints b. For n = 3, 1 2 3 / 4 5 6 / 7 8 9 becomes 7 4 1 / 8 5 2 / 9 6 3. (a) Fill in blanks U1 and U2. (b) Siu Ming wants to rotate inside a without b: first flip a along the diagonal (swap a[i][j] and a[j][i]), then reverse each row, then print a. He wrote the program on the right. For the n = 3 example above, what is the first line his program prints? Write it in V.</p><div class="codes two"><div><div class="codelabel">The program</div><pre>int n, a[100][100], b[100][100];
+cin &gt;&gt; n;
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        cin &gt;&gt; a[i][j];
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        b[<span class="bk">U1</span>][<span class="bk">U2</span>] = a[i][j];
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; b[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div><div><div class="codelabel">Siu Ming&#x27;s version (after reading a)</div><pre>for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n; j++)
+        swap(a[i][j], a[j][i]);
+for (int i = 0; i &lt; n; i++)
+    for (int j = 0; j &lt; n / 2; j++)
+        swap(a[i][j], a[i][n - 1 - j]);
+for (int i = 0; i &lt; n; i++) {
+    for (int j = 0; j &lt; n; j++)
+        cout &lt;&lt; a[i][j] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+}</pre></div></div><p class="rule">For U1 and U2, write only an expression using i, j, n, integers and operators, at most 8 boxes each (spaces not counted); U (1.5 marks) needs both right. For V, write three integers separated by spaces.</p><div class="blanks"><span class="bl">U1:<span class="box"></span></span><span class="bl">U2:<span class="box"></span></span><span class="bl">V:<span class="box"></span></span></div><details class="fbans"><summary>Show answer</summary><div class="panel"><h2>Rotating a square grid 90° clockwise</h2><div class="kv"><b>Answer</b><p><strong>U1: j; U2: n - 1 - i; V: 3 2 1</strong></p><p>(a) The number in row i, column j moves, after a 90° clockwise turn, to row j, column i + 1 counted from the right, that is b[j][n − 1 − i]; so U1 is <code>j</code> and U2 is <code>n - 1 - i</code>. Check: a[0][0] = 1 goes to b[0][2] (the right end of the first line), and a[2][0] = 7 goes to b[0][0], as in the example. (b) In Siu Ming&#x27;s first part j runs from 0 to n − 1: at i = 0, j = 1 it swaps a[0][1] and a[1][0], and later at i = 1, j = 0 it swaps them back. Every pair is swapped twice, so after the first part a is unchanged. The second part reverses each row, so the first line 1 2 3 becomes 3 2 1: V is 3 2 1. To fix it, the inner loop of the first part should start at j = i + 1 (or j = i), so each pair is swapped once.</p></div><div class="kv"><b>Key point</b><p>2D indices: a 90° clockwise turn sends (i, j) to (j, n − 1 − i). When swapping inside an array, make sure each pair is swapped only once, or it swaps back.</p></div></div></details></div></div></div></div><div class="col" id="app"></div></div>
+
+<script src="../three-sets/collect.js"></script>
+<script>
+/* 收集做題數據（可選）。網站版本會先載入同一資料夾的 collect.js（設定 formUrl 和 field，做法見網站指南）；
+   沒有 collect.js 或設定留空，就不會傳送任何資料，同學交卷後只會看到可以複製的成績碼。 */
+var HKOI_COLLECT = (typeof window !== "undefined" && window.HKOI_COLLECT) || { formUrl: "", field: "" };
+</script>
+<script type="application/json" id="data">{"set": "M2", "parts": {"1": {"zh": "甲部：選擇題", "en": "Section A: multiple choice"}, "2": {"zh": "乙部：短答題", "en": "Section B: short answers"}, "3": {"zh": "丙部：程式填空", "en": "Section C: complete the programs"}}, "questions": [{"id": "M201", "n": 1, "part": 1, "group": "B", "kind": "single", "marks": 1, "time": 120, "title": {"zh": "負數的整數除法和類型轉換", "en": "Integer division of negatives, and casts"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int a = -7, b = 2;\ndouble x = a / b;\ndouble y = (double) a / b;\nint z = a / b * b + a % b;\ncout << x + y + z;", "expl": {"zh": "C++ 的整數除法向 0 取整：−7 / 2 = −3（不是 −4），而 −7 % 2 = −1（餘數和被除數同號）。x：a / b = −3，存入 double 後是 −3.0。y：(double) a 先把 a 變成 −7.0，再除以 2，得 −3.5。z：由左至右，a / b * b = −3 × 2 = −6，加上 a % b = −1，得 −7（a / b * b + a % b 一定等於 a）。x + y + z = −3 − 3.5 − 7 = −13.5，輸出 -13.5。", "en": "C++ integer division rounds toward 0: −7 / 2 = −3 (not −4), and −7 % 2 = −1 (the remainder takes the sign of the number being divided). x: a / b = −3, stored as −3.0. y: (double) a turns a into −7.0 first, and dividing by 2 gives −3.5. z: left to right, a / b * b = −3 × 2 = −6, plus a % b = −1 gives −7 (a / b * b + a % b always equals a). x + y + z = −3 − 3.5 − 7 = −13.5, so the output is -13.5."}, "point": {"zh": "整數除法向 0 取整，負數也一樣（−7 / 2 = −3），餘數和被除數同號（−7 % 2 = −1）；存入 double 也救不回小數部分；`(double) a / b` 先轉換 a，再除。", "en": "Integer division rounds toward 0, negatives included (−7 / 2 = −3), and the remainder has the sign of the number divided (−7 % 2 = −1); storing in a double cannot bring back the fraction; `(double) a / b` converts a first, then divides."}, "exam": {"zh": "整數除法在 16 屆裏有 12 屆考過（難點庫 L01），負數取模有 8 屆（L02）；2025/26 初級卷二甲部考了 (int) a + b + c。", "en": "Integer division appeared in 12 of 16 years (bank item L01) and negative remainders in 8 (L02); the 2025/26 Junior Paper 2 Section A asked about (int) a + b + c."}, "layout": "inline", "topic": {"zh": "整數除法、負數與類型轉換", "en": "Integer division, negatives and casts"}, "level": "中", "opts": [{"t": "-13.5", "ok": true, "why": null, "code": true}, {"t": "-14.5", "ok": false, "why": {"zh": "以為整數除法向下取整（像數學的 floor），−7 / 2 = −4。C++ 的整數除法向 0 取整：−7 / 2 = −3，−7 % 2 = −1。", "en": "Assumes integer division rounds down (like floor), so −7 / 2 = −4. C++ integer division rounds toward 0: −7 / 2 = −3 and −7 % 2 = −1."}, "code": true}, {"t": "-14", "ok": false, "why": {"zh": "以為 `double x = a / b` 會得 −3.5。a / b 兩邊都是 int，先做整數除法得 −3，存入 double 後才變成 −3.0。", "en": "Thinks `double x = a / b` gives −3.5. Both sides of a / b are int, so integer division gives −3 first, which only then becomes −3.0."}, "code": true}, {"t": "-13", "ok": false, "why": {"zh": "以為 `(double) a / b` 是把 a / b 的結果轉成 double（−3.0）。其實類型轉換比除法先做：a 先變成 −7.0，−7.0 / 2 = −3.5。", "en": "Thinks `(double) a / b` converts the result of a / b (−3.0). The cast happens before the division: a becomes −7.0, and −7.0 / 2 = −3.5."}, "code": true}]}, {"id": "M202", "n": 2, "part": 1, "group": "B", "kind": "single", "marks": 1, "time": 120, "title": {"zh": "else 跟哪一個 if？", "en": "Which if does the else belong to?"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int c = 0;\nfor (int x = -2; x <= 2; x++)\n    for (int y = -2; y <= 2; y++)\n        if (x > 0)\n            if (y > 0) c += 1;\n        else\n            c += 10;\ncout << c;", "expl": {"zh": "else 跟最近的、還未配對的 if 配對，所以迴圈內等於 `if (x > 0) { if (y > 0) c += 1; else c += 10; }`，x ≤ 0 時甚麼都不做。x = 1、2 時：y = 1、2 各加 1，y = −2、−1、0 各加 10，每個 x 加 2 + 30 = 32。兩個 x 共 64，輸出 64。", "en": "An else pairs with the nearest unmatched if, so the loop body means `if (x > 0) { if (y > 0) c += 1; else c += 10; }`, and nothing happens when x ≤ 0. For x = 1 and 2: y = 1, 2 each add 1 and y = −2, −1, 0 each add 10, so each x adds 2 + 30 = 32. The two give 64, so the output is 64."}, "point": {"zh": "else 總是和最近的、還未有 else 的 if 配對，與縮排無關；不確定時自己加上大括號再讀。", "en": "An else always pairs with the nearest if that has no else yet, whatever the indentation; when unsure, add the braces yourself and reread."}, "exam": {"zh": "if/else 的結構陷阱在 16 屆裏有 9 屆考過（難點庫 L18）；2025/26 初級卷一甲部也考了 if 和 else 的規則。", "en": "if/else structure traps appeared in 9 of 16 years (bank item L18); the 2025/26 Junior Paper 1 Section A also tested the rules of if and else."}, "layout": "inline", "topic": {"zh": "if/else 的配對", "en": "Matching if and else"}, "level": "中", "opts": [{"t": "154", "ok": false, "why": {"zh": "按縮排以為 else 屬於外層的 `if (x > 0)`：那就是 x > 0、y > 0 時加 1（4 次），x ≤ 0 時加 10（15 次）。C++ 的 else 總是跟最近的、還未配對的 if，即 `if (y > 0)`；縮排不影響意思。", "en": "Goes by the indentation and pairs else with the outer `if (x > 0)`: +1 when x > 0 and y > 0 (4 times), +10 when x ≤ 0 (15 times). In C++ an else always belongs to the nearest unmatched if, here `if (y > 0)`; indentation changes nothing."}, "code": true}, {"t": "214", "ok": false, "why": {"zh": "以為 else 在「兩個條件不是都成立」時執行：x > 0 而且 y > 0 時加 1（4 次），其餘 21 次都加 10。else 只屬於一個 if。", "en": "Treats the else as \"not both conditions\": +1 when x > 0 and y > 0 (4 times) and +10 for the other 21. An else belongs to just one if."}, "code": true}, {"t": "64", "ok": true, "why": null, "code": true}, {"t": "44", "ok": false, "why": {"zh": "else 的配對正確，但數漏了 y = 0：y > 0 不成立的 y 有 −2、−1、0 三個，所以 x = 1、2 時各加 30。", "en": "Pairs the else correctly but misses y = 0: three values of y (−2, −1 and 0) fail y > 0, so x = 1 and x = 2 each add 30."}, "code": true}]}, {"id": "M203", "n": 3, "part": 1, "group": "B", "kind": "single", "marks": 1, "time": 120, "title": {"zh": "一個引用參數，一個普通參數", "en": "One reference parameter, one value parameter"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "void g(int &x, int y) {\n    x += y;\n    y += x;\n}\nint main() {\n    int a = 1, b = 2;\n    for (int i = 0; i < 3; i++) {\n        g(a, b);\n        g(b, a);\n    }\n    cout << a << \" \" << b;\n}", "expl": {"zh": "g 只會改第一個參數：g(a, b) 等於 a += b，g(b, a) 等於 b += a；`y += x` 只改副本。(a, b) 依次是 (1, 2) → (3, 2) → (3, 5) → (8, 5) → (8, 13) → (21, 13) → (21, 34)，輸出 21 34。", "en": "g changes only its first argument: g(a, b) means a += b and g(b, a) means b += a; `y += x` changes only the copy. (a, b) goes (1, 2) → (3, 2) → (3, 5) → (8, 5) → (8, 13) → (21, 13) → (21, 34), so the output is 21 34."}, "point": {"zh": "參數名稱前有 & 才是引用：在函數裏改它，就是改調用時傳入的變量；沒有 & 的參數只是副本。調轉參數次序調用時，被改的就是另一個變量。", "en": "Only a parameter with & is a reference: changing it in the function changes the variable passed in; a parameter without & is just a copy. Calling with the arguments swapped changes the other variable."}, "exam": {"zh": "引用參數與別名在 16 屆裏有 5 屆考過（難點庫 L15）；2024/25 初級卷二甲部考了 f(++a, ++b)。", "en": "Reference parameters and aliasing appeared in 5 of 16 years (bank item L15); the 2024/25 Junior Paper 2 Section A asked about f(++a, ++b)."}, "layout": "inline", "topic": {"zh": "引用參數", "en": "Reference parameters"}, "level": "中", "opts": [{"t": "1 2", "ok": false, "why": {"zh": "以為兩個參數都只是副本，a、b 都不變。其實 x 是引用（`int &x`），改 x 就是改傳入的第一個變量。", "en": "Treats both parameters as copies, so a and b never change. But x is a reference (`int &x`), so changing x changes the first variable passed in."}, "code": true}, {"t": "379 268", "ok": false, "why": {"zh": "以為兩個參數都是引用，於是 `y += x` 也會改傳入的第二個變量。其實 y 不是引用，`y += x` 只改函數裏的副本。", "en": "Treats both as references, so `y += x` would also change the second variable. But y is not a reference; `y += x` changes only the function's copy."}, "code": true}, {"t": "127 65", "ok": false, "why": {"zh": "把兩個參數的角色調轉了：以為 y 是引用、x 是副本。", "en": "Swaps the roles of the two parameters, treating y as the reference and x as the copy."}, "code": true}, {"t": "21 34", "ok": true, "why": null, "code": true}]}, {"id": "M204", "n": 4, "part": 1, "group": "B", "kind": "single", "marks": 1, "time": 120, "title": {"zh": "位元運算的優先次序", "en": "Precedence of bitwise operators"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int a = 6, b = 13;\ncout << (a & b == 4) << \" \" << (a << 1 + 1) << \" \" << (a ^ b | a & 3);", "expl": {"zh": "C++ 的優先次序：+ 先於 <<，<< 先於 ==，== 先於 &，& 先於 ^，^ 先於 |。第一個：b == 4 是 0，6 & 0 = 0。第二個：1 + 1 = 2，6 << 2 = 24。第三個：先算 a & 3 = 110 & 011 = 010 = 2，再算 a ^ b = 0110 ^ 1101 = 1011 = 11，最後 11 | 2 = 1011 | 0010 = 1011 = 11。輸出 0 24 11。", "en": "C++ precedence: + before <<, << before ==, == before &, & before ^, ^ before |. First: b == 4 is 0, and 6 & 0 = 0. Second: 1 + 1 = 2, and 6 << 2 = 24. Third: first a & 3 = 110 & 011 = 010 = 2, then a ^ b = 0110 ^ 1101 = 1011 = 11, and finally 11 | 2 = 1011 | 0010 = 1011 = 11. The output is 0 24 11."}, "point": {"zh": "&、^、| 比 == 低：a & b == c 是 a & (b == c)。位移 <<、>> 比 == 高，但比 +、− 低：2 << 1 == 4 是 (2 << 1) == 4，值為 1；1 << 2 + 1 是 1 << 3。& 先於 ^ 先於 |。不肯定就加括號。", "en": "&, ^ and | bind more loosely than ==: a & b == c means a & (b == c). The shifts << and >> bind more tightly than == but more loosely than + and −: 2 << 1 == 4 means (2 << 1) == 4, which is 1, and 1 << 2 + 1 means 1 << 3. & comes before ^, which comes before |. When unsure, add brackets."}, "exam": {"zh": "位元運算和優先次序在 16 屆裏有 9 屆考過（難點庫 L27）。", "en": "Bitwise operations and precedence appeared in 9 of 16 years (bank item L27)."}, "layout": "inline", "topic": {"zh": "位元運算的優先次序", "en": "Precedence of bitwise operators"}, "level": "中至難", "opts": [{"t": "1 24 11", "ok": false, "why": {"zh": "以為 & 先於 ==。其實 == 先計算：b == 4 是 0，6 & 0 = 0。", "en": "Thinks & comes before ==. In fact == is evaluated first: b == 4 is 0, and 6 & 0 = 0."}, "code": true}, {"t": "0 24 11", "ok": true, "why": null, "code": true}, {"t": "0 13 11", "ok": false, "why": {"zh": "以為 << 先於 +。其實 + 先計算：1 + 1 = 2，6 << 2 = 24。", "en": "Thinks << comes before +. In fact + is evaluated first: 1 + 1 = 2, and 6 << 2 = 24."}, "code": true}, {"t": "1 13 3", "ok": false, "why": {"zh": "全部由左至右計算：(6 & 13) == 4 得 1，(6 << 1) + 1 得 13，((6 ^ 13) | 6) & 3 得 3。", "en": "Evaluates everything left to right: (6 & 13) == 4 gives 1, (6 << 1) + 1 gives 13, and ((6 ^ 13) | 6) & 3 gives 3."}, "code": true}]}, {"id": "M205", "n": 5, "part": 1, "group": "B", "kind": "single", "marks": 1, "time": 120, "title": {"zh": "&& 和 || 裏的 ++", "en": "++ inside && and ||"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int a = 0, b = 0, c = 0;\nfor (int i = 1; i <= 10; i++)\n    if (i % 2 == 0 && ++a > 2 || i % 3 == 0 && ++b > 1)\n        c++;\ncout << a << \" \" << b << \" \" << c;", "expl": {"zh": "&& 先於 ||，所以條件是「(i 是偶數 && ++a > 2) || (i 是 3 的倍數 && ++b > 1)」。&& 左邊不成立時不計算右邊；|| 左邊成立時也不計算右邊。偶數的 i（2、4、6、8、10）都會令 a 加 1，a 最後是 5；由 i = 6 起 `++a > 2` 成立，c 在 i = 6、8、10 各加 1，而且這三次右邊都不計算。左邊不成立時才計算右邊：i = 2、4 不是 3 的倍數；i = 3 時 b 變成 1，不大於 1；i = 9 時 b 變成 2，條件成立，c 再加 1。i = 6 雖然是 3 的倍數，但左邊已經成立，`++b` 不會執行。所以 a = 5，b = 2，c = 4。", "en": "&& binds tighter than ||, so the condition is (i even && ++a > 2) || (i a multiple of 3 && ++b > 1). When the left side of && is false, its right side is not evaluated; when the left side of || is true, its right side is not evaluated either. Every even i (2, 4, 6, 8, 10) increases a, so a ends at 5; from i = 6 on, `++a > 2` is true, so c increases at i = 6, 8 and 10, and in those three passes the right side is never evaluated. The right side is evaluated only when the left side is false: i = 2 and 4 are not multiples of 3; at i = 3, b becomes 1, which is not more than 1; at i = 9, b becomes 2, the condition holds and c increases again. Although 6 is a multiple of 3, the left side is already true at i = 6, so `++b` does not run. So a = 5, b = 2, c = 4."}, "point": {"zh": "&& 先於 ||；&& 左邊不成立、|| 左邊成立時，右邊都不會計算，右邊的 ++ 也不會執行。", "en": "&& binds tighter than ||; when the left side of && is false or the left side of || is true, the right side is not evaluated, and any ++ on it does not run."}, "exam": {"zh": "短路求值在 16 屆裏有 3 屆考過（難點庫 L12）。", "en": "Short-circuit evaluation appeared in 3 of 16 years (bank item L12)."}, "layout": "inline", "topic": {"zh": "短路求值", "en": "Short-circuit evaluation"}, "level": "中至難", "opts": [{"t": "5 3 4", "ok": false, "why": {"zh": "以為 || 左邊成立時，右邊仍然會計算。i = 6 時左邊已經成立，右邊的 `++b` 不會執行，所以 b 只在 i = 3 和 i = 9 時加 1。", "en": "Thinks the right side of || is still evaluated when the left side is true. At i = 6 the left side is already true, so `++b` on the right does not run; b only increases at i = 3 and i = 9."}, "code": true}, {"t": "10 10 6", "ok": false, "why": {"zh": "以為 && 和 || 兩邊都一定會計算，於是 `++a`、`++b` 每次都執行。其實 && 左邊不成立時，右邊不會計算。", "en": "Thinks both sides of && and || are always evaluated, so `++a` and `++b` run every time. In fact, when the left side of && is false, its right side is not evaluated."}, "code": true}, {"t": "5 2 4", "ok": true, "why": null, "code": true}, {"t": "5 3 2", "ok": false, "why": {"zh": "把條件看成 `i % 2 == 0 && (++a > 2 || i % 3 == 0) && ++b > 1`。其實 && 先於 ||，條件是兩個 && 部分用 || 連接。", "en": "Reads the condition as `i % 2 == 0 && (++a > 2 || i % 3 == 0) && ++b > 1`. In fact && binds tighter than ||, so the condition is two && parts joined by ||."}, "code": true}]}, {"id": "M206", "n": 6, "part": 2, "group": "B", "kind": "fill", "marks": 1.5, "time": 180, "title": {"zh": "continue 之前先 i++", "en": "i++ just before continue"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int s = 0;\nfor (int i = 1; i <= 100; i++) {\n    if (i % 4 == 0) { i++; continue; }\n    if (s > 100) break;\n    s += i;\n}\ncout << s;", "rule": {"zh": "只填一個整數。", "en": "Write one integer."}, "expl": {"zh": "i 是 4 的倍數時，先 i++，再 continue，for 的 i++ 又執行一次，所以 4、5 都被跳過，8、9 都被跳過，如此類推。加上的數依次是 1、2、3、6、7、10、11、14、15、18、19：s 依次是 1、3、6、12、19、29、40、54、69、87、106。下一個 i 是 20（4 的倍數），跳到 22；這時 s = 106 > 100，break。輸出 106。", "en": "When i is a multiple of 4, the body does i++, then continue, and the for loop's i++ runs as well, so 4 and 5 are both skipped, 8 and 9 too, and so on. The numbers added are 1, 2, 3, 6, 7, 10, 11, 14, 15, 18, 19, and s goes 1, 3, 6, 12, 19, 29, 40, 54, 69, 87, 106. The next i is 20, a multiple of 4, which jumps to 22; now s = 106 > 100, so the loop breaks. The output is 106."}, "point": {"zh": "在迴圈裏改 i 之後再 continue，for 的 i++ 仍然會執行，等於多走一步；break 立即結束整個迴圈。要留意檢查在加之前還是之後。", "en": "If the body changes i and then does continue, the for loop's i++ still runs, so i moves one extra step; break ends the whole loop at once. Notice whether the check comes before or after the addition."}, "exam": {"zh": "break、continue 與迴圈次數在 16 屆裏有 9 屆考過（難點庫 L19）；2024/25 初級卷一乙部考了在迴圈中修改自己的邊界。", "en": "break, continue and loop counts appeared in 9 of 16 years (bank item L19); the 2024/25 Junior Paper 1 Section B changed a loop's own bound inside the loop."}, "layout": "inline", "topic": {"zh": "break、continue 與在迴圈中改 i", "en": "break, continue and changing i inside the loop"}, "level": "中", "blanks": [{"id": "L", "type": "int", "ans": 106, "label": {"zh": "L", "en": "L"}}], "wrong": [["113", {"zh": "以為只是跳過 4 的倍數。其實 i 是 4 的倍數時，迴圈裏先 i++，continue 之後 for 又 i++，所以 4 的倍數的下一個數（5、9、13、…）也被跳過。", "en": "Assumes only multiples of 4 are skipped. In fact when i is a multiple of 4, the body does i++ and then the for loop does i++ again after continue, so the number after each multiple of 4 (5, 9, 13, …) is skipped too."}], ["87", {"zh": "以為 s 不會超過 100。其實檢查在加之前：i = 19 時 s = 87，不大於 100，所以加上 19 得 106；到 i = 22 時才停。", "en": "Assumes s never goes past 100. But the check comes before the addition: at i = 19, s = 87 is not more than 100, so 19 is added to make 106; the loop stops only at i = 22."}]]}, {"id": "M207", "n": 7, "part": 2, "group": "B", "kind": "fill", "marks": 1.5, "time": 180, "title": {"zh": "最長的上升段（程式有錯）", "en": "Longest rising run (with bugs)"}, "stem": {"zh": "以下程式想輸出陣列 a 之中最長的「連續上升段」的長度（例如 2 3 5 是長度 3 的上升段）。程式實際輸出甚麼？", "en": "This program is meant to print the length of the longest run of consecutive rising numbers in a (for example 2 3 5 is a rising run of length 3). What does it actually print?"}, "code": "int a[8] = {4, 6, 7, 2, 3, 5, 8, 9};\nint best = 0, cur = 0;\nfor (int i = 1; i < 8; i++) {\n    if (a[i] > a[i - 1]) cur++;\n    else {\n        best = max(best, cur);\n        cur = 0;\n    }\n}\ncout << best;", "rule": {"zh": "只填一個整數。", "en": "Write one integer."}, "expl": {"zh": "i = 1、2：6 > 4、7 > 6，cur 變成 1、2。i = 3：2 < 7，best = max(0, 2) = 2，cur = 0。i = 4 至 7：3、5、8、9 都比前一個大，cur 變成 1、2、3、4，但之後再沒有不上升的情況，迴圈結束時 cur = 4 沒有和 best 比較。輸出 2。要改正：cur 的初值改為 1，上升段斷開時 cur 也重設為 1（一個數本身是長度 1 的段），並在迴圈結束後再做一次 best = max(best, cur)。", "en": "i = 1, 2: 6 > 4 and 7 > 6, so cur becomes 1, 2. i = 3: 2 < 7, so best = max(0, 2) = 2 and cur = 0. i = 4 to 7: 3, 5, 8, 9 each beat the one before, so cur becomes 1, 2, 3, 4, but the run never breaks again, so cur = 4 is never compared with best. The output is 2. To fix it, start cur at 1, reset it to 1 when a run breaks (one number alone is a run of length 1), and do best = max(best, cur) once more after the loop."}, "point": {"zh": "讀「想做某件事」的程式時，要照程式實際做的追蹤；找錯時特別留意初值（0 還是 1）和最後一段有沒有處理。", "en": "When a program is meant to do something, trace what it actually does; when looking for bugs, check the starting values (0 or 1?) and whether the last part is handled."}, "exam": {"zh": "累加、更新與初值在 16 屆裏有 12 屆考過（難點庫 F05），2023/24 有 4 題；改錯題「拿邊界輸入去試」有 12 屆（F08）。", "en": "Updates and starting values appeared in 12 of 16 years (bank item F05), with 4 questions in 2023/24; finding bugs with edge-case inputs appeared in 12 (F08)."}, "layout": "inline", "topic": {"zh": "累加、更新與初值（找錯）", "en": "Updates and starting values (finding bugs)"}, "level": "易至中", "blanks": [{"id": "M", "type": "int", "ans": 2, "label": {"zh": "M", "en": "M"}}], "wrong": [["5", {"zh": "照程式的「目的」作答：最長的上升段是 2 3 5 8 9，長度 5。但程式有兩個錯：cur 數的是上升了幾次（比段長少 1），而且最後一段在迴圈結束後沒有和 best 比較。", "en": "Answers what the program is meant to do: the longest run is 2 3 5 8 9, of length 5. But the program has two bugs: cur counts the rises (one less than the length), and the last run is never compared with best after the loop."}], ["4", {"zh": "發現了 cur 比段長少 1，卻沒有發現最後一段 2 3 5 8 9 從未和 best 比較。", "en": "Spots that cur is one less than the length, but not that the last run 2 3 5 8 9 is never compared with best."}], ["3", {"zh": "發現了最後一段沒有比較，卻以為 cur 就是段長：4 6 7 的長度是 3。", "en": "Spots that the last run is never compared, but takes cur as the length: 4 6 7 has length 3."}]]}, {"id": "M208", "n": 8, "part": 2, "group": "B", "kind": "fill", "marks": 1.5, "time": 180, "title": {"zh": "字母移位和 XOR 1", "en": "Shifting letters and XOR 1"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "string s = \"HKOI2026\";\nfor (int i = 0; i < s.size(); i++) {\n    if (s[i] >= 'A' && s[i] <= 'Z')\n        s[i] = (s[i] - 'A' + 3 * i) % 26 + 'a';\n    else\n        s[i] = s[i] ^ 1;\n}\ncout << s;", "rule": {"zh": "照輸出逐個字元填寫，注意大小寫，不用加空格。", "en": "Write the output character by character, with the right case; no spaces needed."}, "expl": {"zh": "大寫字母：先用 `s[i] - 'A'` 變成 0 至 25 的序號，加 3 × i，取除以 26 的餘數，再加 'a' 變成小寫字母。H（7 + 0 = 7）→ h；K（10 + 3 = 13）→ n；O（14 + 6 = 20）→ u；I（8 + 9 = 17）→ r。數字字元：`^ 1` 反轉 ASCII 碼最低的一位。'2' 是 50、'0' 是 48、'6' 是 54，都是偶數，XOR 1 之後加 1，變成 '3'、'1'、'3'、'7'。輸出 hnur3137。", "en": "Capital letters: `s[i] - 'A'` gives a position from 0 to 25; add 3 × i, take the remainder when divided by 26, then add 'a' to get a lower-case letter. H (7 + 0 = 7) → h; K (10 + 3 = 13) → n; O (14 + 6 = 20) → u; I (8 + 9 = 17) → r. Digit characters: `^ 1` flips the lowest bit of the ASCII code. '2' is 50, '0' is 48 and '6' is 54, all even, so XOR 1 adds 1, giving '3', '1', '3', '7'. The output is hnur3137."}, "point": {"zh": "字母變序號用 c - 'A'，序號變回字母用 + 'a'（小寫）或 + 'A'（大寫）；^ 是 XOR，不是次方，^ 1 只改變最低的一位。", "en": "Letter to position is c - 'A'; position back to letter is + 'a' (lower case) or + 'A' (upper case); ^ is XOR, not a power, and ^ 1 changes only the lowest bit."}, "exam": {"zh": "字元與 ASCII 碼互換，16 屆裏有 9 屆考過（難點庫 L07）。", "en": "Converting characters and ASCII codes appeared in 9 of 16 years (bank item L07)."}, "layout": "inline", "topic": {"zh": "字元與 ASCII 運算", "en": "Characters and ASCII arithmetic"}, "level": "中", "blanks": [{"id": "ans", "type": "text", "ans": "hnur3137", "label": {"zh": "N", "en": "N"}}], "wrong": [["hnur2026", {"zh": "把 ^ 當成次方，以為 ^ 1 不改變數字。^ 是 XOR：'2' 是 50，50 ^ 1 = 51，即 '3'。", "en": "Treats ^ as a power and thinks ^ 1 leaves the digits unchanged. ^ is XOR: '2' is 50, and 50 ^ 1 = 51, which is '3'."}], ["HNUR3137", {"zh": "漏了轉成小寫：程式加的是 'a'，不是 'A'。", "en": "Misses the change to lower case: the program adds 'a', not 'A'."}]]}, {"id": "M209", "n": 9, "part": 2, "group": "B", "kind": "fill", "marks": 1.5, "time": 180, "title": {"zh": "剛好兩個相等", "en": "Exactly two are equal"}, "stem": {"zh": "填寫空格 O，令函數在 a、b、c 之中剛好有兩個相等時傳回 true；三個都相等，或者三個互不相同時，傳回 false。", "en": "Fill in blank O so that the function returns true when exactly two of a, b, c are equal, and false when all three are equal or all three are different."}, "code": "bool twoEqual(int a, int b, int c) {\n    return @@O@@;\n}", "rule": {"zh": "只填一個條件（運算式），可以用 a、b、c、整數和運算符，最多 40 格（空白不計）。", "en": "Write one condition (an expression) using a, b, c, integers and operators, in at most 40 boxes (spaces not counted)."}, "expl": {"zh": "「剛好兩個相等」等於「三個比較 a == b、b == c、a == c 之中剛好一個成立」：如果有兩個成立，例如 a == b 和 b == c，第三個 a == c 也一定成立。C++ 的 true、false 可以當作 1、0 相加，所以可以寫 `(a == b) + (b == c) + (a == c) == 1`。另一種寫法是「最少一對相等，但不是三個都相等」：`(a == b || b == c || a == c) && !(a == b && b == c)`。網頁會代入 a、b、c 的不同數值，和參考答案比較。", "en": "\"Exactly two are equal\" means \"exactly one of the comparisons a == b, b == c, a == c holds\": if two hold, say a == b and b == c, then a == c holds as well. In C++, true and false add up as 1 and 0, so one answer is `(a == b) + (b == c) + (a == c) == 1`. Another is \"at least one pair equal, but not all three\": `(a == b || b == c || a == c) && !(a == b && b == c)`. The page substitutes many values of a, b, c and compares with the model answer."}, "point": {"zh": "比較的結果 true、false 在 C++ 裏可以當 1、0 計算：「剛好 k 個條件成立」可以寫成把條件加起來 == k。", "en": "In C++ the results of comparisons count as 1 and 0, so \"exactly k conditions hold\" can be written as their sum == k."}, "exam": {"zh": "常見的組合條件在 16 屆裏有 14 屆考過（難點庫 F02）；2025/26 初級卷二乙部也要寫條件（IsNotEqual），這題再加上「剛好兩個相等」的組合；布爾值當整數用有 8 屆（F09）。", "en": "Common combined conditions appeared in 14 of 16 years (bank item F02); the 2025/26 Junior Paper 2 Section B also asked for a condition (IsNotEqual), and this one adds the combination \"exactly two equal\"; using booleans as integers appeared in 8 (F09)."}, "layout": "inline", "topic": {"zh": "寫條件式", "en": "Writing a condition"}, "level": "中", "blanks": [{"id": "O", "type": "expr", "ctx": "bool", "ref": "(a == b) + (b == c) + (a == c) == 1", "vars": {"a": [-30, 30], "b": [-30, 30], "c": [-30, 30]}, "maxlen": 40, "extra": [{"a": -3, "b": -3, "c": -3}, {"a": -3, "b": -3, "c": -2}, {"a": -3, "b": -3, "c": -1}, {"a": -3, "b": -3, "c": 0}, {"a": -3, "b": -3, "c": 1}, {"a": -3, "b": -3, "c": 2}, {"a": -3, "b": -3, "c": 3}, {"a": -3, "b": -2, "c": -3}, {"a": -3, "b": -2, "c": -2}, {"a": -3, "b": -2, "c": -1}, {"a": -3, "b": -2, "c": 0}, {"a": -3, "b": -2, "c": 1}, {"a": -3, "b": -2, "c": 2}, {"a": -3, "b": -2, "c": 3}, {"a": -3, "b": -1, "c": -3}, {"a": -3, "b": -1, "c": -2}, {"a": -3, "b": -1, "c": -1}, {"a": -3, "b": -1, "c": 0}, {"a": -3, "b": -1, "c": 1}, {"a": -3, "b": -1, "c": 2}, {"a": -3, "b": -1, "c": 3}, {"a": -3, "b": 0, "c": -3}, {"a": -3, "b": 0, "c": -2}, {"a": -3, "b": 0, "c": -1}, {"a": -3, "b": 0, "c": 0}, {"a": -3, "b": 0, "c": 1}, {"a": -3, "b": 0, "c": 2}, {"a": -3, "b": 0, "c": 3}, {"a": -3, "b": 1, "c": -3}, {"a": -3, "b": 1, "c": -2}, {"a": -3, "b": 1, "c": -1}, {"a": -3, "b": 1, "c": 0}, {"a": -3, "b": 1, "c": 1}, {"a": -3, "b": 1, "c": 2}, {"a": -3, "b": 1, "c": 3}, {"a": -3, "b": 2, "c": -3}, {"a": -3, "b": 2, "c": -2}, {"a": -3, "b": 2, "c": -1}, {"a": -3, "b": 2, "c": 0}, {"a": -3, "b": 2, "c": 1}, {"a": -3, "b": 2, "c": 2}, {"a": -3, "b": 2, "c": 3}, {"a": -3, "b": 3, "c": -3}, {"a": -3, "b": 3, "c": -2}, {"a": -3, "b": 3, "c": -1}, {"a": -3, "b": 3, "c": 0}, {"a": -3, "b": 3, "c": 1}, {"a": -3, "b": 3, "c": 2}, {"a": -3, "b": 3, "c": 3}, {"a": -2, "b": -3, "c": -3}, {"a": -2, "b": -3, "c": -2}, {"a": -2, "b": -3, "c": -1}, {"a": -2, "b": -3, "c": 0}, {"a": -2, "b": -3, "c": 1}, {"a": -2, "b": -3, "c": 2}, {"a": -2, "b": -3, "c": 3}, {"a": -2, "b": -2, "c": -3}, {"a": -2, "b": -2, "c": -2}, {"a": -2, "b": -2, "c": -1}, {"a": -2, "b": -2, "c": 0}, {"a": -2, "b": -2, "c": 1}, {"a": -2, "b": -2, "c": 2}, {"a": -2, "b": -2, "c": 3}, {"a": -2, "b": -1, "c": -3}, {"a": -2, "b": -1, "c": -2}, {"a": -2, "b": -1, "c": -1}, {"a": -2, "b": -1, "c": 0}, {"a": -2, "b": -1, "c": 1}, {"a": -2, "b": -1, "c": 2}, {"a": -2, "b": -1, "c": 3}, {"a": -2, "b": 0, "c": -3}, {"a": -2, "b": 0, "c": -2}, {"a": -2, "b": 0, "c": -1}, {"a": -2, "b": 0, "c": 0}, {"a": -2, "b": 0, "c": 1}, {"a": -2, "b": 0, "c": 2}, {"a": -2, "b": 0, "c": 3}, {"a": -2, "b": 1, "c": -3}, {"a": -2, "b": 1, "c": -2}, {"a": -2, "b": 1, "c": -1}, {"a": -2, "b": 1, "c": 0}, {"a": -2, "b": 1, "c": 1}, {"a": -2, "b": 1, "c": 2}, {"a": -2, "b": 1, "c": 3}, {"a": -2, "b": 2, "c": -3}, {"a": -2, "b": 2, "c": -2}, {"a": -2, "b": 2, "c": -1}, {"a": -2, "b": 2, "c": 0}, {"a": -2, "b": 2, "c": 1}, {"a": -2, "b": 2, "c": 2}, {"a": -2, "b": 2, "c": 3}, {"a": -2, "b": 3, "c": -3}, {"a": -2, "b": 3, "c": -2}, {"a": -2, "b": 3, "c": -1}, {"a": -2, "b": 3, "c": 0}, {"a": -2, "b": 3, "c": 1}, {"a": -2, "b": 3, "c": 2}, {"a": -2, "b": 3, "c": 3}, {"a": -1, "b": -3, "c": -3}, {"a": -1, "b": -3, "c": -2}, {"a": -1, "b": -3, "c": -1}, {"a": -1, "b": -3, "c": 0}, {"a": -1, "b": -3, "c": 1}, {"a": -1, "b": -3, "c": 2}, {"a": -1, "b": -3, "c": 3}, {"a": -1, "b": -2, "c": -3}, {"a": -1, "b": -2, "c": -2}, {"a": -1, "b": -2, "c": -1}, {"a": -1, "b": -2, "c": 0}, {"a": -1, "b": -2, "c": 1}, {"a": -1, "b": -2, "c": 2}, {"a": -1, "b": -2, "c": 3}, {"a": -1, "b": -1, "c": -3}, {"a": -1, "b": -1, "c": -2}, {"a": -1, "b": -1, "c": -1}, {"a": -1, "b": -1, "c": 0}, {"a": -1, "b": -1, "c": 1}, {"a": -1, "b": -1, "c": 2}, {"a": -1, "b": -1, "c": 3}, {"a": -1, "b": 0, "c": -3}, {"a": -1, "b": 0, "c": -2}, {"a": -1, "b": 0, "c": -1}, {"a": -1, "b": 0, "c": 0}, {"a": -1, "b": 0, "c": 1}, {"a": -1, "b": 0, "c": 2}, {"a": -1, "b": 0, "c": 3}, {"a": -1, "b": 1, "c": -3}, {"a": -1, "b": 1, "c": -2}, {"a": -1, "b": 1, "c": -1}, {"a": -1, "b": 1, "c": 0}, {"a": -1, "b": 1, "c": 1}, {"a": -1, "b": 1, "c": 2}, {"a": -1, "b": 1, "c": 3}, {"a": -1, "b": 2, "c": -3}, {"a": -1, "b": 2, "c": -2}, {"a": -1, "b": 2, "c": -1}, {"a": -1, "b": 2, "c": 0}, {"a": -1, "b": 2, "c": 1}, {"a": -1, "b": 2, "c": 2}, {"a": -1, "b": 2, "c": 3}, {"a": -1, "b": 3, "c": -3}, {"a": -1, "b": 3, "c": -2}, {"a": -1, "b": 3, "c": -1}, {"a": -1, "b": 3, "c": 0}, {"a": -1, "b": 3, "c": 1}, {"a": -1, "b": 3, "c": 2}, {"a": -1, "b": 3, "c": 3}, {"a": 0, "b": -3, "c": -3}, {"a": 0, "b": -3, "c": -2}, {"a": 0, "b": -3, "c": -1}, {"a": 0, "b": -3, "c": 0}, {"a": 0, "b": -3, "c": 1}, {"a": 0, "b": -3, "c": 2}, {"a": 0, "b": -3, "c": 3}, {"a": 0, "b": -2, "c": -3}, {"a": 0, "b": -2, "c": -2}, {"a": 0, "b": -2, "c": -1}, {"a": 0, "b": -2, "c": 0}, {"a": 0, "b": -2, "c": 1}, {"a": 0, "b": -2, "c": 2}, {"a": 0, "b": -2, "c": 3}, {"a": 0, "b": -1, "c": -3}, {"a": 0, "b": -1, "c": -2}, {"a": 0, "b": -1, "c": -1}, {"a": 0, "b": -1, "c": 0}, {"a": 0, "b": -1, "c": 1}, {"a": 0, "b": -1, "c": 2}, {"a": 0, "b": -1, "c": 3}, {"a": 0, "b": 0, "c": -3}, {"a": 0, "b": 0, "c": -2}, {"a": 0, "b": 0, "c": -1}, {"a": 0, "b": 0, "c": 0}, {"a": 0, "b": 0, "c": 1}, {"a": 0, "b": 0, "c": 2}, {"a": 0, "b": 0, "c": 3}, {"a": 0, "b": 1, "c": -3}, {"a": 0, "b": 1, "c": -2}, {"a": 0, "b": 1, "c": -1}, {"a": 0, "b": 1, "c": 0}, {"a": 0, "b": 1, "c": 1}, {"a": 0, "b": 1, "c": 2}, {"a": 0, "b": 1, "c": 3}, {"a": 0, "b": 2, "c": -3}, {"a": 0, "b": 2, "c": -2}, {"a": 0, "b": 2, "c": -1}, {"a": 0, "b": 2, "c": 0}, {"a": 0, "b": 2, "c": 1}, {"a": 0, "b": 2, "c": 2}, {"a": 0, "b": 2, "c": 3}, {"a": 0, "b": 3, "c": -3}, {"a": 0, "b": 3, "c": -2}, {"a": 0, "b": 3, "c": -1}, {"a": 0, "b": 3, "c": 0}, {"a": 0, "b": 3, "c": 1}, {"a": 0, "b": 3, "c": 2}, {"a": 0, "b": 3, "c": 3}, {"a": 1, "b": -3, "c": -3}, {"a": 1, "b": -3, "c": -2}, {"a": 1, "b": -3, "c": -1}, {"a": 1, "b": -3, "c": 0}, {"a": 1, "b": -3, "c": 1}, {"a": 1, "b": -3, "c": 2}, {"a": 1, "b": -3, "c": 3}, {"a": 1, "b": -2, "c": -3}, {"a": 1, "b": -2, "c": -2}, {"a": 1, "b": -2, "c": -1}, {"a": 1, "b": -2, "c": 0}, {"a": 1, "b": -2, "c": 1}, {"a": 1, "b": -2, "c": 2}, {"a": 1, "b": -2, "c": 3}, {"a": 1, "b": -1, "c": -3}, {"a": 1, "b": -1, "c": -2}, {"a": 1, "b": -1, "c": -1}, {"a": 1, "b": -1, "c": 0}, {"a": 1, "b": -1, "c": 1}, {"a": 1, "b": -1, "c": 2}, {"a": 1, "b": -1, "c": 3}, {"a": 1, "b": 0, "c": -3}, {"a": 1, "b": 0, "c": -2}, {"a": 1, "b": 0, "c": -1}, {"a": 1, "b": 0, "c": 0}, {"a": 1, "b": 0, "c": 1}, {"a": 1, "b": 0, "c": 2}, {"a": 1, "b": 0, "c": 3}, {"a": 1, "b": 1, "c": -3}, {"a": 1, "b": 1, "c": -2}, {"a": 1, "b": 1, "c": -1}, {"a": 1, "b": 1, "c": 0}, {"a": 1, "b": 1, "c": 1}, {"a": 1, "b": 1, "c": 2}, {"a": 1, "b": 1, "c": 3}, {"a": 1, "b": 2, "c": -3}, {"a": 1, "b": 2, "c": -2}, {"a": 1, "b": 2, "c": -1}, {"a": 1, "b": 2, "c": 0}, {"a": 1, "b": 2, "c": 1}, {"a": 1, "b": 2, "c": 2}, {"a": 1, "b": 2, "c": 3}, {"a": 1, "b": 3, "c": -3}, {"a": 1, "b": 3, "c": -2}, {"a": 1, "b": 3, "c": -1}, {"a": 1, "b": 3, "c": 0}, {"a": 1, "b": 3, "c": 1}, {"a": 1, "b": 3, "c": 2}, {"a": 1, "b": 3, "c": 3}, {"a": 2, "b": -3, "c": -3}, {"a": 2, "b": -3, "c": -2}, {"a": 2, "b": -3, "c": -1}, {"a": 2, "b": -3, "c": 0}, {"a": 2, "b": -3, "c": 1}, {"a": 2, "b": -3, "c": 2}, {"a": 2, "b": -3, "c": 3}, {"a": 2, "b": -2, "c": -3}, {"a": 2, "b": -2, "c": -2}, {"a": 2, "b": -2, "c": -1}, {"a": 2, "b": -2, "c": 0}, {"a": 2, "b": -2, "c": 1}, {"a": 2, "b": -2, "c": 2}, {"a": 2, "b": -2, "c": 3}, {"a": 2, "b": -1, "c": -3}, {"a": 2, "b": -1, "c": -2}, {"a": 2, "b": -1, "c": -1}, {"a": 2, "b": -1, "c": 0}, {"a": 2, "b": -1, "c": 1}, {"a": 2, "b": -1, "c": 2}, {"a": 2, "b": -1, "c": 3}, {"a": 2, "b": 0, "c": -3}, {"a": 2, "b": 0, "c": -2}, {"a": 2, "b": 0, "c": -1}, {"a": 2, "b": 0, "c": 0}, {"a": 2, "b": 0, "c": 1}, {"a": 2, "b": 0, "c": 2}, {"a": 2, "b": 0, "c": 3}, {"a": 2, "b": 1, "c": -3}, {"a": 2, "b": 1, "c": -2}, {"a": 2, "b": 1, "c": -1}, {"a": 2, "b": 1, "c": 0}, {"a": 2, "b": 1, "c": 1}, {"a": 2, "b": 1, "c": 2}, {"a": 2, "b": 1, "c": 3}, {"a": 2, "b": 2, "c": -3}, {"a": 2, "b": 2, "c": -2}, {"a": 2, "b": 2, "c": -1}, {"a": 2, "b": 2, "c": 0}, {"a": 2, "b": 2, "c": 1}, {"a": 2, "b": 2, "c": 2}, {"a": 2, "b": 2, "c": 3}, {"a": 2, "b": 3, "c": -3}, {"a": 2, "b": 3, "c": -2}, {"a": 2, "b": 3, "c": -1}, {"a": 2, "b": 3, "c": 0}, {"a": 2, "b": 3, "c": 1}, {"a": 2, "b": 3, "c": 2}, {"a": 2, "b": 3, "c": 3}, {"a": 3, "b": -3, "c": -3}, {"a": 3, "b": -3, "c": -2}, {"a": 3, "b": -3, "c": -1}, {"a": 3, "b": -3, "c": 0}, {"a": 3, "b": -3, "c": 1}, {"a": 3, "b": -3, "c": 2}, {"a": 3, "b": -3, "c": 3}, {"a": 3, "b": -2, "c": -3}, {"a": 3, "b": -2, "c": -2}, {"a": 3, "b": -2, "c": -1}, {"a": 3, "b": -2, "c": 0}, {"a": 3, "b": -2, "c": 1}, {"a": 3, "b": -2, "c": 2}, {"a": 3, "b": -2, "c": 3}, {"a": 3, "b": -1, "c": -3}, {"a": 3, "b": -1, "c": -2}, {"a": 3, "b": -1, "c": -1}, {"a": 3, "b": -1, "c": 0}, {"a": 3, "b": -1, "c": 1}, {"a": 3, "b": -1, "c": 2}, {"a": 3, "b": -1, "c": 3}, {"a": 3, "b": 0, "c": -3}, {"a": 3, "b": 0, "c": -2}, {"a": 3, "b": 0, "c": -1}, {"a": 3, "b": 0, "c": 0}, {"a": 3, "b": 0, "c": 1}, {"a": 3, "b": 0, "c": 2}, {"a": 3, "b": 0, "c": 3}, {"a": 3, "b": 1, "c": -3}, {"a": 3, "b": 1, "c": -2}, {"a": 3, "b": 1, "c": -1}, {"a": 3, "b": 1, "c": 0}, {"a": 3, "b": 1, "c": 1}, {"a": 3, "b": 1, "c": 2}, {"a": 3, "b": 1, "c": 3}, {"a": 3, "b": 2, "c": -3}, {"a": 3, "b": 2, "c": -2}, {"a": 3, "b": 2, "c": -1}, {"a": 3, "b": 2, "c": 0}, {"a": 3, "b": 2, "c": 1}, {"a": 3, "b": 2, "c": 2}, {"a": 3, "b": 2, "c": 3}, {"a": 3, "b": 3, "c": -3}, {"a": 3, "b": 3, "c": -2}, {"a": 3, "b": 3, "c": -1}, {"a": 3, "b": 3, "c": 0}, {"a": 3, "b": 3, "c": 1}, {"a": 3, "b": 3, "c": 2}, {"a": 3, "b": 3, "c": 3}]}], "wrong": [["a == b || b == c || a == c", {"zh": "三個都相等時也會傳回 true。", "en": "Also returns true when all three are equal."}], ["(a == b) ^ (b == c) ^ (a == c)", {"zh": "剛好一對相等時是 true，但三個都相等時三個比較都是 true，XOR 起來仍是 true。", "en": "True when exactly one pair is equal, but when all three are equal all three comparisons are true, and their XOR is still true."}], ["(a == b) + (b == c) + (a == c) == 2", {"zh": "三個比較不可能剛好兩個成立：a == b 和 b == c 都成立時，a == c 也一定成立。", "en": "Exactly two of the three comparisons can never hold: if a == b and b == c, then a == c too."}]]}, {"id": "M210", "n": 10, "part": 2, "group": "B", "kind": "fill", "marks": 1.5, "time": 180, "title": {"zh": "1 至 2026 全部 XOR 起來", "en": "XOR of 1 to 2026"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int x = 0;\nfor (int i = 1; i <= 2026; i++)\n    x ^= i;\ncout << x;", "rule": {"zh": "只填一個整數。", "en": "Write one integer."}, "expl": {"zh": "先試小的 n（f(n) 是 1 至 n 全部 XOR 起來）：f(1) = 1，f(2) = 1 ^ 2 = 3，f(3) = 3 ^ 3 = 0，f(4) = 4，f(5) = 1，f(6) = 7，f(7) = 0，f(8) = 8。規律：n 除以 4 餘 0 時 f(n) = n，餘 1 時是 1，餘 2 時是 n + 1，餘 3 時是 0。原因：k 是偶數時，k 和 k + 1 只差最低一位，k ^ (k + 1) = 1；所以由 4 的倍數開始，每 4 個連續的數 XOR 起來是 1 ^ 1 = 0。2026 = 4 × 506 + 2，所以 f(2023) = 0，再 ^ 2024 ^ 2025 ^ 2026：2024 ^ 2025 = 1，1 ^ 2026 = 2027。輸出 2027。", "en": "Try small n first (f(n) is the XOR of 1 to n): f(1) = 1, f(2) = 1 ^ 2 = 3, f(3) = 3 ^ 3 = 0, f(4) = 4, f(5) = 1, f(6) = 7, f(7) = 0, f(8) = 8. The pattern: f(n) = n for remainder 0 when divided by 4, 1 for remainder 1, n + 1 for remainder 2, and 0 for remainder 3. The reason: for even k, k and k + 1 differ only in the lowest bit, so k ^ (k + 1) = 1, and every 4 consecutive numbers starting at a multiple of 4 give 1 ^ 1 = 0. 2026 = 4 × 506 + 2, so f(2023) = 0, then ^ 2024 ^ 2025 ^ 2026: 2024 ^ 2025 = 1 and 1 ^ 2026 = 2027. The output is 2027."}, "point": {"zh": "大 n 的 XOR：先試小的 n 找規律；k 是偶數時 k ^ (k + 1) = 1，所以由 4 的倍數開始，每 4 個連續的數 XOR 起來是 0。", "en": "For XOR over a large range, try small n to find the pattern; for even k, k ^ (k + 1) = 1, so every 4 consecutive numbers from a multiple of 4 XOR to 0."}, "exam": {"zh": "XOR 的題目在 16 屆裏有 9 屆考過（難點庫 L28）；先試小的例子找規律有 7 屆（M22）。", "en": "XOR questions appeared in 9 of 16 years (bank item L28); trying small cases to find a pattern appeared in 7 (M22)."}, "layout": "inline", "topic": {"zh": "XOR 的規律", "en": "Patterns in XOR"}, "level": "中至難", "blanks": [{"id": "P", "type": "int", "ans": 2027, "label": {"zh": "P", "en": "P"}}], "wrong": [["0", {"zh": "以為很多個數 XOR 起來會互相抵消成 0。結果要按規律計算，不能憑項數猜：例如 1 ^ 2 ^ 3 = 0，但 1 ^ 2 ^ 3 ^ 4 = 4。本題要把每 4 個數分成一組，再看剩下的數。", "en": "Thinks XOR-ing many numbers cancels to 0. The result must be worked out from the pattern, not guessed from the number of terms: 1 ^ 2 ^ 3 = 0, but 1 ^ 2 ^ 3 ^ 4 = 4. Here, group the numbers in fours and look at what is left."}], ["1", {"zh": "找到了每 4 個數一組的規律，但用錯了餘數：2026 除以 4 餘 2，結果是 n + 1；餘 1 時結果才是 1。", "en": "Finds the pattern in groups of 4 but uses the wrong remainder: 2026 leaves remainder 2 when divided by 4, giving n + 1; the result is 1 only for remainder 1."}], ["2026", {"zh": "以為結果等於 n。f(n) = n 是 n 除以 4 餘 0 時的規律；2026 除以 4 餘 2，應該用 n + 1。", "en": "Assumes the result is n. f(n) = n is the rule for remainder 0 when divided by 4; 2026 leaves remainder 2, so use n + 1."}]]}, {"id": "M211", "n": 11, "part": 2, "group": "B", "kind": "fill", "marks": 1.5, "time": 180, "title": {"zh": "i × j ≤ 100", "en": "i × j ≤ 100"}, "stem": {"zh": "以下程式輸出甚麼？", "en": "What does this program print?"}, "code": "int c = 0;\nfor (int i = 1; i <= 100; i++)\n    for (int j = i; i * j <= 100; j++)\n        c++;\ncout << c;", "rule": {"zh": "只填一個整數。", "en": "Write one integer."}, "expl": {"zh": "內層 j 由 i 開始，條件 i × j ≤ 100 即 j ≤ 100 / i（整數除法），所以執行 100 / i − i + 1 次；但 i ≥ 11 時第一次檢查已經是 i × i > 100，一次也不執行。c = (100 − 1 + 1) + (50 − 2 + 1) + (33 − 3 + 1) + (25 − 4 + 1) + (20 − 5 + 1) + (16 − 6 + 1) + (14 − 7 + 1) + (12 − 8 + 1) + (11 − 9 + 1) + (10 − 10 + 1) = 100 + 49 + 31 + 22 + 16 + 11 + 8 + 5 + 3 + 1 = 246。核對：c 是 i ≤ j 而且 i × j ≤ 100 的數對數目。所有 i × j ≤ 100 的數對有 482 對，其中 i = j 的有 10 對，其餘的一半 i < j，所以 c = (482 − 10) ÷ 2 + 10 = 246。", "en": "The inner j starts at i, and i × j ≤ 100 means j ≤ 100 / i (integer division), so it runs 100 / i − i + 1 times; but for i ≥ 11 the first check already has i × i > 100, so it never runs. c = (100 − 1 + 1) + (50 − 2 + 1) + (33 − 3 + 1) + (25 − 4 + 1) + (20 − 5 + 1) + (16 − 6 + 1) + (14 − 7 + 1) + (12 − 8 + 1) + (11 − 9 + 1) + (10 − 10 + 1) = 100 + 49 + 31 + 22 + 16 + 11 + 8 + 5 + 3 + 1 = 246. Check: c counts pairs with i ≤ j and i × j ≤ 100. There are 482 pairs with i × j ≤ 100, 10 of them with i = j, and half of the rest have i < j, so c = (482 − 10) ÷ 2 + 10 = 246."}, "point": {"zh": "內層的邊界跟外層變時，逐個 i 寫出內層的次數；條件一開始就不成立時，內層一次也不執行。用「所有數對」和對稱可以核對答案。", "en": "When the inner bound depends on the outer variable, write down the inner count for each i; if the condition fails at the start, the inner loop runs zero times. Symmetry over all pairs is a good check."}, "exam": {"zh": "嵌套迴圈計數在 16 屆裏有 13 屆考過（難點庫 R01），2023/24 有 5 題、2024/25 有 4 題；2024/25 和 2025/26 初級卷二乙部都考了內層邊界跟外層變的迴圈。", "en": "Counting nested loops appeared in 13 of 16 years (bank item R01), with 5 questions in 2023/24 and 4 in 2024/25; both the 2024/25 and 2025/26 Junior Paper 2 Section B had loops whose inner bound depends on the outer one."}, "layout": "inline", "topic": {"zh": "嵌套迴圈計數：內層的邊界跟外層變", "en": "Counting nested loops whose bounds depend on the outer"}, "level": "中至難", "blanks": [{"id": "Q", "type": "int", "ans": 246, "label": {"zh": "Q", "en": "Q"}}], "wrong": [["482", {"zh": "以為 j 由 1 開始：那就是所有 i × j ≤ 100 的數對 (i, j)，共 482 對。這裏 j 由 i 開始，只數 i ≤ j 的數對。", "en": "Assumes j starts at 1, which counts every pair (i, j) with i × j ≤ 100, 482 in all. Here j starts at i, so only pairs with i ≤ j count."}], ["236", {"zh": "內層的次數算成 100 / i − i，少了 j = i 那一次。j 由 i 走到 100 / i，共 100 / i − i + 1 次。", "en": "Counts the inner loop as 100 / i − i times, missing j = i. j runs from i to 100 / i, which is 100 / i − i + 1 times."}], ["5050", {"zh": "把條件看成 j <= 100，以為內層每次執行 101 − i 次。條件是 i × j ≤ 100，i 大於 10 時內層一次也不執行。", "en": "Reads the condition as j <= 100, so the inner loop would run 101 − i times. The condition is i × j ≤ 100, so for i above 10 the inner loop never runs."}]]}, {"id": "M212", "n": 12, "part": 3, "group": "B", "kind": "fill", "marks": 3, "time": 360, "title": {"zh": "字串壓縮", "en": "Compressing a string"}, "stem": {"zh": "以下程式把只有小寫英文字母的字串壓縮：連續相同的字母寫成「字母加次數」，只出現一次的不寫次數，例如 aaabccddddd 變成 a3bc2d5。在空格 R、S、T 填上適當的內容，使程式正確。", "en": "This program compresses a string of lowercase letters: a run of equal letters is written as the letter followed by the count, and a letter that appears once has no count, so aaabccddddd becomes a3bc2d5. Fill in blanks R, S and T so that the program is correct."}, "code": "int main() {\n    string s, t = \"\";\n    cin >> s;\n    int i = 0, n = s.size();\n    while (i < n) {\n        int j = i;\n        while (j < n && @@R@@) j++;\n        t += s[i];\n        if (j > i + 1) t += to_string(@@S@@);\n        i = @@T@@;\n    }\n    cout << t;\n}", "rule": {"zh": "R 填一個條件，例如 a[k] != 0；S、T 只填算式，可以用 i、j、整數和運算符，最多 12 格（空白不計）。每格 1 分。", "en": "For R, write a condition such as a[k] != 0; for S and T, write only an expression using i, j, integers and operators, in at most 12 boxes (spaces not counted). Each blank is worth 1 mark."}, "expl": {"zh": "j 由 i 開始向右走，走到第一個和 s[i] 不同的字母（或字串結尾）為止，所以 R 是 `s[j] == s[i]`（`j < n` 寫在前面，保證不會超出字串）。這一段相同的字母是 s[i] 至 s[j − 1]，共 j − i 個；多於一個（j > i + 1）才寫次數，所以 S 是 `j - i`。下一段由 j 開始，所以 T 是 `j`（即 `i = j`）。例如 aaabccddddd：aaa → a3，b → b，cc → c2，ddddd → d5，輸出 a3bc2d5。", "en": "j starts at i and moves right until the first letter different from s[i] (or the end), so R is `s[j] == s[i]` (with `j < n` first, so j never runs past the end). The run is s[i] to s[j − 1], j − i letters, and the count is written only when there is more than one (j > i + 1), so S is `j - i`. The next run starts at j, so T is `j` (that is, `i = j`). For aaabccddddd: aaa → a3, b → b, cc → c2, ddddd → d5, giving a3bc2d5."}, "point": {"zh": "找一段相同的字母：j 由 i 開始，條件 `j < n && s[j] == s[i]`；這一段是 s[i] 至 s[j − 1]，長度 j − i，下一段由 j 開始。", "en": "To find a run of equal letters: start j at i with the condition `j < n && s[j] == s[i]`; the run is s[i] to s[j − 1], of length j − i, and the next run starts at j."}, "exam": {"zh": "真卷丙部常要填下標和迴圈的起點（2024/25、2025/26 初級卷二丙部）。", "en": "The real Section C often asks for indices and loop starting points (2024/25 and 2025/26 Junior Paper 2)."}, "layout": "inline", "topic": {"zh": "程式填空：條件、長度和下一段的起點", "en": "Completing a program: condition, length and next start"}, "level": "中", "groups": [{"ids": ["R"], "m": 1, "label": "R"}, {"ids": ["S"], "m": 1, "label": "S"}, {"ids": ["T"], "m": 1, "label": "T"}], "blanks": [{"id": "R", "type": "textset", "show": "s[j] == s[i]", "ok": ["s[j]==s[i]", "s[i]==s[j]"], "no": ["s[j]==s[j+1]", "s[j]!=s[i]", "s[i]==s[i+1]", "s[j+1]==s[i]", "s[j]==s[j-1]"]}, {"id": "S", "type": "expr", "ctx": "int", "ref": "j - i", "vars": {"i": [0, 60], "j": [0, 60]}, "where": "j > i + 1", "maxlen": 12}, {"id": "T", "type": "expr", "ctx": "int", "ref": "j", "vars": {"i": [0, 60], "j": [0, 60]}, "where": "j > i", "lhs": "i", "maxlen": 12}], "wrong": [["S：j - i + 1", {"zh": "多算了一個。這一段是 s[i] 至 s[j − 1]，共 j − i 個字母：j 停在第一個不同的字母上。", "en": "One too many. The run is s[i] to s[j − 1], j − i letters: j stops on the first different letter."}], ["T：j + 1", {"zh": "跳過了 s[j]。s[j] 是下一段的第一個字母，下一段應由 j 開始。", "en": "Skips s[j]. s[j] is the first letter of the next run, so the next run starts at j."}], ["R：s[j] == s[j + 1]", {"zh": "比較了相鄰的兩個字母：j 停在這一段的最後一個字母上，長度少算一個；之後 i = j，下一輪 j 不會前進，程式永遠不會停（例如輸入 aaab）。應該和這一段的第一個字母 s[i] 比較。", "en": "Compares neighbouring letters: j stops on the run's last letter, so the length is one short; then i = j, j cannot move on the next pass, and the program never stops (try aaab). Compare with the run's first letter s[i] instead."}]]}, {"id": "M213", "n": 13, "part": 3, "group": "B", "kind": "fill", "marks": 3, "time": 360, "title": {"zh": "把方陣順時針轉 90 度", "en": "Rotating a square grid 90° clockwise"}, "stem": {"zh": "左邊的程式讀入 n（1 ≤ n ≤ 100）和 n × n 的方陣 a，把它順時針轉 90 度存入 b，然後輸出 b。例如 n = 3 時，1 2 3 / 4 5 6 / 7 8 9 會變成 7 4 1 / 8 5 2 / 9 6 3。（a）在空格 U1、U2 填上適當的內容。（b）小明想不用 b，直接在 a 裏面轉：先把 a 沿對角線翻轉（a[i][j] 和 a[j][i] 互換），再把每一行左右反轉，然後輸出 a。他寫了右邊的程式。對上面 n = 3 的例子，小明的程式輸出的第一行是甚麼？把答案寫在 V。", "en": "The program on the left reads n (1 ≤ n ≤ 100) and an n × n grid a, rotates it 90° clockwise into b, and prints b. For n = 3, 1 2 3 / 4 5 6 / 7 8 9 becomes 7 4 1 / 8 5 2 / 9 6 3. (a) Fill in blanks U1 and U2. (b) Siu Ming wants to rotate inside a without b: first flip a along the diagonal (swap a[i][j] and a[j][i]), then reverse each row, then print a. He wrote the program on the right. For the n = 3 example above, what is the first line his program prints? Write it in V."}, "codes": [[{"zh": "原來的程式", "en": "The program"}, "int n, a[100][100], b[100][100];\ncin >> n;\nfor (int i = 0; i < n; i++)\n    for (int j = 0; j < n; j++)\n        cin >> a[i][j];\nfor (int i = 0; i < n; i++)\n    for (int j = 0; j < n; j++)\n        b[@@U1@@][@@U2@@] = a[i][j];\nfor (int i = 0; i < n; i++) {\n    for (int j = 0; j < n; j++)\n        cout << b[i][j] << \" \";\n    cout << endl;\n}"], [{"zh": "小明的寫法（讀入 a 之後）", "en": "Siu Ming's version (after reading a)"}, "for (int i = 0; i < n; i++)\n    for (int j = 0; j < n; j++)\n        swap(a[i][j], a[j][i]);\nfor (int i = 0; i < n; i++)\n    for (int j = 0; j < n / 2; j++)\n        swap(a[i][j], a[i][n - 1 - j]);\nfor (int i = 0; i < n; i++) {\n    for (int j = 0; j < n; j++)\n        cout << a[i][j] << \" \";\n    cout << endl;\n}"]], "rule": {"zh": "U1、U2 只填算式，可以用 i、j、n、整數和運算符，每格最多 8 格（空白不計）；U1、U2 都正確才得 U 的 1.5 分。V 填三個整數，用空格分隔。", "en": "For U1 and U2, write only an expression using i, j, n, integers and operators, at most 8 boxes each (spaces not counted); U (1.5 marks) needs both right. For V, write three integers separated by spaces."}, "expl": {"zh": "（a）原來第 i 行第 j 列的數，順時針轉 90 度後去到第 j 行、由右數起第 i + 1 列，即 b[j][n − 1 − i]，所以 U1 是 `j`，U2 是 `n - 1 - i`。核對：a[0][0] = 1 去到 b[0][2]（第一行最右），a[2][0] = 7 去到 b[0][0]，和例子相同。（b）小明的第一段 j 由 0 走到 n − 1：i = 0、j = 1 時交換 a[0][1] 和 a[1][0]；之後 i = 1、j = 0 時又把它們交換一次，換回原狀。每一對都交換了兩次，所以第一段完成後 a 完全沒有改變。第二段把每一行左右反轉，第一行 1 2 3 變成 3 2 1，所以 V 是 3 2 1。要改正，第一段的內層迴圈應由 j = i + 1（或 j = i）開始，每對只交換一次。", "en": "(a) The number in row i, column j moves, after a 90° clockwise turn, to row j, column i + 1 counted from the right, that is b[j][n − 1 − i]; so U1 is `j` and U2 is `n - 1 - i`. Check: a[0][0] = 1 goes to b[0][2] (the right end of the first line), and a[2][0] = 7 goes to b[0][0], as in the example. (b) In Siu Ming's first part j runs from 0 to n − 1: at i = 0, j = 1 it swaps a[0][1] and a[1][0], and later at i = 1, j = 0 it swaps them back. Every pair is swapped twice, so after the first part a is unchanged. The second part reverses each row, so the first line 1 2 3 becomes 3 2 1: V is 3 2 1. To fix it, the inner loop of the first part should start at j = i + 1 (or j = i), so each pair is swapped once."}, "point": {"zh": "二維下標：順時針轉 90 度時 (i, j) 去到 (j, n − 1 − i)。在陣列裏原地交換時，要確保每一對只交換一次，否則會換回原狀。", "en": "2D indices: a 90° clockwise turn sends (i, j) to (j, n − 1 − i). When swapping inside an array, make sure each pair is swapped only once, or it swaps back."}, "exam": {"zh": "二維下標與循環移位在 16 屆裏有 6 屆考過（難點庫 F04），2023/24 有 2 題；陣列原地更新有 8 屆（R05）。", "en": "2D indices and cyclic shifts appeared in 6 of 16 years (bank item F04), with 2 questions in 2023/24; updating an array in place appeared in 8 (R05)."}, "layout": "inline", "topic": {"zh": "二維下標與原地交換", "en": "2D indices and swapping in place"}, "level": "中", "groups": [{"ids": ["U1", "U2"], "m": 1.5, "label": "U"}, {"ids": ["V"], "m": 1.5, "label": "V"}], "blanks": [{"id": "U1", "type": "expr", "ctx": "int", "ref": "j", "vars": {"i": [0, 9], "j": [0, 9], "n": [1, 10]}, "where": "i < n && j < n", "maxlen": 8}, {"id": "U2", "type": "expr", "ctx": "int", "ref": "n - 1 - i", "vars": {"i": [0, 9], "j": [0, 9], "n": [1, 10]}, "where": "i < n && j < n", "maxlen": 8}, {"id": "V", "type": "ints", "ans": [3, 2, 1], "label": {"zh": "V", "en": "V"}}], "wrong": [["U1 = n - 1 - j，U2 = i", {"zh": "這是逆時針轉 90 度：a[0][2] = 3 會去到 b[0][0]。", "en": "This rotates 90° anticlockwise: a[0][2] = 3 would go to b[0][0]."}], ["U1 = j，U2 = i", {"zh": "這只是沿對角線翻轉（行和列互換），不是旋轉：第一行會是 1 4 7。", "en": "This only flips along the diagonal (rows and columns swap), which is not a rotation: the first line would be 1 4 7."}], ["V = 7 4 1", {"zh": "以為小明的方法正確。他的第一段把每一對 a[i][j]、a[j][i] 交換了兩次（i < j 時一次，i > j 時又一次），換回原狀；所以只剩下左右反轉。", "en": "Assumes Siu Ming's method works. His first part swaps every pair a[i][j], a[j][i] twice (once when i < j, again when i > j), putting them back, so only the row reversal is left."}], ["V = 1 4 7", {"zh": "只做了對角線翻轉，忘了之後還要把每一行左右反轉；而且對角線翻轉其實換了兩次，沒有效果。", "en": "Does the diagonal flip but forgets the row reversal after it; and the flip, done twice, actually has no effect."}]]}], "mock": {"paper": 2, "cut": 25, "full": 45}}</script>
+<script>
+/* HKOI 練習頁的答案核對（填充題、程式碼填充、構造輸入）。
+   程式碼填充按 C++ 的 int 規則計算：除法向 0 捨去、餘數跟被除數同號、溢出和除以 0 當作錯誤。
+   不用 eval，所以在任何網頁環境都能執行。 */
+var HKC = (function () {
+  "use strict";
+  var INT_MIN = -2147483648, INT_MAX = 2147483647;
+
+  /* 全形字元轉半形，各種減號轉成 "-"，數學符號 ≥ ≤ ≠ × ÷ 轉成 C++ 的寫法 */
+  function half(s) {
+    return String(s)
+      .replace(/[！-～]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/　/g, " ")
+      .replace(/[−‒–—﹣‐‑]/g, "-")
+      .replace(/[≥≧]/g, ">=").replace(/[≤≦]/g, "<=").replace(/≠/g, "!=").replace(/×/g, "*").replace(/÷/g, "/");
+  }
+
+  /* 整數答案：去掉空格和逗號，接受 +/- 號 */
+  function parseIntAnswer(s) {
+    var t = half(s).replace(/[\s,、]/g, "");
+    if (!/^[+-]?\d+$/.test(t)) return null;
+    var v = Number(t);
+    return isFinite(v) ? v : null;
+  }
+
+  /* ---------------- 算式：分拆字元 ---------------- */
+  var WORDS = { and: "&&", or: "||", not: "!", not_eq: "!=", xor: "^", bitand: "&", bitor: "|", compl: "~" };
+  var PUNCT = ["<<=", ">>=", "<<", ">>", "<=", ">=", "==", "!=", "&&", "||", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "++", "--",
+               "+", "-", "*", "/", "%", "<", ">", "!", "~", "&", "|", "^", "(", ")", "?", ":", "="];
+
+  function Err(code, extra) { this.code = code; this.extra = extra; }
+
+  function tokenize(src) {
+    var s = half(src), i = 0, out = [];
+    while (i < s.length) {
+      var c = s[i];
+      if (/\s/.test(c)) { i++; continue; }
+      if (/[0-9]/.test(c)) {
+        var m = /^(0[xX][0-9a-fA-F]+|[0-9]+)([A-Za-z_][A-Za-z0-9_]*)?/.exec(s.slice(i));
+        var isLL = false;
+        if (m[2]) { if (/^(l|L|ll|LL)$/.test(m[2])) isLL = true; else throw new Err("suffix", m[0]); }
+        var lit = m[1], v;
+        if (/^0[xX]/.test(lit)) v = parseInt(lit, 16);
+        else if (lit.length > 1 && lit[0] === "0") { if (/[89]/.test(lit)) throw new Err("octal", lit); v = parseInt(lit, 8); }
+        else v = Number(lit);
+        if (v > (isLL ? 9007199254740991 : INT_MAX)) throw new Err("biglit", lit);
+        out.push({ t: "num", v: v, l: isLL }); i += m[0].length; continue;
+      }
+      if (/[A-Za-z_]/.test(c)) {
+        var w = /^[A-Za-z_][A-Za-z0-9_]*/.exec(s.slice(i))[0];
+        if (WORDS[w]) out.push({ t: "op", v: WORDS[w] });
+        else if (/^(long|int|double|float|unsigned|signed|short|char|bool)$/.test(w)) out.push({ t: "type", v: w });
+        else if (w === "true" || w === "false") out.push({ t: "num", v: w === "true" ? 1 : 0 });
+        else out.push({ t: "id", v: w });
+        i += w.length; continue;
+      }
+      if (c === "'") {
+        var m2 = /^'(\\[nt0\\']|[^\\'])'/.exec(s.slice(i));
+        if (!m2) throw new Err("parse");
+        var ch = m2[1], code = ch.length === 1 ? ch.charCodeAt(0) : { "\\n": 10, "\\t": 9, "\\0": 0, "\\\\": 92, "\\'": 39 }[ch];
+        out.push({ t: "num", v: code }); i += m2[0].length; continue;
+      }
+      var hit = null;
+      for (var k = 0; k < PUNCT.length; k++) if (s.substr(i, PUNCT[k].length) === PUNCT[k]) { hit = PUNCT[k]; break; }
+      if (!hit) throw new Err("char", c);
+      if (/^(=|\+=|-=|\*=|\/=|%=|&=|\|=|\^=|<<=|>>=)$/.test(hit)) throw new Err("assign");
+      if (hit === "++" || hit === "--") throw new Err("incdec");
+      out.push({ t: "op", v: hit }); i += hit.length;
+    }
+    return out;
+  }
+
+  /* ---------------- 算式：語法分析（C++ 的優先次序） ---------------- */
+  var BIN = {
+    "||": [1, "L"], "&&": [2, "L"], "|": [3, "L"], "^": [4, "L"], "&": [5, "L"],
+    "==": [6, "L"], "!=": [6, "L"], "<": [7, "L"], "<=": [7, "L"], ">": [7, "L"], ">=": [7, "L"],
+    "<<": [8, "L"], ">>": [8, "L"], "+": [9, "L"], "-": [9, "L"], "*": [10, "L"], "/": [10, "L"], "%": [10, "L"]
+  };
+  function parse(tokens) {
+    var p = 0;
+    function peek() { return tokens[p]; }
+    function take(v) { var t = tokens[p]; if (!t || (v && t.v !== v)) throw new Err("parse"); p++; return t; }
+    function primary() {
+      var t = peek();
+      if (!t) throw new Err("parse");
+      if (t.t === "num") { p++; return { k: "num", v: t.v, l: !!t.l }; }
+      if (t.v === "(" && tokens[p + 1] && tokens[p + 1].t === "type") {
+        var q = p + 1, words = [];
+        while (tokens[q] && tokens[q].t === "type") { words.push(tokens[q].v); q++; }
+        if (!tokens[q] || tokens[q].v !== ")") throw new Err("parse");
+        p = q + 1;
+        var ty = words.join(" "), to = /^(long long|long long int|long|long int|signed long long)$/.test(ty) ? "ll" : (ty === "int" || ty === "signed" || ty === "signed int") ? "int" : "other";
+        return { k: "cast", to: to, a: unary() };
+      }
+      if (t.t === "type") throw new Err("cast");
+      if (t.t === "id") { p++; if (peek() && peek().v === "(") throw new Err("call", t.v); return { k: "var", v: t.v }; }
+      if (t.v === "(") { p++; var e = ternary(); take(")"); return e; }
+      if (t.v === "-" || t.v === "+" || t.v === "!" || t.v === "~") { p++; return { k: "un", op: t.v, a: unary() }; }
+      throw new Err("parse");
+    }
+    function unary() { return primary(); }
+    function binary(minPrec) {
+      var left = unary();
+      for (;;) {
+        var t = peek();
+        if (!t || t.t !== "op" || !BIN[t.v] || BIN[t.v][0] < minPrec) break;
+        p++;
+        var right = binary(BIN[t.v][0] + 1);
+        left = { k: "bin", op: t.v, a: left, b: right };
+      }
+      return left;
+    }
+    function ternary() {
+      var c = binary(1);
+      if (peek() && peek().v === "?") {
+        p++; var a = ternary(); take(":"); var b = ternary();
+        return { k: "tern", c: c, a: a, b: b };
+      }
+      return c;
+    }
+    var e = ternary();
+    if (p !== tokens.length) throw new Err("parse");
+    return e;
+  }
+
+  /* ---------------- 算式：按 C++ 規則計算（int；遇到 long long 字面值或強制轉換時用 long long） ---------------- */
+  var LL_SAFE = 9007199254740991;
+  function chk(v, l) {
+    if (l) { if (v > LL_SAFE || v < -LL_SAFE) throw new Err("big"); return v; }
+    if (v > INT_MAX || v < INT_MIN) throw new Err("overflow"); return v;
+  }
+  function V(v, l) { return { v: v, l: !!l }; }
+  function ev(n, env) {
+    switch (n.k) {
+      case "num": return V(n.v, n.l);
+      case "var": if (!(n.v in env)) throw new Err("var", n.v); return V(env[n.v], false);
+      case "cast": {
+        var c = ev(n.a, env);
+        if (n.to === "ll") return V(c.v, true);
+        if (n.to === "int") { if (c.v > INT_MAX || c.v < INT_MIN) throw new Err("narrow"); return V(c.v, false); }
+        throw new Err("cast");
+      }
+      case "un": {
+        var a = ev(n.a, env);
+        if (n.op === "-") return V(chk(-a.v, a.l), a.l);
+        if (n.op === "+") return a;
+        if (n.op === "!") return V(a.v === 0 ? 1 : 0, false);
+        if (a.l) throw new Err("llbit");
+        return V(~a.v, false);
+      }
+      case "tern": return ev(n.c, env).v !== 0 ? ev(n.a, env) : ev(n.b, env);
+      case "bin": {
+        if (n.op === "&&") return V(ev(n.a, env).v !== 0 && ev(n.b, env).v !== 0 ? 1 : 0, false);
+        if (n.op === "||") return V(ev(n.a, env).v !== 0 || ev(n.b, env).v !== 0 ? 1 : 0, false);
+        var X = ev(n.a, env), Y = ev(n.b, env), x = X.v, y = Y.v, l = X.l || Y.l;
+        switch (n.op) {
+          case "+": return V(chk(x + y, l), l);
+          case "-": return V(chk(x - y, l), l);
+          case "*": return V(chk(x * y, l), l);
+          case "/": if (y === 0) throw new Err("div0"); if (!l && x === INT_MIN && y === -1) throw new Err("overflow"); return V(Math.trunc(x / y), l);
+          case "%": if (y === 0) throw new Err("div0"); if (!l && x === INT_MIN && y === -1) throw new Err("overflow"); return V(x % y === 0 ? 0 : x % y, l);
+          case "<": return V(x < y ? 1 : 0); case "<=": return V(x <= y ? 1 : 0);
+          case ">": return V(x > y ? 1 : 0); case ">=": return V(x >= y ? 1 : 0);
+          case "==": return V(x === y ? 1 : 0); case "!=": return V(x !== y ? 1 : 0);
+        }
+        if (l) throw new Err("llbit");
+        switch (n.op) {
+          case "<<": if (y < 0 || y > 31 || x < 0) throw new Err("shift"); var sh = x * Math.pow(2, y); if (sh > 4294967295) throw new Err("overflow"); return V(sh | 0);
+          case ">>": if (y < 0 || y > 31) throw new Err("shift"); return V(x >> y);
+          case "&": return V(x & y); case "|": return V(x | y); case "^": return V(x ^ y);
+        }
+      }
+    }
+    throw new Err("parse");
+  }
+  function evaluate(n, env) { return ev(n, env).v; }
+
+  function compile(src) { return parse(tokenize(src)); }
+  function run(src, env) { return evaluate(compile(src), env); }
+
+  /* 測試用的數值：範圍小就逐個試，範圍大就取邊界加固定的隨機數 */
+  function points(vars) {
+    var names = Object.keys(vars), total = 1;
+    names.forEach(function (k) { total *= vars[k][1] - vars[k][0] + 1; });
+    var out = [];
+    if (total <= 60000) {
+      (function rec(i, env) {
+        if (i === names.length) { out.push(Object.assign({}, env)); return; }
+        var r = vars[names[i]];
+        for (var v = r[0]; v <= r[1]; v++) { env[names[i]] = v; rec(i + 1, env); }
+      })(0, {});
+      return out;
+    }
+    var seed = 12345;
+    function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
+    for (var t = 0; t < 20000; t++) {
+      var env = {};
+      names.forEach(function (k) {
+        var r = vars[k], u = rnd();
+        env[k] = u < 0.1 ? r[0] + Math.floor(rnd() * 3) : u < 0.2 ? r[1] - Math.floor(rnd() * 3) : r[0] + Math.floor(rnd() * (r[1] - r[0] + 1));
+        if (env[k] > r[1]) env[k] = r[1];
+        if (env[k] < r[0]) env[k] = r[0];
+      });
+      out.push(env);
+    }
+    return out;
+  }
+
+  /* 程式碼填充的核對。status: right / wrong / unknown（網頁看不懂，請自己對照參考答案）
+     spec 可另加：
+       lhs   —— 空格是「lhs = 空格;」的右邊時，容許學生連「lhs =」和分號一起寫
+       where —— 只在這個條件成立的數值上比較（程式中不可能出現的數值不算）
+       wrap  —— 比較的是程式的效果：把空格的值代入 wrap 的 _v 之後再比較
+       extra —— 指定要先試的數值（找到反例時較易看懂） */
+  /* 空格裏真正要判分的部分：值的空格容許連「lhs =」和分號一起寫；格數也按這部分計算 */
+  function exprBody(input, spec) {
+    var raw = half(input).trim();
+    if (spec && spec.lhs) {
+      raw = raw.replace(/;\s*$/, "").trim();
+      var lm = new RegExp("^" + spec.lhs + "\\s*=(?!=)").exec(raw);
+      if (lm) raw = raw.slice(lm[0].length).trim();
+    }
+    return raw;
+  }
+  function checkExpr(input, spec) {
+    var raw = exprBody(input, spec), bool = spec.ctx === "bool";
+    var len = raw.replace(/\s/g, "").length;
+    if (!len) return { status: "empty" };
+    if (bool && /;$/.test(raw)) return { status: "wrong", reason: "semicolon" };
+    if (spec.maxlen && len > spec.maxlen) return { status: "wrong", reason: "toolong", len: len, max: spec.maxlen };
+    var ast;
+    try { ast = compile(raw); }
+    catch (e) {
+      if (e.code === "assign") return { status: "wrong", reason: bool ? "assign" : "assignV" };
+      if (e.code === "incdec") return { status: "wrong", reason: "incdec" };
+      if (e.code === "octal") return { status: "wrong", reason: "octal", lit: e.extra };
+      return { status: "unknown", reason: e.code || "parse" };
+    }
+    var ref = compile(spec.ref), where = spec.where ? compile(spec.where) : null, wrap = spec.wrap ? compile(spec.wrap) : null;
+    var pts = (spec.extra || []).concat(points(spec.vars)), tested = 0;
+    for (var i = 0; i < pts.length; i++) {
+      var pt = pts[i], want, wantW, got;
+      try {
+        if (where && evaluate(where, pt) === 0) continue;
+        want = evaluate(ref, pt);
+        if (wrap) wantW = evaluate(wrap, Object.assign({}, pt, { _v: want }));
+      } catch (e1) { continue; }   /* 參考答案在這組數值無定義：不用這組 */
+      try {
+        got = evaluate(ast, pt);
+        var same = wrap ? evaluate(wrap, Object.assign({}, pt, { _v: got })) === wantW : bool ? ((want !== 0) === (got !== 0)) : want === got;
+      } catch (e2) {
+        if (e2.code === "var") return { status: "wrong", reason: "var", name: e2.extra };
+        if (/^(llbit|narrow|cast|big)$/.test(e2.code)) return { status: "unknown", reason: e2.code };
+        return { status: "wrong", reason: e2.code, at: pt };
+      }
+      tested++;
+      if (!same) return { status: "wrong", reason: "mismatch", at: pt, want: bool ? (want !== 0) : want, got: bool ? (got !== 0) : got };
+    }
+    if (!tested) return { status: "unknown", reason: "nopoints" };
+    return { status: "right", tested: tested };
+  }
+
+  /* 構造輸入：每題一個核對函數（不用 eval） */
+  var CONSTRUCT = {
+    /* 第二大的數；a、b 的初始值是 0 */
+    second: function (vals, cfg) {
+      var a = 0, b = 0;
+      vals.forEach(function (x) { if (x > a) { b = a; a = x; } else if (x > b) { b = x; } });
+      var sorted = vals.slice().sort(function (p, q) { return q - p; });
+      return { program: b, correct: sorted[1] };
+    },
+    /* 活動：每次選最短的（一樣短選較前的），刪去和它重疊的；正確答案是最多可以參加的活動數。
+       輸入按 s1 e1 s2 e2 … 的次序；剛好在另一個開始時結束不算重疊 */
+    shortest: function (v) {
+      var iv = [], k, x, y;
+      for (k = 0; k + 1 < v.length; k += 2) { if (v[k] >= v[k + 1]) return { invalid: "order" }; iv.push([v[k], v[k + 1]]); }
+      function ov(p, q) { return p[0] < q[1] && q[0] < p[1]; }
+      var n = iv.length, gone = [], cnt = 0;
+      for (k = 0; k < n; k++) gone.push(false);
+      while (true) {
+        var b = -1;
+        for (k = 0; k < n; k++) if (!gone[k] && (b === -1 || iv[k][1] - iv[k][0] < iv[b][1] - iv[b][0])) b = k;
+        if (b === -1) break;
+        cnt++;
+        for (k = 0; k < n; k++) if (!gone[k] && ov(iv[k], iv[b])) gone[k] = true;
+      }
+      var best = 0;
+      for (var m = 0; m < (1 << n); m++) {
+        var sel = [], fine = true;
+        for (k = 0; k < n; k++) if (m >> k & 1) sel.push(iv[k]);
+        for (x = 0; x < sel.length; x++) for (y = x + 1; y < sel.length; y++) if (ov(sel[x], sel[y])) fine = false;
+        if (fine && sel.length > best) best = sel.length;
+      }
+      return { program: cnt, correct: best };
+    }
+  };
+
+  function parseList(input) {
+    var t = half(input).replace(/[,、;]/g, " ").trim();
+    if (!t) return [];
+    var parts = t.split(/\s+/), out = [];
+    for (var i = 0; i < parts.length; i++) {
+      if (!/^[+-]?\d+$/.test(parts[i])) return null;
+      out.push(Number(parts[i]));
+    }
+    return out;
+  }
+
+  function checkConstruct(input, cfg) {
+    var vals = parseList(input);
+    if (vals === null) return { status: "wrong", reason: "notint" };
+    if (!vals.length) return { status: "empty" };
+    if (vals.length !== cfg.n) return { status: "wrong", reason: "count", got: vals.length, want: cfg.n };
+    for (var i = 0; i < vals.length; i++) if (vals[i] < cfg.lo || vals[i] > cfg.hi) return { status: "wrong", reason: "range", v: vals[i] };
+    if (cfg.need_pos && !vals.some(function (v) { return v > 0; })) return { status: "wrong", reason: "needpos" };
+    var r = CONSTRUCT[cfg.checker](vals, cfg);
+    if (r.invalid) return { status: "wrong", reason: r.invalid };
+    return { status: r.program !== r.correct ? "right" : "wrong", reason: r.program !== r.correct ? "breaks" : "works", program: r.program, correct: r.correct };
+  }
+
+  function checkInt(input, ans) {
+    if (!String(input).trim()) return { status: "empty" };
+    var v = parseIntAnswer(input);
+    if (v === null) return { status: "wrong", reason: "notint" };
+    return { status: v === ans ? "right" : "wrong", value: v };
+  }
+
+  /* 一串整數（例如輸出的 5 個數），空格或逗號分隔 */
+  function checkInts(input, ans) {
+    if (!String(input).trim()) return { status: "empty" };
+    var v = parseList(input);
+    if (v === null) return { status: "wrong", reason: "notint" };
+    if (v.length !== ans.length) return { status: "wrong", reason: "count", got: v.length, want: ans.length };
+    for (var i = 0; i < ans.length; i++) if (v[i] !== ans[i]) return { status: "wrong", reason: "value", at: i };
+    return { status: "right" };
+  }
+
+  /* 分數 a/b：化簡與否都接受；整數 n 當作 n/1 */
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = a % b; a = b; b = t; } return a; }
+  function checkFrac(input, ans) {
+    var t = half(input).replace(/\s/g, "").replace(/[\u2044\u2215]/g, "/");
+    if (!t) return { status: "empty" };
+    var m = /^([+-]?\d+)(?:\/(\d+))?$/.exec(t);
+    if (!m) return { status: "wrong", reason: "notfrac" };
+    var p = Number(m[1]), q = m[2] === undefined ? 1 : Number(m[2]);
+    if (q === 0) return { status: "wrong", reason: "notfrac" };
+    var same = p * ans[1] === q * ans[0];
+    var reduced = gcd(p, q) === 1;
+    return { status: same ? "right" : "wrong", reduced: reduced };
+  }
+
+  /* 小數：例如 6.5（6.50、+6.5 也接受） */
+  function checkDec(input, ans) {
+    var t = half(input).replace(/\s/g, "");
+    if (!t) return { status: "empty" };
+    if (!/^[+-]?(\d+(\.\d*)?|\.\d+)$/.test(t)) return { status: "wrong", reason: "notnum" };
+    return { status: Math.abs(Number(t) - ans) < 1e-9 ? "right" : "wrong" };
+  }
+  /* 文字：逐個字元比較（分大小寫），空格不計 */
+  function checkText(input, ans) {
+    var t = half(input).replace(/\s/g, "");
+    if (!t) return { status: "empty" };
+    return { status: t === ans ? "right" : "wrong" };
+  }
+
+  /* 幾種寫法都對的短答案（例如陣列元素 a[i+1]）：列明的對、列明的錯，其餘交給同學自己對照 */
+  function checkTextSet(input, b) {
+    var t = half(input).replace(/\s/g, "");
+    if (!t) return { status: "empty" };
+    if ((b.ok || []).indexOf(t) >= 0) return { status: "right" };
+    if ((b.no || []).indexOf(t) >= 0) return { status: "wrong" };
+    return { status: "unknown", reason: "textset" };
+  }
+  function checkBlank(input, b) {
+    if (b.type === "textset") return checkTextSet(input, b);
+    if (b.type === "dec") return checkDec(input, b.ans);
+    if (b.type === "text") return checkText(input, b.ans);
+    if (b.type === "int") return checkInt(input, b.ans);
+    if (b.type === "ints") return checkInts(input, b.ans);
+    if (b.type === "frac") return checkFrac(input, b.ans);
+    if (b.type === "expr") return checkExpr(input, b);
+    return { status: "unknown" };
+  }
+
+  return { half: half, exprBody: exprBody, parseIntAnswer: parseIntAnswer, checkDec: checkDec, checkText: checkText, checkInts: checkInts, checkFrac: checkFrac, checkTextSet: checkTextSet, checkBlank: checkBlank, tokenize: tokenize, compile: compile, evaluate: evaluate, run: run,
+           points: points, checkExpr: checkExpr, checkConstruct: checkConstruct, checkInt: checkInt, CONSTRUCT: CONSTRUCT, Err: Err };
+})();
+
+
+</script>
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("data").textContent);
+  var LINKS = {"explain": "explain-mock2.html", "hub": "index.html"};
+  var UI = {"zh": {"eyebrow": "HKOI 初賽 · 模擬卷 · 卷二（C++）", "h1": "模擬卷 · 卷二（C++）", "lead": "照 2025/26 初級組卷二（C++）的格式、分數和時間：40 分鐘、20 分；甲部 5 題選擇題、乙部 6 題短答題、丙部 2 個程式填空，難度比真卷高一些。做完後合計兩卷，和近兩屆的晉級線比較。", "choose": "做哪一部分？", "all": "全部 {n} 題", "partName": "第 {p} 部分：{t}", "count": "{n} 題 · 約 {m} 分鐘", "modeQ": "用甚麼模式？", "mPractice": "練習模式", "mPracticeTxt": "一題一題做，每題有建議時間，答完即時看答案和解說。", "mExam": "考試模式", "mExamTxt": "所選題目一起計時，可以跳題，交卷後才對答案，像真正的考試。", "start": "開始", "explain": "看全部題解", "privacy": "交卷時，這部裝置會記下一個隨機編號，以及每題的答案、對錯和用時，用來統計哪些題目最難；不會記下姓名。", "levelQ": "時間等級", "lvE": "簡單", "lvM": "中等", "lvH": "困難", "lvETxt": "真卷時間；時間到不會跳過，繼續作答，只記錄超時多少。", "lvMTxt": "真卷時間；時間到就跳過：練習模式直接看題解，考試模式整份交卷。", "lvHTxt": "真卷時間的七成；時間到就跳過。要做得很熟練才夠時間。", "overSec": "超時 {t} 秒", "overExam": "總時間超出了 {t}。", "overPrac": "有 {n} 題超時，合共超出 {t}。", "overNone": "全部在時間內完成。", "lvDone": "時間等級：{lv}。", "sidNow": "這部裝置的隨機編號：{id}。", "sidNone": "這部裝置還沒有隨機編號，第一次交卷時才會產生。", "sidNew": "和別人共用這部電腦？按這裏換一個新編號", "sidDone": "已換成新編號。", "sec": "{t} 秒", "prog": "{i} / {n}", "kinds": {"single": "單選題", "multi": "多選題", "fill": "填充題", "construct": "構造輸入"}, "marks": "{m} 分 · 建議 {t}", "sTag": "高級組", "multiHint": "可選多於一項，選好後按「提交」。", "submit": "提交", "mineTag": "你的答案", "yourAns": "你的答案", "yourInput": "你的輸入", "sampleIs": "例如 {s}", "sep": "、", "sep2": "；", "colon": "：", "conOk": "程式輸出 {p}，正確答案是 {c}：程式出錯了，你找到了。", "conNo": "程式輸出 {p}，正確答案也是 {c}：這個輸入沒有令程式出錯。", "conErr": {"notint": "請只填整數，用空格分隔。", "count": "數量不對，請看題目要求。", "range": "有數字超出了題目規定的範圍。", "needpos": "題目要求最少有一個正數。", "order": "每個活動的開始時間要小於結束時間，例如 1 5。"}, "notOk": "答案不正確。", "exMismatch": "當 {at} 時，正確的條件為{want}，你的式子為{got}。", "exMismatchV": "當 {at} 時，正確的值是 {want}，你的式子得 {got}。", "exLong": "你用了 {len} 格，超過了 {max} 格（空白不計）。", "exErr": {"assign": "式子裏有單獨的 =，這是賦值，不是比較（比較要用 ==）；程式的結果會不同。", "assignV": "這個空格只填一個算式（等號右邊的部分），不要寫 =、+= 這類賦值。", "semicolon": "條件後面不用加分號（;）：括號裏的條件加了分號就不能編譯。", "nopoints": "網頁找不到可以代入的數值，請自己對照參考答案。", "incdec": "式子裏有 ++ 或 --，這裏不應改變變量的值。", "octal": "以 0 開頭的數在 C++ 是八進制，這個數不能編譯。", "var": "用了題目不允許的變量。", "div0": "在某些數值下會除以 0。", "overflow": "在某些數值下會溢出。", "shift": "移位的位數不合法。"}, "T": "真", "F": "假", "selfRight": "你自己判定這個答案正確。", "exOk": "網頁代入了 {n} 組數值測試，每一組都和正確答案一樣。", "exOkW": "網頁代入了 {n} 組程式中可能出現的數值，每一組在程式中的效果都和正確答案一樣。", "fracNote": "答案正確；最簡分數是上面的寫法。", "selfAsk": "網頁看不懂這個寫法。請對照下面的參考答案，自己判斷這一格是否正確：", "selfWrong": "你自己判定這個答案不正確。", "fmtErr": {"notint": "請只填整數，不用寫單位或其他文字。", "notnum": "請只填一個數，不用寫單位。", "notfrac": "請填分數，例如 3/4，不用寫單位。", "count": "數目不對：要填 {want} 個整數，你填了 {got} 個。"}, "selfY": "我的答案正確", "selfN": "我的答案不正確", "right": "答對了", "late": "時間到，未作答", "blankV": "未作答", "partly": "部分正確（{p}%）", "wrong": "答錯了", "answer": "答案", "yours": "你選的答案錯在哪裏", "common": "常見錯誤答案", "thisIsYou": "你的答案", "point": "重點", "why": "為何會考", "navQ": "題目（藍色 = 已作答）", "confirmLeft": "還有 {n} 題未作答。確定交卷？", "confirmAll": "全部題目都已作答。確定交卷？", "handIn": "交卷", "keepGoing": "繼續作答", "prev": "上一題", "next": "下一題", "backResult": "回到成績", "run": "已答對 {c} / {n}", "finish": "看成績", "used": "已用 {n} / {m} 格", "timeUpDone": "時間到，已自動交卷", "done": "完成", "marksUnit": "分", "score": "答對 {c} / {n} 題（部分正確的填充題按比例計分）", "byPart": "各部分答對題數", "partCol": "部分", "gotCol": "答對", "eachQ": "每一題（綠色 = 答對）", "tapToReview": "按題號可以逐題看答案和解說。", "codeHead": "成績碼", "copy": "複製成績碼", "copied": "已複製", "copyManual": "未能自動複製，成績碼已選取，請自行複製。", "sentOk": "成績已自動交給老師。", "sending": "正在傳送成績……", "sentFail": "未能自動傳送；如果老師要求，請把成績碼交給老師。", "notSent": "這一頁沒有設定自動收集成績；如果老師要求，請把成績碼交給老師。", "redo": "重做答錯的 {n} 題", "again": "全部重做", "home": "回到開始", "mock": {"rulesH": "規則（和真卷相同）", "levelQ": "計時方式", "lvM": "標準", "lvMTxt": "真卷時間，時間到自動交卷。考前最後一次綵排請用這個。", "lvE": "寬鬆", "lvETxt": "時間到不交卷，可以繼續做完；成績頁會寫明超時多少。第一次接觸真卷題型時可以用。", "start": "開始（{t} 分鐘）", "hub": "回到模擬卷目錄", "later": "題解要交卷後才看：成績頁有連結，可以逐題對答案。", "gotCol": "得分", "timeCol": "用時", "planCol": "建議用時", "nextH": "下一步：卷二", "nextTxt": "真卷兩卷連續進行，中間不休息。請現在立即開始卷二；題解可以兩卷都做完後才看。", "nextBtn": "開始卷二（40 分鐘）", "sumH": "兩卷合計", "sumLine": "卷一 {a} / 25 + 卷二 {b} / 20 = {z} / 45 分", "pass": "已達到近兩屆初級組的晉級線（2025/26 是 25.0 分，2024/25 是 25.5 分）。這份模擬卷比真卷難，所以這個分數相當穩妥。", "gap": "比近兩屆初級組的晉級線（約 25 分）少 {g} 分。不過這份模擬卷刻意比真卷難一些，同樣的水平在真卷通常會得較高的分數。", "note": "模擬卷的難度只是估計，分數只供參考；更有用的是上面各部分的用時和錯題。參考：2025/26 初級組的中位數是 16.5 分。", "noP1": "這部裝置找不到 24 小時內做的卷一成績。如果你在別處做了卷一，可以在這裏輸入卷一的分數：", "p1Label": "卷一得分（0 至 25）", "calc": "計算總分", "badP1": "請輸入 0 至 25 之間的數。", "tipsH": "考試策略", "tipBlankMC": "有 {n} 題選擇題沒有作答。選擇題答錯不扣分，交卷前每題都要填上答案，不會做也要猜一個。", "tipBlank": "有 {n} 題短答或丙部題目完全沒有作答（第 {list} 題）。空白一定沒有分：時間不夠時，先寫下最有把握的空格。", "tipSlow": "以下題目用了遠多於建議的時間，仍未答對：{list}。考試時超過建議時間仍沒有頭緒，應先跳過，做完其他題目再回來。", "slowItem": "第 {n} 題用了 {t}（建議 {p}）", "tipEasy": "容易的題目答錯了 {n} 題（第 {list} 題）。這些分數最容易拿回，先看這幾題的題解。", "tipEarly": "你提早了 {t} 交卷。真考試時應用剩下的時間逐題檢查，特別是填充題的計算。", "tipNone": "這一卷的時間分配和作答沒有明顯問題。", "missH": "答錯或未答的題目（按題號，連到題解）", "missItem": "第 {n} 題 · {topic}（{lv}，失 {lost} 分）", "levels": {"易": "容易", "易至中": "容易至中等", "中": "中等", "中至難": "中等至難", "難": "難"}, "rules": ["卷二（C++）40 分鐘、20 分：甲部 5 題選擇題（每題 1 分，答錯不扣分）；乙部 6 題短答題（空格 L 至 Q，每格 1.5 分）；丙部 2 個程式（R、S、T 各 1 分；U 1.5 分、V 1.5 分）。", "U 分成 U1、U2 兩部分，要全部正確才有分，和真卷一樣。", "難度比真卷高一些，做不完是正常的：重點是練習時間分配和取捨。", "只用紙筆計算，不要用電腦或手機試程式。準備好之後一口氣做完，中途不要暫停。", "每題標示的時間（選擇題 2 分鐘、短答題 3 分鐘、丙部每題 6 分鐘）只是建議。可以跳題，按題號回到任何一題。", "交卷後，成績頁會合計兩卷的分數，和近兩屆初級組的晉級線比較。卷一要在同一部裝置、24 小時內做，才會自動計入；否則可以自己輸入卷一的分數。"]}}, "en": {"eyebrow": "HKOI Heat · Mock paper · Paper 2 (C++)", "h1": "Mock paper · Paper 2 (C++)", "lead": "Built like the 2025/26 Junior Paper 2 (C++) in format, marks and time: 40 minutes, 20 marks; Section A has 5 multiple-choice questions, Section B 6 short answers and Section C 2 programs to complete, a little harder than the real paper. Afterwards both papers are added up and compared with the last two cut-offs.", "choose": "Which part?", "all": "All {n} questions", "partName": "Part {p}: {t}", "count": "{n} questions · about {m} min", "modeQ": "Which mode?", "mPractice": "Practice mode", "mPracticeTxt": "One question at a time with a suggested time; see the answer and explanation straight away.", "mExam": "Exam mode", "mExamTxt": "One timer for all chosen questions; move freely between them and see answers only after handing in, like the real exam.", "start": "Start", "explain": "All explanations", "privacy": "When you hand in, this device records a random ID and each question's answer, result and time, to find out which questions are hardest. No names are recorded.", "levelQ": "Time level", "lvE": "Easy", "lvM": "Medium", "lvH": "Hard", "lvETxt": "Real-exam time; when time runs out you carry on, and the page records how far over you went.", "lvMTxt": "Real-exam time; when time runs out the question is skipped: practice mode shows the explanation, exam mode hands in the whole paper.", "lvHTxt": "70% of real-exam time; when time runs out the question is skipped. You need to be very fluent.", "overSec": "{t} s over", "overExam": "You went {t} over the total time.", "overPrac": "{n} questions went over time, {t} over in total.", "overNone": "Everything was finished in time.", "lvDone": "Time level: {lv}.", "sidNow": "This device's random ID: {id}.", "sidNone": "This device has no random ID yet; one is made the first time you hand in.", "sidNew": "Sharing this computer with someone? Get a new ID here", "sidDone": "You now have a new ID.", "sec": "{t} s", "prog": "{i} / {n}", "kinds": {"single": "Single answer", "multi": "Select all", "fill": "Fill in", "construct": "Give an input"}, "marks": "{m} marks · suggested {t}", "sTag": "Senior", "multiHint": "You may choose more than one; press Submit when ready.", "submit": "Submit", "mineTag": "your answer", "yourAns": "Your answer", "yourInput": "Your input", "sampleIs": "for example {s}", "sep": ", ", "sep2": "; ", "colon": ": ", "conOk": "The program prints {p}, but the right answer is {c}: you found an input that breaks it.", "conNo": "The program prints {p}, and the right answer is also {c}: this input does not break it.", "conErr": {"notint": "Write integers only, separated by spaces.", "count": "Wrong number of values; check the question.", "range": "A number is outside the allowed range.", "needpos": "At least one number must be positive.", "order": "Each activity must start before it ends, for example 1 5."}, "notOk": "Not correct.", "exMismatch": "When {at}, the correct condition is {want} but yours is {got}.", "exMismatchV": "When {at}, the correct value is {want} but yours gives {got}.", "exLong": "You used {len} boxes, more than {max} (spaces not counted).", "exErr": {"assign": "Your answer has a single =, which assigns instead of comparing (comparison needs ==), so the program behaves differently.", "assignV": "This blank takes only an expression (the right-hand side); do not write =, += or other assignments.", "semicolon": "Do not put a semicolon (;) after the condition: a condition in brackets with a semicolon does not compile.", "nopoints": "The page found no values to test, so compare with the model answer yourself.", "incdec": "Your answer contains ++ or --; it should not change any variable here.", "octal": "A number starting with 0 is octal in C++, and this one does not compile.", "var": "It uses a variable that is not allowed.", "div0": "It divides by 0 for some values.", "overflow": "It overflows for some values.", "shift": "It shifts by an invalid number of bits."}, "T": "true", "F": "false", "selfRight": "You marked this answer as right.", "exOk": "The page tested {n} sets of values, and all of them match the correct answer.", "exOkW": "The page tested {n} sets of values that can occur in the program, and in every one your answer has the same effect in the program as the correct answer.", "fracNote": "Correct; the simplest form is shown above.", "selfAsk": "The page cannot read this form. Compare it with the model answer below and decide for this blank:", "selfWrong": "You marked this answer as wrong.", "fmtErr": {"notint": "Write the integer only, without units or other words.", "notnum": "Write a single number only, without units.", "notfrac": "Write a fraction such as 3/4, without units.", "count": "Wrong count: {want} integers are needed, but you wrote {got}."}, "selfY": "My answer is right", "selfN": "My answer is wrong", "right": "Correct", "late": "Time's up, no answer", "blankV": "No answer", "partly": "Partly correct ({p}%)", "wrong": "Wrong", "answer": "Answer", "yours": "Why your choice is wrong", "common": "Common wrong answers", "thisIsYou": "your answer", "point": "Key point", "why": "Why it is tested", "navQ": "Questions (blue = answered)", "confirmLeft": "{n} questions are still unanswered. Hand in anyway?", "confirmAll": "All questions are answered. Hand in?", "handIn": "Hand in", "keepGoing": "Keep working", "prev": "Previous", "next": "Next", "backResult": "Back to results", "run": "Correct so far {c} / {n}", "finish": "See results", "used": "{n} / {m} boxes used", "timeUpDone": "Time's up: handed in automatically", "done": "Finished", "marksUnit": "marks", "score": "{c} of {n} questions fully correct (fill-in questions earn partial marks)", "byPart": "Correct by part", "partCol": "Part", "gotCol": "Correct", "eachQ": "Each question (green = correct)", "tapToReview": "Tap a number to see that question's answer and explanation.", "codeHead": "Result code", "copy": "Copy result code", "copied": "Copied", "copyManual": "Could not copy automatically; the code is selected, please copy it yourself.", "sentOk": "Your result has been sent to your teacher.", "sending": "Sending your result…", "sentFail": "Could not send automatically; if your teacher asks, hand in the result code.", "notSent": "This page does not collect results automatically; if your teacher asks, hand in the result code.", "redo": "Redo the {n} wrong", "again": "Redo all", "home": "Back to start", "mock": {"rulesH": "Rules (as in the real paper)", "levelQ": "Timing", "lvM": "Standard", "lvMTxt": "Real-exam time; the paper is handed in automatically when time runs out. Use this for your final rehearsal.", "lvE": "Relaxed", "lvETxt": "When time runs out you can keep going, and the results page says how far over you went. Useful the first time you meet real-paper questions.", "start": "Start ({t} minutes)", "hub": "Back to the mock paper page", "later": "Look at the explanations only after handing in: the results page links to each one.", "gotCol": "Marks", "timeCol": "Time used", "planCol": "Suggested", "nextH": "Next: Paper 2", "nextTxt": "The real papers run back to back with no break. Start Paper 2 now; you can read the explanations after both papers.", "nextBtn": "Start Paper 2 (40 minutes)", "sumH": "Both papers", "sumLine": "Paper 1 {a} / 25 + Paper 2 {b} / 20 = {z} / 45 marks", "pass": "This reaches the Junior cut-off of the last two years (25.0 in 2025/26, 25.5 in 2024/25). The mock is harder than the real paper, so this is a comfortable score.", "gap": "This is {g} marks below the Junior cut-off of the last two years (about 25). But this mock is deliberately a little harder than the real paper, so the same level usually scores higher on the real one.", "note": "The mock's difficulty is only an estimate, so treat the score as a guide; the time per section and the missed questions above are more useful. For reference, the 2025/26 Junior median was 16.5.", "noP1": "No Paper 1 result from the last 24 hours was found on this device. If you did Paper 1 elsewhere, type in your Paper 1 score:", "p1Label": "Paper 1 score (0 to 25)", "calc": "Add up", "badP1": "Enter a number from 0 to 25.", "tipsH": "Exam strategy", "tipBlankMC": "{n} multiple-choice questions were left blank. Wrong answers lose no marks, so fill in every one before handing in, guessing if you must.", "tipBlank": "{n} short-answer or Section C questions were left completely blank (Q{list}). A blank never scores: when time is short, write down the blanks you are surest of first.", "tipSlow": "These questions took far longer than suggested and were still wrong: {list}. In the exam, if you still have no idea after the suggested time, skip it and come back after the others.", "slowItem": "Q{n} took {t} (suggested {p})", "tipEasy": "{n} questions marked easy were wrong (Q{list}). These marks are the easiest to win back, so read their explanations first.", "tipEarly": "You handed in {t} early. In the exam, use the time left to check each answer, especially the working in fill-in questions.", "tipNone": "No obvious problems with timing or answering on this paper.", "missH": "Questions wrong or left blank (by number, linked to the explanations)", "missItem": "Q{n} · {topic} ({lv}, {lost} marks lost)", "levels": {"易": "easy", "易至中": "easy–medium", "中": "medium", "中至難": "medium–hard", "難": "hard"}, "rules": ["Paper 2 (C++): 40 minutes, 20 marks. Section A has 5 multiple-choice questions (1 mark each, no marks lost for wrong answers); Section B 6 short answers (blanks L to Q, 1.5 marks each); Section C 2 programs (R, S and T 1 mark each; U 1.5 marks, V 1.5 marks).", "U is split into U1 and U2 and scores only if both are right, as in the real paper.", "It is a little harder than the real paper, so not finishing is normal: the point is to practise using your time and choosing what to skip.", "Use only paper and pen; do not try programs on a computer or phone. When you are ready, do it in one go without pausing.", "The time shown on each question (2 minutes for multiple choice, 3 for short answers, 6 for each Section C question) is only a guide. You can skip questions and come back to any of them by number.", "After you hand in, the results page adds up both papers and compares the total with the last two Junior cut-offs. Paper 1 is included automatically only if it was done on the same device within 24 hours; otherwise you can type in your Paper 1 score."]}}};
+  var QS = DATA.questions, SET = DATA.set;
+  var MOCK = DATA.mock || null;   /* 模擬卷：只有考試模式、真卷時間；交卷後顯示用時、錯題考點和策略，卷二合計兩卷 */
+  var RZ = document.getElementById("r-zh"), RE = document.getElementById("r-en");
+  try { if (localStorage.getItem("hkoi-heat-lang") === "en") RE.checked = true; } catch (e) {}
+  var LANG = RE.checked ? "en" : "zh";
+  var fb = document.getElementById("fallback"); if (fb) fb.parentNode.removeChild(fb);
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function md(s) { return esc(s).replace(/`([^`]+)`/g, function (_, c) { return "<code>" + c + "</code>"; }).replace(/\^\{([^}]*)\}/g, "<sup>$1</sup>"); }
+  function tr(x) { return (x && typeof x === "object" && "zh" in x) ? x[LANG] : x; }
+  function fmt(s, o) { return s.replace(/\{(\w+)\}/g, function (_, k) { return o[k]; }); }
+  function $(id) { return document.getElementById(id); }
+  function mmss(sec) { sec = Math.max(0, Math.round(sec)); var m = Math.floor(sec / 60), r = sec % 60; return m + ":" + (r < 10 ? "0" : "") + r; }
+  var LET = "ABCD", ROMAN = ["I", "II", "III", "IV", "V", "VI"];
+
+  // ---------------------------------------------------------------- 狀態
+  var S = { screen: "start", mode: "practice", scope: "all", level: "m", list: [], i: 0, ans: {}, res: {}, revealed: {}, timedOut: {}, spent: {}, examOver: 0,
+            t0: 0, dur: 0, raf: 0, qStart: 0, started: 0, confirm: false, record: null };
+  if (MOCK) { S.mode = "exam"; S.scope = "all"; }
+
+  function scopeList(scope) {
+    if (scope === "all") return QS.map(function (_, k) { return k; });
+    return QS.map(function (q, k) { return q.part === Number(scope) ? k : -1; }).filter(function (k) { return k >= 0; });
+  }
+  /* 時間等級：簡單、中等都用真卷時間（簡單超時不跳過，只記錄超時），困難用七成時間 */
+  var LV = { e: 1, m: 1, h: 0.7 };
+  function timeOf(k) { var t = QS[k].time * LV[S.level]; return S.level === "h" ? Math.max(15, Math.round(t / 5) * 5) : Math.round(t); }
+  function secsOf(list) { var t = 0; list.forEach(function (k) { t += timeOf(k); }); return t; }
+  function ansOf(k) { if (!S.ans[k]) S.ans[k] = { sel: [], vals: {}, self: {} }; return S.ans[k]; }
+
+  // ---------------------------------------------------------------- 判分
+  function answered(k) {
+    var q = QS[k], a = S.ans[k];
+    if (!a) return false;
+    if (q.opts) return a.sel.length > 0;
+    if (q.construct) return !!(a.vals.c && a.vals.c.trim());
+    return q.blanks.some(function (b) { return a.vals[b.id] && String(a.vals[b.id]).trim(); });
+  }
+  function evaluate(k) {
+    var q = QS[k], a = ansOf(k), out = { right: false, frac: 0, blanks: {}, unknown: false, blank: !answered(k) };
+    if (q.opts) {
+      var want = []; q.opts.forEach(function (o, i) { if (o.ok) want.push(i); });
+      var got = a.sel.slice().sort();
+      out.right = want.length === got.length && want.every(function (v, i) { return v === got[i]; });
+      out.frac = out.right ? 1 : 0;
+      return out;
+    }
+    if (q.construct) {
+      var r = HKC.checkConstruct(a.vals.c || "", q.construct);
+      out.blanks.c = r; out.right = r.status === "right"; out.frac = out.right ? 1 : 0;
+      return out;
+    }
+    var ok = 0;
+    q.blanks.forEach(function (b) {
+      var r = HKC.checkBlank(a.vals[b.id] || "", b);
+      if (r.status === "unknown") { out.unknown = true; var sm = a.self[b.id]; if (sm === true) r = { status: "right", self: true }; else if (sm === false) r = { status: "wrong", self: true }; }
+      if (r.self) out.selfUsed = true;
+      out.blanks[b.id] = r;
+      if (r.status === "right") ok++;
+    });
+    if (q.groups) {   /* 真卷規則：分成幾部分的空格（例如 G1、G2）全部正確才得該格的分 */
+      var pts = 0;
+      q.groups.forEach(function (g) { if (g.ids.every(function (id) { return out.blanks[id] && out.blanks[id].status === "right"; })) pts += g.m; });
+      out.pts = pts; out.frac = pts / q.marks; out.right = Math.abs(pts - q.marks) < 1e-9;
+      return out;
+    }
+    out.frac = ok / q.blanks.length;
+    out.right = ok === q.blanks.length;
+    return out;
+  }
+
+  // ---------------------------------------------------------------- 計時
+  function stopTimer() { if (S.raf) cancelAnimationFrame(S.raf); S.raf = 0; }
+  function startTimer(seconds) { stopTimer(); S.dur = seconds * 1000; S.t0 = performance.now(); tick(); }
+  function tick() {
+    var u = UI[LANG], left = S.dur - (performance.now() - S.t0);
+    if (left <= 0 && S.level === "e") {
+      var over = -left / 1000;
+      $("clock").textContent = S.mode === "exam" ? "+" + mmss(over) : fmt(u.overSec, { t: Math.floor(over) });
+      $("clock").classList.add("low"); $("tbar").classList.add("low"); $("tfill").style.transform = "scaleX(0)";
+      S.raf = requestAnimationFrame(tick);
+      return;
+    }
+    left = Math.max(0, left);
+    $("clock").textContent = S.mode === "exam" ? mmss(left / 1000) : fmt(u.sec, { t: Math.ceil(left / 1000) });
+    var low = S.mode === "exam" ? left <= 60000 : left <= 10000;
+    $("clock").classList.toggle("low", low); $("tbar").classList.toggle("low", low);
+    $("tfill").style.transform = "scaleX(" + (S.dur ? left / S.dur : 0) + ")";
+    if (left <= 0) {
+      S.raf = 0;
+      if (S.mode === "exam") finish(true); else { S.timedOut[S.list[S.i]] = true; reveal(); }
+      return;
+    }
+    S.raf = requestAnimationFrame(tick);
+  }
+  function markSpent() {
+    if (!S.qStart || S.screen !== "q") return;
+    var k = S.list[S.i]; S.spent[k] = (S.spent[k] || 0) + (performance.now() - S.qStart) / 1000; S.qStart = performance.now();
+  }
+
+  // ---------------------------------------------------------------- 外框
+  function chrome() {
+    var u = UI[LANG], inQ = S.screen === "q";
+    document.documentElement.lang = LANG === "zh" ? "zh-Hant-HK" : "en";
+    $("app").setAttribute("lang", LANG === "zh" ? "zh-Hant-HK" : "en");
+    var showClock = inQ && (S.mode === "exam" || !S.revealed[S.list[S.i]]);
+    $("prog").hidden = !(inQ || S.screen === "review"); $("clock").hidden = !showClock; $("tbar").hidden = !showClock;
+    if (inQ || S.screen === "review") $("prog").textContent = fmt(u.prog, { i: S.i + 1, n: S.list.length });
+  }
+
+  // ---------------------------------------------------------------- 模擬卷：開始畫面
+  function sidLine(u) {
+    var cur = peekSid();
+    return '<p class="small sidline">' + esc(cur ? fmt(u.sidNow, { id: cur }) : u.sidNone) + ' <button type="button" class="linkbtn" id="newsid">' + esc(u.sidNew) + '</button>' + (S.sidChanged ? ' <b>' + esc(u.sidDone) + '</b>' : '') + '</p>';
+  }
+  function renderMockStart() {
+    chrome();
+    var u = UI[LANG], m = u.mock, h = [];
+    if (S.level !== "e" && S.level !== "m") S.level = "m";
+    h.push('<div class="eyebrow">' + esc(u.eyebrow) + '</div><h1>' + esc(u.h1) + '</h1><p class="lead">' + esc(u.lead) + '</p>');
+    h.push('<div class="kv"><b>' + esc(m.rulesH) + '</b><ul class="mrules">' + m.rules.map(function (r) { return '<li>' + md(r) + '</li>'; }).join("") + '</ul></div>');
+    h.push('<fieldset class="modes"><legend>' + esc(m.levelQ) + '</legend>');
+    [["m", m.lvM, m.lvMTxt], ["e", m.lvE, m.lvETxt]].forEach(function (x) {
+      h.push('<label class="pick mode"><input type="radio" name="level" id="level-' + x[0] + '" value="' + x[0] + '"' + (S.level === x[0] ? " checked" : "") + '><span class="pt"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></span></label>');
+    });
+    h.push('</fieldset><div class="row"><button type="button" class="btn primary" id="go">' + esc(fmt(m.start, { t: Math.round(secsOf(scopeList("all")) / 60) })) + '</button>' +
+      (LINKS.hub ? '<a class="btn ghost" href="' + esc(LINKS.hub) + '">' + esc(m.hub) + '</a>' : '') + '</div>');
+    h.push('<p class="small">' + esc(m.later) + '</p><p class="small">' + esc(u.privacy) + '</p>' + sidLine(u));
+    $("app").innerHTML = h.join("");
+    $("app").parentNode.classList.remove("has-next");
+    $("newsid").addEventListener("click", function () { if (newSid()) { S.sidChanged = true; render(); } });
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="level"]'), function (r) { r.addEventListener("change", function () { S.level = r.value; }); });
+    $("go").addEventListener("click", function () { S.mode = "exam"; S.scope = "all"; begin(scopeList("all")); });
+  }
+
+  // ---------------------------------------------------------------- 開始畫面
+  function renderStart() {
+    if (MOCK) { renderMockStart(); return; }
+    chrome();
+    var u = UI[LANG], h = [];
+    h.push('<div class="eyebrow">' + esc(u.eyebrow) + '</div><h1>' + esc(u.h1) + '</h1><p class="lead">' + esc(u.lead) + '</p>');
+    h.push('<fieldset class="parts"><legend>' + esc(u.choose) + '</legend>');
+    var opts = [["all", fmt(u.all, { n: QS.length }), scopeList("all")]];
+    Object.keys(DATA.parts).forEach(function (p) { opts.push([p, fmt(u.partName, { p: p, t: tr(DATA.parts[p]) }), scopeList(p)]); });
+    opts.forEach(function (o) {
+      h.push('<label class="pick"><input type="radio" name="scope" id="scope-' + o[0] + '" value="' + o[0] + '"' + (S.scope === o[0] ? " checked" : "") + '><span class="pt">' + esc(o[1]) + '</span><span class="pm">' + esc(fmt(u.count, { n: o[2].length, m: Math.round(secsOf(o[2]) / 60) })) + '</span></label>');
+    });
+    h.push('</fieldset><fieldset class="modes"><legend>' + esc(u.modeQ) + '</legend>');
+    [["practice", u.mPractice, u.mPracticeTxt], ["exam", u.mExam, u.mExamTxt]].forEach(function (m) {
+      h.push('<label class="pick mode"><input type="radio" name="mode" id="mode-' + m[0] + '" value="' + m[0] + '"' + (S.mode === m[0] ? " checked" : "") + '><span class="pt"><b>' + esc(m[1]) + '</b><span>' + esc(m[2]) + '</span></span></label>');
+    });
+    h.push('</fieldset><fieldset class="modes"><legend>' + esc(u.levelQ) + '</legend>');
+    [["e", u.lvE, u.lvETxt], ["m", u.lvM, u.lvMTxt], ["h", u.lvH, u.lvHTxt]].forEach(function (m) {
+      h.push('<label class="pick mode"><input type="radio" name="level" id="level-' + m[0] + '" value="' + m[0] + '"' + (S.level === m[0] ? " checked" : "") + '><span class="pt"><b>' + esc(m[1]) + '</b><span>' + esc(m[2]) + '</span></span></label>');
+    });
+    h.push('</fieldset><div class="row"><button type="button" class="btn primary" id="go">' + esc(u.start) + '</button>' +
+      (LINKS.explain ? '<a class="btn ghost" href="' + esc(LINKS.explain) + '" target="_blank" rel="noopener">' + esc(u.explain) + '</a>' : '') + '</div>');
+    h.push('<p class="small">' + esc(u.privacy) + '</p>');
+    var cur = peekSid();
+    h.push('<p class="small sidline">' + esc(cur ? fmt(u.sidNow, { id: cur }) : u.sidNone) + ' <button type="button" class="linkbtn" id="newsid">' + esc(u.sidNew) + '</button>' + (S.sidChanged ? ' <b>' + esc(u.sidDone) + '</b>' : '') + '</p>');
+    $("app").innerHTML = h.join("");
+    $("newsid").addEventListener("click", function () { if (newSid()) { S.sidChanged = true; render(); } });
+    $("app").parentNode.classList.remove("has-next");
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="scope"]'), function (r) { r.addEventListener("change", function () { S.scope = r.value; }); });
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="mode"]'), function (r) { r.addEventListener("change", function () { S.mode = r.value; }); });
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="level"]'), function (r) { r.addEventListener("change", function () { S.level = r.value; render(); }); });
+    $("go").addEventListener("click", function () { begin(scopeList(S.scope)); });
+  }
+
+  function begin(list) {
+    S.list = list; S.i = 0; S.ans = {}; S.res = {}; S.revealed = {}; S.timedOut = {}; S.spent = {}; S.examOver = 0; S.confirm = false; S.record = null;
+    S.screen = "q"; S.started = Date.now();
+    if (S.mode === "exam") startTimer(secsOf(list));
+    openQuestion();
+  }
+  function openQuestion() {
+    S.qStart = performance.now();
+    renderQ(); window.scrollTo(0, 0);
+    if (S.mode === "practice" && !S.revealed[S.list[S.i]]) startTimer(timeOf(S.list[S.i]));
+  }
+
+  // ---------------------------------------------------------------- 題目
+  function codeHtml(code) {
+    return esc(code).replace(/@@(\w+)@@/g, function (_, l) { return '<span class="bk">' + esc(l) + '</span>'; });
+  }
+  function body(q) {
+    var h = [];
+    h.push('<p class="stem">' + md(tr(q.stem)) + '</p>');
+    if (q.code) h.push('<pre>' + codeHtml(q.code) + '</pre>');
+    if (q.codes) { h.push('<div class="codes two">'); q.codes.forEach(function (c) { h.push('<div><div class="codelabel">' + esc(tr(c[0])) + '</div><pre>' + codeHtml(c[1]) + '</pre></div>'); }); h.push('</div>'); }
+    if (q.stmts) h.push('<ol class="stmts">' + q.stmts.map(function (s, i) { return '<li><b>' + ROMAN[i] + '.</b><code>' + esc(s) + '</code></li>'; }).join("") + '</ol>');
+    if (q.fig) h.push('<figure>' + q.fig + '</figure>');
+    return h.join("");
+  }
+  function blankLabel(b) { return b.label ? tr(b.label) : (b.type === "expr" || b.type === "textset" ? b.id : ""); }
+
+  function fillsHtml(k, locked, ev) {
+    var q = QS[k], a = ansOf(k), u = UI[LANG], h = [];
+    if (q.rule) h.push('<p class="rule">' + md(tr(q.rule)) + '</p>');
+    function input(id, b, extra) {
+      var v = a.vals[id] || "", cls = "";
+      return '<input type="text" id="in-' + id + '" data-b="' + id + '" value="' + esc(v) + '" autocomplete="off" autocapitalize="off" spellcheck="false"' +
+        (b && b.type !== "expr" ? ' inputmode="text"' : '') + (locked ? " disabled" : "") + (extra || "") + ' aria-label="' + esc(blankLabel(b || {}) || u.yourAns) + '">';
+    }
+    if (q.construct) {
+      var r = ev && ev.blanks.c;
+      h.push('<div class="fills"><div class="fill' + (r ? (r.status === "right" ? " ok" : " bad") : "") + '"><label for="in-c">' + esc(u.yourInput) + '</label>' + input("c", { id: "c", type: "list" }) + '</div></div>');
+      return h.join("");
+    }
+    if (q.layout === "table") {
+      h.push('<div class="ttab-wrap"><table class="ttab"><thead><tr><th></th>' + q.table.cols.map(function (c) { return '<th>' + esc(c) + '</th>'; }).join("") + '</tr></thead><tbody>');
+      q.table.rows.forEach(function (rw, ri) {
+        h.push('<tr><th>' + esc(tr(rw)) + '</th>');
+        q.table.cols.forEach(function (_, ci) {
+          var b = q.blanks.filter(function (x) { return x.row === ri && x.col === ci; })[0];
+          var st = ev && ev.blanks[b.id] ? (ev.blanks[b.id].status === "right" ? " ok" : " bad") : "";
+          h.push('<td class="' + st + '">' + input(b.id, b) + '</td>');
+        });
+        h.push('</tr>');
+      });
+      h.push('</tbody></table></div>');
+    }
+    h.push('<div class="fills">');
+    q.blanks.forEach(function (b) {
+      if (q.layout === "table" && b.row !== undefined) return;
+      var r = ev && ev.blanks[b.id], st = r ? (r.status === "right" ? " ok" : r.status === "unknown" ? "" : " bad") : "";
+      var lab = blankLabel(b);
+      h.push('<div class="fill' + st + '">' + (lab ? '<label for="in-' + b.id + '">' + esc(lab) + '</label>' : '') + input(b.id, b, b.type === "expr" || b.type === "textset" ? ' style="font-family:var(--f-mono)"' : "") +
+        (b.type === "expr" && !locked ? '<span class="cnt" id="cnt-' + b.id + '"></span>' : '') +
+        (r ? '<span class="fres">' + (r.status === "right" ? "✓" : r.status === "unknown" ? "?" : "✗") + '</span>' : '') + '</div>');
+    });
+    h.push('</div>');
+    return h.join("");
+  }
+
+  function optsHtml(k, locked) {
+    var q = QS[k], a = ansOf(k), u = UI[LANG], h = [];
+    var show = locked && (S.mode === "practice" || S.screen === "review");
+    h.push('<div class="opts" role="group">');
+    q.opts.forEach(function (o, i) {
+      var cls = "opt", res = "", chosen = a.sel.indexOf(i) >= 0;
+      if (show) {
+        if (o.ok) { cls += " right"; res = chosen ? "✓ " + u.mineTag : "✓"; }
+        else if (chosen) { cls += " wrong"; res = "✗ " + u.mineTag; }
+      } else if (chosen) cls += " sel";
+      var t = tr(o.t);
+      h.push('<button type="button" class="' + cls + '" data-k="' + i + '"' + (locked ? " disabled" : "") + ' aria-pressed="' + chosen + '"><span class="bub">' + LET[i] + '</span><span class="otext">' + (o.code ? "<code>" + esc(t) + "</code>" : md(t)) + '</span>' + (res ? '<span class="res">' + res + '</span>' : '') + '</button>');
+    });
+    h.push('</div>');
+    return h.join("");
+  }
+
+  function answerText(q) {
+    var u = UI[LANG];
+    if (q.opts) { var l = []; q.opts.forEach(function (o, i) { if (o.ok) l.push(LET[i]); }); return l.join(u.sep); }
+    if (q.construct) return fmt(u.sampleIs, { s: q.construct.sample });
+    return q.blanks.map(function (b) {
+      var v = b.type === "frac" ? b.ans[0] + "/" + b.ans[1] : b.type === "ints" ? b.ans.join(" ") : b.type === "expr" ? b.ref : b.type === "textset" ? (b.show || b.ok[0]) : String(b.ans);
+      var lab = blankLabel(b); return (lab ? lab + u.colon : "") + v;
+    }).join(u.sep2);
+  }
+
+  function feedbackHtml(k, ev) {
+    var q = QS[k], a = ansOf(k), u = UI[LANG], h = [];
+    if (q.construct) {
+      var r = ev.blanks.c;
+      if (r && r.program !== undefined) h.push('<div class="fb ' + (r.status === "right" ? "ok" : "bad") + '">' + esc(fmt(r.status === "right" ? u.conOk : u.conNo, { p: r.program, c: r.correct })) + '</div>');
+      else if (r && r.status !== "empty") h.push('<div class="fb bad">' + esc(u.conErr[r.reason] || u.notOk) + '</div>');
+      return h.join("");
+    }
+    if (q.blanks) q.blanks.forEach(function (b) {
+      var r = ev.blanks[b.id]; if (!r) return;
+      var lab = blankLabel(b) ? blankLabel(b) + u.colon : "";
+      if (b.type !== "expr") {
+        if (r.status === "unknown") h.push('<div class="fb self">' + esc(lab + u.selfAsk) + '<div class="selfbtns"><button type="button" class="btn primary selfbtn" data-self="1" data-sb="' + esc(b.id) + '">' + esc(u.selfY) + '</button><button type="button" class="btn ghost selfbtn" data-self="0" data-sb="' + esc(b.id) + '">' + esc(u.selfN) + '</button></div></div>');
+        else if (r.self) h.push('<div class="fb ' + (r.status === "right" ? "self" : "bad") + '">' + esc(lab + (r.status === "right" ? u.selfRight : u.selfWrong)) + '</div>');
+      }
+      if (b.type === "expr") {
+        if (r.status === "wrong") {
+          var sep = LANG === "zh" ? "、" : ", ";
+          var why = r.reason === "mismatch" ? fmt(u.exMismatch, { at: Object.keys(r.at).map(function (v) { return v + " = " + r.at[v]; }).join(sep), want: r.want ? u.T : u.F, got: r.got ? u.T : u.F })
+            : r.reason === "toolong" ? fmt(u.exLong, { len: r.len, max: r.max }) : (u.exErr[r.reason] || u.notOk);
+          if (typeof r.want === "number") why = fmt(u.exMismatchV, { at: Object.keys(r.at).map(function (v) { return v + " = " + r.at[v]; }).join(sep), want: r.want, got: r.got });
+          if (r.self) why = u.selfWrong;
+          h.push('<div class="fb bad">' + esc(lab + why) + '</div>');
+        } else if (r.status === "unknown") {
+          h.push('<div class="fb self">' + esc(lab + u.selfAsk) + '<div class="selfbtns"><button type="button" class="btn primary selfbtn" data-self="1" data-sb="' + esc(b.id) + '">' + esc(u.selfY) + '</button><button type="button" class="btn ghost selfbtn" data-self="0" data-sb="' + esc(b.id) + '">' + esc(u.selfN) + '</button></div></div>');
+        } else if (r.status === "right" && r.self) {
+          h.push('<div class="fb self">' + esc(lab + u.selfRight) + '</div>');
+        } else if (r.status === "right") {
+          h.push('<div class="fb ok">' + esc(lab + fmt(b.wrap ? u.exOkW : u.exOk, { n: r.tested || "" })) + '</div>');
+        }
+      }
+      if (b.type === "frac" && r.status === "right" && r.reduced === false) h.push('<div class="fb ok">' + esc(u.fracNote) + '</div>');
+      if (b.type !== "expr" && r.status === "wrong" && !r.self && u.fmtErr[r.reason]) h.push('<div class="fb bad">' + esc(lab + fmt(u.fmtErr[r.reason], { want: r.want, got: r.got })) + '</div>');
+    });
+    return h.join("");
+  }
+
+  /* 同學的答案是否就是某個「常見錯誤答案」：用判分時同一套規則比較（例如 48/216 等於 2/9、逗號分隔也算） */
+  function specFor(b, p) {
+    if (b.type === "int") return { type: "int", ans: Number(p) };
+    if (b.type === "dec") return { type: "dec", ans: Number(p) };
+    if (b.type === "frac") { var f = String(p).split("/"); return { type: "frac", ans: [Number(f[0]), Number(f[1] || 1)] }; }
+    if (b.type === "text") return { type: "text", ans: String(p) };
+    if (b.type === "ints") return { type: "ints", ans: String(p).trim().split(/\s+/).map(Number) };
+    return null;
+  }
+  function wrongHit(q, a, w) {
+    if (!q.blanks) return false;
+    var bl = q.blanks.filter(function (b) { return b.type !== "expr"; });
+    if (!bl.length || bl.every(function (b) { return !String(a.vals[b.id] || "").trim(); })) return false;
+    var parts;
+    if (bl.length === 1) parts = [String(w)];
+    else { parts = String(w).trim().split(/\s+/); if (parts.length !== bl.length) return false; }
+    return bl.every(function (b, i) { var sp = specFor(b, parts[i]); return sp && HKC.checkBlank(a.vals[b.id] || "", sp).status === "right"; });
+  }
+
+  function panelHtml(k, ev) {
+    var q = QS[k], a = ansOf(k), u = UI[LANG], h = [];
+    var late = S.timedOut[k];
+    var vcls = ev.right ? "ok" : (late && ev.blank ? "late" : "bad");
+    var vtxt = ev.right ? u.right : (ev.blank ? (late ? u.late : u.blankV) : (ev.frac > 0 ? fmt(u.partly, { p: Math.round(ev.frac * 100) }) : u.wrong));
+    h.push('<div class="panel"><div class="verdict ' + vcls + '">' + (ev.right ? "✓ " : late ? "⏱ " : "✗ ") + esc(vtxt) + '</div>');
+    h.push(feedbackHtml(k, ev));
+    h.push('<h2>' + md(tr(q.title)) + '</h2>');
+    h.push('<div class="kv"><b>' + esc(u.answer) + '</b><p><strong>' + md(answerText(q)) + '</strong></p><p>' + md(tr(q.expl)) + '</p></div>');
+    var mine = [];
+    if (q.opts) a.sel.forEach(function (i) { var o = q.opts[i]; if (!o.ok && o.why) mine.push('<p><strong>' + LET[i] + '</strong>' + u.colon + md(tr(o.why)) + '</p>'); });
+    if (mine.length) h.push('<div class="mine kv"><b>' + esc(u.yours) + '</b>' + mine.join("") + '</div>');
+    if (q.wrong && q.wrong.length) {
+      h.push('<div class="kv"><b>' + esc(u.common) + '</b><ul class="wrongs">' + q.wrong.map(function (w) {
+        var hit = wrongHit(q, a, w[0]);
+        return '<li' + (hit ? ' class="hit"' : '') + '><code>' + esc(String(w[0])) + '</code>' + u.colon + md(tr(w[1])) + (hit ? " ← " + esc(u.thisIsYou) : "") + '</li>';
+      }).join("") + '</ul></div>');
+    }
+    h.push('<div class="kv"><b>' + esc(u.point) + '</b><p>' + md(tr(q.point)) + '</p></div>');
+    h.push('<div class="kv"><b>' + esc(u.why) + '</b><p>' + md(tr(q.exam)) + '</p></div>');
+    h.push('</div>');
+    return h.join("");
+  }
+
+  function renderQ() {
+    chrome();
+    var u = UI[LANG], k = S.list[S.i], q = QS[k], h = [];
+    var review = S.screen === "review";
+    var locked = review || (S.mode === "practice" && S.revealed[k]);
+    var ev = locked ? (S.res[k] || evaluate(k)) : null;
+    h.push('<div class="qcard" lang="' + (LANG === "zh" ? "zh-Hant-HK" : "en") + '">');
+    h.push('<div class="tags"><span class="qnum">' + q.n + '</span><span class="tag' + (q.kind !== "single" ? " m" : "") + '">' + esc(u.kinds[q.kind]) + '</span><span class="tag">' + esc(fmt(u.marks, { m: q.marks, t: mmss(q.time) })) + '</span>' +
+      (q.group === "S" ? '<span class="tag s">' + esc(u.sTag) + '</span>' : '') + '</div>');
+    h.push(body(q));
+    if (q.opts) { if (q.kind === "multi" && !locked) h.push('<p class="hint">' + esc(u.multiHint) + '</p>'); h.push(optsHtml(k, locked)); }
+    else h.push(fillsHtml(k, locked, ev));
+    if (!locked && (q.blanks || q.construct || q.kind === "multi") && S.mode === "practice") h.push('<div class="row"><button type="button" class="btn primary" id="submit">' + esc(u.submit) + '</button></div>');
+    if (locked && (S.mode === "practice" || review)) h.push(panelHtml(k, ev));
+    h.push('</div>');
+
+    // 底部
+    if (S.mode === "exam" && !review) {
+      h.push('<div class="kv"><b>' + esc(u.navQ) + '</b><div class="nav">' + S.list.map(function (kk, ii) { return '<button type="button" data-go="' + ii + '" class="' + (answered(kk) ? "done" : "") + (ii === S.i ? " cur" : "") + '">' + QS[kk].n + '</button>'; }).join("") + '</div></div>');
+      if (S.confirm) {
+        var left = S.list.filter(function (kk) { return !answered(kk); }).length;
+        h.push('<div class="confirm"><p style="margin:0">' + esc(left ? fmt(u.confirmLeft, { n: left }) : u.confirmAll) + '</p><div class="row"><button type="button" class="btn primary" id="hand">' + esc(u.handIn) + '</button><button type="button" class="btn ghost" id="back">' + esc(u.keepGoing) + '</button></div></div>');
+      }
+      h.push('<div class="nextbar"><div class="nextbar-in"><button type="button" class="btn ghost" id="prev"' + (S.i === 0 ? " disabled" : "") + '>← ' + esc(u.prev) + '</button>' +
+        (S.i < S.list.length - 1 ? '<button type="button" class="btn primary" id="nxt">' + esc(u.next) + ' →</button>' : '<button type="button" class="btn primary" id="end">' + esc(u.handIn) + '</button>') + '</div></div>');
+    } else if (review) {
+      h.push('<div class="nextbar"><div class="nextbar-in"><button type="button" class="btn ghost" id="prev"' + (S.i === 0 ? " disabled" : "") + '>← ' + esc(u.prev) + '</button>' +
+        (S.i < S.list.length - 1 ? '<button type="button" class="btn primary" id="nxt">' + esc(u.next) + ' →</button>' : '<button type="button" class="btn primary" id="toend">' + esc(u.backResult) + '</button>') + '</div></div>');
+    } else if (locked) {
+      var done = S.list.filter(function (kk) { return S.revealed[kk]; });
+      var got = done.filter(function (kk) { return (S.res[kk] || {}).right; }).length;
+      var last = S.i === S.list.length - 1;
+      h.push('<div class="nextbar"><div class="nextbar-in"><span class="run">' + esc(fmt(u.run, { c: got, n: done.length })) + '</span><button type="button" class="btn primary" id="next">' + esc(last ? u.finish : u.next) + ' →</button></div></div>');
+    }
+    $("app").innerHTML = h.join("");
+    $("app").parentNode.classList.toggle("has-next", !!document.querySelector(".nextbar"));
+    wire(k, locked);
+  }
+
+  function wire(k, locked) {
+    var q = QS[k];
+    Array.prototype.forEach.call(document.querySelectorAll(".opt"), function (b) { b.addEventListener("click", function () { choose(Number(b.getAttribute("data-k"))); }); });
+    Array.prototype.forEach.call(document.querySelectorAll("input[data-b]"), function (inp) {
+      var id = inp.getAttribute("data-b");
+      function upd() {
+        ansOf(k).vals[id] = inp.value;
+        var c = $("cnt-" + id);
+        if (c) { var b = q.blanks.filter(function (x) { return x.id === id; })[0]; var n = HKC.exprBody(inp.value, b).replace(/\s/g, "").length; c.textContent = fmt(UI[LANG].used, { n: n, m: b.maxlen }); c.classList.toggle("over", n > b.maxlen); }
+        if (S.mode === "exam") { var nb = document.querySelector('.nav button[data-go="' + S.i + '"]'); if (nb) nb.classList.toggle("done", answered(k)); }
+      }
+      inp.addEventListener("input", upd); upd();
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter" && S.mode === "practice" && !locked) { e.preventDefault(); submit(); } });
+    });
+    if ($("submit")) $("submit").addEventListener("click", submit);
+    if ($("next")) $("next").addEventListener("click", next);
+    if ($("prev")) $("prev").addEventListener("click", function () { go(S.i - 1); });
+    if ($("nxt")) $("nxt").addEventListener("click", function () { go(S.i + 1); });
+    if ($("end")) $("end").addEventListener("click", function () { S.confirm = true; renderQ(); var c = document.querySelector(".confirm"); if (c) c.scrollIntoView({ block: "center" }); });
+    if ($("hand")) $("hand").addEventListener("click", function () { finish(false); });
+    if ($("back")) $("back").addEventListener("click", function () { S.confirm = false; renderQ(); });
+    if ($("toend")) $("toend").addEventListener("click", function () { S.screen = "end"; render(); window.scrollTo(0, 0); });
+    Array.prototype.forEach.call(document.querySelectorAll(".nav button"), function (b) { b.addEventListener("click", function () { go(Number(b.getAttribute("data-go"))); }); });
+    Array.prototype.forEach.call(document.querySelectorAll(".selfbtn"), function (sb) { sb.addEventListener("click", function () { ansOf(k).self[sb.getAttribute("data-sb")] = sb.getAttribute("data-self") === "1"; S.res[k] = evaluate(k); renderQ(); }); });
+  }
+
+  function go(i) {
+    if (i < 0 || i >= S.list.length) return;
+    markSpent(); S.i = i; S.confirm = false; S.qStart = performance.now();
+    renderQ(); window.scrollTo(0, 0);
+  }
+  function choose(i) {
+    var k = S.list[S.i], q = QS[k], a = ansOf(k);
+    if (S.screen === "review" || (S.mode === "practice" && S.revealed[k])) return;
+    if (q.kind === "multi") { var at = a.sel.indexOf(i); if (at >= 0) a.sel.splice(at, 1); else a.sel.push(i); renderQ(); }
+    else { a.sel = [i]; if (S.mode === "practice") reveal(); else renderQ(); }
+  }
+  function submit() { var k = S.list[S.i]; if (S.mode === "practice" && !S.revealed[k]) reveal(); }
+  function reveal() {
+    var k = S.list[S.i];
+    if (S.revealed[k]) return;
+    stopTimer(); markSpent();
+    S.revealed[k] = true; S.res[k] = evaluate(k);
+    renderQ();
+    var p = document.querySelector(".panel");
+    if (p) { var top = p.getBoundingClientRect().top; if (top > window.innerHeight * 0.75) window.scrollBy(0, top - window.innerHeight * 0.45); }
+  }
+  function next() {
+    if (S.i < S.list.length - 1) { S.i++; openQuestion(); }
+    else finish(false);
+  }
+
+  // ---------------------------------------------------------------- 交卷與紀錄
+  function peekSid() { try { return localStorage.getItem("hkoi-sid"); } catch (e) { return null; } }
+  function newSid() {
+    try {
+      localStorage.setItem("hkoi-sid", Math.random().toString(36).slice(2, 10));
+      var drop = []; for (var i = 0; i < localStorage.length; i++) { var key = localStorage.key(i); if (/^hkoi-att-/.test(key)) drop.push(key); }
+      drop.forEach(function (key) { localStorage.removeItem(key); });
+      return true;
+    } catch (e) { return false; }
+  }
+  function sid() {
+    var v = null;
+    try { v = localStorage.getItem("hkoi-sid"); if (!v) { v = Math.random().toString(36).slice(2, 10); localStorage.setItem("hkoi-sid", v); } } catch (e) { v = null; }
+    return v || "nostore";
+  }
+  function attemptNo() {
+    var n = 1;
+    try { n = Number(localStorage.getItem("hkoi-att-" + SET) || 0) + 1; localStorage.setItem("hkoi-att-" + SET, String(n)); } catch (e) {}
+    return n;
+  }
+  function b64(s) { try { return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); } catch (e) { return ""; } }
+  function answerString(k) {
+    var q = QS[k], a = ansOf(k);
+    if (q.opts) return a.sel.map(function (i) { return LET[i]; }).join("");
+    if (q.construct) return (a.vals.c || "").trim().slice(0, 40);
+    if (q.blanks.length > 1) return q.blanks.map(function (b) { return (a.vals[b.id] || "").trim().slice(0, 40); });
+    return (a.vals[q.blanks[0].id] || "").trim().slice(0, 60);
+  }
+  function overOf(k) { return S.mode === "practice" ? Math.max(0, Math.round((S.spent[k] || 0) - timeOf(k))) : 0; }
+  function finish(timeUp) {
+    S.endAt = performance.now();
+    if (S.mode === "exam" && S.dur) S.examOver = Math.max(0, Math.round((performance.now() - S.t0 - S.dur) / 1000));
+    stopTimer(); markSpent();
+    S.list.forEach(function (k) { if (!S.res[k]) S.res[k] = evaluate(k); });
+    var items = S.list.map(function (k) {
+      var r = S.res[k], code = r.blank ? -1 : r.right ? 1 : 0;
+      if (!r.blank && r.selfUsed) code = r.right ? 2 : 3;
+      return [QS[k].id, code, Math.round(S.spent[k] || 0), answerString(k), overOf(k)];
+    });
+    S.record = { v: 2, set: SET, lv: S.level, ot: S.mode === "exam" ? S.examOver : S.list.reduce(function (s, k) { return s + overOf(k); }, 0), sid: sid(), n: attemptNo(), mode: S.mode, scope: S.scope, t: Math.round(S.started / 1000), dur: Math.round((Date.now() - S.started) / 1000), up: timeUp ? 1 : 0, q: items };
+    S.recordCode = "HKOI1." + b64(JSON.stringify(S.record));
+    if (MOCK && S.list.length === QS.length) {   /* 只記錄整份卷；卷二的成績頁會讀取卷一的分數 */
+      var sc = scoreOf(S.list);
+      try { localStorage.setItem("hkoi-mock-p" + MOCK.paper, JSON.stringify({ got: sc.got, tot: sc.tot, t: Date.now(), lv: S.level, set: SET })); } catch (e) {}
+    }
+    S.sent = null;
+    if (HKOI_COLLECT && HKOI_COLLECT.formUrl && HKOI_COLLECT.field && window.fetch) {
+      var body = new URLSearchParams(); body.append(HKOI_COLLECT.field, S.recordCode);
+      S.sent = "sending";
+      fetch(HKOI_COLLECT.formUrl, { method: "POST", mode: "no-cors", body: body }).then(function () { S.sent = "ok"; if (S.screen === "end") render(); }, function () { S.sent = "fail"; if (S.screen === "end") render(); });
+    }
+    S.screen = "end"; S.timeUp = timeUp; render(); window.scrollTo(0, 0);
+  }
+
+  function r1(x) { return Math.round(x * 10) / 10; }
+  function scoreOf(list) {
+    var tot = 0, got = 0;
+    list.forEach(function (k) { tot += QS[k].marks; got += QS[k].marks * S.res[k].frac; });
+    return { got: r1(got), tot: tot };
+  }
+  function readMock(p) {
+    try { var v = JSON.parse(localStorage.getItem("hkoi-mock-p" + p) || "null"); if (v && typeof v.got === "number" && Date.now() - v.t < 24 * 3600 * 1000) return v; } catch (e) {}
+    return null;
+  }
+  function lvName(l) { return (UI[LANG].mock.levels || {})[l] || l || ""; }
+  function sumHtml(a, b) {
+    var m = UI[LANG].mock, z = r1(a + b), h = [];
+    h.push('<p class="sumline">' + esc(fmt(m.sumLine, { a: a, b: b, z: z })) + '</p>');
+    h.push('<p>' + esc(z >= MOCK.cut ? m.pass : fmt(m.gap, { g: r1(MOCK.cut - z) })) + '</p><p class="small">' + esc(m.note) + '</p>');
+    return h.join("");
+  }
+  function mockTips() {
+    var m = UI[LANG].mock, tips = [];
+    var blankMC = S.list.filter(function (k) { return QS[k].opts && S.res[k].blank; });
+    if (blankMC.length) tips.push(fmt(m.tipBlankMC, { n: blankMC.length }));
+    var blankO = S.list.filter(function (k) { return !QS[k].opts && S.res[k].blank; });
+    if (blankO.length) tips.push(fmt(m.tipBlank, { n: blankO.length, list: blankO.map(function (k) { return QS[k].n; }).join(UI[LANG].sep) }));
+    var slow = S.list.filter(function (k) { return !S.res[k].right && (S.spent[k] || 0) > 1.6 * QS[k].time && (S.spent[k] || 0) > 150; });
+    slow.sort(function (x, y) { return (S.spent[y] || 0) - (S.spent[x] || 0); });
+    if (slow.length) tips.push(fmt(m.tipSlow, { list: slow.slice(0, 3).map(function (k) { return fmt(m.slowItem, { n: QS[k].n, t: mmss(S.spent[k]), p: mmss(QS[k].time) }); }).join(UI[LANG].sep) }));
+    var easy = S.list.filter(function (k) { return !S.res[k].right && /^易/.test(QS[k].level || ""); });
+    if (easy.length) tips.push(fmt(m.tipEasy, { n: easy.length, list: easy.map(function (k) { return QS[k].n; }).join(UI[LANG].sep) }));
+    if (!S.timeUp && S.dur) { var left = Math.round((S.dur - (S.endAt - S.t0)) / 1000); if (left >= 300) tips.push(fmt(m.tipEarly, { t: mmss(left) })); }
+    if (!tips.length) tips.push(m.tipNone);
+    return tips;
+  }
+  function mockTop(h, got, tot) {
+    var u = UI[LANG], m = u.mock;
+    h.push('<div class="eyebrow">' + esc(S.timeUp ? u.timeUpDone : u.done) + ' · ' + esc(u.h1) + '</div><div class="score">' + got + ' <small>/ ' + tot + ' ' + esc(u.marksUnit) + '</small></div>');
+    if (S.level === "e") h.push('<p class="overnote">' + esc(S.examOver > 0 ? fmt(u.overExam, { t: mmss(S.examOver) }) : u.overNone) + '</p>');
+    var P = {}, keys = [];
+    S.list.forEach(function (k) { var q = QS[k], p = q.part; if (!P[p]) { P[p] = { got: 0, tot: 0, spent: 0, plan: 0 }; keys.push(p); } P[p].got += q.marks * S.res[k].frac; P[p].tot += q.marks; P[p].spent += S.spent[k] || 0; P[p].plan += q.time; });
+    h.push('<div class="ttab-wrap"><table class="parts-t"><thead><tr><th>' + esc(u.partCol) + '</th><th style="text-align:right">' + esc(m.gotCol) + '</th><th style="text-align:right">' + esc(m.timeCol) + '</th><th style="text-align:right">' + esc(m.planCol) + '</th></tr></thead><tbody>');
+    keys.forEach(function (p) { var x = P[p]; h.push('<tr><td>' + esc(tr(DATA.parts[p])) + '</td><td class="n">' + r1(x.got) + ' / ' + x.tot + '</td><td class="n">' + mmss(x.spent) + '</td><td class="n">' + mmss(x.plan) + '</td></tr>'); });
+    h.push('</tbody></table></div>');
+    var full = S.list.length === QS.length;
+    if (full && MOCK.paper === 1 && LINKS.next) {
+      h.push('<div class="kv nextp"><b>' + esc(m.nextH) + '</b><p>' + esc(m.nextTxt) + '</p><div class="row"><a class="btn primary" href="' + esc(LINKS.next) + '">' + esc(m.nextBtn) + '</a></div></div>');
+    }
+    if (full && MOCK.paper === 2) {
+      var p1 = readMock(1);
+      h.push('<div class="kv nextp"><b>' + esc(m.sumH) + '</b><div id="sumbox">' + (p1 ? sumHtml(p1.got, got) :
+        '<p>' + esc(m.noP1) + '</p><div class="fill"><label for="p1in">' + esc(m.p1Label) + '</label><input id="p1in" inputmode="decimal" autocomplete="off"><button type="button" class="btn ghost" id="p1go">' + esc(m.calc) + '</button></div><p class="small" id="p1msg"></p>') + '</div></div>');
+    }
+    h.push('<div class="kv"><b>' + esc(m.tipsH) + '</b><ul class="mrules">' + mockTips().map(function (t) { return '<li>' + esc(t) + '</li>'; }).join("") + '</ul></div>');
+    var miss = S.list.filter(function (k) { return !S.res[k].right; });
+    if (miss.length) {
+      var pre = LANG === "zh" ? "#q-" : "#en-q-";
+      h.push('<div class="kv"><b>' + esc(m.missH) + '</b><ul class="mrules">' + miss.map(function (k) {
+        var q = QS[k], lost = r1(q.marks * (1 - S.res[k].frac)), t = fmt(m.missItem, { n: q.n, topic: tr(q.topic) || tr(q.title), lv: lvName(q.level), lost: lost });
+        return '<li>' + (LINKS.explain ? '<a href="' + esc(LINKS.explain + pre + q.id) + '" target="_blank" rel="noopener">' + esc(t) + '</a>' : esc(t)) + '</li>';
+      }).join("") + '</ul></div>');
+    }
+  }
+  function wireMockEnd(got) {
+    if (!$("p1go")) return;
+    $("p1go").addEventListener("click", function () {
+      var m = UI[LANG].mock, v = Number(String($("p1in").value).trim());
+      if (!String($("p1in").value).trim() || !isFinite(v) || v < 0 || v > 25) { $("p1msg").textContent = m.badP1; return; }
+      $("sumbox").innerHTML = sumHtml(r1(v), got);
+    });
+  }
+
+  function renderEnd() {
+    chrome();
+    var u = UI[LANG], h = [];
+    var tot = 0, got = 0, nRight = 0;
+    S.list.forEach(function (k) { var r = S.res[k]; tot += QS[k].marks; got += QS[k].marks * r.frac; if (r.right) nRight++; });
+    got = Math.round(got * 10) / 10;
+    if (MOCK) mockTop(h, got, tot); else {
+    h.push('<div class="eyebrow">' + esc(S.timeUp ? u.timeUpDone : u.done) + '</div><div class="score">' + got + ' <small>/ ' + tot + ' ' + esc(u.marksUnit) + '</small></div>');
+    h.push('<p class="lead">' + esc(fmt(u.score, { c: nRight, n: S.list.length })) + '</p>');
+    h.push('<p class="small">' + esc(fmt(u.lvDone, { lv: { e: u.lvE, m: u.lvM, h: u.lvH }[S.level] })) + '</p>');
+    if (S.level === "e") {
+      var nOver = S.list.filter(function (k) { return overOf(k) > 0; }).length, ot = S.mode === "exam" ? S.examOver : S.list.reduce(function (s, k) { return s + overOf(k); }, 0);
+      h.push('<p class="overnote">' + esc(ot > 0 ? (S.mode === "exam" ? fmt(u.overExam, { t: mmss(ot) }) : fmt(u.overPrac, { n: nOver, t: mmss(ot) })) : u.overNone) + '</p>');
+    }
+    var parts = {};
+    S.list.forEach(function (k) { var p = QS[k].part; parts[p] = parts[p] || [0, 0]; parts[p][1]++; if (S.res[k].right) parts[p][0]++; });
+    var keys = Object.keys(parts);
+    if (keys.length > 1) {
+      h.push('<h2 style="margin:0;font-size:18px">' + esc(u.byPart) + '</h2><table class="parts-t"><thead><tr><th>' + esc(u.partCol) + '</th><th style="text-align:right">' + esc(u.gotCol) + '</th></tr></thead><tbody>');
+      keys.forEach(function (p) { h.push('<tr><td>' + esc(fmt(u.partName, { p: p, t: tr(DATA.parts[p]) })) + '</td><td class="n">' + parts[p][0] + ' / ' + parts[p][1] + '</td></tr>'); });
+      h.push('</tbody></table>');
+    }
+    }
+    h.push('<h2 style="margin:0;font-size:18px">' + esc(u.eachQ) + '</h2><div class="nav">' + S.list.map(function (k, ii) { var r = S.res[k]; return '<button type="button" data-rv="' + ii + '" class="' + (r.right ? "r" : "w") + '" title="' + esc(tr(QS[k].title)) + '">' + QS[k].n + '</button>'; }).join("") + '</div>');
+    h.push('<p class="small">' + esc(u.tapToReview) + '</p>');
+    // 成績碼
+    h.push('<div class="kv"><b>' + esc(u.codeHead) + '</b><div class="codebox" id="codebox">' + esc(S.recordCode || "") + '</div><div class="row"><button type="button" class="btn ghost" id="copy">' + esc(u.copy) + '</button><span class="small" id="copied"></span></div>');
+    h.push('<p class="sendnote">' + esc(S.sent === "ok" ? u.sentOk : S.sent === "sending" ? u.sending : S.sent === "fail" ? u.sentFail : u.notSent) + '</p></div>');
+    var missK = S.list.filter(function (k) { return !S.res[k].right; });
+    h.push('<div class="row">' + (missK.length ? '<button type="button" class="btn primary" id="redo">' + esc(fmt(u.redo, { n: missK.length })) + '</button>' : '') +
+      '<button type="button" class="btn ' + (missK.length ? "ghost" : "primary") + '" id="again">' + esc(u.again) + '</button><button type="button" class="btn ghost" id="home">' + esc(u.home) + '</button>' +
+      (LINKS.explain ? '<a class="btn ghost" href="' + esc(LINKS.explain) + '" target="_blank" rel="noopener">' + esc(u.explain) + '</a>' : '') + '</div>');
+    $("app").innerHTML = h.join("");
+    $("app").parentNode.classList.remove("has-next");
+    var all = S.list.slice();
+    Array.prototype.forEach.call(document.querySelectorAll("[data-rv]"), function (b) { b.addEventListener("click", function () { S.screen = "review"; S.i = Number(b.getAttribute("data-rv")); render(); window.scrollTo(0, 0); }); });
+    if ($("redo")) $("redo").addEventListener("click", function () { begin(missK); });
+    $("again").addEventListener("click", function () { begin(all); });
+    $("home").addEventListener("click", function () { S.screen = "start"; render(); });
+    if (MOCK) wireMockEnd(got);
+    $("copy").addEventListener("click", function () {
+      var t = S.recordCode || "", done = function (ok) { $("copied").textContent = ok ? u.copied : u.copyManual; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { done(true); }, function () { selectCode(); done(false); });
+      else { selectCode(); done(false); }
+    });
+  }
+  function selectCode() { var el = $("codebox"); if (!el) return; var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+
+  function render() {
+    if (S.screen === "start") renderStart();
+    else if (S.screen === "q" || S.screen === "review") renderQ();
+    else renderEnd();
+  }
+  function setLang(l) {
+    if (l === LANG) return;
+    LANG = l;
+    try { localStorage.setItem("hkoi-heat-lang", l); } catch (e) {}
+    var y = window.scrollY; render(); window.scrollTo(0, y);
+  }
+  RZ.addEventListener("change", function () { if (RZ.checked) setLang("zh"); });
+  RE.addEventListener("change", function () { if (RE.checked) setLang("en"); });
+  document.addEventListener("keydown", function (e) {
+    if (S.screen !== "q" || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.target && e.target.tagName === "INPUT") return;
+    var k = S.list[S.i], q = QS[k], key = e.key.toLowerCase();
+    var map = { a: 0, b: 1, c: 2, d: 3, "1": 0, "2": 1, "3": 2, "4": 3 };
+    if (q.opts && key in map && map[key] < q.opts.length && !(S.mode === "practice" && S.revealed[k])) { e.preventDefault(); choose(map[key]); }
+    else if (key === "enter" && S.mode === "practice" && S.revealed[k]) { e.preventDefault(); next(); }
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>

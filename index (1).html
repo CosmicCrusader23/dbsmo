@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HKOI 初賽模擬卷</title>
+<meta name="description" content="HKOI 初賽模擬卷：照 2025/26 初級組真卷格式的卷一、卷二。">
+<meta property="og:title" content="HKOI 初賽模擬卷">
+<meta property="og:description" content="卷一 50 分鐘、卷二 40 分鐘，兩卷連續做，交卷後合計並和晉級線比較。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+HK:wght@400;500;700;900&display=swap">
+<style>
+:root {
+  --paper: #f6f8fa; --card: #ffffff; --ink: #15212c; --muted: #586776; --rule: #d8e0e7; --sheet: #edf2f6;
+  --accent: #0d6680; --accent-soft: #e2f0f4; --ok: #1a7a45; --ok-soft: #e4f3ea; --bad: #b3261e; --bad-soft: #fbe9e7;
+  --warn: #9a5b00; --warn-soft: #fbf0dc;
+  --f-body: "Noto Sans HK", "Noto Sans CJK HK", "PingFang HK", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --measure: 46rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+    --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+    --warn: #e6a94e; --warn-soft: #33270f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f161c; --card: #151f27; --ink: #e5ecf2; --muted: #9aaab7; --rule: #27353f; --sheet: #1a2630;
+  --accent: #5cb8d6; --accent-soft: #15303a; --ok: #56c98d; --ok-soft: #143222; --bad: #ff8a7d; --bad-soft: #3a1714;
+  --warn: #e6a94e; --warn-soft: #33270f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.65; -webkit-text-size-adjust: 100%; }
+a { color: var(--accent); }
+button, input, textarea, select { font: inherit; color: inherit; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--f-mono); font-size: 0.9em; background: var(--sheet); padding: 0.05em 0.35em; border-radius: 3px; word-break: break-word; }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.col { max-width: var(--measure); margin: 0 auto; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--accent); text-transform: uppercase; }
+h1 { font-size: clamp(26px, 6vw, 34px); line-height: 1.25; margin: 4px 0 0; text-wrap: balance; font-weight: 900; }
+h2 { font-size: 20px; line-height: 1.35; margin: 0; text-wrap: balance; }
+h3 { font-size: 16px; margin: 0; }
+p { margin: 0; }
+.lead { color: var(--muted); font-size: 17px; }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; color: var(--muted); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--accent); text-decoration: none; font-weight: 700; cursor: pointer; background: transparent; color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--card); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+ol, ul { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 4px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px; background: var(--card); }
+.seg label { color: var(--muted); padding: 4px 12px; border-radius: 999px; cursor: pointer; font-size: 14px; min-height: 32px; display: inline-flex; align-items: center; }
+.lr { position: fixed; top: 0; left: 0; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+#r-zh:checked ~ .wrap label[for="r-zh"], #r-en:checked ~ .wrap label[for="r-en"] { background: var(--accent); color: var(--card); font-weight: 700; }
+#r-zh:focus-visible ~ .wrap label[for="r-zh"], #r-en:focus-visible ~ .wrap label[for="r-en"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.L-en { display: none; }
+#r-en:checked ~ .wrap .L-zh { display: none; }
+#r-en:checked ~ .wrap .L-en { display: flex; }
+.tag { display: inline-block; font-size: 13px; border: 1px solid var(--rule); border-radius: 999px; padding: 1px 10px; color: var(--muted); }
+.tag.hot { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 700; color: var(--muted); font-size: 13px; white-space: nowrap; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+.pill { display: inline-block; border-radius: 999px; padding: 0 8px; font-size: 13px; font-weight: 700; }
+.pill.ok { background: var(--ok-soft); } .pill.bad { background: var(--bad-soft); } .pill.warn { background: var(--warn-soft); }
+footer { font-size: 13px; color: var(--muted); }
+
+.L-zh, .L-en { flex-direction: column; gap: 18px; min-width: 0; }
+.L-zh { display: flex; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.top-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.home-link { display: inline-flex; flex: none; align-items: center; min-height: 36px; padding: 0 11px; border: 1px solid var(--rule); border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.home-link:hover { border-color: var(--accent); color: var(--accent); }
+.sets { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.set h2 { font-size: 22px; }
+.set .meta { font-size: 14px; color: var(--muted); }
+.how { background: var(--accent-soft); border: 0; }
+</style>
+</head>
+<body>
+<input class="lr" type="radio" name="lang" id="r-zh" checked aria-label="繁體中文">
+<input class="lr" type="radio" name="lang" id="r-en" aria-label="English">
+<div class="wrap"><div class="col">
+  <div class="top"><div class="top-left"><a class="home-link" href="/hkoi/material/index.html"><span class="L-zh">返回 HKOI</span><span class="L-en">Back to HKOI</span></a><div class="eyebrow">HKOI 2026/27</div></div><div class="seg"><label for="r-zh">繁</label><label for="r-en">EN</label></div></div>
+  <div class="L-zh" lang="zh-Hant-HK"><h1>HKOI 初賽模擬卷</h1><p class="lead">一份完整的模擬卷，格式、分數和時間都照 2025/26 初級組真卷：卷一 50 分鐘（25 分），卷二（C++）40 分鐘（20 分），兩卷連續做，中間不休息。難度比真卷高一些（容易題較少）；做完會合計兩卷，和近兩屆的晉級線比較。</p><section class="card how"><h2>怎樣做</h2><ol><li>預留 95 分鐘，準備紙筆，找一個不會被打擾的地方。只用紙筆計算，不要用電腦試程式。</li><li>按「開始卷一」。卷一交卷後，成績頁有按鈕直接開始卷二。</li><li>兩卷在同一部裝置做，卷二的成績頁才會自動合計兩卷；在不同裝置做的話，可以自己輸入卷一的分數。</li><li>做完才看題解。成績頁會列出各部分的用時、答錯題目的考點和考試策略建議；按題號就到該題的題解。</li></ol></section><div class="sets"><section class="card set"><h2>卷一</h2><p>甲部是邏輯、數學和數據結構的選擇題；乙部是短答題；丙部兩題分成幾部分（G1、G2 等），全部正確才有分。程式只用 C++ 和 Python 都有的寫法，但只印 C++ 版本（真卷卷一會同時印 Python 和 C++）。</p><p class="meta">50 分鐘 · 25 分 · 甲部 10 題選擇題、乙部 6 題短答題、丙部 2 題</p><div class="row"><a class="btn primary" href="test-mock1.html">開始卷一</a><a class="btn" href="explain-mock1.html">題解</a></div></section><section class="card set"><h2>卷二（C++）</h2><p>C++ 的語言細節（整數除法、else 的配對、引用參數、位元運算、短路求值）、追蹤和寫條件式，以及兩個程式填空。</p><p class="meta">40 分鐘 · 20 分 · 甲部 5 題選擇題、乙部 6 題短答題、丙部 2 題</p><div class="row"><a class="btn primary" href="test-mock2.html">開始卷二</a><a class="btn" href="explain-mock2.html">題解</a></div></section></div><section class="card"><h2>考試策略（真卷也適用）</h2><ul><li>選擇題答錯不扣分：交卷前每題都要填上答案。</li><li>先做有把握的題目；一題超過建議時間仍沒有頭緒，先跳過，做完其他題目再回來。</li><li>卷一交卷後就不能再改，卷一剩下的時間也不能留給卷二用。</li><li>答題紙每格只寫一個字元，不可超出格數，寫得不清楚當作錯；分成幾部分的空格要全部正確才有分。</li><li>追蹤程式時列出變量表；數很大的次數時，先試小的例子找規律。</li></ul></section><section class="card"><h2>做完之後</h2><p>如果還未做過，可以再做一次 HKOI 官方的 2025/26 初級組真卷，用同樣的方法計時： <a href="https://assets.hkoi.org/ref/2026hj.pdf" target="_blank" rel="noopener">2025/26 初級組真卷（PDF，HKOI 官方網站）</a></p></section><p class="small">網頁不會記下姓名，只會在你的裝置記下一個隨機編號和這兩卷的分數（用來合計兩卷）。</p></div>
+  <div class="L-en" lang="en"><h1>HKOI Heat mock paper</h1><p class="lead">A complete mock paper built like the 2025/26 Junior paper in format, marks and time: Paper 1 takes 50 minutes (25 marks) and Paper 2 (C++) 40 minutes (20 marks), back to back with no break. It is a little harder than the real paper (fewer easy questions); afterwards both papers are added up and compared with the last two cut-offs.</p><section class="card how"><h2>How to do it</h2><ol><li>Set aside 95 minutes, with paper and pen, somewhere you will not be disturbed. Work on paper only; do not try programs on a computer.</li><li>Press &quot;Start Paper 1&quot;. After you hand it in, the results page has a button that starts Paper 2 straight away.</li><li>Do both papers on the same device so that Paper 2&#x27;s results page can add them up; on different devices you can type in your Paper 1 score.</li><li>Read the explanations only afterwards. The results page shows the time per section, the topics of the questions you missed and advice on exam strategy; tap a question number to open its explanation.</li></ol></section><div class="sets"><section class="card set"><h2>Paper 1</h2><p>Section A is multiple choice on logic, maths and data structures; Section B has short answers; the two Section C questions are split into parts (G1, G2 and so on) that score only if all are right. Programs use only features that C++ and Python share, but only the C++ version is printed (the real Paper 1 prints both Python and C++).</p><p class="meta">50 minutes · 25 marks · Section A 10 multiple choice, Section B 6 short answers, Section C 2 questions</p><div class="row"><a class="btn primary" href="test-mock1.html">Start Paper 1</a><a class="btn" href="explain-mock1.html">Explanations</a></div></section><section class="card set"><h2>Paper 2 (C++)</h2><p>C++ language details (integer division, matching else, reference parameters, bitwise operators, short-circuit evaluation), tracing and writing conditions, and two programs to complete.</p><p class="meta">40 minutes · 20 marks · Section A 5 multiple choice, Section B 6 short answers, Section C 2 questions</p><div class="row"><a class="btn primary" href="test-mock2.html">Start Paper 2</a><a class="btn" href="explain-mock2.html">Explanations</a></div></section></div><section class="card"><h2>Exam strategy (for the real paper too)</h2><ul><li>Wrong multiple-choice answers lose no marks: fill in every one before handing in.</li><li>Do the questions you are sure of first; if you still have no idea after the suggested time, skip it and come back after the others.</li><li>Once Paper 1 is handed in it cannot be changed, and its spare time cannot be used on Paper 2.</li><li>On the answer sheet write one character per box, never more boxes than given; unclear writing counts as wrong, and a blank split into parts scores only if every part is right.</li><li>Trace programs with a table of variables; for very large counts, try small cases first and look for a pattern.</li></ul></section><section class="card"><h2>Afterwards</h2><p>If you have not done it yet, try HKOI&#x27;s official 2025/26 Junior paper the same way, timed: <a href="https://assets.hkoi.org/ref/2026hj.pdf" target="_blank" rel="noopener">2025/26 Junior paper (PDF, HKOI&#x27;s official site)</a></p></section><p class="small">The pages never record your name; your device keeps only a random ID and your scores on these two papers (to add them up).</p></div>
+</div></div>
+</body>
+</html>
